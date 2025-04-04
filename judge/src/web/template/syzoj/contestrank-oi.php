@@ -41,6 +41,7 @@
                                 else
                                                 $tag="div";
 				  
+				// 각 참가자의 결과를 한 줄씩 출력
 				for ($i = 0; $i < $user_cnt; $i++) {
 					$uuid = $U[$i]->user_id;
 					$nick = $U[$i]->nick;
@@ -48,6 +49,8 @@
 					echo "<tr onclick='$(this).attr(\"class\",\"active\");'  ondblclick='$(this).attr(\"class\",\"\");' >";
 					echo "<td>";
 					if ($nick[0] != "*") {
+
+						//랭킹 표시 🥇 🥈 🥉
 						if ($rank == 1)
 							echo "<div class=\"ui yellow ribbon label\">";
 						else if ($rank == 2)
@@ -78,6 +81,8 @@
                                         echo "</td>";
 
 					echo "<td>";
+
+					//시간 점수 표시
 					echo sec2str($U[$i]->time);
 					echo "</td>";
 
@@ -87,7 +92,10 @@
 
 
 					for ($j = 0; $j < $pid_cnt; $j++) {
+
+						
 						if (isset($U[$i])) {
+							//정답 제출 O(AC)
 							if (isset($U[$i]->p_ac_sec[$j]) && $U[$i]->p_ac_sec[$j] > 0) {
 								if ($uuid == $first_blood[$j]) {
 									echo "<td style=\"background: rgb(" . (150 + 12 * $U[$i]->p_wa_num[$j]) . ", 255, " . min(230, 150 + 8 * $U[$i]->p_wa_num[$j]) . "); position:relative;\">";
@@ -108,6 +116,7 @@
                                                                 echo sec2str($U[$i]->p_ac_sec[$j]);
                                                                 echo "</$tag>";
 
+							// 오답만 있음(WA)
 							} else if (isset($U[$i]->p_wa_num[$j]) && $U[$i]->p_wa_num[$j] > 0) {
 								echo "<td style=\"background: rgb(255, " . max(130, 240 - 9 * $U[$i]->p_wa_num[$j]) . ", " . max(130, 240 - 9 * $U[$i]->p_wa_num[$j]) . "); \">";
 								echo "<span class=\"score score_0\">";
@@ -116,6 +125,8 @@
 							} else {
 								echo "<td>";
 							}
+						
+						//제출 X
 						} else {
 							echo "<td>";
 						}
@@ -136,7 +147,7 @@
 		<div class="ui placeholder segment" style="margin-top: 0px; ">
 			<div class="ui icon header">
 				<i class="ui file icon" style="margin-bottom: 20px; "></i>
-				暂无选手提交
+				아직 제출할 선수가 없습니다.
 			</div>
 		</div>
 	<?php } ?>

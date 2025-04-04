@@ -8,6 +8,10 @@
 }
 </style>
 <div style="margin-bottom:40px;" class="padding" >
+    
+    <!-- Download-> 랭킹을 엑셀 형식으로 다운로드
+    Review -> 복습용 랭킹 페이지로 이동
+    Show/Hide -> 비활성 행 토글 -->
     <h1 style="text-align: left;">Contest<?php echo $cid?> - <?php echo $title?>   
          <a class='ui small blue button' href="contestrank.xls.php?cid=<?php echo $cid?>" ><?php echo $MSG_DOWNLOAD ?></a>
          <a class='ui small green button' href="contestrank4.php?cid=<?php echo $cid?>" ><?php echo $MSG_REVIEW_CONTESTRANK ?></a>
@@ -39,6 +43,7 @@
 		else
 			$tag="div";
 				
+              //유저별 랭킹 표시
               for ($i=0;$i<$user_cnt;$i++){
                 $uuid=$U[$i]->user_id;
                 $nick=$U[$i]->nick;
@@ -85,16 +90,21 @@
                 
                 for ($j=0;$j<$pid_cnt;$j++){
                   if(isset($U[$i])){
+                    
+                    //정답이 있는 경우
                     if (isset($U[$i]->p_ac_sec[$j])&&$U[$i]->p_ac_sec[$j]>0){
-		   	if($uuid==$first_blood[$j]){
+                      
+                      //첫번째로 맞힌 사람
+		   	              if($uuid==$first_blood[$j]){
                       		echo "<td style=\"background: rgb(".(150+12*$U[$i]->p_wa_num[$j]).", 255, ".(150+8*$U[$i]->p_wa_num[$j])."); position:relative;\">";
-				echo "<$tag style=\"position:absolute;width:30%;margin-top: 5%;margin-right: 5%;height:30%;right:0px;top:0px;\">※1st</$tag>";
-			}
-			else{
-                      echo "<td style=\"background: rgb(".(150+12*$U[$i]->p_wa_num[$j]).", 255, ".(150+8*$U[$i]->p_wa_num[$j])."); \">";
-			}
-                      if (isset($U[$i]->p_wa_num[$j])&&$U[$i]->p_wa_num[$j]>0)
-		      {
+				                  echo "<$tag style=\"position:absolute;width:30%;margin-top: 5%;margin-right: 5%;height:30%;right:0px;top:0px;\">※1st</$tag>";
+			                }
+			                else{
+                          echo "<td style=\"background: rgb(".(150+12*$U[$i]->p_wa_num[$j]).", 255, ".(150+8*$U[$i]->p_wa_num[$j])."); \">";
+			                }
+                      
+                      //오답 수 출력
+                      if (isset($U[$i]->p_wa_num[$j])&&$U[$i]->p_wa_num[$j]>0) {
                         echo "<span class=\"score score_10\">";
                         echo "+".$U[$i]->p_wa_num[$j]."";
                         echo "</span>";
@@ -102,17 +112,23 @@
                         echo "<span class=\"score score_10\">";
                         echo "+";
                         echo "</span>";
-		      }
+		                  }
+
+                      //정답 제출 시간
                       echo "<$tag class=\"submit_time\">";
                         echo sec2str($U[$i]->p_ac_sec[$j]);
                       echo "</$tag>";
                     }
+
+                    //오답만 있는 경우
                     else if (isset($U[$i]->p_wa_num[$j])&&$U[$i]->p_wa_num[$j]>0){
                       echo "<td style=\"background: rgb(255, ".(240-9*$U[$i]->p_wa_num[$j]).", ".(240-9*$U[$i]->p_wa_num[$j])."); \">";
                       echo "<span class=\"score score_0\">";
                         echo "-".$U[$i]->p_wa_num[$j]."";
                       echo "</span>";
                     }
+
+                    //아무 제출도 없는 경우
                     else{
                       echo "<td>";
                     }
@@ -138,7 +154,7 @@
     <div class="ui placeholder segment" style="margin-top: 0px; ">
         <div class="ui icon header">
             <i class="ui file icon" style="margin-bottom: 20px; "></i>
-            暂无选手提交
+            제출한 사람이 없습니다
         </div>
     </div>
     <?php } ?>

@@ -18,7 +18,8 @@
 
     <?php if($user_cnt>0){ ?>
     <table    <?php if (isset($_GET['down'])) echo "border=1" ?>
-                                 class="ui very basic center aligned table" style="margin:30px">
+        
+        class="ui very basic center aligned table" style="margin:30px">
         <thead>
             <tr class='active'>
                <td class="{sorter:'false'} text-center"><?php echo $MSG_STANDING?></td>
@@ -27,6 +28,8 @@
             <td class='text-center'><?php echo $MSG_SOVLED?></td>
             <td class='text-center'><?php echo $MSG_CONTEST_PENALTY?></td>
                 <?php
+
+                //문제 제출 상태 표시
                   for ($i=0;$i<$pid_cnt;$i++)
                   echo "<th><a href=problem.php?id=".$pida[$i].">$PID[$i]</a></th>";
                 ?>
@@ -44,6 +47,7 @@
 
                 echo "<td>";
                   if($nick[0]!="*"){
+                    //순위 표시
                     if($rank==1)
                       echo "<div class=\"ui yellow ribbon label\">";
                     else if($rank==2)
@@ -134,10 +138,12 @@
 
     <?php }else{ ?>
     <div style="background-color: #fff; height: 18px; margin-top: -18px; "></div>
+    
+    <!-- 참가자가 제출하지 않았을 때 -->
     <div class="ui placeholder segment" style="margin-top: 0px; ">
         <div class="ui icon header">
             <i class="ui file icon" style="margin-bottom: 20px; "></i>
-            暂无选手提交
+            현재 제출된 내용이 없습니다.
         </div>
     </div>
     <?php } ?>

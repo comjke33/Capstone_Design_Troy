@@ -25,9 +25,13 @@
 
 <div class="padding">
     <h1>Contest<?php echo $view_cid?> - <?php echo $view_title ?></h1>
-    <div class="ui pointing below left label"><?php echo $view_start_time?></div>
+
+    <!-- 대회 시작/종료 시각이 좌우로 배치
+    Semantic UI의 라벨 컴포넌트 활용!-->
+    <div class="ui pointing below left label"><?php echo $view_start_time?></div> -->
     <div class="ui pointing below right label"><?php echo $view_end_time?></div>
 
+    <!-- 대회 진행률(5초마다 갱신) -->
     <div id="timer-progress" class="ui tiny indicating progress success" data-percent="50">
         <div class="bar" style="width: 0%; transition-duration: 300ms;"></div>
     </div>
@@ -44,6 +48,9 @@
                 <div class="ui buttons right floated">
 
                     <?php
+
+          //(Public/ Private)
+          //관리자👀 IP설정, 의심자 목록확인, 대회 수정, 그룹 통계
           if ($now>$end_time)
           echo "<span class=\"ui small button grey\">$MSG_Ended</span>";
           else if ($now<$start_time)
@@ -68,6 +75,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- 대회 설명영역 -->
         <?php if($view_description){ ?>
         <div class="row">
             <div class="column">
@@ -96,6 +105,10 @@
                     <tbody>
                    
                         <?php
+
+                        //문제 목록 테이블
+                        //문제 ID, 제목, AC수, 제출 수 포함
+                        //각 문제들 link 가능성 높음
                         foreach($view_problemset as $row){
                           echo "<tr>";
                           foreach($row as $table_cell){
@@ -132,6 +145,8 @@ $(function() {
 <script src="include/sortTable.js"></script>
 <script src="<?php echo $OJ_CDN_URL.$path_fix."template/bs3/"?>marked.min.js"></script>
 <script>
+
+//서버 시간 #nowdate에서 현재시간 표시
 var diff = new Date("<?php echo date("Y/m/d H:i:s")?>").getTime() - new Date().getTime();
 //alert(diff);
 function clock() {
@@ -152,7 +167,7 @@ function clock() {
     setTimeout("clock()", 1000);
 }
 clock();
-    // show count down if $OJ_CONTEST_LIMIT_KEYWORD triggered 
+    //$OJ_CONTEST_LIMIT_KEYWORD기능이 실행되면 카운트다운 
 <?php if(isset($time_left)){    ?>
     var time_left=<?php echo $time_left ;?> ;
     function count_down(){
@@ -167,8 +182,9 @@ clock();
     setInterval("count_down()", 1000);
 <?php }?>
     $(document).ready(function (){
+                //대회 설명, 문제 설명에서 마크다운 문법 해석
                 marked.use({
-                  // 开启异步渲染
+                  // 비동기 렌더링 켜기
                   async: true,
                   pedantic: false,
                   gfm: true,

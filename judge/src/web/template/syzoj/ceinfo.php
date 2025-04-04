@@ -1,6 +1,7 @@
 <?php $show_title=$id." - $MSG_COMPILE_INFO - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 
+<!-- 외부 리소스 불러오기 -->
 <script src="template/<?php echo $OJ_TEMPLATE?>/js/textFit.min.js"></script>
 <link href='<?php echo $OJ_CDN_URL?>highlight/styles/shCore.css' rel='stylesheet' type='text/css'/>
 <link href='<?php echo $OJ_CDN_URL?>highlight/styles/shThemeDefault.css' rel='stylesheet' type='text/css'/>
@@ -10,6 +11,8 @@
            <strong ><?php echo $MSG_SOURCE_CODE ?></strong>
         </p>
         <div class="ui existing segment">
+
+        <!-- 사용자 코드 표시 영역 -->
           <pre v-if="escape" style="margin-top: 0; margin-bottom: 0; "><code><div class="brush:c" id='source' name="source"></div></code></pre>
         </div>
     </div>
@@ -18,6 +21,9 @@
            <strong ><?php echo $MSG_COMPILE_INFO ?></strong>
         </p>
         <div class="ui existing segment">
+
+          <!-- 컴파일 메세지 출력영역 
+           <pre><code><div id='errtxt'><?php echo $view_reinfo?></div></code></pre> -->
           <pre v-if="escape" style="margin-top: 0; margin-bottom: 0; "><code><div id='errtxt'><?php echo $view_reinfo?></div></code></pre>
         </div>
     </div>
@@ -32,6 +38,8 @@
     </div>
 <script>
 var i=0;
+
+// 컴파일 에러 설명
 var pats=new Array();
 var exps=new Array();
 pats[i]=/System\.out\.print.*%.*/;
@@ -184,6 +192,8 @@ function explain(){
 		
 		var resultVariable = errmsg;
                 var errorLines = [];
+
+                //라인 하이라이트 기능
                 var regex = /(\w+\.<?php echo $language_ext[$lang]?>):(\d+):\d+:/g;
                 var match;
                 while ((match = regex.exec(resultVariable)) !== null) {
@@ -212,6 +222,9 @@ function explain(){
 
 <script>
 $(document).ready(function(){
+
+  //showsource2.php?id...를 통해 해당 제출 소스코드를 비동기 로딩
+  //로딩이 완료되면 하이라이트 적용 및 에러 설명 수행
 	$("#source").load("showsource2.php?id=<?php echo $id?>",function(response,status,xhr){
 
    	if(status=="success"){

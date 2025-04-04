@@ -185,10 +185,14 @@ metal();
 replay();
 <?php if (isset($solution_json)) echo "var solutions=$solution_json;"?>
 var replay_index=0;
+
+//1초 뒤 첫 제출부터 순차적으로 시작
 function replay(){
   replay_index=0;
   window.setTimeout("add()",1000);
 }
+
+//한 제출씩 처리 후 다음 add()호출 -> 시간순으로 처리
 function add(){
   if(replay_index>=solutions.length) return metal();
   var solution=solutions[replay_index];
@@ -203,6 +207,8 @@ function add(){
   metal();
   window.setTimeout("add()",5);
 }
+
+//시간 변환
 function sec2str(sec){
    var ret="";
    if(sec<36000) ret="0" ;
@@ -222,6 +228,8 @@ function str2sec(str){
    var s=parseInt(s[2]);
    return h*3600+m*60+s;
 }
+
+//색상 처리(정답->초록, 오답->빨강)
 function colorful(td,ac,num){
   if(num<0) num=-num;else num=0;
   num*=10
@@ -282,16 +290,17 @@ function sort(rows){
        }
 
    }
-
 }
- function swapNode(node1,node2)
+
+//애니메이션 효과를 위해
+ function swapNode(node1,node2) 
         {
-          var parent = node1.parentNode;//父节点
-          var t1 = node1.nextSibling;//两节点的相对位置
+          var parent = node1.parentNode;//부모 노드
+          var t1 = node1.nextSibling;//두 노드의 상대 위치
           var t2 = node2.nextSibling;
 $(node1).fadeToggle("slow");          
 $(node2).fadeToggle("slow");          
-          //如果是插入到最后就用appendChild
+          //끝까지 꽂을거면 appendChild
           if(t1) parent.insertBefore(node2,t1);
           else parent.appendChild(node2);
           if(t2) parent.insertBefore(node1,t2);
@@ -299,6 +308,8 @@ $(node2).fadeToggle("slow");
 $(node1).fadeToggle("slow");          
 $(node2).fadeToggle("slow");          
 }    
+
+//랭킹 정렬
 function cmp(a,b){
    if(parseInt(a.cells[3].innerHTML)>parseInt(b.cells[3].innerHTML))
 	return true;
@@ -306,7 +317,7 @@ function cmp(a,b){
    if(parseInt(a.cells[3].innerHTML)==parseInt(b.cells[3].innerHTML))
 	return str2sec(a.cells[4].innerHTML)<str2sec(b.cells[4].innerHTML);
 }
- function trim(str){ //删除左右两端的空格
+ function trim(str){ //좌,우 공백 제거
 　　     return str.replace(/(^\s*)|(\s*$)/g, "");
 　　 }
 function newrow(tab,solution){
@@ -339,6 +350,8 @@ function newrow(tab,solution){
   row+="</tr>";
   return row;  
 }
+
+//특정 사용자의 행을 찾아 반환
 function findrow(tab,solution){
   var rows=tab[0].rows;
   for(var i=0;i<rows.length;i++){

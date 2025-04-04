@@ -5,6 +5,7 @@
     <div class="row" style="white-space: nowrap; ">
       <div class="seven wide column">
           <form method=post action=contest.php >
+            <!-- 검색창 부분, my파라미터 존재 시 내 대회만 -->
             <div class="ui search" style="width: 280px; height: 28px; margin-top: -5.3px; ">
               <div class="ui left icon input" style="width: 100%; ">
                 <input class="prompt" style="width: 100%; " type="text" value="" placeholder=" <?php echo $MSG_CONTEST_NAME ?> …" name="keyword">
@@ -15,7 +16,7 @@
                 echo '<a  class="ui button"  href="contest.php" >'.$MSG_VIEW_ALL_CONTESTS .'</a>';
                 }else{
                 
-                echo '<a  class="ui button"  href="contest.php?my" >显示我的作业比赛</a>';
+                echo '<a  class="ui button"  href="contest.php?my" >나의 숙제 경기 보이기</a>';
                 };
                 ?>
               </div>
@@ -41,6 +42,12 @@
       $end=$page+$section>$view_total_page?$view_total_page:$page+$section;
       $MY=isset($_GET['my'])?"&my":"";
     ?>
+
+<!-- 페이지네이션 기능 대회 목록 탐색 -->
+<!-- 총 페이지 개수
+화면에 보여질 페이지 그룹
+화면에 보여질 페이지의 첫번째 페이지 번호
+화면에 보여질 페이지의 마지막 페이지 번호 -->
 <div style="text-align: center; ">
   <div class="ui pagination menu" style="box-shadow: none; ">
     <a class="<?php if($page==1) echo "disabled "; ?>icon item" href="<?php if($page<>1) echo "contest.php?page=".strval($page-1).$MY ?>" id="page_prev">
@@ -57,7 +64,9 @@
   </div>
 </div>
 
+
 </div>
+    <!-- 대회 목록 출력 -->
     <table class="ui very basic center aligned table">
       <thead>
         <tr>

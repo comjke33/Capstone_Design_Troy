@@ -11,8 +11,14 @@
     <title><?php echo $OJ_NAME?></title>  
     <?php include("template/$OJ_TEMPLATE/css.php");?>	    
 
+    <!-- Rank	팀 순위
+    Team	팀 이름 (학교명 등)
+    Num	소속 유저 수
+    Solved	총 해결 문제 수
+    Average	1인당 평균 해결 수
+    Penalty	총 소요 시간
+    PID[i]	각 문제의 정답/오답 인원 수 -->
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="template/<?php echo $OJ_TEMPLATE?>/js/html5shiv.js"></script>
       <script src="template/<?php echo $OJ_TEMPLATE?>/js/respond.min.js"></script>
@@ -28,6 +34,9 @@
 <?php
 $rank=1;
 ?>
+
+<!-- 대회 명 및 제어 링크 -->
+<!-- 관리자일 경우 contestrank3.php (롤링 방식 랭킹), contestrank2.php (리플레이) 링크 노출 -->
 <center><h3>Contest Team RankList -- <?php echo $title?></h3>
 <!-- <a href="contestrank.xls.php?cid=<?php echo $cid?>" >Download</a> -->
 <?php
@@ -46,6 +55,13 @@ if($OJ_MEMCACHE)
 for ($i=0;$i<$pid_cnt;$i++)
 echo "<td><a href=problem.php?cid=$cid&pid=$i>$PID[$i]</a></td>";
 echo "</tr></thead>\n<tbody>";
+
+// school -> 학교(팀 이름)
+// renshu -> 소속 유저 수
+// solved -> 팀 전체 정답 수
+// time -> 총 소요시간의 합
+// p_ac_num[$j]-> 해당 팀에서 j번째 문제를 맞힌 사람 수
+// p_wa_num[$j]-> 해당 팀에서 j번째 문제를 오답 낸 사람 수 
 for ($i=0;$i<$school_cnt;$i++){
 if ($i&1) echo "<tr class=oddrow align=center>\n";
 else echo "<tr class=evenrow align=center>\n";
@@ -67,6 +83,8 @@ echo "<td>$format_avg";
 echo "<td>".sec2str($S[$i]->time);
 for ($j=0;$j<$pid_cnt;$j++){
     $bg_color="eeeeee";
+
+    // 정답 있음 (AC)
     if (isset($S[$i]->p_ac_num[$j])&&$S[$i]->p_ac_num[$j]>0){
       $aa=0x33+$S[$i]->p_wa_num[$j]*32;
       $aa=$aa>0xaa?0xaa:$aa;
@@ -74,6 +92,8 @@ for ($j=0;$j<$pid_cnt;$j++){
       $bg_color="$aa"."ff"."$aa";
       //$bg_color="aaffaa";
     }
+
+    // 오답만 있음 (WA)
     else if(isset($S[$i]->p_wa_num[$j])&&$S[$i]->p_wa_num[$j]>0) {
       $aa=0xaa-$S[$i]->p_wa_num[$j]*10;
       $aa=$aa>16?$aa:16;
@@ -106,6 +126,8 @@ echo "</tbody></table>";
 <script type="text/javascript">
 $(document).ready(function()
 {
+        // penalty 시간 (hh:mm:ss) 또는 "(-3)" 형식 데이터를 정수/실수로 변환하여 정렬 가능하게 함
+
         $.tablesorter.addParser({
               // set a unique id
               id: 'punish',
@@ -158,8 +180,10 @@ var tb=window.document.getElementById('rank');
 var rows=tb.rows;
 try{
   <?php 
-    //若有队伍从未进行过任何提交，数据库solution表里不会有数据，榜单上该队伍不存在，总rows数量不等于报名参赛队伍数量，奖牌比例的计算会出错
-    //解决办法：可以为现场赛采用人为设定有效参赛队伍数$OJ_ON_SITE_TEAM_TOTAL，值为0时则采用榜单计算。详情见db_info.inc.php
+   // 어떤 팀도 제출을 하지 않았을 경우, 해당 팀은 solution 테이블에 데이터가 없어 순위표에 나타나지 않음.
+  // 따라서 실제 참가 팀 수와 차트상 참가 팀 수가 다를 수 있으며, 메달 비율 계산에 오류가 생김.
+  // 이를 해결하기 위해 $OJ_ON_SITE_TEAM_TOTAL 값을 설정할 수 있으며, 값이 0이면 실제 랭킹 테이블의 수를 사용함.
+
     if($OJ_ON_SITE_TEAM_TOTAL!=0)
       echo "var total=".$OJ_ON_SITE_TEAM_TOTAL.";";
     else

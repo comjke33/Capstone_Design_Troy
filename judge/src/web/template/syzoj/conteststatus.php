@@ -1,10 +1,12 @@
-<?php $show_title="评测状态 - $OJ_NAME"; ?>
+<?php $show_title="평가상태 - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 <script src="template/<?php echo $OJ_TEMPLATE?>/js/textFit.min.js"></script>
 <div class="padding">
 
     <h1>Contest<?php echo $view_cid?> - <?php echo $view_title ?></h1>
   <!-- <form action="" class="ui mini form" method="get" role="form" id="form"> -->
+
+  <!-- 검색 부분 -->
   <form id=simform class="ui mini form" action="status.php" method="get">
 
     <input type="hidden" name="cid" value="<?php echo $cid; ?>" />
@@ -48,12 +50,14 @@
           }
           echo "</select>";
           ?>
+
+          <!-- 관리자만 볼 수 있는 유사도 필터 코드 간의 유사도를 기준으로 검색가능-->
           <?php if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'source_browser'])){
             if(isset($_GET['showsim']))
             $showsim=intval($_GET['showsim']);
             else
             $showsim=0;
-            echo "<label style=\"font-size: 1.2em; margin-right: 1px;margin-left: 10px; \">相似度：</label>";
+            echo "<label style=\"font-size: 1.2em; margin-right: 1px;margin-left: 10px; \">유사도：</label>";
           echo "
           <select id=\"appendedInputButton\" class=\"form-control\" name=showsim onchange=\"document.getElementById('simform').submit();\" style=\"width: 110px;\">
           <option value=0 ".($showsim==0?'selected':'').">All</option>
@@ -74,6 +78,7 @@
   </form>
 
 
+  <!-- 결과 테이블: 제출 상태 테이블 형식 -->
   <table id="result-tab" class="very basic center aligned table" style="white-space: nowrap; " id="table">
      <thead>
       <tr>
@@ -118,6 +123,8 @@
 
     </tbody>
   </table>
+  
+  <!-- 페이지 네이션(페이지 이동) -->
   <div style="margin-bottom: 30px; ">
 
   <div style="text-align: center; ">

@@ -67,7 +67,6 @@
 					echo "<td>";
 					echo  htmlentities($U[$i]->nick, ENT_QUOTES, "UTF-8");
 					echo "</td>";
-					
  					echo "<td>";
                                         echo  htmlentities($U[$i]->solved, ENT_QUOTES, "UTF-8");
                                         echo "</td>";

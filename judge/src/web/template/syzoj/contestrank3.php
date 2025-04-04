@@ -28,9 +28,11 @@
     var board = new Board(<?php echo $problem_num?>, new Array(<?php echo $gold_num?>, <?php echo $silver_num?>, <?php echo $bronze_num?>),StringToDate("<?php echo  $start_time_str?>"), StringToDate("<?php echo $lock_time_str?>"),<?php echo $cid?>);
 
     board.showInitBoard();
+    //페이지 click시 board.keydown()호출하여 순위판 갱신
     $('html').click(function(e) {
             board.keydown();
     });
+    //keydown되면 순위판 갱신, shift+Enter 누르면 갱신주기 3초
     $('html').keydown(function(e) {
 	if(e.keyCode==13){
                 if(e.shiftKey)

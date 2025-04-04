@@ -25,7 +25,7 @@
 				}
 
 				if ($rows_cnt==0) {
-					$view_title = "比赛已经关闭!";
+					$view_title = "대회가 끝났습니다!";
 				}
 				else{
 					$row = $result[0];
@@ -34,6 +34,7 @@
 					if ($password!="" && $password==$row['password'])
 						$_SESSION[$OJ_NAME.'_'.'c'.$cid] = true;
 
+					
 					if ($row['private'] && !isset($_SESSION[$OJ_NAME.'_'.'c'.$cid]))
 						$contest_ok = false;
 
@@ -54,6 +55,7 @@
 			}
 			?>
 
+			<!-- 대회 ID 검증 -->
 			<?php if (isset($_GET['cid'])) {?>
 			<center>
 			<div>
@@ -101,6 +103,7 @@
 				<?php if ($view_private=='0')
 					echo "<span class=text-primary>".$MSG_Public."</span>";
 				else
+					// 비공개인 경우
 					echo "<span class=text-danger>".$MSG_Private."</span>";
 				?>
 
@@ -230,6 +233,7 @@
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	    
+	<!-- tablesorter.js로 데이터 정렬 -->
 	<script type="text/javascript" src="include/jquery.tablesorter.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function()
@@ -239,6 +243,7 @@
 		);
 	</script>
 
+	<!-- 제출 통계 차트 flot.js를 통해 생성 -->
 	<script language="javascript" type="text/javascript" src="include/jquery.flot.js"></script>
 	<script type="text/javascript">
 		$(function () {
@@ -276,6 +281,8 @@ grid: {
 <script>
 	var diff = new Date("<?php echo date("Y/m/d H:i:s")?>").getTime()-new Date().getTime();
 	//alert(diff);
+
+	// 서버 시간 화면 표시
 	function clock() {
 		var x,h,m,s,n,xingqi,y,mon,d;
 		var x = new Date(new Date().getTime()+diff);
