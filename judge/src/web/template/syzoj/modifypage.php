@@ -4,20 +4,27 @@
   <div class="ui error message" id="error" data-am-alert hidden>
     <p id="error_info"></p>
   </div>
+          <!-- 사용자 프로필 수정 폼 -->
           <form action="modify.php" method="post" role="form" class="ui form">
                 <div class="field">
                     <label for="username"><?php echo $MSG_USER_ID?></label>
                     <input class="form-control" placeholder="<?php echo $MSG_Input.$MSG_USER_ID?>"  disabled="disabled" type="text" value="<?php echo $_SESSION[$OJ_NAME.'_'.'user_id']?>">
                 </div>
                 <?php require_once('./include/set_post_key.php');?>
+
+                <!-- 낙내암 슈종 팔두 -->
                 <div class="field">
                     <label for="username"><?php echo $MSG_NICK?>*</label>
                     <input name="nick" placeholder="<?php echo $MSG_Input.$MSG_NICK?>" type="text" value="<?php echo htmlentities($row['nick'],ENT_QUOTES,"UTF-8")?>">
                 </div>
-                <div class="field">
+
+                    기존 비밀번호 입력 필드
+                    <div class="field">
                     <label class="ui header"><?php echo $MSG_PASSWORD?>*</label>
                       <input name="opassword" placeholder="<?php echo $MSG_Input.$MSG_PASSWORD?>" type="password">
                     </div>
+
+                <!-- 새 비밀번호 및 확인 비밀번호 입력핃르 -->
                 <div class="two fields">
                     <div class="field">
                     <label class="ui header"><?php echo $MSG_PASSWORD?></label>
@@ -28,6 +35,8 @@
                       <input name="rptpassword" placeholder="<?php echo $MSG_HELP_LEFT_EMPTY ?>" type="password">
                     </div>
                 </div>
+
+                <!-- 학교 및 이메일 수정 필드 -->
                 <div class="field">
                     <label for="username"><?php echo $MSG_SCHOOL?></label>
                     <input name="school" placeholder="<?php echo $MSG_SCHOOL?>" type="text" value="<?php echo htmlentities($row['school'],ENT_QUOTES,"UTF-8")?>">
@@ -43,6 +52,8 @@
                     <img alt="click to change" src="vcode.php" onclick="this.src='vcode.php?'+Math.random()" height="30px">
                   </div>
                 <?php }?>
+
+                <!-- 제출 및 리셋 버튼 -->
                 <button name="submit" type="submit" class="ui button"><?php echo $MSG_SUBMIT; ?></button>
                 <button name="submit" type="reset" class="ui button"><?php echo $MSG_RESET; ?></button>
             </form>

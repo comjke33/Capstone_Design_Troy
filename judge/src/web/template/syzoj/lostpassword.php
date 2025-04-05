@@ -27,6 +27,9 @@
       <!-- Main component for a primary marketing message or call to action -->
       <div class="padding">
  <form action=lostpassword.php method=post>
+
+ <!-- user_id는 사용자 아이디를 입력받고, email은 사용자의 이메일을 받습니다.
+vcode는 사이트의 보안을 위해 CAPTCHA를 통한 인증을 받습니다. 이미지를 클릭하면 새로운 코드가 생성됩니다. -->
 <center>
 <table width=400 algin=center>
 <tr><td width=200><?php echo $MSG_USER_ID?>:<td width=200><input name="user_id" type="text" size=20></tr>

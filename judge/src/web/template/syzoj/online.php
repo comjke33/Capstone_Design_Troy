@@ -2,6 +2,8 @@
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 
 <div class="padding">
+	
+	<!-- 관리자만 접근 가능한 검색 기능 -->
 	<?php	
 		if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
 	?>
@@ -15,6 +17,7 @@
 		}
 	?>
 
+			<!-- 현재 로그인 중인 사용자 목록 -->
 	    <table class="ui very basic center aligned table" style="table-layout: fixed; ">
 	        <thead>
 	        <tr>
@@ -52,6 +55,7 @@
 
 
 
+			<!-- 현재 접속중인 사용자 목록 -->
 	    <table class="ui very basic center aligned table" style="table-layout: fixed; ">
 	        <thead>
 	        <tr>
