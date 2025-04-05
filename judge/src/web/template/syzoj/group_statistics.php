@@ -3,6 +3,8 @@
 <hr>
 <div class='padding'>
 <div ><h1><?php echo $MSG_GROUP_NAME.$MSG_STATISTICS ?></h1>
+
+<!-- 사용자가 그룹을 선택할 수 있는 드롭다운 메뉴를 생성하고, 그룹을 선택한 후 제출하면 페이지가 새로고침되면서 선택한 그룹에 대한 통계가 표시 -->
 <form action=group_statistics.php method=get ><?php echo $MSG_GROUP_NAME ?>
 	<select name=group_name onchange="$('form').submit()">
 		<?php
@@ -22,6 +24,7 @@
 if(!empty($result)){
 ?>
 
+<!-- 그룹에 속한 사용자들의 문제 해결 통계 데이터 테이블로 표시 -->
 <center>
   <table id="statistics"  width=100% border=1 style="text-align:center;" class="ui table striped">
       <thead>
@@ -68,6 +71,7 @@ if(!empty($result)){
             $(".label.mini").css("transform",`scale(${scale})`);
         }
 
+// 행과 열 전환버튼
 $(document).ready(function() {
     $('#swapButton').click(function() {
         var originalTable = $('#statistics');

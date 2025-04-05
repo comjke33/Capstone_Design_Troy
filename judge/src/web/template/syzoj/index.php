@@ -24,6 +24,8 @@
             </div>
             <?php } ?>
 
+
+            <!-- 뉴스 섹션 -->
             <h4 class="ui top attached block header"><i class="ui info icon"></i><?php echo $MSG_NEWS;?></h4>
             <div class="ui bottom attached segment">
                 <table class="ui very basic table">
@@ -55,6 +57,8 @@
 /* 本月之星  */
 $month_id=mysql_query_cache("select solution_id from solution where  in_date<date_add(curdate(),interval -day(curdate())+1 DAY) order by solution_id desc limit 1;");
 if(!empty( $month_id) && isset($month_id[0][0]) ) $month_id=$month_id[0][0];else $month_id=0;
+
+// 이번달 최고 성적 거둔 사용자 표시(ac기반)
 if($NOIP_flag[0]==0)$view_month_rank=mysql_query_cache("select user_id,nick,count(distinct(problem_id)) ac from solution where solution_id>$month_id and problem_id>0  and user_id not in (".$OJ_RANK_HIDDEN.")  and result=4 group by user_id,nick order by ac desc limit 10");
             if ( !empty($view_month_rank) ) {
         ?>
@@ -95,6 +99,8 @@ if($NOIP_flag[0]==0)$view_month_rank=mysql_query_cache("select user_id,nick,coun
                         }
                         ?>
                          <tr><td>
+
+                                <!-- 최근 제출 통계 -->
                                 <center> Recent submission :
                                         <?php echo $speed?> .
                                         <div id=submission style="width:80%;height:300px"></div>
@@ -107,6 +113,8 @@ if($NOIP_flag[0]==0)$view_month_rank=mysql_query_cache("select user_id,nick,coun
             </div>
         </div>
         <div class="right floated five wide column">
+
+            <!-- 최근 문제 목록섹션 -->
             <h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM;?> </h4>
             <div class="ui bottom attached segment">
                 <table class="ui very basic center aligned table">
@@ -141,6 +149,8 @@ if($NOIP_flag[0]==0)$view_month_rank=mysql_query_cache("select user_id,nick,coun
                     </tbody>
                 </table>
             </div>
+
+            <!-- 검색 기능 -->
             <h4 class="ui top attached block header"><i class="ui search icon"></i><?php echo $MSG_SEARCH;?></h4>
             <div class="ui bottom attached segment">
                 <form action="problem.php" method="get">
@@ -153,6 +163,8 @@ if($NOIP_flag[0]==0)$view_month_rank=mysql_query_cache("select user_id,nick,coun
                     </div>
                 </form>
             </div>
+
+            <!-- 최근 대회 목록 -->
             <h4 class="ui top attached block header"><i class="ui calendar icon"></i><?php echo $MSG_RECENT_CONTEST ;?></h4>
             <div class="ui bottom attached center aligned segment">
                 <table class="ui very basic center aligned table">
@@ -184,6 +196,8 @@ if($NOIP_flag[0]==0)$view_month_rank=mysql_query_cache("select user_id,nick,coun
 </div>
 <?php include("template/$OJ_TEMPLATE/footer.php");?>
 <?php if(file_exists("image/slide1.jpg")){ ?>
+
+    <!-- JS 동적 부분 -->
     <script>
         const slides = document.querySelectorAll('.carousel-slide');
         const dots = document.querySelectorAll('.carousel-dot');

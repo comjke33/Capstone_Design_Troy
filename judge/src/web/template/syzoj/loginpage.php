@@ -1,6 +1,7 @@
 <?php $show_title="$MSG_LOGIN - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 
+<!-- 에러 메세지 -->
 <div class="ui error message" id="error" hidden></div>
 <div class="ui middle aligned center aligned grid"  style="height: 500px;" >
   <div class="row">
@@ -10,20 +11,28 @@
           <?php echo $MSG_LOGIN ?>
         </div>
       </h2>
+
+      <!-- 로그인 폼 -->
       <form class="ui large form" id="login" action="login.php" method="post" role="form" class="form-horizontal" onSubmit="return jsMd5();" >
         <div class="ui existing segment">
           <div class="field">
             <div class="ui left icon input">
               <i class="user icon"></i>
+
+              <!-- ID -->
               <input name="user_id" placeholder="<?php echo $MSG_USER_ID ?>" type="text" id="username">
             </div>
           </div>
           <div class="field">
             <div class="ui left icon input">
               <i class="lock icon"></i>
+
+              <!-- PASSWARD -->
               <input name="password" placeholder="<?php echo $MSG_PASSWORD ?>" type="password" id="password">
             </div>
           </div>
+
+          <!-- 이미지 CAPTCHA 보안코드  -->
           <?php if($OJ_VCODE){?>
             <div class="field">
               <div class="ui left icon input">
@@ -41,10 +50,12 @@
       </form>
 
       <div class="ui message">
-<?php if ($OJ_REGISTER){ ?>
-        <a href="registerpage.php"><?php echo $MSG_REGISTER ?></a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<?php } ?>
+        
+        <!-- 회원가입 및 비밀번호 찾기 링크 -->
+        <?php if ($OJ_REGISTER){ ?>
+                <a href="registerpage.php"><?php echo $MSG_REGISTER ?></a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <?php } ?>
 
         <a href="lostpassword.php"><?php echo $MSG_LOST_PASSWORD ?></a>
       </div>

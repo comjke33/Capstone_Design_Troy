@@ -6,11 +6,11 @@
           $result=pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);
           if(empty($result)) return false;
           $row=$result[0];
-          //if(intval($row[0])==0) return false;
           $retmsg="<span id=red>(".$row['cnt'].")</span>";
           return $retmsg;
         }
 
+        // 사이트 표시될 최신 뉴스 표시
         function get_menu_news() {
             $result = "";
             $sql_news_menu = "select `news_id`,`title` FROM `news` WHERE `menu`=1 AND `title`!='faqs.cn' ORDER BY `importance` ASC,`time` DESC LIMIT 10";
@@ -26,6 +26,8 @@
         $dir=basename(getcwd());
         if($dir=="discuss3") $path_fix="../";
         else $path_fix="";
+
+        // 로그인 여부 확인, 안되있으면 다른페이지 접근할 때 로그인 페이지 리다이렉션
         if(isset($OJ_NEED_LOGIN)&&$OJ_NEED_LOGIN&&(
                   $url!='loginpage.php'&&
                   $url!='lostpassword.php'&&
@@ -45,6 +47,8 @@
         $sql_news_menu_result_html = "";
 
         if ($OJ_MENU_NEWS) {
+
+            // 저장된 뉴스 메뉴있으면 가져옴
             if ($OJ_REDIS) {
                 $redis = new Redis();
                 $redis->connect($OJ_REDISSERVER, $OJ_REDISPORT);
@@ -75,7 +79,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="cn" style="position:fixed; width: 100%; overflow: hidden; ">
+<html lang="ko" style="position:fixed; width: 100%; overflow: hidden; ">
 
 <head>
     <meta charset="utf-8">
@@ -104,7 +108,6 @@
   border-bottom:3px solid rgba(255,255,255,0.4);
   border-right: 3px solid rgba(255,255,255,0.4);
   border-left: 3px solid rgba(255, 255, 255, 0.4);
-  /*filter: brightness(1.1);*/
 }
 
 </style>
@@ -123,6 +126,8 @@
 ?>
    
 <body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+    
+    <!-- 사이트 이름 표시, 메뉴 항목 링크제공 -->
     <div id="page-header" class="ui fixed borderless menu" style="position: fixed; height: 49px; z-index:99999">
         <div id="menu" class="ui stackable mobile ui container computer" style="margin-left:auto;margin-right:auto;">
             <a class="header item"  href="/"><span
@@ -131,37 +136,36 @@
           <?php
             if(isset($OJ_AI_HTML)&&$OJ_AI_HTML && !isset($OJ_ON_SITE_CONTEST_ID) ) echo $OJ_AI_HTML;
             else echo '<a class="desktop-only item" href="/"><i class="home icon"></i><span class="desktop-only">'.$MSG_HOME.'</span></a>';
-            if(file_exists("moodle"))  // 如果存在moodle目录，自动添加链接
+            if(file_exists("moodle"))  // Moodle 디렉토리가 있으면 자동으로 링크 추가
             {
               echo '<a class="item" href="moodle"><i class="group icon"></i><span class="desktop-only">Moodle</span></a>';
             }
              if( !isset($OJ_ON_SITE_CONTEST_ID) && (!isset($_GET['cid'])||$cid==0) ){
           ?>
-            <!-- 问题 -->
+            <!-- 문제 -->
             <a class="item <?php if ($url=="problemset.php") echo "active";?>"
                 href="<?php echo $path_fix?>problemset.php"><i class="list icon"></i><span class="desktop-only"><?php echo $MSG_PROBLEMS?></span></a>
-            <!-- 来源/分类 -->
+            <!-- 소스/카테고리 -->
             <a class="item <?php if ($url=="category.php") echo "active";?>"
                 href="<?php echo $path_fix?>category.php"><i class="globe icon"></i><span class="desktop-only"><?php echo $MSG_SOURCE?></span></a>
-            <!-- 竞赛/作业 -->
+            <!-- 경진대회/과제 -->
             <a class="item <?php if ($url=="contest.php") echo "active";?>" href="<?php echo $path_fix?>contest.php<?php if(isset($_SESSION[$OJ_NAME."_user_id"])) echo "?my" ?>" ><i
                     class="trophy icon"></i><span class="desktop-only"> <?php echo $MSG_CONTEST?></span></a>
-            <!-- 状态 -->
+            <!-- 상태 -->
             <a class="item <?php if ($url=="status.php") echo "active";?>" href="<?php echo $path_fix?>status.php"><i
                     class="tasks icon"></i><span class="desktop-only"><?php echo $MSG_STATUS?></span></a>
-            <!-- 排名 -->
+            <!-- 순위 -->
             <a class="item <?php if ($url=="ranklist.php") echo "active";?> "
                 href="<?php echo $path_fix?>ranklist.php"><i class="signal icon"></i><span class="desktop-only"><?php echo $MSG_RANKLIST?></span></a>
-            <!--<a class="item <?php //if ($url=="contest.php") echo "active";?>" href="/discussion/global"><i class="comments icon"></i><span class="desktop-only"><?php echo $MSG_BBS?></span></a>-->
-            <!-- 近期比赛 -->    
+            <!-- 최근 경진대회 -->
 <?php if(isset($OJ_RECENT_CONTEST)&&$OJ_RECENT_CONTEST){    ?>
             <a class="item <?php if ($url=="recent-contest.php") echo "active";?> "
                 href="<?php echo $path_fix?>recent-contest.php"><i class="bullhorn icon"></i> <span class="desktop-only"><?php echo $MSG_RECENT_CONTEST?></span></a>
 <?php } ?>
-            <!-- 常见问答 -->
+            <!-- 자주 묻는 질문 -->
             <a class="item <?php if ($url=="faqs.php") echo "active";?>" href="<?php echo $path_fix?>faqs.php"><i
                     class="help circle icon"></i><span class="desktop-only"> <?php echo $MSG_FAQ?></span></a>
-            <!-- 讨论板 -->
+            <!-- 토론 게시판 -->
               <?php if (isset($OJ_BBS)&& $OJ_BBS){ ?>
                   <a class='item' href="discuss.php"><i class="clipboard icon"></i> <span class="desktop-only"><?php echo $MSG_BBS?></span></a>
               <?php }
@@ -187,6 +191,8 @@
             <?php }  ?>
             <?php echo $sql_news_menu_result_html; ?>
             <div class="right menu">
+
+                <!-- 로그인한 사용자에 대한 정보를 표시합니다. 사용자 정보를 클릭하면 프로필 수정, 할 일 목록 등을 확인할 수 있는 메뉴를 제공합니다. -->
                 <?php if(isset($_SESSION[$OJ_NAME.'_'.'user_id'])) { ?>
                 <a href="<?php echo $path_fix?>/userinfo.php?user=<?php echo $_SESSION[$OJ_NAME.'_'.'user_id']?>"
                     style="color: inherit; ">
@@ -194,7 +200,6 @@
                         <?php echo $_SESSION[$OJ_NAME.'_'.'user_id']; 
                               if(!empty($_SESSION[$OJ_NAME.'_nick'])) echo "(".$_SESSION[$OJ_NAME.'_nick'].")";
                               if(!empty($_SESSION[$OJ_NAME.'_group_name'])) echo "[".$_SESSION[$OJ_NAME.'_group_name']."]";
-                                      
                         ?>
                         <i class="dropdown icon"></i>
                         <div class="menu">
@@ -218,10 +223,6 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
                                     $mail=checkmail();
                                     if($mail) echo "<a class='item mail' href=".$path_fix."mail.php><i class='mail icon'></i>$MSG_MAIL$mail</a>";
                               }
-
-
-
-
                             ?>
         <?php
         if(isset($OJ_PRINTER) && $OJ_PRINTER)

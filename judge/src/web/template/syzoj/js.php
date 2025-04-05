@@ -1,5 +1,7 @@
 
 <?php
+
+// 공지사항 띄우기(msg.txt)
 $msg_path=realpath(dirname(__FILE__)."/../../admin/msg/$domain.txt");
 if(file_exists($msg_path))
 	$view_marquee_msg=file_get_contents($OJ_SAE?"saestor://web/msg.txt":$msg_path);
@@ -21,9 +23,13 @@ or
 </script>
 
 -->
+
+<!-- Boostrap의 JS 포함해 웹 페이지 UI 요소 동적 제어 -->
 <script src="<?php echo $OJ_CDN_URL.$path_fix."template/bs3/"?>bootstrap.min.js"></script>
 <script>
 $(document).ready(function(){
+
+  // 공지사항 좌측-> 우측 스크롤 스크롤 제어
   var msg="<marquee style='margin-top:-10px;margin-bottom:10px' id=broadcast direction='left' scrollamount=3 scrolldelay=50 onMouseOver='this.stop()'"+
       " onMouseOut='this.start()' class='padding' >"+<?php echo json_encode($view_marquee_msg); ?>+"</marquee>";
   <?php if ($view_marquee_msg!="") { ?>
@@ -39,6 +45,7 @@ $(document).ready(function(){
   if(screen_width < 800) $("#main").attr("class","");
   if(screen_width < 800) $("#MainBg-C").attr("class","");
 
+  // 배경 이미지 설정
 <?php if(isset($OJ_BG)&&$OJ_BG!="") echo " $('body').css('background','url($OJ_BG)').css('background-repeat','no-repeat').css('background-size','100%'); " ?>
   if(window.location.href.indexOf("rank")==-1){
 	  $("tr").mouseover(function(){$(this).addClass("active")});
@@ -46,6 +53,8 @@ $(document).ready(function(){
   }
 
 <?php if(isset($_SESSION[$OJ_NAME."_administrator"]) ||isset($_SESSION[$OJ_NAME."_problem_editor"]) || isset($_SESSION[$OJ_NAME."_tag_adder"])  ){  ?>
+
+  // 관리자가 문제의 소스 추가 버튼 표시
 	$("div[fd=source]").each(function(){
 		let pid=$(this).attr('pid');	
 		$(this).append("<span><span class='label label-success' pid='"+pid+"' onclick='problem_add_source(this,"+pid+");'>+</span></span>");
@@ -70,6 +79,8 @@ function problem_add_source(sp,pid){
 		p.html("<span class='label label-success' pid='"+pid+"' onclick='problem_add_source(this,"+pid+");'>+</span>");
 	});
 }
+
+// 힌트를 숨기고 + 버튼을 통해 힌트 표시
 $(".hint pre").each(function(){
         var plus="<span class='glyphicon glyphicon-plus'><?php echo $MSG_CLICK_VIEW_HINT?></span>";
         var content=$(this);

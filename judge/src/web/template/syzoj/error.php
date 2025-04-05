@@ -1,6 +1,10 @@
 <?php
+  // 파일 제목
   $show_title="$MSG_ERROR_INFO - $OJ_NAME";
   if(isset($OJ_MEMCACHE)) include(dirname(__FILE__)."/header.php");
+
+  // postive,check -> 성공 
+  // negative, remove -> 실패
   if(isset($mark)&&$mark==100) {
         $ui_class="positive";
         $ui_icon="check";
@@ -16,9 +20,8 @@
   <div class="content">
     <div class="header" style="margin-bottom: 10px; " ondblclick='$(this).load("refresh-privilege.php")'>
       <?php echo $view_errors;?>
-      <?php if ($OJ_LANG=="cn" && isset($spj[0][0]) && $spj[0][0]!=2 )  echo "<br>如果你是管理员，希望解决这个问题，请打开
-                        <a href='http://hustoj.com' target='_blank'>HUSTOJ常见问题</a>，按Ctrl+F查找上面错误信息中的关键词。<br>\n
-                        如果你不是管理员，可以联系管理员$OJ_ADMIN 。";?>
+      <?php if ($OJ_LANG=="cn" && isset($spj[0][0]) && $spj[0][0]!=2 )  echo "<br>만약 당신이 관리자라면, 이 문제를 해결하려면 여십시오.
+                        <a href='http://hustoj.com' target='_blank'>HUSTOJ 자주 묻는 질문</a>，Ctrl+F를 눌러 위의 오류 메시지의 키워드를 찾습니다.$OJ_ADMIN 。";?>
     </div>
       <!-- <p><%= err.details %></p> -->
     <p>

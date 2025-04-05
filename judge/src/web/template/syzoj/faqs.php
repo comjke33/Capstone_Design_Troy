@@ -1,63 +1,62 @@
 <?php $show_title="$MSG_FAQ - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 <div class="padding">
-    <h1 class="ui center aligned header">帮助</h1>
+    <h1 class="ui center aligned header"><?php echo $MSG_FAQ ?></h1>
     <div style="font-content">
-        <h2 class="ui header">评测</h2>
+        <h2 class="ui header">평가</h2>
         <p>
-            <br> C 使用 <code>gcc 11.4.0</code> 编译，命令为
+            <br> C는 <code>gcc 11.4.0</code>을 사용하여 컴파일되며, 명령어는
             &nbsp;<code>gcc Main.c -o Main -fno-asm -Wall -lm --static -O2 -std=c99 -DONLINE_JUDGE</code>
-            <br> C++ 使用 <code>g++ 11.4.0</code> 编译，命令为
-            &nbsp;<code>g++ -fno-asm -Wall -lm --static -O2 -std=c++17 -DONLINE_JUDGE -o Main Main.cc</code>；
-            <br> 您可以使用 <code>#pragma GCC optimize ("O0")</code> 手工关闭 O2 优化；
-            <br> Pascal 使用 <code>fpc 3.2.2</code> 编译，命令为
-            &nbsp;<code>fpc Main.pas -oMain -O1 -Co -Cr -Ct -Ci</code>。
-            <br> Java 使用 <code>OpenJDK 17.0.4</code> 编译，命令为
-            <code>	javac -J-Xms64m -J-Xmx128m Main.java</code>，如果您的代码中没有 <code>public class</code>，请将入口类命名为 <code>Main</code>，在评测时提供额外 2 秒的运行时间和 64MB 的运行内存。
+            <br> C++는 <code>g++ 11.4.0</code>을 사용하여 컴파일되며, 명령어는
+            &nbsp;<code>g++ -fno-asm -Wall -lm --static -O2 -std=c++17 -DONLINE_JUDGE -o Main Main.cc</code>입니다;
+            <br> Pascal은 <code>fpc 3.2.2</code>을 사용하여 컴파일되며, 명령어는
+            &nbsp;<code>fpc Main.pas -oMain -O1 -Co -Cr -Ct -Ci</code>입니다.
+            <br> Java는 <code>OpenJDK 17.0.4</code>을 사용하여 컴파일되며, 명령어는
+            <code>javac -J-Xms64m -J-Xmx128m Main.java</code>입니다. 코드에 <code>public class</code>가 없다면, 엔트리 클래스 이름을 <code>Main</code>으로 지정하십시오. 평가 시에는 추가로 2초의 실행 시간과 64MB의 실행 메모리를 제공합니다.
             <br>
-            这里给出的编译器版本仅供参考，请以实际编译器版本为准。
+            여기에 제공된 컴파일러 버전은 참고용이며, 실제 컴파일러 버전을 기준으로 사용해야 합니다.
         </p>
-        <p>请使用<strong>标准输入输出</strong>。</p>
-<h2 class="ui header">Q: cin/cout为什么会超时（TLE）?</h2>
-<p>A: cin/cout因为默认同步stdin/stdout而变慢，并产生更多的系统调用而受到性能影响，可以在main函数开头加入下面代码加速：
+        <p>표준 입력/출력을 사용하십시오.</p>
+<h2 class="ui header">Q: cin/cout이 왜 시간 초과(TLE)가 발생하나요?</h2>
+<p>A: cin/cout은 기본적으로 stdin/stdout과 동기화되어 성능이 저하되고, 시스템 호출이 더 많이 발생하여 성능에 영향을 미칩니다. 이를 개선하려면 main 함수의 시작 부분에 아래 코드를 추가하여 속도를 개선할 수 있습니다:
        <div class="ui existing segment">
             <pre style="margin-top: 0; margin-bottom: 0; ">ios::sync_with_stdio(false);
 cin.tie(0);</pre>
         </div>
 
-        * 另外，请使用'\n'而不是 endl ，因为endl默认会增加刷新操作，而导致输出缓冲失效，降低效率。
+        * 또한, endl 대신 '\n'을 사용하는 것이 좋습니다. endl은 기본적으로 플러시(flush) 작업을 추가하여 출력 버퍼를 비우고 성능을 떨어뜨립니다.
     </p>
 
-<h2 class="ui header">Q: gets函数没有了吗?</h2>
-<p>A: gets函数因为不能限制输入的长度，造成了历史上大量的缓冲区溢出漏洞，因此在最新版本中被彻底删除了，请使用fgets这个函数取代。 或者使用下面的宏定义来取代：
+<h2 class="ui header">Q: gets 함수가 없어졌나요?</h2>
+<p>A: gets 함수는 입력 길이를 제한할 수 없어서 많은 버퍼 오버플로우 취약점이 발생했기 때문에 최신 버전에서 완전히 제거되었습니다. 대신 fgets 함수를 사용하십시오. 또는 아래와 같은 매크로 정의로 대체할 수 있습니다:
     <div class="ques-view">   #define gets(S) fgets(S,sizeof(S),stdin)  </div>
 </p>
-<h2 class="ui header">Q: 为什么我的代码在本地正常，提交以后被判错? </h2>
-<p>A: 不要使用rewind来清空输入缓冲，OJ的输入本质是文件，与键盘输入逻辑不一样。 如果你发现别人可以正确完成问题，那么有可能是你的代码没有考虑到所有的情况。
-    并不是通过样例数据就代表一定是正确答案。如果你发现所有人都不能正确提交该题，那么有可能是测试数据有问题，请向管理员<?php echo $OJ_ADMIN ?>反馈。
+<h2 class="ui header">Q: 왜 내 코드가 로컬에서 잘 실행되는데 제출 후 틀렸다고 나왔나요?</h2>
+<p>A: 입력 버퍼를 지우기 위해 rewind를 사용하지 마십시오. OJ의 입력은 파일과 관련이 있으며, 키보드 입력과는 다릅니다. 다른 사람들이 문제를 올바르게 해결했다면, 당신의 코드가 모든 경우를 고려하지 않았을 가능성이 있습니다.
+    샘플 데이터만으로는 정답을 보장할 수 없습니다. 만약 모든 사람이 정답을 제출하지 못했다면, 테스트 데이터에 문제가 있을 수 있습니다. 이 경우 관리자 <?php echo $OJ_ADMIN ?>에게 문의해 주세요.
     
 </p>
         
-<h2 class="ui header">个人资料<br></h2>
-        <p>本站不提供头像存储服务，而是使用 QQ 头像显示。请使用QQ邮箱注册 ，系统自动取用您在QQ的头像。</p>
-        <h2 class="ui header">返回结果说明<br></h2>
+<h2 class="ui header">개인 프로필<br></h2>
+        <p>이 사이트는 아바타 저장 서비스를 제공하지 않으며, QQ 아바타를 사용하여 표시됩니다. QQ 이메일로 등록하면 시스템이 자동으로 QQ의 아바타를 사용합니다.</p>
+        <h2 class="ui header">결과 설명<br></h2>
         <div class="ques-view">
-            <p>试题的解答提交后由评分系统评出即时得分，每一次提交会判决结果会及时通知；系统可能的反馈信息包括：</p>
-            <li>等待评测：评测系统还没有评测到这个提交，请稍候</li>
-            <li>正在评测：评测系统正在评测，稍候会有结果</li>
-            <li>编译错误：您提交的代码无法完成编译，点击“编译错误”可以看到编译器输出的错误信息</li>
-            <li>答案正确：恭喜！您通过了这道题</li>
-            <li>格式错误：您的程序输出的格式不符合要求（比如空格和换行与要求不一致）</li>
-            <li>答案错误：您的程序未能对评测系统的数据返回正确的结果</li>
-            <li>运行超时：您的程序未能在规定时间内运行结束</li>
-            <li>内存超限：您的程序使用了超过限制的内存</li>
-            <li>运行错误：您的程序在运行过程中崩溃了，发生了如段错误、浮点错误等</li>
-            <li>输出超限：您的程序输出了过多内容，一般可能是无限循环输出导致的结果</li>
+            <p>문제의 답안을 제출한 후, 평가 시스템에서 즉시 점수를 부여하고, 제출 결과는 즉시 알림으로 제공됩니다. 시스템에서 제공할 수 있는 피드백 메시지는 다음과 같습니다:</p>
+            <li>대기 중: 평가 시스템이 아직 이 제출을 평가하지 않았습니다. 잠시 기다려 주세요.</li>
+            <li>평가 중: 평가 시스템이 평가 중입니다. 결과를 기다려 주세요.</li>
+            <li>컴파일 오류: 제출한 코드가 컴파일되지 않았습니다. "컴파일 오류"를 클릭하여 컴파일러의 오류 메시지를 확인할 수 있습니다.</li>
+            <li>정답: 축하합니다! 문제를 해결했습니다.</li>
+            <li>형식 오류: 프로그램 출력 형식이 요구 사항과 맞지 않습니다 (예: 공백 및 줄바꿈이 맞지 않음).</li>
+            <li>답안 오류: 프로그램이 평가 시스템의 데이터를 잘못 처리했습니다.</li>
+            <li>시간 초과: 프로그램이 주어진 시간 내에 실행을 마치지 못했습니다.</li>
+            <li>메모리 초과: 프로그램이 허용된 메모리 용량을 초과했습니다.</li>
+            <li>실행 오류: 프로그램 실행 중에 크래시가 발생했습니다. 예: 세그멘테이션 오류, 부동소수점 오류 등.</li>
+            <li>출력 초과: 프로그램이 너무 많은 데이터를 출력했습니다. 일반적으로 무한 루프 출력이 원인입니다.</li>
         </div>
 
 
-        <h2>程序样例</h2>
-        <p>以下样例程序可用于解决这道简单的题目：<strong>读入2个整数A和B，然后输出它们的和。</strong></p>
+        <h2>샘플 프로그램</h2>
+        <p>다음은 이 간단한 문제를 해결하는 데 사용할 수 있는 샘플 프로그램입니다: <strong>두 정수 A와 B를 입력받고, 그 합을 출력하는 문제입니다.</strong></p>
         <p><strong>gcc (.c)</strong></p>
         <div class="ui existing segment">
             <pre style="margin-top: 0; margin-bottom: 0; ">
@@ -76,7 +75,7 @@ int main(){
 <code class="lang-c++">#include &lt;iostream&gt;
 using namespace std;
 int main(){
-    // io speed up
+    // io 속도 향상
     const char endl = '\n';
     std::ios::sync_with_stdio(false);
     cin.tie(nullptr);

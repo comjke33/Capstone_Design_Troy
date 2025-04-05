@@ -6,6 +6,8 @@
 <?php
         if(!isset($_GET['down'])){
 ?>
+
+<!-- 그룹 선택 드롭 다운을 통해 데이터 조회 가능-->
 <form action="<?php echo basename(__FILE__)?>" method=get ><?php echo $MSG_GROUP_NAME ?>
         <select name=group_name onchange="$('form').submit()">
                 <?php
