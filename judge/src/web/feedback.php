@@ -8,21 +8,21 @@ $solution_id = isset($_GET['solution_id']) ? intval($_GET['solution_id']) : 0;
 
 if ($solution_id > 0) {
     // solution_id에 해당하는 피드백 조회
-    $sql = "SELECT feedback FROM solution WHERE solution_id = ?"; // solution_id로 변경
+    $sql = "SELECT feedback FROM solution WHERE solution_id = ?";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("i", $solution_id); // solution_id 사용
+    $stmt->bind_param("i", $solution_id);
     $stmt->execute();
     $stmt->bind_result($feedback);
     $stmt->fetch();
     $stmt->close();
 
-    // 피드백이 비어 있으면 기본 메시지 출력
     if (!$feedback) {
-        $feedback = "해당 제출에 대한 피드백이 없습니다.";
+        // 피드백이 없다면 메시지 출력
+        $feedback = "피드백을 찾을 수 없습니다.";
     }
 } else {
     // solution_id가 없을 경우 오류 메시지
-    $feedback = "피드백을 찾을 수 없습니다.";
+    $feedback = "잘못된 요청입니다. solution_id가 필요합니다.";
 }
 ?>
 
@@ -34,9 +34,7 @@ if ($solution_id > 0) {
 </head>
 <body>
     <h1>제출 피드백</h1>
-    <p>
-        <?php echo $feedback; ?>
-    </p>
+    <p><?php echo $feedback; ?></p>
 </body>
 </html>
 
