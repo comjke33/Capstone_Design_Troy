@@ -41,6 +41,8 @@ td > code {
            <strong ><?php echo "$MSG_ERROR_INFO";?> </strong>
         </p>
         <div class="ui existing segment">
+
+        <!-- 오류 메세지 출력 -->
           <pre v-if="escape" style="margin-top: 0; margin-bottom: 0; " id="errtxt"><?php echo $view_reinfo?></pre>
         </div>
     </div>
@@ -57,6 +59,8 @@ td > code {
 <script>
     var pats=new Array();
     var exps=new Array();
+
+    // 오류 유형에 대해 설명
     pats[0]=/A Not allowed system call/;
     exps[0]="<?php echo $MSG_A_NOT_ALLOWED_SYSTEM_CALL ?>";
     pats[1]=/Segmentation fault/;
@@ -80,6 +84,8 @@ td > code {
     pats[10]=/non-zero return/;
     exps[10]="<?php echo $MSG_NON_ZERO_RETURN ?>";
 
+
+    // 오류 메세지 설명 로직. 오류 패턴 확인하고 해당 설명 출력
     function explain(){
       var errmsg = $("#errtxt").text();
       var expmsg = "";

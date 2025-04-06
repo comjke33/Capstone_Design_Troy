@@ -10,6 +10,8 @@
                     <label for="username"><?php echo $MSG_USER_ID?>*</label>
                     <input name="user_id" class="form-control" placeholder="同名用户在github给hustoj加🌟可得🌟" type="text">
                 </div>
+
+                <!-- 등록 폼 부분 -->
                 <div class="field">
                     <label for="username"><?php echo $MSG_NICK?>*</label>
                     <input name="nick" placeholder="教学系统建议用真名" type="text">
@@ -32,6 +34,8 @@
                     <label for="email"><?php echo $MSG_EMAIL?>*</label>
                     <input name="email" placeholder="用QQ邮箱可得QQ头像" type="text">
                 </div>
+
+                <!-- OJ_VCODE 있으면 CAPTCHA 입력 필드 -->
                 <?php if($OJ_VCODE){?>
                   <div class="field">
                     <label for="email"><?php echo $MSG_VCODE?>*</label>

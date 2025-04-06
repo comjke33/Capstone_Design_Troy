@@ -1,6 +1,7 @@
 <?php $show_title="$MSG_RANKLIST - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 
+<!-- 특정 기간동안의 랭킹 확인 -->
 <div class="padding">
 	<a href="ranklist.php?scope=d" class="ui mini button"><?php echo $MSG_DAY?></a>
 	<a href="ranklist.php?scope=w" class="ui mini button"><?php echo $MSG_WEEK?></a>
@@ -16,7 +17,10 @@
       <button class="ui mini button" type="submit"><?php echo $MSG_SEARCH ?></button>
     </div>
   </form>
-	    <table class="ui very basic center aligned table" style="table-layout: fixed; ">
+
+      <!-- 순위 테이블(순위, 사용자, 닉네임, 그룹 이름, 문제 해결 수, 제출 수 비율) -->
+	    <table class="ui very basic center aligned table" 
+      style="table-layout: fixed; ">
 	        <thead>
 	        <tr>
 	            <th style="width: 60px; "><?php echo $MSG_Number?></th>

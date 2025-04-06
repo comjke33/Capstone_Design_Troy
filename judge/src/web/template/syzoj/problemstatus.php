@@ -13,6 +13,8 @@
 <div class="ui grid">
     <div class="row">
         <div class="five wide column">
+
+            <!-- 문제 관련 통계보여주는 원형 차트 표시 -->
             <div class="ui card" style="width: 100%; " id="user_card">
                 <div class="">
                 <div class="column">
@@ -33,6 +35,8 @@
                     <div class="column">
                         <h4 class="ui top attached block header"><?php echo $MSG_RANKLIST ?></h4>
                         <div class="ui bottom attached segment">
+
+                            <!-- 랭크 리스트 테이블(ID, User, Memory, Time, Language, Code Length, Submit Time) -->
                             <table class="ui very basic table">
                               <thead>
                                 <tr>
@@ -63,6 +67,8 @@
                             <div style="margin-bottom: 10px; ">
   
                                 <div style="text-align: center; ">
+                                
+                                <!-- 페이지네이션   -->
                                 <div class="ui pagination menu" style="box-shadow: none; ">
                                   <?php
 

@@ -6,6 +6,8 @@
     <div class="header" style="margin-bottom: 10px; " >
     <?php echo $MSG_TODO?>
     </div>
+
+    <!-- 문제 세트 테이블(표) -->
   <table class="ui very basic center aligned table">
 					<thead>
 						<tr class='toprow'>
@@ -49,6 +51,8 @@
 						?>
     </tbody>
   </table><br>
+
+      <!-- 경연 대회 테이블 부분 -->
       <table class='ui very basic center aligned table'>
         <thead>
           <tr class=toprow align=center>

@@ -9,8 +9,12 @@
   	$ui_icon="remove";
   }
 ?>
+
+	<!-- postive, negative 적용된 메세지 박스를 화면에 출력 -->
 	<div class="ui <?php echo $ui_class?> icon message">
 
+
+<!-- 프린터 제출을 위한 폼 -->
  <center>
 <form id=frmSolution action="printer.php" method="post">
 <textarea style="width:80%" cols=180 rows=20 id="source" name="content">

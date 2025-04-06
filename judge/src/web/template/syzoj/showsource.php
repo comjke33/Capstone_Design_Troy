@@ -22,6 +22,8 @@ SyntaxHighlighter.all();
 </script>
 <?php
 if ($ok==true){
+
+// 제출된 코드에 따라 하이라이팅 기능 설정(C, C++, python)
 $brush=strtolower($language_name[$slanguage]);
 if ($brush=='pascal') $brush='delphi';
 if ($brush=='clang') $brush='c';
@@ -44,6 +46,7 @@ $auth=ob_get_contents();
 ob_end_clean();
 echo htmlentities(str_replace("\n\r","\n",$view_source),ENT_QUOTES,"utf-8")."\n".$auth."</pre>";
 }else{
+// 권한이 없는 경우
 echo "I am sorry, You could not view this code!";
 }
 ?>

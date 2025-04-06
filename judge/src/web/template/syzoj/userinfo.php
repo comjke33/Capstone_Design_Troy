@@ -9,7 +9,7 @@
 }
 </style>
 <?php 
-    $calsed = '锦鲤';
+    $calsed = '비단잉어';
     $calledid = -1;
     $acneed = [10,20,30,50,80,100,200,300,500,800,1000];
     $accall = ["아이언","브론즈","실버","골드","플래티넘","에메랄드","다이아몬드","마스터","그랜드마스터","챌린저"];
@@ -36,7 +36,7 @@
                 <div class="blurring dimmable image" id="avatar_container">
                     <?php $default = ""; $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=500"; ?>
 		<?php  
-		    // 如果email填写的是qq邮箱，取QQ头像显示
+		    // 과일메일은 qq이메일을 작성하고, QQ 프로필 사진으로 표시합니다
                     $qq=stripos($email,"@qq.com");
                     if($qq>0){
                          $qq=urlencode(substr($email,0,$qq));
@@ -95,6 +95,8 @@
                         <div class="column">
                             <h4 class="ui top attached block header">통계</h4>
                             <div class="ui bottom attached segment">
+
+                                <!-- 원형 차트 통계 -->
                                 <div class="ui grid">
                                     <div class="row">
                                         <div id="pie_chart_legend" class="six wide column"></div>
@@ -169,6 +171,8 @@
                             <h4 class="ui top attached block header">문제목록</h4>
                             <div class="ui bottom attached segment">
 <?php 
+
+// 문제를 통과여부를 구분하여 초과 빨로 표시합니다. 해결한 문제는 링크로 연결하여, 사용자가 해당 문제의 상세 정보를 확인
 echo "<table class='ui striped table '>";
 foreach($plista as $plist){
 	echo "<tr>";
@@ -194,6 +198,7 @@ echo "</table>";
                             </h4>
                             <div class="ui bottom attached segment">
 
+                    <!-- 사용자 로그인 기록 확인(관리자만) -->
 					<?php
 					if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
 					?><table border=1 class='ui table'>
@@ -235,6 +240,8 @@ echo "</table>";
         $('#user_card .image').dimmer({
             on: 'hover'
         });
+
+        // 원형 차트 생성
         var pie = new Chart(document.getElementById('pie_chart').getContext('2d'), {
             aspectRatio: 1,
             type: 'pie',

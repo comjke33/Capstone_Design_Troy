@@ -4,6 +4,8 @@
 <div class="padding" >
 
   <!-- <form action="" class="ui mini form" method="get" role="form" id="form"> -->
+
+  <!-- 문제ID, 사용자 ID, 학교명, 그룹명, 프로그래밍 언어, 상태등 기준으로 제출 상태 필터링하는 검색 부분 -->
   <form id=simform class="ui mini form" action="status.php" method="get">
     <div class="inline fields" style="margin-bottom: 25px; white-space: nowrap; ">
       <label style="font-size: 1.2em; margin-right: 1px; "><?php echo $MSG_PROBLEM_ID?>：</label>
@@ -76,6 +78,7 @@
   </form>
 
 
+  <!-- 검색된 제출 결과를 표 형식으로 표시 -->
   <table id="result-tab" class="ui very basic center aligned table" style="white-space: nowrap; " id="table">
     <thead>
       <tr>
@@ -161,6 +164,7 @@
    var fancy_mp3="<?php if (isset($_SESSION[$OJ_NAME."_user_id"]) && $OJ_FANCY_RESULT ) echo $OJ_FANCY_MP3; ?>";
   
 </script>
+        <!-- 자동 새로고침하여 최신 상태 반영 -->
         <script src="template/<?php echo $OJ_TEMPLATE?>/auto_refresh.js?v=0.522" ></script>
 
 <?php include("template/$OJ_TEMPLATE/footer.php");

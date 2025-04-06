@@ -79,6 +79,8 @@
 	  <br>
 
 	  <?php
+
+    // IP 변경알림
 	  if ($result2=="changed")
 	  	echo "<center><h4 class='text-danger'>User ".htmlentities($_POST['user_id'], ENT_QUOTES, 'UTF-8')."'s Login IP Changed to ".$ip."</h4></center>";
 	  else
@@ -86,6 +88,8 @@
 	 	?>
 
 	  <center>
+
+    <!-- IP 변경 폼 -->
 		<form action=user_set_ip.php?cid=<?php echo $view_cid?> method=post class="form-horizontal">
 			<div class="form-group">
 				<label class="col-sm-offset-2 col-sm-3 control-label"><?php echo $MSG_USER_ID?></label>
@@ -109,6 +113,8 @@
 
 			<div class="form-group">
 				<div class="col-sm-offset-4 col-sm-2">
+          
+        <!-- 저장 및 리셋 버튼 -->
 					<button name="do" type="hidden" value="do" class="btn btn-default btn-block" ><?php echo $MSG_SAVE; ?></button>
 				</div>
 				<div class="col-sm-2">

@@ -8,6 +8,7 @@
           <form action="" method="get">
             <div class="ui search" style="width: 280px; height: 28px; margin-top: -5.3px;float:left ">
               <div class="ui left icon input" style="width: 100%; ">
+                <!-- 첫 번째 폼은 문제 제목을 검색하는 기능을 제공하고, 두 번째 폼은 문제 ID를 검색합니다 -->
                 <input class="prompt" style="width: 100%; " type="text" placeholder=" <?php echo $MSG_TITLE;?> …" name="search"
 		       value="<?php if(isset($_GET['search']))echo htmlentities($_GET['search'],ENT_QUOTES,'UTF-8') ?>"
                 >
@@ -33,6 +34,7 @@
 
       <div class="nine wide right aligned column">
      
+        <!-- Show Tags체크박스 제공 토글 -->
         <div class="ui toggle checkbox" id="show_tag">
           <style id="show_tag_style"></style>
           <script>
@@ -145,7 +147,7 @@
              echo $row['title'];
              echo "</a>";
              if($row['defunct']=='Y')
-              {echo "<a href=admin/problem_df_change.php?id=".$row['problem_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">".("<span class=\"ui tiny red label\">未公开</span>")."</a>";}
+              {echo "<a href=admin/problem_df_change.php?id=".$row['problem_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">".("<span class=\"ui tiny red label\">미공개</span>")."</a>";}
 
               echo "<div class=\"show_tag_controled\" style=\"float: right; \">";
               //echo "<span class=\"ui header\">";
@@ -181,6 +183,8 @@
       $end=$page+$section>$view_total_page?$view_total_page:$page+$section;
     ?>
 <div style="text-align: center; ">
+
+  <!-- 페이지네이션 -->
   <div class="ui pagination menu" style="box-shadow: none; ">
     <a class="<?php if($page==1) echo "disabled "; ?>icon item" href="<?php if($page<>1) echo "problemset.php?page=".($page-1).htmlentities($postfix,ENT_QUOTES,'UTF-8'); ?>" id="page_prev">  
       <i class="left chevron icon"></i>

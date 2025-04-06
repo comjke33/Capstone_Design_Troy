@@ -90,6 +90,8 @@
           </tr>
 
           <?php
+
+          // 의심되는 IP주소, 관련사용자 목록 출력
           foreach ($result1 as $row) {
             echo "<tr>";
               echo "<td>".$row['ip']."</td>";
@@ -123,6 +125,8 @@
           </tr>
 
           <?php
+
+          // 사용자 ID별로 의심된는 IP주소 출력
           foreach ($result2 as $row) {
             echo "<tr>";
               echo "<td>".$row['user_id']."</td>";

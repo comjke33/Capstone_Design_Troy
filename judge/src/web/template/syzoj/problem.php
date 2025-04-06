@@ -32,6 +32,8 @@ div[class*=ace_br] {
     <div class="row">
       <h1 class="ui header">
         <?php
+
+          // 조건을 통해 문제 상태 확인하여 제목 출력 제목은 $row['title']로 가져옴
           if($pr_flag){
             echo "$id: ".$row['title'];
             // <%= problem.title %><% if (problem.allowedEdit && !problem.is_public) { %><span class="ui tiny red label">未公开</span><% } %>";
@@ -121,6 +123,8 @@ if(file_exists($solution_file)){
     <div class="column">
       <h4 class="ui top attached block header"><?php echo $MSG_Description?></h4>
       <div id="description" class="ui bottom attached segment font-content">
+
+      <!-- bbcode_to_html() 함수를 사용하여 마크다운 형식을 HTML로 변환 -->
 		<?php if (str_contains($row['description'],"md auto_select"))echo $row['description']; else echo  bbcode_to_html($row['description']); ?></div>
     </div>
   </div>
@@ -174,6 +178,8 @@ if(file_exists($solution_file)){
         </div>
     </div>
   <?php }?>
+
+  <!-- 문제의 힌트 표시 -->
   <?php if($row['hint']||isset($_GET['spa'])){ ?>
     <div class="row">
         <div class="column">
@@ -391,7 +397,9 @@ $(document).ready(function() {
     
 <?php include("template/$OJ_TEMPLATE/footer.php");?>
 
-  <script>
+<script>
+
+// phpfm() 함수는 관리자가 파일 시스템을 편집할 수 있도록 링크를 제공합니다
 function phpfm(pid){
     //alert(pid);
     $.post("admin/phpfm.php",{'frame':3,'pid':pid,'pass':''},function(data,status){

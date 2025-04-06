@@ -11,9 +11,12 @@
 ?>
 	<div class="ui <?php echo $ui_class?> icon message">
 
+		<!-- 네비게이션 메뉴부분 -->
     <?php include("template/$OJ_TEMPLATE/nav.php");?>	    
       <!-- Main component for a primary marketing message or call to action -->
       <div class="container">
+
+	 <!-- Clean버튼을 통해 프린터 작업 모두 삭제 -->
 	 <form action="printer.php" method="post"  onsubmit="return confirm('Delete All Tasks?');">
                 <input type="hidden" name="clean" >
                 <input type="submit" class='btn btn-danger' value="Clean">

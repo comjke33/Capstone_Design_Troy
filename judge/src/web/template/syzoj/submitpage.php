@@ -9,33 +9,36 @@
     background-color:rgb(255,225,225,0.5);
 }
 
-.ace-chrome .ace_marker-layer .ace_active-line{   /*当前行*/
+.ace-chrome .ace_marker-layer .ace_active-line{   /*현재 줄*/
    background-color: rgba(0,0,199,0.3);
 }
-            .button, input, optgroup, select, textarea {  /*选择题的题号大小*/
+            .button, input, optgroup, select, textarea {  /*선택문항크기*/
     font-family: sans-serif;
     font-size: 150%;
     line-height: 1.2;
 
 }
+
+/* 배경 이미지 설정은 2025년 3월 31까지에 맞춰 적용? */
 <?php if (time() < strtotime('2025-3-31')) { ?>
 body{
         background: url("http://m.hustoj.com:8090/bg/nz.gif") 0% 0% / 100% no-repeat;
 }
 <?php } ?>
- /* 定义错误行的样式 */
+ /* 잘못된 줄의 스타일을 정의합니다. */
   .ace_error_marker {
     position: absolute;
-    background-color: rgba(255, 0, 0, 0.3); /* 红色半透明背景 */
+    background-color: rgba(255, 0, 0, 0.3); /* 레드 반투명 배경 */
   }
   </style>
     
 <center>
 
 <script src="<?php echo $OJ_CDN_URL?>include/checksource.js"></script>
+
 <form id=frmSolution action="submit.php<?php if (isset($_GET['spa'])) echo "?spa" ?>" method="post" onsubmit='do_submit()' enctype="multipart/form-data" >
 <?php if (!isset($_GET['spa']) || $solution_name ) {?>
-        <input type='file' name='answer' placeholder='Upload answer file' >
+        <input type='file' name='answer' placeholder='Upload answer file' > 
 <?php } ?>
 
 <?php if (isset($id)){?>
@@ -72,13 +75,16 @@ echo"<option value=$i ".( $lastlang==$i?"selected":"").">
 <?php echo $MSG_VCODE?>:
 <input name="vcode" size=4 type=text autocomplete=off ><img id="vcode" alt="click to change" src="vcode.php" onclick="this.src='vcode.php?'+Math.random()">
 <?php }?>
+
+<!-- 제출 처리 -->
 <button  id="Submit" type="button" class="ui primary icon button"  onclick="do_submit();"><?php echo $MSG_SUBMIT?></button> 
 <label id="countDown" ></label>
 <?php if (isset($OJ_ENCODE_SUBMIT)&&$OJ_ENCODE_SUBMIT){?>
 <input class="btn btn-success" title="WAF gives you reset ? try this." type=button value="Encoded <?php echo $MSG_SUBMIT?>"  onclick="encoded_submit();">
 <input type=hidden id="encoded_submit_mark" name="reverse2" value="reverse"/>
 <?php }?>
-<!--选择题状态-->
+
+<!-- 테스트 실행 -->
 <?php if ($spj>1 || !$OJ_TEST_RUN ){?>
 <span class="btn" id=result><?php echo $MSG_STATUS?></span>	
 <?php }?>
@@ -232,6 +238,8 @@ function fancy(td){
         window.setTimeout("$(\"#bannerFancy\",parent.document).html(\"<iframe border=0 src='fancy.php' width='100%' height='800px'></iframe>\");",500);
         window.setTimeout("$(\"#bannerFancy\",parent.document).remove();",10000);
 }
+
+// 제출된 코드의 실행 결과를 실시간으로 갱신하여 표시합니다. status-ajax.php 파일을 통해 결과를 받아오고, 그에 맞는 상태를 화면에 보여줌
 function fresh_result(solution_id)
 {
 	var tb=window.document.getElementById('result');
@@ -343,6 +351,7 @@ function encoded_submit(){
         document.getElementById("frmSolution").submit();
 }
 
+// ACE Editor나 일반 텍스트 영역에서 작성되었을 경우, 해당 코드를 source라는 이름으로 폼에 설정하고 제출
 function do_submit(){
 	 $("#Submit").attr("disabled","true");   // mouse has a bad key1
 	if(using_blockly) 
@@ -433,6 +442,7 @@ function reloadtemplate(lang){
         document.location.href=url;
 }
 
+// Blockly 기능을 활성화하면 코드 입력 영역이 숨겨지고, Blockly 에디터가 표시됩니다.
 function openBlockly(){
    $("#source").hide();
    $("#TestRun").hide();
@@ -470,6 +480,9 @@ function loadFromBlockly(){
                 echo "<iframe src=remote.php height=0px width=0px ></iframe>";
       }
 ?>
+
+<!-- ACE Editor가 활성화되어 있으면 <pre> 태그 안에 코드가 들어가
+작성된 코드는 #source에 들어가 제출시 코드가 source라는 이름으로 전송 -->
 <?php if($OJ_ACE_EDITOR){ ?>
 <script src="<?php echo $OJ_CDN_URL?>ace/ace.js"></script>
 <script src="<?php echo $OJ_CDN_URL?>ace/ext-language_tools.js"></script>
