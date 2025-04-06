@@ -4,11 +4,11 @@ include("template/$OJ_TEMPLATE/header.php");
 include("include/db_info.inc.php"); // 데이터베이스 연결을 위한 파일
 
 // solution_id 값 가져오기
-$solution_id = isset($_GET['submission_id']) ? intval($_GET['submission_id']) : 0;
+$solution_id = isset($_GET['solution_id']) ? intval($_GET['solution_id']) : 0;
 
 if ($solution_id > 0) {
     // solution_id에 해당하는 피드백 조회
-    $sql = "SELECT feedback FROM solution WHERE solution_id = ?"; // submission_id -> solution_id로 변경
+    $sql = "SELECT feedback FROM solution WHERE solution_id = ?"; 
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("i", $solution_id); // solution_id 사용
     $stmt->execute();
