@@ -15,11 +15,15 @@ if ($solution_id > 0) {
     $stmt->bind_result($feedback);
     $stmt->fetch();
     $stmt->close();
+
+    // 피드백이 비어 있으면 기본 메시지 출력
+    if (!$feedback) {
+        $feedback = "해당 제출에 대한 피드백이 없습니다.";
+    }
 } else {
     // solution_id가 없을 경우 오류 메시지
     $feedback = "피드백을 찾을 수 없습니다.";
 }
-
 ?>
 
 <!DOCTYPE html>
