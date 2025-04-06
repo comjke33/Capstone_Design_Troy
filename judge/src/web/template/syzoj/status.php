@@ -108,8 +108,6 @@
       </tr>
     </thead>
     <tbody  style='font-weight:700' >
-      <!-- <tr v-for="item in items" :config="displayConfig" :show-rejudge="false" :data="item" is='submission-item'>
-          </tr> -->
     <?php
     foreach($view_status as $row){
     $i=0;
@@ -125,6 +123,14 @@
       echo "</td>";
       $i++;
     }
+
+     // 피드백 버튼 추가 (문제를 맞지 않았을 때만 표시)
+     if ($row['result'] != 4) {
+      echo "<td><a href='feedback.php?submission_id=".$row['submission_id']."' class='ui button'>피드백</a></td>";
+      } else {
+      echo "<td>-</td>"; // 맞은 문제에는 피드백 버튼을 표시하지 않음
+    }
+
     echo "</tr>\n";
     }
     ?>
