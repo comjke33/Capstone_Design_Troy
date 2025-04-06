@@ -19,7 +19,6 @@ if ($solution_id > 0) {
     // solution_id가 없을 경우 오류 메시지
     $feedback = "피드백을 찾을 수 없습니다.";
 }
-
 ?>
 
 <!DOCTYPE html>
