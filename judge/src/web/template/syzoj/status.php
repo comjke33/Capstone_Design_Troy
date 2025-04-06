@@ -92,11 +92,19 @@
         <th ><?php echo $MSG_LANG?></th>
         <th  class='desktop-only item'><?php echo $MSG_CODE_LENGTH?></th>
         <th ><?php echo $MSG_SUBMIT_TIME?></th>
-       <?php    if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
-                                                        echo "<th class='desktop-only item'>";
-                                                                echo $MSG_JUDGER;
-                                                        echo "</th>";
-                                                } ?>
+        
+        <!-- 새로 추가된 피드백 부분 -->
+        <th><?php echo $MSG_FEEDBACK?></th>
+
+    <?php
+    if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
+        
+        echo "<th class='desktop-only item'>";
+
+        echo $MSG_JUDGER; // 페이지 링크 변수
+        echo "</th>";
+    } ?>
+
       </tr>
     </thead>
     <tbody  style='font-weight:700' >
