@@ -19,6 +19,9 @@ if ($solution_id > 0) {
     $stmt->fetch();
     $stmt->close();
 
+    // 디버깅: feedback 값 확인
+    echo "Feedback: " . $feedback; // 이 값을 확인하여 피드백이 잘 가져와졌는지 확인
+
     if (!$feedback) {
         // 피드백이 없다면 메시지 출력
         $feedback = "피드백을 찾을 수 없습니다.";
