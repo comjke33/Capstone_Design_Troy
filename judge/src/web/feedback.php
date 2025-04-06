@@ -7,6 +7,8 @@ include("include/db_info.inc.php"); // 데이터베이스 연결을 위한 파�
 $solution_id = isset($_GET['solution_id']) ? intval($_GET['solution_id']) : 0;
 
 
+echo "Solution ID: " . $solution_id;  // 이 값을 확인하여 실제로 
+
 if ($solution_id > 0) {
     // solution_id에 해당하는 피드백 조회
     $sql = "SELECT feedback FROM solution WHERE solution_id = ?";
