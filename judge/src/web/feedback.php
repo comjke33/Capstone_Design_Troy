@@ -8,7 +8,7 @@ $solution_id = isset($_GET['solution_id']) ? intval($_GET['solution_id']) : 0;
 
 if ($solution_id > 0) {
     // solution_id에 해당하는 피드백 조회
-    $sql = "SELECT feedback FROM solution WHERE solution_id = ?"; 
+    $sql = "SELECT feedback FROM solution WHERE solution_id = ?"; // solution_id로 변경
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("i", $solution_id); // solution_id 사용
     $stmt->execute();
@@ -19,6 +19,7 @@ if ($solution_id > 0) {
     // solution_id가 없을 경우 오류 메시지
     $feedback = "피드백을 찾을 수 없습니다.";
 }
+
 ?>
 
 <!DOCTYPE html>
