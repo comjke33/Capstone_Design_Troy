@@ -1,23 +1,9 @@
 <?php
-// 데이터베이스 연결
-include("../../include/db_info.inc.php"); // DB 연결을 위한 파일 (경로 수정)
+// 피드백 페이지 처리 코드
 
-// solution_id 값 가져오기
-$solution_id = isset($_GET['solution_id']) ? intval($_GET['solution_id']) : 0;
+// DB 연결 설정
+require_once '../feedback.php'; // 실제 PHP 파일을 불러옴
 
-if ($solution_id > 0) {
-    // solution_id에 해당하는 피드백 조회
-    $sql = "SELECT feedback FROM solution WHERE solution_id = ?"; 
-    $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("i", $solution_id); // solution_id 사용
-    $stmt->execute();
-    $stmt->bind_result($feedback);
-    $stmt->fetch();
-    $stmt->close();
-} else {
-    // solution_id가 없을 경우 오류 메시지
-    $feedback = "피드백을 찾을 수 없습니다.";
-}
 ?>
 
 <!DOCTYPE html>
@@ -29,9 +15,14 @@ if ($solution_id > 0) {
 <body>
     <h1>제출 피드백</h1>
     <p>
-        <?php echo $feedback; ?>
+        <?php
+        // 피드백 데이터 출력
+        if (isset($feedback)) {
+            echo $feedback;
+        } else {
+            echo "피드백을 찾을 수 없습니다.";
+        }
+        ?>
     </p>
 </body>
 </html>
-
-<?php include("../../template/$OJ_TEMPLATE/footer.php"); ?>
