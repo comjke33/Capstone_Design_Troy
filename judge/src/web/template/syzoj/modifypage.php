@@ -88,7 +88,7 @@
                                 <option value=9>9=8+<?php echo   $MSG_FRIENDLY_L9 ?></option>
                     </select>
                 </div>
-                <button name="submit" type="submit" class="ui button">重新初始化</button>
+                <button name="submit" type="submit" class="ui button">초기화</button>
             </form>
    </div>
 <?php } ?>

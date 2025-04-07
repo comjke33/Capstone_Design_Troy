@@ -31,7 +31,7 @@ if ($OJ_MENU_NEWS) {
 }
 $result = mysql_query_cache( $sql,$news_id ); //mysql_escape_string($sql));
 if ( !$result ) {
-	$new_title = $news_content = "公告不存在!";
+	$new_title = $news_content = "공지 존재 X!";
 } else {
 	foreach ( $result as $row ) {
 		$news_title=$row['title'];
