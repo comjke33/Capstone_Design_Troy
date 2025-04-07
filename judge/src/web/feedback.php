@@ -1,6 +1,6 @@
 <?php
 // 데이터베이스 연결
-include("template/$OJ_TEMPLATE/header.php");
+include("template/syzoj/header.php");
 include("include/db_info.inc.php");
 
 // solution_id 가져오기
