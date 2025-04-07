@@ -7,7 +7,7 @@ include("include/db_info.inc.php"); // 데이터베이스 연결을 위한 파�
 $solution_id = isset($_GET['solution_id']) ? intval($_GET['solution_id']) : 0;
 
 // solution_id가 유효하지 않으면 종료
-if ($solution_id <= 0) {
+if ($solution_id < 0) {
     echo "잘못된 요청입니다. solution_id가 필요합니다.";
     exit;
 }
