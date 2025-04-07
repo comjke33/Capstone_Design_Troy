@@ -62,7 +62,7 @@ if(!empty( $month_id) && isset($month_id[0][0]) ) $month_id=$month_id[0][0];else
 if($NOIP_flag[0]==0)$view_month_rank=mysql_query_cache("select user_id,nick,count(distinct(problem_id)) ac from solution where solution_id>$month_id and problem_id>0  and user_id not in (".$OJ_RANK_HIDDEN.")  and result=4 group by user_id,nick order by ac desc limit 10");
             if ( !empty($view_month_rank) ) {
         ?>
-            <h4 class="ui top attached block header"><i class="ui star icon"></i><?php echo "本月之星"?></h4>
+            <h4 class="ui top attached block header"><i class="ui star icon"></i><?php echo "이달의 우수생"?></h4>
             <div class="ui bottom attached segment">
                 <table class="ui very basic center aligned table" style="table-layout: fixed; ">
                     <tbody>
