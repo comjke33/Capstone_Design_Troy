@@ -6,6 +6,16 @@ require_once '../feedback.php'; // 실제 PHP 파일을 불러옴
 
 ?>
 
+<!-- jQuery 로드 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap 로드 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Semantic UI 로드 -->
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.1/dist/semantic.min.js"></script>
+
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
