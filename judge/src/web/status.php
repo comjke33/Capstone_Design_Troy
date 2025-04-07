@@ -458,6 +458,8 @@ for ($i=0; $i<$rows_cnt; $i++) {
     }
     
     $view_status[$i][7] = $row['code_length']." bytes";
+    $view_status[$i][8] = "<a target=\"_self\" href=\"showfeedback.php?id=" . urlencode($row['solution_id']) . "\">피드백 보기</a>";
+
         
   }
   else {
