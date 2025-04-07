@@ -458,7 +458,7 @@ for ($i=0; $i<$rows_cnt; $i++) {
     }
     
     $view_status[$i][7] = $row['code_length']." bytes";
-    $view_status[$i][8] = "<a target=\"_self\" href=\"showfeedback.php?id=" . urlencode($row['solution_id']) . "\">피드백 보기</a>";
+    
 
         
   }
@@ -480,6 +480,8 @@ for ($i=0; $i<$rows_cnt; $i++) {
   }
   else
     $view_status[$i][8]= $row['in_date'];
+
+  $view_status[$i][10] = "<a target=\"_self\" href=\"showfeedback.php?id=" . urlencode($row['solution_id']) . "\">피드백 보기</a>";
 }
 if($total_count>0) $avg_delay/= $total_count;
 
