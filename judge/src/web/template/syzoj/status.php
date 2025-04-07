@@ -124,12 +124,13 @@ foreach($view_status as $row){
         $i++;
     }
 
-    // 피드백 버튼 추가 (문제를 맞지 않았을 때만 표시)
     if ($row['result'] != 4) {  // 결과가 맞지 않은 경우 피드백 버튼을 표시
-        echo "<td><a href='feedback.php?solution_id=".$row['solution_id']."' class='ui button'>피드백</a></td>";
+      $sid = htmlspecialchars($row['solution_id'], ENT_QUOTES);
+      echo "<td><a href='showfeedback.php?solution_id={$sid}' class='ui orange mini button'>피드백 보기</a></td>";
     } else {
         echo "<td>-</td>";  // 맞은 문제에는 피드백 버튼을 표시하지 않음
     }
+  
 
     echo "</tr>\n";
 }
