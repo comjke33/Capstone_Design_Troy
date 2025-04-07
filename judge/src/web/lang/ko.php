@@ -1,6 +1,6 @@
 <?php
 	//oj-header.php
-	$MSG_FAQ="자주묻는질문";
+	$MSG_FAQ="문제해결전략 게시판";
 	$MSG_BBS="묻고답하기";
 	$MSG_HOME="처음화면";
 	$MSG_PROBLEMS="문제";
