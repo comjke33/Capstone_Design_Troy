@@ -11,19 +11,16 @@ echo "Solution ID: " . $solution_id;  // 이 값을 확인하여 실제로 URL�
 
 if ($solution_id > 0) {
     // solution_id에 해당하는 피드백 조회
-    $sql = "SELECT feedback FROM solution WHERE solution_id = ?";
+    $sql = "SELECT feedback FROM solution WHERE solution_id = ?";  // solution_id로 feedback 가져오기
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("i", $solution_id);
+    $stmt->bind_param("i", $solution_id);  // solution_id 사용
     $stmt->execute();
     $stmt->bind_result($feedback);
     $stmt->fetch();
     $stmt->close();
 
-    // 디버깅: feedback 값 확인
-    echo "Feedback: " . $feedback; // 이 값을 확인하여 피드백이 잘 가져와졌는지 확인
-
+    // 피드백이 없으면 오류 메시지 설정
     if (!$feedback) {
-        // 피드백이 없다면 메시지 출력
         $feedback = "피드백을 찾을 수 없습니다.";
     }
 } else {
@@ -40,7 +37,7 @@ if ($solution_id > 0) {
 </head>
 <body>
     <h1>제출 피드백</h1>
-    <p><?php echo $feedback; ?></p>
+    <p><?php echo $feedback; ?></p> <!-- 피드백 출력 -->
 </body>
 </html>
 
