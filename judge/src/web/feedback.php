@@ -3,12 +3,11 @@
 include("template/syzoj/header.php");
 include("include/db_info.inc.php");
 
-// 1. solution_id 가져오기 및 유효성 확인
-$solution_id = isset($_GET['solution_id']) ? intval($_GET['solution_id']) : 0;
-if ($solution_id <= 0) {
-    echo "❌ 잘못된 요청입니다. solution_id가 필요합니다.";
-    exit;
-}
+// $solution_id = isset($_GET['solution_id']) ? intval($_GET['solution_id']) : 0;
+// if ($solution_id <= 0) {
+//     echo "❌ 잘못된 요청입니다. solution_id가 필요합니다.";
+//     exit;
+// }
 
 // 2. source_code 테이블에서 해당 solution_id 존재 여부 확인
 $sql = "SELECT solution_id FROM source_code WHERE solution_id = ?";
