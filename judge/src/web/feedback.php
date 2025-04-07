@@ -3,24 +3,34 @@
 include("template/$OJ_TEMPLATE/header.php");
 include("include/db_info.inc.php"); // 데이터베이스 연결을 위한 파일
 
-// solution_id 값 가져오기
+// solution_id와 user_id 값 가져오기
 $solution_id = isset($_GET['solution_id']) ? intval($_GET['solution_id']) : 0;
+$user_id = isset($_GET['user_id']) ? htmlspecialchars($_GET['user_id'], ENT_QUOTES) : '';
 
-if ($solution_id > 0) {
-    // solution_id에 해당하는 피드백 조회
-    $sql = "SELECT feedback FROM solution WHERE solution_id = ?";
+// 디버깅: solution_id와 user_id 값 확인
+echo "Solution ID: " . $solution_id;
+echo "User ID: " . $user_id;
+
+// solution_id와 user_id에 해당하는 피드백 조회
+if ($solution_id > 0 && !empty($user_id)) {
+    $sql = "SELECT feedback FROM solution WHERE solution_id = ? AND user_id = ?";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("i", $solution_id);
+    $stmt->bind_param("is", $solution_id, $user_id);
     $stmt->execute();
     $stmt->bind_result($feedback);
     $stmt->fetch();
     $stmt->close();
 
+    // 디버깅: feedback 값 확인
+    echo "Feedback: " . $feedback;
+
     if (!$feedback) {
+        // 피드백이 없다면 메시지 출력
         $feedback = "피드백을 찾을 수 없습니다.";
     }
 } else {
-    $feedback = "잘못된 요청입니다. solution_id가 필요합니다.";
+    // solution_id 또는 user_id가 없는 경우 오류 메시지 출력
+    $feedback = "잘못된 요청입니다. solution_id와 user_id가 필요합니다.";
 }
 ?>
 
