@@ -11,6 +11,7 @@
       <label style="font-size: 1.2em; margin-right: 1px; "><?php echo $MSG_PROBLEM_ID?>：</label>
       <div class="field"><input name="problem_id" style="width: 50px; " type="text" value="<?php echo isset($problem_id)?htmlspecialchars($problem_id, ENT_QUOTES):"" ?>"></div>
         <label style="font-size: 1.2em; margin-right: 1px; "><?php echo $MSG_USER?>：</label>
+
         <div class="field"><input name="user_id" style="width: 50px; " type="text" value="<?php echo  isset($user_id)?htmlspecialchars($user_id, ENT_QUOTES):"" ?>"></div>
 
         <label style="font-size: 1.2em; margin-right: 1px; "><?php echo $MSG_SCHOOL?>：</label>
@@ -96,44 +97,46 @@
         <th ><?php echo $MSG_LANG?></th>
         <th  class='desktop-only item'><?php echo $MSG_CODE_LENGTH?></th>
         <th ><?php echo $MSG_SUBMIT_TIME?></th>
-    <?php
-    if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
-        echo "<th class='desktop-only item'>";
-        echo $MSG_JUDGER; // 페이지 링크 변수
-        echo "</th>";
-    } ?>
+    
+        <?php
+if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
+    echo "<th class='desktop-only item'>";
+    echo $MSG_JUDGER; // 페이지 링크 변수
+    echo "</th>";
+}
+?>
 
-      </tr>
-    </thead>
-    <tbody  style='font-weight:700' >
-    <?php
-    foreach($view_status as $row){
-    $i=0;
-    echo "<tr>";
-    foreach($row as $table_cell){
-      if ($i==4)
-        echo "<td class='td_result'>";
-      else if($i==0 || $i>7 && $i!=9)
-        echo "<td class='desktop-only item '>";
-      else
-        echo "<td>";
-      echo $table_cell;
-      echo "</td>";
-      $i++;
-    }
+  </tr>
+  </thead>
+  <tbody style='font-weight:700'>
+  <?php
+  foreach($view_status as $row) {
+      $i = 0;
+      echo "<tr>";
+      foreach($row as $table_cell) {
+          if ($i == 4)
+              echo "<td class='td_result'>";
+          else if($i == 0 || $i > 7 && $i != 9)
+              echo "<td class='desktop-only item '>";
+          else
+              echo "<td>";
+          echo $table_cell;
+          echo "</td>";
+          $i++;
+      }
 
-     // 피드백 버튼 추가 (문제를 맞지 않았을 때만 표시)
-     if ($row['result'] != 4) {
-      echo "<td><a href='feedback.php?solution_id=".$row['solution_id']."' class='ui button'>피드백</a></td>";
+      // 피드백 버튼 추가 (문제를 맞지 않았을 때만 표시)
+      if ($row['result'] != 4) { // 여기서 4는 '맞은 제출'을 의미하는 값입니다.
+          echo "<td><a href='feedback.php?solution_id=" . $row['solution_id'] . "' class='ui button'>피드백</a></td>";
       } else {
-      echo "<td>-</td>"; // 맞은 문제에는 피드백 버튼을 표시하지 않음
-    }
+          echo "<td>-</td>"; // 맞은 문제에는 피드백 버튼을 표시하지 않음
+      }
 
-    echo "</tr>\n";
-    }
-    ?>
+      echo "</tr>\n";
+  }
+  ?>
+  </tbody>
 
-    </tbody>
   </table>
 
   <div style="margin-bottom: 30px; ">
