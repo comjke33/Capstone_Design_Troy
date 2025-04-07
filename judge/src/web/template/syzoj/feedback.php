@@ -1,9 +1,6 @@
 <?php
 // 피드백 페이지 처리 코드
-
-// DB 연결 설정
 require_once '../feedback.php'; // 실제 PHP 파일을 불러옴
-
 ?>
 
 <!DOCTYPE html>
