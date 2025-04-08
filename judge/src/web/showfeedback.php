@@ -7,7 +7,8 @@ $sid = 0;
 
 // ✅ 예제 설명 및 정답
 $description = '아래에 "Hello World"를 출력하는 C 코드를 작성하세요.';
-$correct_source = '#include <stdio.h>
+$correct_source = 
+'#include <stdio.h>
 
 int main() {
     printf("Hello World");
