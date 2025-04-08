@@ -14,14 +14,8 @@ if (!$sid) {
 // 예시 문단
 $paragraphs = [
     [
-        'description' => '1. 사용자로부터 양의 정수 n 입력 받기',
-        'answer' => "int n;\nscanf(\"%d\", &n);",
-        'hint' => "scanf 사용 시 주소 연산자 & 가 필요합니다. 변수 선언은 소문자 int 입니다."
-    ],
-    [
-        'description' => '2. 팩토리얼 값(fact) 계산하기',
-        'answer' => "int fact = 1;\nfor(int i = 1; i <= n; i++) {\n    fact *= i;\n}",
-        'hint' => "for 문은 1부터 n까지 반복해야 하고, fact는 누적 곱으로 계산됩니다."
+        'description' => 'printf를 이용하여 Hello World 출력하기',
+        'answer' => 'printf("Hello World");',
     ]
 ];
 
