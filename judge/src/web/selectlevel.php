@@ -1,5 +1,4 @@
 <?php
-require_once("./header.php");
 
 $sid = isset($_GET['solution_id']) ? urlencode($_GET['solution_id']) : '';
 if (!$sid) {
@@ -57,6 +56,3 @@ if (!$sid) {
 </body>
 </html>
 
-<?php
-require_once("./footer.php");
-?>
