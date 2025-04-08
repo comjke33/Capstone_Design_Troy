@@ -22,7 +22,7 @@ include("template/$OJ_TEMPLATE/header.php");
 <?php else: ?>
   <div class="ui two column stackable grid">
     
-    <!-- ✅ 왼쪽: 소스 코드 영역 -->
+    <!-- ✅ 왼쪽: 소스 코드 -->
     <div class="column ten wide">
       <div class="ui segment">
         <h4 class="ui top attached header">제출 번호: <code><?= htmlspecialchars($sid) ?></code></h4>
@@ -32,12 +32,14 @@ include("template/$OJ_TEMPLATE/header.php");
       </div>
     </div>
 
-    <!-- ✅ 오른쪽: 분석/피드백 영역 -->
+    <!-- ✅ 오른쪽: 깔끔한 HUSTOJ 스타일 피드백 -->
     <div class="column six wide">
-      <div class="ui raised very padded segment" style="background: #f1f1f1; min-height: 200px;">
-        <h4 class="ui header">🔍 자동 피드백</h4>
-        <p>여기에 분석 결과나 피드백이 표시됩니다.</p>
-        <p style="color: gray;">(예: 코드 라인 3에서 반복문 사용 추천)</p>
+      <div class="ui segment">
+        <h4 class="ui dividing header">피드백</h4>
+        <div class="ui info message">
+          <p><strong>출력 부분에서 출력 양식이 틀렸습니다.</strong></p>
+          <p>문제 양식을 확인하고 알맞게 제출해주세요!</p>
+        </div>
       </div>
     </div>
 
