@@ -13,17 +13,11 @@ if (!$sid) {
 
 // 예시 정답 줄
 $correct_lines = [
-    'int n;',
-    'scanf("%d", &n);',
-    'int result = 1;',
-    'for(int i = 1; i <= n; i++) result *= i;',
+    'printf("Hello World");'
 ];
 
 $descriptions = [
-    '입력받을 변수 n 선언',
-    '변수 n에 입력 받기',
-    '팩토리얼 값을 저장할 변수 선언 및 초기화',
-    '팩토리얼 계산하기'
+    'printf를 이용하여 Hello World 출력하기'
 ];
 
 // 사용자 입력 처리
