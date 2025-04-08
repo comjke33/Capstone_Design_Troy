@@ -483,8 +483,10 @@ for ($i=0; $i<$rows_cnt; $i++) {
 
     // 피드백 (status Accepted아닐 때만 출력)
     if ($row['result'] != 4) {  // 4: Accepted
+      // 수정된 코드 (solution_id 포함)
       $sid = urlencode($row['solution_id']);
-      $view_status[$i][10] = "<a target=\"_self\" href=\"selectlevel.php\" class=\"ui orange mini button\">피드백 보기</a>";
+      $view_status[$i][10] = "<a target=\"_self\" href=\"selectlevel.php?solution_id={$sid}\" class=\"ui orange mini button\">피드백 보기</a>";
+
     } else {
         $view_status[$i][10] = "-";
     }
