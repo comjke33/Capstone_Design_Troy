@@ -1,43 +1,47 @@
 <div class="ui two column stackable grid">
     
-<!-- ✅ 왼쪽: 한 문단씩 풀기 -->
-<div class="column six wide">
-        <div class="ui segment">
-            <h4 class="ui dividing header">한 문단씩 풀기</h4>
+  <!-- ✅ 왼쪽: 한 문단씩 풀기 -->
+  <div class="column ten wide">
+    <div class="ui segment">
+      <h4 class="ui dividing header">한 문단씩 풀기</h4>
 
-            <form method="post" class="ui form">
-                <?php foreach ($paragraphs as $i => $block): ?>
-                    <div class="field step">
-                        <label>
-                            <?= $descriptions[$i] ?>
-                            <?php if (isset($results[$i]) && $results[$i]): ?> ✅<?php endif; ?>
-                        </label>
+      <form method="post" class="ui form">
+        <?php foreach ($correct_paragraphs as $i => $answer): ?>
+          <div class="field step">
+            <label>
+              <?= $descriptions[$i] ?>
+              <?php if (isset($results[$i]) && $results[$i]): ?> ✅<?php endif; ?>
+            </label>
 
-                        <textarea name="para_<?= $i ?>" rows="6"
-                            class="ui textarea"
-                            style="<?= isset($results[$i]) && $results[$i] ? 'background-color: #f0f0f0;' : '' ?>"
-                            <?= isset($results[$i]) && $results[$i] ? 'readonly' : '' ?>><?= htmlspecialchars($user_inputs[$i] ?? '') ?></textarea>
+            <textarea name="para_<?= $i ?>" rows="6"
+              class="ui textarea"
+              style="<?= isset($results[$i]) && $results[$i] ? 'background-color: #f0f0f0;' : '' ?>"
+              <?= isset($results[$i]) && $results[$i] ? 'readonly' : '' ?>
+            ><?= htmlspecialchars($user_inputs[$i] ?? '') ?></textarea>
 
-                        <button class="ui blue button" type="submit">제출</button>
-                    </div>
+            <button class="ui blue button" type="submit" name="submit" value="<?= $i ?>">제출</button>
+          </div>
+        <?php endforeach; ?>
 
-                <?php endforeach; ?>
-            </form>
-
-        </div>
+        <!-- ✅ 모든 문단 정답 시 완료 버튼 활성화 -->
+        <?php if (count($results) === count($correct_paragraphs) && array_sum($results) === count($correct_paragraphs)): ?>
+          <div style="text-align: right; margin-top: 1em;">
+            <a href="selectlevel.php?solution_id=<?= htmlspecialchars(urlencode($sid)) ?>" class="ui yellow button">완료</a>
+          </div>
+        <?php endif; ?>
+      </form>
     </div>
+  </div>
 
-    <!-- ✅ 오른쪽: 깔끔한 HUSTOJ 스타일 피드백 -->
-    <div class="column six wide">
-      <div class="ui segment">
-        <h4 class="ui dividing header">피드백</h4>
-        <div class="ui info message">
-          <p><strong>출력 부분에서 출력 양식이 틀렸습니다.</strong></p>
-          <p>문제 양식을 확인하고 알맞게 제출해주세요!</p>
-        </div>
+  <!-- ✅ 오른쪽: 피드백 안내 -->
+  <div class="column six wide">
+    <div class="ui segment">
+      <h4 class="ui dividing header">피드백</h4>
+      <div class="ui info message">
+        <p><strong>문단을 정확히 작성하면 체크 표시가 나타납니다.</strong></p>
+        <p>모든 문단이 정답일 경우에만 '완료' 버튼이 활성화됩니다.</p>
       </div>
     </div>
-
-    
+  </div>
 
 </div>
