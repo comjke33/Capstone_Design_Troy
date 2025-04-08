@@ -46,7 +46,7 @@ h3.pagenav div.item{
 }
 
 h3.pagenav div.item:hover{
-   background-color: #ddd;
+   background-color: #ffffff;
    cursor: pointer;
 }
 
@@ -72,3 +72,10 @@ h3.pagenav div.active{
    font-size:18px;
    line-height:28px;
 }
+
+/* 배경 제거과정 */
+html, body, #MainBg-C {
+   background: #ffffff !important;
+   background-image: none !important;
+ }
+ 
