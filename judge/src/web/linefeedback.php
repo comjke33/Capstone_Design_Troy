@@ -1,12 +1,15 @@
 <?php
+require_once("./header.php");
+
 // solution_id 받기
 $solution_id = isset($_GET['solution_id']) ? $_GET['solution_id'] : null;
 if (!$solution_id) {
     echo "solution_id가 없습니다.";
+    require_once("./footer.php");
     exit;
 }
 
-// 예시: 실제로는 DB에서 받아올 부분
+// 예시 정답
 $correct_lines = [
     'int n;',
     'scanf("%d", &n);',
@@ -21,7 +24,6 @@ $descriptions = [
     '팩토리얼 계산하기'
 ];
 
-// 사용자가 제출한 답 확인
 $user_inputs = [];
 $results = [];
 
@@ -34,21 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>한 줄씩 피드백</title>
-    <style>
-        .correct { background-color: #d4edda; }
-        .hint { color: gray; font-size: 0.9em; }
-        .step { margin-bottom: 20px; }
-    </style>
-</head>
-<body>
-    <h3>(1단계)</h3>
-    <form method="post">
-        <?php foreach ($correct_lines as $i => $line): ?>
+<h3>(1단계)</h3>
+<form method="post">
+    <?php foreach ($correct_lines as $i => $line): ?>
         <div class="step">
             <p><?= ($i+1) . '. ' . $descriptions[$i] ?>
                 <?php if (isset($results[$i]) && $results[$i]): ?>
@@ -64,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="hint">힌트: Scanf를 사용할 때는 변수 앞에 ~~</div>
             <?php endif; ?>
         </div>
-        <?php endforeach; ?>
-    </form>
-</body>
-</html>
+    <?php endforeach; ?>
+</form>
+
+<?php require_once("./footer.php"); ?>
