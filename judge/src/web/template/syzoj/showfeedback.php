@@ -5,20 +5,29 @@ include("template/$OJ_TEMPLATE/header.php");
 
 <script src="template/<?php echo $OJ_TEMPLATE ?>/js/textFit.min.js"></script>
 
-<div class="padding">
+<div class="ui container" style="margin-top: 2em;">
 
 <?php if ($solution_id <= 0): ?>
-  <div class="ui red message">❌ 유효하지 않은 solution_id입니다.</div>
+  <div class="ui negative message">
+    <div class="header">잘못된 요청입니다</div>
+    <p>solution_id 값이 유효하지 않습니다.</p>
+  </div>
 
 <?php elseif (!$sid): ?>
-  <div class="ui red message">❌ 해당 제출을 찾을 수 없습니다.</div>
+  <div class="ui warning message">
+    <div class="header">제출을 찾을 수 없습니다</div>
+    <p>해당 solution_id에 대한 소스코드가 존재하지 않습니다.</p>
+  </div>
 
 <?php else: ?>
-  <h2>🧾 제출 번호: <code><?= htmlspecialchars($sid) ?></code></h2>
-  <h3>📄 소스 코드</h3>
-  <pre style="background:#f8f8f8; padding:15px; border:1px solid #ccc; border-radius:6px; font-family:monospace; overflow:auto;">
+  <div class="ui segment">
+    <h3 class="ui header">제출 번호: <code><?= htmlspecialchars($sid) ?></code></h3>
+
+    <div class="ui top attached header">소스 코드</div>
+    <pre class="ui attached segment" style="background: #f9f9f9; font-family: monospace; overflow-x: auto; white-space: pre-wrap; border-radius: 0;">
 <?= htmlspecialchars($source) ?>
-  </pre>
+    </pre>
+  </div>
 <?php endif; ?>
 
 </div>
