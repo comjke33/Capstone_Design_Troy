@@ -125,7 +125,9 @@
         if(!isset($_GET['spa'])){
 ?>
    
-<body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+   <!-- 워터마크 제거  -->
+   <body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+
     
     <!-- 사이트 이름 표시, 메뉴 항목 링크제공 -->
     <div id="page-header" class="ui fixed borderless menu" style="position: fixed; height: 49px; z-index:99999">
