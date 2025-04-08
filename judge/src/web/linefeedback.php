@@ -1,15 +1,17 @@
 <?php
-require_once("../template/syzoj/header.php");
+$OJ_TEMPLATE = "syzoj";
+$show_title = "한 줄 피드백";
+$sid = isset($_GET['solution_id']) ? $_GET['solution_id'] : null;
 
-// solution_id 받기
-$solution_id = isset($_GET['solution_id']) ? $_GET['solution_id'] : null;
-if (!$solution_id) {
-    echo "solution_id가 없습니다.";
-    require_once("../template/syzoj/footer.php");
+include("template/$OJ_TEMPLATE/header.php");
+
+if (!$sid) {
+    echo "<div class='ui warning message'><div class='header'>solution_id가 없습니다.</div></div>";
+    include("template/$OJ_TEMPLATE/footer.php");
     exit;
 }
 
-// 예시 데이터 (향후 DB로 교체 가능)
+// 예시 정답 줄
 $correct_lines = [
     'int n;',
     'scanf("%d", &n);',
@@ -24,7 +26,7 @@ $descriptions = [
     '팩토리얼 계산하기'
 ];
 
-// 사용자 입력/결과 처리
+// 사용자 입력 처리
 $user_inputs = [];
 $results = [];
 
@@ -36,8 +38,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// 템플릿 파일 include (뷰 역할)
-include("../template/syzoj/linefeedback.php");
-
-require_once("../template/syzoj/footer.php");
-?>
+include("template/$OJ_TEMPLATE/linefeedback.php");
+include("template/$OJ_TEMPLATE/footer.php");
