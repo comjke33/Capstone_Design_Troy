@@ -182,3 +182,12 @@ static $OJ_MENU_NEWS = true;
 
 require_once(dirname(__FILE__) . "/pdo.php");
 require_once(dirname(__FILE__) . "/init.php");
+
+$mysqli = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
+
+// mysqli 연결 추가
+if ($mysqli->connect_errno) {
+    die("❌ DB 연결 실패: " . $mysqli->connect_error);
+}
+
+$mysqli->set_charset("utf8");
