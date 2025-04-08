@@ -17,7 +17,7 @@
         position: relative;
         width: 100%;
         bottom: 0;
-        background: transparent;
+        background: none;
         border-radius: 0;
         box-shadow: none;
     }
