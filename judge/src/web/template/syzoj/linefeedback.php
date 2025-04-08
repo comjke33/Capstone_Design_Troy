@@ -1,19 +1,9 @@
 <div class="ui two column stackable grid">
     
-    <!-- ✅ 왼쪽: 소스 코드 보기 -->
-    <div class="column ten wide">
+<!-- ✅ 왼쪽: 한 줄씩문제 풀기 -->
+<div class="column six wide">
         <div class="ui segment">
-            <h4 class="ui top attached header">제출 번호: <code><?= htmlspecialchars($sid) ?></code></h4>
-            <div class="ui attached segment" style="background: #f9f9f9; padding: 15px; border-radius: 0; font-family: monospace; white-space: pre-wrap; overflow-x: auto;">
-<?= htmlspecialchars($source ?? '소스코드가 없습니다.') ?>
-            </div>
-        </div>
-    </div>
-
-    <!-- ✅ 오른쪽: 피드백 프롬프트 -->
-    <div class="column six wide">
-        <div class="ui segment">
-            <h4 class="ui dividing header">한 줄 피드백</h4>
+            <h4 class="ui dividing header">한 줄씩 풀기</h4>
 
             <form method="post" class="ui form">
                 <?php foreach ($correct_lines as $i => $line): ?>
@@ -35,5 +25,18 @@
 
         </div>
     </div>
+
+    <!-- ✅ 오른쪽: 깔끔한 HUSTOJ 스타일 피드백 -->
+    <div class="column six wide">
+      <div class="ui segment">
+        <h4 class="ui dividing header">피드백</h4>
+        <div class="ui info message">
+          <p><strong>출력 부분에서 출력 양식이 틀렸습니다.</strong></p>
+          <p>문제 양식을 확인하고 알맞게 제출해주세요!</p>
+        </div>
+      </div>
+    </div>
+
+    
 
 </div>
