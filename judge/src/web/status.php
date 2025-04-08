@@ -481,6 +481,7 @@ for ($i=0; $i<$rows_cnt; $i++) {
   else
     $view_status[$i][8]= $row['in_date'];
 
+    // 피드백 (status Accepted아닐 때만 출력)
     if ($row['result'] != 4) {  // 4: Accepted
       $sid = urlencode($row['solution_id']);
       $view_status[$i][10] = "<a target=\"_self\" href=\"showfeedback.php?solution_id={$sid}\" class=\"ui orange mini button\">피드백 보기</a>";

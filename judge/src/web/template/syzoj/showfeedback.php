@@ -20,13 +20,27 @@ include("template/$OJ_TEMPLATE/header.php");
   </div>
 
 <?php else: ?>
-  <div class="ui segment">
-    <h3 class="ui header">제출 번호: <code><?= htmlspecialchars($sid) ?></code></h3>
-
-    <div class="ui top attached header">소스 코드</div>
-    <pre class="ui attached segment" style="background: #f9f9f9; font-family: monospace; overflow-x: auto; white-space: pre-wrap; border-radius: 0;">
+  <div class="ui two column stackable grid">
+    
+    <!-- ✅ 왼쪽: 소스 코드 영역 -->
+    <div class="column ten wide">
+      <div class="ui segment">
+        <h4 class="ui top attached header">제출 번호: <code><?= htmlspecialchars($sid) ?></code></h4>
+        <div class="ui attached segment" style="background: #f9f9f9; padding: 15px; border-radius: 0; font-family: monospace; white-space: pre-wrap; overflow-x: auto;">
 <?= htmlspecialchars($source) ?>
-    </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ 오른쪽: 분석/피드백 영역 -->
+    <div class="column six wide">
+      <div class="ui raised very padded segment" style="background: #f1f1f1; min-height: 200px;">
+        <h4 class="ui header">🔍 자동 피드백</h4>
+        <p>여기에 분석 결과나 피드백이 표시됩니다.</p>
+        <p style="color: gray;">(예: 코드 라인 3에서 반복문 사용 추천)</p>
+      </div>
+    </div>
+
   </div>
 <?php endif; ?>
 
