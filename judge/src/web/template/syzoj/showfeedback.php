@@ -28,13 +28,20 @@ include("template/$OJ_TEMPLATE/header.php");
         <h4 class="ui dividing header">전체 코드 입력</h4>
         <form method="post" class="ui form">
           <div class="field">
-            <label>  'Hello World'를 출력하시오.</label>
-            <textarea name="full_source" rows="20" style="font-family: monospace;"><?= htmlspecialchars($_POST['full_source'] ?? '') ?></textarea>
+            <label>
+              'Hello World'를 출력하시오.
+              <?php if ($result): ?> ✅<?php endif; ?>
+            </label>
+            <textarea name="full_source" rows="20" style="font-family: monospace; <?= $result ? 'background-color: #f0f0f0;' : '' ?>" 
+              class="ui textarea"
+              <?= $result ? 'readonly' : '' ?>
+            ><?= htmlspecialchars($_POST['full_source'] ?? '') ?></textarea>
           </div>
           <button class="ui blue button" type="submit">제출</button>
         </form>
       </div>
     </div>
+
 
     <!-- ✅ 오른쪽: 깔끔한 HUSTOJ 스타일 피드백 -->
     <div class="column six wide">
