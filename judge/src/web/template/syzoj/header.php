@@ -98,17 +98,14 @@
         }
 }
 
-/**毛玻璃背景*/
+
 .padding {
-  background: rgba(255,255,255,0.6);
-  box-shadow: inset 5px 5px 20px 0px rgba(255,255,255,0.1);
-  border-radius: 20px;
-      box-shadow: 10px -10px 20px rgb(255 255 255 / 20%), -10px 10px 20px rgb(255 255 255 / 10%);
-  backdrop-filter: blur(7px);
-  border-bottom:3px solid rgba(255,255,255,0.4);
-  border-right: 3px solid rgba(255,255,255,0.4);
-  border-left: 3px solid rgba(255, 255, 255, 0.4);
+  background: #ffffff !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: none !important;
 }
+
 
 </style>
     <script src="<?php echo "$OJ_CDN_URL/include/"?>jquery-latest.js"></script>
@@ -127,7 +124,6 @@
    
    <!-- 워터마크 제거  -->
    <body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
-
     
     <!-- 사이트 이름 표시, 메뉴 항목 링크제공 -->
     <div id="page-header" class="ui fixed borderless menu" style="position: fixed; height: 49px; z-index:99999">
