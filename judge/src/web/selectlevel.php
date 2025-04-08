@@ -2,6 +2,10 @@
 require_once("./header.php");
 
 $sid = isset($_GET['solution_id']) ? urlencode($_GET['solution_id']) : '';
+if (!$sid) {
+    echo "<p style='color:red; text-align:center;'>solution_id가 전달되지 않았습니다.</p>";
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -29,6 +33,8 @@ $sid = isset($_GET['solution_id']) ? urlencode($_GET['solution_id']) : '';
             cursor: pointer;
             transition: background-color 0.3s ease;
             min-width: 200px;
+            text-align: center;
+            text-decoration: none;
         }
 
         .btn:hover {
