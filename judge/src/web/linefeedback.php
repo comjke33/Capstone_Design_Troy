@@ -1,15 +1,15 @@
 <?php
-require_once("./header.php");
+require_once("../template/syzoj/header.php");
 
 // solution_id 받기
 $solution_id = isset($_GET['solution_id']) ? $_GET['solution_id'] : null;
 if (!$solution_id) {
     echo "solution_id가 없습니다.";
-    require_once("./footer.php");
+    require_once("../template/syzoj/footer.php");
     exit;
 }
 
-// 예시 정답
+// 예시 데이터 (향후 DB로 교체 가능)
 $correct_lines = [
     'int n;',
     'scanf("%d", &n);',
@@ -24,6 +24,7 @@ $descriptions = [
     '팩토리얼 계산하기'
 ];
 
+// 사용자 입력/결과 처리
 $user_inputs = [];
 $results = [];
 
@@ -34,27 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $results[$index] = trim($input) === $answer;
     }
 }
+
+// 템플릿 파일 include (뷰 역할)
+include("../template/syzoj/linefeedback.php");
+
+require_once("../template/syzoj/footer.php");
 ?>
-
-<h3>(1단계)</h3>
-<form method="post">
-    <?php foreach ($correct_lines as $i => $line): ?>
-        <div class="step">
-            <p><?= ($i+1) . '. ' . $descriptions[$i] ?>
-                <?php if (isset($results[$i]) && $results[$i]): ?>
-                    ✅
-                <?php endif; ?>
-            </p>
-            <textarea name="line_<?= $i ?>" rows="2" cols="40"
-                class="<?= isset($results[$i]) && $results[$i] ? 'correct' : '' ?>"
-                <?= isset($results[$i]) && $results[$i] ? 'readonly' : '' ?>
-            ><?= htmlspecialchars($user_inputs[$i] ?? '') ?></textarea>
-            <button type="submit" name="submit" value="<?= $i ?>">제출</button>
-            <?php if (isset($results[$i]) && !$results[$i] && !empty($user_inputs[$i])): ?>
-                <div class="hint">힌트: Scanf를 사용할 때는 변수 앞에 ~~</div>
-            <?php endif; ?>
-        </div>
-    <?php endforeach; ?>
-</form>
-
-<?php require_once("./footer.php"); ?>

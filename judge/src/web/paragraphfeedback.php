@@ -1,15 +1,15 @@
 <?php
-require_once("./header.php");
+require_once("../template/syzoj/header.php");
 
 // solution_id 받기
 $solution_id = isset($_GET['solution_id']) ? $_GET['solution_id'] : null;
 if (!$solution_id) {
     echo "solution_id가 없습니다.";
-    require_once("./footer.php");
+    require_once("../template/syzoj/footer.php");
     exit;
 }
 
-// 문단별 정답/힌트
+// 예시 문단 데이터
 $paragraphs = [
     [
         'description' => '1. 사용자로부터 양의 정수 n 입력 받기',
@@ -23,6 +23,7 @@ $paragraphs = [
     ]
 ];
 
+// 사용자 입력 및 평가 처리
 $user_inputs = [];
 $results = [];
 
@@ -33,31 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $normalized_input = preg_replace('/\s+/', '', $input);
         $normalized_answer = preg_replace('/\s+/', '', $block['answer']);
+
         $results[$index] = ($normalized_input === $normalized_answer);
     }
 }
-?>
 
-<h2>(2단계)</h2>
-<form method="post">
-    <?php foreach ($paragraphs as $i => $block): ?>
-        <div class="step">
-            <p><?= $block['description'] ?>
-                <?php if (isset($results[$i]) && $results[$i]): ?>
-                    ✅
-                <?php endif; ?>
-            </p>
-            <textarea name="para_<?= $i ?>" rows="6" cols="60"
-                class="<?= isset($results[$i]) && $results[$i] ? 'correct' : '' ?>"
-                <?= isset($results[$i]) && $results[$i] ? 'readonly' : '' ?>
-            ><?= htmlspecialchars($user_inputs[$i] ?? '') ?></textarea>
-            <br>
-            <button type="submit">제출</button>
-            <?php if (isset($results[$i]) && !$results[$i] && !empty($user_inputs[$i])): ?>
-                <div class="hint">피드백 칸<br><?= $block['hint'] ?></div>
-            <?php endif; ?>
-        </div>
-    <?php endforeach; ?>
-</form>
+// 템플릿 호출
+include("../template/syzoj/paragraphfeedback.php");
 
-<?php require_once("./footer.php"); ?>
+require_once("../template/syzoj/footer.php");
