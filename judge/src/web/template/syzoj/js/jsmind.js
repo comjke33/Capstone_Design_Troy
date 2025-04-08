@@ -2638,33 +2638,7 @@
                 node_element.style.fontStyle = node_data['font-style'];
             }
             if('background-image' in node_data) {
-                var backgroundImage = node_data['background-image'];
-                if (backgroundImage.startsWith('data') && node_data['width'] && node_data['height']) {
-                    var img = new Image();
-
-                    img.onload = function() {
-                        var c = $c('canvas');
-                        c.width = node_element.clientWidth;
-                        c.height = node_element.clientHeight;
-                        var img = this;
-                        if(c.getContext) {
-                            var ctx = c.getContext('2d');
-                            ctx.drawImage(img, 2, 2, node_element.clientWidth, node_element.clientHeight);
-                            var scaledImageData = c.toDataURL();
-                            node_element.style.backgroundImage='url('+scaledImageData+')';
-                        }
-                    };
-                    img.src = backgroundImage;
-
-                } else {
-                    node_element.style.backgroundImage='url('+backgroundImage+')';
-                }
-                node_element.style.backgroundSize='99%';
-
-                if('background-rotation' in node_data){
-                    node_element.style.transform = 'rotate(' + node_data['background-rotation'] + 'deg)';
-                }
-
+                //배경 이미지 X
             }
         },
 

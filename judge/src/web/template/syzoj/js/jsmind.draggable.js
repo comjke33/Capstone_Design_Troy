@@ -86,8 +86,7 @@
             s.top = el.style.top;
             s.width = el.style.width;
             s.height = el.style.height;
-            s.backgroundImage = el.style.backgroundImage;
-            s.backgroundSize = el.style.backgroundSize;
+            // s.backgroundImage = el.style.backgroundImage;
             s.transform = el.style.transform;
             this.shadow_w = this.shadow.clientWidth;
             this.shadow_h = this.shadow.clientHeight;
