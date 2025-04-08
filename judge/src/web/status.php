@@ -481,7 +481,13 @@ for ($i=0; $i<$rows_cnt; $i++) {
   else
     $view_status[$i][8]= $row['in_date'];
 
-  $view_status[$i][10] = "<a target=\"_self\" href=\"showfeedback.php?solution_id=" . urlencode($row['solution_id']) ."\">피드백 보기</a>";
+    if ($row['result'] != 4) {  // 4: Accepted
+      $sid = urlencode($row['solution_id']);
+      $view_status[$i][10] = "<a target=\"_self\" href=\"showfeedback.php?solution_id={$sid}\" class=\"ui orange mini button\">피드백 보기</a>";
+  } else {
+      $view_status[$i][10] = "-";  // Accepted일 경우 표시 안 함
+  }
+  
 }
 if($total_count>0) $avg_delay/= $total_count;
 
