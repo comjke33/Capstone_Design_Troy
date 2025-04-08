@@ -73,9 +73,10 @@ h3.pagenav div.active{
    line-height:28px;
 }
 
-/* 배경 제거과정 */
-html, body, #MainBg-C {
+.padding {
    background: #ffffff !important;
-   background-image: none !important;
+   backdrop-filter: none !important;
+   box-shadow: none !important;
+   border: none !important;
  }
  
