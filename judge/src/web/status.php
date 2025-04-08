@@ -481,7 +481,7 @@ for ($i=0; $i<$rows_cnt; $i++) {
   else
     $view_status[$i][8]= $row['in_date'];
 
-  $view_status[$i][10] = "<a target=\"_self\" href=\"showfeedback.php?id=" . urlencode($row['solution_id']) ."\">피드백 보기</a>";
+  $view_status[$i][10] = "<a target=\"_self\" href=\"showfeedback.php?solution_id=" . urlencode($row['solution_id']) ."\">피드백 보기</a>";
 }
 if($total_count>0) $avg_delay/= $total_count;
 

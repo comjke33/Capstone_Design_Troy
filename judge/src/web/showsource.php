@@ -12,6 +12,14 @@ if (!isset($_GET['id'])){
 	require("template/".$OJ_TEMPLATE."/error.php");
 	exit(0);
 }
+
+$id =intval($_GET['id']);
+
+//solution 테이블에 추가
+$sql = "INSERT INTO solution (solution_id) VALUES (?) 
+        ON DUPLICATE KEY UPDATE solution_id = ?";
+pdo_query($sql, $id, $id);
+
 $ok=false;
 $id=intval($_GET['id']);
 $sql="SELECT * FROM `solution` WHERE `solution_id`=?";
