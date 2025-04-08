@@ -487,7 +487,6 @@ for ($i=0; $i<$rows_cnt; $i++) {
   } else {
       $view_status[$i][10] = "-";  // Accepted일 경우 표시 안 함
   }
-  
 }
 if($total_count>0) $avg_delay/= $total_count;
 
