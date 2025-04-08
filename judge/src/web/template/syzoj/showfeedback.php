@@ -28,7 +28,7 @@ include("template/$OJ_TEMPLATE/header.php");
         <h4 class="ui dividing header">전체 코드 입력</h4>
         <form method="post" class="ui form">
           <div class="field">
-            <label>아래 칸에 전체 C 코드를 입력하세요:</label>
+            <label>  'Hello World'를 출력하시오.</label>
             <textarea name="full_source" rows="20" style="font-family: monospace;"><?= htmlspecialchars($_POST['full_source'] ?? '') ?></textarea>
           </div>
           <button class="ui blue button" type="submit">제출</button>
