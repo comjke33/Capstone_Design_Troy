@@ -27,10 +27,20 @@ include("template/$OJ_TEMPLATE/header.php");
       <div class="ui segment">
         <h4 class="ui top attached header">제출 번호: <code><?= htmlspecialchars($sid) ?></code></h4>
         <div class="ui attached segment" style="background: #f9f9f9; padding: 15px; border-radius: 0; font-family: monospace; white-space: pre-wrap; overflow-x: auto;">
-<?= htmlspecialchars($source) ?>
+
+          <?php if (isset($_SESSION['administrator']) && $_SESSION['administrator']): ?>
+            <?= htmlspecialchars($source) ?>
+          <?php else: ?>
+            <div class="ui warning message">
+              <div class="header">소스코드는 관리자만 볼 수 있습니다</div>
+              <p>관리 권한이 있는 사용자만 해당 코드를 열람할 수 있습니다.</p>
+            </div>
+          <?php endif; ?>
+
         </div>
       </div>
     </div>
+
 
     <!-- ✅ 오른쪽: 깔끔한 HUSTOJ 스타일 피드백 -->
     <div class="column six wide">
