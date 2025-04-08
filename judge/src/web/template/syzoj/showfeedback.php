@@ -38,9 +38,18 @@ include("template/$OJ_TEMPLATE/header.php");
             ><?= htmlspecialchars($_POST['full_source'] ?? '') ?></textarea>
           </div>
           <button class="ui blue button" type="submit">제출</button>
+
+          <!-- ✅ 정답일 경우에만 완료 버튼 출력 -->
+          <?php if ($result): ?>
+            <div style="text-align: right; margin-top: 1em;">
+              <a href="selectlevel.php?solution_id=<?= htmlspecialchars(urlencode($sid)) ?>" class="ui yellow button">완료</a>
+            </div>
+          <?php endif; ?>
+          
         </form>
       </div>
     </div>
+
 
 
     <!-- ✅ 오른쪽: 깔끔한 HUSTOJ 스타일 피드백 -->
