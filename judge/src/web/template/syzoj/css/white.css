@@ -21,18 +21,14 @@
 .mynav {
    margin-top: 20px
 }
-.panel-default{
-   padding: 5px;
-   background-image: url(../../image/background.jpg);
-   border: 1px solid #eee;
-   margin-top:50px;
+
+/* 완전히 배경 제거 */
+.panel-default,
+.container .jumbotron {
+   background-color: #ffffff !important;
+   background-image: none !important;
 }
-.container .jumbotron{
-   padding: 5px;
-   background-image: url(../../image/background.jpg);
-   border: 1px solid #eee;
-   margin-top:50px;
-}
+
 
 h3.pagenav {
    margin-top: 5px;
