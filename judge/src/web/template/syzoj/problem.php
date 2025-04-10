@@ -36,12 +36,11 @@ div[class*=ace_br] {
           // 조건을 통해 문제 상태 확인하여 제목 출력 제목은 $row['title']로 가져옴
           if($pr_flag){
             echo "$id: ".$row['title'];
-            // <%= problem.title %><% if (problem.allowedEdit && !problem.is_public) { %><span class="ui tiny red label">未公开</span><% } %>";
-            //echo "<title>$MSG_PROBLEM".$row['problem_id']."--". $row['title']."</title>";
-            //echo "<center><h2><strong>$id: ".$row['title']."</strong></h2>";
+            // echo "<title>$MSG_PROBLEM".$row['problem_id']."--". $row['title']."</title>";
+            // echo "<center><h2><strong>$id: ".$row['title']."</strong></h2>";
           }else{
             $id=$row['problem_id'];
-            //echo "<title>$MSG_PROBLEM ".$PID[$pid].": ".$row['title']." </title>";
+            // echo "<title>$MSG_PROBLEM ".$PID[$pid].": ".$row['title']." </title>";
             echo "$MSG_PROBLEM ".$PID[$pid].": ".$row['title'];
           }
           if($row['defunct']=="Y")
@@ -67,10 +66,10 @@ if(file_exists($solution_file)){
 	      
 	  <span class="ui label" problem_id="<?php echo $id?>" ><?php echo $MSG_Memory_Limit ?>：<span tb="problem" fd="memory_limit"><?php echo $row['memory_limit']; ?></span> MB</span>
           <span class="ui label" problem_id="<?php echo $id?>" ><?php echo $MSG_Time_Limit ?>：<span tb="problem" fd="time_limit"><?php echo $row['time_limit']; ?></span> S</span>
-         <!-- <span class="ui label">标准输入输出</span> -->
+         <!-- <span class="ui label">표준 입력 출력</span> -->
       </div>
       <div class="row" style="margin-top: -23px">
-        <!--   <span class="ui label">题目类型：传统</span> -->
+        <!--   <span class="ui label">문제 유형: 전통적</span> -->
           <span class="ui label"><?php echo $MSG_JUDGE_STYLE ?>：<?php echo array($MSG_NJ,$MSG_SPJ,$MSG_RTJ)[$row['spj']] ; ?> </span>
           <span class="ui label"><?php echo $MSG_Creator ?>：<span id='creator'></span></span>
       </div>
@@ -156,9 +155,7 @@ if(file_exists($solution_file)){
         <div class="column">
           <h4 class="ui top attached block header"><?php echo $MSG_Sample_Input?> 
           </h4>
-          <!-- <span class=copy id=\"copyin\" data-clipboard-text=\"".($sinput)."\"><?php echo $MSG_COPY; ?></span> -->
           <div class="ui bottom attached segment font-content">
-            <!-- <pre><?php echo ($sinput); ?></pre> -->
             <pre style="margin-top: 0; margin-bottom: 0; "><code id='sinput' class="lang-plain"><?php echo ($sinput); ?></code></pre>
           </div>
         </div>
@@ -169,11 +166,8 @@ if(file_exists($solution_file)){
         <div class="column">
           <h4 class="ui top attached block header"><?php echo $MSG_Sample_Output?>
           </h4>
-          <!-- <span class=copy id=\"copyout\" data-clipboard-text=\"".($soutput)."\"><?php echo $MSG_COPY; ?></span> -->
           <div class="ui bottom attached segment font-content">
-            <!-- <div class="ui existing segment"> -->
-              <pre style="margin-top: 0; margin-bottom: 0; "><code id='soutput' class="lang-plain"><?php echo ($soutput); ?></code></pre>
-            <!-- </div> -->
+            <pre style="margin-top: 0; margin-bottom: 0; "><code id='soutput' class="lang-plain"><?php echo ($soutput); ?></code></pre>
           </div>
         </div>
     </div>
@@ -188,6 +182,7 @@ if(file_exists($solution_file)){
         </div>
     </div>
   <?php }?>
+
   <?php
     $color=array("blue","teal","orange","pink","olive","red","violet","yellow","green","purple");
     $tcolor=0;
@@ -242,6 +237,8 @@ if(file_exists($solution_file)){
           
       </div>
 </div>
+
+
 <style>
     #dragButton {
   width: 10px;
@@ -250,14 +247,14 @@ if(file_exists($solution_file)){
   position: absolute;
   top:350px;
   left: 0;
-  cursor: col-resize; /* 显示可调整宽度的光标 */
+  cursor: col-resize; /* 너비 조정 커서를 표시 */
 }
 </style>
   <script type="text/javascript">
   
   function transform(){
         let height=document.body.clientHeight;
-<?php if ( $row[ 'spj' ]==2 ) {?>
+<?php if ( $row[ 'spj' ]==2 ) { ?>
 			let width=parseInt(document.body.clientWidth*0.3);
 			let width2=parseInt(document.body.clientWidth*0.7);
 <?php }else{ ?>
@@ -286,8 +283,8 @@ if(file_exists($solution_file)){
 	<?php if ($row['spj']>1){ ?>
             window.setTimeout('$("iframe")[0].contentWindow.$("#TestRun").remove();',1000);
         <?php }?>
-      
-// Add code to place drag button on the left side of the iframe
+
+// iframe 왼쪽에 드래그 버튼 추가
 $("#submitPage").prepend("<div id='dragButton'></div>");
 $(document).ready(function() {
     let isDragging = false;
@@ -311,9 +308,9 @@ $(document).ready(function() {
     }
 
 
-    // 鼠标按下时开始拖拽，颜色变为绿色
+    // 마우스를 눌렀을 때 드래그 시작, 색깔을 녹색으로 변경
     $("#dragButton").mousedown(function(event) {
-        if (event.target === this) { // Only allow dragging if the mouse button is clicked on the drag button itself
+        if (event.target === this) { // 드래그 버튼 자체에서만 드래그 허용
             isDragging = true;
             startX = event.pageX;
             initialWidth = parseInt($("#main").css("width"));
@@ -324,7 +321,7 @@ $(document).ready(function() {
         }
     });
 
-    // 拖拽过程中更新宽度
+    // 드래그 중에 너비 업데이트
     $(document).mousemove(function(event) {
         if (isDragging) {
             let diffX = event.pageX - startX;
@@ -335,7 +332,7 @@ $(document).ready(function() {
         }
     });
 
-    // 鼠标释放时停止拖拽，恢复原始颜色
+    // 마우스를 놓았을 때 드래그 중지, 색깔을 원래대로 복원
     $(document).mouseup(function() {
         if (isDragging) {
             $("#dragButton").css("background-color", "gray");
@@ -346,7 +343,7 @@ $(document).ready(function() {
 
     });
     
-    // 鼠标移开页面或失焦时停止拖拽，恢复原始颜色
+    // 마우스를 화면 밖으로 내보내거나 포커스가 떨어지면 드래그 중지
     $(document).mouseleave(function() {
         if (isDragging) {
             $("#dragButton").css("background-color", "gray");
@@ -378,9 +375,7 @@ $(document).ready(function() {
     return true;
   }
 
- // $('#languages-menu')[0].scrollTop = $('#languages-menu .active')[0].offsetTop - $('#languages-menu')[0].firstElementChild.offsetTop;
-
-  $(function () {
+ $(function () {
     $('#languages-menu .item').click(function() {
       $(this)
         .addClass('active')
@@ -427,7 +422,7 @@ function selectMulti( num, answer){
 
 function db_click_modify(){
 			let sp=$(this);
-			sp.attr("title","双击修改");
+			sp.attr("title","더블클릭하여 수정");
 			let fd=$(this).attr("fd");
 			let tb=$(this).attr("tb");
 			let data_id=$(this).parent().attr(tb+'_id');
@@ -451,7 +446,7 @@ function db_click_modify(){
 }
 function admin_mod(){
 	let fd_array = ["time_limit", "memory_limit"];
-// 使用 for...of 循环
+// for...of 루프 사용
 	for (let fd_name of fd_array) {
 		$("span[fd="+fd_name+"]").each(db_click_modify);
 	}
@@ -460,7 +455,7 @@ function admin_mod(){
     	$("#creator").load("problem-ajax.php?pid=<?php echo $id?>");
 	<?php if(isset($OJ_MARKDOWN)&&$OJ_MARKDOWN){ ?>
 		marked.use({
-                  // 开启异步渲染
+                  // 비동기 렌더링 활성화
                   async: true,
                   pedantic: false,
                   gfm: true,
@@ -469,14 +464,14 @@ function admin_mod(){
                 });
 		
 		$(".md").each(function(){
-<?php if ($OJ_MARKDOWN  && $OJ_MARKDOWN=="marked.js") {?>
-			$(this).html(marked.parse($(this).html()));             // html() make > to &gt;   text() keep >
-<?php }else if ($OJ_MARKDOWN  && $OJ_MARKDOWN=="markdown-it") {?>
+<?php if ($OJ_MARKDOWN  && $OJ_MARKDOWN=="marked.js") { ?>
+			$(this).html(marked.parse($(this).html()));             // html()는 >를 &gt;로 변경, text()는 >를 그대로 유지
+<?php }else if ($OJ_MARKDOWN  && $OJ_MARKDOWN=="markdown-it") { ?>
 			const md = window.markdownit();
 			$(this).html(md.render($(this).text()));
 <?php } ?>
 		});
-	  	// adding note for ```input1  ```output1 in description
+	  	// ```input1  ```output1을 설명에 추가하는 기능
 	        for(let i=1;i<10;i++){
                         $(".language-input"+i).parent().before("<div><?php echo $MSG_Sample_Input?>"+i+":</div>");
                         $(".language-output"+i).parent().before("<div><?php echo $MSG_Sample_Output?>"+i+":</div>");
@@ -497,16 +492,15 @@ function admin_mod(){
             "background-color": "#9e9e9ea1",
             "text-align": "center"
         });
-	        
 	<?php } ?>
-	        //单纯文本1. A. B. C. D. 自动变控件
+	        // 단순 텍스트 1. A. B. C. D. 자동 변환 컨트롤
         $('span[class=auto_select]').each(function(){
                 let i=1;
                 let start=0;
                 let next=0;
                 let raw=$(this).html();
                 let options=['A','B','C','D'];
-		console.log("scanning...");
+		console.log("검색 중...");
                 while(start>=0){
                         start=raw.indexOf("\n"+i+".",start);
                         if(start<0) break;
@@ -522,51 +516,19 @@ function admin_mod(){
                                         end=start;
                                         break;
                                 }
-                                if(j==0&&raw.substring(start,end).indexOf("多选")>0) type="checkbox";
+                                if(j==0&&raw.substring(start,end).indexOf("다중 선택")>0) type="checkbox";
                                 let disp="<input type=\""+type+"\" name=\""+i+"\" value=\""+option+"\" />"+option+".";
-                                //console.log(disp);
+
                                 raw= raw.substring(0,end-1)+disp+raw.substring(end+2);
                                 start+=disp.length;
                         }
                         start=end+1;
                         i++;
                 }
-                //console.log(raw);
                 $(this).html(raw);
         });
 
-// subjective problems from hydroOJ markdown and embeded marks
-               $('span[class="md auto_select"]').each(function(){
-                let i=1;
-                let options=['A','B','C','D','E','F','G'];
-                $(this).find("ul").each(function(){
-                        let type="radio";
-                        let ol=$(this).prev("ol");
-                        if(ol!=undefined && ol.attr("start")!=undefined) i=ol.attr("start");
-                        console.log("id["+i+"]");
-                        if($(ol).html().indexOf("多选")>0|| (ol!=undefined && ol.html()!=undefined && ol.html().indexOf("multiselect")>0)) type="checkbox";
-                        let j=0;
-                        $(this).find("li").each(function(){
-                                let option=options[j];
-                                let disp="<input type=\""+type+"\" name=\""+i+"\" value=\""+option+"\" />"+option+".";
-                                $(this).prepend(disp);
-                                //console.log(options[j]);
-                                j++;
-                        });
-                        i++;
-                });
-                let html=$(this).html();
-                for(;i>0;i--){
-                        console.log("searching..."+i);
-                        html=html.replace("{{ input("+i+") }}","<input type='text' size=5 name='"+i+"' placeholder='第"+i+"题' ><br>");
-                }
-                html=html.replaceAll("＜","&lt;");
-                html=html.replaceAll("＞","&gt;");
-                $(this).html(html);
-        });
-
-
-        $(".auto_select").find('input[type="text"]').change(function(){
+  $(".auto_select").find('input[type="text"]').change(function(){
                 selectOne($(this).attr("name"),$(this).val());
         });
 
@@ -639,10 +601,10 @@ $(document).ready(function () {
 });
 </script>
 <?php if (isset($OJ_MATHJAX)&&$OJ_MATHJAX){?>
-    <!--以下为了加载公式的使用而既加入-->
+    <!-- 아래는 공식 사용을 위한 코드 추가 -->
 <script>
   MathJax = {
-    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']] }
   };
 </script>
 
@@ -654,3 +616,4 @@ $(document).ready(function () {
 </style>
 
 <?php } ?>
+
