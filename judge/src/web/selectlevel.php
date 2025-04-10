@@ -1,8 +1,8 @@
 <?php
 
-$sid = isset($_GET['solution_id']) ? urlencode($_GET['solution_id']) : '';
+$sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 if (!$sid) {
-    echo "<p style='color:red; text-align:center;'>solution_id가 전달되지 않았습니다.</p>";
+    echo "<p style='color:red; text-align:center;'>problem_id가가 전달되지 않았습니다.</p>";
     exit;
 }
 ?>
@@ -49,9 +49,9 @@ if (!$sid) {
 <body>
     <div class="container">
         <h2>출력 방식을 선택하세요</h2>
-        <a class="btn" href="linefeedback.php?solution_id=<?= $sid ?>">한 줄씩</a>
-        <a class="btn" href="paragraphfeedback.php?solution_id=<?= $sid ?>">한 문단씩</a>
-        <a class="btn" href="showfeedback.php?solution_id=<?= $sid ?>">전체</a>
+        <a class="btn" href="linefeedback.php?problem_id=<?= $sid ?>">한 줄씩</a>
+        <a class="btn" href="paragraphfeedback.php?problem_id=<?= $sid ?>">한 문단씩</a>
+        <a class="btn" href="showfeedback.php?problem_id=<?= $sid ?>">전체</a>
     </div>
 </body>
 </html>
