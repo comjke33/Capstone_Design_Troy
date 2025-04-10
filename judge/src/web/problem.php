@@ -1,188 +1,619 @@
 <?php
-$cache_time = 10;
-$OJ_CACHE_SHARE = false;
-
-require_once('./include/cache_start.php');
-require_once('./include/db_info.inc.php');
-require_once('./include/bbcode.php' );
-require_once('./include/const.inc.php');
-require_once('./include/my_func.inc.php');
-require_once('./include/setlang.php');
-if(isset($OJ_LANG)){
-	require_once("./lang/$OJ_LANG.php");
-}
-
-$now = date("Y-m-d H:i",time());
-
-if (isset($_GET['cid']))
-	$ucid = "&cid=".intval($_GET['cid']);
-else
-	$ucid = "";
-
-$pr_flag = false;
-$co_flag = false;
-
-if (isset($_GET['id'])) {
-	//practice
-	$id = intval($_GET['id']);
-	//require("oj-header.php");
-	
-	$sql="select c.contest_id,c.title from contest c inner join contest_problem cp on c.contest_id=cp.contest_id and cp.problem_id=?  WHERE ( c.`end_time`>'$now' and c.defunct='N' ) or c.`private`='1' ";
-	$used_in_contests=pdo_query($sql,$id);
-
-	if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])|| isset($_SESSION[$OJ_NAME.'_'.'problem_verifiter'])  || isset($_SESSION[$OJ_NAME.'_'.'contest_creator']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor']))
-		$sql = "SELECT * FROM `problem` WHERE `problem_id`=?";   
-	else if ($OJ_FREE_PRACTICE)
-                $sql = "SELECT * FROM `problem` WHERE defunct='N' and `problem_id`=?";
-	else
-		$sql = "SELECT * FROM `problem` WHERE `problem_id`=? AND `defunct`='N' AND `problem_id` NOT IN (
-				SELECT `problem_id` FROM `contest_problem` WHERE `contest_id` IN (
-					SELECT `contest_id` FROM `contest` WHERE ( `end_time`>'$now' and defunct='N' ) or `private`='1'    
-				)
-			)";        //////////  people should not see the problem used in contest before they end by modifying url in browser address bar
-				   /////////   if you give students opportunities to test their result out side the contest ,they can bypass the penalty time of 20 mins for
-	                           /////////   each non-AC sumbission in contest. if you give them opportunities to view problems before exam ,they will ask classmates to write
-	                           /////////   code for them in advance, if you want to share private contest problem to practice you should modify the contest into public
-
-	$pr_flag = true;
-	$result = pdo_query($sql,$id);
-}
-else if (isset($_GET['cid']) && isset($_GET['pid'])) {
-	//contest
-	$cid = intval($_GET['cid']);
-	$pid = intval($_GET['pid']);
-require_once("contest-check.php");
-	if (isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'contest_creator']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor']))
-		$sql = "SELECT langmask,private,defunct FROM `contest` WHERE `contest_id`=?";
-	else
-		$sql = "SELECT langmask,private,defunct FROM `contest` WHERE `defunct`='N' AND `contest_id`=? AND (`start_time`<='$now' AND ('$now'<`end_time` or private='N') )";
-
-	$result = pdo_query($sql,$cid);
-	$rows_cnt =empty($result)?0:count($result);
-	if (empty($result) && !$OJ_FREE_PRACTICE && !isset($_SESSION[$OJ_NAME.'_administrator']) && !isset($_SESSION[$OJ_NAME."_c".$cid]) ) {
-		$view_errors = "<title>$MSG_CONTEST</title><h2>No such Contest!</h2>";
-		require("template/".$OJ_TEMPLATE."/error.php");
-		exit(0);
-	}
-
-	$row = ($result[0]);
-	$contest_ok = true;
-
-	if ($row[1] && !isset($_SESSION[$OJ_NAME.'_'.'c'.$cid]))
-		$contest_ok = false;
-
-	if ($row[2]=='Y')
-		$contest_ok = false;
-
-	if (isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'contest_creator']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor']))
-		$contest_ok = true;
-	
-	$ok_cnt = $rows_cnt==1;              
-	$langmask = $row[0];
-
-	if ( !$contest_ok ) {
-		//not started
-		$view_errors = "No such Contest!";
-		require("template/".$OJ_TEMPLATE."/error.php");
-		exit(0);
-	}
-	else {
-		//started
-//	$sql = "SELECT * FROM `problem` WHERE `defunct`='N' AND `problem_id`=(  // <- defunct problem not in list
-//	$sql = "SELECT * FROM `problem` WHERE `problem_id`=(    // <-- defunct problem in list for contest but, not in list for practice
-		$sql = "SELECT * FROM `problem` WHERE `problem_id`=(
-			SELECT `problem_id` FROM `contest_problem` WHERE `contest_id`=? AND `num`=?
-		)";
-		
-		$result = pdo_query($sql,$cid,$pid);
-		$id = $result[0]['problem_id'];
-	}
-
-	//public
-	if (!$contest_ok) {
-		$view_errors = "Not Invited!";
-		require("template/".$OJ_TEMPLATE."/error.php");
-		exit(0);
-	}
-
-	$co_flag = true;
-}
-else {
-	$view_errors="<title>$MSG_NO_SUCH_PROBLEM</title><h2>$MSG_NO_SUCH_PROBLEM</h2>";
-	require("template/".$OJ_TEMPLATE."/error.php");
-	exit(0);
-}
-
-if (count($result)!=1) {
-	$view_errors = "";
-
-	if (isset($_GET['id'])) {
-		$id = intval($_GET['id']);
-
-	      	if(count($used_in_contests)>0){
-
-	      		if (!(isset($OJ_EXAM_CONTEST_ID)||isset($OJ_ON_SITE_CONTEST_ID))) {
-					$view_errors.= "<hr><br>$MSG_PROBLEM_USED_IN:";
-					foreach($used_in_contests as $contests){
-						$view_errors.= "<a class='label label-warning' href='contest.php?cid=". $contests[0]."'>".$contests[1]." </a><br>";	
-					
-					}
-					//echo "</div>";
-			}
-
-		}
-		else {
-			$view_title = "<title>$MSG_NO_SUCH_PROBLEM!</title>";
-			$view_errors .= "<h2>$MSG_NO_SUCH_PROBLEM!</h2>";
-		}
-	}
-	else {
-		$view_title = "<title>$MSG_NO_SUCH_PROBLEM!</title>";
-		$view_errors .= "<h2>$MSG_NO_SUCH_PROBLEM!</h2>";
-	}
-	if(!(isset($_SESSION[$OJ_NAME.'_administrator'])||isset($_SESSION[$OJ_NAME.'_problem_editor']))){
-		require("template/".$OJ_TEMPLATE."/error.php");
-		exit(0);
-	}
-}
-else {
-	$row = $result[0];
-	$view_title = $row['title'];     
-}
-$flag=false;
-if( isset($OJ_NOIP_KEYWORD) && $OJ_NOIP_KEYWORD){
-        //检查当前题目是不是在NOIP模式比赛中，如果是则不显示AC数量 2020.7.11 by ivan_zhou
-        //$now =  date('Y-m-d H:i', time());
-        $sql = "select 1 from `contest_problem` where (`problem_id`= ? ) and `contest_id` IN (select `contest_id` from `contest` where `start_time` < ? and `end_time` > ? and `title` like ?)";
-        $rrs = pdo_query($sql, $id ,$now , $now , "%$OJ_NOIP_KEYWORD%");
-        $flag = !empty($rrs) ;
-}
-        if($flag||problem_locked($id,28)){
-                $row[ 'accepted' ] = '<font color="red"> ? </font>';
-                $row[ 'submit' ] = '<font color="red"> ? </font>';
-
-                // 使用$OJ_NOIP_TISHI 条件语句确定是否显示提示信息
-                if (isset($OJ_NOIP_HINT) && $OJ_NOIP_HINT) {
-                    //$row['hint'] = $MSG_NOIP_NOHINT;
-                } else {
-                    $row['hint'] = $MSG_NOIP_NOHINT;
-                }
-        }
-
-	       $solution_file = "$OJ_DATA/$id/output.name";
-
-	 if (file_exists($solution_file)) {
-        // 读取文件内容
-        $content = file_get_contents($solution_file);
-        
-        // 提取文件名部分（去掉扩展名）
-        $filename = pathinfo($content, PATHINFO_FILENAME);
-        
-    } 
-//if($row['spj']<=1) $row['description']=aaiw($row['description']);
-/////////////////////////Template
-require("template/".$OJ_TEMPLATE."/problem.php");
-/////////////////////////Common foot
-if(file_exists('./include/cache_end.php'))
-	require_once('./include/cache_end.php');
+          if($pr_flag){
+            $show_title="P$id - ".$row['title']." - $OJ_NAME";
+          }else{
+            $id=$row['problem_id'];
+            $show_title="$MSG_PROBLEM ".$PID[$pid].": ".$row['title']." - $OJ_NAME";
+          }
 ?>
+<?php include("template/$OJ_TEMPLATE/header.php");?>
+<style>
+.ace_cursor {
+  border-left-width: 1px !important;
+  color: #000 !important;
+}
+
+#languages-menu::-webkit-scrollbar, #testcase-menu::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+div[class*=ace_br] {
+    border-radius: 0 !important;
+}
+
+</style>
+<script src="<?php echo $OJ_CDN_URL.$path_fix."template/$OJ_TEMPLATE/"?>clipboard.min.js"></script>
+<script src="<?php echo $OJ_CDN_URL.$path_fix."template/bs3/"?>marked.min.js"></script>
+<script src="<?php echo $OJ_CDN_URL.$path_fix."template/syzoj/js/"?>markdown-it.min.js"></script>
+
+<div class="padding ">
+<div class="ui center aligned grid">
+    <div class="row">
+      <h1 class="ui header">
+        <?php
+
+          // 조건을 통해 문제 상태 확인하여 제목 출력 제목은 $row['title']로 가져옴
+          if($pr_flag){
+            echo "$id: ".$row['title'];
+            // echo "<title>$MSG_PROBLEM".$row['problem_id']."--". $row['title']."</title>";
+            // echo "<center><h2><strong>$id: ".$row['title']."</strong></h2>";
+          }else{
+            $id=$row['problem_id'];
+            // echo "<title>$MSG_PROBLEM ".$PID[$pid].": ".$row['title']." </title>";
+            echo "$MSG_PROBLEM ".$PID[$pid].": ".$row['title'];
+          }
+          if($row['defunct']=="Y")
+          echo "<span class=\"p-label ui tiny red label\">$MSG_RESERVED</span>";
+        ?>
+      </h1>
+    </div>
+      <div class="row" style="margin-top: -15px">
+           <span class="ui label"><?php echo "파일제출" ?>：<?php 
+if(file_exists($solution_file)){
+    echo("<span class='red-bold'>제출형식：$filename</span>");
+}else{
+    echo("<span class='red-bold'>불필요</span>");
+}
+?></span>
+<style>
+    .red-bold {
+    color: red;
+    font-weight: bold;
+}
+</style>
+          
+	      
+	  <span class="ui label" problem_id="<?php echo $id?>" ><?php echo $MSG_Memory_Limit ?>：<span tb="problem" fd="memory_limit"><?php echo $row['memory_limit']; ?></span> MB</span>
+          <span class="ui label" problem_id="<?php echo $id?>" ><?php echo $MSG_Time_Limit ?>：<span tb="problem" fd="time_limit"><?php echo $row['time_limit']; ?></span> S</span>
+         <!-- <span class="ui label">표준 입력 출력</span> -->
+      </div>
+      <div class="row" style="margin-top: -23px">
+        <!--   <span class="ui label">문제 유형: 전통적</span> -->
+          <span class="ui label"><?php echo $MSG_JUDGE_STYLE ?>：<?php echo array($MSG_NJ,$MSG_SPJ,$MSG_RTJ)[$row['spj']] ; ?> </span>
+          <span class="ui label"><?php echo $MSG_Creator ?>：<span id='creator'></span></span>
+      </div>
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label"><?php echo $MSG_SUBMIT ?>：<?php echo $row['submit']; ?></span>
+          <span class="ui label"><?php echo $MSG_SOVLED ?>：<?php echo $row['accepted']; ?></span>
+      </div>
+</div>  
+<div class="ui grid">
+  <div class="row" id="submit-buttons"> 
+    <div class="column">
+      <div class="ui buttons">
+
+          <?php
+            if($pr_flag){
+              echo "<a id='submit'  class=\"small ui primary button\" href=\"submitpage.php?id=$id\">$MSG_SUBMIT</a>";
+              echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$id\">$MSG_SUBMIT_RECORD</a>";
+              echo "<a class=\"small ui orange button\" href=\"problemstatus.php?id=$id\">$MSG_STATISTICS</a>";
+	      if($OJ_BBS)echo "<a class=\"small ui red button\" href=\"discuss.php?pid=$id\">$MSG_BBS</a>";
+            }else{
+              echo "<a href=\"contest.php?cid=$cid\" class=\"ui orange button\">$MSG_RETURN_CONTEST</a>";
+              if($contest_is_over)
+                        echo "<a id='submit'  class=\"small ui primary button\" href=\"submitpage.php?id=$id\">$MSG_SUBMIT</a>";
+              else
+                        echo "<a id='submit'  class=\"small ui primary button\" href=\"submitpage.php?cid=$cid&pid=$pid&langmask=$langmask\">$MSG_SUBMIT</a>";
+ 	      echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$id\">$MSG_GLOBAL$MSG_SUBMIT_RECORD</a>";
+              echo "<a class=\"small ui orange button\" href=\"status.php?problem_id=$PID[$pid]&cid=$cid\">$MSG_THIS_CONTEST$MSG_SUBMIT_RECORD</a>";
+
+            }
+	      if(!file_exists($OJ_DATA."/".$id."/solution.name")) echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
+          ?>
+          
+      </div>
+     
+      <?php
+        if ( isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'."p".$row['problem_id']])  ) {  //only  the original editor can edit this  problem
+        
+        require_once("include/set_get_key.php");
+      ?>
+      
+        <div class="ui buttons right floated">
+            <a class="small ui button" href="admin/problem_edit.php?id=<?php echo $id?>&getkey=<?php echo $_SESSION[$OJ_NAME.'_'.'getkey']?>"><?php echo $MSG_EDIT.$MSG_PROBLEM?></a>
+            <a class="small ui button" href='javascript:phpfm(<?php echo $row['problem_id'];?>)'><?php echo $MSG_TEST_DATA?></a>
+        </div>
+      <?php }?>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column">
+      <h4 class="ui top attached block header"><?php echo $MSG_Description?></h4>
+      <div id="description" class="ui bottom attached segment font-content">
+
+      <!-- bbcode_to_html() 함수를 사용하여 마크다운 형식을 HTML로 변환 -->
+		<?php if (str_contains($row['description'],"md auto_select"))echo $row['description']; else echo  bbcode_to_html($row['description']); ?></div>
+    </div>
+  </div>
+  <?php if($row['input']||isset($_GET['spa'])){ ?>
+    <div class="row">
+      <div class="column">
+          <h4 class="ui top attached block header"><?php echo $MSG_Input?></h4>
+          <div id='input' class="ui bottom attached segment font-content"><?php echo bbcode_to_html($row['input']); ?></div>
+      </div>
+    </div>
+  <?php }?>
+  <?php if($row['output']||isset($_GET['spa'])){ ?>
+    <div class="row">
+        <div class="column">
+          <h4 class="ui top attached block header"><?php echo $MSG_Output?></h4>
+          <div id='output' class="ui bottom attached segment font-content"><?php echo bbcode_to_html($row['output']); ?></div>
+        </div>
+    </div>
+  <?php }?>
+
+  <?php
+    $sinput=str_replace("<","&lt;",$row['sample_input']);
+    $sinput=str_replace(">","&gt;",$sinput);
+    $soutput=str_replace("<","&lt;",$row['sample_output']);
+    $soutput=str_replace(">","&gt;",$soutput);
+  ?>
+  <?php if(strlen($sinput)>0 && $sinput!="\n"||isset($_GET['spa'])){ ?>
+    <div class="row">
+        <div class="column">
+          <h4 class="ui top attached block header"><?php echo $MSG_Sample_Input?> 
+          </h4>
+          <div class="ui bottom attached segment font-content">
+            <pre style="margin-top: 0; margin-bottom: 0; "><code id='sinput' class="lang-plain"><?php echo ($sinput); ?></code></pre>
+          </div>
+        </div>
+    </div>
+  <?php }?>
+  <?php if(strlen($soutput)>0 && $soutput!="\n"||isset($_GET['spa'])){ ?>
+    <div class="row">
+        <div class="column">
+          <h4 class="ui top attached block header"><?php echo $MSG_Sample_Output?>
+          </h4>
+          <div class="ui bottom attached segment font-content">
+            <pre style="margin-top: 0; margin-bottom: 0; "><code id='soutput' class="lang-plain"><?php echo ($soutput); ?></code></pre>
+          </div>
+        </div>
+    </div>
+  <?php }?>
+
+  <!-- 문제의 힌트 표시 -->
+  <?php if($row['hint']||isset($_GET['spa'])){ ?>
+    <div class="row">
+        <div class="column">
+          <h4 class="ui top attached block header"><?php echo $MSG_HINT?></h4>
+          <div id='hint' class="ui bottom attached segment font-content hint"><?php echo bbcode_to_html($row['hint']); ?></div>
+        </div>
+    </div>
+  <?php }?>
+
+  <?php
+    $color=array("blue","teal","orange","pink","olive","red","violet","yellow","green","purple");
+    $tcolor=0;
+  ?>
+  <?php if($row['source'] && !isset($_GET['cid']) ){
+    $cats=explode(" ",$row['source']);
+  ?>
+    <div class="row">
+      <div class="column">
+        <h4 class="ui block header top attached" id="show_tag_title_div" style="margin-bottom: 0; margin-left: -1px; margin-right: -1px; ">
+        <?php echo $MSG_SOURCE?>
+        </h4>
+        <div fd="source" pid="<?php echo $id?>" class="ui bottom attached segment" id="show_tag_div">
+          <?php foreach($cats as $cat){
+            if(trim($cat)=="") continue;
+            $label_theme=$color[$tcolor%count($color)];
+            $tcolor++;
+            ?>
+            <a href="<?php
+                if(mb_ereg("^http",$cat))    // remote oj pop links
+                        echo htmlentities($cat,ENT_QUOTES,'utf-8').'" target="_blank' ;
+                else
+                        echo "problemset.php?search=".urlencode(htmlentities($cat,ENT_QUOTES,'utf-8')) ;
+            ?>" class="ui medium <?php echo $label_theme; ?> label">
+              <?php echo htmlentities($cat,ENT_QUOTES,'utf-8'); ?>
+            </a>
+          <?php } ?>
+        </div>
+     
+      </div>
+    </div>
+  <?php } ?>
+  
+     <div class="ui buttons">
+
+          <?php
+            if($pr_flag){
+              echo "<a id='submit'  class=\"small ui primary button\" href=\"submitpage.php?id=$id\">$MSG_SUBMIT</a>";
+              echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$id\">$MSG_SUBMIT_RECORD</a>";
+              echo "<a class=\"small ui orange button\" href=\"problemstatus.php?id=$id\">$MSG_STATISTICS</a>";
+	      if($OJ_BBS)echo "<a class=\"small ui red button\" href=\"discuss.php?pid=$id\">$MSG_BBS</a>";
+            }else{
+              echo "<a href=\"contest.php?cid=$cid\" class=\"ui orange button\">$MSG_RETURN_CONTEST</a>"; 
+              if($contest_is_over)
+                        echo "<a id='submit'  class=\"small ui primary button\" href=\"submitpage.php?id=$id\">$MSG_SUBMIT</a>";
+              else
+                        echo "<a id='submit'  class=\"small ui primary button\" href=\"submitpage.php?cid=$cid&pid=$pid&langmask=$langmask\">$MSG_SUBMIT</a>";
+              echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$PID[$pid]&cid=$cid\">$MSG_SUBMIT_RECORD</a>";
+            }
+	    if(!file_exists($OJ_DATA."/".$id."/solution.name"))   echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
+          ?>
+          
+      </div>
+</div>
+
+
+<style>
+    #dragButton {
+  width: 10px;
+  height: 10%;
+  background-color: gray;
+  position: absolute;
+  top:350px;
+  left: 0;
+  cursor: col-resize; /* 너비 조정 커서를 표시 */
+}
+</style>
+  <script type="text/javascript">
+  
+  function transform(){
+        let height=document.body.clientHeight;
+<?php if ( $row[ 'spj' ]==2 ) { ?>
+			let width=parseInt(document.body.clientWidth*0.3);
+			let width2=parseInt(document.body.clientWidth*0.7);
+<?php }else{ ?>
+			let width=parseInt(document.body.clientWidth*0.6);
+			let width2=parseInt(document.body.clientWidth*0.4);
+<?php } ?>
+        let submitURL=$("#submit")[0].href;
+	<?php 
+		if(isset($_GET['sid'])) echo "submitURL+='&sid=".intval($_GET['sid'])."';";
+	?>
+        console.log(width);
+        let main=$("#main");
+        let problem=main.html();
+        if (window.screen.width < 500){
+        	main.parent().append("<div id='submitPage' class='container' style='opacity:0.95;z-index:2;top:49px;'></div>");
+                $("#submitPage").html("<iframe id='ansFrame' src='"+submitURL+"&spa' width='100%' height='"+window.screen.height+"px' ></iframe>");
+                window.setTimeout('$("#ansFrame")[0].scrollIntoView()',1000);
+	}else{
+        	main.removeClass("container");
+		main.css("width",width2);
+		main.css("margin-left","10px");
+       	 	main.parent().append("<div id='submitPage' class='container' style='opacity:0.95;position:fixed;z-index:2;top:49px;right:-"+width2+"px'></div>");
+		$("#submitPage").html("<iframe src='"+submitURL+"&spa' width='"+width+"px' height='"+height+"px' ></iframe>");
+	}
+	$("#submit").remove();
+	<?php if ($row['spj']>1){ ?>
+            window.setTimeout('$("iframe")[0].contentWindow.$("#TestRun").remove();',1000);
+        <?php }?>
+
+// iframe 왼쪽에 드래그 버튼 추가
+$("#submitPage").prepend("<div id='dragButton'></div>");
+$(document).ready(function() {
+    let isDragging = false;
+    let startX = 0;
+    let initialWidth = 0;
+
+
+    function setIframeReadonly (readonly) {
+        const iframe = $("#submitPage").find('iframe')
+        if (readonly) {
+            iframe.css({
+                position: 'relative',
+                'z-index': -999
+            })
+        } else {
+            iframe.css({
+                position: 'static',
+                'z-index': 'unset'
+            })
+        }
+    }
+
+
+    // 마우스를 눌렀을 때 드래그 시작, 색깔을 녹색으로 변경
+    $("#dragButton").mousedown(function(event) {
+        if (event.target === this) { // 드래그 버튼 자체에서만 드래그 허용
+            isDragging = true;
+            startX = event.pageX;
+            initialWidth = parseInt($("#main").css("width"));
+            $(this).css("background-color", "#a5ff00");
+
+            setIframeReadonly(true)
+
+        }
+    });
+
+    // 드래그 중에 너비 업데이트
+    $(document).mousemove(function(event) {
+        if (isDragging) {
+            let diffX = event.pageX - startX;
+            let newWidth = initialWidth + diffX;
+            $("#main").css("width", newWidth);
+            $("#submitPage").css("right", "-" + newWidth + "px");
+            $("#submitPage").find("iframe").attr("width", document.body.clientWidth - newWidth + "px");
+        }
+    });
+
+    // 마우스를 놓았을 때 드래그 중지, 색깔을 원래대로 복원
+    $(document).mouseup(function() {
+        if (isDragging) {
+            $("#dragButton").css("background-color", "gray");
+        }
+        isDragging = false;
+
+        setIframeReadonly(false)
+
+    });
+    
+    // 마우스를 화면 밖으로 내보내거나 포커스가 떨어지면 드래그 중지
+    $(document).mouseleave(function() {
+        if (isDragging) {
+            $("#dragButton").css("background-color", "gray");
+        }
+        isDragging = false;
+
+        setIframeReadonly(false)
+
+    });
+    
+    $(window).blur(function() {
+        if (isDragging) {
+            $("#dragButton").css("background-color", "gray");
+        }
+        isDragging = false;
+        setIframeReadonly(false)
+
+    });
+
+});
+
+  }
+
+  function submit_code() {
+    if (!$('#submit_code input[name=answer]').val().trim() && !editor.getValue().trim()) return false;
+    $('#submit_code input[name=language]').val($('#languages-menu .item.active').data('value'));
+    lastSubmitted = editor.getValue();
+    $('#submit_code input[name=code]').val(editor.getValue());
+    return true;
+  }
+
+ $(function () {
+    $('#languages-menu .item').click(function() {
+      $(this)
+        .addClass('active')
+        .closest('.ui.menu')
+        .find('.item')
+          .not($(this))
+          .removeClass('active')
+      ;
+      editor.getSession().setMode("ace/mode/" + $(this).data('mode'));
+    });
+  });
+  </script>
+
+    
+<?php include("template/$OJ_TEMPLATE/footer.php");?>
+
+<script>
+
+// phpfm() 함수는 관리자가 파일 시스템을 편집할 수 있도록 링크를 제공합니다
+function phpfm(pid){
+    //alert(pid);
+    $.post("admin/phpfm.php",{'frame':3,'pid':pid,'pass':''},function(data,status){
+      if(status=="success"){
+        document.location.href="admin/phpfm.php?frame=3&pid="+pid;
+      }
+    });
+}
+function selectOne( num, answer){
+          let editor = $("iframe")[0].contentWindow.$("#source");
+          let old=editor.text();
+          let key= num+".*";
+          console.log(key);
+          let rep=old.replace(new RegExp(key),num+" "+answer);
+          editor.text(rep);
+}
+function selectMulti( num, answer){
+  let editor = $("iframe")[0].contentWindow.$("#source");
+  let old=editor.text();
+  let key= num+".*";
+  console.log(key);
+  let rep=old.replace(new RegExp(key),num+" "+answer);
+  editor.text(rep);
+}
+
+function db_click_modify(){
+			let sp=$(this);
+			sp.attr("title","더블클릭하여 수정");
+			let fd=$(this).attr("fd");
+			let tb=$(this).attr("tb");
+			let data_id=$(this).parent().attr(tb+'_id');
+			$(this).dblclick(function(){
+				let data=sp.text();
+				sp.html("<form onsubmit='return false;'><input type=hidden name='m' value='"+tb
+					+"_update_"+fd+"'><input type='hidden' name='"+tb+"_id' value='"+data_id
+					+"'><input type='text' name='"+fd+"' value='"+data+"' selected='true' class='ui mini input' size=5 ></form>");
+				let ipt=sp.find("input[name="+fd+"]");
+				ipt.focus();
+				ipt[0].select();
+				sp.find("input").change(function(){
+					let newdata=sp.find("input[name="+fd+"]").val();
+					$.post("admin/ajax.php",sp.find("form").serialize()).done(function(){
+						console.log("new "+fd );
+						sp.html(newdata);
+					});
+
+				});
+			});
+}
+function admin_mod(){
+	let fd_array = ["time_limit", "memory_limit"];
+// for...of 루프 사용
+	for (let fd_name of fd_array) {
+		$("span[fd="+fd_name+"]").each(db_click_modify);
+	}
+}
+  $(document).ready(function(){
+    	$("#creator").load("problem-ajax.php?pid=<?php echo $id?>");
+	<?php if(isset($OJ_MARKDOWN)&&$OJ_MARKDOWN){ ?>
+		marked.use({
+                  // 비동기 렌더링 활성화
+                  async: true,
+                  pedantic: false,
+                  gfm: true,
+                  mangle: false,
+                  headerIds: false
+                });
+		
+		$(".md").each(function(){
+<?php if ($OJ_MARKDOWN  && $OJ_MARKDOWN=="marked.js") { ?>
+			$(this).html(marked.parse($(this).html()));             // html()는 >를 &gt;로 변경, text()는 >를 그대로 유지
+<?php }else if ($OJ_MARKDOWN  && $OJ_MARKDOWN=="markdown-it") { ?>
+			const md = window.markdownit();
+			$(this).html(md.render($(this).text()));
+<?php } ?>
+		});
+	  	// ```input1  ```output1을 설명에 추가하는 기능
+	        for(let i=1;i<10;i++){
+                        $(".language-input"+i).parent().before("<div><?php echo $MSG_Sample_Input?>"+i+":</div>");
+                        $(".language-output"+i).parent().before("<div><?php echo $MSG_Sample_Output?>"+i+":</div>");
+                }
+
+	       
+        $(".md table tr td").css({
+            "border": "1px solid grey",
+            "text-align": "center",
+            "width": "200px",
+            "height": "30px"
+        });
+
+        $(".md table th").css({
+            "border": "1px solid grey",
+            "width": "200px",
+            "height": "30px",
+            "background-color": "#9e9e9ea1",
+            "text-align": "center"
+        });
+	<?php } ?>
+	        // 단순 텍스트 1. A. B. C. D. 자동 변환 컨트롤
+        $('span[class=auto_select]').each(function(){
+                let i=1;
+                let start=0;
+                let next=0;
+                let raw=$(this).html();
+                let options=['A','B','C','D'];
+		console.log("검색 중...");
+                while(start>=0){
+                        start=raw.indexOf("\n"+i+".",start);
+                        if(start<0) break;
+                        let end=start;
+                        let type="radio"
+                        for(let j=0;j<4;j++){
+                                let option=options[j];
+                                end=raw.indexOf(option+".",start);
+                                next=raw.indexOf("\n"+(i+1)+".",start);
+				console.log("["+raw.substring(start,end)+"]");
+                                if ( end<0 || ( end > next && next > 0 )) {
+                                        console.log("i:"+i+" j:"+option+" end:"+end+" next:"+next);
+                                        end=start;
+                                        break;
+                                }
+                                if(j==0&&raw.substring(start,end).indexOf("다중 선택")>0) type="checkbox";
+                                let disp="<input type=\""+type+"\" name=\""+i+"\" value=\""+option+"\" />"+option+".";
+
+                                raw= raw.substring(0,end-1)+disp+raw.substring(end+2);
+                                start+=disp.length;
+                        }
+                        start=end+1;
+                        i++;
+                }
+                $(this).html(raw);
+        });
+
+  $(".auto_select").find('input[type="text"]').change(function(){
+                selectOne($(this).attr("name"),$(this).val());
+        });
+
+
+        $('input[type="radio"]').click(function(){
+                if ($(this).is(':checked'))
+                   selectOne($(this).attr("name"),$(this).val());
+        }).css("width","24px").css("height","21px");
+	$('input[type="checkbox"]').click(function(){
+                let num=$(this).attr("name");
+                let answer="";
+                $("input[type=checkbox][name="+num+"]").each(function(){
+                        if ($(this).is(':checked'))
+                                answer+=$(this).val();
+                });
+                selectMulti(num,answer);
+        }).css("width","24px").css("height","21px");
+	<?php if ($row['spj']>1 || isset($_GET['sid']) || (isset($OJ_AUTO_SHOW_OFF)&&$OJ_AUTO_SHOW_OFF)){?>
+	    transform();
+	<?php }?>
+		admin_mod();
+
+  });
+  </script>   
+
+
+<style>
+  .copy {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #f1f1f1;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    z-index: 10;
+  }
+  .pre-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+</style>
+
+<script>
+var preIndex=1;
+$(document).ready(function () {
+  $("pre").each(function () {
+    $(this).wrap("<div class='pre-wrapper'></div>");
+    $(this).attr("id", "pre" + preIndex);
+    $(this).before("<span class='copy' id='copyBtn" + preIndex + "'  data-clipboard-target='#pre" + preIndex + "' ><?php echo $MSG_COPY; ?></span>");
+    
+    let clipboardin = new Clipboard("#copyBtn" + preIndex);
+    clipboardin.on('success', function(e){
+      $(e.trigger).text("<?php echo $MSG_COPY.$MSG_SUCCESS; ?>!");
+      setTimeout(function () {
+        $(".copy").text("<?php echo $MSG_COPY; ?>");
+      }, 1500);
+    });
+    clipboardin.on('error', function(e){
+      $(e.trigger).text("<?php echo $MSG_COPY.$MSG_FAIL; ?>!");
+      setTimeout(function () {
+        $(".copy").text("<?php echo $MSG_COPY; ?>");
+      }, 1500);
+    });
+    
+    preIndex++;
+  });
+});
+</script>
+<?php if (isset($OJ_MATHJAX)&&$OJ_MATHJAX){?>
+    <!-- 아래는 공식 사용을 위한 코드 추가 -->
+<script>
+  MathJax = {
+    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']] }
+  };
+</script>
+
+<script id="MathJax-script" async src="template/bs3/tex-chtml.js"></script>
+<style>
+.jumbotron1{
+  font-size: 18px;
+}
+</style>
+
+<?php } ?>
+
