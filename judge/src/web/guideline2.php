@@ -29,10 +29,22 @@ if (!file_exists($file_path)) {
     // Loop through each matched section
     foreach ($matches[1] as $index => $header) {
         $content = nl2br(trim($matches[2][$index]));  // Get content and convert newlines
-        echo "<div class='section'>";
-        echo "<div class='section-header'>[$header]</div>";
-        echo "<div class='section-content'>$content</div>";
-        echo "</div>";
+        
+        // Check if content is not empty
+        if (!empty($content)) {
+            echo "<div class='section'>";
+            echo "<div class='section-header'>[$header]</div>";
+            // Split the content into paragraphs (by detecting empty lines or custom separator)
+            $paragraphs = explode("\n", $content);
+            
+            foreach ($paragraphs as $paragraph) {
+                // Only show non-empty paragraphs
+                if (trim($paragraph) !== '') {
+                    echo "<div class='section-paragraph'>" . nl2br($paragraph) . "</div>";
+                }
+            }
+            echo "</div>";
+        }
     }
 
     echo "</div>"; // End content box
