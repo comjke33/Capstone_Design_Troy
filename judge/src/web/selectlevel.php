@@ -61,11 +61,6 @@ if (!$sid) {
             background-color: #d32f2f; /* hover 시 어두운 빨간색 */
         }
 
-        .back::before {
-            content: '🔙'; /* 유니코드 화살표 문자 */
-            margin-right: 8px; /* 화살표와 텍스트 사이 간격 */
-        }
-
     </style>
 </head>
 <body>
@@ -76,7 +71,7 @@ if (!$sid) {
         <a class="btn" href="guideline3.php?problem_id=<?= $sid ?>">전체</a>
     </div>
 
-    <a class="back" href="problem.php?id=<?php echo $sid; ?>">뒤로 가기</a>
+    <a class="back" href="problem.php?id=<?php echo $sid; ?>">⬅</a>
 
 </body>
 </html>
