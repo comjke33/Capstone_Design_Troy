@@ -19,27 +19,28 @@ if (!file_exists($file_path)) {
 } else {
   $file_contents = file_get_contents($file_path);
   
-  // Split the content by lines or specific markers
-  $sections = explode("\n", $file_contents);  // Split content by newlines
-  
+  // Split the content by paragraphs (each paragraph is separated by newlines or a custom separator)
+  $paragraphs = explode("\n", $file_contents);  // Split by newline
+
+  // Loop through each paragraph and display it
   echo "<div class='content-box'>";
 
-  // Loop through each section and display it in a styled format
-  foreach ($sections as $line) {
-      // Check if the line contains a specific marker like [func_def_start]
-      if (strpos($line, "[func_def_start]") !== false) {
+  // Example structure, parsing the file and outputting each section in a formatted manner
+  foreach ($paragraphs as $index => $paragraph) {
+      // Check if this is a special section or header (e.g., "[func_def_start]")
+      if (strpos($paragraph, "[func_def_start]") !== false) {
           echo "<div class='section-header'>[func_def_start]</div>";
-      } elseif (strpos($line, "[self_start]") !== false) {
+      } elseif (strpos($paragraph, "[self_start]") !== false) {
           echo "<div class='section-header'>[self_start]</div>";
-      } elseif (strpos($line, "[rep_start]") !== false) {
+      } elseif (strpos($paragraph, "[rep_start]") !== false) {
           echo "<div class='section-header'>[rep_start]</div>";
       } else {
-          // Display the content inside the section
-          echo "<div class='section-content'>" . nl2br($line) . "</div>";
+          // If it's regular content, display it inside a styled box
+          echo "<div class='section-content'>" . nl2br($paragraph) . "</div>";
       }
   }
 
-  echo "</div>";
+  echo "</div>"; // Close the content box
 }
 ?>
 
