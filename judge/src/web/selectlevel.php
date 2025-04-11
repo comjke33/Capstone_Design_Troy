@@ -71,7 +71,7 @@ if (!$sid) {
         <a class="btn" href="guideline3.php?problem_id=<?= $sid ?>">전체</a>
     </div>
 
-    <a class="back" href="problem.php?id=<?php echo $sid; ?>">⬅<</a>
+    <a class="back" href="problem.php?id=<?php echo $sid; ?>">⬅</a>
 
 </body>
 </html>
