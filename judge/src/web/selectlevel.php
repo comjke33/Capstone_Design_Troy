@@ -49,9 +49,9 @@ if (!$sid) {
 <body>
     <div class="container">
         <h2>출력 방식을 선택하세요</h2>
-        <a class="btn" href="linefeedback.php?problem_id=<?= $sid ?>">한 줄씩</a>
-        <a class="btn" href="paragraphfeedback.php?problem_id=<?= $sid ?>">한 문단씩</a>
-        <a class="btn" href="showfeedback.php?problem_id=<?= $sid ?>">전체</a>
+        <a class="btn" href="guideline1.php?problem_id=<?= $sid ?>">한 줄씩</a>
+        <a class="btn" href="guideline2.php?problem_id=<?= $sid ?>">한 문단씩</a>
+        <a class="btn" href="guideline3.php?problem_id=<?= $sid ?>">전체</a>
     </div>
 </body>
 </html>

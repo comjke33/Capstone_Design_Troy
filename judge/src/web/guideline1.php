@@ -35,5 +35,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-include("template/$OJ_TEMPLATE/linefeedback.php");
+include("template/$OJ_TEMPLATE/guideline1.php");
 include("template/$OJ_TEMPLATE/footer.php");

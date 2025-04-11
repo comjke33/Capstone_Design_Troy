@@ -36,4 +36,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // 👉 화면 렌더링
-include("template/$OJ_TEMPLATE/showfeedback.php");
+include("template/$OJ_TEMPLATE/guideline3.php");
