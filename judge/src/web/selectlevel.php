@@ -53,6 +53,9 @@ if (!$sid) {
         <a class="btn" href="guideline2.php?problem_id=<?= $sid ?>">한 문단씩</a>
         <a class="btn" href="guideline3.php?problem_id=<?= $sid ?>">전체</a>
     </div>
+    
+    <a class="btn" href="problem.php?id=<?php echo $sid; ?>">🔙</a>
+
 </body>
 </html>
 
