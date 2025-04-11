@@ -6,30 +6,16 @@
       <h4 class="ui dividing header">한 문단씩 풀기</h4>
 
       <form method="post" class="ui form">
-        <?php foreach ($correct_paragraphs as $i => $answer): ?>
-          <div class="field step">
-            <label>
-              <?= $descriptions[$i] ?>
-              <?php if ($results[$i]): ?> ✅<?php endif; ?>
-            </label>
-
-            <textarea name="para_<?= $i ?>" rows="6"
-              class="ui textarea"
-              style="<?= $results[$i] ? 'background-color: #f0f0f0;' : '' ?>"
-              <?= $results[$i] ? 'readonly' : '' ?>
-            ><?= htmlspecialchars($user_inputs[$i] ?? '') ?></textarea>
-
-            <button class="ui blue button" type="submit" name="submit" value="<?= $i ?>">제출</button>
+        <?php foreach ($exercises as $i => $desc): ?>
+          <div class="field">
+            <label><strong>Step <?= $i + 1 ?>.</strong> <?= nl2br(htmlspecialchars($desc)) ?></label>
+            <textarea name="code_<?= $i ?>" rows="6" placeholder="여기에 코드를 작성하세요..."></textarea>
           </div>
         <?php endforeach; ?>
 
-        <!-- ✅ 모든 문단 정답 시 완료 버튼 -->
-        <?php if (count($results) === count($correct_paragraphs) && array_sum($results) === count($correct_paragraphs)): ?>
-          <div style="text-align: right; margin-top: 1em;">
-            <a href="selectlevel.php?solution_id=<?= htmlspecialchars(urlencode($sid)) ?>" class="ui yellow button">완료</a>
-          </div>
-        <?php endif; ?>
+        <button type="submit" class="ui blue button">제출</button>
       </form>
+
     </div>
   </div>
 
