@@ -11,19 +11,27 @@ if ($problem_id <= 0) {
 }
 
 // 2. test.txt 파일 읽기
-$file_path = "../troy0012/test/test.txt";  // test.txt 파일 경로
+$file_path = "/home/troy0012/test/test.txt";  // test.txt 파일 경로
+
+// 경로 출력 (디버깅용)
+echo "파일 경로: $file_path";  // 경로 출력
+
+// 파일이 존재하는지 확인
 if (!file_exists($file_path)) {
     echo "❌ test.txt 파일을 찾을 수 없습니다.";
     exit;
 }
 
-// 파일 내용을 읽어옴
+// 파일 내용을 읽어오기
 $feedback_code = file_get_contents($file_path);
 
-// 3. feedback 테이블에 피드백 삽입
-$sql = "INSERT INTO feedback (problem_id, feedback_code) VALUES (?, ?)";
-$stmt = $mysqli->prepare($sql);
-$stmt->bind_param("is", $problem_id, $feedback_code);
-$stmt->execute();
-$stmt->close();
+// 디버깅: 에러가 발생할 경우, 이유를 확인
+if ($feedback_code === false) {
+    echo "❌ test.txt 파일을 읽을 수 없습니다. 오류: " . error_get_last()['message'];
+    exit;
+}
+
+// 파일을 읽을 수 있으면 출력
+echo "파일 내용: $feedback_code";
+
 ?>
