@@ -2,23 +2,11 @@
 $file_path = "/home/Capstone_Design_Troy/test/test.txt";
 $file_contents = file_get_contents($file_path);
 
-// 함수 정의 추출
-preg_match_all("/func_def_start\((.*?)\)(.*?)func_def_end\((.*?)\)/s", $file_contents, $functions);
-
-// 함수별로 HTML로 출력
-foreach ($functions[0] as $index => $function) {
-    $func_name = extract_function_name($function);
-    $function_content = $functions[2][$index];
-    echo "<div class='function-box'>";
-    echo "<h3>Function: $func_name</h3>";
-    echo "<p>" . nl2br($function_content) . "</p>";
-    echo "</div>";
-}
-
-// 반복문 추출
+// 패턴을 수정하여 반복문과 self_end 구문을 정확히 추출
 preg_match_all("/rep_start\((.*?)\)(.*?)rep_end\((.*?)\)/s", $file_contents, $loops);
+preg_match_all("/self_end\((.*?)\)/s", $file_contents, $self_ends);
 
-// 반복문별로 HTML로 출력
+// 반복문을 HTML로 출력
 foreach ($loops[0] as $index => $loop) {
     $loop_info = extract_loop_info($loop);
     $loop_content = $loops[2][$index];
@@ -28,13 +16,15 @@ foreach ($loops[0] as $index => $loop) {
     echo "</div>";
 }
 
-// 함수 이름 추출
-function extract_function_name($function) {
-    preg_match("/func_def_start\((.*?)\)/", $function, $matches);
-    return $matches[1] ?? 'Unknown Function';
+// self_end 처리
+foreach ($self_ends[0] as $self_end) {
+    echo "<div class='self-end-box'>";
+    echo "<h3>Self End</h3>";
+    echo "<p>" . nl2br($self_end) . "</p>";
+    echo "</div>";
 }
 
-// 반복문 정보 추출
+// 루프 정보 추출
 function extract_loop_info($loop) {
     preg_match("/rep_start\((.*?)\)/", $loop, $matches);
     return $matches[1] ?? 'Unknown Loop';
