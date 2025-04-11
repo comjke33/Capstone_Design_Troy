@@ -10,6 +10,8 @@ if ($problem_id <= 0) {
     exit;
 }
 
+$file_path = "/home/troy0012/aaa.txt";
+
 if (!file_exists($file_path)) {
   echo "파일이 존재하지 않습니다.";
 } elseif (!is_readable($file_path)) {
