@@ -11,7 +11,7 @@ if ($problem_id <= 0) {
 }
 
 $file_path = "/home/troy0012/aaa.txt";
-
-include $file_path;
+$file_contents = file_get_contents($file_path);
+echo nl2br($file_contents); 
 
 ?>
