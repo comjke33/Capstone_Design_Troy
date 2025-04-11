@@ -1,12 +1,71 @@
 <?php
-// 0. 데이터베이스 연결
-include("template/syzoj/header.php");
-include("include/db_info.inc.php");
-
-
 $file_path = "/home/Capstone_Design_Troy/test/test.txt";
-
 $file_contents = file_get_contents($file_path);
-  echo nl2br($file_contents); // 파일 내용 출력
 
+// Define patterns to extract function definitions, loops, and conditionals
+preg_match_all("/func_def_start\((.*?)\)(.*?)func_def_end\((.*?)\)/s", $file_contents, $functions);
+preg_match_all("/rep_start\((.*?)\)(.*?)rep_end\((.*?)\)/s", $file_contents, $loops);
+preg_match_all("/cond_start\((.*?)\)(.*?)cond_end\((.*?)\)/s", $file_contents, $conditionals);
+preg_match_all("/self_start\((.*?)\)(.*?)self_end\((.*?)\)/s", $file_contents, $self_blocks);
+
+// Render functions
+foreach ($functions[0] as $index => $function) {
+    $func_name = extract_function_name($function);
+    $function_content = $functions[2][$index];
+    echo "<div class='code-block function'>";
+    echo "<h3>Function: $func_name</h3>";
+    echo "<p>" . nl2br($function_content) . "</p>";
+    echo "</div>";
+}
+
+// Render loops
+foreach ($loops[0] as $index => $loop) {
+    $loop_info = extract_loop_info($loop);
+    $loop_content = $loops[2][$index];
+    echo "<div class='code-block loop'>";
+    echo "<h3>Loop: $loop_info</h3>";
+    echo "<p>" . nl2br($loop_content) . "</p>";
+    echo "</div>";
+}
+
+// Render conditionals
+foreach ($conditionals[0] as $index => $conditional) {
+    $conditional_info = extract_conditional_info($conditional);
+    $conditional_content = $conditionals[2][$index];
+    echo "<div class='code-block conditional'>";
+    echo "<h3>Conditional: $conditional_info</h3>";
+    echo "<p>" . nl2br($conditional_content) . "</p>";
+    echo "</div>";
+}
+
+// Render self-contained blocks
+foreach ($self_blocks[0] as $index => $self_block) {
+    $self_block_info = extract_self_block_info($self_block);
+    $self_block_content = $self_blocks[2][$index];
+    echo "<div class='code-block self-block'>";
+    echo "<h3>Self-Block: $self_block_info</h3>";
+    echo "<p>" . nl2br($self_block_content) . "</p>";
+    echo "</div>";
+}
+
+// Helper functions for extracting details
+function extract_function_name($function) {
+    preg_match("/func_def_start\((.*?)\)/", $function, $matches);
+    return $matches[1] ?? 'Unknown Function';
+}
+
+function extract_loop_info($loop) {
+    preg_match("/rep_start\((.*?)\)/", $loop, $matches);
+    return $matches[1] ?? 'Unknown Loop';
+}
+
+function extract_conditional_info($conditional) {
+    preg_match("/cond_start\((.*?)\)/", $conditional, $matches);
+    return $matches[1] ?? 'Unknown Conditional';
+}
+
+function extract_self_block_info($self_block) {
+    preg_match("/self_start\((.*?)\)/", $self_block, $matches);
+    return $matches[1] ?? 'Unknown Self-Block';
+}
 ?>
