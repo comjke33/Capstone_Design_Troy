@@ -10,7 +10,7 @@ if ($problem_id <= 0) {
     exit;
 }
 
-$file_path = "/test/test.txt";
+$file_path = "/home/Capstone_Design_Troy/test/test.txt";
 
 if (!file_exists($file_path)) {
   echo "파일이 존재하지 않습니다.";
