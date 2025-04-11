@@ -1,55 +1,27 @@
 <?php
-// 0. 데이터베이스 연결
-include("template/syzoj/header.php");
-include("include/db_info.inc.php");
+require_once("./include/db_info.inc.php");
 
-// 1. problem_id 가져오기 및 검증
-$problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
-if ($problem_id <= 0) {
-    echo "❌ 잘못된 요청입니다. problem_id 필요합니다.";
-    exit;
+// 파일 불러오기
+$file_path = "/home/troy0012/test/test.txt";
+$file_contents = file_get_contents($file_path);
+
+// 문단 단위로 자르기
+$correct_paragraphs = preg_split("/\r?\n\r?\n+/", trim($file_contents));
+
+// 설명 텍스트 생성
+$descriptions = array_map(fn($i) => ($i + 1) . ". 문단 작성하기", array_keys($correct_paragraphs));
+
+// 사용자 입력 및 결과 비교
+$user_inputs = [];
+$results = [];
+foreach ($correct_paragraphs as $i => $answer) {
+    $input = $_POST["para_$i"] ?? '';
+    $user_inputs[$i] = $input;
+    $results[$i] = trim($input) === trim($answer);
 }
 
-$file_path = "/home/Capstone_Design_Troy/test/test.txt";
+// solution_id (URL 파라미터로 받음)
+$sid = $_GET['solution_id'] ?? '';
 
-if (!file_exists($file_path)) {
-  echo "<p style='color:red; text-align:center;'>파일이 존재하지 않습니다.</p>";
-} elseif (!is_readable($file_path)) {
-  echo "<p style='color:red; text-align:center;'>파일에 읽기 권한이 없습니다.</p>";
-} else {
-  $file_contents = file_get_contents($file_path);
-  
-  // Split the content into sections based on the square bracketed markers ([ ])
-  preg_match_all('/\[(.*?)\](.*?)(?=\[|$)/s', $file_contents, $matches);
-  
-  // Check if matches were found
-  if (isset($matches[1])) {
-    echo "<div class='content-box'>";
-    
-    // Loop through each matched section
-    foreach ($matches[1] as $index => $header) {
-        $content = nl2br(trim($matches[2][$index]));  // Get content and convert newlines
-        
-        // Check if content is not empty
-        if (!empty($content)) {
-            echo "<div class='section'>";
-            echo "<div class='section-header'>[$header]</div>";
-            // Split the content into paragraphs (by detecting empty lines or custom separator)
-            $paragraphs = explode("\n", $content);
-            
-            foreach ($paragraphs as $paragraph) {
-                // Only show non-empty paragraphs
-                if (trim($paragraph) !== '') {
-                    echo "<div class='section-paragraph'>" . nl2br($paragraph) . "</div>";
-                }
-            }
-            echo "</div>";
-        }
-    }
-
-    echo "</div>"; // End content box
-  } else {
-    echo "<p style='color:red; text-align:center;'>파일 내용에서 적절한 형식의 섹션을 찾을 수 없습니다.</p>";
-  }
-}
-?>
+// 템플릿 호출 (UI 출력은 여기서)
+require_once("./template/syzoj/guideline2.php");

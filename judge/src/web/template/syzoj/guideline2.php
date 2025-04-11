@@ -1,5 +1,5 @@
 <div class="ui two column stackable grid">
-    
+
   <!-- ✅ 왼쪽: 한 문단씩 풀기 -->
   <div class="column ten wide">
     <div class="ui segment">
@@ -10,20 +10,20 @@
           <div class="field step">
             <label>
               <?= $descriptions[$i] ?>
-              <?php if (isset($results[$i]) && $results[$i]): ?> ✅<?php endif; ?>
+              <?php if ($results[$i]): ?> ✅<?php endif; ?>
             </label>
 
             <textarea name="para_<?= $i ?>" rows="6"
               class="ui textarea"
-              style="<?= isset($results[$i]) && $results[$i] ? 'background-color: #f0f0f0;' : '' ?>"
-              <?= isset($results[$i]) && $results[$i] ? 'readonly' : '' ?>
+              style="<?= $results[$i] ? 'background-color: #f0f0f0;' : '' ?>"
+              <?= $results[$i] ? 'readonly' : '' ?>
             ><?= htmlspecialchars($user_inputs[$i] ?? '') ?></textarea>
 
             <button class="ui blue button" type="submit" name="submit" value="<?= $i ?>">제출</button>
           </div>
         <?php endforeach; ?>
 
-        <!-- ✅ 모든 문단 정답 시 완료 버튼 활성화 -->
+        <!-- ✅ 모든 문단 정답 시 완료 버튼 -->
         <?php if (count($results) === count($correct_paragraphs) && array_sum($results) === count($correct_paragraphs)): ?>
           <div style="text-align: right; margin-top: 1em;">
             <a href="selectlevel.php?solution_id=<?= htmlspecialchars(urlencode($sid)) ?>" class="ui yellow button">완료</a>
