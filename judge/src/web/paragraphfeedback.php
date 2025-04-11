@@ -10,7 +10,7 @@ if ($problem_id <= 0) {
     exit;
 }
 
-$file_path = "/home/troy0012/test/test.txt";
+$file_path = "/home/troy0012/aaa.txt";
 $file_handle = fopen($file_path, "r");
 if ($file_handle) {
     while (($line = fgets($file_handle)) !== false) {
