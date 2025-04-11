@@ -11,7 +11,7 @@ if ($problem_id <= 0) {
 }
 
 // 2. test.txt 파일 읽기
-$file_path = "/home/troy0012/test/test.txt";  // test.txt 파일 경로
+$file_path = "../troy0012/test/test.txt";  // test.txt 파일 경로
 if (!file_exists($file_path)) {
     echo "❌ test.txt 파일을 찾을 수 없습니다.";
     exit;
