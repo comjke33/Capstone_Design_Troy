@@ -1,5 +1,4 @@
 <?php
-
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 if (!$sid) {
     echo "<p style='color:red; text-align:center;'>problem_id가가 전달되지 않았습니다.</p>";
@@ -36,7 +35,7 @@ if (!$sid) {
             text-decoration: none;
         }
 
-        .btn:hover {
+        .container .btn:hover {
             background-color: #45a049;
         }
 
@@ -45,7 +44,27 @@ if (!$sid) {
             margin-bottom: 40px;
         }
 
-        
+        .back {
+            display: inline-block;
+            background-color: red; /* 배경 빨간색 */
+            color: white; /* 텍스트(화살표) 하얀색 */
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 20px; /* 글자 크기 */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .back:hover {
+            background-color: #d32f2f; /* hover 시 어두운 빨간색 */
+        }
+
+        .back::before {
+            content: '🔙'; /* 유니코드 화살표 문자 */
+            margin-right: 8px; /* 화살표와 텍스트 사이 간격 */
+        }
 
     </style>
 </head>
@@ -57,8 +76,7 @@ if (!$sid) {
         <a class="btn" href="guideline3.php?problem_id=<?= $sid ?>">전체</a>
     </div>
 
-    <a class="btn" href="problem.php?id=<?php echo $sid; ?>">🔙</a>
+    <a class="back" href="problem.php?id=<?php echo $sid; ?>">뒤로 가기</a>
 
 </body>
 </html>
-
