@@ -1,39 +1,51 @@
 <?php
-$OJ_TEMPLATE = "syzoj";
-$show_title = "문단 피드백";
-$sid = isset($_GET['solution_id']) ? $_GET['solution_id'] : null;
+// 0. 데이터베이스 연결
+include("template/syzoj/header.php");
+include("include/db_info.inc.php");
 
-include("template/$OJ_TEMPLATE/header.php");
-
-if (!$sid) {
-  echo "<div class='ui warning message'><div class='header'>solution_id가 없습니다.</div></div>";
-  include("template/$OJ_TEMPLATE/footer.php");
-  exit;
+// 1. problem_id 가져오기 및 검증
+$problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
+if ($problem_id <= 0) {
+    echo "❌ 잘못된 요청입니다. problem_id 필요합니다.";
+    exit;
 }
 
-// ✅ 문단 정답 정의
-$correct_paragraphs = [
-    'printf("Hello World");'
-];
-
-$descriptions = [
-    'printf를 이용하여 Hello World 출력하기'
-];
-
-$user_inputs = [];
-$results = [];
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  foreach ($correct_paragraphs as $i => $answer) {
-    $input = $_POST["para_$i"] ?? '';
-    $user_inputs[$i] = $input;
-
-    $normalized_input = preg_replace('/\s+/', '', $input);
-    $normalized_answer = preg_replace('/\s+/', '', $answer);
-
-    $results[$i] = ($normalized_input === $normalized_answer);
-  }
+// 2. test.txt 파일 읽기
+$file_path = "/home/troy0012/test/test.txt";  // test.txt 파일 경로
+if (!file_exists($file_path)) {
+    echo "❌ test.txt 파일을 찾을 수 없습니다.";
+    exit;
 }
 
-include("template/$OJ_TEMPLATE/paragraphfeedback.php");
-include("template/$OJ_TEMPLATE/footer.php");
+// 파일 내용을 읽어옴
+$feedback_code = file_get_contents($file_path);
+
+// 3. feedback 테이블에 피드백 삽입
+$sql = "INSERT INTO feedback (problem_id, feedback_code) VALUES (?, ?)";
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param("is", $problem_id, $feedback_code);
+$stmt->execute();
+$stmt->close();
+
+// 4. feedback 테이블에서 problem_id 기준으로 피드백 가져오기
+echo "<h3>해당 제출(problem_id = $problem_id)에 대한 피드백</h3>";
+
+$sql = "SELECT feedback_code, line_number FROM feedback WHERE problem_id = ? ORDER BY line_number ASC";
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param("i", $problem_id);
+$stmt->execute();
+$stmt->bind_result($feedback_text, $line_number);
+
+$has_feedback = false;
+echo "<ul>";
+while ($stmt->fetch()) {
+    $has_feedback = true;
+    echo "<li><strong>Line $line_number:</strong> $feedback_text</li>";
+}
+echo "</ul>";
+$stmt->close();
+
+if (!$has_feedback) {
+    echo "<p>📭 이 제출에는 피드백이 없습니다.</p>";
+}
+?>
