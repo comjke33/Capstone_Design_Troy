@@ -10,28 +10,16 @@ if ($problem_id <= 0) {
     exit;
 }
 
-// 2. test.txt 파일 읽기
-$file_path = "/home/troy0012/test/test.txt";  // test.txt 파일 경로
-
-// 경로 출력 (디버깅용)
-echo "파일 경로: $file_path";  // 경로 출력
-
-// 파일이 존재하는지 확인
-if (!file_exists($file_path)) {
-    echo "❌ test.txt 파일을 찾을 수 없습니다.";
-    exit;
+$file_path = "/home/troy0012/test/test.txt";
+$file_handle = fopen($file_path, "r");
+if ($file_handle) {
+    while (($line = fgets($file_handle)) !== false) {
+        echo nl2br($line); // 줄바꿈을 HTML에서 보이도록 변환
+    }
+    fclose($file_handle);
+} else {
+    echo "파일을 열 수 없습니다.";
 }
 
-// 파일 내용을 읽어오기
-$feedback_code = file_get_contents($file_path);
-
-// 디버깅: 에러가 발생할 경우, 이유를 확인
-if ($feedback_code === false) {
-    echo "❌ test.txt 파일을 읽을 수 없습니다. 오류: " . error_get_last()['message'];
-    exit;
-}
-
-// 파일을 읽을 수 있으면 출력
-echo "파일 내용: $feedback_code";
 
 ?>
