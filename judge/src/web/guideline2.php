@@ -1,85 +1,66 @@
 <?php
+// 0. 데이터베이스 연결
+include("template/syzoj/header.php");
+include("include/db_info.inc.php");
+
 $file_path = "/home/Capstone_Design_Troy/test/test.txt";
+
+// 1. 파일 내용 읽기
 $file_contents = file_get_contents($file_path);
 
-// Define patterns to extract function definitions, loops, and conditionals
-preg_match_all("/func_def_start\((.*?)\)(.*?)func_def_end\((.*?)\)/s", $file_contents, $functions);
-preg_match_all("/rep_start\((.*?)\)(.*?)rep_end\((.*?)\)/s", $file_contents, $loops);
-preg_match_all("/cond_start\((.*?)\)(.*?)cond_end\((.*?)\)/s", $file_contents, $conditionals);
-preg_match_all("/self_start\((.*?)\)(.*?)self_end\((.*?)\)/s", $file_contents, $self_blocks);
+// 2. 정규 표현식을 사용하여 각 블록을 구분합니다.
+// 'func_def_start'로 시작하고 'func_def_end'로 끝나는 함수 블록
+preg_match_all("/\[func_def_start\((.*?)\)\](.*?)\[func_def_end\((.*?)\)\]/s", $file_contents, $functions);
 
-// Main container for all code blocks
-echo "<div class='main-container'>";
+// 'rep_start'로 시작하고 'rep_end'로 끝나는 반복문 블록
+preg_match_all("/\[rep_start\((.*?)\)\](.*?)\[rep_end\((.*?)\)\]/s", $file_contents, $loops);
 
-// Render functions within a sub-container
-echo "<div class='functions-container'>";
+// 'cond_start'로 시작하고 'cond_end'로 끝나는 조건문 블록
+preg_match_all("/\[cond_start\((.*?)\)\](.*?)\[cond_end\((.*?)\)\]/s", $file_contents, $conditionals);
+
+// 'self_start'로 시작하고 'self_end'로 끝나는 self-contained 블록
+preg_match_all("/\[self_start\((.*?)\)\](.*?)\[self_end\((.*?)\)\]/s", $file_contents, $self_blocks);
+
+// 3. 각 블록을 나누어 출력합니다.
+
+// 3.1 함수 블록 출력
 foreach ($functions[0] as $index => $function) {
-    $func_name = extract_function_name($function);
-    $function_content = $functions[2][$index];
+    $func_name = htmlspecialchars($functions[1][$index]);
+    $function_content = nl2br(htmlspecialchars($functions[2][$index]));
     echo "<div class='code-block function'>";
     echo "<h3>Function: $func_name</h3>";
-    echo "<p>" . nl2br($function_content) . "</p>";
+    echo "<p>$function_content</p>";
     echo "</div>";
 }
-echo "</div>"; // End of functions-container
 
-// Render loops within a sub-container
-echo "<div class='loops-container'>";
+// 3.2 반복문 블록 출력
 foreach ($loops[0] as $index => $loop) {
-    $loop_info = extract_loop_info($loop);
-    $loop_content = $loops[2][$index];
+    $loop_info = htmlspecialchars($loops[1][$index]);
+    $loop_content = nl2br(htmlspecialchars($loops[2][$index]));
     echo "<div class='code-block loop'>";
     echo "<h3>Loop: $loop_info</h3>";
-    echo "<p>" . nl2br($loop_content) . "</p>";
+    echo "<p>$loop_content</p>";
     echo "</div>";
 }
-echo "</div>"; // End of loops-container
 
-// Render conditionals within a sub-container
-echo "<div class='conditionals-container'>";
+// 3.3 조건문 블록 출력
 foreach ($conditionals[0] as $index => $conditional) {
-    $conditional_info = extract_conditional_info($conditional);
-    $conditional_content = $conditionals[2][$index];
+    $conditional_info = htmlspecialchars($conditionals[1][$index]);
+    $conditional_content = nl2br(htmlspecialchars($conditionals[2][$index]));
     echo "<div class='code-block conditional'>";
     echo "<h3>Conditional: $conditional_info</h3>";
-    echo "<p>" . nl2br($conditional_content) . "</p>";
+    echo "<p>$conditional_content</p>";
     echo "</div>";
 }
-echo "</div>"; // End of conditionals-container
 
-// Render self-contained blocks within a sub-container
-echo "<div class='self-blocks-container'>";
+// 3.4 self-contained 블록 출력
 foreach ($self_blocks[0] as $index => $self_block) {
-    $self_block_info = extract_self_block_info($self_block);
-    $self_block_content = $self_blocks[2][$index];
+    $self_block_info = htmlspecialchars($self_blocks[1][$index]);
+    $self_block_content = nl2br(htmlspecialchars($self_blocks[2][$index]));
     echo "<div class='code-block self-block'>";
-    echo "<h3>Self-Block: $self_block_info</h3>";
-    echo "<p>" . nl2br($self_block_content) . "</p>";
+    echo "<h3>Self Block: $self_block_info</h3>";
+    echo "<p>$self_block_content</p>";
     echo "</div>";
 }
-echo "</div>"; // End of self-blocks-container
 
-// Close main container
-echo "</div>"; // End of main-container
-
-// Helper functions for extracting details
-function extract_function_name($function) {
-    preg_match("/func_def_start\((.*?)\)/", $function, $matches);
-    return $matches[1] ?? 'Unknown Function';
-}
-
-function extract_loop_info($loop) {
-    preg_match("/rep_start\((.*?)\)/", $loop, $matches);
-    return $matches[1] ?? 'Unknown Loop';
-}
-
-function extract_conditional_info($conditional) {
-    preg_match("/cond_start\((.*?)\)/", $conditional, $matches);
-    return $matches[1] ?? 'Unknown Conditional';
-}
-
-function extract_self_block_info($self_block) {
-    preg_match("/self_start\((.*?)\)/", $self_block, $matches);
-    return $matches[1] ?? 'Unknown Self-Block';
-}
 ?>
