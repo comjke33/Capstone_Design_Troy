@@ -24,8 +24,8 @@ preg_match_all("/\[self_start\((.*?)\)\](.*?)\[self_end\((.*?)\)\]/s", $file_con
 // 'struct_start'로 시작하고 'struct_end'로 끝나는 구조체 블록
 preg_match_all("/\[struct_start\((.*?)\)\](.*?)\[struct_end\((.*?)\)\]/s", $file_contents, $structs);
 
-// 3. 코드 내에서 [ ]로 감싸진 부분을 제거합니다.
-$file_contents = preg_replace("/\[[^\]]*\]/", "", $file_contents); // [ ] 안의 내용 삭제
+// 3. [ ] 안에 특정 태그가 포함된 부분을 제거
+$file_contents = preg_replace("/\[(rep_start|rep_end|self_start|self_end|func_def_start|func_def_end|cond_start|cond_end|struct_start|struct_end)\([^\)]*\)\]/", "", $file_contents);
 
 // 4. 각 블록을 색상별로 출력하기 전에 불필요한 부분을 제거한 후 출력합니다.
 echo "<div class='code-container'>";
