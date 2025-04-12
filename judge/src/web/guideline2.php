@@ -23,7 +23,7 @@ $patterns = [
 $file_contents = preg_replace_callback($patterns['func_def'], function($matches) {
     // 문장별로 나누어 텍스트 입력란 추가
     $function_content = nl2br($matches[2]);
-    $function_content = preg_replace("/<br \/>/", "<br /><textarea rows='4' style='width: 100%;'></textarea><br />", $function_content);
+    $function_content = preg_replace("/<br \/>/", "<br /><textarea rows='4' style='width: 100%;'></textarea>", $function_content, 1); // 한번만 추가
     
     return "<div class='code-block function' style='background-color: #e0f7fa; padding: 15px; margin-bottom: 20px; border-radius: 8px;'><h3>함수: {$matches[1]}</h3><p>$function_content</p></div>";
 }, $file_contents);
@@ -32,7 +32,7 @@ $file_contents = preg_replace_callback($patterns['func_def'], function($matches)
 $file_contents = preg_replace_callback($patterns['rep'], function($matches) {
     // 문장별로 나누어 텍스트 입력란 추가
     $loop_content = nl2br($matches[2]);
-    $loop_content = preg_replace("/<br \/>/", "<br /><textarea rows='4' style='width: 100%;'></textarea><br />", $loop_content);
+    $loop_content = preg_replace("/<br \/>/", "<br /><textarea rows='4' style='width: 100%;'></textarea>", $loop_content, 1); // 한번만 추가
     
     return "<div class='code-block loop' style='background-color: #fce4ec; padding: 15px; margin-bottom: 20px; border-radius: 8px;'><h3>반복문: {$matches[1]}</h3><p>$loop_content</p></div>";
 }, $file_contents);
@@ -41,7 +41,7 @@ $file_contents = preg_replace_callback($patterns['rep'], function($matches) {
 $file_contents = preg_replace_callback($patterns['cond'], function($matches) {
     // 문장별로 나누어 텍스트 입력란 추가
     $conditional_content = nl2br($matches[2]);
-    $conditional_content = preg_replace("/<br \/>/", "<br /><textarea rows='4' style='width: 100%;'></textarea><br />", $conditional_content);
+    $conditional_content = preg_replace("/<br \/>/", "<br /><textarea rows='4' style='width: 100%;'></textarea>", $conditional_content, 1); // 한번만 추가
     
     return "<div class='code-block conditional' style='background-color: #e8f5e9; padding: 15px; margin-bottom: 20px; border-radius: 8px;'><h3>조건문: {$matches[1]}</h3><p>$conditional_content</p></div>";
 }, $file_contents);
@@ -50,7 +50,7 @@ $file_contents = preg_replace_callback($patterns['cond'], function($matches) {
 $file_contents = preg_replace_callback($patterns['self'], function($matches) {
     // 문장별로 나누어 텍스트 입력란 추가
     $self_block_content = nl2br($matches[2]);
-    $self_block_content = preg_replace("/<br \/>/", "<br /><textarea rows='4' style='width: 100%;'></textarea><br />", $self_block_content);
+    $self_block_content = preg_replace("/<br \/>/", "<br /><textarea rows='4' style='width: 100%;'></textarea>", $self_block_content, 1); // 한번만 추가
     
     return "<div class='code-block self-block' style='background-color: #fff9c4; padding: 15px; margin-bottom: 20px; border-radius: 8px;'><h3>기본 문장: {$matches[1]}</h3><p>$self_block_content</p></div>";
 }, $file_contents);
@@ -59,7 +59,7 @@ $file_contents = preg_replace_callback($patterns['self'], function($matches) {
 $file_contents = preg_replace_callback($patterns['struct'], function($matches) {
     // 문장별로 나누어 텍스트 입력란 추가
     $struct_content = nl2br($matches[2]);
-    $struct_content = preg_replace("/<br \/>/", "<br /><textarea rows='4' style='width: 100%;'></textarea><br />", $struct_content);
+    $struct_content = preg_replace("/<br \/>/", "<br /><textarea rows='4' style='width: 100%;'></textarea>", $struct_content, 1); // 한번만 추가
     
     return "<div class='code-block struct' style='background-color: #ffecb3; padding: 15px; margin-bottom: 20px; border-radius: 8px;'><h3>구조체: {$matches[1]}</h3><p>$struct_content</p></div>";
 }, $file_contents);
