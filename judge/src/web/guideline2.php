@@ -72,7 +72,12 @@ $file_contents = preg_replace_callback($patterns['struct'], function($matches) {
 
 
 // 4. 코드 내에서 [ ]로 감싸진 부분 제거
-$file_contents = preg_replace("/\[(rep_start|rep_end|self_start|self_end|func_def_start|func_def_end|cond_start|cond_end|struct_start|struct_end)\([^\)]*\)\]/", "", $file_contents);
+$file_contents = preg_replace(
+    "/^.*\[(rep_start|rep_end|self_start|self_end|func_def_start|func_def_end|cond_start|cond_end|struct_start|struct_end)\([^\)]*\)\].*$(\r?\n)?/m",
+    "",
+    $file_contents
+);
+
 
 // 전체 코드 출력 (구분된 색상으로)
 echo "<div class='code-container' style='font-family: Arial, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto;'>";
