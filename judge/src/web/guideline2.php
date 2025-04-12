@@ -21,6 +21,9 @@ preg_match_all("/\[cond_start\((.*?)\)\](.*?)\[cond_end\((.*?)\)\]/s", $file_con
 // 'self_start'로 시작하고 'self_end'로 끝나는 self-contained 블록
 preg_match_all("/\[self_start\((.*?)\)\](.*?)\[self_end\((.*?)\)\]/s", $file_contents, $self_blocks);
 
+// 'struct_start'로 시작하고 'struct_end'로 끝나는 구조체 블록 추가
+preg_match_all("/\[struct_start\((.*?)\)\](.*?)\[struct_end\((.*?)\)\]/s", $file_contents, $structs);
+
 // 3. 각 블록을 나누어 출력합니다.
 
 // 3.1 함수 블록 출력
@@ -63,4 +66,13 @@ foreach ($self_blocks[0] as $index => $self_block) {
     echo "</div>";
 }
 
+// 3.5 구조체 블록 출력 (새로 추가된 부분)
+foreach ($structs[0] as $index => $struct) {
+    $struct_name = htmlspecialchars($struct[1]);
+    $struct_content = nl2br(htmlspecialchars($struct[2]));
+    echo "<div class='code-block struct'>";
+    echo "<h3>Struct: $struct_name</h3>";
+    echo "<p>$struct_content</p>";
+    echo "</div>";
+}
 ?>
