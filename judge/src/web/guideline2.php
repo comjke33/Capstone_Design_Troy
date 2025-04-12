@@ -23,7 +23,7 @@ $patterns = [
 $file_contents = preg_replace_callback($patterns['func_def'], function($matches) {
     // 문장별로 나누어 텍스트 입력란 추가
     $function_content = nl2br($matches[2]);
-    $function_content = preg_replace("/([^.]+[.])/", "$1<br /><textarea rows='4' style='width: 100%;'></textarea><br />", $function_content);  // 마침표 기준으로 문장 나누고 입력란 추가
+    $function_content = preg_replace("/([^.]+[.])/", "$1<br /><textarea rows='4' style='width: 100%;'></textarea>", $function_content);  // 마침표 기준으로 문장 나누고 입력란 추가
     
     return "<div class='code-block function' style='background-color: #e0f7fa; padding: 15px; margin-bottom: 20px; border-radius: 8px;'><h3>함수: {$matches[1]}</h3><p>$function_content</p></div>";
 }, $file_contents);
