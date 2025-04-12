@@ -21,10 +21,11 @@ preg_match_all("/\[cond_start\((.*?)\)\](.*?)\[cond_end\((.*?)\)\]/s", $file_con
 // 'self_start'로 시작하고 'self_end'로 끝나는 self-contained 블록
 preg_match_all("/\[self_start\((.*?)\)\](.*?)\[self_end\((.*?)\)\]/s", $file_contents, $self_blocks);
 
-// 'struct_start'로 시작하고 'struct_end'로 끝나는 구조체 블록 추가
+// 'struct_start'로 시작하고 'struct_end'로 끝나는 구조체 블록
 preg_match_all("/\[struct_start\((.*?)\)\](.*?)\[struct_end\((.*?)\)\]/s", $file_contents, $structs);
 
-// 3. 각 블록을 나누어 출력합니다.
+// 3. 모든 블록을 묶어서 출력
+echo "<div class='code-block-container'>";
 
 // 3.1 함수 블록 출력
 foreach ($functions[0] as $index => $function) {
@@ -66,7 +67,7 @@ foreach ($self_blocks[0] as $index => $self_block) {
     echo "</div>";
 }
 
-// 3.5 구조체 블록 출력 (새로 추가된 부분)
+// 3.5 구조체 블록 출력
 foreach ($structs[0] as $index => $struct) {
     $struct_name = htmlspecialchars($struct[1]);
     $struct_content = nl2br(htmlspecialchars($struct[2]));
@@ -76,6 +77,7 @@ foreach ($structs[0] as $index => $struct) {
     echo "</div>";
 }
 
+echo "</div>"; // End of code-block-container
 
 include("template/$OJ_TEMPLATE/guideline2.php");
 include("template/$OJ_TEMPLATE/footer.php");
