@@ -44,22 +44,22 @@ $file_contents = preg_replace_callback($patterns['func_def'], function($matches)
 
 $file_contents = preg_replace_callback($patterns['rep'], function($matches) {
     $sentences = preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY);
-    return render_block("반복문: {$matches[1]}", "#fce4ec", $sentences, 4);
+    return render_block("반복문: {$matches[1]}", "#fce4ec", $sentences, 2);
 }, $file_contents);
 
 $file_contents = preg_replace_callback($patterns['cond'], function($matches) {
     $sentences = preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY);
-    return render_block("조건문: {$matches[1]}", "#e8f5e9", $sentences, 4);
+    return render_block("조건문: {$matches[1]}", "#e8f5e9", $sentences, 2);
 }, $file_contents);
 
 $file_contents = preg_replace_callback($patterns['self'], function($matches) {
     $sentences = preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY);
-    return render_block("기본 문장: {$matches[1]}", "#fff9c4", $sentences, 4);
+    return render_block("기본 문장: {$matches[1]}", "#fff9c4", $sentences, 2);
 }, $file_contents);
 
 $file_contents = preg_replace_callback($patterns['struct'], function($matches) {
     $sentences = preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY);
-    return render_block("구조체: {$matches[1]}", "#ffecb3", $sentences, 4);
+    return render_block("구조체: {$matches[1]}", "#ffecb3", $sentences, 2);
 }, $file_contents);
 
 // 🔷 태그 포함된 줄 전체 제거
