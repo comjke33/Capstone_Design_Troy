@@ -23,12 +23,16 @@ function render_block($title, $color, $sentences, $textarea_rows = 4) {
     foreach ($sentences as $s) {
         if (trim($s) === "") continue;
 
-        // HTML이나 textarea 태그 포함된 코드 줄 제거
-        if (preg_match('/<(\/)?(textarea|div)[^>]*>/i', $s) || preg_match('/&lt;.*textarea.*&gt;/', $s)) continue;
+        // HTML 태그가 포함된 문자열 제거
+        if (preg_match('/<(\/)?(textarea|div)[^>]*>/i', $s) || preg_match('/&lt;.*textarea.*&gt;/i', $s)) continue;
 
         $output .= "<div style='margin-bottom: 10px;'>" . htmlspecialchars($s) . "</div><textarea rows='$textarea_rows' style='width: 100%;'></textarea>";
     }
-    return "<div class='code-block' style='background-color: $color; padding: 15px; margin-bottom: 20px; border-radius: 8px;'><h3>$title</h3>$output</div>";
+
+    // 마지막에 불필요한 빈 줄 제거
+    $output = preg_replace("/<div[^>]*>\s*<\/div>/", "", $output);
+
+    return "<div class='code-block' style='background-color: $color; padding: 15px; margin-bottom: 20px; border-radius: 8px;'><h3>$title</h3>" . rtrim($output) . "</div>";
 }
 
 // 🔷 각 블록별 적용
