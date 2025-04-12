@@ -78,11 +78,11 @@ $file_contents = preg_replace_callback($patterns['struct'], function($matches) {
 }, $file_contents);
 
 // 🔷 태그 줄 전체 제거
-$file_contents = preg_replace(
-    "/^.*\[(rep_start|rep_end|self_start|self_end|func_def_start|func_def_end|cond_start|cond_end|struct_start|struct_end)\([^\)]*\)\].*$(\r?\n)?/m",
-    "",
-    $file_contents
-);
+// $file_contents = preg_replace(
+//     "/^.*\[(rep_start|rep_end|self_start|self_end|func_def_start|func_def_end|cond_start|cond_end|struct_start|struct_end)\([^\)]*\)\].*$(\r?\n)?/m",
+//     "",
+//     $file_contents
+// );
 
 // 🔷 최종 출력
 echo "<div class='code-container' style='font-family: Arial, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto;'>";
