@@ -18,7 +18,7 @@ $patterns = [
 ];
 
 // 🔷 공통 블록 처리 함수
-function render_block($title, $color, $sentences, $textarea_rows = 4) {
+function render_block($title, $color, $sentences, $textarea_rows = 2) {
     $output = "";
     foreach ($sentences as $s) {
         if (trim($s) === "") continue;
@@ -26,7 +26,7 @@ function render_block($title, $color, $sentences, $textarea_rows = 4) {
         // HTML 태그가 포함된 문자열 제거
         if (preg_match('/<(\/)?(textarea|div)[^>]*>/i', $s) || preg_match('/&lt;.*textarea.*&gt;/i', $s)) continue;
 
-        $output .= "<div style='margin-bottom: 10px;'>" . htmlspecialchars($s) . "</div><textarea rows='$textarea_rows' style='width: 100%;'></textarea>";
+        $output .= "<div style='margin-bottom: 10px;'>" . htmlspecialchars($s) . "</div><textarea rows='$textarea_rows' style='width: 100%;'>";
     }
 
     // 마지막에 불필요한 빈 줄 제거
