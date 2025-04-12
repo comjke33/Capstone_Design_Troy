@@ -75,4 +75,8 @@ foreach ($structs[0] as $index => $struct) {
     echo "<p>$struct_content</p>";
     echo "</div>";
 }
+
+
+include("template/$OJ_TEMPLATE/guideline2.php");
+include("template/$OJ_TEMPLATE/footer.php");
 ?>
