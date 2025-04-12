@@ -46,11 +46,11 @@ $(document).ready(function(){
   if(screen_width < 800) $("#MainBg-C").attr("class","");
 
   // 배경 이미지 설정
-// <?php if(isset($OJ_BG)&&$OJ_BG!="") echo " $('body').css('background','url($OJ_BG)').css('background-repeat','no-repeat').css('background-size','100%'); " ?>
-//   if(window.location.href.indexOf("rank")==-1){
-// 	  $("tr").mouseover(function(){$(this).addClass("active")});
-// 	  $("tr").mouseout(function(){$(this).removeClass("active")})
-//   }
+  // <?php if(isset($OJ_BG)&&$OJ_BG!="") echo " $('body').css('background','url($OJ_BG)').css('background-repeat','no-repeat').css('background-size','100%'); " ?>
+  // if(window.location.href.indexOf("rank")==-1){
+	//   $("tr").mouseover(function(){$(this).addClass("active")});
+	//   $("tr").mouseout(function(){$(this).removeClass("active")})
+  // }
 
 <?php if(isset($_SESSION[$OJ_NAME."_administrator"]) ||isset($_SESSION[$OJ_NAME."_problem_editor"]) || isset($_SESSION[$OJ_NAME."_tag_adder"])  ){  ?>
 
