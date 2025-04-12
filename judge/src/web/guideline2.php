@@ -18,7 +18,6 @@ $patterns = [
 ];
 
 // 3. 코드 내에서 [ ]로 감싸진 부분 제거
-$file_contents = preg_replace("/\[[^\]]*\]/", "", $file_contents); // [ ] 안의 내용 삭제
 
 // 4. 각 블록을 색상별로 출력하기 전에 정규 표현식을 사용해 부분을 처리합니다.
 
@@ -46,6 +45,8 @@ $file_contents = preg_replace_callback($patterns['self'], function($matches) {
 $file_contents = preg_replace_callback($patterns['struct'], function($matches) {
     return "<div class='code-block struct' style='background-color: #ffecb3; padding: 15px; margin-bottom: 20px; border-radius: 8px;'><h3>Struct: {$matches[1]}</h3><p>" . nl2br(htmlspecialchars($matches[2])) . "</p></div><br /><br />";
 }, $file_contents);
+
+$file_contents = preg_replace("/\[[^\]]*\]/", "", $file_contents); // [ ] 안의 내용 삭제
 
 // 전체 코드 출력 (구분된 색상으로)
 echo "<div class='code-container' style='font-family: Arial, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto;'>";
