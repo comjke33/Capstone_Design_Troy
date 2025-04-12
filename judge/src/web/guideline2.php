@@ -21,55 +21,70 @@ $patterns = [
 function render_block($title, $color, $sentences, $textarea_rows = 2) {
     $output = "";
     foreach ($sentences as $s) {
-        $s = trim($s); // ✅ 확실하게 공백 제거
+        $s = trim($s);
         if ($s === "") continue;
 
+        // HTML 태그 포함된 코드 제거
         if (preg_match('/<(\/)?(textarea|div)[^>]*>/i', $s) || preg_match('/&lt;.*textarea.*&gt;/i', $s)) continue;
 
         $output .= "<div style='margin-bottom: 10px;'>" . htmlspecialchars($s) . "</div><textarea rows='$textarea_rows' style='width: 100%;'></textarea>";
     }
 
-    // 불필요한 빈 <div></div> 제거 (예: 필터로 인해 남은 것)
+    // 빈 div 제거
     $output = preg_replace("/<div[^>]*>\s*<\/div>/", "", $output);
 
     return "<div class='code-block' style='background-color: $color; padding: 15px; margin-bottom: 20px; border-radius: 8px;'><h3>$title</h3>" . rtrim($output) . "</div>";
 }
 
-
-// 🔷 각 블록별 적용
+// 🔷 각 블록 처리
 $file_contents = preg_replace_callback($patterns['func_def'], function($matches) {
-    $sentences = preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY);
+    $sentences = array_filter(
+        preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY),
+        fn($s) => trim($s) !== ""
+    );
     return render_block("함수: {$matches[1]}", "#e0f7fa", $sentences, 2);
 }, $file_contents);
 
 $file_contents = preg_replace_callback($patterns['rep'], function($matches) {
-    $sentences = preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY);
-    return render_block("반복문: {$matches[1]}", "#fce4ec", $sentences, 2);
+    $sentences = array_filter(
+        preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY),
+        fn($s) => trim($s) !== ""
+    );
+    return render_block("반복문: {$matches[1]}", "#fce4ec", $sentences, 4);
 }, $file_contents);
 
 $file_contents = preg_replace_callback($patterns['cond'], function($matches) {
-    $sentences = preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY);
-    return render_block("조건문: {$matches[1]}", "#e8f5e9", $sentences, 2);
+    $sentences = array_filter(
+        preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY),
+        fn($s) => trim($s) !== ""
+    );
+    return render_block("조건문: {$matches[1]}", "#e8f5e9", $sentences, 4);
 }, $file_contents);
 
 $file_contents = preg_replace_callback($patterns['self'], function($matches) {
-    $sentences = preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY);
-    return render_block("기본 문장: {$matches[1]}", "#fff9c4", $sentences, 2);
+    $sentences = array_filter(
+        preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY),
+        fn($s) => trim($s) !== ""
+    );
+    return render_block("기본 문장: {$matches[1]}", "#fff9c4", $sentences, 4);
 }, $file_contents);
 
 $file_contents = preg_replace_callback($patterns['struct'], function($matches) {
-    $sentences = preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY);
-    return render_block("구조체: {$matches[1]}", "#ffecb3", $sentences, 2);
+    $sentences = array_filter(
+        preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY),
+        fn($s) => trim($s) !== ""
+    );
+    return render_block("구조체: {$matches[1]}", "#ffecb3", $sentences, 4);
 }, $file_contents);
 
-// 🔷 태그 포함된 줄 전체 제거
+// 🔷 태그 줄 전체 제거
 $file_contents = preg_replace(
     "/^.*\[(rep_start|rep_end|self_start|self_end|func_def_start|func_def_end|cond_start|cond_end|struct_start|struct_end)\([^\)]*\)\].*$(\r?\n)?/m",
     "",
     $file_contents
 );
 
-// 🔷 전체 출력
+// 🔷 최종 출력
 echo "<div class='code-container' style='font-family: Arial, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto;'>";
 echo $file_contents;
 echo "</div>";
