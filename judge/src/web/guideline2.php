@@ -39,8 +39,8 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
             'depth' => $depth + 1
         ]);
         array_push($children, [
-            'type' => 'pipe',
-            'content' => "|",
+            'type' => 'pipe-break',
+            'content' => "<br>",
             'depth' => $depth + 1
         ]);
 
@@ -72,6 +72,8 @@ function render_tree_plain($blocks) {
         if ($line !== '') {
             if ($block['type'] === 'pipe') {
                 $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: red;'>|</div>";
+            } elseif ($block['type'] === 'pipe-break') {
+                $html .= "<div style='margin-bottom:8px;'><br></div>";
             } else {
                 $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
                 if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
