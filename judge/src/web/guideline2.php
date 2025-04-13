@@ -18,11 +18,12 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $before_text = substr($text, $offset, $start_pos - $offset);
         if (trim($before_text) !== '') {
             foreach (explode("\n", $before_text) as $line) {
-                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-                if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", trim($line))) {
+                $line = trim($line);
+                if (!preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", $line)) {
+                    $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
                     $blocks[] = [
                         'type' => 'text',
-                        'content' => rtrim($line),
+                        'content' => $line,
                         'depth' => $depth + $indent_level
                     ];
                 }
@@ -45,14 +46,16 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $offset = $end_pos;
     }
 
+    // 마지막 남은 부분
     $tail = substr($text, $offset);
     if (trim($tail) !== '') {
         foreach (explode("\n", $tail) as $line) {
-            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-            if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", trim($line))) {
+            $line = trim($line);
+            if (!preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", $line)) {
+                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
                 $blocks[] = [
                     'type' => 'text',
-                    'content' => rtrim($line),
+                    'content' => $line,
                     'depth' => $depth + $indent_level
                 ];
             }
@@ -80,6 +83,7 @@ function render_tree_plain($blocks) {
                 $html .= "<div style='margin-bottom:8px;'><br></div>";
                 $previous_was_pipe = false;
             }
+
             $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
             $html .= "<div style='padding-left: {$indent_px}px;'><textarea rows='2' style='width: calc(100% - {$indent_px}px); margin-bottom: 10px;'></textarea></div>";
         }
