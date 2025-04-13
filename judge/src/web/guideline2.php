@@ -2,7 +2,7 @@
 include("template/syzoj/header.php");
 include("include/db_info.inc.php");
 
-$file_path = "/home/Capstone_Design_Troy/test/test1.txt";
+$file_path = "/home/Capstone_Design_Troy/test/test2.txt";
 $file_contents = file_get_contents($file_path);
 
 // 정답 배열 (문제에 맞게 수정)
