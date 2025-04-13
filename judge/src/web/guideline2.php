@@ -31,25 +31,14 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $idx = $m[2][0];
         $content = $m[3][0];
 
-        $children = parse_blocks_with_loose_text($content, $depth + 1);
-
-        // 줄 바꿈 있는 pipe로 구분
         $blocks[] = [
             'type' => 'pipe',
             'content' => "|",
             'depth' => $depth + 1
         ];
+
+        $children = parse_blocks_with_loose_text($content, $depth + 1);
         $blocks = array_merge($blocks, $children);
-        $blocks[] = [
-            'type' => 'pipe-break',
-            'content' => "|",
-            'depth' => $depth + 1
-        ];
-        $blocks[] = [
-            'type' => 'pipe-separator',
-            'content' => "<br>",
-            'depth' => $depth + 1
-        ];
 
         $offset = $end_pos;
     }
@@ -71,30 +60,27 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
 
 function render_tree_plain($blocks) {
     $html = "";
-    $previous_type = null;
+    $previous_was_pipe = false;
+
     foreach ($blocks as $block) {
         $indent_px = 40 * $block['depth'];
         $line = htmlspecialchars($block['content']);
-        if ($line !== '') {
-            if ($block['type'] === 'pipe') {
-                if ($previous_type === 'pipe-break') {
-                    $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px; color: red;'>|</div>";
-                } else {
-                    $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: red;'>|</div>";
-                }
-            } elseif ($block['type'] === 'pipe-break') {
-                // 줄 바꿈이 있는 파이프만 마지막에
-                // 다음에 또 pipe가 나오면 중복 방지
-            } elseif ($block['type'] === 'pipe-separator') {
+
+        if ($block['type'] === 'pipe') {
+            if (!$previous_was_pipe) {
+                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: red;'>|</div>";
+                $previous_was_pipe = true;
+            }
+        } else {
+            if ($previous_was_pipe) {
                 $html .= "<div style='margin-bottom:8px;'><br></div>";
-            } else {
-                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
-                if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
-                    $html .= "<div style='padding-left: {$indent_px}px;'><textarea rows='2' style='width: calc(100% - {$indent_px}px); margin-bottom: 10px;'></textarea></div>";
-                }
+                $previous_was_pipe = false;
+            }
+            $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
+            if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
+                $html .= "<div style='padding-left: {$indent_px}px;'><textarea rows='2' style='width: calc(100% - {$indent_px}px); margin-bottom: 10px;'></textarea></div>";
             }
         }
-        $previous_type = $block['type'];
     }
     return $html;
 }
