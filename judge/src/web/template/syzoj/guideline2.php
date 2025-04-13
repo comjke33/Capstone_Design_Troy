@@ -3,6 +3,55 @@
 </div>
 
 <div class='code-container' style='font-family: monospace; line-height: 1.5; max-width: 1000px; margin: 0 auto;'>
+    <style>
+        .styled-textarea {
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-family: monospace;
+            font-size: 14px;
+            resize: vertical;
+            background-color: #f9f9f9;
+            transition: border-color 0.2s;
+        }
+
+        .styled-textarea:focus {
+            outline: none;
+            border-color: #4a90e2;
+            background-color: #fff;
+        }
+
+        .submit-button {
+            height: 30px;
+            padding: 0 12px;
+            font-size: 13px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .submit-button:hover {
+            background-color: #357ab7;
+        }
+
+        .checkmark {
+            color: green;
+            font-size: 18px;
+            margin-left: 5px;
+        }
+
+        .submission-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+    </style>
+
     <?php
     function render_tree_plain($blocks, &$answer_index = 0) {
         $html = "";
@@ -17,10 +66,10 @@
                         $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color:red;'>|</div>";
                     } else {
                         $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
-                        $html .= "<div style='padding-left: {$indent_px}px; display: flex; align-items: center; gap: 6px;'>";
-                        $html .= "<textarea id='ta_{$answer_index}' rows='2' style='width: calc(100% - 80px); margin-bottom: 10px;'></textarea>";
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' style='height: 30px;'>제출</button>";
-                        $html .= "<span id='check_{$answer_index}' style='color: green; font-size: 20px; display:none;'>✔️</span>";
+                        $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' rows='2'></textarea>";
+                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
+                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
                         $html .= "</div>";
                         $answer_index++;
                     }
@@ -35,7 +84,7 @@
     ?>
 </div>
 
-<!-- ✅ JavaScript: 정답 판별 -->
+<!-- ✅ JavaScript -->
 <script>
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
@@ -48,7 +97,8 @@ function submitAnswer(index) {
 
     if (input === correct) {
         ta.readOnly = true;
-        ta.style.backgroundColor = "#eee";
+        ta.style.backgroundColor = "#e6e6e6";
+        ta.style.border = "1px solid #ccc";
         btn.style.display = "none";
         check.style.display = "inline";
     } else {
