@@ -1,13 +1,10 @@
 <?php
-// 0. 데이터베이스 연결
 include("template/syzoj/header.php");
 include("include/db_info.inc.php");
 
-// 1. 파일 경로 설정 및 내용 불러오기
 $file_path = "/home/Capstone_Design_Troy/test/test1.txt";
 $file_contents = file_get_contents($file_path);
 
-// 2. 중첩 블록 트리 파싱 + 블록 외 문장 포함
 function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') {
     $pattern = "/\[(func_def|rep|cond|self|struct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct)_end\\(\\2\\)\]/s";
     $blocks = [];
@@ -15,37 +12,53 @@ function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') 
 
     while (preg_match($pattern, $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
         $start_pos = $m[0][1];
+        $full_len = strlen($m[0][0]);
+        $end_pos = $start_pos + $full_len;
 
-        // 블록 앞 일반 텍스트 저장
         $before_text = substr($text, $offset, $start_pos - $offset);
         if (trim($before_text) !== '') {
-            $before_lines = explode("\n", $before_text);
-            foreach ($before_lines as $line) {
+            foreach (explode("\n", $before_text) as $line) {
                 $blocks[] = [
-                    'type'     => 'text',
-                    'index'    => null,
-                    'content'  => $line,
-                    'children' => [],
-                    'depth'    => $depth,
-                    'parent_type' => $parent_type
+                    'type' => 'text',
+                    'content' => $line,
+                    'depth' => $depth
                 ];
             }
         }
 
-        $full      = $m[0][0];
-        $end_pos   = $start_pos + strlen($full);
-        $type      = $m[1][0];
-        $idx       = $m[2][0];
-        $content   = $m[3][0];
-        $children  = parse_blocks_with_loose_text($content, $depth + 1, $type);
+        $type = $m[1][0];
+        $idx = $m[2][0];
+        $content = $m[3][0];
+        $start_tag = "[{$type}_start({$idx})]";
+        $end_tag = "[{$type}_end({$idx})]";
+
+        $children = [];
+        $lines = explode("\n", $content);
+        foreach ($lines as $line) {
+            $children[] = [
+                'type' => 'text',
+                'content' => $line,
+                'depth' => $depth + 1
+            ];
+        }
 
         $blocks[] = [
-            'type'     => $type,
-            'index'    => $idx,
-            'content'  => $content,
-            'children' => $children,
-            'depth'    => $depth,
-            'parent_type' => $parent_type
+            'type' => $type,
+            'index' => $idx,
+            'depth' => $depth,
+            'children' => array_merge(
+                [[
+                    'type' => 'text',
+                    'content' => $start_tag,
+                    'depth' => $depth + 1
+                ]],
+                $children,
+                [[
+                    'type' => 'text',
+                    'content' => $end_tag,
+                    'depth' => $depth + 1
+                ]]
+            )
         ];
 
         $offset = $end_pos;
@@ -53,15 +66,11 @@ function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') 
 
     $tail = substr($text, $offset);
     if (trim($tail) !== '') {
-        $tail_lines = explode("\n", $tail);
-        foreach ($tail_lines as $line) {
+        foreach (explode("\n", $tail) as $line) {
             $blocks[] = [
-                'type'     => 'text',
-                'index'    => null,
-                'content'  => $line,
-                'children' => [],
-                'depth'    => $depth,
-                'parent_type' => $parent_type
+                'type' => 'text',
+                'content' => $line,
+                'depth' => $depth
             ];
         }
     }
@@ -69,89 +78,35 @@ function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') 
     return $blocks;
 }
 
-// 3. 블록 트리를 HTML로 렌더링
-function render_tree($blocks, $parent_color = '#eeeeee') {
+function render_tree_plain($blocks) {
     $html = "";
-
     foreach ($blocks as $block) {
-        $color_map = [
-            'func_def' => '#e0f7fa',
-            'rep'      => '#fce4ec',
-            'cond'     => '#e8f5e9',
-            'self'     => '#fff9c4',
-            'struct'   => '#ffecb3',
-            'text'     => $parent_color
-        ];
-
-        $color  = $color_map[$block['type']] ?? $parent_color;
-        $indent = 50 * ($block['depth'] ?? 0);
-
-        if (empty($block['children'])) {
-            $cleaned   = preg_replace("/\[(func_def|rep|cond|self|struct)_(start|end)\(\d+\)\]/", "", $block['content']);
-            $sentences = preg_split('/(?<=\.)\s*/u', trim($cleaned), -1, PREG_SPLIT_NO_EMPTY);
-
-            foreach ($sentences as $s) {
-                $s = trim($s);
-                if ($s === '') continue;
-
-                $html .= "<div style='
-                              margin-bottom: 15px;
-                              margin-left: {$indent}px;
-                              background: $color;
-                              border-radius: 6px;
-                              padding: 12px;
-                              font-family: monospace;
-                          '><div style='margin-bottom: 8px;'>" . htmlspecialchars($s) . "</div>
-                          <textarea rows='3' style='
-                              width: 100%;
-                              background: white;
-                              border: 1px solid #ccc;
-                              border-radius: 4px;
-                          '></textarea></div>";
-            }
-        } else {
+        $indent = str_repeat("&nbsp;&nbsp;&nbsp;&nbsp;", $block['depth']);
+        if (isset($block['children'])) {
             $title = strtoupper($block['type']) . " 블록 (ID: {$block['index']})";
-            $html .= "<div style='
-                          font-weight: bold;
-                          background: $color;
-                          padding: 8px 12px;
-                          margin-left: {$indent}px;
-                          border-radius: 4px;
-                          font-family: monospace;
-                          margin-bottom: 8px;
-                      '>" . htmlspecialchars($title) . "</div>";
-            $html .= render_tree($block['children'], $color);
+            $html .= "<div style='margin-bottom:8px;'>$indent<b>$title</b></div>";
+            $html .= render_tree_plain($block['children']);
+        } else {
+            $line = htmlspecialchars(trim($block['content']));
+            if ($line !== '') {
+                $html .= "<div style='margin-bottom:4px;'>$indent$line</div>";
+                $html .= "<textarea rows='2' style='width: 100%; margin-bottom: 10px;'></textarea>";
+            }
         }
     }
-
     return $html;
 }
 
-// 4. 문제 번호 출력
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
-echo '<div class="problem-id" style="
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 20px;
-        ">
-        문제 번호: ' . htmlspecialchars($sid) . '
-      </div>';
+echo "<div class='problem-id' style='font-weight:bold; font-size:18px; margin-bottom: 20px;'>문제 번호: " . htmlspecialchars($sid) . "</div>";
 
-// 5. 파싱 및 렌더링 실행
-$block_tree   = parse_blocks_with_loose_text($file_contents);
-$html_output  = render_tree($block_tree);
+$block_tree = parse_blocks_with_loose_text($file_contents);
+$html_output = render_tree_plain($block_tree);
 
-// 6. HTML 출력
-echo "<div class='code-container' style='
-          font-family: Arial, sans-serif;
-          line-height: 1.6;
-          max-width: 1000px;
-          margin: 0 auto;
-      '>";
+echo "<div class='code-container' style='font-family: monospace; line-height: 1.5; max-width: 1000px; margin: 0 auto;'>";
 echo $html_output;
 echo "</div>";
 
-// 7. 하단 템플릿 포함
 include("template/$OJ_TEMPLATE/guideline2.php");
 include("template/$OJ_TEMPLATE/footer.php");
 ?>
