@@ -1,13 +1,8 @@
-<?php
-    $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
-?>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <title>코드 설명 인터페이스</title>
-
-    <div class="problem-id">문제 번호: <?php echo htmlspecialchars($sid); ?></div>
 
   <style>
     body {

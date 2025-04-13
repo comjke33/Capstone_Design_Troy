@@ -89,12 +89,17 @@ function render_tree($blocks, $parent_color = '') {
     return $html;
 }
 
+//문제 번호 표시시
+$sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
+
 $block_tree = parse_blocks_with_loose_text($file_contents);
 $html_output = render_tree($block_tree);
 
 echo "<div class='code-container' style='font-family: Arial, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto;'>";
 echo $html_output;
 echo "</div>";
+
+$sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 
 include("template/$OJ_TEMPLATE/guideline2.php");
 include("template/$OJ_TEMPLATE/footer.php");
