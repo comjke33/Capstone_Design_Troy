@@ -72,9 +72,7 @@ function render_tree($blocks, $parent_color = '', $depth = 0) {
             'text' => '#eeeeee'  // 블록 외 문장용 색상
         ];
 
-        if ($block['type'] === 'text') $depth = 0; // ✅ 들여쓰기 초기화
-
-        $color = isset($color_map[$block['type']]) ? $color_map[$block['type']] : '#dddddd';
+        $color = $color_map[$block['type']];
         $indent = 50 * $depth;
 
         if (empty($block['children'])) {
