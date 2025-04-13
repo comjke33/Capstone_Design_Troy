@@ -34,8 +34,8 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $children = parse_blocks_with_loose_text($content, $depth + 1);
 
         array_unshift($children, [
-            'type' => 'marker',
-            'content' => "| {$type}_start({$idx})",
+            'type' => 'pipe',
+            'content' => "|",
             'depth' => $depth + 1
         ]);
         array_push($children, [
@@ -70,10 +70,8 @@ function render_tree_plain($blocks) {
         $indent_px = 40 * $block['depth'];
         $line = htmlspecialchars($block['content']);
         if ($line !== '') {
-            if ($block['type'] === 'marker') {
-                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: #999;'>$line</div>";
-            } elseif ($block['type'] === 'pipe') {
-                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: #ddd;'>$line</div>";
+            if ($block['type'] === 'pipe') {
+                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: red;'>|</div>";
             } else {
                 $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
                 if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
