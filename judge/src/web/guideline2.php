@@ -38,7 +38,7 @@ function parse_blocks($text) {
     return $blocks;
 }
 
-function render_tree($blocks) {
+function render_tree($blocks, $parent_color = '') {
     $html = "";
 
     foreach ($blocks as $block) {
@@ -53,22 +53,18 @@ function render_tree($blocks) {
         $color = $color_map[$block['type']];
         $title = strtoupper($block['type']) . " 블록: " . $block['index'];
 
-        // 문단과 블록을 분리된 카드처럼 시각화
-        $html .= "<div style='background-color: $color; padding: 15px; margin: 25px 0; border-radius: 8px; box-shadow: 1px 1px 6px rgba(0,0,0,0.1);'>";
-        $html .= "<h4>$title</h4>";
-
         if (empty($block['children'])) {
             $sentences = preg_split('/(?<=\.)\s*/u', trim($block['content']), -1, PREG_SPLIT_NO_EMPTY);
             foreach ($sentences as $s) {
                 $s = trim($s);
                 if ($s === '') continue;
-                $html .= "<div style='margin-bottom: 10px; padding: 10px; background: white; border-radius: 4px;'>" . htmlspecialchars($s) . "</div><textarea rows='3' style='width: 100%; margin-bottom: 10px;'></textarea>";
+                $html .= "<div style='margin-bottom: 10px; padding: 10px; background: $color; border-radius: 4px;'>";
+                $html .= htmlspecialchars($s);
+                $html .= "</div><textarea rows='3' style='width: 100%; margin-bottom: 10px;'></textarea>";
             }
         } else {
-            $html .= render_tree($block['children']);
+            $html .= render_tree($block['children'], $color);
         }
-
-        $html .= "</div>";
     }
 
     return $html;
