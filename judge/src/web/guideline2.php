@@ -72,6 +72,8 @@ function render_tree($blocks, $parent_color = '', $depth = 0) {
             'text' => '#eeeeee'  // 블록 외 문장용 색상
         ];
 
+        if ($block['type'] === 'text') $depth = 0;
+
         $color = $color_map[$block['type']];
         $indent = 50 * $depth;
 
@@ -82,10 +84,15 @@ function render_tree($blocks, $parent_color = '', $depth = 0) {
             foreach ($sentences as $s) {
                 $s = trim($s);
                 if ($s === '') continue;
-                $html .= "<div style='margin-bottom: 10px; padding: 10px; background: $color; border-radius: 4px; margin-left: {$indent}px;'>" . htmlspecialchars($s) . "</div><textarea rows='3' style='width: 100%; margin-left: {$indent}px; margin-bottom: 10px;'></textarea>";
+                $html .= "<div class='block-wrapper depth-$depth type-{$block['type']}' style='margin-left: {$indent}px; border-left: 4px solid $color; padding-left: 12px; margin-bottom: 10px;'>";
+                $html .= "<div style='margin-bottom: 10px; padding: 10px; background: $color; border-radius: 4px;'>" . htmlspecialchars($s) . "</div>";
+                $html .= "<textarea rows='3' style='width: 100%; margin-bottom: 10px;'></textarea>";
+                $html .= "</div>";
             }
         } else {
+            $html .= "<div class='block-wrapper depth-$depth type-{$block['type']}' style='margin-left: {$indent}px; border-left: 4px solid $color; padding-left: 12px; margin-bottom: 10px;'>";
             $html .= render_tree($block['children'], $color, $depth + 1);
+            $html .= "</div>";
         }
     }
 
