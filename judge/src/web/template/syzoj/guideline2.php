@@ -1,7 +1,6 @@
 <?php
-// src/web/template/syzoj/guideline2.php
+    $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 ?>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -23,6 +22,15 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       max-width: 960px;
       margin: 40px auto;
+    }
+
+    .problem-id {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #222;
+      text-align: center;
+      margin-top: 40px;
+      margin-bottom: 10px;
     }
 
     .code-container h4 {
@@ -67,6 +75,9 @@
   </style>
 </head>
 <body>
+
+  <div class="problem-id">문제 번호: <?php echo htmlspecialchars($sid); ?></div>
+
   <!-- 출력 내용은 상위 PHP 파일에서 echo로 삽입됨 -->
 </body>
 </html>
