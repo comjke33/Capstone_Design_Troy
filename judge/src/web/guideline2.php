@@ -35,12 +35,12 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
 
         array_unshift($children, [
             'type' => 'marker',
-            'content' => "└── {$type}_start({$idx})",
+            'content' => "| {$type}_start({$idx})",
             'depth' => $depth + 1
         ]);
         array_push($children, [
             'type' => 'marker',
-            'content' => "└── {$type}_end({$idx})",
+            'content' => "| {$type}_end({$idx})",
             'depth' => $depth + 1
         ]);
 
