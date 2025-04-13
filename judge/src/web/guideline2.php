@@ -58,30 +58,41 @@ function parse_blocks_with_loose_text($text) {
     return $blocks;
 }
 
-function render_tree($blocks, $depth = 0) {
+// 블록 구조를 HTML로 렌더링
+function render_tree($blocks, $parent_color = '', $depth = 0) {
     $html = "";
+
     foreach ($blocks as $block) {
-        $indent_space = str_repeat("&nbsp;&nbsp;&nbsp;&nbsp;", $depth);
-        $color = '#000000';
+        $color_map = [
+            'func_def' => '#e0f7fa',
+            'rep' => '#fce4ec',
+            'cond' => '#e8f5e9',
+            'self' => '#fff9c4',
+            'struct' => '#ffecb3',
+            'text' => '#eeeeee'  // 블록 외 문장용 색상
+        ];
+
+        $color = $color_map[$block['type']];
+        $indent = 50 * $depth;
 
         if (empty($block['children'])) {
+            // 태그 제거 후 문장 분해
             $cleaned = preg_replace("/\\[(func_def|rep|cond|self|struct)_(start|end)\\(\\d+\\)\\]/", "", $block['content']);
             $sentences = preg_split('/(?<=\.)\s*/u', trim($cleaned), -1, PREG_SPLIT_NO_EMPTY);
             foreach ($sentences as $s) {
                 $s = trim($s);
                 if ($s === '') continue;
-                $html .= "<div style='font-family: monospace; color: $color; margin-left: {$depth}em;'>$indent_space" . htmlspecialchars($s) . "</div>";
-                $html .= "<textarea rows='3' style='width: 100%; margin-bottom: 10px;'></textarea>";
+                $html .= "<div style='margin-bottom: 10px; padding: 10px; background: $color; border-radius: 4px; margin-left: {$indent}px;'>" . htmlspecialchars($s) . "</div><textarea rows='3' style='width: 100%; margin-left: {$indent}px; margin-bottom: 10px;'></textarea>";
             }
         } else {
-            $title = strtoupper($block['type']) . " 블록 (ID: {$block['index']})";
-            $html .= "<div style='font-family: monospace; font-weight: bold; color: $color; margin-left: {$depth}em;'>$indent_space" . htmlspecialchars($title) . "</div>";
-            $html .= render_tree($block['children'], $depth + 1);
+            $html .= render_tree($block['children'], $color, $depth + 1);
         }
     }
+
     return $html;
 }
 
+//문제 번호 표시
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 echo '<div class="problem-id">문제 번호: ' . htmlspecialchars($sid) . '</div>';
 
