@@ -24,7 +24,7 @@
 
         .submit-button {
             height: 30px;
-            width: 30px;
+            width: 60px;
             padding: 0 12px;
             font-size: 13px;
             background-color: #4a90e2;
