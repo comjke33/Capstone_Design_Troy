@@ -21,7 +21,7 @@
             padding: 10px 14px;
             font-family: monospace;
             font-size: 16px;
-            background-color: #f9f9f9;
+            background-color: #ffffff;
             transition: all 0.2s ease-in-out;
             height: 42px;
             resize: vertical;
@@ -36,6 +36,7 @@
         }
 
         .submit-button {
+            width: 60px;
             height: 42px;
             padding: 0 16px;
             font-size: 16px;
