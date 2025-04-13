@@ -6,24 +6,33 @@ include("include/db_info.inc.php");
 $file_path = "/home/Capstone_Design_Troy/test/test.txt";
 $file_contents = file_get_contents($file_path);
 
-// 중첩 블록 트리 파싱
-function parse_blocks($text) {
-    $pattern = "/\[(func_def|rep|cond|self|struct)_start\\((\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct)_end\\(\\2\\)\]/s";
-    preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
-
+// 중첩 블록 트리 파싱 + 블록 외 문장도 포함
+function parse_blocks_with_loose_text($text) {
+    $pattern = "/\[(func_def|rep|cond|self|struct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct)_end\\(\\2\\)\]/s";
     $blocks = [];
     $offset = 0;
 
     while (preg_match($pattern, $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
-        $full = $m[0][0];
         $start_pos = $m[0][1];
+
+        // 블록 앞의 일반 텍스트도 따로 저장
+        $before_text = substr($text, $offset, $start_pos - $offset);
+        if (trim($before_text) !== '') {
+            $blocks[] = [
+                'type' => 'text',
+                'index' => null,
+                'content' => $before_text,
+                'children' => []
+            ];
+        }
+
+        $full = $m[0][0];
         $end_pos = $start_pos + strlen($full);
 
         $type = $m[1][0];
         $idx = $m[2][0];
         $content = $m[3][0];
-
-        $children = parse_blocks($content);
+        $children = parse_blocks_with_loose_text($content);
 
         $blocks[] = [
             'type' => $type,
@@ -35,9 +44,21 @@ function parse_blocks($text) {
         $offset = $end_pos;
     }
 
+    // 마지막에 남은 일반 텍스트도 추가
+    $tail = substr($text, $offset);
+    if (trim($tail) !== '') {
+        $blocks[] = [
+            'type' => 'text',
+            'index' => null,
+            'content' => $tail,
+            'children' => []
+        ];
+    }
+
     return $blocks;
 }
 
+// 블록 구조를 HTML로 렌더링
 function render_tree($blocks, $parent_color = '') {
     $html = "";
 
@@ -47,20 +68,18 @@ function render_tree($blocks, $parent_color = '') {
             'rep' => '#fce4ec',
             'cond' => '#e8f5e9',
             'self' => '#fff9c4',
-            'struct' => '#ffecb3'
+            'struct' => '#ffecb3',
+            'text' => '#eeeeee'  // 블록 외 문장용 색상
         ];
 
         $color = $color_map[$block['type']];
-        $title = strtoupper($block['type']) . " 블록: " . $block['index'];
 
         if (empty($block['children'])) {
             $sentences = preg_split('/(?<=\.)\s*/u', trim($block['content']), -1, PREG_SPLIT_NO_EMPTY);
             foreach ($sentences as $s) {
                 $s = trim($s);
                 if ($s === '') continue;
-                $html .= "<div style='margin-bottom: 10px; padding: 10px; background: $color; border-radius: 4px;'>";
-                $html .= htmlspecialchars($s);
-                $html .= "</div><textarea rows='3' style='width: 100%; margin-bottom: 10px;'></textarea>";
+                $html .= "<div style='margin-bottom: 10px; padding: 10px; background: $color; border-radius: 4px;'>" . htmlspecialchars($s) . "</div><textarea rows='3' style='width: 100%; margin-bottom: 10px;'></textarea>";
             }
         } else {
             $html .= render_tree($block['children'], $color);
@@ -70,7 +89,7 @@ function render_tree($blocks, $parent_color = '') {
     return $html;
 }
 
-$block_tree = parse_blocks($file_contents);
+$block_tree = parse_blocks_with_loose_text($file_contents);
 $html_output = render_tree($block_tree);
 
 echo "<div class='code-container' style='font-family: Arial, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto;'>";
