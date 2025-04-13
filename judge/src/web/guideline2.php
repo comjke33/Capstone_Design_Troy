@@ -58,17 +58,19 @@ function parse_blocks_with_loose_text($text) {
     return $blocks;
 }
 
-// 블록 구조를 HTML로 렌더링
-function render_tree($blocks, $parent_color = '', $depth = 0) {
+function render_tree($blocks, $parent_color = '', $depth = 0, $prefix_parts = []) {
     $html = "";
     $count = count($blocks);
-    $i = 0;
 
-    foreach ($blocks as $block) {
-        $i++;
-        $is_last = ($i === $count);
-        $prefix = str_repeat("│&nbsp;&nbsp;&nbsp;", max(0, $depth - 1));
-        $prefix .= ($depth > 0) ? ($is_last ? "└─ " : "├─ ") : "";
+    foreach ($blocks as $i => $block) {
+        $is_last = ($i === $count - 1);
+        $line_prefix = "";
+
+        foreach ($prefix_parts as $part) {
+            $line_prefix .= $part ? "│   " : "    ";
+        }
+
+        $line_prefix .= $is_last ? "└── " : "├── ";
 
         if ($block['type'] === 'text') $depth = 0;
 
@@ -78,18 +80,19 @@ function render_tree($blocks, $parent_color = '', $depth = 0) {
         if (empty($block['children'])) {
             $cleaned = preg_replace("/\\[(func_def|rep|cond|self|struct)_(start|end)\\(\\d+\\)\\]/", "", $block['content']);
             $sentences = preg_split('/(?<=\.)\s*/u', trim($cleaned), -1, PREG_SPLIT_NO_EMPTY);
+
             foreach ($sentences as $s) {
                 $s = trim($s);
                 if ($s === '') continue;
                 $html .= "<div class='block-wrapper depth-$depth type-{$block['type']}' style='margin-left: {$indent}px; padding-left: 12px; margin-bottom: 10px;'>";
-                $html .= "<div style='margin-bottom: 10px; padding: 10px; color: $color; font-family: monospace;'><strong>$prefix</strong>" . htmlspecialchars($s) . "</div>";
+                $html .= "<div style='margin-bottom: 10px; padding: 10px; color: $color; font-family: monospace;'><strong>$line_prefix</strong>" . htmlspecialchars($s) . "</div>";
                 $html .= "<textarea rows='3' style='width: 100%; margin-bottom: 10px;'></textarea>";
                 $html .= "</div>";
             }
         } else {
             $html .= "<div class='block-wrapper depth-$depth type-{$block['type']}' style='margin-left: {$indent}px; padding-left: 12px; margin-bottom: 10px;'>";
-            $html .= "<div style='font-weight: bold; font-family: monospace; color: $color;'>$prefix {$block['type']} 블록 (ID: {$block['index']})</div>";
-            $html .= render_tree($block['children'], $color, $depth + 1);
+            $html .= "<div style='font-weight: bold; font-family: monospace; color: $color;'>$line_prefix {$block['type']} 블록 (ID: {$block['index']})</div>";
+            $html .= render_tree($block['children'], $color, $depth + 1, array_merge($prefix_parts, [$i < $count - 1]));
             $html .= "</div>";
         }
     }
