@@ -44,12 +44,7 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
             'depth' => $depth + 1
         ]);
 
-        $blocks[] = [
-            'type' => $type,
-            'index' => $idx,
-            'depth' => $depth,
-            'children' => $children
-        ];
+        $blocks = array_merge($blocks, $children);
 
         $offset = $end_pos;
     }
@@ -73,21 +68,14 @@ function render_tree_plain($blocks) {
     $html = "";
     foreach ($blocks as $block) {
         $indent_px = 40 * $block['depth'];
-        if (isset($block['children'])) {
-            $title = strtoupper($block['type']) . " 블록 (ID: {$block['index']})";
-            $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px; white-space: pre-wrap;'><b>$title</b></div>";
-            $html .= render_tree_plain($block['children']);
-        } else {
-            $line = htmlspecialchars($block['content']);
-            if ($line !== '') {
-                // if marker (e.g. block start/end), render as visual bar only
-                if ($block['type'] === 'marker') {
-                    $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: #999;'>$line</div>";
-                } else {
-                    $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
-                    if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
-                        $html .= "<div style='padding-left: {$indent_px}px;'><textarea rows='2' style='width: calc(100% - {$indent_px}px); margin-bottom: 10px;'></textarea></div>";
-                    }
+        $line = htmlspecialchars($block['content']);
+        if ($line !== '') {
+            if ($block['type'] === 'marker') {
+                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: #999;'>$line</div>";
+            } else {
+                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
+                if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
+                    $html .= "<div style='padding-left: {$indent_px}px;'><textarea rows='2' style='width: calc(100% - {$indent_px}px); margin-bottom: 10px;'></textarea></div>";
                 }
             }
         }
