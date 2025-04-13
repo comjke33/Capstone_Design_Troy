@@ -12,7 +12,7 @@
             font-family: monospace;
             font-size: 14px;
             resize: vertical;
-            background-color: #f9f9f9;
+            background-color: #ffffff;
             transition: border-color 0.2s;
         }
 
