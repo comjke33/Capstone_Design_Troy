@@ -8,7 +8,7 @@ $file_path = "/home/Capstone_Design_Troy/test/test1.txt";
 $file_contents = file_get_contents($file_path);
 
 // 2. 중첩 블록 트리 파싱 + 블록 외 문장 포함
-function parse_blocks_with_loose_text($text) {
+function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') {
     $pattern = "/\[(func_def|rep|cond|self|struct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct)_end\\(\\2\\)\]/s";
     $blocks = [];
     $offset = 0;
@@ -23,7 +23,9 @@ function parse_blocks_with_loose_text($text) {
                 'type'     => 'text',
                 'index'    => null,
                 'content'  => $before_text,
-                'children' => []
+                'children' => [],
+                'depth'    => $depth,
+                'parent_type' => $parent_type
             ];
         }
 
@@ -32,26 +34,29 @@ function parse_blocks_with_loose_text($text) {
         $type      = $m[1][0];
         $idx       = $m[2][0];
         $content   = $m[3][0];
-        $children  = parse_blocks_with_loose_text($content);
+        $children  = parse_blocks_with_loose_text($content, $depth + 1, $type);
 
         $blocks[] = [
             'type'     => $type,
             'index'    => $idx,
             'content'  => $content,
-            'children' => $children
+            'children' => $children,
+            'depth'    => $depth,
+            'parent_type' => $parent_type
         ];
 
         $offset = $end_pos;
     }
 
-    // 마지막 일반 텍스트 저장
     $tail = substr($text, $offset);
     if (trim($tail) !== '') {
         $blocks[] = [
             'type'     => 'text',
             'index'    => null,
             'content'  => $tail,
-            'children' => []
+            'children' => [],
+            'depth'    => $depth,
+            'parent_type' => $parent_type
         ];
     }
 
@@ -59,7 +64,7 @@ function parse_blocks_with_loose_text($text) {
 }
 
 // 3. 블록 트리를 HTML로 렌더링
-function render_tree($blocks, $parent_color = '#eeeeee', $depth = 0) {
+function render_tree($blocks, $parent_color = '#eeeeee') {
     $html = "";
 
     foreach ($blocks as $block) {
@@ -72,11 +77,10 @@ function render_tree($blocks, $parent_color = '#eeeeee', $depth = 0) {
             'text'     => $parent_color
         ];
 
-        $color  = $color_map[$block['type']];
-        $indent = 50 * $depth;
+        $color  = $color_map[$block['type']] ?? $parent_color;
+        $indent = 50 * ($block['depth'] ?? 0);
 
         if (empty($block['children'])) {
-            // 태그 제거 및 문장 분리
             $cleaned   = preg_replace("/\\[(func_def|rep|cond|self|struct)_(start|end)\\(\\d+\\)\]/", "", $block['content']);
             $sentences = preg_split('/(?<=\.)\s*/u', trim($cleaned), -1, PREG_SPLIT_NO_EMPTY);
 
@@ -92,9 +96,7 @@ function render_tree($blocks, $parent_color = '#eeeeee', $depth = 0) {
                               padding: 12px;
                               font-family: monospace;
                           '>";
-
                 $html .= "<div style='margin-bottom: 8px;'>" . htmlspecialchars($s) . "</div>";
-
                 $html .= "<textarea rows='3' style='
                               width: 100%;
                               background: white;
@@ -113,7 +115,7 @@ function render_tree($blocks, $parent_color = '#eeeeee', $depth = 0) {
                           font-family: monospace;
                           margin-bottom: 8px;
                       '>" . htmlspecialchars($title) . "</div>";
-            $html .= render_tree($block['children'], $color, $depth + 1);
+            $html .= render_tree($block['children'], $color);
         }
     }
 
