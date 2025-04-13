@@ -21,7 +21,7 @@ function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') 
                 $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
                 $blocks[] = [
                     'type' => 'text',
-                    'content' => $line,
+                    'content' => rtrim($line),
                     'depth' => $depth + $indent_level
                 ];
             }
@@ -39,7 +39,7 @@ function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') 
             $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
             $children[] = [
                 'type' => 'text',
-                'content' => $line,
+                'content' => rtrim($line),
                 'depth' => $depth + 1 + $indent_level
             ];
         }
@@ -52,13 +52,13 @@ function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') 
                 [[
                     'type' => 'text',
                     'content' => $start_tag,
-                    'depth' => $depth
+                    'depth' => $depth + 1
                 ]],
                 $children,
                 [[
                     'type' => 'text',
                     'content' => $end_tag,
-                    'depth' => $depth
+                    'depth' => $depth + 1
                 ]]
             )
         ];
@@ -72,7 +72,7 @@ function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') 
             $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
             $blocks[] = [
                 'type' => 'text',
-                'content' => $line,
+                'content' => rtrim($line),
                 'depth' => $depth + $indent_level
             ];
         }
@@ -90,7 +90,7 @@ function render_tree_plain($blocks) {
             $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px; white-space: pre-wrap;'><b>$line</b></div>";
             $html .= render_tree_plain($block['children']);
         } else {
-            $line = htmlspecialchars(rtrim($block['content']));
+            $line = htmlspecialchars($block['content']);
             if ($line !== '') {
                 $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
                 if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
