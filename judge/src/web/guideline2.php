@@ -30,19 +30,17 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $type = $m[1][0];
         $idx = $m[2][0];
         $content = $m[3][0];
-        $start_tag = "[{$type}_start({$idx})]";
-        $end_tag = "[{$type}_end({$idx})]";
 
         $children = parse_blocks_with_loose_text($content, $depth + 1);
 
         array_unshift($children, [
-            'type' => 'text',
-            'content' => $start_tag,
+            'type' => 'marker',
+            'content' => "└── {$type}_start({$idx})",
             'depth' => $depth + 1
         ]);
         array_push($children, [
-            'type' => 'text',
-            'content' => $end_tag,
+            'type' => 'marker',
+            'content' => "└── {$type}_end({$idx})",
             'depth' => $depth + 1
         ]);
 
@@ -82,9 +80,14 @@ function render_tree_plain($blocks) {
         } else {
             $line = htmlspecialchars($block['content']);
             if ($line !== '') {
-                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
-                if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
-                    $html .= "<div style='padding-left: {$indent_px}px;'><textarea rows='2' style='width: calc(100% - {$indent_px}px); margin-bottom: 10px;'></textarea></div>";
+                // if marker (e.g. block start/end), render as visual bar only
+                if ($block['type'] === 'marker') {
+                    $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: #999;'>$line</div>";
+                } else {
+                    $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
+                    if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
+                        $html .= "<div style='padding-left: {$indent_px}px;'><textarea rows='2' style='width: calc(100% - {$indent_px}px); margin-bottom: 10px;'></textarea></div>";
+                    }
                 }
             }
         }
