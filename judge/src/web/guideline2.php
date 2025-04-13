@@ -85,16 +85,18 @@ function render_tree($blocks, $parent_color = '', $depth = 0) {
                 if ($s === '') continue;
 
                 $html .= "<div style='
-                              margin-bottom: 10px;
-                              padding: 10px;
-                              background: $color;
-                              border-radius: 4px;
+                              margin-bottom: 15px;
                               margin-left: {$indent}px;
+                              background: $color;
+                              border-radius: 6px;
+                              padding: 12px;
                               font-family: monospace;
-                          '>" . htmlspecialchars($s) . "
-                          <textarea rows='3' style='
+                          '>";
+
+                $html .= "<div style='margin-bottom: 8px;'>" . htmlspecialchars($s) . "</div>";
+
+                $html .= "<textarea rows='3' style='
                               width: 100%;
-                              margin-top: 10px;
                               background: white;
                               border: 1px solid #ccc;
                               border-radius: 4px;
@@ -105,7 +107,7 @@ function render_tree($blocks, $parent_color = '', $depth = 0) {
             $html .= "<div style='
                           font-weight: bold;
                           background: $color;
-                          padding: 8px;
+                          padding: 8px 12px;
                           margin-left: {$indent}px;
                           border-radius: 4px;
                           font-family: monospace;
