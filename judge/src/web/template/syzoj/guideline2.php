@@ -36,7 +36,7 @@
         }
 
         .submit-button {
-            width: 100px;
+            width: 80px;
             height: 42px;
             padding: 0 16px;
             font-size: 16px;
