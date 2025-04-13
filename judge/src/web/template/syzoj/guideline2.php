@@ -33,7 +33,7 @@
 
     .back-button {
       display: block;
-      width: 100px;
+      width: 60px;
       margin: 10px auto 30px auto;
       padding: 10px 15px;
       background-color: #4285f4;
