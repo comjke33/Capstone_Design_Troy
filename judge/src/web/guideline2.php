@@ -93,7 +93,9 @@ function render_tree_plain($blocks) {
             $line = htmlspecialchars(trim($block['content']));
             if ($line !== '') {
                 $html .= "<div style='margin-bottom:4px;'>$indent$line</div>";
-                $html .= "<textarea rows='2' style='width: 100%; margin-bottom: 10px;'></textarea>";
+                if (!preg_match("/^\[(func_def|rep|cond|self|struct)_(start|end)\\(\\d+\\)\]$/", $line)) {
+                    $html .= "<textarea rows='2' style='width: 100%; margin-bottom: 10px;'></textarea>";
+                }
             }
         }
     }
