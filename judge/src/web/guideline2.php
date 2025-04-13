@@ -58,48 +58,25 @@ function parse_blocks_with_loose_text($text) {
     return $blocks;
 }
 
-function render_tree($blocks, $prefix = '', $depth = 0, $is_last_flags = []) {
+function render_tree($blocks, $depth = 0) {
     $html = "";
-    $count = count($blocks);
-
-    foreach ($blocks as $i => $block) {
-        $is_last = ($i === $count - 1);
-        $line = "";
-
-        foreach ($is_last_flags as $flag) {
-            $line .= $flag ? "    " : "│   ";
-        }
-        $line .= $is_last ? "└── " : "├── ";
-
+    foreach ($blocks as $block) {
+        $indent_space = str_repeat("&nbsp;&nbsp;&nbsp;&nbsp;", $depth);
         $color = '#000000';
-        $indent = 50 * $depth;
 
         if (empty($block['children'])) {
-            // 태그 제거 후 문장 분해
             $cleaned = preg_replace("/\\[(func_def|rep|cond|self|struct)_(start|end)\\(\\d+\\)\\]/", "", $block['content']);
             $sentences = preg_split('/(?<=\.)\s*/u', trim($cleaned), -1, PREG_SPLIT_NO_EMPTY);
-
-            $sent_html = [];
-            foreach ($sentences as $j => $s) {
+            foreach ($sentences as $s) {
                 $s = trim($s);
                 if ($s === '') continue;
-
-                $prefix_line = $line;
-                if ($j > 0) {
-                    foreach ($is_last_flags as $flag) {
-                        $prefix_line = ($flag ? "    " : "│   ") . $prefix_line;
-                    }
-                    $prefix_line = "│   " . $prefix_line;
-                }
-
-                $sent_html[] = "<div style='font-family: monospace; color: $color; margin-left: {$depth}em;'>" . htmlspecialchars($prefix_line . $s) . "</div>";
-                $sent_html[] = "<textarea rows='3' style='width: 100%; margin-bottom: 10px;'></textarea>";
+                $html .= "<div style='font-family: monospace; color: $color; margin-left: {$depth}em;'>$indent_space" . htmlspecialchars($s) . "</div>";
+                $html .= "<textarea rows='3' style='width: 100%; margin-bottom: 10px;'></textarea>";
             }
-            $html .= implode("\n", $sent_html);
         } else {
             $title = strtoupper($block['type']) . " 블록 (ID: {$block['index']})";
-            $html .= "<div style='font-family: monospace; font-weight: bold; color: $color; margin-left: {$depth}em;'>" . htmlspecialchars($line . $title) . "</div>";
-            $html .= render_tree($block['children'], $prefix . ($is_last ? "    " : "│   "), $depth + 1, array_merge($is_last_flags, [$is_last]));
+            $html .= "<div style='font-family: monospace; font-weight: bold; color: $color; margin-left: {$depth}em;'>$indent_space" . htmlspecialchars($title) . "</div>";
+            $html .= render_tree($block['children'], $depth + 1);
         }
     }
     return $html;
