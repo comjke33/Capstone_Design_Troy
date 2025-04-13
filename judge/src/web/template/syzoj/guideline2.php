@@ -31,6 +31,24 @@
       margin-bottom: 10px;
     }
 
+    .back-button {
+      display: block;
+      width: 200px;
+      margin: 10px auto 30px auto;
+      padding: 10px 15px;
+      background-color: #4285f4;
+      color: white;
+      text-align: center;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+
+    .back-button:hover {
+      background-color: #3367d6;
+    }
+
     .code-container h4 {
       margin-top: 0;
       padding-bottom: 10px;
@@ -74,7 +92,10 @@
 </head>
 <body>
 
-  <!-- <div class="problem-id">문제 번호: <?php echo htmlspecialchars($sid); ?></div> -->
+  <div class="problem-id">문제 번호: <?php echo htmlspecialchars($sid); ?></div>
+
+  <!-- 🔙 뒤로 가기 버튼 -->
+  <a class="back-button" href="selectlevel.php?problem_id=<?php echo urlencode($sid); ?>">← 뒤로 가기</a>
 
   <!-- 출력 내용은 상위 PHP 파일에서 echo로 삽입됨 -->
 </body>
