@@ -76,6 +76,7 @@ function render_tree($blocks, $parent_color = '', $depth = 0) {
 
         $color = $color_map[$block['type']];
         $indent = 50 * $depth;
+        $arrow = str_repeat("&rarr; ", $depth);  // 화살표 표현
 
         if (empty($block['children'])) {
             // 태그 제거 후 문장 분해
@@ -85,12 +86,13 @@ function render_tree($blocks, $parent_color = '', $depth = 0) {
                 $s = trim($s);
                 if ($s === '') continue;
                 $html .= "<div class='block-wrapper depth-$depth type-{$block['type']}' style='margin-left: {$indent}px; border-left: 4px solid $color; padding-left: 12px; margin-bottom: 10px;'>";
-                $html .= "<div style='margin-bottom: 10px; padding: 10px; background: $color; border-radius: 4px;'>" . htmlspecialchars($s) . "</div>";
+                $html .= "<div style='margin-bottom: 10px; padding: 10px; background: $color; border-radius: 4px;'><strong style='color: #666;'>$arrow</strong>" . htmlspecialchars($s) . "</div>";
                 $html .= "<textarea rows='3' style='width: 100%; margin-bottom: 10px;'></textarea>";
                 $html .= "</div>";
             }
         } else {
             $html .= "<div class='block-wrapper depth-$depth type-{$block['type']}' style='margin-left: {$indent}px; border-left: 4px solid $color; padding-left: 12px; margin-bottom: 10px;'>";
+            $html .= "<div style='font-weight: bold; color: $color;'>$arrow {$block['type']} 블록 (ID: {$block['index']})</div>";
             $html .= render_tree($block['children'], $color, $depth + 1);
             $html .= "</div>";
         }
