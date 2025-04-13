@@ -19,11 +19,13 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         if (trim($before_text) !== '') {
             foreach (explode("\n", $before_text) as $line) {
                 $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-                $blocks[] = [
-                    'type' => 'text',
-                    'content' => rtrim($line),
-                    'depth' => $depth + $indent_level
-                ];
+                if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", trim($line))) {
+                    $blocks[] = [
+                        'type' => 'text',
+                        'content' => rtrim($line),
+                        'depth' => $depth + $indent_level
+                    ];
+                }
             }
         }
 
@@ -31,19 +33,13 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $idx = $m[2][0];
         $content = $m[3][0];
 
-        $children = parse_blocks_with_loose_text($content, $depth + 1);
-
-        array_unshift($children, [
-            'type' => 'marker',
-            'content' => "| {$type}_start({$idx})",
-            'depth' => $depth + 1
-        ]);
-        array_push($children, [
+        $blocks[] = [
             'type' => 'pipe',
             'content' => "|",
             'depth' => $depth + 1
-        ]);
+        ];
 
+        $children = parse_blocks_with_loose_text($content, $depth + 1);
         $blocks = array_merge($blocks, $children);
 
         $offset = $end_pos;
@@ -53,11 +49,13 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
     if (trim($tail) !== '') {
         foreach (explode("\n", $tail) as $line) {
             $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-            $blocks[] = [
-                'type' => 'text',
-                'content' => rtrim($line),
-                'depth' => $depth + $indent_level
-            ];
+            if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", trim($line))) {
+                $blocks[] = [
+                    'type' => 'text',
+                    'content' => rtrim($line),
+                    'depth' => $depth + $indent_level
+                ];
+            }
         }
     }
 
@@ -66,20 +64,24 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
 
 function render_tree_plain($blocks) {
     $html = "";
+    $previous_was_pipe = false;
+
     foreach ($blocks as $block) {
         $indent_px = 40 * $block['depth'];
         $line = htmlspecialchars($block['content']);
-        if ($line !== '') {
-            if ($block['type'] === 'marker') {
-                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: #999;'>$line</div>";
-            } elseif ($block['type'] === 'pipe') {
-                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: #ddd;'>$line</div>";
-            } else {
-                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
-                if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
-                    $html .= "<div style='padding-left: {$indent_px}px;'><textarea rows='2' style='width: calc(100% - {$indent_px}px); margin-bottom: 10px;'></textarea></div>";
-                }
+
+        if ($block['type'] === 'pipe') {
+            if (!$previous_was_pipe) {
+                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: red;'>|</div>";
+                $previous_was_pipe = true;
             }
+        } else {
+            if ($previous_was_pipe) {
+                $html .= "<div style='margin-bottom:8px;'><br></div>";
+                $previous_was_pipe = false;
+            }
+            $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
+            $html .= "<div style='padding-left: {$indent_px}px;'><textarea rows='2' style='width: calc(100% - {$indent_px}px); margin-bottom: 10px;'></textarea></div>";
         }
     }
     return $html;
