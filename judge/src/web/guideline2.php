@@ -59,7 +59,7 @@ function parse_blocks_with_loose_text($text) {
 }
 
 // 3. 블록 트리를 HTML로 렌더링
-function render_tree($blocks, $parent_color = '', $depth = 0) {
+function render_tree($blocks, $parent_color = '#eeeeee', $depth = 0) {
     $html = "";
 
     foreach ($blocks as $block) {
@@ -69,7 +69,7 @@ function render_tree($blocks, $parent_color = '', $depth = 0) {
             'cond'     => '#e8f5e9',
             'self'     => '#fff9c4',
             'struct'   => '#ffecb3',
-            'text'     => '#eeeeee'
+            'text'     => $parent_color
         ];
 
         $color  = $color_map[$block['type']];
