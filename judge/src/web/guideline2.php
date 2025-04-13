@@ -58,21 +58,18 @@ function parse_blocks_with_loose_text($text) {
     return $blocks;
 }
 
-function render_tree($blocks, $parent_color = '', $depth = 0, $prefix_parts = []) {
+function render_tree($blocks, $prefix = '', $depth = 0, $is_last_flags = []) {
     $html = "";
     $count = count($blocks);
 
     foreach ($blocks as $i => $block) {
         $is_last = ($i === $count - 1);
-        $line_prefix = "";
+        $line = "";
 
-        foreach ($prefix_parts as $part) {
-            $line_prefix .= $part ? "│   " : "    ";
+        foreach ($is_last_flags as $flag) {
+            $line .= $flag ? "    " : "│   ";
         }
-
-        $line_prefix .= $is_last ? "└── " : "├── ";
-
-        if ($block['type'] === 'text') $depth = 0;
+        $line .= $is_last ? "└── " : "├── ";
 
         $color = '#000000';
         $indent = 50 * $depth;
@@ -84,23 +81,18 @@ function render_tree($blocks, $parent_color = '', $depth = 0, $prefix_parts = []
             foreach ($sentences as $s) {
                 $s = trim($s);
                 if ($s === '') continue;
-                $html .= "<div class='block-wrapper depth-$depth type-{$block['type']}' style='margin-left: {$indent}px; padding-left: 12px; margin-bottom: 10px;'>";
-                $html .= "<div style='margin-bottom: 10px; padding: 10px; color: $color; font-family: monospace;'><strong>$line_prefix</strong>" . htmlspecialchars($s) . "</div>";
+                $html .= "<div style='font-family: monospace; color: $color; margin-left: {$depth}em;'>" . htmlspecialchars($line . $s) . "</div>";
                 $html .= "<textarea rows='3' style='width: 100%; margin-bottom: 10px;'></textarea>";
-                $html .= "</div>";
             }
         } else {
-            $html .= "<div class='block-wrapper depth-$depth type-{$block['type']}' style='margin-left: {$indent}px; padding-left: 12px; margin-bottom: 10px;'>";
-            $html .= "<div style='font-weight: bold; font-family: monospace; color: $color;'>$line_prefix {$block['type']} 블록 (ID: {$block['index']})</div>";
-            $html .= render_tree($block['children'], $color, $depth + 1, array_merge($prefix_parts, [$i < $count - 1]));
-            $html .= "</div>";
+            $title = strtoupper($block['type']) . " 블록 (ID: {$block['index']})";
+            $html .= "<div style='font-family: monospace; font-weight: bold; color: $color; margin-left: {$depth}em;'>" . htmlspecialchars($line . $title) . "</div>";
+            $html .= render_tree($block['children'], $prefix . ($is_last ? "    " : "│   "), $depth + 1, array_merge($is_last_flags, [$is_last]));
         }
     }
-
     return $html;
 }
 
-//문제 번호 표시
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 echo '<div class="problem-id">문제 번호: ' . htmlspecialchars($sid) . '</div>';
 
