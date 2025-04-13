@@ -6,7 +6,7 @@ $file_path = "/home/Capstone_Design_Troy/test/test1.txt";
 $file_contents = file_get_contents($file_path);
 
 function parse_blocks_with_loose_text($text, $depth = 0) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\)\]/s";
     $blocks = [];
     $offset = 0;
 
@@ -18,39 +18,31 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $before_text = substr($text, $offset, $start_pos - $offset);
         if (trim($before_text) !== '') {
             foreach (explode("\n", $before_text) as $line) {
-                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-                $blocks[] = [
-                    'type' => 'text',
-                    'content' => rtrim($line),
-                    'depth' => $depth + $indent_level
-                ];
+                $line = trim($line);
+                if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
+                    $blocks[] = [
+                        'type' => 'text',
+                        'content' => $line,
+                        'depth' => $depth
+                    ];
+                }
             }
         }
 
-        $type = $m[1][0];
-        $idx = $m[2][0];
-        $content = $m[3][0];
-        $start_tag = "[{$type}_start({$idx})]";
-        $end_tag = "[{$type}_end({$idx})]";
-
-        $children = parse_blocks_with_loose_text($content, $depth + 1);
-
-        array_unshift($children, [
-            'type' => 'text',
-            'content' => $start_tag,
-            'depth' => $depth + 1
-        ]);
-        array_push($children, [
-            'type' => 'text',
-            'content' => $end_tag,
-            'depth' => $depth + 1
-        ]);
-
+        // 파이프 마커 추가 (블록 시작)
         $blocks[] = [
-            'type' => $type,
-            'index' => $idx,
-            'depth' => $depth,
-            'children' => $children
+            'type' => 'pipe',
+            'depth' => $depth + 1
+        ];
+
+        $content = $m[3][0];
+        $children = parse_blocks_with_loose_text($content, $depth + 1);
+        $blocks = array_merge($blocks, $children);
+
+        // 파이프 마커 추가 (블록 종료)
+        $blocks[] = [
+            'type' => 'pipe',
+            'depth' => $depth + 1
         ];
 
         $offset = $end_pos;
@@ -59,12 +51,14 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
     $tail = substr($text, $offset);
     if (trim($tail) !== '') {
         foreach (explode("\n", $tail) as $line) {
-            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-            $blocks[] = [
-                'type' => 'text',
-                'content' => rtrim($line),
-                'depth' => $depth + $indent_level
-            ];
+            $line = trim($line);
+            if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
+                $blocks[] = [
+                    'type' => 'text',
+                    'content' => $line,
+                    'depth' => $depth
+                ];
+            }
         }
     }
 
@@ -75,18 +69,14 @@ function render_tree_plain($blocks) {
     $html = "";
     foreach ($blocks as $block) {
         $indent_px = 40 * $block['depth'];
-        if (isset($block['children'])) {
-            $title = strtoupper($block['type']) . " 블록 (ID: {$block['index']})";
-            $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px; white-space: pre-wrap;'><b>$title</b></div>";
-            $html .= render_tree_plain($block['children']);
-        } else {
+        $indent_bar = str_repeat("|&nbsp;&nbsp;&nbsp;&nbsp;", $block['depth']);
+
+        if ($block['type'] === 'pipe') {
+            $html .= "<div style='color: red; padding-left: {$indent_px}px;'>|</div>";
+        } elseif ($block['type'] === 'text') {
             $line = htmlspecialchars($block['content']);
-            if ($line !== '') {
-                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
-                if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
-                    $html .= "<div style='padding-left: {$indent_px}px;'><textarea rows='2' style='width: calc(100% - {$indent_px}px); margin-bottom: 10px;'></textarea></div>";
-                }
-            }
+            $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px;'>$indent_bar $line</div>";
+            $html .= "<div style='padding-left: {$indent_px}px;'><textarea rows='2' style='width: calc(100% - {$indent_px}px); margin-bottom: 10px;'></textarea></div>";
         }
     }
     return $html;
