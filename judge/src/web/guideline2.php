@@ -6,7 +6,7 @@ $file_path = "/home/Capstone_Design_Troy/test/test1.txt";
 $file_contents = file_get_contents($file_path);
 
 function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') {
-    $pattern = "/\[(func_def|rep|cond|self|struct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct)_end\\(\\2\\)\]/s";
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
     $blocks = [];
     $offset = 0;
 
@@ -84,7 +84,7 @@ function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') 
 function render_tree_plain($blocks) {
     $html = "";
     foreach ($blocks as $block) {
-        $indent_px = 20 * $block['depth'];
+        $indent_px = 40 * $block['depth'];
         if (isset($block['children'])) {
             $line = strtoupper($block['type']) . " 블록 (ID: {$block['index']})";
             $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px; white-space: pre-wrap;'><b>$line</b></div>";
