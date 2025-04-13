@@ -86,14 +86,14 @@ function render_tree_plain($blocks) {
     foreach ($blocks as $block) {
         $indent_px = 20 * $block['depth'];
         if (isset($block['children'])) {
-            $title = strtoupper($block['type']) . " 블록 (ID: {$block['index']})";
-            $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px; white-space: pre-wrap;'><b>$title</b></div>";
+            $line = strtoupper($block['type']) . " 블록 (ID: {$block['index']})";
+            $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px; white-space: pre-wrap;'><b>$line</b></div>";
             $html .= render_tree_plain($block['children']);
         } else {
             $line = htmlspecialchars(rtrim($block['content']));
             if ($line !== '') {
                 $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
-                if (!preg_match("/^\[(func_def|rep|cond|self|struct)_(start|end)\\(\\d+\\)\]$/", $line)) {
+                if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
                     $html .= "<div style='padding-left: {$indent_px}px;'><textarea rows='2' style='width: calc(100% - {$indent_px}px); margin-bottom: 10px;'></textarea></div>";
                 }
             }
