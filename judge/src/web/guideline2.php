@@ -76,14 +76,16 @@ function render_tree_plain($blocks) {
     foreach ($blocks as $block) {
         $indent_px = 40 * $block['depth'];
         if (isset($block['children'])) {
-            $title = strtoupper($block['type']) . " 블록 (ID: {$block['index']})";
-            $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px; white-space: pre-wrap;'><b>$title</b></div>";
+            // 설명 텍스트 제거 (숨김)
             $html .= render_tree_plain($block['children']);
         } else {
             $line = htmlspecialchars($block['content']);
             if ($line !== '') {
-                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
-                if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
+                // 태그는 빨간색 '|' 기호로 치환하여 출력
+                if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line)) {
+                    $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color:red;'>|</div>";
+                } else {
+                    $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
                     $html .= "<div style='padding-left: {$indent_px}px;'><textarea rows='2' style='width: calc(100% - {$indent_px}px); margin-bottom: 10px;'></textarea></div>";
                 }
             }
