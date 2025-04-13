@@ -5,117 +5,68 @@ include("include/db_info.inc.php");
 
 // 1. 파일 경로 설정 및 내용 불러오기
 $file_path = "/home/Capstone_Design_Troy/test/test1.txt";
-$file_contents = file_get_contents($file_path);
+$file_contents = file($file_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
-// 2. 중첩 블록 트리 파싱 + 블록 외 문장 포함
-function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') {
-    $pattern = "/\[(func_def|rep|cond|self|struct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct)_end\\(\\2\\)\]/s";
+// 2. 들여쓰기 기반 트리 파싱
+function parse_indent_blocks($lines) {
     $blocks = [];
-    $offset = 0;
+    $stack = [];
 
-    while (preg_match($pattern, $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
-        $start_pos = $m[0][1];
+    foreach ($lines as $line) {
+        $trimmed = ltrim($line);
+        $indent_level = (strlen($line) - strlen($trimmed)) / 4; // 스페이스 4칸 기준
 
-        // 블록 앞 일반 텍스트 저장
-        $before_text = substr($text, $offset, $start_pos - $offset);
-        if (trim($before_text) !== '') {
-            $blocks[] = [
-                'type'     => 'text',
-                'index'    => null,
-                'content'  => $before_text,
-                'children' => [],
-                'depth'    => $depth,
-                'parent_type' => $parent_type
-            ];
+        $block = [
+            'content' => $trimmed,
+            'depth' => $indent_level
+        ];
+
+        while (!empty($stack) && $indent_level <= end($stack)['depth']) {
+            array_pop($stack);
         }
 
-        $full      = $m[0][0];
-        $end_pos   = $start_pos + strlen($full);
-        $type      = $m[1][0];
-        $idx       = $m[2][0];
-        $content   = $m[3][0];
-        $children  = parse_blocks_with_loose_text($content, $depth + 1, $type);
-
-        $blocks[] = [
-            'type'     => $type,
-            'index'    => $idx,
-            'content'  => $content,
-            'children' => $children,
-            'depth'    => $depth,
-            'parent_type' => $parent_type
-        ];
-
-        $offset = $end_pos;
-    }
-
-    $tail = substr($text, $offset);
-    if (trim($tail) !== '') {
-        $blocks[] = [
-            'type'     => 'text',
-            'index'    => null,
-            'content'  => $tail,
-            'children' => [],
-            'depth'    => $depth,
-            'parent_type' => $parent_type
-        ];
+        if (empty($stack)) {
+            $blocks[] = &$block;
+            $stack[] = &$block;
+        } else {
+            $parent = &$stack[count($stack) - 1];
+            if (!isset($parent['children'])) $parent['children'] = [];
+            $parent['children'][] = &$block;
+            $stack[] = &$block;
+        }
+        unset($block);
     }
 
     return $blocks;
 }
 
-// 3. 블록 트리를 HTML로 렌더링
-function render_tree($blocks, $parent_color = '#eeeeee') {
+// 3. 렌더링 함수
+function render_indent_tree($blocks) {
     $html = "";
 
     foreach ($blocks as $block) {
-        $color_map = [
-            'func_def' => '#e0f7fa',
-            'rep'      => '#fce4ec',
-            'cond'     => '#e8f5e9',
-            'self'     => '#fff9c4',
-            'struct'   => '#ffecb3',
-            'text'     => $parent_color
-        ];
+        $indent = 50 * $block['depth'];
+        $text = htmlspecialchars($block['content']);
 
-        $color  = $color_map[$block['type']] ?? $parent_color;
-        $indent = 50 * ($block['depth'] ?? 0);
+        $html .= "<div style='
+                      margin-left: {$indent}px;
+                      margin-bottom: 12px;
+                      background: #f2f2f2;
+                      border-radius: 6px;
+                      padding: 10px;
+                      font-family: monospace;
+                  '>" . $text . "</div>";
 
-        if (empty($block['children'])) {
-            $cleaned   = preg_replace("/\\[(func_def|rep|cond|self|struct)_(start|end)\\(\\d+\\)\]/", "", $block['content']);
-            $sentences = preg_split('/(?<=\.)\s*/u', trim($cleaned), -1, PREG_SPLIT_NO_EMPTY);
+        $html .= "<textarea rows='3' style='
+                      width: 100%;
+                      margin-left: {$indent}px;
+                      margin-bottom: 20px;
+                      border: 1px solid #ccc;
+                      border-radius: 4px;
+                  '></textarea>";
 
-            foreach ($sentences as $s) {
-                $s = trim($s);
-                if ($s === '') continue;
-
-                $html .= "<div style='
-                              margin-bottom: 15px;
-                              margin-left: {$indent}px;
-                              background: $color;
-                              border-radius: 6px;
-                              padding: 12px;
-                              font-family: monospace;
-                          '>";
-                $html .= "<div style='margin-bottom: 8px;'>" . htmlspecialchars($s) . "</div>";
-                $html .= "<textarea rows='3' style='
-                              width: 100%;
-                              background: white;
-                              border: 1px solid #ccc;
-                              border-radius: 4px;
-                          '></textarea></div>";
-            }
-        } else {
-            $title = strtoupper($block['type']) . " 블록 (ID: {$block['index']})";
-            $html .= "<div style='
-                          font-weight: bold;
-                          background: $color;
-                          padding: 8px 12px;
-                          margin-left: {$indent}px;
-                          border-radius: 4px;
-                          font-family: monospace;
-                          margin-bottom: 8px;
-                      '>" . htmlspecialchars($title) . "</div>";
-            $html .= render_tree($block['children'], $color);
+        if (isset($block['children'])) {
+            $html .= render_indent_tree($block['children']);
         }
     }
 
@@ -133,8 +84,8 @@ echo '<div class="problem-id" style="
       </div>';
 
 // 5. 파싱 및 렌더링 실행
-$block_tree   = parse_blocks_with_loose_text($file_contents);
-$html_output  = render_tree($block_tree);
+$block_tree   = parse_indent_blocks($file_contents);
+$html_output  = render_indent_tree($block_tree);
 
 // 6. HTML 출력
 echo "<div class='code-container' style='
