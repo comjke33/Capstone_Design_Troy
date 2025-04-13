@@ -18,10 +18,11 @@ function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') 
         $before_text = substr($text, $offset, $start_pos - $offset);
         if (trim($before_text) !== '') {
             foreach (explode("\n", $before_text) as $line) {
+                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
                 $blocks[] = [
                     'type' => 'text',
-                    'content' => $line,
-                    'depth' => $depth
+                    'content' => trim($line),
+                    'depth' => $depth + $indent_level
                 ];
             }
         }
@@ -35,10 +36,11 @@ function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') 
         $children = [];
         $lines = explode("\n", $content);
         foreach ($lines as $line) {
+            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
             $children[] = [
                 'type' => 'text',
-                'content' => $line,
-                'depth' => $depth + 1
+                'content' => trim($line),
+                'depth' => $depth + 1 + $indent_level
             ];
         }
 
@@ -50,13 +52,13 @@ function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') 
                 [[
                     'type' => 'text',
                     'content' => $start_tag,
-                    'depth' => $depth + 1
+                    'depth' => $depth
                 ]],
                 $children,
                 [[
                     'type' => 'text',
                     'content' => $end_tag,
-                    'depth' => $depth + 1
+                    'depth' => $depth
                 ]]
             )
         ];
@@ -67,10 +69,11 @@ function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') 
     $tail = substr($text, $offset);
     if (trim($tail) !== '') {
         foreach (explode("\n", $tail) as $line) {
+            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
             $blocks[] = [
                 'type' => 'text',
-                'content' => $line,
-                'depth' => $depth
+                'content' => trim($line),
+                'depth' => $depth + $indent_level
             ];
         }
     }
