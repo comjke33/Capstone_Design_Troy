@@ -4,28 +4,42 @@
 
 <div class='code-container' style='font-family: monospace; line-height: 1.5; max-width: 1000px; margin: 0 auto;'>
     <style>
-        .styled-textarea {
-            width: 100%;
+        .code-line {
+            background-color: #f0f0f0;
             border: 1px solid #ccc;
             border-radius: 8px;
-            padding: 8px 10px;
-            font-family: monospace;
+            padding: 10px 14px;
+            margin-bottom: 6px;
+            display: inline-block;
             font-size: 14px;
-            resize: vertical;
-            background-color: #ffffff;
-            transition: border-color 0.2s;
+            font-family: monospace;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
+        .styled-textarea {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-family: monospace;
+            font-size: 14px;
+            background-color: #f5f5f5;
+            transition: all 0.2s ease-in-out;
+            min-height: 40px;
+            resize: vertical;
+            width: 100%;
+        }
+
+        .styled-textarea:hover,
         .styled-textarea:focus {
-            outline: none;
+            background-color: #ffffff;
             border-color: #4a90e2;
-            background-color: #fff;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
         }
 
         .submit-button {
-            height: 30px;
-            width: 60px;
-            padding: 0 12px;
+            height: 34px;
+            padding: 0 14px;
             font-size: 13px;
             background-color: #4a90e2;
             color: white;
@@ -49,7 +63,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 14px;
+            margin-bottom: 16px;
         }
     </style>
 
@@ -66,9 +80,12 @@
                     if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line)) {
                         $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color:red;'>|</div>";
                     } else {
-                        $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
+                        // 문제 설명 줄을 버튼처럼 표시
+                        $html .= "<div style='padding-left: {$indent_px}px;'><div class='code-line'>{$line}</div></div>";
+                        
+                        // textarea 및 버튼 라인
                         $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' rows='2'></textarea>";
+                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea'></textarea>";
                         $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
                         $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
                         $html .= "</div>";
@@ -85,7 +102,7 @@
     ?>
 </div>
 
-<!-- ✅ JavaScript -->
+<!-- ✅ JavaScript: 정답 판별 -->
 <script>
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
