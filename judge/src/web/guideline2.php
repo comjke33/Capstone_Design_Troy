@@ -91,13 +91,14 @@ function render_tree($blocks, $parent_color = '', $depth = 0) {
                               border-radius: 4px;
                               margin-left: {$indent}px;
                               font-family: monospace;
-                          '>" . htmlspecialchars($s) . "</div>";
-
-                $html .= "<textarea rows='3' style='
+                          '>" . htmlspecialchars($s) . "
+                          <textarea rows='3' style='
                               width: 100%;
-                              margin-left: {$indent}px;
-                              margin-bottom: 15px;
-                          '></textarea>";
+                              margin-top: 10px;
+                              background: white;
+                              border: 1px solid #ccc;
+                              border-radius: 4px;
+                          '></textarea></div>";
             }
         } else {
             $title = strtoupper($block['type']) . " 블록 (ID: {$block['index']})";
