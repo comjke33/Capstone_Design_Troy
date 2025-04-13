@@ -5,7 +5,7 @@ include("include/db_info.inc.php");
 $file_path = "/home/Capstone_Design_Troy/test/test1.txt";
 $file_contents = file_get_contents($file_path);
 
-function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') {
+function parse_blocks_with_loose_text($text, $depth = 0) {
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
     $blocks = [];
     $offset = 0;
@@ -30,37 +30,12 @@ function parse_blocks_with_loose_text($text, $depth = 0, $parent_type = 'text') 
         $type = $m[1][0];
         $idx = $m[2][0];
         $content = $m[3][0];
-        $start_tag = "[{$type}_start({$idx})]";
-        $end_tag = "[{$type}_end({$idx})]";
-
-        $children = [];
-        $lines = explode("\n", $content);
-        foreach ($lines as $line) {
-            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-            $children[] = [
-                'type' => 'text',
-                'content' => rtrim($line),
-                'depth' => $depth + 1 + $indent_level
-            ];
-        }
 
         $blocks[] = [
             'type' => $type,
             'index' => $idx,
             'depth' => $depth,
-            'children' => array_merge(
-                [[
-                    'type' => 'text',
-                    'content' => $start_tag,
-                    'depth' => $depth + 1
-                ]],
-                $children,
-                [[
-                    'type' => 'text',
-                    'content' => $end_tag,
-                    'depth' => $depth + 1
-                ]]
-            )
+            'children' => parse_blocks_with_loose_text($content, $depth + 1)
         ];
 
         $offset = $end_pos;
@@ -86,8 +61,8 @@ function render_tree_plain($blocks) {
     foreach ($blocks as $block) {
         $indent_px = 40 * $block['depth'];
         if (isset($block['children'])) {
-            $line = strtoupper($block['type']) . " 블록 (ID: {$block['index']})";
-            $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px; white-space: pre-wrap;'><b>$line</b></div>";
+            $title = strtoupper($block['type']) . " 블록 (ID: {$block['index']})";
+            $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px; white-space: pre-wrap;'><b>$title</b></div>";
             $html .= render_tree_plain($block['children']);
         } else {
             $line = htmlspecialchars($block['content']);
