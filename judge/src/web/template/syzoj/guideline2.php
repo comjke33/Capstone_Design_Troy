@@ -1,100 +1,58 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>코드 설명 인터페이스</title>
+<div class='problem-id' style='font-weight:bold; font-size:18px; margin-bottom: 20px;'>
+    문제 번호: <?= htmlspecialchars($OJ_SID) ?>
+</div>
 
-  <style>
-    body {
-      background-color: #f5f5f5;
-      margin: 0;
-      padding: 0;
+<div class='code-container' style='font-family: monospace; line-height: 1.5; max-width: 1000px; margin: 0 auto;'>
+    <?php
+    function render_tree_plain($blocks, &$answer_index = 0) {
+        $html = "";
+        foreach ($blocks as $block) {
+            $indent_px = 40 * $block['depth'];
+            if (isset($block['children'])) {
+                $html .= render_tree_plain($block['children'], $answer_index);
+            } else {
+                $line = htmlspecialchars($block['content']);
+                if ($line !== '') {
+                    if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line)) {
+                        $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color:red;'>|</div>";
+                    } else {
+                        $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
+                        $html .= "<div style='padding-left: {$indent_px}px; display: flex; align-items: center; gap: 6px;'>";
+                        $html .= "<textarea id='ta_{$answer_index}' rows='2' style='width: calc(100% - 80px); margin-bottom: 10px;'></textarea>";
+                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' style='height: 30px;'>제출</button>";
+                        $html .= "<span id='check_{$answer_index}' style='color: green; font-size: 20px; display:none;'>✔️</span>";
+                        $html .= "</div>";
+                        $answer_index++;
+                    }
+                }
+            }
+        }
+        return $html;
     }
 
-    .code-container {
-      font-family: 'Segoe UI', sans-serif;
-      line-height: 1.7;
-      padding: 30px;
-      background-color: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      max-width: 960px;
-      margin: 40px auto;
+    $answer_index = 0;
+    echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
+    ?>
+</div>
+
+<!-- ✅ JavaScript: 정답 판별 -->
+<script>
+const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
+
+function submitAnswer(index) {
+    const ta = document.getElementById(`ta_${index}`);
+    const btn = document.getElementById(`btn_${index}`);
+    const check = document.getElementById(`check_${index}`);
+    const input = ta.value.trim();
+    const correct = correctAnswers[index].trim();
+
+    if (input === correct) {
+        ta.readOnly = true;
+        ta.style.backgroundColor = "#eee";
+        btn.style.display = "none";
+        check.style.display = "inline";
+    } else {
+        alert("틀렸습니다. 다시 시도해보세요!");
     }
-
-    .problem-id {
-      font-size: 1.4em;
-      font-weight: bold;
-      color: #222;
-      text-align: center;
-      margin-top: 40px;
-      margin-bottom: 10px;
-    }
-
-    .back-button {
-      display: block;
-      width: 60px;
-      margin: 10px auto 30px auto;
-      padding: 10px 15px;
-      background-color: #4285f4;
-      color: white;
-      text-align: center;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background-color 0.2s;
-    }
-
-    .back-button:hover {
-      background-color: #3367d6;
-    }
-
-    .code-container h4 {
-      margin-top: 0;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #ccc;
-      font-size: 1.2em;
-      color: #333;
-    }
-
-    .code-container div {
-      margin-bottom: 10px;
-    }
-
-    textarea {
-      font-family: 'Courier New', monospace;
-      font-size: 0.95em;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      background-color: #fff;
-      resize: vertical;
-      transition: box-shadow 0.2s;
-    }
-
-    textarea:focus {
-      box-shadow: 0 0 5px rgba(100, 100, 255, 0.3);
-      border-color: #6666ff;
-      outline: none;
-    }
-
-    .block-title {
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    .sentence-block {
-      padding: 10px;
-      border-radius: 4px;
-      margin-bottom: 10px;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- 🔙 뒤로 가기 버튼 -->
-  <a class="back-button" href="selectlevel.php?problem_id=<?php echo urlencode($sid); ?>">⬅</a>
-
-  <!-- 출력 내용은 상위 PHP 파일에서 echo로 삽입됨 -->
-</body>
-</html>
+}
+</script>
