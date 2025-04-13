@@ -89,8 +89,9 @@ function render_tree($blocks, $parent_color = '') {
     return $html;
 }
 
-//문제 번호 표시시
+//문제 번호표시
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
+echo '<div class="problem-id">문제 번호: ' . htmlspecialchars($sid) . '</div>';
 
 $block_tree = parse_blocks_with_loose_text($file_contents);
 $html_output = render_tree($block_tree);
@@ -99,7 +100,8 @@ echo "<div class='code-container' style='font-family: Arial, sans-serif; line-he
 echo $html_output;
 echo "</div>";
 
-$sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
+//문제 번호표시
+echo '<div class="problem-id">문제 번호: ' . htmlspecialchars($sid) . '</div>';
 
 include("template/$OJ_TEMPLATE/guideline2.php");
 include("template/$OJ_TEMPLATE/footer.php");

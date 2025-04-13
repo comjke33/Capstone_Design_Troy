@@ -74,7 +74,7 @@
 </head>
 <body>
 
-  <div class="problem-id">문제 번호: <?php echo htmlspecialchars($sid); ?></div>
+  <!-- <div class="problem-id">문제 번호: <?php echo htmlspecialchars($sid); ?></div> -->
 
   <!-- 출력 내용은 상위 PHP 파일에서 echo로 삽입됨 -->
 </body>
