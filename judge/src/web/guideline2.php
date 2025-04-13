@@ -30,21 +30,28 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $type = $m[1][0];
         $idx = $m[2][0];
         $content = $m[3][0];
+        $start_tag = "[{$type}_start({$idx})]";
+        $end_tag = "[{$type}_end({$idx})]";
 
         $children = parse_blocks_with_loose_text($content, $depth + 1);
 
         array_unshift($children, [
-            'type' => 'marker',
-            'content' => "| ",
+            'type' => 'text',
+            'content' => $start_tag,
             'depth' => $depth + 1
         ]);
         array_push($children, [
-            'type' => 'marker',
-            'content' => "| 
+            'type' => 'text',
+            'content' => $end_tag,
             'depth' => $depth + 1
         ]);
 
-        $blocks = array_merge($blocks, $children);
+        $blocks[] = [
+            'type' => $type,
+            'index' => $idx,
+            'depth' => $depth,
+            'children' => $children
+        ];
 
         $offset = $end_pos;
     }
@@ -68,11 +75,13 @@ function render_tree_plain($blocks) {
     $html = "";
     foreach ($blocks as $block) {
         $indent_px = 40 * $block['depth'];
-        $line = htmlspecialchars($block['content']);
-        if ($line !== '') {
-            if ($block['type'] === 'marker') {
-                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: #999;'>$line</div>";
-            } else {
+        if (isset($block['children'])) {
+            $title = strtoupper($block['type']) . " 블록 (ID: {$block['index']})";
+            $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px; white-space: pre-wrap;'><b>$title</b></div>";
+            $html .= render_tree_plain($block['children']);
+        } else {
+            $line = htmlspecialchars($block['content']);
+            if ($line !== '') {
                 $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
                 if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
                     $html .= "<div style='padding-left: {$indent_px}px;'><textarea rows='2' style='width: calc(100% - {$indent_px}px); margin-bottom: 10px;'></textarea></div>";
