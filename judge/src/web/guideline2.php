@@ -3,7 +3,7 @@
 include("template/syzoj/header.php");
 include("include/db_info.inc.php");
 
-$file_path = "/home/Capstone_Design_Troy/test/test1.txt";
+$file_path = "/home/Capstone_Design_Troy/test/test2.txt";
 $file_contents = file_get_contents($file_path);
 
 // 중첩 블록 트리 파싱 + 블록 외 문장도 포함
