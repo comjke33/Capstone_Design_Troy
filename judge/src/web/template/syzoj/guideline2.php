@@ -93,7 +93,7 @@
 <body>
 
   <!-- 🔙 뒤로 가기 버튼 -->
-  <a class="back-button" href="selectlevel.php?problem_id=<?php echo urlencode($sid); ?>">← 뒤로 가기</a>
+  <a class="back-button" href="selectlevel.php?problem_id=<?php echo urlencode($sid); ?>">⬅</a>
 
   <!-- 출력 내용은 상위 PHP 파일에서 echo로 삽입됨 -->
 </body>
