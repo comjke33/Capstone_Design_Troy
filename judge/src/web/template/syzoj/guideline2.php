@@ -118,8 +118,5 @@ function submitAnswer(index) {
         ta.style.border = "1px solid #ccc";
         btn.style.display = "none";
         check.style.display = "inline";
-    } else {
-        alert("틀렸습니다. 다시 시도해보세요!");
-    }
 }
 </script>
