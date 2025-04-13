@@ -6,7 +6,7 @@ include("include/db_info.inc.php");
 $file_path = "/home/Capstone_Design_Troy/test/test.txt";
 $file_contents = file_get_contents($file_path);
 
-// 1. 중첩 블록 구조를 트리로 파싱하기 위한 재귀 파서 정의
+// 중첩 블록 트리 파싱
 function parse_blocks($text) {
     $pattern = "/\[(func_def|rep|cond|self|struct)_start\\((\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct)_end\\(\\2\\)\]/s";
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
@@ -23,7 +23,7 @@ function parse_blocks($text) {
         $idx = $m[2][0];
         $content = $m[3][0];
 
-        $children = parse_blocks($content); // 재귀 분석
+        $children = parse_blocks($content);
 
         $blocks[] = [
             'type' => $type,
@@ -53,19 +53,18 @@ function render_tree($blocks) {
         $color = $color_map[$block['type']];
         $title = strtoupper($block['type']) . " 블록: " . $block['index'];
 
-        $html .= "<div style='background-color: $color; padding: 15px; margin-bottom: 20px; border-radius: 8px;'>";
+        // 문단과 블록을 분리된 카드처럼 시각화
+        $html .= "<div style='background-color: $color; padding: 15px; margin: 25px 0; border-radius: 8px; box-shadow: 1px 1px 6px rgba(0,0,0,0.1);'>";
         $html .= "<h4>$title</h4>";
 
-        // 문장 출력 (children이 없다면 내부를 문장 단위로 출력)
         if (empty($block['children'])) {
             $sentences = preg_split('/(?<=\.)\s*/u', trim($block['content']), -1, PREG_SPLIT_NO_EMPTY);
             foreach ($sentences as $s) {
                 $s = trim($s);
                 if ($s === '') continue;
-                $html .= "<div style='margin-bottom: 10px;'>" . htmlspecialchars($s) . "</div><textarea rows='3' style='width: 100%;'></textarea>";
+                $html .= "<div style='margin-bottom: 10px; padding: 10px; background: white; border-radius: 4px;'>" . htmlspecialchars($s) . "</div><textarea rows='3' style='width: 100%; margin-bottom: 10px;'></textarea>";
             }
         } else {
-            // 자식 블록 재귀 출력
             $html .= render_tree($block['children']);
         }
 
@@ -75,10 +74,7 @@ function render_tree($blocks) {
     return $html;
 }
 
-// 2. 트리로 파싱
 $block_tree = parse_blocks($file_contents);
-
-// 3. 렌더링
 $html_output = render_tree($block_tree);
 
 echo "<div class='code-container' style='font-family: Arial, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto;'>";
