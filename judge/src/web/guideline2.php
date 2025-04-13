@@ -59,7 +59,7 @@ function parse_blocks_with_loose_text($text) {
 }
 
 // 블록 구조를 HTML로 렌더링
-function render_tree($blocks, $parent_color = '') {
+function render_tree($blocks, $parent_color = '', $depth = 0) {
     $html = "";
 
     foreach ($blocks as $block) {
@@ -73,23 +73,26 @@ function render_tree($blocks, $parent_color = '') {
         ];
 
         $color = $color_map[$block['type']];
+        $indent = 20 * $depth;
 
         if (empty($block['children'])) {
-            $sentences = preg_split('/(?<=\.)\s*/u', trim($block['content']), -1, PREG_SPLIT_NO_EMPTY);
+            // 태그 제거 후 문장 분해
+            $cleaned = preg_replace("/\\[(func_def|rep|cond|self|struct)_(start|end)\\(\\d+\\)\\]/", "", $block['content']);
+            $sentences = preg_split('/(?<=\.)\s*/u', trim($cleaned), -1, PREG_SPLIT_NO_EMPTY);
             foreach ($sentences as $s) {
                 $s = trim($s);
                 if ($s === '') continue;
-                $html .= "<div style='margin-bottom: 10px; padding: 10px; background: $color; border-radius: 4px;'>" . htmlspecialchars($s) . "</div><textarea rows='3' style='width: 100%; margin-bottom: 10px;'></textarea>";
+                $html .= "<div style='margin-bottom: 10px; padding: 10px; background: $color; border-radius: 4px; margin-left: {$indent}px;'>" . htmlspecialchars($s) . "</div><textarea rows='3' style='width: 100%; margin-left: {$indent}px; margin-bottom: 10px;'></textarea>";
             }
         } else {
-            $html .= render_tree($block['children'], $color);
+            $html .= render_tree($block['children'], $color, $depth + 1);
         }
     }
 
     return $html;
 }
 
-//문제 번호표시
+//문제 번호 표시
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 echo '<div class="problem-id">문제 번호: ' . htmlspecialchars($sid) . '</div>';
 
@@ -99,9 +102,6 @@ $html_output = render_tree($block_tree);
 echo "<div class='code-container' style='font-family: Arial, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto;'>";
 echo $html_output;
 echo "</div>";
-
-//문제 번호표시
-echo '<div class="problem-id">문제 번호: ' . htmlspecialchars($sid) . '</div>';
 
 include("template/$OJ_TEMPLATE/guideline2.php");
 include("template/$OJ_TEMPLATE/footer.php");
