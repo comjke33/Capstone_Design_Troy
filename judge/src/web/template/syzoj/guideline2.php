@@ -33,7 +33,7 @@
 
     .back-button {
       display: block;
-      width: 200px;
+      width: 100px;
       margin: 10px auto 30px auto;
       padding: 10px 15px;
       background-color: #4285f4;
@@ -91,8 +91,6 @@
   </style>
 </head>
 <body>
-
-  <div class="problem-id">문제 번호: <?php echo htmlspecialchars($sid); ?></div>
 
   <!-- 🔙 뒤로 가기 버튼 -->
   <a class="back-button" href="selectlevel.php?problem_id=<?php echo urlencode($sid); ?>">← 뒤로 가기</a>
