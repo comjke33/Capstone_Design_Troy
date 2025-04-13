@@ -6,7 +6,7 @@ $file_path = "/home/Capstone_Design_Troy/test/test1.txt";
 $file_contents = file_get_contents($file_path);
 
 function parse_blocks_with_loose_text($text, $depth = 0) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\(\2\)\]/s";
     $blocks = [];
     $offset = 0;
 
@@ -18,46 +18,48 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $before_text = substr($text, $offset, $start_pos - $offset);
         if (trim($before_text) !== '') {
             foreach (explode("\n", $before_text) as $line) {
-                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-                $blocks[] = [
-                    'type' => 'text',
-                    'content' => rtrim($line),
-                    'depth' => $depth + $indent_level
-                ];
+                $line = trim($line);
+                if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line)) {
+                    $blocks[] = [
+                        'type' => 'text',
+                        'content' => $line,
+                        'depth' => $depth
+                    ];
+                }
             }
         }
 
-        $type = $m[1][0];
-        $idx = $m[2][0];
-        $content = $m[3][0];
-
-        $children = parse_blocks_with_loose_text($content, $depth + 1);
-
-        array_unshift($children, [
-            'type' => 'marker',
-            'content' => "| {$type}_start({$idx})",
-            'depth' => $depth + 1
-        ]);
-        array_push($children, [
+        // 블록 시작: 들여쓰기 라인 삽입
+        $blocks[] = [
             'type' => 'pipe',
-            'content' => "|",
             'depth' => $depth + 1
-        ]);
+        ];
 
+        $content = $m[3][0];
+        $children = parse_blocks_with_loose_text($content, $depth + 1);
         $blocks = array_merge($blocks, $children);
+
+        // 블록 끝: 파이프 줄 삽입
+        $blocks[] = [
+            'type' => 'pipe',
+            'depth' => $depth + 1
+        ];
 
         $offset = $end_pos;
     }
 
+    // 나머지 텍스트 처리
     $tail = substr($text, $offset);
     if (trim($tail) !== '') {
         foreach (explode("\n", $tail) as $line) {
-            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-            $blocks[] = [
-                'type' => 'text',
-                'content' => rtrim($line),
-                'depth' => $depth + $indent_level
-            ];
+            $line = trim($line);
+            if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line)) {
+                $blocks[] = [
+                    'type' => 'text',
+                    'content' => $line,
+                    'depth' => $depth
+                ];
+            }
         }
     }
 
@@ -66,22 +68,27 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
 
 function render_tree_plain($blocks) {
     $html = "";
+    $previous_was_pipe = false;
+
     foreach ($blocks as $block) {
         $indent_px = 40 * $block['depth'];
-        $line = htmlspecialchars($block['content']);
-        if ($line !== '') {
-            if ($block['type'] === 'marker') {
-                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: #999;'>$line</div>";
-            } elseif ($block['type'] === 'pipe') {
-                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: #ddd;'>$line</div>";
-            } else {
-                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
-                if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
-                    $html .= "<div style='padding-left: {$indent_px}px;'><textarea rows='2' style='width: calc(100% - {$indent_px}px); margin-bottom: 10px;'></textarea></div>";
-                }
+
+        if ($block['type'] === 'pipe') {
+            if (!$previous_was_pipe) {
+                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: red;'>|</div>";
+                $previous_was_pipe = true;
             }
+        } elseif ($block['type'] === 'text') {
+            if ($previous_was_pipe) {
+                $html .= "<div style='margin-bottom:8px;'><br></div>";
+                $previous_was_pipe = false;
+            }
+            $line = htmlspecialchars($block['content']);
+            $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
+            $html .= "<div style='padding-left: {$indent_px}px;'><textarea rows='2' style='width: calc(100% - {$indent_px}px); margin-bottom: 10px;'></textarea></div>";
         }
     }
+
     return $html;
 }
 
