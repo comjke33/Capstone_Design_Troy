@@ -30,12 +30,27 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $type = $m[1][0];
         $idx = $m[2][0];
         $content = $m[3][0];
+        $start_tag = "[{$type}_start({$idx})]";
+        $end_tag = "[{$type}_end({$idx})]";
+
+        $children = parse_blocks_with_loose_text($content, $depth + 1);
+
+        array_unshift($children, [
+            'type' => 'text',
+            'content' => $start_tag,
+            'depth' => $depth + 1
+        ]);
+        array_push($children, [
+            'type' => 'text',
+            'content' => $end_tag,
+            'depth' => $depth + 1
+        ]);
 
         $blocks[] = [
             'type' => $type,
             'index' => $idx,
             'depth' => $depth,
-            'children' => parse_blocks_with_loose_text($content, $depth + 1)
+            'children' => $children
         ];
 
         $offset = $end_pos;
