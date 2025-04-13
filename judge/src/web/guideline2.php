@@ -77,7 +77,7 @@ function render_tree($blocks, $parent_color = '', $depth = 0) {
 
         if (empty($block['children'])) {
             // 태그 제거 및 문장 분리
-            $cleaned   = preg_replace("/\\[(func_def|rep|cond|self|struct)_(start|end)\\(\\d+\\)\\]/", "", $block['content']);
+            $cleaned   = preg_replace("/\\[(func_def|rep|cond|self|struct)_(start|end)\\(\\d+\\)\]/", "", $block['content']);
             $sentences = preg_split('/(?<=\.)\s*/u', trim($cleaned), -1, PREG_SPLIT_NO_EMPTY);
 
             foreach ($sentences as $s) {
@@ -100,6 +100,16 @@ function render_tree($blocks, $parent_color = '', $depth = 0) {
                           '></textarea>";
             }
         } else {
+            $title = strtoupper($block['type']) . " 블록 (ID: {$block['index']})";
+            $html .= "<div style='
+                          font-weight: bold;
+                          background: $color;
+                          padding: 8px;
+                          margin-left: {$indent}px;
+                          border-radius: 4px;
+                          font-family: monospace;
+                          margin-bottom: 8px;
+                      '>" . htmlspecialchars($title) . "</div>";
             $html .= render_tree($block['children'], $color, $depth + 1);
         }
     }
