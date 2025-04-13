@@ -75,15 +75,27 @@ function render_tree($blocks, $prefix = '', $depth = 0, $is_last_flags = []) {
         $indent = 50 * $depth;
 
         if (empty($block['children'])) {
+            // 태그 제거 후 문장 분해
             $cleaned = preg_replace("/\\[(func_def|rep|cond|self|struct)_(start|end)\\(\\d+\\)\\]/", "", $block['content']);
             $sentences = preg_split('/(?<=\.)\s*/u', trim($cleaned), -1, PREG_SPLIT_NO_EMPTY);
 
-            foreach ($sentences as $s) {
+            $sent_html = [];
+            foreach ($sentences as $j => $s) {
                 $s = trim($s);
                 if ($s === '') continue;
-                $html .= "<div style='font-family: monospace; color: $color; margin-left: {$depth}em;'>" . htmlspecialchars($line . $s) . "</div>";
-                $html .= "<textarea rows='3' style='width: 100%; margin-bottom: 10px;'></textarea>";
+
+                $prefix_line = $line;
+                if ($j > 0) {
+                    foreach ($is_last_flags as $flag) {
+                        $prefix_line = ($flag ? "    " : "│   ") . $prefix_line;
+                    }
+                    $prefix_line = "│   " . $prefix_line;
+                }
+
+                $sent_html[] = "<div style='font-family: monospace; color: $color; margin-left: {$depth}em;'>" . htmlspecialchars($prefix_line . $s) . "</div>";
+                $sent_html[] = "<textarea rows='3' style='width: 100%; margin-bottom: 10px;'></textarea>";
             }
+            $html .= implode("\n", $sent_html);
         } else {
             $title = strtoupper($block['type']) . " 블록 (ID: {$block['index']})";
             $html .= "<div style='font-family: monospace; font-weight: bold; color: $color; margin-left: {$depth}em;'>" . htmlspecialchars($line . $title) . "</div>";
