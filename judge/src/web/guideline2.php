@@ -19,44 +19,37 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         if (trim($before_text) !== '') {
             foreach (explode("\n", $before_text) as $line) {
                 $line = trim($line);
-                if (!preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", $line)) {
-                    $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+                if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
                     $blocks[] = [
                         'type' => 'text',
                         'content' => $line,
-                        'depth' => $depth + $indent_level
+                        'depth' => $depth
                     ];
                 }
             }
         }
 
-        $type = $m[1][0];
-        $idx = $m[2][0];
-        $content = $m[3][0];
-
         $blocks[] = [
             'type' => 'pipe',
-            'content' => "|",
             'depth' => $depth + 1
         ];
 
+        $content = $m[3][0];
         $children = parse_blocks_with_loose_text($content, $depth + 1);
         $blocks = array_merge($blocks, $children);
 
         $offset = $end_pos;
     }
 
-    // 마지막 남은 부분
     $tail = substr($text, $offset);
     if (trim($tail) !== '') {
         foreach (explode("\n", $tail) as $line) {
             $line = trim($line);
-            if (!preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", $line)) {
-                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+            if (!preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]$/", $line)) {
                 $blocks[] = [
                     'type' => 'text',
                     'content' => $line,
-                    'depth' => $depth + $indent_level
+                    'depth' => $depth
                 ];
             }
         }
@@ -71,23 +64,21 @@ function render_tree_plain($blocks) {
 
     foreach ($blocks as $block) {
         $indent_px = 40 * $block['depth'];
-        $line = htmlspecialchars($block['content']);
 
         if ($block['type'] === 'pipe') {
-            if (!$previous_was_pipe) {
-                $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: red;'>|</div>";
-                $previous_was_pipe = true;
-            }
-        } else {
+            $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color: red;'>|</div>";
+            $previous_was_pipe = true;
+        } elseif ($block['type'] === 'text') {
             if ($previous_was_pipe) {
                 $html .= "<div style='margin-bottom:8px;'><br></div>";
                 $previous_was_pipe = false;
             }
-
+            $line = htmlspecialchars($block['content']);
             $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
             $html .= "<div style='padding-left: {$indent_px}px;'><textarea rows='2' style='width: calc(100% - {$indent_px}px); margin-bottom: 10px;'></textarea></div>";
         }
     }
+
     return $html;
 }
 
