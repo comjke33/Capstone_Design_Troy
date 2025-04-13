@@ -73,7 +73,7 @@ function render_tree($blocks, $parent_color = '', $depth = 0) {
         ];
 
         $color = $color_map[$block['type']];
-        $indent = 20 * $depth;
+        $indent = 50 * $depth;
 
         if (empty($block['children'])) {
             // 태그 제거 후 문장 분해
