@@ -4,89 +4,85 @@ include("template/syzoj/header.php");
 include("include/db_info.inc.php");
 
 $file_path = "/home/Capstone_Design_Troy/test/test.txt";
-
-// 1. 파일 내용 읽기
 $file_contents = file_get_contents($file_path);
 
-// 2. 정규 표현식 정의
-$patterns = [
-    'func_def' => "/\[func_def_start\((.*?)\)\](.*?)\[func_def_end\((.*?)\)\]/s",
-    'rep' => "/\[rep_start\((.*?)\)\](.*?)\[rep_end\((.*?)\)\]/s",
-    'cond' => "/\[cond_start\((.*?)\)\](.*?)\[cond_end\((.*?)\)\]/s",
-    'self' => "/\[self_start\((.*?)\)\](.*?)\[self_end\((.*?)\)\]/s",
-    'struct' => "/\[struct_start\((.*?)\)\](.*?)\[struct_end\((.*?)\)\]/s"
-];
+// 1. 중첩 블록 구조를 트리로 파싱하기 위한 재귀 파서 정의
+function parse_blocks($text) {
+    $pattern = "/\[(func_def|rep|cond|self|struct)_start\\((\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct)_end\\(\\2\\)\]/s";
+    preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
-// 🔷 공통 블록 처리 함수
-function render_block($title, $color, $sentences, $textarea_rows = 2) {
-    $output = "";
-    foreach ($sentences as $s) {
-        $s = trim($s);
-        if ($s === "") continue;
+    $blocks = [];
+    $offset = 0;
 
-        // HTML 태그 포함된 코드 제거
-        if (preg_match('/<(\/)?(textarea|div)[^>]*>/i', $s) || preg_match('/&lt;.*textarea.*&gt;/i', $s)) continue;
+    while (preg_match($pattern, $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
+        $full = $m[0][0];
+        $start_pos = $m[0][1];
+        $end_pos = $start_pos + strlen($full);
 
-        $output .= "<div style='margin-bottom: 10px;'>" . htmlspecialchars($s) . "</div><textarea rows='$textarea_rows' style='width: 100%;'></textarea>";
+        $type = $m[1][0];
+        $idx = $m[2][0];
+        $content = $m[3][0];
+
+        $children = parse_blocks($content); // 재귀 분석
+
+        $blocks[] = [
+            'type' => $type,
+            'index' => $idx,
+            'content' => $content,
+            'children' => $children
+        ];
+
+        $offset = $end_pos;
     }
 
-    // 빈 div 제거
-    $output = preg_replace("/<div[^>]*>\s*<\/div>/", "", $output);
-
-    return "<div class='code-block' style='background-color: $color; padding: 15px; margin-bottom: 20px; border-radius: 8px;'><h3>$title</h3>" . rtrim($output) . "</div>";
+    return $blocks;
 }
 
-// 🔷 각 블록 처리
-$file_contents = preg_replace_callback($patterns['func_def'], function($matches) {
-    $sentences = array_filter(
-        preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY),
-        fn($s) => trim($s) !== ""
-    );
-    return render_block("함수: {$matches[1]}", "#e0f7fa", $sentences, 2);
-}, $file_contents);
+function render_tree($blocks) {
+    $html = "";
 
-$file_contents = preg_replace_callback($patterns['rep'], function($matches) {
-    $sentences = array_filter(
-        preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY),
-        fn($s) => trim($s) !== ""
-    );
-    return render_block("반복문: {$matches[1]}", "#fce4ec", $sentences, 4);
-}, $file_contents);
+    foreach ($blocks as $block) {
+        $color_map = [
+            'func_def' => '#e0f7fa',
+            'rep' => '#fce4ec',
+            'cond' => '#e8f5e9',
+            'self' => '#fff9c4',
+            'struct' => '#ffecb3'
+        ];
 
-$file_contents = preg_replace_callback($patterns['cond'], function($matches) {
-    $sentences = array_filter(
-        preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY),
-        fn($s) => trim($s) !== ""
-    );
-    return render_block("조건문: {$matches[1]}", "#e8f5e9", $sentences, 4);
-}, $file_contents);
+        $color = $color_map[$block['type']];
+        $title = strtoupper($block['type']) . " 블록: " . $block['index'];
 
-$file_contents = preg_replace_callback($patterns['self'], function($matches) {
-    $sentences = array_filter(
-        preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY),
-        fn($s) => trim($s) !== ""
-    );
-    return render_block("기본 문장: {$matches[1]}", "#fff9c4", $sentences, 4);
-}, $file_contents);
+        $html .= "<div style='background-color: $color; padding: 15px; margin-bottom: 20px; border-radius: 8px;'>";
+        $html .= "<h4>$title</h4>";
 
-$file_contents = preg_replace_callback($patterns['struct'], function($matches) {
-    $sentences = array_filter(
-        preg_split('/(?<=\.)\s*/u', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY),
-        fn($s) => trim($s) !== ""
-    );
-    return render_block("구조체: {$matches[1]}", "#ffecb3", $sentences, 4);
-}, $file_contents);
+        // 문장 출력 (children이 없다면 내부를 문장 단위로 출력)
+        if (empty($block['children'])) {
+            $sentences = preg_split('/(?<=\.)\s*/u', trim($block['content']), -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($sentences as $s) {
+                $s = trim($s);
+                if ($s === '') continue;
+                $html .= "<div style='margin-bottom: 10px;'>" . htmlspecialchars($s) . "</div><textarea rows='3' style='width: 100%;'></textarea>";
+            }
+        } else {
+            // 자식 블록 재귀 출력
+            $html .= render_tree($block['children']);
+        }
 
-// 🔷 태그 줄 전체 제거
-$file_contents = preg_replace(
-    "/^.*\[(rep_start|rep_end|self_start|self_end|func_def_start|func_def_end|cond_start|cond_end|struct_start|struct_end)\([^\)]*\)\].*$(\r?\n)?/m",
-    "",
-    $file_contents
-);
+        $html .= "</div>";
+    }
 
-// 🔷 최종 출력
+    return $html;
+}
+
+// 2. 트리로 파싱
+$block_tree = parse_blocks($file_contents);
+
+// 3. 렌더링
+$html_output = render_tree($block_tree);
+
 echo "<div class='code-container' style='font-family: Arial, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto;'>";
-echo $file_contents;
+echo $html_output;
 echo "</div>";
 
 include("template/$OJ_TEMPLATE/guideline2.php");
