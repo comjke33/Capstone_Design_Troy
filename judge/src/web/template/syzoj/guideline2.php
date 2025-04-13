@@ -1,38 +1,50 @@
-<div class='problem-id' style='font-weight:bold; font-size:18px; margin-bottom: 20px;'>
+<div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
     문제 번호: <?= htmlspecialchars($OJ_SID) ?>
 </div>
 
-<div class='code-container' style='font-family: monospace; line-height: 1.5; max-width: 1000px; margin: 0 auto;'>
+<div class='code-container' style='font-family: monospace; line-height: 1.8; max-width: 1000px; margin: 0 auto;'>
     <style>
-        .styled-textarea {
-            width: 100%;
+        .code-line {
+            background-color: #f2f2f2;
             border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 8px 10px;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            display: inline-block;
+            font-size: 16px;
             font-family: monospace;
-            font-size: 14px;
+        }
+
+        .styled-textarea {
+            border: 1px solid #bbb;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-family: monospace;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            transition: all 0.2s ease-in-out;
+            height: 42px;
             resize: vertical;
-            background-color: #ffffff;
-            transition: border-color 0.2s;
+            width: 100%;
         }
 
         .styled-textarea:focus {
-            outline: none;
+            background-color: #ffffff;
             border-color: #4a90e2;
-            background-color: #fff;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.15);
+            outline: none;
         }
 
         .submit-button {
-            height: 30px;
-            width: 60px;
-            padding: 0 12px;
-            font-size: 13px;
+            height: 42px;
+            padding: 0 16px;
+            font-size: 16px;
             background-color: #4a90e2;
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: background-color 0.2s ease-in-out;
         }
 
         .submit-button:hover {
@@ -41,15 +53,15 @@
 
         .checkmark {
             color: green;
-            font-size: 18px;
-            margin-left: 5px;
+            font-size: 20px;
+            margin-left: 8px;
         }
 
         .submission-line {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 14px;
+            gap: 10px;
+            margin-bottom: 18px;
         }
     </style>
 
@@ -64,11 +76,14 @@
                 $line = htmlspecialchars($block['content']);
                 if ($line !== '') {
                     if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line)) {
-                        $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; color:red;'>|</div>";
+                        $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px; color:red; font-size: 18px;'>|</div>";
                     } else {
-                        $html .= "<div style='margin-bottom:4px; padding-left: {$indent_px}px; white-space: pre-wrap;'>$line</div>";
+                        // 설명 줄 스타일
+                        $html .= "<div style='padding-left: {$indent_px}px;'><div class='code-line'>{$line}</div></div>";
+                        
+                        // 입력 줄
                         $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' rows='2'></textarea>";
+                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea'></textarea>";
                         $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
                         $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
                         $html .= "</div>";
@@ -85,7 +100,7 @@
     ?>
 </div>
 
-<!-- ✅ JavaScript -->
+<!-- ✅ 정답 검증 스크립트 -->
 <script>
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
