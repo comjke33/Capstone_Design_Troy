@@ -109,6 +109,7 @@ function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
     const check = document.getElementById(`check_${index}`);
+
     const input = ta.value.trim();
     const correct = correctAnswers[index].trim();
 
@@ -118,5 +119,12 @@ function submitAnswer(index) {
         ta.style.border = "1px solid #ccc";
         btn.style.display = "none";
         check.style.display = "inline";
+        ta.style.color = "#000";
+    } else {
+        // 오답 처리 (예: 배경색을 살짝 붉게 변경)
+        ta.style.backgroundColor = "#ffe6e6";
+        ta.style.border = "1px solid #e06060";
+        ta.style.color = "#c00";
+    }
 }
 </script>
