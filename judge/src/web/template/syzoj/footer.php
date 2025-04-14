@@ -26,7 +26,7 @@
     <div class="footer">
         <div class="ui center aligned container" title="이 정보를 삭제하려면 편집하십시오template/syzoj/footer.php" >
             <div><?php echo $domain==$DOMAIN?$OJ_NAME:ucwords($OJ_NAME)."'s OJ"?> is powered by <a style="color: inherit !important;" class=" " title="GitHub"
-                    target="_blank" rel="noreferrer noopener" href="https://github.com/zhblue/hustoj">TroyOJ</a>, Theme
+                    target="_blank" rel="noreferrer noopener" href="https://github.com/zhblue/hustoj">hustOj</a>, Theme
                 by <a style="color: inherit !important;" href="https://github.com/syzoj">Troy</a></div>
          <!--   <div> Running on <a href='https://debian.org' target='_blank'>Debian11</a> / <a href='https://www.loongson.cn' target='_blank'>Loongson 3A3000</a> </div> -->
 
