@@ -11,11 +11,24 @@ $file_contents = file_get_contents($file_path); // 텍스트 파일 내용을 �
 
 // ✅ 정답 배열 정의 — index별 정답을 나열해야 함 (텍스트 순서에 맞춰 대응)
 // 🟩 [답안 부분]
-$correct_answers = [
-    "if (x > 0) {",                    // 0번째 답
-    "for (int i = 0; i < 10; i++) {",  // 1번째 답
-    "...",                             // 2번째 답 (임의 내용)
-];
+// ✅ 정답 배열 정의 — index별 정답을 나열해야 함 (텍스트 순서에 맞춰 대응)
+// 🟩 [답안 부분]
+// JSON에서 코드 정답 불러오기 (헤더 줄 제외)
+$json_path = "/home/Capstone_Design_Troy/test/question_and_code_test1.json";
+$json_contents = file_get_contents($json_path);
+$json_data = json_decode($json_contents, true);
+
+$answer_code_raw = $json_data[0]['code'];
+$answer_lines = explode("\n", $answer_code_raw);
+
+$correct_answers = [];
+foreach ($answer_lines as $line) {
+    $trimmed = trim($line);
+    if ($trimmed !== "" && strpos($trimmed, "#include") !== 0) {
+        $correct_answers[] = $trimmed;
+    }
+}
+
 
 // ✅ 주어진 텍스트를 계층적 코드 블록으로 파싱하는 함수 정의
 // 🟧 [문제 구조 파싱 부분]
