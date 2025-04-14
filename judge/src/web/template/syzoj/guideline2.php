@@ -70,13 +70,41 @@
         }
 
         .block-wrap {
-            background-color: #f9fbfd;
-            border: 1px solid #e5e9ee;
-            border-left: 4px solid #b0c4de; /* ✅ 눈에 편한 연청색 */
-            border-radius: 10px;
-            padding: 24px;
-            margin: 32px 0;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid transparent;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+        }
+
+        .block-func_def {
+            background-color: #ffe599;
+            border-color: #f6b26b;
+        }
+
+        .block-rep {
+            background-color: #f4cccc;
+            border-color: #ea9999;
+        }
+
+        .block-cond {
+            background-color: #d9ead3;
+            border-color: #93c47d;
+        }
+
+        .block-self {
+            background-color: #cfe2f3;
+            border-color: #6fa8dc;
+        }
+
+        .block-struct {
+            background-color: #ead1dc;
+            border-color: #c27ba0;
+        }
+
+        .block-construct {
+            background-color: #d9d2e9;
+            border-color: #8e7cc3;
         }
 
         .block-wrap .submission-line {
@@ -91,7 +119,8 @@
             $indent_px = 40 * $block['depth'];
 
             if (isset($block['children'])) {
-                $html .= "<div class='block-wrap' style='margin-left: {$indent_px}px;'>";
+                $type_class = 'block-' . $block['type'];
+                $html .= "<div class='block-wrap {$type_class}' style='margin-left: {$indent_px}px;'>";
                 $html .= render_tree_plain($block['children'], $answer_index);
                 $html .= "</div>";
             } else {
@@ -119,7 +148,6 @@
     ?>
 </div>
 
-<!-- ✅ 자동 높이 조절 및 정답 판별 -->
 <script>
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
