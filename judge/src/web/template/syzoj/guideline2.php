@@ -117,7 +117,7 @@
     function render_tree_plain($blocks, &$answer_index = 0) {
         $html = "";
         foreach ($blocks as $block) {
-            $indent_px = 20 * $block['depth'];
+            $indent_px = 5 * $block['depth'];
 
             if (isset($block['children'])) {
                 $type_class = 'block-' . $block['type'];
