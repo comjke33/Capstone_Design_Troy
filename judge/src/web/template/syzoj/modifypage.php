@@ -12,13 +12,13 @@
                 </div>
                 <?php require_once('./include/set_post_key.php');?>
 
-                <!-- 낙내암 슈종 팔두 -->
+                <!-- 닉네임 -->
                 <div class="field">
                     <label for="username"><?php echo $MSG_NICK?>*</label>
                     <input name="nick" placeholder="<?php echo $MSG_Input.$MSG_NICK?>" type="text" value="<?php echo htmlentities($row['nick'],ENT_QUOTES,"UTF-8")?>">
                 </div>
 
-                    기존 비밀번호 입력 필드
+                    <!-- 기존 비밀번호 입력 필드 -->
                     <div class="field">
                     <label class="ui header"><?php echo $MSG_PASSWORD?>*</label>
                       <input name="opassword" placeholder="<?php echo $MSG_Input.$MSG_PASSWORD?>" type="password">
