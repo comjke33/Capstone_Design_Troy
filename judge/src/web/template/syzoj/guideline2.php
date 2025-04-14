@@ -23,8 +23,8 @@
             font-size: 16px;
             background-color: #ffffff;
             transition: all 0.2s ease-in-out;
-            height: 42px;
-            resize: vertical;
+            min-height: 42px;
+            resize: none;
             width: 100%;
         }
 
@@ -64,6 +64,15 @@
             gap: 10px;
             margin-bottom: 18px;
         }
+
+        /* ✅ 블록 전체 배경 강조 */
+        .block-wrap {
+            background-color: #f0f8ff;
+            border-left: 4px solid #4a90e2;
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
     </style>
 
     <?php
@@ -71,17 +80,21 @@
         $html = "";
         foreach ($blocks as $block) {
             $indent_px = 40 * $block['depth'];
+
             if (isset($block['children'])) {
+                // ✅ 블록 전체 배경 강조
+                $html .= "<div class='block-wrap' style='margin-left: {$indent_px}px;'>";
                 $html .= render_tree_plain($block['children'], $answer_index);
+                $html .= "</div>";
             } else {
                 $line = htmlspecialchars($block['content']);
                 if ($line !== '') {
                     if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line)) {
                         $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px; color:red; font-size: 18px;'>|</div>";
                     } else {
-                        // 설명 줄 스타일
+                        // 문제 설명 줄
                         $html .= "<div style='padding-left: {$indent_px}px;'><div class='code-line'>{$line}</div></div>";
-                        
+
                         // 입력 줄
                         $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                         $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea'></textarea>";
@@ -101,7 +114,7 @@
     ?>
 </div>
 
-<!-- ✅ 정답 검증 스크립트 -->
+<!-- ✅ 자동 높이 조절 및 정답 판별 스크립트 -->
 <script>
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
@@ -127,10 +140,10 @@ function submitAnswer(index) {
     }
 }
 
-// ✅ 자동 높이 조절 기능
+// ✅ textarea 자동 높이 조절 기능
 function autoResize(textarea) {
-    textarea.style.height = 'auto'; // 기존 높이 초기화
-    textarea.style.height = textarea.scrollHeight + 'px'; // 스크롤 높이만큼 확장
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -140,4 +153,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 </script>
-
