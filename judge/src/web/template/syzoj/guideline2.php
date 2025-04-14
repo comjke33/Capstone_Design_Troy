@@ -40,6 +40,7 @@
         }
 
         .submit-button {
+            width: 50px;
             height: 38px;
             padding: 0 16px;
             font-size: 14px;
