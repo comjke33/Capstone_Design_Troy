@@ -5,73 +5,82 @@
 <div class='code-container' style='font-family: monospace; line-height: 1.8; max-width: 1000px; margin: 0 auto;'>
     <style>
         .code-line {
-            background-color: #f2f2f2;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            padding: 10px 14px;
+            background-color: #f8f8fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 10px 16px;
             margin-bottom: 10px;
-            display: inline-block;
-            font-size: 16px;
+            display: block;
+            font-size: 15px;
+            color: #333;
             font-family: monospace;
+            white-space: pre-wrap;
         }
 
         .styled-textarea {
-            border: 1px solid #bbb;
-            border-radius: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
             padding: 10px 14px;
             font-family: monospace;
-            font-size: 16px;
-            background-color: #ffffff;
+            font-size: 15px;
+            background-color: #fff;
             transition: all 0.2s ease-in-out;
-            min-height: 42px;
+            line-height: 1.6;
             resize: none;
             width: 100%;
+            box-sizing: border-box;
+            min-height: 40px;
         }
 
         .styled-textarea:focus {
-            background-color: #ffffff;
             border-color: #4a90e2;
+            background-color: #ffffff;
             box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.15);
             outline: none;
         }
 
         .submit-button {
-            width: 80px;
-            height: 42px;
+            height: 38px;
             padding: 0 16px;
-            font-size: 16px;
+            font-size: 14px;
             background-color: #4a90e2;
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: background-color 0.2s ease-in-out;
+            transition: background-color 0.2s, transform 0.1s;
         }
 
         .submit-button:hover {
             background-color: #357ab7;
+            transform: scale(1.03);
         }
 
         .checkmark {
-            color: green;
-            font-size: 20px;
-            margin-left: 8px;
+            color: #2ecc71;
+            font-size: 18px;
+            margin-left: 6px;
         }
 
         .submission-line {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 18px;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 28px;
         }
 
-        /* ✅ 블록 전체 배경 강조 */
         .block-wrap {
-            background-color: #f0f8ff;
-            border-left: 4px solid #4a90e2;
-            padding: 16px;
-            margin: 20px 0;
+            background-color: #f9fbfd;
+            border: 1px solid #dde5ec;
+            border-left: 5px solid #4a90e2;
             border-radius: 10px;
+            padding: 24px;
+            margin: 32px 0;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .block-wrap .submission-line {
+            margin-top: 12px;
         }
     </style>
 
@@ -82,7 +91,7 @@
             $indent_px = 40 * $block['depth'];
 
             if (isset($block['children'])) {
-                // ✅ 블록 전체 배경 강조
+                // 🔵 배경 강조된 블록 박스
                 $html .= "<div class='block-wrap' style='margin-left: {$indent_px}px;'>";
                 $html .= render_tree_plain($block['children'], $answer_index);
                 $html .= "</div>";
@@ -92,10 +101,8 @@
                     if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line)) {
                         $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px; color:red; font-size: 18px;'>|</div>";
                     } else {
-                        // 문제 설명 줄
                         $html .= "<div style='padding-left: {$indent_px}px;'><div class='code-line'>{$line}</div></div>";
 
-                        // 입력 줄
                         $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                         $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea'></textarea>";
                         $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
@@ -114,7 +121,6 @@
     ?>
 </div>
 
-<!-- ✅ 자동 높이 조절 및 정답 판별 스크립트 -->
 <script>
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
@@ -128,27 +134,26 @@ function submitAnswer(index) {
 
     if (input === correct) {
         ta.readOnly = true;
-        ta.style.backgroundColor = "#e6e6e6";
+        ta.style.backgroundColor = "#eef1f4";
         ta.style.border = "1px solid #ccc";
         btn.style.display = "none";
         check.style.display = "inline";
         ta.style.color = "#000";
     } else {
-        ta.style.backgroundColor = "#ffe6e6";
+        ta.style.backgroundColor = "#ffecec";
         ta.style.border = "1px solid #e06060";
         ta.style.color = "#c00";
     }
 }
 
-// ✅ textarea 자동 높이 조절 기능
+// ✅ textarea 자동 높이 조절
 function autoResize(textarea) {
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const allTextAreas = document.querySelectorAll('.styled-textarea');
-    allTextAreas.forEach(textarea => {
+    document.querySelectorAll('.styled-textarea').forEach(textarea => {
         textarea.addEventListener('input', () => autoResize(textarea));
     });
 });
