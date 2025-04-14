@@ -71,12 +71,12 @@
 
         .block-wrap {
             background-color: #f9fbfd;
-            border: 1px solid #dde5ec;
-            border-left: 5px solid #4a90e2;
+            border: 1px solid #e5e9ee;
+            border-left: 4px solid #b0c4de; /* ✅ 눈에 편한 연청색 */
             border-radius: 10px;
             padding: 24px;
             margin: 32px 0;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
         }
 
         .block-wrap .submission-line {
@@ -91,7 +91,6 @@
             $indent_px = 40 * $block['depth'];
 
             if (isset($block['children'])) {
-                // 🔵 배경 강조된 블록 박스
                 $html .= "<div class='block-wrap' style='margin-left: {$indent_px}px;'>";
                 $html .= render_tree_plain($block['children'], $answer_index);
                 $html .= "</div>";
@@ -102,7 +101,6 @@
                         $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px; color:red; font-size: 18px;'>|</div>";
                     } else {
                         $html .= "<div style='padding-left: {$indent_px}px;'><div class='code-line'>{$line}</div></div>";
-
                         $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                         $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea'></textarea>";
                         $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
@@ -121,6 +119,7 @@
     ?>
 </div>
 
+<!-- ✅ 자동 높이 조절 및 정답 판별 -->
 <script>
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
@@ -146,7 +145,7 @@ function submitAnswer(index) {
     }
 }
 
-// ✅ textarea 자동 높이 조절
+// ✅ 자동 높이 조절
 function autoResize(textarea) {
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
