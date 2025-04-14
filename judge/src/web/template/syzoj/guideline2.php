@@ -127,7 +127,7 @@
                 $line = htmlspecialchars($block['content']);
                 if ($line !== '') {
                     if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line)) {
-                        $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px; color:red; font-size: 18px;'>‍‍‍‍️️️️ </div>";
+                        $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px; color:red; font-size: 18px;'>‍‍‍‍️️️️-</div>";
                     } else {
                         $html .= "<div style='padding-left: {$indent_px}px;'><div class='code-line'>{$line}</div></div>";
                         $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
