@@ -294,8 +294,18 @@ $beg_time = date('Y-m-d', strtotime("-6 month"));
             itemStyle: { borderWidth: 0.5 },
             lineStyle: { color: '#D10E00', width: 1, opacity: 1 },
             yearLabel: { show: false },
-            dayLabel: { firstDay: 1, nameMap: 'kr', margin: '8px' },
-            monthLabel: { nameMap: 'kr', margin: 15, fontSize: 14, color: 'gray' },
+            dayLabel: {
+                firstDay: 1,
+                nameMap: ['일', '월', '화', '수', '목', '금', '토'], // 한국어 요일
+                margin: '8px'
+            },
+            monthLabel: {
+                nameMap: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], // 한국어 월
+                margin: 15,
+                fontSize: 14,
+                color: 'gray'
+            },
+
             splitLine: { show: false }
         },
         series: {
