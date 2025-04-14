@@ -294,8 +294,8 @@ $beg_time = date('Y-m-d', strtotime("-6 month"));
             itemStyle: { borderWidth: 0.5 },
             lineStyle: { color: '#D10E00', width: 1, opacity: 1 },
             yearLabel: { show: false },
-            dayLabel: { firstDay: 1, nameMap: 'cn', margin: '8px' },
-            monthLabel: { nameMap: 'cn', margin: 15, fontSize: 14, color: 'gray' },
+            dayLabel: { firstDay: 1, nameMap: 'kr', margin: '8px' },
+            monthLabel: { nameMap: 'kr', margin: 15, fontSize: 14, color: 'gray' },
             splitLine: { show: false }
         },
         series: {
