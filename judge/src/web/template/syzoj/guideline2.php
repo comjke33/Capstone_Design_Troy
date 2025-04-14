@@ -121,10 +121,23 @@ function submitAnswer(index) {
         check.style.display = "inline";
         ta.style.color = "#000";
     } else {
-        // 오답 처리 (예: 배경색을 살짝 붉게 변경)
         ta.style.backgroundColor = "#ffe6e6";
         ta.style.border = "1px solid #e06060";
         ta.style.color = "#c00";
     }
 }
+
+// ✅ 자동 높이 조절 기능
+function autoResize(textarea) {
+    textarea.style.height = 'auto'; // 기존 높이 초기화
+    textarea.style.height = textarea.scrollHeight + 'px'; // 스크롤 높이만큼 확장
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const allTextAreas = document.querySelectorAll('.styled-textarea');
+    allTextAreas.forEach(textarea => {
+        textarea.addEventListener('input', () => autoResize(textarea));
+    });
+});
 </script>
+
