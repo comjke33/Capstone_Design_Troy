@@ -16,15 +16,17 @@ $file_contents = file_get_contents($file_path); // 텍스트 파일 내용을 �
 
 
 // JSON에서 코드 정답 불러오기 (헤더 줄, 빈 줄 제외)
+<?php
 $json_path = "/home/Capstone_Design_Troy/test/question_and_code_test1.json";
 $json_contents = file_get_contents($json_path);
 $json_data = json_decode($json_contents, true);
 
-
+// JSON 내부가 \"%d\" 처럼 이스케이프되어 있다면 → C 스타일로 복원
 $answer_code_raw = $json_data[0]['code'];
+$answer_code_c_style = stripcslashes($answer_code_raw);  // ✅ 여기서 복원됨
 
 // 줄 단위로 나눈 후, 헤더와 빈 줄을 제외하고 정답 배열 생성
-$answer_lines = explode("\n", $answer_code_raw);
+$answer_lines = explode("\n", $answer_code_c_style);
 $correct_answers = [];
 
 foreach ($answer_lines as $line) {
@@ -36,8 +38,6 @@ foreach ($answer_lines as $line) {
         $correct_answers[] = $trimmed;   // 정답 배열에 추가
     }
 }
-
-
 
 // ✅ 주어진 텍스트를 계층적 코드 블록으로 파싱하는 함수 정의
 // 🟧 [문제 구조 파싱 부분]
