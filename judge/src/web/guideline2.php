@@ -13,12 +13,20 @@ $file_contents = file_get_contents($file_path); // 텍스트 파일 내용을 �
 // 🟩 [답안 부분]
 // ✅ 정답 배열 정의 — index별 정답을 나열해야 함 (텍스트 순서에 맞춰 대응)
 // 🟩 [답안 부분]
+
+
 // JSON에서 코드 정답 불러오기 (헤더 줄, 빈 줄 제외)
 $json_path = "/home/Capstone_Design_Troy/test/question_and_code_test1.json";
 $json_contents = file_get_contents($json_path);
 $json_data = json_decode($json_contents, true);
 
-$answer_code_raw = $json_data[0]['code'];
+function normalize_code($code) {
+    return preg_replace('/\s+/', '', $code);
+}
+
+$json_filter_data=normalize_code($json_data);
+
+$answer_code_raw = $json_filter_data[0]['code'];
 
 // 줄 단위로 나눈 후, 헤더와 빈 줄을 제외하고 정답 배열 생성
 $answer_lines = explode("\n", $answer_code_raw);
