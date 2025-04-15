@@ -16,23 +16,12 @@ $file_contents = file_get_contents($file_path); // 텍스트 파일 내용을 �
 
 
 // JSON에서 코드 정답 불러오기 (헤더 줄, 빈 줄 제외)
-// ✅ JSON 경로 및 로드
 $json_path = "/home/Capstone_Design_Troy/test/question_and_code_test1.json";
 $json_contents = file_get_contents($json_path);
 $json_data = json_decode($json_contents, true);
 
-// ✅ JSON 구조 확인 (예: 첫 번째 문제 기준)
-$raw_code = $json_data[0]['code']; // 예: "#include <stdio.h>\nint main() {\n scanf(\"%d\", &a); ..."
 
-// ✅ 코드 정제 함수 — 줄바꿈, 공백, 탭 등을 제거
-function normalize_code($code) {
-    return preg_replace('/\s+/', '', $code); // 공백, \n, \t 제거
-}
-
-// ✅ 원본 코드 문자열을 정제하여 "구조 기반 비교"용으로 변환
-$normalized_code = normalize_code($raw_code);
-
-$answer_code_raw = $normalized_code[0]['code'];
+$answer_code_raw = $json_data[0]['code'];
 
 // 줄 단위로 나눈 후, 헤더와 빈 줄을 제외하고 정답 배열 생성
 $answer_lines = explode("\n", $answer_code_raw);
