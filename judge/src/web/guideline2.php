@@ -1,205 +1,137 @@
-<div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
-    문제 번호: <?= htmlspecialchars($OJ_SID) ?>
-</div>
+<?php
+// ✅ 헤더 파일 포함 (공통 레이아웃 구성 등)
+include("template/syzoj/header.php");
 
-<div class='code-container' style='font-family: monospace; line-height: 1.8; max-width: 1000px; margin: 0 auto;'>
-    <style>
-        .code-line {
-            background-color: #f8f8fa;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 10px 16px;
-            margin-bottom: 10px;
-            display: block;
-            font-size: 15px;
-            color: #333;
-            font-family: monospace;
-            white-space: pre-wrap;
-        }
+// ✅ 데이터베이스 연결 설정 포함
+include("include/db_info.inc.php");
 
-        .styled-textarea {
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            padding: 10px 14px;
-            font-family: monospace;
-            font-size: 15px;
-            background-color: #fff;
-            transition: all 0.2s ease-in-out;
-            line-height: 1.6;
-            resize: none;
-            width: 100%;
-            box-sizing: border-box;
-            min-height: 40px;
-        }
+// ✅ 입력 파일 경로 (문제 설명 및 정답 코드 구조 포함된 파일)
+$file_path = "/home/Capstone_Design_Troy/test/test1.txt";
+$file_contents = file_get_contents($file_path); // 텍스트 파일 내용을 문자열로 불러옴
 
-        .styled-textarea:focus {
-            border-color: #4a90e2;
-            background-color: #ffffff;
-            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.15);
-            outline: none;
-        }
+// ✅ 정답 배열 정의 — index별 정답을 나열해야 함 (텍스트 순서에 맞춰 대응)
+// 🟩 [답안 부분]
+// ✅ 정답 배열 정의 — index별 정답을 나열해야 함 (텍스트 순서에 맞춰 대응)
+// 🟩 [답안 부분]
+// JSON에서 코드 정답 불러오기 (헤더 줄, 빈 줄 제외)
+$json_path = "/home/Capstone_Design_Troy/test/question_and_code_test1.json";
+$json_contents = file_get_contents($json_path);
+$json_data = json_decode($json_contents, true);
 
-        .submit-button {
-            width: 70px;
-            height: 38px;
-            padding: 0 16px;
-            font-size: 14px;
-            background-color: #4a90e2;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-        }
+$answer_code_raw = $json_data[0]['code'];
 
-        .submit-button:hover {
-            background-color: #357ab7;
-            transform: scale(1.03);
-        }
+// 줄 단위로 나눈 후, 헤더와 빈 줄을 제외하고 정답 배열 생성
+$answer_lines = explode("\n", $answer_code_raw);
+$correct_answers = [];
 
-        .checkmark {
-            color: #2ecc71;
-            font-size: 18px;
-            margin-left: 6px;
-        }
+foreach ($answer_lines as $line) {
+    $trimmed = trim($line);
+    if (
+        $trimmed !== "" &&                // 빈 줄 제외
+        strpos($trimmed, "#include") !== 0 // 헤더 줄 제외
+    ) {
+        $correct_answers[] = $trimmed;   // 정답 배열에 추가
+    }
+}
 
-        .submission-line {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 28px;
-        }
 
-        .block-wrap {
-            border-radius: 20px;
-            padding: 20px;
-            margin: 20px 0;
-            border: 2px solid transparent;
-            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
-        }
 
-        .block-func_def {
-            background-color: #ffe599;
-            border-color: #f6b26b;
-        }
+// ✅ 주어진 텍스트를 계층적 코드 블록으로 파싱하는 함수 정의
+// 🟧 [문제 구조 파싱 부분]
+function parse_blocks_with_loose_text($text, $depth = 0) {
+    // 🔍 블록 태그 (예: [cond_start(0)] ~ [cond_end(0)]) 탐지용 정규식
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
+    $blocks = [];   // 전체 블록 배열
+    $offset = 0;    // 현재 파싱 시작 위치
 
-        .block-rep {
-            background-color: #f4cccc;
-            border-color: #ea9999;
-        }
+    // 🔄 텍스트에 블록이 존재할 때마다 반복
+    while (preg_match($pattern, $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
+        $start_pos = $m[0][1];           // 블록 시작 위치
+        $full_len = strlen($m[0][0]);    // 블록 전체 길이
+        $end_pos = $start_pos + $full_len;
 
-        .block-cond {
-            background-color: #d9ead3;
-            border-color: #93c47d;
-        }
-
-        .block-self {
-            background-color: #cfe2f3;
-            border-color: #6fa8dc;
-        }
-
-        .block-struct {
-            background-color: #ead1dc;
-            border-color: #c27ba0;
-        }
-
-        .block-construct {
-            background-color: #d9d2e9;
-            border-color: #8e7cc3;
-        }
-
-        .block-wrap .submission-line {
-            margin-top: 12px;
-        }
-    </style>
-
-    <?php
-    function render_tree_plain($blocks, &$answer_index = 0) {
-        $html = "";
-        foreach ($blocks as $block) {
-            $indent_px = 10 * $block['depth'];
-
-            if (isset($block['children'])) {
-                $type_class = 'block-' . $block['type'];
-                $html .= "<div class='block-wrap {$type_class}' style='margin-left: {$indent_px}px;'>";
-                $html .= render_tree_plain($block['children'], $answer_index);
-                $html .= "</div>";
-            } else {
-                $line = htmlspecialchars($block['content']);
-                if ($line !== '') {
-                    if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line)) {
-                        $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px;'>‍‍‍‍️️️️</div>";
-                    } else {
-                        $html .= "<div style='padding-left: {$indent_px}px;'><div class='code-line'>{$line}</div></div>";
-                        $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                        $disabled = $answer_index > 0 ? "disabled" : ""; // ✅ 첫 번째만 활성화
-                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                        $html .= "</div>";
-                        $answer_index++;
-                    }
-                }
+        // 📤 블록 앞의 일반 텍스트(문제 설명 등) 추출
+        $before_text = substr($text, $offset, $start_pos - $offset);
+        if (trim($before_text) !== '') {
+            foreach (explode("\n", $before_text) as $line) {
+                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4; // 들여쓰기 계산
+                $blocks[] = [
+                    'type' => 'text',
+                    'content' => rtrim($line),
+                    'depth' => $depth + $indent_level
+                ];
             }
         }
-        return $html;
+
+        // 🧱 블록 타입 및 내용 추출
+        $type = $m[1][0];      // 블록 종류 (cond, rep 등)
+        $idx = $m[2][0];       // 블록 인덱스 (0, 1 등)
+        $content = $m[3][0];   // 블록 안의 내용
+
+        // 블록 시작 및 종료 태그 생성
+        $start_tag = "[{$type}_start({$idx})]";
+        $end_tag = "[{$type}_end({$idx})]";
+
+        // ⏬ 블록 내부 재귀 파싱
+        $children = parse_blocks_with_loose_text($content, $depth + 1);
+
+        // 시작/끝 태그를 children 앞뒤로 삽입
+        array_unshift($children, [
+            'type' => 'text',
+            'content' => $start_tag,
+            'depth' => $depth + 1
+        ]);
+        array_push($children, [
+            'type' => 'text',
+            'content' => $end_tag,
+            'depth' => $depth + 1
+        ]);
+
+        // 최종 블록 저장
+        $blocks[] = [
+            'type' => $type,
+            'index' => $idx,
+            'depth' => $depth,
+            'children' => $children
+        ];
+
+        // 다음 검색 시작 위치 업데이트
+        $offset = $end_pos;
     }
 
-    $answer_index = 0;
-    echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
-    ?>
-</div>
-
-<script>
-const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
-
-function submitAnswer(index) {
-    const ta = document.getElementById(ta_${index});
-    const btn = document.getElementById(btn_${index});
-    const check = document.getElementById(check_${index});
-
-    const input = ta.value.trim();
-    const correct = correctAnswers[index].trim();
-
-    if (input === correct) {
-        // ✅ 정답 처리
-        ta.readOnly = true;
-        ta.style.backgroundColor = "#eef1f4";
-        ta.style.border = "1px solid #ccc";
-        btn.style.display = "none";
-        check.style.display = "inline";
-        ta.style.color = "#000";
-
-        // ✅ 다음 문제 열기
-        const nextIndex = index + 1;
-        const nextTa = document.getElementById(ta_${nextIndex});
-        const nextBtn = document.getElementById(btn_${nextIndex});
-        if (nextTa && nextBtn) {
-            nextTa.disabled = false;
-            nextBtn.disabled = false;
-            nextTa.focus();
-
-            // ✅ 이벤트 리스너 동적 연결 (자동 높이 조절)
-            nextTa.addEventListener('input', () => autoResize(nextTa));
+    // 🔚 마지막 남은 일반 텍스트 처리 (맨 마지막 블록 이후)
+    $tail = substr($text, $offset);
+    if (trim($tail) !== '') {
+        foreach (explode("\n", $tail) as $line) {
+            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+            $blocks[] = [
+                'type' => 'text',
+                'content' => rtrim($line),
+                'depth' => $depth + $indent_level
+            ];
         }
-    } else {
-        // ❌ 오답 처리
-        ta.style.backgroundColor = "#ffecec";
-        ta.style.border = "1px solid #e06060";
-        ta.style.color = "#c00";
     }
+
+    // 🧩 계층적 블록 배열 반환
+    return $blocks;
 }
 
-function autoResize(textarea) {
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
-}
+// ✅ URL 파라미터로부터 problem_id 획득 (없으면 공백 처리)
+$sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.styled-textarea').forEach(textarea => {
-        if (!textarea.disabled) {
-            textarea.addEventListener('input', () => autoResize(textarea));
-        }
-    });
-});
-</script>
+// ✅ 문제 파일 파싱 결과 저장
+$block_tree = parse_blocks_with_loose_text($file_contents);
+
+// ✅ 출력에 사용할 변수들 설정 (템플릿에 전달)
+// 🟥 [문제 렌더링 + 답안 입력 영역 구성 준비]
+$answer_index = 0;
+$OJ_BLOCK_TREE = $block_tree;              // 전체 트리 구조
+$OJ_SID = $sid;                            // 문제 ID
+$OJ_CORRECT_ANSWERS = $correct_answers;    // 정답 리스트
+
+// ✅ 실제 HTML 렌더링 수행 (템플릿 파일 호출)
+include("template/$OJ_TEMPLATE/guideline2.php");
+
+// ✅ 페이지 하단 푸터 포함
+include("template/$OJ_TEMPLATE/footer.php");
+?>
