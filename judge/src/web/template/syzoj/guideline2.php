@@ -130,13 +130,26 @@
                     if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line)) {
                         $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px;'>‍‍‍‍️️️️</div>";
                     } else {
-                        $html .= "<div style='padding-left: {$indent_px}px;'><div class='code-line'>{$line}</div></div>";
-                        $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                        $disabled = $answer_index > 0 ? "disabled" : ""; // ✅ 첫 번째만 활성화
+                        $disabled = $answer_index > 0 ? "disabled" : "";
+
+                        $html .= "<div class='submission-line' style='padding-left: {$indent_px}px; display: flex; justify-content: space-between; align-items: flex-start; gap: 20px;'>";
+
+                        // 왼쪽 영역: 코드 + 입력창 + 제출 버튼
+                        $html .= "<div style='flex: 1'>";
+                        $html .= "<div class='code-line'>{$line}</div>";
+                        $html .= "<div style='margin-top: 6px;'>";
                         $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
                         $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                        $html .= "</div>";
+                        $html .= "</div>";
+
+                        // 오른쪽 영역: 체크 마크
+                        $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'>";
                         $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
                         $html .= "</div>";
+
+                        $html .= "</div>";
+
                         $answer_index++;
                     }
                 }
@@ -144,6 +157,8 @@
         }
         return $html;
     }
+    ?>
+
 
     $answer_index = 0;
     echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
