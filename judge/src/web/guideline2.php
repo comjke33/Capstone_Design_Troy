@@ -129,7 +129,9 @@ $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 
 // ✅ 트리 구조 파싱
 $block_tree = parse_blocks_with_loose_text($file_contents);
-$answer_tree = build_correct_answer_tree_from_lines($txt_contents);
+$answer_lines = explode("\n", $txt_contents);  // 줄 단위로 나누기
+$answer_tree = build_correct_answer_tree_from_lines($answer_lines);
+
 
 
 // ✅ 렌더링에 필요한 변수 설정
