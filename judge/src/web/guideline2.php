@@ -6,22 +6,15 @@ include("template/syzoj/header.php");
 include("include/db_info.inc.php");
 
 // ✅ 입력 파일 경로 (문제 설명 및 정답 코드 구조 포함된 파일)
-$file_path = "/home/Capstone_Design_Troy/test/test1.txt";
-$file_contents = file_get_contents($file_path); // 텍스트 파일 내용을 문자열로 불러옴
+$file_path = "/home/Capstone_Design_Troy/test/test1.txt"; // 또는 실제 문제 텍스트 파일명
 
 // ✅ 정답 배열 정의 — index별 정답을 나열해야 함 (텍스트 순서에 맞춰 대응)
 // 🟩 [답안 부분]
-// JSON에서 코드 정답 불러오기 (헤더 줄, 빈 줄 제외)
-$json_path = "/home/Capstone_Design_Troy/test/question_and_code_test1.json";
-$json_contents = file_get_contents($json_path);
-$json_data = json_decode($json_contents, true);
+// txt파일일에서 코드 정답 불러오기 (헤더 줄, 빈 줄 제외)
+$txt_path = "/home/Capstone_Design_Troy/test/tagged_code.txt";
+$txt_contents = file_get_contents($txt_path);  // 텍스트 파일에서 직접 로딩
 
-$answer_code_raw = $json_data[0]['code'];
-
-
-
-// 줄 단위로 나눈 후, 헤더와 빈 줄을 제외하고 정답 배열 생성
-$answer_lines = explode("\n", $answer_code_raw);
+$answer_lines = explode("\n", $txt_contents);
 $correct_answers = [];
 
 foreach ($answer_lines as $line) {
@@ -33,6 +26,7 @@ foreach ($answer_lines as $line) {
         $correct_answers[] = $trimmed;   // 정답 배열에 추가
     }
 }
+
 
 // ✅ 주어진 텍스트를 계층적 코드 블록으로 파싱하는 함수 정의
 // 🟧 [문제 구조 파싱 부분]
@@ -120,12 +114,15 @@ $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 // ✅ 문제 파일 파싱 결과 저장
 $block_tree = parse_blocks_with_loose_text($file_contents);
 
+// ✅ 답안 파일 파싱 결과 저장 (텍스트 파싱하는 함수인데 배열인 coreect_answers전달 부분 해결)
+$answer_tree = parse_blocks_with_loose_text(implode("\n", $correct_answers));
+
 // ✅ 출력에 사용할 변수들 설정 (템플릿에 전달)
 // 🟥 [문제 렌더링 + 답안 입력 영역 구성 준비]
 $answer_index = 0;
 $OJ_BLOCK_TREE = $block_tree;              // 전체 트리 구조
 $OJ_SID = $sid;                            // 문제 ID
-$OJ_CORRECT_ANSWERS = $correct_answers;    // 정답 리스트
+$OJ_CORRECT_ANSWERS = $answer_tree;    // 정답 리스트
 
 // ✅ 실제 HTML 렌더링 수행 (템플릿 파일 호출)
 include("template/$OJ_TEMPLATE/guideline2.php");
