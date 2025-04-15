@@ -1,28 +1,29 @@
 <?php
-// ✅ 공통 헤더 및 DB 연결
+// ✅ 헤더 파일 포함 (공통 레이아웃 구성 등)
 include("template/syzoj/header.php");
+
+// ✅ 데이터베이스 연결 설정 포함
 include("include/db_info.inc.php");
 
-// ✅ 문제 설명 파일 (텍스트 블록 구조)
+// ✅ 문제 설명 텍스트 파일 경로
 $file_path = "/home/Capstone_Design_Troy/test/test1.txt";
-$file_contents = file_get_contents($file_path);
+$file_contents = file_get_contents($file_path); // ✅ 누락된 부분 보완
 
-// ✅ 정답 코드 파일 (줄마다 [func_start] 등 태그가 있음)
+// ✅ 정답 코드 줄 단위로 불러오기
 $txt_path = "/home/Capstone_Design_Troy/test/tagged_code.txt";
 $txt_contents = file_get_contents($txt_path);
 
-// ✅ 줄 단위 정제 (빈 줄, 헤더 제거)
 $answer_lines = explode("\n", $txt_contents);
-$filtered_lines = [];
+$correct_answers = [];
 
 foreach ($answer_lines as $line) {
     $trimmed = trim($line);
     if ($trimmed !== "" && strpos($trimmed, "#include") !== 0) {
-        $filtered_lines[] = $trimmed;
+        $correct_answers[] = $trimmed;
     }
 }
 
-// ✅ 문제 구조 파싱 함수 (전체 텍스트 기반)
+// ✅ 문제 파일 파싱 함수 정의
 function parse_blocks_with_loose_text($text, $depth = 0) {
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
     $blocks = [];
@@ -89,56 +90,19 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
     return $blocks;
 }
 
-// ✅ 줄별 태그 기반 정답 구조 트리 변환 함수
-function parse_tagged_lines_to_tree($lines) {
-    $stack = [];
-    $root = [];
-    $current = &$root;
+// ✅ 파라미터에서 문제 ID 획득
+$sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 
-    foreach ($lines as $line) {
-        $trimmed = trim($line);
+// ✅ 트리 구조 파싱
+$block_tree = parse_blocks_with_loose_text($file_contents);
 
-        if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]$/", $trimmed, $m)) {
-            $type = $m[1];
-            $index = (int)$m[2];
-
-            $new_block = [
-                'type' => $type,
-                'index' => $index,
-                'depth' => count($stack),
-                'children' => []
-            ];
-
-            $current[] = $new_block;
-            $stack[] = &$current;
-            $current = &$current[count($current) - 1]['children'];
-        }
-        elseif (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]$/", $trimmed)) {
-            $current = &$stack[count($stack) - 1];
-            array_pop($stack);
-        }
-        else {
-            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-            $current[] = [
-                'type' => 'text',
-                'content' => rtrim($line),
-                'depth' => count($stack) + $indent_level
-            ];
-        }
-    }
-
-    return $root;
-}
-
-// ✅ 트리 파싱
-$OJ_BLOCK_TREE = parse_blocks_with_loose_text($file_contents);              // 문제 트리
-$OJ_CORRECT_ANSWERS = parse_tagged_lines_to_tree($filtered_lines);         // 정답 트리
-
-// ✅ 기타 변수
-$OJ_SID = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
+// ✅ 렌더링에 필요한 변수 설정
 $answer_index = 0;
+$OJ_BLOCK_TREE = $block_tree;
+$OJ_SID = $sid;
+$OJ_CORRECT_ANSWERS = $correct_answers; // ✅ 줄 배열로 유지
 
-// ✅ 렌더링
+// ✅ HTML 출력
 include("template/$OJ_TEMPLATE/guideline2.php");
 include("template/$OJ_TEMPLATE/footer.php");
 ?>
