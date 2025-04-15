@@ -1,29 +1,35 @@
 <?php
-// ✅ 헤더 파일 포함 (공통 레이아웃 구성 등)
+// ✅ 헤더 및 DB 연결
 include("template/syzoj/header.php");
-
-// ✅ 데이터베이스 연결 설정 포함
 include("include/db_info.inc.php");
 
-// ✅ 문제 설명 텍스트 파일 경로
+// ✅ 문제 파일 (문제 설명 + 태그 포함 구조)
 $file_path = "/home/Capstone_Design_Troy/test/test1.txt";
-$file_contents = file_get_contents($file_path); // ✅ 누락된 부분 보완
+$file_contents = file_get_contents($file_path);
 
-// ✅ 정답 코드 줄 단위로 불러오기
+// ✅ 정답 코드 파일 (정답 코드만)
 $txt_path = "/home/Capstone_Design_Troy/test/tagged_code.txt";
 $txt_contents = file_get_contents($txt_path);
 
+// ✅ 정답 줄별 처리
 $answer_lines = explode("\n", $txt_contents);
-$correct_answers = [];
+$filtered_lines = [];
 
 foreach ($answer_lines as $line) {
     $trimmed = trim($line);
     if ($trimmed !== "" && strpos($trimmed, "#include") !== 0) {
-        $correct_answers[] = $trimmed;
+        $filtered_lines[] = $trimmed;
     }
 }
 
-// ✅ 문제 파일 파싱 함수 정의
+// ✅ 정답 트리 구조로 변환
+$answer_code_string = implode("\n", $filtered_lines);
+$correct_answer_tree = parse_blocks_with_loose_text($answer_code_string);
+
+// ✅ 문제 트리 파싱
+$block_tree = parse_blocks_with_loose_text($file_contents);
+
+// ✅ 트리 파싱 함수 정의
 function parse_blocks_with_loose_text($text, $depth = 0) {
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
     $blocks = [];
@@ -90,19 +96,16 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
     return $blocks;
 }
 
-// ✅ 파라미터에서 문제 ID 획득
+// ✅ URL 파라미터
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 
-// ✅ 트리 구조 파싱
-$block_tree = parse_blocks_with_loose_text($file_contents);
-
-// ✅ 렌더링에 필요한 변수 설정
+// ✅ 출력용 변수 설정
 $answer_index = 0;
 $OJ_BLOCK_TREE = $block_tree;
 $OJ_SID = $sid;
-$OJ_CORRECT_ANSWERS = $correct_answers; // ✅ 줄 배열로 유지
+$OJ_CORRECT_ANSWERS = $correct_answer_tree; // ✅ 정답도 트리 구조로 전달
 
-// ✅ HTML 출력
+// ✅ 템플릿 렌더링
 include("template/$OJ_TEMPLATE/guideline2.php");
 include("template/$OJ_TEMPLATE/footer.php");
 ?>
