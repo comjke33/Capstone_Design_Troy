@@ -111,8 +111,11 @@
 
                             // 왼쪽: 문제 + 입력 + 제출
                             $html .= "<div style='flex: 1'>";
-                            $html .= "<div class='code-line'>{$answer_code_raw}</div>";
-                            $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                            $html .= "<div class='code-line'>{$line}</div>";
+                            $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>";
+                            $html .= htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);  // ✅ 정답 채움
+                            $html .= "</textarea>";
+
                             $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
                             $html .= "</div>";
 
