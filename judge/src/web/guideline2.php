@@ -16,7 +16,6 @@ $file_contents = file_get_contents($file_path); // 텍스트 파일 내용을 �
 
 
 // JSON에서 코드 정답 불러오기 (헤더 줄, 빈 줄 제외)
-<?php
 // ✅ JSON 경로 및 로드
 $json_path = "/home/Capstone_Design_Troy/test/question_and_code_test1.json";
 $json_contents = file_get_contents($json_path);
