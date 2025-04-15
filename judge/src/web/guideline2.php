@@ -6,7 +6,7 @@ include("template/syzoj/header.php");
 include("include/db_info.inc.php");
 
 // ✅ 입력 파일 경로 (문제 설명 및 정답 코드 구조 포함된 파일)
-$file_path = "/home/Capstone_Design_Troy/test/test1.txt";
+$file_path = "/home/Capstone_Design_Troy/test/test2.txt";
 $file_contents = file_get_contents($file_path); // 텍스트 파일 내용을 문자열로 불러옴
 
 // ✅ 정답 배열 정의 — index별 정답을 나열해야 함 (텍스트 순서에 맞춰 대응)
