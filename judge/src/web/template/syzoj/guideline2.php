@@ -121,43 +121,23 @@
 
             if (isset($block['children'])) {
                 $type_class = 'block-' . $block['type'];
-                $html .= "<div class='submission-line' style='padding-left: {$indent_px}px; display: flex; gap: 20px;'>";
-
-            // 왼쪽: 문제 문장
-            $html .= "<div style='flex: 1'><div class='code-line'>{$line}</div></div>";
-
-            // 오른쪽: 정답 입력창 및 체크표시
-            $html .= "<div style='flex: 0 0 240px;'>"; // 고정 너비로 우측 정렬
-            $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
-            $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-            $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-            $html .= "</div>";
-
-            $html .= "</div>";
-
-        } else {
-            $line = htmlspecialchars($block['content']);
-            if ($line !== '') {
-                if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line)) {
-                    $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px;'>‍‍‍‍️️️️</div>";
-                } else {
-                    $disabled = $answer_index > 0 ? "disabled" : "";
-        
-                    $html .= "<div class='submission-line' style='padding-left: {$indent_px}px; display: flex; gap: 20px;'>";
-        
-                    // 왼쪽: 문제 문장
-                    $html .= "<div style='flex: 1'><div class='code-line'>{$line}</div></div>";
-        
-                    // 오른쪽: 정답 입력창 및 체크표시
-                    $html .= "<div style='flex: 0 0 240px;'>"; // 우측 고정폭
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
-                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                    $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                    $html .= "</div>";
-        
-                    $html .= "</div>";
-        
-                    $answer_index++;
+                $html .= "<div class='block-wrap {$type_class}' style='margin-left: {$indent_px}px;'>";
+                $html .= render_tree_plain($block['children'], $answer_index);
+                $html .= "</div>";
+            } else {
+                $line = htmlspecialchars($block['content']);
+                if ($line !== '') {
+                    if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line)) {
+                        $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px;'>‍‍‍‍️️️️</div>";
+                    } else {
+                        $html .= "<div style='padding-left: {$indent_px}px;'><div class='code-line'>{$line}</div></div>";
+                        $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                        $disabled = $answer_index > 0 ? "disabled" : ""; // ✅ 첫 번째만 활성화
+                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                        $html .= "</div>";
+                        $answer_index++;
                     }
                 }
             }
