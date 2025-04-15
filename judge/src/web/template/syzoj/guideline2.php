@@ -132,8 +132,9 @@
                     } else {
                         $html .= "<div style='padding-left: {$indent_px}px;'><div class='code-line'>{$line}</div></div>";
                         $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea'></textarea>";
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
+                        $disabled = $answer_index > 0 ? "disabled" : ""; // ✅ 첫 번째만 활성화
+                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
                         $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
                         $html .= "</div>";
                         $answer_index++;
@@ -161,20 +162,34 @@ function submitAnswer(index) {
     const correct = correctAnswers[index].trim();
 
     if (input === correct) {
+        // ✅ 정답 처리
         ta.readOnly = true;
         ta.style.backgroundColor = "#eef1f4";
         ta.style.border = "1px solid #ccc";
         btn.style.display = "none";
         check.style.display = "inline";
         ta.style.color = "#000";
+
+        // ✅ 다음 문제 열기
+        const nextIndex = index + 1;
+        const nextTa = document.getElementById(`ta_${nextIndex}`);
+        const nextBtn = document.getElementById(`btn_${nextIndex}`);
+        if (nextTa && nextBtn) {
+            nextTa.disabled = false;
+            nextBtn.disabled = false;
+            nextTa.focus();
+
+            // ✅ 이벤트 리스너 동적 연결 (자동 높이 조절)
+            nextTa.addEventListener('input', () => autoResize(nextTa));
+        }
     } else {
+        // ❌ 오답 처리
         ta.style.backgroundColor = "#ffecec";
         ta.style.border = "1px solid #e06060";
         ta.style.color = "#c00";
     }
 }
 
-// ✅ 자동 높이 조절
 function autoResize(textarea) {
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
@@ -182,7 +197,9 @@ function autoResize(textarea) {
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.styled-textarea').forEach(textarea => {
-        textarea.addEventListener('input', () => autoResize(textarea));
+        if (!textarea.disabled) {
+            textarea.addEventListener('input', () => autoResize(textarea));
+        }
     });
 });
 </script>
