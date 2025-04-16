@@ -3,10 +3,10 @@ include("template/syzoj/header.php");
 include("include/db_info.inc.php");
 
 // ✅ 설명 텍스트 및 정답 태그 코드 파일
-$file_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline.txt";
+$file_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline1.txt";
 $guideline_contents = file_get_contents($file_path);
 
-$txt_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code.txt";
+$txt_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code1.txt";
 $txt_contents = file_get_contents($txt_path);
 
 // ✅ 설명 파일 트리 구조 파싱
