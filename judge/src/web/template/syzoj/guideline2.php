@@ -3,7 +3,6 @@
 </div>
 
 <style>
-    /* 기존 스타일 유지 */
     .main-layout {
         display: flex;
         gap: 40px;
@@ -95,15 +94,11 @@
             foreach ($blocks as $block) {
                 $indent_px = 10 * ($block['depth'] ?? 0);
 
-                // ✅ 자식이 있으면 구조 블록
                 if (isset($block['children'])) {
                     $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
                     $html .= render_tree_plain($block['children'], $answer_index);
                     $html .= "</div>";
-                }
-
-                // ✅ 텍스트 라인 처리
-                elseif ($block['type'] === 'text') {
+                } elseif ($block['type'] === 'text') {
                     $line = htmlspecialchars($block['content']);
                     if ($line !== '') {
                         $disabled = $answer_index > 0 ? "disabled" : "";
@@ -111,14 +106,12 @@
                         $html .= "<div style='flex: 1'>";
                         $html .= "<div class='code-line'>{$line}</div>";
                         $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>";
-                        $html .= htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
+                        $html .= htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index] ?? '');
                         $html .= "</textarea>";
                         $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                        $html .= "</div>";
-                        $html .= "<div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                        $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
                         $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                        $html .= "</div>";
-                        $html .= "</div>";
+                        $html .= "</div></div>";
                         $answer_index++;
                     }
                 }
@@ -175,16 +168,9 @@ function updateFeedback(index, isCorrect) {
     const panel = document.getElementById('feedback-panel');
     const existing = document.getElementById(`feedback_${index}`);
     const result = isCorrect ? "✔️ 정답" : "❌ 오답";
-
-    const line = `<div id="feedback_${index}" class="feedback-line ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}">
-        Line ${index + 1}: ${result}
-    </div>`;
-
-    if (existing) {
-        existing.outerHTML = line;
-    } else {
-        panel.insertAdjacentHTML('beforeend', line);
-    }
+    const line = `<div id="feedback_${index}" class="feedback-line ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}">Line ${index + 1}: ${result}</div>`;
+    if (existing) existing.outerHTML = line;
+    else panel.insertAdjacentHTML('beforeend', line);
 }
 
 function autoResize(ta) {

@@ -9,7 +9,7 @@ $guideline_contents = file_get_contents($file_path);
 $txt_path = "/home/Capstone_Design_Troy/test/tagged_code1.txt";
 $txt_contents = file_get_contents($txt_path);
 
-// ✅ 태그 구조 파싱 함수 (문제 설명용)
+// ✅ 설명 파일 파싱 함수
 function parse_blocks_with_loose_text($text, $depth = 0) {
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
     $blocks = [];
@@ -40,16 +40,8 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $end_tag = "[{$type}_end({$idx})]";
 
         $children = parse_blocks_with_loose_text($content, $depth + 1);
-        array_unshift($children, [
-            'type' => 'text',
-            'content' => $start_tag,
-            'depth' => $depth + 1
-        ]);
-        array_push($children, [
-            'type' => 'text',
-            'content' => $end_tag,
-            'depth' => $depth + 1
-        ]);
+        array_unshift($children, ['type' => 'text', 'content' => $start_tag, 'depth' => $depth + 1]);
+        array_push($children, ['type' => 'text', 'content' => $end_tag, 'depth' => $depth + 1]);
 
         $blocks[] = [
             'type' => $type,
@@ -76,7 +68,7 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
     return $blocks;
 }
 
-// ✅ 정답 코드 파싱 함수 (줄 단위에서 트리 생성)
+// ✅ 정답 코드 트리 → 텍스트 줄 추출
 function build_correct_answer_tree_from_lines($lines) {
     $stack = [];
     $root = [];
@@ -84,34 +76,21 @@ function build_correct_answer_tree_from_lines($lines) {
 
     foreach ($lines as $line) {
         $trimmed = trim($line);
-        if ($trimmed === "" || strpos($trimmed, "#include") === 0) {
-            continue;
-        }
+        if ($trimmed === "" || strpos($trimmed, "#include") === 0) continue;
 
         if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]$/", $trimmed, $m)) {
             $type = $m[1];
             $index = (int)$m[2];
-            $new_block = [
-                'type' => $type,
-                'index' => $index,
-                'depth' => count($stack),
-                'children' => []
-            ];
+            $new_block = ['type' => $type, 'index' => $index, 'depth' => count($stack), 'children' => []];
             $current[] = $new_block;
             $stack[] = &$current;
             $current = &$current[count($current) - 1]['children'];
-        }
-        elseif (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]$/", $trimmed)) {
+        } elseif (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]$/", $trimmed)) {
             $current = &$stack[count($stack) - 1];
             array_pop($stack);
-        }
-        else {
+        } else {
             $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-            $current[] = [
-                'type' => 'text',
-                'content' => $trimmed,
-                'depth' => count($stack) + $indent_level
-            ];
+            $current[] = ['type' => 'text', 'content' => $trimmed, 'depth' => count($stack) + $indent_level];
         }
     }
 
@@ -130,12 +109,10 @@ function extract_text_lines_flat($tree) {
     return $lines;
 }
 
-// ✅ 실제 정답 코드 반영
-$correct_answers = build_correct_answer_tree_from_lines(explode("\n", $txt_contents));
-
 // ✅ 변수 설정
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
-$block_tree = parse_blocks_with_loose_text($file_contents);
+$block_tree = parse_blocks_with_loose_text($guideline_contents);
+$correct_answers = build_correct_answer_tree_from_lines(explode("\n", $txt_contents));
 $OJ_BLOCK_TREE = $block_tree;
 $OJ_SID = $sid;
 $OJ_CORRECT_ANSWERS = extract_text_lines_flat($correct_answers);
