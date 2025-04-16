@@ -114,12 +114,18 @@
 
                 // ✅ 렌더링 시작
                 $line = htmlspecialchars($block['content']);
-                $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
-                
-                // ✅ 정답도 비어있거나 '}' 하나만 있을 경우 출력 안함
-                if (trim($correct_code) === '' || trim($correct_code) === '}') {
+                $correct_data = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index] ?? '';
+                $correct_code = is_array($correct_data) ? trim($correct_data['content'] ?? '') : trim($correct_data);
+
+                // ✅ 조건: 둘 다 비어있거나 '}'면 제외
+                if (
+                    ($correct_code === '' || $correct_code === '}') &&
+                    ($raw === '' || $raw === '}' ||
+                    preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw))
+                ) {
                     continue;
                 }
+
 
                 $disabled = $answer_index > 0 ? "disabled" : "";
 
