@@ -68,7 +68,6 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
     return $blocks;
 }
 
-// ✅ 태그 블록별 추출 함수
 function extract_tagged_blocks($text) {
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\d+)\)\]|\[(func_def|rep|cond|self|struct|construct)_end\\((\d+)\)\]/";
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
@@ -85,7 +84,8 @@ function extract_tagged_blocks($text) {
             $stack[] = [
                 'type' => $m[1],
                 'index' => intval($m[2]),
-                'start' => $pos + strlen($full)
+                'start' => $pos + strlen($full),
+                'token_pos' => $pos  // ✨ 블록 위치 기록
             ];
         } elseif (strpos($full, '_end(') !== false) {
             preg_match("/\[(\w+)_end\((\d+)\)\]/", $full, $m);
@@ -95,12 +95,14 @@ function extract_tagged_blocks($text) {
             for ($j = count($stack) - 1; $j >= 0; $j--) {
                 if ($stack[$j]['type'] === $type && $stack[$j]['index'] === $index) {
                     $start = $stack[$j]['start'];
+                    $token_pos = $stack[$j]['token_pos'];
                     $end = $pos;
                     $content = substr($text, $start, $end - $start);
                     $blocks[] = [
                         'type' => $type,
                         'index' => $index,
-                        'content' => trim($content)
+                        'content' => trim($content),
+                        'pos' => $token_pos  // ✨ 정렬 기준
                     ];
                     array_splice($stack, $j, 1);
                     break;
@@ -109,8 +111,17 @@ function extract_tagged_blocks($text) {
         }
     }
 
-    return $blocks;
+    // ✨ 파일 순서 기준으로 정렬
+    usort($blocks, fn($a, $b) => $a['pos'] <=> $b['pos']);
+
+    // ✨ 불필요한 필드 제거
+    return array_map(fn($b) => [
+        'type' => $b['type'],
+        'index' => $b['index'],
+        'content' => $b['content']
+    ], $blocks);
 }
+
 
 // ✅ 변수 설정
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
