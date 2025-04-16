@@ -6,7 +6,7 @@ include("include/db_info.inc.php");
 $file_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline1.txt";
 $guideline_contents = file_get_contents($file_path);
 
-$txt_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code1.txt";
+$txt_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/";
 $txt_contents = file_get_contents($txt_path);
 
 // ✅ 설명 파일 트리 구조 파싱
@@ -135,7 +135,7 @@ function extract_tagged_code_lines($text) {
 
         foreach (explode("\n", $code_block) as $line) {
             $trimmed = trim($line);
-            if ($trimmed !== '' || $trimmed !== '}') {
+            if ($trimmed !== '') {
                 $lines[] = ['content' => $trimmed];
             }
         }
