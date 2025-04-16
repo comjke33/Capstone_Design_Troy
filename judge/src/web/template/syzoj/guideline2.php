@@ -100,23 +100,20 @@
                     $html .= "</div>";
                 } elseif ($block['type'] === 'text') {
                     $line = htmlspecialchars($block['content']);
-                    // ✅ 태그 라인은 별도 출력하고 textarea로 렌더링하지 않음
-                if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", trim($block['content']))) {
-                    $html .= "<div class='code-line' style='background-color:#f9fbfc; color:#666; margin-bottom: 10px; padding-left: {$indent_px}px;'>{$line}</div>";
-                } else {
-                    $disabled = $answer_index > 0 ? "disabled" : "";
-                    $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                    $html .= "<div style='flex: 1'>";
-                    $html .= "<div class='code-line'>{$line}</div>";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>";
-                    $html .= htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index] ?? '');
-                    $html .= "</textarea>";
-                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                    $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                    $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                    $html .= "</div></div>";
-                    $answer_index++;
-                }
+                    if ($line !== '') {
+                        $disabled = $answer_index > 0 ? "disabled" : "";
+                        $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                        $html .= "<div style='flex: 1'>";
+                        $html .= "<div class='code-line'>{$line}</div>";
+                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>";
+                        $html .= htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index] ?? '');
+                        $html .= "</textarea>";
+                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                        $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                        $html .= "</div></div>";
+                        $answer_index++;
+                    }
                 }
             }
             return $html;
