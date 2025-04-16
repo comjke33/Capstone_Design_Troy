@@ -81,38 +81,6 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
     return $blocks;
 }
 
-function render_tree_with_answers($problem_blocks, $answer_blocks, &$answer_index = 0) {
-    $html = '';
-    foreach ($problem_blocks as $i => $pblock) {
-        $indent_px = 10 * $pblock['depth'];
-
-        if (isset($pblock['children'])) {
-            $atype = $pblock['type'];
-            $html .= "<div class='block-wrap block-{$atype}' style='margin-left: {$indent_px}px;'>";
-            $html .= render_tree_with_answers($pblock['children'], $answer_blocks[$i]['children'] ?? [], $answer_index);
-            $html .= "</div>";
-        } else {
-            $line = htmlspecialchars($pblock['content']);
-            if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line)) {
-                $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px;'>‍‍‍‍️️️️</div>";
-            } else {
-                $ans = htmlspecialchars($answer_blocks[$i]['content'] ?? '');
-                $disabled = $answer_index > 0 ? "disabled" : "";
-                $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                $html .= "<div style='flex:1'>";
-                $html .= "<div class='code-line'>{$line}</div>";
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$ans}</textarea>";
-                $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                $html .= "</div><div style='width:50px; text-align:center; margin-top:20px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span></div>";
-                $html .= "</div>";
-                $answer_index++;
-            }
-        }
-    }
-    return $html;
-}
-
-
 // ✅ 파라미터에서 문제 ID 획득
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 
@@ -128,7 +96,7 @@ $answer_lines = explode("\n", $txt_contents); // 줄 단위로 나누기
 $answer_index = 0;
 $OJ_BLOCK_TREE = $block_tree;
 $OJ_SID = $sid;
-$OJ_CORRECT_ANSWERS = render_tree_with_answers($answer_lines); // ✅ 정답 트리 저장
+$OJ_CORRECT_ANSWERS = ' '
 
 // ✅ HTML 출력
 include("template/$OJ_TEMPLATE/guideline2.php");
