@@ -6,7 +6,7 @@ include("include/db_info.inc.php");
 $file_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline.txt";
 $guideline_contents = file_get_contents($file_path);
 
-$txt_path = "/home/Capstone_Design_Troy/test/tagged_code.txt";
+$txt_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code.txt";
 $txt_contents = file_get_contents($txt_path);
 
 // ✅ 설명 파일 트리 구조 파싱
