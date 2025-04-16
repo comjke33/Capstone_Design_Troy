@@ -99,28 +99,29 @@
                     $html .= render_tree_plain($block['children'], $answer_index);
                     $html .= "</div>";
                 } elseif ($block['type'] === 'text') {
-                    $line = htmlspecialchars($block['content']);
                     $raw = trim($block['content']);
-                    $indent_px = 10 * ($block['depth'] ?? 0);
                 
-                    // ✅ 태그 줄이라면 textarea 없이 출력만
+                    // ❌ 태그 패턴([xxx_start(n)] or [xxx_end(n)])이면 무시 (렌더링 X, 비교 X)
                     if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
-                        $html .= "<div class='code-line' style='background-color: #f3f5f7; color: #666; margin-bottom: 10px; padding-left: {$indent_px}px;'>{$line}</div>";
-                    } else {
-                        // ✅ 일반 코드 줄이면 textarea + 제출버튼 + 채점 대상
-                        $disabled = $answer_index > 0 ? "disabled" : "";
-                        $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                        $html .= "<div style='flex: 1'>";
-                        $html .= "<div class='code-line'>{$line}</div>";
-                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>";
-                        $html .= htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index] ?? '');
-                        $html .= "</textarea>";
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                        $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                        $html .= "</div></div>";
-                        $answer_index++;
+                        continue; // 🚫 완전히 건너뜀
                     }
+                
+                    // ✅ 실제 코드 줄만 렌더링
+                    $line = htmlspecialchars($block['content']);
+                    $indent_px = 10 * ($block['depth'] ?? 0);
+                    $disabled = $answer_index > 0 ? "disabled" : "";
+                
+                    $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                    $html .= "<div style='flex: 1'>";
+                    $html .= "<div class='code-line'>{$line}</div>";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>";
+                    $html .= htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index] ?? '');
+                    $html .= "</textarea>";
+                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                    $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                    $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                    $html .= "</div></div>";
+                    $answer_index++;
                 }
                 
             }
