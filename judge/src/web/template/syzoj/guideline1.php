@@ -103,17 +103,24 @@
             } elseif ($block['type'] === 'text') {
                 $raw = trim($block['content']);
 
-                // ✅ 생략 조건
+                // ✅ 조건: 태그 줄 or 빈 줄 or 한 줄 '}' → 전체 무시
                 if (
-                    $raw === '' ||                      // 빈 줄
-                    $raw === '}' ||                     // } 한 줄만
-                    preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw) // 태그 줄
+                    $raw === '' ||
+                    $raw === '}' ||
+                    preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)
                 ) {
                     continue;
                 }
 
+                // ✅ 렌더링 시작
                 $line = htmlspecialchars($block['content']);
                 $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
+                
+                // ✅ 정답도 비어있거나 '}' 하나만 있을 경우 출력 안함
+                if (trim($correct_code) === '' || trim($correct_code) === '}') {
+                    continue;
+                }
+
                 $disabled = $answer_index > 0 ? "disabled" : "";
 
                 $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
