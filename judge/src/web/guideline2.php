@@ -119,7 +119,7 @@ function build_correct_answer_tree_from_lines($lines) {
 }
 
 // ✅ 실제 정답 코드 반영
-// $correct_answers = build_correct_answer_tree_from_lines(explode("\n", $txt_contents));
+$correct_answers = build_correct_answer_tree_from_lines(explode("\n", $txt_contents));
 
 // ✅ 변수 설정
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
