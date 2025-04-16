@@ -91,49 +91,51 @@
         <?php
         function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
+        
             foreach ($blocks as $block) {
                 $indent_px = 10 * ($block['depth'] ?? 0);
-
+        
                 if (isset($block['children'])) {
+                    // 구조 블록 (예: func_def, rep, etc.)
                     $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
                     $html .= render_tree_plain($block['children'], $answer_index);
                     $html .= "</div>";
-                } elseif ($block['type'] === 'text') {
+                }
+        
+                else if ($block['type'] === 'text') {
                     $raw = trim($block['content']);
-                
-                    // ✅ 태그 패턴이면 완전히 렌더링 제외 (빈 div도 생성하지 않음)
+        
+                    // ✅ 태그 줄이면 렌더링 제외
                     if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
                         continue;
                     }
-                
-                    // ✅ 빈 줄도 건너뜀 (안 하면 빈 code-line div 생김)
+        
+                    // ✅ 빈 줄도 렌더링 제외
                     if ($raw === '') {
                         continue;
                     }
-                
-                    // ✅ 실제 코드 줄만 렌더링
+        
+                    // ✅ 실제 코드 줄은 textarea로 출력 (정답 코드 채워진 상태)
                     $line = htmlspecialchars($block['content']);
-                    $indent_px = 10 * ($block['depth'] ?? 0);
+                    $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index] ?? '');
                     $disabled = $answer_index > 0 ? "disabled" : "";
-                
+        
                     $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                     $html .= "<div style='flex: 1'>";
                     $html .= "<div class='code-line'>{$line}</div>";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code}</textarea>";
                     $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
                     $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
                     $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
                     $html .= "</div></div>";
+        
                     $answer_index++;
                 }
-                
-                
             }
+        
             return $html;
         }
-
-        $answer_index = 0;
-        echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
+        
         ?>
     </div>
 
