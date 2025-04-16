@@ -3,6 +3,7 @@
 </div>
 
 <style>
+    /* 기존 스타일 유지 */
     .main-layout {
         display: flex;
         gap: 40px;
@@ -92,41 +93,33 @@
         function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
             foreach ($blocks as $block) {
-                $indent_px = 10 * $block['depth'];
+                $indent_px = 10 * ($block['depth'] ?? 0);
 
+                // ✅ 자식이 있으면 구조 블록
                 if (isset($block['children'])) {
-                    $type_class = 'block-' . $block['type'];
-                    $html .= "<div class='block-wrap {$type_class}' style='margin-left: {$indent_px}px;'>";
+                    $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
                     $html .= render_tree_plain($block['children'], $answer_index);
                     $html .= "</div>";
-                } else {
+                }
+
+                // ✅ 텍스트 라인 처리
+                elseif ($block['type'] === 'text') {
                     $line = htmlspecialchars($block['content']);
                     if ($line !== '') {
-                        if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line)) {
-                            $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px;'>‍‍‍‍️️️️</div>";
-                        } else {
-                            $disabled = $answer_index > 0 ? "disabled" : "";
-
-                            $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-
-                            // 왼쪽: 문제 + 입력 + 제출
-                            $html .= "<div style='flex: 1'>";
-                            $html .= "<div class='code-line'>{$line}</div>";
-                            $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>";
-                            $html .= htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);  // ✅ 정답 채움
-                            $html .= "</textarea>";
-
-                            $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                            $html .= "</div>";
-
-                            // 오른쪽: 체크표시
-                            $html .= "<div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                            $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                            $html .= "</div>";
-
-                            $html .= "</div>";
-                            $answer_index++;
-                        }
+                        $disabled = $answer_index > 0 ? "disabled" : "";
+                        $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                        $html .= "<div style='flex: 1'>";
+                        $html .= "<div class='code-line'>{$line}</div>";
+                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>";
+                        $html .= htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
+                        $html .= "</textarea>";
+                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                        $html .= "</div>";
+                        $html .= "<div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                        $html .= "</div>";
+                        $html .= "</div>";
+                        $answer_index++;
                     }
                 }
             }
@@ -144,7 +137,7 @@
 </div>
 
 <script>
-const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
+const correctAnswers = <?= json_encode(array_column($OJ_CORRECT_ANSWERS, 'content')) ?>;
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
@@ -159,7 +152,6 @@ function submitAnswer(index) {
         ta.style.backgroundColor = "#eef1f4";
         btn.style.display = "none";
         check.style.display = "inline";
-
         updateFeedback(index, true);
 
         const nextIndex = index + 1;
