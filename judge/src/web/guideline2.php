@@ -136,11 +136,16 @@ $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 // ✅ 트리 구조 파싱
 $block_tree = parse_blocks_with_loose_text($file_contents);
 
+// ✅ 정답 트리 파싱
+$answer_lines = explode("\n", $txt_contents); // 줄 단위로 나누기
+
+
+
 // ✅ 렌더링에 필요한 변수 설정
 $answer_index = 0;
 $OJ_BLOCK_TREE = $block_tree;
 $OJ_SID = $sid;
-$OJ_CORRECT_ANSWERS = $correct_answers; // ✅ 줄 배열로 유지
+$OJ_CORRECT_ANSWERS = build_correct_answer_tree_from_lines($answer_lines); // ✅ 정답 트리 저장
 
 // ✅ HTML 출력
 include("template/$OJ_TEMPLATE/guideline2.php");
