@@ -137,7 +137,7 @@
 </div>
 
 <script>
-const correctAnswers = <?= json_encode(array_column($OJ_CORRECT_ANSWERS, 'content')) ?>;
+const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);

@@ -118,6 +118,18 @@ function build_correct_answer_tree_from_lines($lines) {
     return $root;
 }
 
+function extract_text_lines_flat($tree) {
+    $lines = [];
+    foreach ($tree as $node) {
+        if ($node['type'] === 'text') {
+            $lines[] = $node['content'];
+        } elseif (isset($node['children'])) {
+            $lines = array_merge($lines, extract_text_lines_flat($node['children']));
+        }
+    }
+    return $lines;
+}
+
 // ✅ 실제 정답 코드 반영
 $correct_answers = build_correct_answer_tree_from_lines(explode("\n", $txt_contents));
 
