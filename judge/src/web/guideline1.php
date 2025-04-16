@@ -101,15 +101,41 @@ function extract_tagged_blocks($text) {
     return $blocks;
 }
 
-// ✅ 정답 코드 줄 단위로 추출
+//라인 태그 마주치면 그 안에 내용 추출(빈 내용의 경우 무시)
 function extract_tagged_code_lines($text) {
-    $blocks = extract_tagged_blocks($text);
-    $lines = [];
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
+    preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
-    foreach ($blocks as $block) {
-        foreach (explode("\n", $block['content']) as $line) {
+    $blocks = [];
+    $positions = [];
+
+    // 태그 위치 수집
+    foreach ($matches[0] as $i => $match) {
+        $full_tag = $match[0];
+        $pos = $match[1];
+        $type = $matches[1][$i][0];
+        $kind = $matches[2][$i][0];
+        $index = (int)$matches[3][$i][0];
+
+        $positions[] = [
+            'type' => $type,
+            'kind' => $kind,
+            'index' => $index,
+            'pos' => $pos,
+            'end' => $pos + strlen($full_tag)
+        ];
+    }
+
+    // 태그 간 영역 추출
+    $lines = [];
+    for ($i = 0; $i < count($positions) - 1; $i++) {
+        $start_pos = $positions[$i]['end'];
+        $end_pos = $positions[$i + 1]['pos'];
+        $code_block = substr($text, $start_pos, $end_pos - $start_pos);
+
+        foreach (explode("\n", $code_block) as $line) {
             $trimmed = trim($line);
-            if ($trimmed !== '' && !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $trimmed)) {
+            if ($trimmed !== '') {
                 $lines[] = ['content' => $trimmed];
             }
         }
