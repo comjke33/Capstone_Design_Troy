@@ -97,16 +97,47 @@ function build_correct_answer_tree_from_lines($lines) {
     return $root;
 }
 
-function extract_text_lines_flat($tree) {
-    $lines = [];
-    foreach ($tree as $node) {
-        if ($node['type'] === 'text') {
-            $lines[] = $node['content'];
-        } elseif (isset($node['children'])) {
-            $lines = array_merge($lines, extract_text_lines_flat($node['children']));
+function extract_tagged_blocks($text) {
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\d+)\)\]|\[(func_def|rep|cond|self|struct|construct)_end\\((\d+)\)\]/";
+    preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
+
+    $stack = [];
+    $blocks = [];
+
+    foreach ($matches[0] as $i => $match) {
+        $full = $match[0];
+        $pos = $match[1];
+
+        if (strpos($full, '_start(') !== false) {
+            preg_match("/\[(\w+)_start\((\d+)\)\]/", $full, $m);
+            $stack[] = [
+                'type' => $m[1],
+                'index' => intval($m[2]),
+                'start' => $pos + strlen($full)
+            ];
+        } elseif (strpos($full, '_end(') !== false) {
+            preg_match("/\[(\w+)_end\((\d+)\)\]/", $full, $m);
+            $type = $m[1];
+            $index = intval($m[2]);
+
+            for ($j = count($stack) - 1; $j >= 0; $j--) {
+                if ($stack[$j]['type'] === $type && $stack[$j]['index'] === $index) {
+                    $start = $stack[$j]['start'];
+                    $end = $pos;
+                    $content = substr($text, $start, $end - $start);
+                    $blocks[] = [
+                        'type' => $type,
+                        'index' => $index,
+                        'content' => trim($content)
+                    ];
+                    array_splice($stack, $j, 1);
+                    break;
+                }
+            }
         }
     }
-    return $lines;
+
+    return $blocks;
 }
 
 // ✅ 변수 설정
@@ -115,7 +146,7 @@ $block_tree = parse_blocks_with_loose_text($guideline_contents);
 $correct_answers = build_correct_answer_tree_from_lines(explode("\n", $txt_contents));
 $OJ_BLOCK_TREE = $block_tree;
 $OJ_SID = $sid;
-$OJ_CORRECT_ANSWERS = extract_text_lines_flat($correct_answers);
+$OJ_CORRECT_ANSWERS = extract_tagged_blocks($correct_answers);
 
 // ✅ 출력
 include("template/$OJ_TEMPLATE/guideline2.php");
