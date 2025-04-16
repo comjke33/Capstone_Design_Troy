@@ -120,7 +120,7 @@ $answer_tree = extract_tagged_blocks_as_lines($answer_contents);
 $answer_index = 0;
 $OJ_BLOCK_TREE = $block_tree;
 $OJ_SID = $sid;
-$OJ_CORRECT_ANSWERS = $correct_answers; 
+$OJ_CORRECT_ANSWERS = $answer_tree; 
 
 // ✅ HTML 출력
 include("template/$OJ_TEMPLATE/guideline2.php");
