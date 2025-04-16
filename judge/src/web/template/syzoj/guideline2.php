@@ -100,7 +100,10 @@
                     $html .= "</div>";
                 } elseif ($block['type'] === 'text') {
                     $line = htmlspecialchars($block['content']);
-                    if ($line !== '') {
+                    // ✅ 태그 라인은 별도 출력하고 textarea로 렌더링하지 않음
+                    if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", trim($block['content']))) {
+                        $html .= "<div class='code-line' style='background-color:#f9fbfc; color:#666; margin-bottom: 10px; padding-left: {$indent_px}px;'>{$line}</div>";
+                    } else {
                         $disabled = $answer_index > 0 ? "disabled" : "";
                         $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                         $html .= "<div style='flex: 1'>";
