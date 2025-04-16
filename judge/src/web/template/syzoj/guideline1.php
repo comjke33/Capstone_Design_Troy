@@ -2,10 +2,6 @@
     문제 번호: <?= htmlspecialchars($OJ_SID) ?>
 </div>
 
-<div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
-    문제 번호: <?= htmlspecialchars($OJ_SID) ?>
-</div>
-
 <style>
     .main-layout {
         display: flex;
@@ -105,25 +101,33 @@
                 $html .= "</div>";
             } elseif ($block['type'] === 'text') {
                 $raw = trim($block['content']);
-                $correct_data = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index] ?? '';
-                $correct_code = is_array($correct_data) ? trim($correct_data['content'] ?? '') : trim($correct_data);
 
+                // ✅ 줄이 태그이거나 비어있거나 '}'만 있는 경우 무시
                 if (
-                    $raw === '' || $raw === '}' || 
-                    $correct_code === '' || $correct_code === '}' ||
+                    $raw === '' ||
+                    $raw === '}' ||
                     preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)
                 ) {
                     continue;
                 }
 
+                // ✅ 정답 코드 가져오기
+                $correct_code = trim($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
+
+                // ✅ 정답 코드도 비어있거나 '}'만 있는 경우 출력하지 않음
+                if ($correct_code === '' || $correct_code === '}') {
+                    $answer_index++;
+                    continue;
+                }
+
                 $line = htmlspecialchars($block['content']);
-                $correct_code = htmlspecialchars($correct_code);
+                $correct_code_escaped = htmlspecialchars($correct_code);
                 $disabled = $answer_index > 0 ? "disabled" : "";
 
                 $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                 $html .= "<div style='flex: 1'>";
                 $html .= "<div class='code-line'>{$line}</div>";
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code}</textarea>";
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code_escaped}</textarea>";
                 $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
                 $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
                 $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
