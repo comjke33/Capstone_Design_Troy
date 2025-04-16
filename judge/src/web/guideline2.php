@@ -81,38 +81,73 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
     return $blocks;
 }
 
-function extract_tagged_blocks_as_lines($text) {
-    $block_types = ['func_def', 'rep', 'cond', 'self', 'struct', 'construct'];
-    $all_blocks = [];
+function parse_tagged_code_file($filepath, $depth = 0) {
+    $text = file_get_contents($filepath);
 
-    foreach ($block_types as $type) {
-        $pattern = "/\[" . $type . "_start\((\d+)\)\](.*?)\[" . $type . "_end\\(\1\)\]/s";
-        preg_match_all($pattern, $text, $matches, PREG_SET_ORDER);
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
+    $blocks = [];
+    $offset = 0;
 
-        foreach ($matches as $match) {
-            $index = $match[1];
-            $inner_code = trim($match[2]);
+    while (preg_match($pattern, $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
+        $start_pos = $m[0][1];
+        $full_len = strlen($m[0][0]);
+        $end_pos = $start_pos + $full_len;
 
-            // 들여쓰기 제거 + 줄마다 trim
-            $lines = array_filter(array_map('trim', explode("\n", $inner_code)));
+        $before_text = substr($text, $offset, $start_pos - $offset);
+        if (trim($before_text) !== '') {
+            foreach (explode("\n", $before_text) as $line) {
+                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+                $blocks[] = [
+                    'type' => 'text',
+                    'content' => rtrim($line),
+                    'depth' => $depth + $indent_level
+                ];
+            }
+        }
 
-            // 한 줄로 결합
-            $single_line = implode(' ', $lines);
+        $type = $m[1][0];
+        $idx = $m[2][0];
+        $content = $m[3][0];
 
-            // 블록 전체 태그 포함 출력
-            $full_text = "[{$type}_start({$index})] " . $single_line . " [{$type}_end({$index})]";
+        $start_tag = "[{$type}_start({$idx})]";
+        $end_tag = "[{$type}_end({$idx})]";
 
-            $all_blocks[] = [
-                'type' => $type,
-                'index' => (int)$index,
-                'code' => $full_text
+        $children = parse_blocks_with_loose_text($content, $depth + 1);
+        array_unshift($children, [
+            'type' => 'text',
+            'content' => $start_tag,
+            'depth' => $depth + 1
+        ]);
+        array_push($children, [
+            'type' => 'text',
+            'content' => $end_tag,
+            'depth' => $depth + 1
+        ]);
+
+        $blocks[] = [
+            'type' => $type,
+            'index' => $idx,
+            'depth' => $depth,
+            'children' => $children
+        ];
+
+        $offset = $end_pos;
+    }
+
+    $tail = substr($text, $offset);
+    if (trim($tail) !== '') {
+        foreach (explode("\n", $tail) as $line) {
+            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+            $blocks[] = [
+                'type' => 'text',
+                'content' => rtrim($line),
+                'depth' => $depth + $indent_level
             ];
         }
     }
 
-    return $all_blocks;
+    return $blocks;
 }
-
 
 
 // ✅ 파라미터에서 문제 ID 획득
