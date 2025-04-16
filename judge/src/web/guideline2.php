@@ -12,11 +12,11 @@ $file_contents = file_get_contents($file_path); // ✅ 누락된 부분 보완
 // ✅ 정답 코드 줄 단위로 불러오기
 $txt_path = "/home/Capstone_Design_Troy/test/tagged_code1.txt";
 $txt_contents = file_get_contents($txt_path);
-
+$answer_lines = explode("\\n", $txt_contents);
 
 // ✅ 문제 파일 파싱 함수 정의
 function parse_blocks_with_loose_text($text, $depth = 0) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
+    $pattern = "/\\[(func_def|rep|cond|self|struct|construct)_start\\\\((\\\\d+)\\\\)\\](.*?)\\[(func_def|rep|cond|self|struct|construct)_end\\\\(\\\\2\\\\)\\]/s";
     $blocks = [];
     $offset = 0;
 
@@ -27,7 +27,7 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
 
         $before_text = substr($text, $offset, $start_pos - $offset);
         if (trim($before_text) !== '') {
-            foreach (explode("\n", $before_text) as $line) {
+            foreach (explode("\\n", $before_text) as $line) {
                 $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
                 $blocks[] = [
                     'type' => 'text',
@@ -68,7 +68,7 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
 
     $tail = substr($text, $offset);
     if (trim($tail) !== '') {
-        foreach (explode("\n", $tail) as $line) {
+        foreach (explode("\\n", $tail) as $line) {
             $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
             $blocks[] = [
                 'type' => 'text',
@@ -94,8 +94,7 @@ function build_correct_answer_tree_from_lines($lines) {
             continue;
         }
 
-        // 🔍 시작 태그인 경우
-        if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]$/", $trimmed, $m)) {
+        if (preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\\]$/", $trimmed, $m)) {
             $type = $m[1];
             $index = (int)$m[2];
 
@@ -109,14 +108,10 @@ function build_correct_answer_tree_from_lines($lines) {
             $current[] = $new_block;
             $stack[] = &$current;
             $current = &$current[count($current) - 1]['children'];
-        }
-        // 🔍 끝 태그인 경우
-        elseif (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]$/", $trimmed)) {
+        } elseif (preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_end\\((\\d+)\\)\\]$/", $trimmed)) {
             $current = &$stack[count($stack) - 1];
             array_pop($stack);
-        }
-        // 💬 일반 코드줄
-        else {
+        } else {
             $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
             $current[] = [
                 'type' => 'text',
@@ -129,18 +124,18 @@ function build_correct_answer_tree_from_lines($lines) {
     return $root;
 }
 
-
 // ✅ 파라미터에서 문제 ID 획득
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 
 // ✅ 트리 구조 파싱
 $block_tree = parse_blocks_with_loose_text($file_contents);
+$correct_answers = build_correct_answer_tree_from_lines($answer_lines);
 
 // ✅ 렌더링에 필요한 변수 설정
 $answer_index = 0;
 $OJ_BLOCK_TREE = $block_tree;
 $OJ_SID = $sid;
-$OJ_CORRECT_ANSWERS = $correct_answers; // ✅ 줄 배열로 유지
+$OJ_CORRECT_ANSWERS = $correct_answers;
 
 // ✅ HTML 출력
 include("template/$OJ_TEMPLATE/guideline2.php");
