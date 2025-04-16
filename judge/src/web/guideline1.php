@@ -3,10 +3,10 @@ include("template/syzoj/header.php");
 include("include/db_info.inc.php");
 
 // ✅ 설명 파일 및 정답 코드 파일 읽기
-$file_path = "/home/Capstone_Design_Troy/test/guideline_code1.txt";
+$file_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline.txt";
 $guideline_contents = file_get_contents($file_path);
 
-$txt_path = "/home/Capstone_Design_Troy/test/tagged_code1.txt";
+$txt_path = "/home/Capstone_Design_Troy/test/tagged_code.txt";
 $txt_contents = file_get_contents($txt_path);
 
 // ✅ 설명 파일 파싱 함수
@@ -68,59 +68,21 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
     return $blocks;
 }
 
-function extract_tagged_blocks($text) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\d+)\)\]|\[(func_def|rep|cond|self|struct|construct)_end\\((\d+)\)\]/";
-    preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
+function extract_tagged_code_lines($text) {
+    $blocks = extract_tagged_blocks($text);
+    $lines = [];
 
-    $stack = [];
-    $blocks = [];
-
-    foreach ($matches[0] as $i => $match) {
-        $full = $match[0];
-        $pos = $match[1];
-
-        if (strpos($full, '_start(') !== false) {
-            preg_match("/\[(\w+)_start\((\d+)\)\]/", $full, $m);
-            $stack[] = [
-                'type' => $m[1],
-                'index' => intval($m[2]),
-                'start' => $pos + strlen($full),
-                'token_pos' => $pos  // ✨ 블록 위치 기록
-            ];
-        } elseif (strpos($full, '_end(') !== false) {
-            preg_match("/\[(\w+)_end\((\d+)\)\]/", $full, $m);
-            $type = $m[1];
-            $index = intval($m[2]);
-
-            for ($j = count($stack) - 1; $j >= 0; $j--) {
-                if ($stack[$j]['type'] === $type && $stack[$j]['index'] === $index) {
-                    $start = $stack[$j]['start'];
-                    $token_pos = $stack[$j]['token_pos'];
-                    $end = $pos;
-                    $content = substr($text, $start, $end - $start);
-                    $blocks[] = [
-                        'type' => $type,
-                        'index' => $index,
-                        'content' => trim($content),
-                        'pos' => $token_pos  // ✨ 정렬 기준
-                    ];
-                    array_splice($stack, $j, 1);
-                    break;
-                }
-            }
+    foreach ($blocks as $block) {
+        foreach (explode("\n", $block['content']) as $line) {
+            $trimmed = trim($line);
+            if ($trimmed === '') continue;
+            $lines[] = ['content' => $trimmed]; // ✅ 객체 형식으로 감싸기
         }
     }
 
-    // ✨ 파일 순서 기준으로 정렬
-    usort($blocks, fn($a, $b) => $a['pos'] <=> $b['pos']);
-
-    // ✨ 불필요한 필드 제거
-    return array_map(fn($b) => [
-        'type' => $b['type'],
-        'index' => $b['index'],
-        'content' => $b['content']
-    ], $blocks);
+    return $lines;
 }
+
 
 
 // ✅ 변수 설정
@@ -128,7 +90,7 @@ $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 $block_tree = parse_blocks_with_loose_text($guideline_contents);
 $OJ_BLOCK_TREE = $block_tree;
 $OJ_SID = $sid;
-$OJ_CORRECT_ANSWERS = extract_tagged_blocks($txt_contents);
+$OJ_CORRECT_ANSWERS = extract_tagged_code_lines($txt_contents);
 
 // ✅ 출력
 include("template/$OJ_TEMPLATE/guideline2.php");
