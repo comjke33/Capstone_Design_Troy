@@ -100,7 +100,14 @@
                     $html .= "</div>";
                 } elseif ($block['type'] === 'text') {
                     $line = htmlspecialchars($block['content']);
-                    if ($line !== '') {
+                    $raw = trim($block['content']);
+                    $indent_px = 10 * ($block['depth'] ?? 0);
+                
+                    // ✅ 태그 줄이라면 textarea 없이 출력만
+                    if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
+                        $html .= "<div class='code-line' style='background-color: #f3f5f7; color: #666; margin-bottom: 10px; padding-left: {$indent_px}px;'>{$line}</div>";
+                    } else {
+                        // ✅ 일반 코드 줄이면 textarea + 제출버튼 + 채점 대상
                         $disabled = $answer_index > 0 ? "disabled" : "";
                         $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                         $html .= "<div style='flex: 1'>";
@@ -115,6 +122,7 @@
                         $answer_index++;
                     }
                 }
+                
             }
             return $html;
         }
