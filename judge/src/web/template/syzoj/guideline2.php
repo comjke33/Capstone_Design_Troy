@@ -145,7 +145,7 @@ function submitAnswer(index) {
     const check = document.getElementById(`check_${index}`);
 
     const input = ta.value.trim();
-    const correct = correctAnswers[index].trim();
+    const correct = (correctAnswers[index]?.content || "").trim();
 
     if (input === correct) {
         ta.readOnly = true;
