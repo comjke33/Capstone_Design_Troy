@@ -88,47 +88,55 @@
 
 <div class="main-layout">
     <div class="left-panel">
+    
     <?php
-        function render_tree_plain($blocks, &$answer_index = 0) {
-            $html = "";
+    function render_tree_plain($blocks, &$answer_index = 0) {
+        $html = "";
 
-            foreach ($blocks as $block) {
-                $indent_px = 10 * ($block['depth'] ?? 0);
+        foreach ($blocks as $block) {
+            $indent_px = 10 * ($block['depth'] ?? 0);
 
-                if (isset($block['children'])) {
-                    $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
-                    $html .= render_tree_plain($block['children'], $answer_index);
-                    $html .= "</div>";
-                } elseif ($block['type'] === 'text') {
-                    $raw = trim($block['content']);
+            if (isset($block['children'])) {
+                $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
+                $html .= render_tree_plain($block['children'], $answer_index);
+                $html .= "</div>";
+            } elseif ($block['type'] === 'text') {
+                $raw = trim($block['content']);
 
-                    if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
-                        continue;
-                    }
-
-                    $line = htmlspecialchars($block['content']);
-                    $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
-                    $disabled = $answer_index > 0 ? "disabled" : "";
-
-                    $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                    $html .= "<div style='flex: 1'>";
-                    $html .= "<div class='code-line'>{$line}</div>";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code}</textarea>";
-                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                    $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                    $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                    $html .= "</div></div>";
-
-                    $answer_index++;
+                // ✅ 생략 조건
+                if (
+                    $raw === '' ||                      // 빈 줄
+                    $raw === '}' ||                     // } 한 줄만
+                    preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw) // 태그 줄
+                ) {
+                    continue;
                 }
-            }
 
-            return $html;
+                $line = htmlspecialchars($block['content']);
+                $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
+                $disabled = $answer_index > 0 ? "disabled" : "";
+
+                $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                $html .= "<div style='flex: 1'>";
+                $html .= "<div class='code-line'>{$line}</div>";
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code}</textarea>";
+                $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                $html .= "</div></div>";
+
+                $answer_index++;
+            }
         }
 
-        $answer_index = 0;
-        echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
-        ?>
+        return $html;
+    }
+
+    $answer_index = 0;
+    echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
+    ?>
+
+
     </div>
 
     <div class="right-panel" id="feedback-panel">
