@@ -93,19 +93,26 @@ function extract_tagged_blocks_as_lines($text) {
             $index = $match[1];
             $inner_code = trim($match[2]);
 
-            // 개별 줄에서 앞뒤 공백 제거하고, 하나의 라인으로 결합
-            $single_line = implode(' ', array_map('trim', explode("\n", $inner_code)));
+            // 들여쓰기 제거 + 줄마다 trim
+            $lines = array_filter(array_map('trim', explode("\n", $inner_code)));
+
+            // 한 줄로 결합
+            $single_line = implode(' ', $lines);
+
+            // 블록 전체 태그 포함 출력
+            $full_text = "[{$type}_start({$index})] " . $single_line . " [{$type}_end({$index})]";
 
             $all_blocks[] = [
                 'type' => $type,
                 'index' => (int)$index,
-                'code' => $single_line
+                'code' => $full_text
             ];
         }
     }
 
     return $all_blocks;
 }
+
 
 
 // ✅ 파라미터에서 문제 ID 획득
