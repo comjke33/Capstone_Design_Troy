@@ -126,7 +126,7 @@ $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 $block_tree = parse_blocks_with_loose_text($file_contents);
 $OJ_BLOCK_TREE = $block_tree;
 $OJ_SID = $sid;
-$OJ_CORRECT_ANSWERS = $correct_answers;
+$OJ_CORRECT_ANSWERS = extract_text_lines_flat($correct_answers);
 
 // ✅ 출력
 include("template/$OJ_TEMPLATE/guideline2.php");
