@@ -81,52 +81,35 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
     return $blocks;
 }
 
-//정답 코드 파싱
-function build_correct_answer_tree_from_lines($lines) {
-    $stack = [];
-    $root = [];
-    $current = &$root;
+function render_tree_with_answers($problem_blocks, $answer_blocks, &$answer_index = 0) {
+    $html = '';
+    foreach ($problem_blocks as $i => $pblock) {
+        $indent_px = 10 * $pblock['depth'];
 
-    foreach ($lines as $line) {
-        $trimmed = trim($line);
-
-        if ($trimmed === "" || strpos($trimmed, "#include") === 0) {
-            continue;
-        }
-
-        // 🔍 시작 태그인 경우
-        if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]$/", $trimmed, $m)) {
-            $type = $m[1];
-            $index = (int)$m[2];
-
-            $new_block = [
-                'type' => $type,
-                'index' => $index,
-                'depth' => count($stack),
-                'children' => []
-            ];
-
-            $current[] = $new_block;
-            $stack[] = &$current;
-            $current = &$current[count($current) - 1]['children'];
-        }
-        // 🔍 끝 태그인 경우
-        elseif (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]$/", $trimmed)) {
-            $current = &$stack[count($stack) - 1];
-            array_pop($stack);
-        }
-        // 💬 일반 코드줄
-        else {
-            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-            $current[] = [
-                'type' => 'text',
-                'content' => $trimmed,
-                'depth' => count($stack) + $indent_level
-            ];
+        if (isset($pblock['children'])) {
+            $atype = $pblock['type'];
+            $html .= "<div class='block-wrap block-{$atype}' style='margin-left: {$indent_px}px;'>";
+            $html .= render_tree_with_answers($pblock['children'], $answer_blocks[$i]['children'] ?? [], $answer_index);
+            $html .= "</div>";
+        } else {
+            $line = htmlspecialchars($pblock['content']);
+            if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line)) {
+                $html .= "<div style='margin-bottom:8px; padding-left: {$indent_px}px;'>‍‍‍‍️️️️</div>";
+            } else {
+                $ans = htmlspecialchars($answer_blocks[$i]['content'] ?? '');
+                $disabled = $answer_index > 0 ? "disabled" : "";
+                $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                $html .= "<div style='flex:1'>";
+                $html .= "<div class='code-line'>{$line}</div>";
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$ans}</textarea>";
+                $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                $html .= "</div><div style='width:50px; text-align:center; margin-top:20px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span></div>";
+                $html .= "</div>";
+                $answer_index++;
+            }
         }
     }
-
-    return $root;
+    return $html;
 }
 
 
@@ -145,7 +128,7 @@ $answer_lines = explode("\n", $txt_contents); // 줄 단위로 나누기
 $answer_index = 0;
 $OJ_BLOCK_TREE = $block_tree;
 $OJ_SID = $sid;
-$OJ_CORRECT_ANSWERS = build_correct_answer_tree_from_lines($answer_lines); // ✅ 정답 트리 저장
+$OJ_CORRECT_ANSWERS = render_tree_with_answers($answer_lines); // ✅ 정답 트리 저장
 
 // ✅ HTML 출력
 include("template/$OJ_TEMPLATE/guideline2.php");
