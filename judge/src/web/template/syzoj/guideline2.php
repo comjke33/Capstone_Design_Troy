@@ -101,9 +101,14 @@
                 } elseif ($block['type'] === 'text') {
                     $raw = trim($block['content']);
                 
-                    // ❌ 태그 패턴([xxx_start(n)] or [xxx_end(n)])이면 무시 (렌더링 X, 비교 X)
+                    // ✅ 태그 패턴이면 완전히 렌더링 제외 (빈 div도 생성하지 않음)
                     if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
-                        continue; // 🚫 완전히 건너뜀
+                        continue;
+                    }
+                
+                    // ✅ 빈 줄도 건너뜀 (안 하면 빈 code-line div 생김)
+                    if ($raw === '') {
+                        continue;
                     }
                 
                     // ✅ 실제 코드 줄만 렌더링
@@ -114,15 +119,14 @@
                     $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                     $html .= "<div style='flex: 1'>";
                     $html .= "<div class='code-line'>{$line}</div>";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>";
-                    $html .= htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index] ?? '');
-                    $html .= "</textarea>";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
                     $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
                     $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
                     $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
                     $html .= "</div></div>";
                     $answer_index++;
                 }
+                
                 
             }
             return $html;
