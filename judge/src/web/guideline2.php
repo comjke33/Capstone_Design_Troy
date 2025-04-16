@@ -156,13 +156,13 @@ $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 // ✅ 트리 구조 파싱
 $block_tree = parse_blocks_with_loose_text($guideline_contents);
 
-$answer_tree = extract_tagged_blocks_as_lines($answer_contents);
+$correct_answers = build_correct_answer_tree_from_lines(explode("\n", $txt_contents));
 
 // ✅ 렌더링에 필요한 변수 설정
 $answer_index = 0;
 $OJ_BLOCK_TREE = $block_tree;
 $OJ_SID = $sid;
-$OJ_CORRECT_ANSWERS = $answer_tree; 
+$OJ_CORRECT_ANSWERS = $correct_answers;
 
 // ✅ HTML 출력
 include("template/$OJ_TEMPLATE/guideline2.php");
