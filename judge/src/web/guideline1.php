@@ -109,7 +109,7 @@ function extract_tagged_code_lines($text) {
     foreach ($blocks as $block) {
         foreach (explode("\n", $block['content']) as $line) {
             $trimmed = trim($line);
-            if ($trimmed !== '') {
+            if ($trimmed !== '' && !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $trimmed)) {
                 $lines[] = ['content' => $trimmed];
             }
         }
@@ -117,6 +117,7 @@ function extract_tagged_code_lines($text) {
 
     return $lines;
 }
+
 
 // ✅ 환경변수
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
