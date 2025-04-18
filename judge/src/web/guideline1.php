@@ -8,30 +8,32 @@ $guideline_contents = file_get_contents($file_path);
 $txt_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code1.txt";
 $txt_contents = file_get_contents($txt_path);
 
-function parse_blocks_with_loose_text($text, $depth = 0) {
+function parse_tag_blocks($text) {
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
     preg_match_all($pattern, $text, $matches, PREG_SET_ORDER);
+
     $blocks = [];
+    foreach ($matches as $match) {
+        $type = $match[1];
+        $index = (int)$match[2];
+        $content = trim($match[3]);
 
-    foreach ($matches as $m) {
-        $type = $m[1];
-        $index = $m[2];
-        $inner = trim($m[3]);
-
-        $lines = array_filter(array_map('trim', explode("\n", $inner)));
+        $lines = array_map('rtrim', explode("\n", $content));
         $blocks[] = [
             'type' => $type,
             'index' => $index,
-            'description' => implode(" ", $lines),
-            'depth' => $depth
+            'lines' => $lines
         ];
     }
+
+    usort($blocks, fn($a, $b) => $a['index'] <=> $b['index']);
     return $blocks;
 }
 
 function extract_tagged_code_lines($text) {
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\\((\\d+)\\)\]/";
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
+
     $positions = [];
     foreach ($matches[0] as $i => $match) {
         $positions[] = [
@@ -47,10 +49,7 @@ function extract_tagged_code_lines($text) {
         $code_block = substr($text, $start_pos, $end_pos - $start_pos);
 
         foreach (explode("\n", $code_block) as $line) {
-            $trimmed = trim($line);
-            if ($trimmed !== '') {
-                $lines[] = ['content' => $trimmed];
-            }
+            $lines[] = ['content' => rtrim($line)];
         }
     }
 
@@ -58,7 +57,7 @@ function extract_tagged_code_lines($text) {
 }
 
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
-$OJ_BLOCK_TREE = parse_blocks_with_loose_text($guideline_contents);
+$OJ_BLOCK_TREE = parse_tag_blocks($guideline_contents);
 $OJ_CORRECT_ANSWERS = extract_tagged_code_lines($txt_contents);
 $OJ_SID = $sid;
 
