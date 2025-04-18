@@ -2,7 +2,6 @@
 include("template/syzoj/header.php");
 include("include/db_info.inc.php");
 
-// ✅ 설명 텍스트 및 정답 태그 코드 파일
 $file_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline1.txt";
 $guideline_contents = file_get_contents($file_path);
 
@@ -80,6 +79,12 @@ function extract_tagged_code_lines($text) {
     for ($i = 0; $i < count($positions); $i++) {
         $start_pos = $positions[$i]['end'];
         $end_pos = isset($positions[$i + 1]) ? $positions[$i + 1]['pos'] : strlen($text);
+
+        // 마지막 블록이면 이후에 더 이상 태그 없음
+        if (!isset($positions[$i + 1]) && $start_pos >= strlen($text)) {
+            break; // 끝에 도달했으면 종료
+        }
+
         $code_block = substr($text, $start_pos, $end_pos - $start_pos);
 
         foreach (explode("\n", $code_block) as $line) {
