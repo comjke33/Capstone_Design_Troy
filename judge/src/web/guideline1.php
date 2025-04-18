@@ -66,7 +66,7 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
 }
 
 function extract_tagged_code_lines($text) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\\((\\d+)\\)\]/";
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
     $lines = [];
@@ -84,27 +84,24 @@ function extract_tagged_code_lines($text) {
         $start_pos = $positions[$i]['end'];
         $end_pos = $positions[$i + 1]['pos'];
         $code_block = substr($text, $start_pos, $end_pos - $start_pos);
+
         foreach (explode("\n", $code_block) as $line) {
             $trimmed = trim($line);
-            if ($trimmed !== '') {
-                $lines[] = ['content' => $trimmed];
-            }
+            $lines[] = ['content' => $trimmed];
         }
     }
 
-    // 마지막 태그 이후 남은 부분도 포함
+    // 마지막 태그 이후 남은 줄도 포함
     if (!empty($positions)) {
         $last_end = $positions[count($positions) - 1]['end'];
         $remaining = substr($text, $last_end);
         foreach (explode("\n", $remaining) as $line) {
             $trimmed = trim($line);
-            if ($trimmed !== '') {
-                $lines[] = ['content' => $trimmed];
-            }
+            $lines[] = ['content' => $trimmed];
         }
     }
 
-    return $lines;
+    return array_filter($lines, fn($line) => $line['content'] !== '');
 }
 
 
