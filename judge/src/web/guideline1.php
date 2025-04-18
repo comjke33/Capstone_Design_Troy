@@ -76,15 +76,11 @@ function extract_tagged_code_lines($text) {
     }
 
     $lines = [];
+
+    // 기존 태그 사이
     for ($i = 0; $i < count($positions); $i++) {
         $start_pos = $positions[$i]['end'];
         $end_pos = isset($positions[$i + 1]) ? $positions[$i + 1]['pos'] : strlen($text);
-
-        // 마지막 블록이면 이후에 더 이상 태그 없음
-        if (!isset($positions[$i + 1]) && $start_pos >= strlen($text)) {
-            break; // 끝에 도달했으면 종료
-        }
-
         $code_block = substr($text, $start_pos, $end_pos - $start_pos);
 
         foreach (explode("\n", $code_block) as $line) {
@@ -95,8 +91,21 @@ function extract_tagged_code_lines($text) {
         }
     }
 
+    // ✅ 마지막 태그 이후 남은 줄 처리
+    if (!empty($positions)) {
+        $last_end = $positions[count($positions) - 1]['end'];
+        $tail_block = substr($text, $last_end);
+        foreach (explode("\n", $tail_block) as $line) {
+            $trimmed = trim($line);
+            if ($trimmed !== '') {
+                $lines[] = ['content' => $trimmed];
+            }
+        }
+    }
+
     return $lines;
 }
+
 
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 $OJ_BLOCK_TREE = parse_blocks_with_loose_text($guideline_contents);
