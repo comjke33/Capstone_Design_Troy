@@ -32,14 +32,14 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
 
         $type = $m[1][0];
         $idx = $m[2][0];
-        $content = trim($m[3][0]);
+        $content = $m[3][0];
 
         if ($type === 'self') {
             $blocks[] = [
                 'type' => 'self',
                 'index' => $idx,
                 'depth' => $depth,
-                'content' => $content
+                'content' => trim($content)
             ];
         } else {
             $children = parse_blocks_with_loose_text($content, $depth + 1);
