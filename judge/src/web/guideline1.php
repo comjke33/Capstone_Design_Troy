@@ -83,7 +83,9 @@ function extract_tagged_code_lines($text) {
 
         foreach (explode("\n", $code_block) as $line) {
             $trimmed = trim($line);
-            $lines[] = ['content' => $trimmed];
+            if ($trimmed !== '') {
+                $lines[] = ['content' => $trimmed];
+            }
         }
     }
 
