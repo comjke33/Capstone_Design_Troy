@@ -9,11 +9,9 @@
         max-width: 1200px;
         margin: 0 auto;
     }
-
     .left-panel {
         flex: 2;
     }
-
     .right-panel {
         flex: 1;
         padding: 16px;
@@ -22,7 +20,6 @@
         border-radius: 8px;
         font-family: monospace;
     }
-
     .code-line {
         background-color: #f8f8fa;
         border: 1px solid #ddd;
@@ -33,7 +30,6 @@
         color: #333;
         white-space: pre-wrap;
     }
-
     .styled-textarea {
         border: 1px solid #ccc;
         border-radius: 6px;
@@ -47,7 +43,6 @@
         box-sizing: border-box;
         min-height: 40px;
     }
-
     .submit-button {
         margin-top: 6px;
         background-color: #4a90e2;
@@ -57,13 +52,11 @@
         border-radius: 4px;
         cursor: pointer;
     }
-
     .checkmark {
         font-size: 18px;
         margin-left: 6px;
         color: #2ecc71;
     }
-
     .submission-line {
         display: flex;
         justify-content: space-between;
@@ -71,16 +64,13 @@
         gap: 20px;
         margin-bottom: 28px;
     }
-
     .feedback-line {
         margin-bottom: 12px;
         font-size: 15px;
     }
-
     .feedback-correct {
         color: #2ecc71;
     }
-
     .feedback-wrong {
         color: #e74c3c;
     }
@@ -149,13 +139,13 @@
     echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
 
     while ($answer_index < count($OJ_CORRECT_ANSWERS)) {
-        $code = trim($OJ_CORRECT_ANSWERS[$answer_index]['content'] ?? '');
+        $code = trim($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
         $code_escaped = htmlspecialchars($code);
         $html = "<div class='submission-line'><div style='flex:1'>";
 
         if ($code === '}') {
             $html .= "<div class='code-line'>닫는 괄호입니다.</div>";
-            $html .= "<textarea class='styled-textarea' readonly disabled>" . $code_escaped . "</textarea>";
+            $html .= "<textarea class='styled-textarea' readonly disabled>{$code_escaped}</textarea>";
             $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>🔒</div></div>";
         } else {
             $html .= "<div class='code-line'></div>";
