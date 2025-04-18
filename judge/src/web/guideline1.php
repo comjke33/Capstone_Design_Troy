@@ -9,7 +9,7 @@ $txt_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_
 $txt_contents = file_get_contents($txt_path);
 
 function parse_blocks_with_loose_text($text, $depth = 0) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\)\]/s";
     $blocks = [];
     $offset = 0;
 
@@ -83,9 +83,7 @@ function extract_tagged_code_lines($text) {
 
         foreach (explode("\n", $code_block) as $line) {
             $trimmed = trim($line);
-            if ($trimmed !== '') {
-                $lines[] = ['content' => $trimmed];
-            }
+            $lines[] = ['content' => $trimmed];
         }
     }
 
@@ -99,3 +97,4 @@ $OJ_SID = $sid;
 
 include("template/$OJ_TEMPLATE/guideline1.php");
 include("template/$OJ_TEMPLATE/footer.php");
+?>
