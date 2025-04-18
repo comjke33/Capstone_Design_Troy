@@ -65,12 +65,11 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
     return $blocks;
 }
 
-// ✅ 태그 간 줄 단위 정답 코드 추출
 function extract_tagged_code_lines($text) {
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\\((\\d+)\\)\]/";
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
-    $blocks = [];
+    $lines = [];
     $positions = [];
 
     foreach ($matches[0] as $i => $match) {
@@ -80,13 +79,24 @@ function extract_tagged_code_lines($text) {
         ];
     }
 
-    $lines = [];
+    // 태그 사이 추출
     for ($i = 0; $i < count($positions) - 1; $i++) {
         $start_pos = $positions[$i]['end'];
         $end_pos = $positions[$i + 1]['pos'];
         $code_block = substr($text, $start_pos, $end_pos - $start_pos);
-
         foreach (explode("\n", $code_block) as $line) {
+            $trimmed = trim($line);
+            if ($trimmed !== '') {
+                $lines[] = ['content' => $trimmed];
+            }
+        }
+    }
+
+    // 마지막 태그 이후 남은 부분도 포함
+    if (!empty($positions)) {
+        $last_end = $positions[count($positions) - 1]['end'];
+        $remaining = substr($text, $last_end);
+        foreach (explode("\n", $remaining) as $line) {
             $trimmed = trim($line);
             if ($trimmed !== '') {
                 $lines[] = ['content' => $trimmed];
@@ -96,6 +106,7 @@ function extract_tagged_code_lines($text) {
 
     return $lines;
 }
+
 
 // ✅ 환경변수
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
