@@ -258,32 +258,32 @@ $need_refresh_remote=false;
 
 // -----------------------------------------------------
 // correct_solution 테이블에 데이터를 삽입하는 함수
-function saveCorrectSolution($solution_id, $problem_id, $correct_code) {
-  // correct_solution 테이블에 데이터를 삽입하는 SQL 쿼리
-  $sql = "INSERT INTO correct_solution (solution_id, problem_id, correct_code) 
-          VALUES (?, ?, ?)";
+// function saveCorrectSolution($solution_id, $problem_id, $correct_code) {
+//   // correct_solution 테이블에 데이터를 삽입하는 SQL 쿼리
+//   $sql = "INSERT INTO correct_solution (solution_id, problem_id, correct_code) 
+//           VALUES (?, ?, ?)";
   
-  // pdo_query를 사용하여 쿼리 실행
-  pdo_query($sql, $solution_id, $problem_id, $correct_code);
-}
+//   // pdo_query를 사용하여 쿼리 실행
+//   pdo_query($sql, $solution_id, $problem_id, $correct_code);
+// }
 
-for ($i=0; $i<$rows_cnt; $i++) {
-  $row = $result[$i];
+// for ($i=0; $i<$rows_cnt; $i++) {
+//   $row = $result[$i];
 
-  $row = $result[$i];
+//   $row = $result[$i];
 
-  // 결과가 정답 코드(correct_solution) 가져오기
-  if ($row['result'] == 4) {  // Accepted
-      // solution_id와 problem_id를 가져오기
-      $sid = urlencode($row['solution_id']);  // solution_id
-      $problem_id = $row['problem_id'];        // problem_id
+//   // 결과가 정답 코드(correct_solution) 가져오기
+//   if ($row['result'] == 4) {  // Accepted
+//       // solution_id와 problem_id를 가져오기
+//       $sid = urlencode($row['solution_id']);  // solution_id
+//       $problem_id = $row['problem_id'];        // problem_id
 
-      // 정답 코드 (정답 코드 내용은 시스템에 맞게 처리해야 함)
-      $correct_code = "정답 코드 내용"; // 실제 정답 코드를 가져오는 방식에 맞게 처리
+//       // 정답 코드 (정답 코드 내용은 시스템에 맞게 처리해야 함)
+//       $correct_code = "정답 코드 내용"; // 실제 정답 코드를 가져오는 방식에 맞게 처리
 
-      // correct_solution 테이블에 삽입
-      saveCorrectSolution($sid, $problem_id, $correct_code);
-  }
+//       // correct_solution 테이블에 삽입
+//       saveCorrectSolution($sid, $problem_id, $correct_code);
+//   }
 
   //$view_status[$i]=$row;
   if ($i==0 && $row['result']<4)
