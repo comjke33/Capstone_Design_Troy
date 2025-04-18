@@ -112,17 +112,17 @@
     
                 $correct_code = trim($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
     
-                // ✅ '}' 한 줄만 있는 경우: 설명만 "닫는 괄호입니다.", textarea는 '}' 비활성화
                 if ($correct_code === '}') {
                     $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                     $html .= "<div style='flex: 1'>";
                     $html .= "<div class='code-line'>닫는 괄호입니다.</div>";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' disabled>}</textarea>";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' readonly disabled>" . htmlspecialchars($correct_code) . "</textarea>";
                     $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>🔒</div>";
                     $html .= "</div>";
                     $answer_index++;
                     continue;
-                }
+                }                
+                
     
                 // 일반 줄 처리
                 if ($correct_code === '') {
