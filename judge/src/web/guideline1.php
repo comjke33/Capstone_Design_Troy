@@ -8,26 +8,56 @@ $guideline_contents = file_get_contents($file_path);
 $txt_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code1.txt";
 $txt_contents = file_get_contents($txt_path);
 
-function parse_tagged_guideline($text) {
-    $lines = explode("\n", $text);
+function parse_blocks_with_loose_text($text, $depth = 0) {
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
     $blocks = [];
-    $current_block = null;
-    foreach ($lines as $line) {
-        if (preg_match("/^\[(.+?)_start\\((\\d+)\\)\]$/", trim($line), $m)) {
-            $current_block = [
-                'tag' => $m[1],
-                'index' => (int)$m[2],
-                'content' => ''
-            ];
-        } elseif (preg_match("/^\[(.+?)_end\\((\\d+)\\)\]$/", trim($line), $m)) {
-            if ($current_block) {
-                $blocks[] = $current_block;
-                $current_block = null;
+    $offset = 0;
+
+    while (preg_match($pattern, $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
+        $start_pos = $m[0][1];
+        $full_len = strlen($m[0][0]);
+        $end_pos = $start_pos + $full_len;
+
+        $before_text = substr($text, $offset, $start_pos - $offset);
+        if (trim($before_text) !== '') {
+            foreach (explode("\n", $before_text) as $line) {
+                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+                $blocks[] = [
+                    'type' => 'text',
+                    'content' => rtrim($line),
+                    'depth' => $depth + $indent_level
+                ];
             }
-        } elseif ($current_block) {
-            $current_block['content'] .= $line . "\n";
+        }
+
+        $type = $m[1][0];
+        $idx = $m[2][0];
+        $content = $m[3][0];
+
+        $description = trim($content);
+
+        $blocks[] = [
+            'type' => $type,
+            'index' => $idx,
+            'depth' => $depth,
+            'description' => $description
+        ];
+
+        $offset = $end_pos;
+    }
+
+    $tail = substr($text, $offset);
+    if (trim($tail) !== '') {
+        foreach (explode("\n", $tail) as $line) {
+            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+            $blocks[] = [
+                'type' => 'text',
+                'content' => rtrim($line),
+                'depth' => $depth + $indent_level
+            ];
         }
     }
+
     return $blocks;
 }
 
@@ -61,7 +91,7 @@ function extract_tagged_code_lines($text) {
 }
 
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
-$OJ_BLOCKS = parse_tagged_guideline($guideline_contents);
+$OJ_BLOCK_TREE = parse_blocks_with_loose_text($guideline_contents);
 $OJ_CORRECT_ANSWERS = extract_tagged_code_lines($txt_contents);
 $OJ_SID = $sid;
 
