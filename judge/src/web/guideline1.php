@@ -34,9 +34,21 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $idx = $m[2][0];
         $content = $m[3][0];
 
-        $children = parse_blocks_with_loose_text($content, $depth + 1);
-        array_unshift($children, ['type' => 'text', 'content' => "[{$type}_start({$idx})]", 'depth' => $depth + 1]);
-        array_push($children, ['type' => 'text', 'content' => "[{$type}_end({$idx})]", 'depth' => $depth + 1]);
+        $children = [];
+        $children[] = ['type' => 'text', 'content' => "[{$type}_start({$idx})]", 'depth' => $depth + 1];
+
+        foreach (explode("\n", $content) as $line) {
+            if (trim($line) !== '') {
+                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+                $children[] = [
+                    'type' => 'text',
+                    'content' => rtrim($line),
+                    'depth' => $depth + 1 + $indent_level
+                ];
+            }
+        }
+
+        $children[] = ['type' => 'text', 'content' => "[{$type}_end({$idx})]", 'depth' => $depth + 1];
 
         $blocks[] = [
             'type' => $type,
