@@ -88,82 +88,93 @@
 
 <div class="main-layout">
     <div class="left-panel">
+    
     <?php
-    function render_tree_plain($blocks, &$answer_index = 0) {
-        $html = "";
-    
-        foreach ($blocks as $block) {
-            $indent_px = 10 * ($block['depth'] ?? 0);
-    
-            if (isset($block['children'])) {
-                $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
-                $html .= render_tree_plain($block['children'], $answer_index);
-                $html .= "</div>";
-            } elseif ($block['type'] === 'text') {
-                $raw = trim($block['content']);
-    
-                // ✅ 태그 줄 or 빈 줄은 무시
-                if (
-                    $raw === '' ||
-                    preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)
-                ) {
-                    continue;
-                }
-    
-                // ✅ 설명 줄은 무조건 출력해야 하므로 먼저 처리
-                $line = htmlspecialchars($block['content']);
-    
-                // ✅ 정답 코드가 있는지 확인 (없으면 기본 처리)
-                $answer_data = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index] ?? null;
-    
-                if ($answer_data === null || !isset($answer_data['content'])) {
-                    // 설명은 있는데 정답 코드가 없는 경우
-                    $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                    $html .= "<div style='flex: 1'>";
-                    $html .= "<div class='code-line'>{$line}</div>";
-                    $html .= "<div style='font-style: italic; color: gray;'>⚠️ 정답 코드가 없습니다.</div>";
-                    $html .= "</div></div>";
-                    continue;
-                }
-    
-                $correct_code = trim($answer_data['content']);
-                $correct_code_escaped = htmlspecialchars($correct_code);
-    
-                // ✅ '}' 한 줄만 있는 경우 → 잠금 텍스트로 처리
-                if ($correct_code === '}') {
-                    $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                    $html .= "<div style='flex: 1'>";
-                    $html .= "<div class='code-line'>닫는 괄호입니다.</div>";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' readonly disabled>{$correct_code_escaped}</textarea>";
-                    $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>🔒</div>";
+        function render_tree_plain($blocks, &$answer_index = 0) {
+            $html = "";
+            $total = count($GLOBALS['OJ_CORRECT_ANSWERS']);
+
+            foreach ($blocks as $block) {
+                $indent_px = 10 * ($block['depth'] ?? 0);
+
+                if (isset($block['children'])) {
+                    $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
+                    $html .= render_tree_plain($block['children'], $answer_index);
                     $html .= "</div>";
+                } elseif ($block['type'] === 'text') {
+                    $raw = trim($block['content']);
+
+                    // 태그만 있는 줄은 무시
+                    if ($raw === '' || preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", $raw)) {
+                        continue;
+                    }
+
+                    // 설명 또는 닫는 괄호 여부 판단
+                    $line = htmlspecialchars($block['content']);
+                    $code_data = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
+                    $code_trim = trim($code_data);
+                    $escaped_code = htmlspecialchars($code_data);
+
+                    $is_closing = ($code_trim === '}');
+                    $has_code = ($code_trim !== '');
+                    $disabled = ($answer_index > 0 && !$is_closing) ? "disabled" : "";
+
+                    // 설명이 없어도 정답 코드가 있으면 출력해야 함
+                    $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                    $html .= "<div style='flex: 1'>";
+
+                    if ($is_closing) {
+                        $html .= "<div class='code-line'>닫는 괄호입니다.</div>";
+                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' readonly disabled>" . htmlspecialchars($code_data) . "</textarea>";
+                        $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>🔒</div>";
+                    } else {
+                        $html .= "<div class='code-line'>{$line}</div>";
+                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$escaped_code}</textarea>";
+                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                        $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                        $html .= "</div>";
+                    }
+
+                    $html .= "</div>"; // submission-line
                     $answer_index++;
-                    continue;
                 }
-    
-                // ✅ 일반 textarea 처리
-                $disabled = $answer_index > 0 ? "disabled" : "";
-    
-                $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+            }
+
+            // 아직 남은 정답 코드가 있다면 설명 없이 처리
+            while ($answer_index < $total) {
+                $code_data = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
+                $code_trim = trim($code_data);
+                $escaped_code = htmlspecialchars($code_data);
+
+                $html .= "<div class='submission-line'>";
                 $html .= "<div style='flex: 1'>";
-                $html .= "<div class='code-line'>{$line}</div>";
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code_escaped}</textarea>";
-                $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                $html .= "</div></div>";
-    
+
+                if ($code_trim === '}') {
+                    $html .= "<div class='code-line'>닫는 괄호입니다.</div>";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' readonly disabled>" . $escaped_code . "</textarea>";
+                    $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>🔒</div>";
+                } else {
+                    $html .= "<div class='code-line'>문제 설명 없음</div>";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}'>{$escaped_code}</textarea>";
+                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
+                    $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                    $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                    $html .= "</div>";
+                }
+
+                $html .= "</div>";
                 $answer_index++;
             }
-        }
-    
-        return $html;
-    }
-    
 
-    $answer_index = 0;
-    echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
-    ?>
+            return $html;
+        }
+
+        $answer_index = 0;
+        echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
+        ?>
+
+    
     </div>
 
     <div class="right-panel" id="feedback-panel">
