@@ -2,70 +2,156 @@
 include("template/syzoj/header.php");
 include("include/db_info.inc.php");
 
-// 1. 파일 경로 설정
+// ✅ 설명 텍스트 및 정답 태그 코드 파일
 $file_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline1.txt";
-$txt_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code1.txt";
-
-// 2. 파일 내용 로드
 $guideline_contents = file_get_contents($file_path);
+
+$txt_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code1.txt";
 $txt_contents = file_get_contents($txt_path);
 
-// 3. 설명 태그 블록 파싱 함수
-function parse_tag_blocks($text) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(\\1)_end\\(\\2\\)\]/s";
-    preg_match_all($pattern, $text, $matches, PREG_SET_ORDER);
-
+// ✅ 설명 파일 트리 구조 파싱
+function parse_blocks_with_loose_text($text, $depth = 0) {
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
     $blocks = [];
-    foreach ($matches as $match) {
-        $type = $match[1];
-        $index = (int)$match[2];  // 참고용. 정렬에는 사용 안 함
-        $content = trim($match[3]);
+    $offset = 0;
 
-        $lines = array_map('rtrim', explode("\n", $content));
+    while (preg_match($pattern, $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
+        $start_pos = $m[0][1];
+        $full_len = strlen($m[0][0]);
+        $end_pos = $start_pos + $full_len;
+
+        $before_text = substr($text, $offset, $start_pos - $offset);
+        if (trim($before_text) !== '') {
+            foreach (explode("\n", $before_text) as $line) {
+                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+                $blocks[] = [
+                    'type' => 'text',
+                    'content' => rtrim($line),
+                    'depth' => $depth + $indent_level
+                ];
+            }
+        }
+
+        $type = $m[1][0];
+        $idx = $m[2][0];
+        $content = $m[3][0];
+
+        $children = parse_blocks_with_loose_text($content, $depth + 1);
+        array_unshift($children, ['type' => 'text', 'content' => "[{$type}_start({$idx})]", 'depth' => $depth + 1]);
+        array_push($children, ['type' => 'text', 'content' => "[{$type}_end({$idx})]", 'depth' => $depth + 1]);
+
         $blocks[] = [
             'type' => $type,
-            'index' => $index,
-            'lines' => $lines
+            'index' => $idx,
+            'depth' => $depth,
+            'children' => $children
         ];
+
+        $offset = $end_pos;
     }
 
-    return $blocks; // 정렬 X → 등장 순서 유지
+    $tail = substr($text, $offset);
+    if (trim($tail) !== '') {
+        foreach (explode("\n", $tail) as $line) {
+            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+            $blocks[] = [
+                'type' => 'text',
+                'content' => rtrim($line),
+                'depth' => $depth + $indent_level
+            ];
+        }
+    }
+
+    return $blocks;
 }
 
-// 4. 정답 코드 추출 (tag 경계 사이 코드만 수집)
-function extract_tagged_code_lines($text) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\\((\\d+)\\)\]/";
+// ✅ 태그 블록 추출
+function extract_tagged_blocks($text) {
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\d+)\)\]|\[(func_def|rep|cond|self|struct|construct)_end\\((\d+)\)\]/";
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
+    $stack = [];
+    $blocks = [];
+
+    foreach ($matches[0] as $match) {
+        $full = $match[0];
+        $pos = $match[1];
+
+        if (strpos($full, '_start(') !== false) {
+            preg_match("/\[(\w+)_start\((\d+)\)\]/", $full, $m);
+            $stack[] = ['type' => $m[1], 'index' => (int)$m[2], 'start' => $pos + strlen($full), 'pos' => $pos];
+        } elseif (strpos($full, '_end(') !== false) {
+            preg_match("/\[(\w+)_end\((\d+)\)\]/", $full, $m);
+            $type = $m[1];
+            $index = (int)$m[2];
+
+            for ($j = count($stack) - 1; $j >= 0; $j--) {
+                if ($stack[$j]['type'] === $type && $stack[$j]['index'] === $index) {
+                    $start = $stack[$j]['start'];
+                    $content = substr($text, $start, $pos - $start);
+                    $blocks[] = ['type' => $type, 'index' => $index, 'content' => trim($content)];
+                    array_splice($stack, $j, 1);
+                    break;
+                }
+            }
+        }
+    }
+
+    usort($blocks, fn($a, $b) => $a['index'] <=> $b['index']);
+    return $blocks;
+}
+
+//라인 태그 마주치면 그 안에 내용 추출(빈 내용의 경우 무시)
+function extract_tagged_code_lines($text) {
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
+    preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
+
+    $blocks = [];
     $positions = [];
+
+    // 태그 위치 수집
     foreach ($matches[0] as $i => $match) {
+        $full_tag = $match[0];
+        $pos = $match[1];
+        $type = $matches[1][$i][0];
+        $kind = $matches[2][$i][0];
+        $index = (int)$matches[3][$i][0];
+
         $positions[] = [
-            'pos' => $match[1],
-            'end' => $match[1] + strlen($match[0])
+            'type' => $type,
+            'kind' => $kind,
+            'index' => $index,
+            'pos' => $pos,
+            'end' => $pos + strlen($full_tag)
         ];
     }
 
+    // 태그 간 영역 추출
     $lines = [];
-    for ($i = 0; $i < count($positions); $i++) {
+    for ($i = 0; $i < count($positions) - 1; $i++) {
         $start_pos = $positions[$i]['end'];
-        $end_pos = isset($positions[$i + 1]) ? $positions[$i + 1]['pos'] : strlen($text);
+        $end_pos = $positions[$i + 1]['pos'];
         $code_block = substr($text, $start_pos, $end_pos - $start_pos);
 
         foreach (explode("\n", $code_block) as $line) {
-            $lines[] = ['content' => rtrim($line)];
+            $trimmed = trim($line);
+            if ($trimmed !== '') {
+                $lines[] = ['content' => $trimmed];
+            }
         }
     }
 
     return $lines;
 }
 
-// 5. 데이터 처리
+
+// ✅ 환경변수
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
-$OJ_BLOCK_TREE = parse_tag_blocks($guideline_contents);
+$OJ_BLOCK_TREE = parse_blocks_with_loose_text($guideline_contents);
 $OJ_CORRECT_ANSWERS = extract_tagged_code_lines($txt_contents);
 $OJ_SID = $sid;
 
-// 6. 템플릿 호출
+// ✅ 출력
 include("template/$OJ_TEMPLATE/guideline1.php");
 include("template/$OJ_TEMPLATE/footer.php");
 ?>
