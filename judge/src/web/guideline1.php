@@ -64,7 +64,7 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
 }
 
 function extract_tagged_code_lines($text) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\\((\\d+)\\)\]/";
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
     $positions = [];
@@ -76,19 +76,37 @@ function extract_tagged_code_lines($text) {
     }
 
     $lines = [];
+
+    // 태그 사이 코드 라인 추출
     for ($i = 0; $i < count($positions); $i++) {
         $start_pos = $positions[$i]['end'];
-        $end_pos = isset($positions[$i + 1]) ? $positions[$i + 1]['pos'] : strlen($text);
-        $code_block = substr($text, $start_pos, $end_pos - $start_pos);
+        $end_pos = isset($positions[$i + 1]) ? $positions[$i + 1]['pos'] : strlen($text); // 끝까지
 
+        $code_block = substr($text, $start_pos, $end_pos - $start_pos);
         foreach (explode("\n", $code_block) as $line) {
             $trimmed = trim($line);
-            $lines[] = ['content' => $trimmed];
+            if ($trimmed !== '') {
+                $lines[] = ['content' => $trimmed];
+            }
+        }
+    }
+
+    // ✅ 태그가 1개 이상 있고, 마지막 태그 뒤에 별도로 남아 있는 코드도 존재한다면
+    if (!empty($positions)) {
+        $last_tag_end = end($positions)['end'];
+        $tail_code = substr($text, $last_tag_end);
+
+        foreach (explode("\n", $tail_code) as $line) {
+            $trimmed = trim($line);
+            if ($trimmed !== '') {
+                $lines[] = ['content' => $trimmed];
+            }
         }
     }
 
     return $lines;
 }
+
 
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 $OJ_BLOCK_TREE = parse_blocks_with_loose_text($guideline_contents);
