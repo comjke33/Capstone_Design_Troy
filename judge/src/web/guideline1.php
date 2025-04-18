@@ -66,7 +66,7 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
 }
 
 function extract_tagged_code_lines($text) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\\((\\d+)\\)\]/";
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
     $positions = [];
@@ -78,16 +78,17 @@ function extract_tagged_code_lines($text) {
     }
 
     $lines = [];
-    for ($i = 0; $i < count($positions); $i++) {
+    $count = count($positions);
+
+    for ($i = 0; $i < $count; $i++) {
         $start_pos = $positions[$i]['end'];
-        $end_pos = isset($positions[$i + 1]) ? $positions[$i + 1]['pos'] : strlen($text);
+        $end_pos = $i + 1 < $count ? $positions[$i + 1]['pos'] : strlen($text);
         $code_block = substr($text, $start_pos, $end_pos - $start_pos);
 
         foreach (explode("\n", $code_block) as $line) {
             $trimmed = trim($line);
-            if ($trimmed !== '') {
-                $lines[] = ['content' => $trimmed];
-            }
+            // 줄이 '}'이거나 비어있어도 라인으로 등록 (렌더링 쪽에서 구분 처리)
+            $lines[] = ['content' => $trimmed];
         }
     }
 
