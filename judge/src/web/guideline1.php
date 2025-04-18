@@ -10,54 +10,28 @@ $txt_contents = file_get_contents($txt_path);
 
 function parse_blocks_with_loose_text($text, $depth = 0) {
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
+    preg_match_all($pattern, $text, $matches, PREG_SET_ORDER);
     $blocks = [];
-    $offset = 0;
 
-    while (preg_match($pattern, $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
-        $start_pos = $m[0][1];
-        $full_len = strlen($m[0][0]);
-        $end_pos = $start_pos + $full_len;
+    foreach ($matches as $m) {
+        $type = $m[1];
+        $index = $m[2];
+        $inner = trim($m[3]);
 
-        $before_text = substr($text, $offset, $start_pos - $offset);
-        if (trim($before_text) !== '') {
-            foreach (explode("\n", $before_text) as $line) {
-                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-                $blocks[] = [
-                    'type' => 'text',
-                    'content' => rtrim($line),
-                    'depth' => $depth + $indent_level
-                ];
-            }
-        }
-
-        $type = $m[1][0];
-        $idx = $m[2][0];
-        $content = $m[3][0];
-
-        $description_lines = [];
-        foreach (explode("\n", $content) as $line) {
-            if (trim($line) !== '') {
-                $description_lines[] = rtrim($line);
-            }
-        }
-
+        $lines = array_filter(array_map('trim', explode("\n", $inner)));
         $blocks[] = [
             'type' => $type,
-            'index' => $idx,
-            'depth' => $depth,
-            'description' => implode("<br>", $description_lines)
+            'index' => $index,
+            'description' => implode(" ", $lines),
+            'depth' => $depth
         ];
-
-        $offset = $end_pos;
     }
-
     return $blocks;
 }
 
 function extract_tagged_code_lines($text) {
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\\((\\d+)\\)\]/";
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
-
     $positions = [];
     foreach ($matches[0] as $i => $match) {
         $positions[] = [
