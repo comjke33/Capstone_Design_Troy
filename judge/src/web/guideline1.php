@@ -64,7 +64,7 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
 }
 
 function extract_tagged_code_lines($text) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\\((\\d+)\\)\]/";
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
     $positions = [];
@@ -78,7 +78,7 @@ function extract_tagged_code_lines($text) {
     $lines = [];
     for ($i = 0; $i < count($positions); $i++) {
         $start_pos = $positions[$i]['end'];
-        $end_pos = isset($positions[$i + 1]) ? $positions[$i + 1]['pos'] : strlen($text);
+        $end_pos = isset($positions[$i + 1]) ? $positions[$i + 1]['pos'] : strlen($text); // ✅ 커버 범위 확장
         $code_block = substr($text, $start_pos, $end_pos - $start_pos);
 
         foreach (explode("\n", $code_block) as $line) {
@@ -91,6 +91,7 @@ function extract_tagged_code_lines($text) {
 
     return $lines;
 }
+
 
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 $OJ_BLOCK_TREE = parse_blocks_with_loose_text($guideline_contents);
