@@ -221,10 +221,21 @@ function autoResize(ta) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.styled-textarea').forEach(ta => {
-        if (!ta.disabled) {
+    document.querySelectorAll('.styled-textarea').forEach((ta, i, all) => {
+        if (!ta.disabled && !ta.readOnly) {
             ta.addEventListener('input', () => autoResize(ta));
+        }
+
+        // ✅ 닫는 괄호인 경우: 자동으로 다음 textarea, 버튼 활성화
+        if (ta.disabled && ta.readOnly && ta.value.trim() === '}') {
+            const nextTa = all[i + 1];
+            const nextBtn = document.getElementById(`btn_${i + 1}`);
+            if (nextTa && nextBtn) {
+                nextTa.disabled = false;
+                nextBtn.disabled = false;
+            }
         }
     });
 });
+
 </script>
