@@ -69,9 +69,7 @@ function extract_tagged_code_lines($text) {
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
-    $lines = [];
     $positions = [];
-
     foreach ($matches[0] as $i => $match) {
         $positions[] = [
             'pos' => $match[1],
@@ -79,29 +77,22 @@ function extract_tagged_code_lines($text) {
         ];
     }
 
-    // 태그 사이 추출
-    for ($i = 0; $i < count($positions) - 1; $i++) {
+    $lines = [];
+
+    for ($i = 0; $i < count($positions); $i++) {
         $start_pos = $positions[$i]['end'];
-        $end_pos = $positions[$i + 1]['pos'];
+        $end_pos = ($i + 1 < count($positions)) ? $positions[$i + 1]['pos'] : strlen($text);
         $code_block = substr($text, $start_pos, $end_pos - $start_pos);
 
         foreach (explode("\n", $code_block) as $line) {
             $trimmed = trim($line);
-            $lines[] = ['content' => $trimmed];
+            if ($trimmed !== '') {
+                $lines[] = ['content' => $trimmed];
+            }
         }
     }
 
-    // 마지막 태그 이후 남은 줄도 포함
-    if (!empty($positions)) {
-        $last_end = $positions[count($positions) - 1]['end'];
-        $remaining = substr($text, $last_end);
-        foreach (explode("\n", $remaining) as $line) {
-            $trimmed = trim($line);
-            $lines[] = ['content' => $trimmed];
-        }
-    }
-
-    return array_filter($lines, fn($line) => $line['content'] !== '');
+    return $lines;
 }
 
 
