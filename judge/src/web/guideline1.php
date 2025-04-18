@@ -34,28 +34,21 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $idx = $m[2][0];
         $content = $m[3][0];
 
-        $description = trim($content);
+        $description_lines = [];
+        foreach (explode("\n", $content) as $line) {
+            if (trim($line) !== '') {
+                $description_lines[] = rtrim($line);
+            }
+        }
 
         $blocks[] = [
             'type' => $type,
             'index' => $idx,
             'depth' => $depth,
-            'description' => $description
+            'description' => implode("<br>", $description_lines)
         ];
 
         $offset = $end_pos;
-    }
-
-    $tail = substr($text, $offset);
-    if (trim($tail) !== '') {
-        foreach (explode("\n", $tail) as $line) {
-            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-            $blocks[] = [
-                'type' => 'text',
-                'content' => rtrim($line),
-                'depth' => $depth + $indent_level
-            ];
-        }
     }
 
     return $blocks;
