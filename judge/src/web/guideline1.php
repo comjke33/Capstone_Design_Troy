@@ -34,25 +34,15 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $idx = $m[2][0];
         $content = $m[3][0];
 
-        if ($type === 'self') {
-            $blocks[] = [
-                'type' => 'self',
-                'index' => $idx,
-                'depth' => $depth,
-                'content' => trim($content)
-            ];
-        } else {
-            $children = parse_blocks_with_loose_text($content, $depth + 1);
-            array_unshift($children, ['type' => 'text', 'content' => "[{$type}_start({$idx})]", 'depth' => $depth + 1]);
-            array_push($children, ['type' => 'text', 'content' => "[{$type}_end({$idx})]", 'depth' => $depth + 1]);
-
-            $blocks[] = [
-                'type' => $type,
-                'index' => $idx,
-                'depth' => $depth,
-                'children' => $children
-            ];
-        }
+        // 설명 텍스트 묶어서 저장
+        $description = trim($content);
+        $blocks[] = [
+            'type' => 'description',
+            'desc_type' => $type,
+            'index' => $idx,
+            'depth' => $depth,
+            'text' => $description
+        ];
 
         $offset = $end_pos;
     }
