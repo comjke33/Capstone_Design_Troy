@@ -87,46 +87,34 @@
             $indent_px = 10 * ($block['depth'] ?? 0);
 
             if (isset($block['children'])) {
-                $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
-                $html .= render_tree_plain($block['children'], $answer_index);
-                $html .= "</div>";
-            } elseif ($block['type'] === 'text') {
-                $raw = trim($block['content']);
+                $description = [];
+                $code_lines = [];
 
-                if ($raw === '' || preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]\$/", $raw)) {
-                    continue;
+                foreach ($block['children'] as $child) {
+                    $trimmed = trim($child['content'] ?? '');
+                    if ($child['type'] === 'text' && !preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]\$/", $trimmed)) {
+                        $description[] = htmlspecialchars($trimmed);
+                    }
                 }
 
-                $correct_code = trim($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
-
-                if ($correct_code === '}') {
-                    $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                    $html .= "<div style='flex: 1'>";
-                    $html .= "<div class='code-line'>닫는 괄호입니다.</div>";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' readonly disabled>" . htmlspecialchars($correct_code) . "</textarea>";
-                    $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>🔒</div>";
-                    $html .= "</div>";
-                    $answer_index++;
-                    continue;
-                }
-
-                if ($correct_code === '') {
-                    $answer_index++;
-                    continue;
-                }
-
-                $line = htmlspecialchars($block['content']);
-                $correct_code_escaped = htmlspecialchars($correct_code);
-                $disabled = $answer_index > 0 ? "disabled" : "";
+                $desc_block = count($description) > 0 ? implode("<br>", $description) : "";
+                $code = trim($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
+                $code_escaped = htmlspecialchars($code);
 
                 $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                 $html .= "<div style='flex: 1'>";
-                $html .= "<div class='code-line'>{$line}</div>";
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code_escaped}</textarea>";
-                $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                $html .= "</div></div>";
+                $html .= "<div class='code-line'>{$desc_block}</div>";
+
+                if ($code === '}') {
+                    $html .= "<textarea class='styled-textarea' readonly disabled>{$code_escaped}</textarea>";
+                    $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>🔒</div></div>";
+                } else {
+                    $disabled = $answer_index > 0 ? "disabled" : "";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$code_escaped}</textarea>";
+                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                    $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                    $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span></div></div>";
+                }
 
                 $answer_index++;
             }
