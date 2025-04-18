@@ -97,10 +97,5 @@ $OJ_BLOCK_TREE = parse_blocks_with_loose_text($guideline_contents);
 $OJ_CORRECT_ANSWERS = extract_tagged_code_lines($txt_contents);
 $OJ_SID = $sid;
 
-// 디버깅: 렌더링 확인용 출력 (임시)
-echo "<pre style='background:#eee;padding:1em;'>";
-print_r($OJ_BLOCK_TREE);
-echo "</pre>";
-
 include("template/$OJ_TEMPLATE/guideline1.php");
 include("template/$OJ_TEMPLATE/footer.php");

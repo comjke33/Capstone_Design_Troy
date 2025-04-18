@@ -88,104 +88,62 @@
 
 <div class="main-layout">
     <div class="left-panel">
-    
     <?php
-function render_tree_plain($blocks, &$answer_index = 0) {
-    $html = "";
+    function render_tree_plain($blocks, &$answer_index = 0) {
+        $html = "";
 
-    foreach ($blocks as $block) {
-        $indent_px = 10 * ($block['depth'] ?? 0);
+        foreach ($blocks as $block) {
+            $indent_px = 10 * ($block['depth'] ?? 0);
 
-        // ✅ SELF 설명 블록 처리
-        if ($block['type'] === 'self' && isset($block['children'])) {
-            $description_lines = [];
+            if ($block['type'] === 'self' && isset($block['children'])) {
+                $description_lines = [];
 
-            foreach ($block['children'] as $child) {
-                if ($child['type'] === 'text') {
-                    $raw = trim($child['content']);
-                    if (
-                        $raw !== '' &&
-                        $raw !== '}' &&
-                        !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)
-                    ) {
-                        $description_lines[] = htmlspecialchars($raw);
+                foreach ($block['children'] as $child) {
+                    if ($child['type'] === 'text') {
+                        $raw = trim($child['content']);
+                        if (
+                            $raw !== '' &&
+                            $raw !== '}' &&
+                            !preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", $raw)
+                        ) {
+                            $description_lines[] = htmlspecialchars($raw);
+                        }
                     }
                 }
-            }
 
-            if (!empty($description_lines)) {
-                $desc_html = implode("<br>", $description_lines);
-                $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$desc_html}</div>";
-            }
+                if (!empty($description_lines)) {
+                    $desc_html = implode("<br>", $description_lines);
+                    $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$desc_html}</div>";
+                }
 
-            // ✅ 정답 코드 라인 렌더링
-            $correct_line = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
-            $correct_trimmed = trim($correct_line);
-            if ($correct_trimmed !== '' && $correct_trimmed !== '}') {
-                $correct_escaped = htmlspecialchars($correct_trimmed);
-                $disabled = ($answer_index !== 0) ? "disabled" : "";
+                $correct_line = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
+                if (trim($correct_line) !== '' && $correct_line !== '}') {
+                    $correct_escaped = htmlspecialchars($correct_line);
+                    $disabled = ($answer_index !== 0) ? "disabled" : "";
 
-                $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                $html .= "<div style='flex: 1'>";
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_escaped}</textarea>";
-                $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                $html .= "</div></div>";
+                    $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                    $html .= "<div style='flex: 1'>";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_escaped}</textarea>";
+                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                    $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                    $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                    $html .= "</div></div>";
 
-                $answer_index++;
+                    $answer_index++;
+                }
+            } elseif (isset($block['children'])) {
+                $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
+                $html .= render_tree_plain($block['children'], $answer_index);
+                $html .= "</div>";
             }
         }
 
-        // ✅ 기타 블록 (text, 반복문 등)
-        elseif ($block['type'] === 'text') {
-            $raw = trim($block['content']);
-            if (
-                $raw === '' ||
-                $raw === '}' ||
-                preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)
-            ) {
-                continue;
-            }
-
-            $correct_line = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
-            $correct_trimmed = trim($correct_line);
-            if ($correct_trimmed === '' || $correct_trimmed === '}') {
-                $answer_index++;
-                continue;
-            }
-
-            $line = htmlspecialchars($block['content']);
-            $correct_escaped = htmlspecialchars($correct_trimmed);
-            $disabled = $answer_index !== 0 ? "disabled" : "";
-
-            $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-            $html .= "<div style='flex: 1'>";
-            $html .= "<div class='code-line'>{$line}</div>";
-            $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_escaped}</textarea>";
-            $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-            $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-            $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-            $html .= "</div></div>";
-
-            $answer_index++;
-        }
-
-        // ✅ 중첩 구조 처리
-        elseif (isset($block['children'])) {
-            $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
-            $html .= render_tree_plain($block['children'], $answer_index);
-            $html .= "</div>";
-        }
+        return $html;
     }
 
-    return $html;
-}
-?>
-
-
-
-
+    $answer_index = 0;
+    echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
+    ?>
     </div>
 
     <div class="right-panel" id="feedback-panel">
