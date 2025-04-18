@@ -8,57 +8,24 @@ $guideline_contents = file_get_contents($file_path);
 $txt_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code1.txt";
 $txt_contents = file_get_contents($txt_path);
 
-function parse_blocks_with_loose_text($text, $depth = 0) {
+function extract_blocks($text) {
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
+    preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
+    
     $blocks = [];
-    $offset = 0;
+    for ($i = 0; $i < count($matches[0]); $i++) {
+        $start_tag = $matches[1][$i][0];
+        $index = $matches[2][$i][0];
+        $inner_content = $matches[3][$i][0];
 
-    while (preg_match($pattern, $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
-        $start_pos = $m[0][1];
-        $full_len = strlen($m[0][0]);
-        $end_pos = $start_pos + $full_len;
-
-        $before_text = substr($text, $offset, $start_pos - $offset);
-        if (trim($before_text) !== '') {
-            foreach (explode("\n", $before_text) as $line) {
-                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-                $blocks[] = [
-                    'type' => 'text',
-                    'content' => rtrim($line),
-                    'depth' => $depth + $indent_level
-                ];
-            }
-        }
-
-        $type = $m[1][0];
-        $idx = $m[2][0];
-        $content = $m[3][0];
-
-        // 설명 텍스트 묶어서 저장
-        $description = trim($content);
+        $desc = trim($inner_content);
+        $desc = preg_split("/\n+/", $desc);
         $blocks[] = [
-            'type' => 'description',
-            'desc_type' => $type,
-            'index' => $idx,
-            'depth' => $depth,
-            'text' => $description
+            'type' => $start_tag,
+            'index' => (int)$index,
+            'desc' => array_map('trim', $desc),
         ];
-
-        $offset = $end_pos;
     }
-
-    $tail = substr($text, $offset);
-    if (trim($tail) !== '') {
-        foreach (explode("\n", $tail) as $line) {
-            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-            $blocks[] = [
-                'type' => 'text',
-                'content' => rtrim($line),
-                'depth' => $depth + $indent_level
-            ];
-        }
-    }
-
     return $blocks;
 }
 
@@ -67,7 +34,7 @@ function extract_tagged_code_lines($text) {
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
     $positions = [];
-    foreach ($matches[0] as $i => $match) {
+    foreach ($matches[0] as $match) {
         $positions[] = [
             'pos' => $match[1],
             'end' => $match[1] + strlen($match[0])
@@ -76,25 +43,23 @@ function extract_tagged_code_lines($text) {
 
     $lines = [];
     for ($i = 0; $i < count($positions); $i++) {
-        $start_pos = $positions[$i]['end'];
-        $end_pos = isset($positions[$i + 1]) ? $positions[$i + 1]['pos'] : strlen($text);
-        $code_block = substr($text, $start_pos, $end_pos - $start_pos);
+        $start = $positions[$i]['end'];
+        $end = isset($positions[$i + 1]) ? $positions[$i + 1]['pos'] : strlen($text);
+        $block = substr($text, $start, $end - $start);
 
-        foreach (explode("\n", $code_block) as $line) {
-            $trimmed = trim($line);
-            if ($trimmed !== '') {
-                $lines[] = ['content' => $trimmed];
+        foreach (explode("\n", $block) as $line) {
+            $line = trim($line);
+            if ($line !== '') {
+                $lines[] = ['content' => $line];
             }
         }
     }
-
     return $lines;
 }
 
-$sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
-$OJ_BLOCK_TREE = parse_blocks_with_loose_text($guideline_contents);
+$OJ_SID = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
+$OJ_BLOCKS = extract_blocks($guideline_contents);
 $OJ_CORRECT_ANSWERS = extract_tagged_code_lines($txt_contents);
-$OJ_SID = $sid;
 
 include("template/$OJ_TEMPLATE/guideline1.php");
 include("template/$OJ_TEMPLATE/footer.php");
