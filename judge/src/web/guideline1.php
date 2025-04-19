@@ -1,15 +1,18 @@
 <?php
+// ✅ 헤더 및 DB 연결
 include("template/syzoj/header.php");
 include("include/db_info.inc.php");
 
+// ✅ 가이드라인 및 정답 파일 경로
 $file_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline1.txt";
 $guideline_contents = file_get_contents($file_path);
 
 $txt_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code1.txt";
 $txt_contents = file_get_contents($txt_path);
 
+// ✅ 모든 태그 블록을 파싱하는 함수
 function parse_blocks_with_loose_text($text, $depth = 0) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[\\1_end\\(\\2\)\]/s";
     $blocks = [];
     $offset = 0;
 
@@ -31,7 +34,7 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         }
 
         $type = $m[1][0];
-        $idx = $m[2][0];
+        $idx = (int)$m[2][0];
         $content = $m[3][0];
 
         $children = parse_blocks_with_loose_text($content, $depth + 1);
@@ -63,6 +66,7 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
     return $blocks;
 }
 
+// ✅ 정답 코드 파싱 함수 (라인 기준)
 function extract_tagged_code_lines($text) {
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
@@ -92,10 +96,12 @@ function extract_tagged_code_lines($text) {
     return $lines;
 }
 
+// ✅ 문제 ID 파라미터
 $sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
 $OJ_BLOCK_TREE = parse_blocks_with_loose_text($guideline_contents);
 $OJ_CORRECT_ANSWERS = extract_tagged_code_lines($txt_contents);
 $OJ_SID = $sid;
 
+// ✅ 템플릿 렌더링
 include("template/$OJ_TEMPLATE/guideline1.php");
 include("template/$OJ_TEMPLATE/footer.php");
