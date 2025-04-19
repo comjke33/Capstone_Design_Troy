@@ -93,7 +93,7 @@ function extract_tagged_code_lines($text) {
                     $lines[] = [
                         'content' => $trimmed,
                         'readonly' => true,
-                        'info' => '닫는 괄호'};
+                        'info' => '닫는 괄호';
                 } else {
                     $lines[] = ['content' => $trimmed];
                 }
