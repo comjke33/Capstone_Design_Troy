@@ -21,31 +21,32 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $full_len = strlen($m[0][0]);
         $end_pos = $start_pos + $full_len;
 
-        $before_text = substr($text, $offset, $start_pos - $offset);
-        if (trim($before_text) !== '') {
-            foreach (explode("\n", $before_text) as $line) {
-                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-                $blocks[] = [
-                    'type' => 'text',
-                    'content' => rtrim($line),
-                    'depth' => $depth + $indent_level
-                ];
-            }
-        }
-
         $type = $m[1][0];
         $idx = (int)$m[2][0];
         $content = $m[3][0];
 
-        $children = parse_blocks_with_loose_text($content, $depth + 1);
-        array_unshift($children, ['type' => 'text', 'content' => "[{$type}_start({$idx})]", 'depth' => $depth + 1]);
-        array_push($children, ['type' => 'text', 'content' => "[{$type}_end({$idx})]", 'depth' => $depth + 1]);
+        // 설명 줄 추출
+        $description_lines = [];
+        foreach (explode("\n", $content) as $line) {
+            $trimmed = trim($line);
+            if (
+                $trimmed !== '' &&
+                $trimmed !== '}' &&
+                !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $trimmed)
+            ) {
+                $description_lines[] = [
+                    'type' => 'text',
+                    'content' => rtrim($trimmed),
+                    'depth' => $depth + 1
+                ];
+            }
+        }
 
         $blocks[] = [
             'type' => $type,
             'index' => $idx,
             'depth' => $depth,
-            'children' => $children
+            'children' => $description_lines
         ];
 
         $offset = $end_pos;
@@ -80,9 +81,10 @@ function extract_tagged_code_lines($text) {
     }
 
     $lines = [];
-    for ($i = 0; $i < count($positions); $i++) {
+    $code_index = 0;
+    for ($i = 0; $i < count($positions); $i += 2) {
         $start_pos = $positions[$i]['end'];
-        $end_pos = isset($positions[$i + 1]) ? $positions[$i + 1]['pos'] : strlen($text);
+        $end_pos = $positions[$i + 1]['pos'] ?? strlen($text);
         $code_block = substr($text, $start_pos, $end_pos - $start_pos);
 
         foreach (explode("\n", $code_block) as $line) {
@@ -97,6 +99,7 @@ function extract_tagged_code_lines($text) {
                 } else {
                     $lines[] = ['content' => $trimmed];
                 }
+                $code_index++;
             }
         }
     }
