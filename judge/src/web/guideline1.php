@@ -88,7 +88,15 @@ function extract_tagged_code_lines($text) {
         foreach (explode("\n", $code_block) as $line) {
             $trimmed = trim($line);
             if ($trimmed !== '') {
-                $lines[] = ['content' => $trimmed];
+                // ✅ '}'만 있는 줄은 수정 불가 + 설명만 출력
+                if ($trimmed === '}') {
+                    $lines[] = [
+                        'content' => $trimmed,
+                        'readonly' => true,
+                        'info' => '닫는 괄호'};
+                } else {
+                    $lines[] = ['content' => $trimmed];
+                }
             }
         }
     }
