@@ -31,7 +31,6 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
             $trimmed = trim($line);
             if (
                 $trimmed !== '' &&
-                $trimmed !== '}' &&
                 !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $trimmed)
             ) {
                 $description_lines[] = [
@@ -94,7 +93,8 @@ function extract_tagged_code_lines($text) {
                     $lines[] = [
                         'content' => $trimmed,
                         'readonly' => true,
-                        'info' => '닫는 괄호'
+                        'info' => '닫는 괄호',
+                        'skipSubmit' => true
                     ];
                 } else {
                     $lines[] = ['content' => $trimmed];
