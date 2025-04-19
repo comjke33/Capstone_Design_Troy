@@ -21,31 +21,30 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $full_len = strlen($m[0][0]);
         $end_pos = $start_pos + $full_len;
 
-        $before_text = substr($text, $offset, $start_pos - $offset);
-        if (trim($before_text) !== '') {
-            foreach (explode("\n", $before_text) as $line) {
-                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-                $blocks[] = [
-                    'type' => 'text',
-                    'content' => rtrim($line),
-                    'depth' => $depth + $indent_level
-                ];
-            }
-        }
-
         $type = $m[1][0];
         $idx = (int)$m[2][0];
         $content = $m[3][0];
 
-        $children = parse_blocks_with_loose_text($content, $depth + 1);
-        array_unshift($children, ['type' => 'text', 'content' => "[{$type}_start({$idx})]", 'depth' => $depth + 1]);
-        array_push($children, ['type' => 'text', 'content' => "[{$type}_end({$idx})]", 'depth' => $depth + 1]);
+        $children = [];
+        $lines = explode("\n", $content);
+        $buffer = [];
+
+        foreach ($lines as $line) {
+            $trimmed = trim($line);
+            if ($trimmed !== '' && !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $trimmed)) {
+                $buffer[] = [
+                    'type' => 'text',
+                    'content' => rtrim($trimmed),
+                    'depth' => $depth + 1
+                ];
+            }
+        }
 
         $blocks[] = [
             'type' => $type,
             'index' => $idx,
             'depth' => $depth,
-            'children' => $children
+            'children' => $buffer
         ];
 
         $offset = $end_pos;
@@ -80,6 +79,7 @@ function extract_tagged_code_lines($text) {
     }
 
     $lines = [];
+    $buffered_desc = null;
     for ($i = 0; $i < count($positions); $i++) {
         $start_pos = $positions[$i]['end'];
         $end_pos = isset($positions[$i + 1]) ? $positions[$i + 1]['pos'] : strlen($text);
@@ -92,7 +92,8 @@ function extract_tagged_code_lines($text) {
                     $lines[] = [
                         'content' => $trimmed,
                         'readonly' => true,
-                        'info' => '닫는 괄호'
+                        'info' => '닫는 괄호',
+                        'delay_next_desc' => true
                     ];
                 } else {
                     $lines[] = ['content' => $trimmed];
