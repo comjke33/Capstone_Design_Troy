@@ -72,54 +72,54 @@
     <?php
     function render_tree_plain($blocks, &$answer_index = 0) {
         $html = "";
-    
+
         foreach ($blocks as $block) {
             $indent_px = 10 * ($block['depth'] ?? 0);
-    
+
             if (isset($block['children'])) {
-                // 설명만 출력할 수 있는 블록 추출
                 $desc_lines = [];
                 foreach ($block['children'] as $child) {
                     if ($child['type'] === 'text') {
                         $raw = trim($child['content']);
-                        if (
-                            $raw !== '' &&
-                            $raw !== '}' &&
-                            !preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", $raw)
-                        ) {
+                        if ($raw !== '' && !preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", $raw)) {
                             $desc_lines[] = htmlspecialchars($raw);
                         }
                     }
                 }
-    
+
                 if (!empty($desc_lines)) {
                     $desc_html = implode("<br>", $desc_lines);
                     $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$desc_html}</div>";
                 }
-    
-                // 입력창 렌더링
-                $code_line = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
+
+                $answer_data = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index] ?? [];
+                $code_line = $answer_data['content'] ?? '';
+                $readonly = $answer_data['readonly'] ?? false;
+                $info = $answer_data['info'] ?? '';
                 $escaped_code = htmlspecialchars(trim($code_line));
-                $disabled = ($answer_index !== 0) ? "disabled" : "";
-    
+                $readonly_attr = $readonly ? 'readonly' : '';
+                $disabled = (!$readonly && $answer_index !== 0) ? "disabled" : "";
+
                 $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                 $html .= "<div style='flex: 1'>";
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$escaped_code}</textarea>";
-                $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                if ($info !== '') {
+                    $html .= "<div class='code-line' style='color: #666; font-style: italic;'>※ {$info}</div>";
+                }
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$readonly_attr} {$disabled}>{$escaped_code}</textarea>";
+                if (!$readonly) {
+                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                }
                 $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
                 $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
                 $html .= "</div></div>";
-    
+
                 $answer_index++;
-    
-                // 하위 children 재귀 렌더링
                 $html .= render_tree_plain($block['children'], $answer_index);
             }
         }
-    
+
         return $html;
     }
-    
 
     $answer_index = 0;
     echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
@@ -145,8 +145,8 @@ function submitAnswer(index) {
     if (input === correct) {
         ta.readOnly = true;
         ta.style.backgroundColor = "#eef1f4";
-        btn.style.display = "none";
-        check.style.display = "inline";
+        if (btn) btn.style.display = "none";
+        if (check) check.style.display = "inline";
         updateFeedback(index, true);
 
         const nextIndex = index + 1;
