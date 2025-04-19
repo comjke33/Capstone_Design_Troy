@@ -91,13 +91,14 @@
     <?php
     function render_tree_plain($blocks, &$answer_index = 0) {
         $html = "";
-
+    
         foreach ($blocks as $block) {
             $indent_px = 10 * ($block['depth'] ?? 0);
-
+    
             if ($block['type'] === 'self' && isset($block['children'])) {
+                // 설명 추출
                 $description_lines = [];
-
+    
                 foreach ($block['children'] as $child) {
                     if ($child['type'] === 'text') {
                         $raw = trim($child['content']);
@@ -110,34 +111,36 @@
                         }
                     }
                 }
-
+    
                 if (!empty($description_lines)) {
                     $desc_html = implode("<br>", $description_lines);
                     $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$desc_html}</div>";
                 }
-
+    
+                // 입력창은 항상 출력하되, 정답이 있으면 채움
                 $correct_line = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
-                if (trim($correct_line) !== '' && $correct_line !== '}') {
-                    $correct_escaped = htmlspecialchars($correct_line);
-                    $disabled = ($answer_index !== 0) ? "disabled" : "";
-
-                    $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                    $html .= "<div style='flex: 1'>";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_escaped}</textarea>";
-                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                    $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                    $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                    $html .= "</div></div>";
-
-                    $answer_index++;
-                }
-            } elseif (isset($block['children'])) {
+                $correct_trimmed = trim($correct_line);
+                $correct_escaped = htmlspecialchars($correct_trimmed);
+                $disabled = ($answer_index !== 0) ? "disabled" : "";
+    
+                $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                $html .= "<div style='flex: 1'>";
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_escaped}</textarea>";
+                $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                $html .= "</div></div>";
+    
+                $answer_index++;
+            }
+    
+            elseif (isset($block['children'])) {
                 $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
                 $html .= render_tree_plain($block['children'], $answer_index);
                 $html .= "</div>";
             }
         }
-
+    
         return $html;
     }
 
