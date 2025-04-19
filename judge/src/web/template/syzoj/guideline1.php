@@ -1,10 +1,10 @@
 <?php
-/** @var string $OJ_SID */
-/** @var array $OJ_BLOCK_TREE */
-/** @var array $OJ_CORRECT_ANSWERS */
+/** @var string \$OJ_SID */
+/** @var array \$OJ_BLOCK_TREE */
+/** @var array \$OJ_CORRECT_ANSWERS */
 ?>
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
-    문제 번호: <?= htmlspecialchars($OJ_SID) ?>
+    문제 번호: <?= htmlspecialchars(\$OJ_SID) ?>
 </div>
 
 <style>
@@ -74,55 +74,59 @@
         $html = "";
 
         foreach ($blocks as $block) {
-            $indent_px = 10 * ($block['depth'] ?? 0);
+            $indent_px = 10 * (\$block['depth'] ?? 0);
 
-            if (isset($block['children'])) {
-                $desc_lines = [];
-                foreach ($block['children'] as $child) {
-                    if ($child['type'] === 'text') {
-                        $raw = trim($child['content']);
-                        if ($raw !== '' && !preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", $raw)) {
-                            $desc_lines[] = htmlspecialchars($raw);
+            if (isset(\$block['children'])) {
+                // 현재 줄 정보
+                \$answer_data = \$GLOBALS['OJ_CORRECT_ANSWERS'][\$answer_index] ?? [];
+                \$code_line = \$answer_data['content'] ?? '';
+                \$readonly = \$answer_data['readonly'] ?? false;
+                \$info = \$answer_data['info'] ?? '';
+                \$escaped_code = htmlspecialchars(trim(\$code_line));
+                \$readonly_attr = \$readonly ? 'readonly' : '';
+                \$disabled = (!\$readonly && \$answer_index !== 0) ? "disabled" : "";
+
+                // 설명 줄 추출 (readonly인 경우, 다음 블록에 출력해야 하므로 skip)
+                if (!\$readonly) {
+                    \$desc_lines = [];
+                    foreach (\$block['children'] as \$child) {
+                        if (\$child['type'] === 'text') {
+                            \$raw = trim(\$child['content']);
+                            if (\$raw !== '' && !preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", \$raw)) {
+                                \$desc_lines[] = htmlspecialchars(\$raw);
+                            }
                         }
+                    }
+                    if (!empty(\$desc_lines)) {
+                        \$desc_html = implode("<br>", \$desc_lines);
+                        \$html .= "<div class='code-line' style='margin-left: {\$indent_px}px;'>\$desc_html</div>";
                     }
                 }
 
-                if (!empty($desc_lines)) {
-                    $desc_html = implode("<br>", $desc_lines);
-                    $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$desc_html}</div>";
+                // 코드 입력 영역
+                \$html .= "<div class='submission-line' style='padding-left: {\$indent_px}px;'>";
+                \$html .= "<div style='flex: 1'>";
+                if (\$info !== '') {
+                    \$html .= "<div class='code-line' style='color: #666; font-style: italic;'>※ {\$info}</div>";
                 }
-
-                $answer_data = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index] ?? [];
-                $code_line = $answer_data['content'] ?? '';
-                $readonly = $answer_data['readonly'] ?? false;
-                $info = $answer_data['info'] ?? '';
-                $escaped_code = htmlspecialchars(trim($code_line));
-                $readonly_attr = $readonly ? 'readonly' : '';
-                $disabled = (!$readonly && $answer_index !== 0) ? "disabled" : "";
-
-                $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                $html .= "<div style='flex: 1'>";
-                if ($info !== '') {
-                    $html .= "<div class='code-line' style='color: #666; font-style: italic;'>※ {$info}</div>";
+                \$html .= "<textarea id='ta_{\$answer_index}' class='styled-textarea' data-index='{\$answer_index}' {\$readonly_attr} {\$disabled}>{\$escaped_code}</textarea>";
+                if (!\$readonly) {
+                    \$html .= "<button onclick='submitAnswer({\$answer_index})' id='btn_{\$answer_index}' class='submit-button' {\$disabled}>제출</button>";
                 }
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$readonly_attr} {$disabled}>{$escaped_code}</textarea>";
-                if (!$readonly) {
-                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                }
-                $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                $html .= "</div></div>";
+                \$html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                \$html .= "<span id='check_{\$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                \$html .= "</div></div>";
 
-                $answer_index++;
-                $html .= render_tree_plain($block['children'], $answer_index);
+                \$answer_index++;
+                \$html .= render_tree_plain(\$block['children'], \$answer_index);
             }
         }
 
-        return $html;
+        return \$html;
     }
 
-    $answer_index = 0;
-    echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
+    \$answer_index = 0;
+    echo render_tree_plain(\$OJ_BLOCK_TREE, \$answer_index);
     ?>
     </div>
 
