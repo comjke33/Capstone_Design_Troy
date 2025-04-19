@@ -3,7 +3,6 @@
 include("template/syzoj/header.php");
 include("include/db_info.inc.php");
 
-// ✅ 가이드라인 및 정답 파일 경로
 $file_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline1.txt";
 $guideline_contents = file_get_contents($file_path);
 
@@ -37,9 +36,6 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $content = $m[3][0];
 
         $children = parse_blocks_with_loose_text($content, $depth + 1);
-        array_unshift($children, ['type' => 'text', 'content' => "[{$type}_start({$idx})]", 'depth' => $depth + 1]);
-        array_push($children, ['type' => 'text', 'content' => "[{$type}_end({$idx})]", 'depth' => $depth + 1]);
-
         $blocks[] = [
             'type' => $type,
             'index' => $idx,
@@ -66,7 +62,7 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
 }
 
 function extract_tagged_code_lines($text) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\\((\\d+)\\)\]/";
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
     $positions = [];
@@ -91,6 +87,11 @@ function extract_tagged_code_lines($text) {
                         'content' => $trimmed,
                         'readonly' => true,
                         'info' => '닫는 괄호'
+                    ];
+                    $lines[] = [
+                        'content' => '',
+                        'readonly' => false,
+                        'info' => ''
                     ];
                 } else {
                     $lines[] = [
