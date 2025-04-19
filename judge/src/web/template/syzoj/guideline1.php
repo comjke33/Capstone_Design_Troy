@@ -70,54 +70,59 @@
 <div class="main-layout">
     <div class="left-panel">
     <?php
-    function render_tree_plain($blocks, &$answer_index = 0) {
-        $html = "";
+    function render_tree_plain(\$blocks, &\$answer_index = 0) {
+        \$html = "";
 
-        foreach ($blocks as $block) {
-            $indent_px = 10 * (\$block['depth'] ?? 0);
+        foreach (\$blocks as \$block) {
+            \$indent_px = 10 * (\$block['depth'] ?? 0);
 
             if (isset(\$block['children'])) {
-                // 현재 줄 정보
-                \$answer_data = \$GLOBALS['OJ_CORRECT_ANSWERS'][\$answer_index] ?? [];
-                \$code_line = \$answer_data['content'] ?? '';
-                \$readonly = \$answer_data['readonly'] ?? false;
-                \$info = \$answer_data['info'] ?? '';
-                \$escaped_code = htmlspecialchars(trim(\$code_line));
-                \$readonly_attr = \$readonly ? 'readonly' : '';
-                \$disabled = (!\$readonly && \$answer_index !== 0) ? "disabled" : "";
-
-                // 설명 줄 추출 (readonly인 경우, 다음 블록에 출력해야 하므로 skip)
-                if (!\$readonly) {
-                    \$desc_lines = [];
-                    foreach (\$block['children'] as \$child) {
-                        if (\$child['type'] === 'text') {
-                            \$raw = trim(\$child['content']);
-                            if (\$raw !== '' && !preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", \$raw)) {
-                                \$desc_lines[] = htmlspecialchars(\$raw);
-                            }
+                // 설명 블록 먼저 출력
+                \$desc_lines = [];
+                foreach (\$block['children'] as \$child) {
+                    if (\$child['type'] === 'text') {
+                        \$raw = trim(\$child['content']);
+                        if (
+                            \$raw !== '' &&
+                            \$raw !== '}' &&
+                            !preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", \$raw)
+                        ) {
+                            \$desc_lines[] = htmlspecialchars(\$raw);
                         }
                     }
-                    if (!empty(\$desc_lines)) {
-                        \$desc_html = implode("<br>", \$desc_lines);
-                        \$html .= "<div class='code-line' style='margin-left: {\$indent_px}px;'>\$desc_html</div>";
+                }
+
+                if (!empty(\$desc_lines)) {
+                    \$desc_html = implode("<br>", \$desc_lines);
+                    \$html .= "<div class='code-line' style='margin-left: {\$indent_px}px;'>\$desc_html</div>";
+                }
+
+                // 정답 코드 라인 렌더링
+                if (isset($GLOBALS['OJ_CORRECT_ANSWERS'][\$answer_index])) {
+                    \$code_data = $GLOBALS['OJ_CORRECT_ANSWERS'][\$answer_index];
+                    \$code_line = htmlspecialchars(trim(\$code_data['content']));
+                    \$readonly = \$code_data['readonly'] ?? false;
+                    \$info = \$code_data['info'] ?? '';
+                    \$readonly_attr = \$readonly ? 'readonly' : '';
+                    \$disabled = (!\$readonly && \$answer_index !== 0) ? 'disabled' : '';
+
+                    \$html .= "<div class='submission-line' style='padding-left: {\$indent_px}px;'>";
+                    \$html .= "<div style='flex: 1'>";
+                    if (\$info !== '') {
+                        \$html .= "<div class='code-line' style='color: #666; font-style: italic;'>※ {\$info}</div>";
                     }
+                    \$html .= "<textarea id='ta_{\$answer_index}' class='styled-textarea' data-index='{\$answer_index}' {\$readonly_attr} {\$disabled}>{\$code_line}</textarea>";
+                    if (!\$readonly) {
+                        \$html .= "<button onclick='submitAnswer({\$answer_index})' id='btn_{\$answer_index}' class='submit-button' {\$disabled}>제출</button>";
+                    }
+                    \$html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                    \$html .= "<span id='check_{\$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                    \$html .= "</div></div>";
+
+                    \$answer_index++;
                 }
 
-                // 코드 입력 영역
-                \$html .= "<div class='submission-line' style='padding-left: {\$indent_px}px;'>";
-                \$html .= "<div style='flex: 1'>";
-                if (\$info !== '') {
-                    \$html .= "<div class='code-line' style='color: #666; font-style: italic;'>※ {\$info}</div>";
-                }
-                \$html .= "<textarea id='ta_{\$answer_index}' class='styled-textarea' data-index='{\$answer_index}' {\$readonly_attr} {\$disabled}>{\$escaped_code}</textarea>";
-                if (!\$readonly) {
-                    \$html .= "<button onclick='submitAnswer({\$answer_index})' id='btn_{\$answer_index}' class='submit-button' {\$disabled}>제출</button>";
-                }
-                \$html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                \$html .= "<span id='check_{\$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                \$html .= "</div></div>";
-
-                \$answer_index++;
+                // 재귀 렌더링
                 \$html .= render_tree_plain(\$block['children'], \$answer_index);
             }
         }
