@@ -47,12 +47,12 @@
                         </td>
                         <td>
                             <div style="max-height: 120px; overflow-y: auto; background: #f9f9f9; padding: 0.5em; border-radius: 4px;">
-                                <code style="white-space: pre-wrap;"><?php echo htmlspecialchars(mb_substr($item['solution_code'], 0, 200)) ?>...</code>
+                                <code style="white-space: pre-wrap;"><?php echo htmlspecialchars(mb_substr($item['title'], 0, 20)) ?>...</code>
                             </div>
                         </td>
-                        <td style="text-align: center;">
-                            <a class="ui mini basic button" href="faqs.php?action=detail&id=<?php echo $item['id'] ?>">
-                                보기
+                            <td style="text-align: center;">
+                            <a class="ui mini basic button" href="problem.php?id=<?php echo intval($item['problem_id']) ?>">
+                                문제 이동
                             </a>
                         </td>
                     </tr>
