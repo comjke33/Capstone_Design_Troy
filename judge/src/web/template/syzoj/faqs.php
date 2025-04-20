@@ -1,3 +1,5 @@
+<?php include("template/$OJ_TEMPLATE/header.php");?>
+
 <?php
 if (!isset($list) || !is_array($list)) {
     echo "<h2>문제 전략 게시판</h2><p>표시할 전략이 없습니다.</p>";
@@ -29,3 +31,5 @@ if (!isset($list) || !is_array($list)) {
         <?php endforeach; ?>
     </div>
 </div>
+
+<?php include("template/$OJ_TEMPLATE/footer.php");
