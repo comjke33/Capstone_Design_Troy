@@ -19,12 +19,6 @@
 
 }
 
-/* 배경 이미지 설정은 2025년 3월 31까지에 맞춰 적용? */
-<?php if (time() < strtotime('2025-3-31')) { ?>
-body{
-        background: url("http://m.hustoj.com:8090/bg/nz.gif") 0% 0% / 100% no-repeat;
-}
-<?php } ?>
  /* 잘못된 줄의 스타일을 정의합니다. */
   .ace_error_marker {
     position: absolute;
@@ -61,8 +55,7 @@ if(isset($_GET['langmask']))
 $langmask|=$OJ_LANGMASK;
 
 $lang=(~((int)$langmask))&((1<<($lang_count))-1);
-//$lastlang=$_COOKIE['lastlang'];
-//if($lastlang=="undefined") $lastlang=1;
+
 for($i=0;$i<$lang_count;$i++){
 if($lang&(1<<$i))
 echo"<option value=$i ".( $lastlang==$i?"selected":"").">
@@ -89,17 +82,6 @@ echo"<option value=$i ".( $lastlang==$i?"selected":"").">
 <span class="btn" id=result><?php echo $MSG_STATUS?></span>	
 <?php }?>
 </span>
-<?php if($spj <= 1 &&  !$solution_name){ ?>
-    <button onclick="toggleTheme(event)" style="background-color: bisque; position: absolute; top: 5px; right:70px;" v-if="false">
-        <i>🌗</i>
-    </button>
-    <button onclick="increaseFontSize(event)" style="background-color: bisque; position: absolute; top: 5px; right:40px;" v-if="false">
-        <i>➕</i>
-    </button>
-    <button onclick="decreaseFontSize(event)" style="background-color: bisque; position: absolute; top: 5px; right:10px;" v-if="false">
-        <i>➖</i>
-    </button>
-<?php } ?>
 
 <?php 
         if(!$solution_name){

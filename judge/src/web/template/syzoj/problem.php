@@ -27,8 +27,6 @@ div[class*=ace_br] {
 <script src="<?php echo $OJ_CDN_URL.$path_fix."template/bs3/"?>marked.min.js"></script>
 <script src="<?php echo $OJ_CDN_URL.$path_fix."template/syzoj/js/"?>markdown-it.min.js"></script>
 
-
-
 <div class="padding ">
 <div class="ui center aligned grid">
     <div class="row">
@@ -86,20 +84,7 @@ if(file_exists($solution_file)){
     <div class="column">
       <div class="ui buttons">
 
-      
-
       <?php
-            //langmask 선언
-            $langmask = $OJ_LANGMASK;
-
-            if (isset($cid)) {
-              $sql = "SELECT langmask FROM contest WHERE contest_id = ?";
-              $result = pdo_query($sql, $cid);
-              if (count($result) > 0) {
-                $langmask = intval($result[0]['langmask']);
-              }
-            }
-
             if($pr_flag){
               echo "<a id='submit'  class=\"small ui primary button\" href=\"submitpage.php?id=$id\">$MSG_SUBMIT</a>";
               echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$id\">$MSG_SUBMIT_RECORD</a>";
@@ -117,6 +102,7 @@ if(file_exists($solution_file)){
               // 연습(problem.php?id=xxx)일 때만 버튼 노출
               echo "<a class=\"small ui red button\" href=\"selectlevel.php?problem_id=$id\">단계별 풀기</a>";
             }
+
       ?>
 
 
