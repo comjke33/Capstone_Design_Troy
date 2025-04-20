@@ -19,6 +19,11 @@
 
 }
 
+/* 배경 이미지 설정은 2025년 3월 31까지에 맞춰 적용? */
+<?php if (time() < strtotime('2025-3-31')) { ?>
+body{
+        background: url("http://m.hustoj.com:8090/bg/nz.gif") 0% 0% / 100% no-repeat;
+}
 <?php } ?>
  /* 잘못된 줄의 스타일을 정의합니다. */
   .ace_error_marker {
