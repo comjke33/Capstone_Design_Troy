@@ -105,23 +105,33 @@ if(!$solution_name){
 </form>
 </center>
 
-<script src="<?php echo $OJ_CDN_URL?>include/base64.js"></script>
 <script>
 function loadFileToEditor(input) {
     const file = input.files[0];
     if (!file) return;
+
     const reader = new FileReader();
     reader.onload = function(e) {
         const content = e.target.result;
-        if (typeof editor !== 'undefined') {
-            editor.setValue(content, -1);
+        if (typeof editor !== "undefined") {
+            editor.setValue(content);
+            document.getElementById("hide_source").value = content;
         } else {
-            document.getElementById('source').value = content;
+            document.getElementById("source").value = content;
         }
     };
     reader.readAsText(file);
 }
+
+function do_submit() {
+    if (typeof editor !== "undefined") {
+        document.getElementById("hide_source").value = editor.getValue();
+    }
+    document.getElementById("frmSolution").submit();
+}
 </script>
+
+<script src="<?php echo $OJ_CDN_URL?>include/base64.js"></script>
 <?php if($OJ_ACE_EDITOR){ ?>
 <script src="<?php echo $OJ_CDN_URL?>ace/ace.js"></script>
 <script src="<?php echo $OJ_CDN_URL?>ace/ext-language_tools.js"></script>
