@@ -51,9 +51,9 @@ Problem <span class=blue><b><?php echo chr($pid+ord('A'))?></b></span> of Contes
 <select id="language" name="language" onChange="reloadtemplate($(this).val());" >
 <?php
 $lang_count=count($language_ext);
-// if(isset($_GET['langmask']))
-// 	$langmask=$_GET['langmask'];
-// $langmask|=$OJ_LANGMASK;
+if(isset($_GET['langmask']))
+	$langmask=$_GET['langmask'];
+$langmask|=$OJ_LANGMASK;
 
 // $lang=(~((int)$langmask))&((1<<($lang_count))-1);
 //$lastlang=$_COOKIE['lastlang'];
