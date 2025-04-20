@@ -32,7 +32,7 @@ include("template/$OJ_TEMPLATE/header.php");
 
 <form id="frmSolution" action="<?php echo isset($_GET['spa']) ? 'submit.php?spa' : 'submit.php'; ?>" method="post" enctype="multipart/form-data" onsubmit="do_submit();">
 <?php if (!isset($_GET['spa']) || $solution_name) { ?>
-    <input type='file' name='answer' id='answer_file'> 
+    <input type='file' name='answer' id='answer_file' onchange="loadFileToEditor(this)"> 
 <?php } ?>
 
 <?php if (isset($id)) { ?>
@@ -106,6 +106,22 @@ if(!$solution_name){
 </center>
 
 <script src="<?php echo $OJ_CDN_URL?>include/base64.js"></script>
+<script>
+function loadFileToEditor(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const content = e.target.result;
+        if (typeof editor !== 'undefined') {
+            editor.setValue(content, -1);
+        } else {
+            document.getElementById('source').value = content;
+        }
+    };
+    reader.readAsText(file);
+}
+</script>
 <?php if($OJ_ACE_EDITOR){ ?>
 <script src="<?php echo $OJ_CDN_URL?>ace/ace.js"></script>
 <script src="<?php echo $OJ_CDN_URL?>ace/ext-language_tools.js"></script>
