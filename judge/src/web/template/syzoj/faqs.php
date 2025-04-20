@@ -30,7 +30,7 @@
                 <?php foreach ($list as $item): ?>
                     <tr>
                         <td>
-                            <a href="faqs.php?action=detail&id=<?php echo $item['id'] ?>">
+                            <a <?php echo $item['id'] ?>">
                                 <?php echo htmlspecialchars($item['title']) ?>
                             </a>
                         </td>
@@ -47,7 +47,7 @@
                         </td>
                         <td>
                             <div style="max-height: 120px; overflow-y: auto; background: #f9f9f9; padding: 0.5em; border-radius: 4px;">
-                                <code style="white-space: pre-wrap;"><?php echo htmlspecialchars(mb_substr($item['title'], 0, 20)) ?>...</code>
+                                <code style="white-space: pre-wrap;"><?php echo htmlspecialchars(mb_substr($item['title'], 0, 50)) ?>...</code>
                             </div>
                         </td>
                             <td style="text-align: center;">
