@@ -27,12 +27,11 @@ include("template/$OJ_TEMPLATE/header.php");
 </style>
 
 <center>
-
 <script src="<?php echo $OJ_CDN_URL ?>include/checksource.js"></script>
 
 <form id="frmSolution" action="<?php echo isset($_GET['spa']) ? 'submit.php?spa' : 'submit.php'; ?>" method="post" enctype="multipart/form-data" onsubmit="do_submit();">
 <?php if (!isset($_GET['spa']) || $solution_name) { ?>
-    <input type='file' name='answer' id='answer_file' onchange="loadFileToEditor(this)"> 
+    <input type='file' name='answer' id='answer_file'>
 <?php } ?>
 
 <?php if (isset($id)) { ?>
@@ -73,7 +72,7 @@ for ($i = 0; $i < $lang_count; $i++) {
 <?php }?>
 
 <?php if ($spj>1 || !$OJ_TEST_RUN ){?>
-<span class="btn" id=result><?php echo $MSG_STATUS?></span>	
+<span class="btn" id=result><?php echo $MSG_STATUS?></span> 
 <?php }?>
 </span>
 
@@ -105,32 +104,6 @@ if(!$solution_name){
 </form>
 </center>
 
-<script>
-function loadFileToEditor(input) {
-    const file = input.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const content = e.target.result;
-        if (typeof editor !== "undefined") {
-            editor.setValue(content);
-            document.getElementById("hide_source").value = content;
-        } else {
-            document.getElementById("source").value = content;
-        }
-    };
-    reader.readAsText(file);
-}
-
-function do_submit() {
-    if (typeof editor !== "undefined") {
-        document.getElementById("hide_source").value = editor.getValue();
-    }
-    document.getElementById("frmSolution").submit();
-}
-</script>
-
 <script src="<?php echo $OJ_CDN_URL?>include/base64.js"></script>
 <?php if($OJ_ACE_EDITOR){ ?>
 <script src="<?php echo $OJ_CDN_URL?>ace/ace.js"></script>
@@ -156,5 +129,14 @@ editor.getSession().on("change", function() {
 });
 </script>
 <?php } ?>
+<script>
+document.getElementById("frmSolution").addEventListener("submit", function(e) {
+    var fileInput = document.getElementById("answer_file");
+    if (fileInput && fileInput.value === "") {
+        e.preventDefault();
+        alert("파일을 선택해주세요.");
+    }
+});
+</script>
 
 <?php include("template/$OJ_TEMPLATE/footer.php"); ?>
