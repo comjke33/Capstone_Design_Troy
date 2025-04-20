@@ -511,14 +511,16 @@ for ($i=0; $i<$rows_cnt; $i++) {
 
     if (!isset($cid)) { // 대회 문제가 아닌 경우에만 버튼 출력
       $sid = urlencode($row['solution_id']);
+      $pid = urlencode($row['problem_id']);
       if ($row['result'] != 4) {  // Accepted가 아닌 경우
-          $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}\" class=\"ui orange mini button\">피드백 보기</a>";
+          $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}&problem_id={$pid}\" class=\"ui orange mini button\">피드백 보기</a>";
       } else { // Accepted인 경우
           $view_status[$i][10] = "<a target=\"_self\" href=\"similar_problem.php?solution_id={$sid}\" class=\"ui blue mini button\">유사문제 추천</a>";
       }
   } else {
       $view_status[$i][10] = "-"; // 대회 문제인 경우 출력 안 함
   }
+  
   
 
 }
