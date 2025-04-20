@@ -110,21 +110,7 @@ if (!isset($cid) && isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
 
   if ($row['result'] != 4) {
       $sid = htmlspecialchars($row['solution_id'], ENT_QUOTES);
-      <!-- 테이블 본문 -->
-      <?php
-      foreach ($view_status as $row) {
-          echo "<tr>";
-          for ($i = 0; $i <= 9; $i++) {
-              echo "<td>" . $row[$i] . "</td>";
-          }
-
-          if (!isset($cid)) {
-              echo "<td>" . $row[10] . "</td>";  // ✅ 기능 코드에서 이미 정의한 버튼 사용
-          }
-
-          echo "</tr>";
-      }
-      ?>
+      echo "<td><a href='showfeedback.php?solution_id={$sid}' class='ui orange mini button'>피드백 보기</a></td>";
   } else {
       echo "<td>-</td>";
   }
