@@ -60,7 +60,7 @@
 							</div>
 						</div>
 						<div class="field">
-							<label style="font-size: 1.2em; margin-right: 1px;margin-left: 10px; ">状态：</label>
+							<label style="font-size: 1.2em; margin-right: 1px;margin-left: 10px; ">상태：</label>
 							<div class="ui mini selection dropdown" style="width: 110px;">
 								<input type="hidden" name="jreresult">
 								<i class="dropdown icon"></i>
