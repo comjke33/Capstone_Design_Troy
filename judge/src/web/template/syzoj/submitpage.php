@@ -84,6 +84,17 @@ echo"<option value=$i ".( $lastlang==$i?"selected":"").">
 <span class="btn" id=result><?php echo $MSG_STATUS?></span>	
 <?php }?>
 </span>
+<?php if($spj <= 1 &&  !$solution_name){ ?>
+    <button onclick="toggleTheme(event)" style="background-color: bisque; position: absolute; top: 5px; right:70px;" v-if="false">
+        <i>🌗</i>
+    </button>
+    <button onclick="increaseFontSize(event)" style="background-color: bisque; position: absolute; top: 5px; right:40px;" v-if="false">
+        <i>➕</i>
+    </button>
+    <button onclick="decreaseFontSize(event)" style="background-color: bisque; position: absolute; top: 5px; right:10px;" v-if="false">
+        <i>➖</i>
+    </button>
+<?php } ?>
 
 <?php 
         if(!$solution_name){
