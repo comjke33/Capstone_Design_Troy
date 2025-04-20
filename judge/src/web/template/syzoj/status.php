@@ -95,7 +95,10 @@
         <th ><?php echo $MSG_SUBMIT_TIME?></th>
         <!-- 새로 추가된 피드백 부분 -->
         <?php if (!isset($cid)) { ?>
-          <th><?php echo $MSG_FEEDBACK?></th>
+          <!-- 테이블 헤더 -->
+          <?php if (!isset($cid)): ?>
+            <th><?php echo $MSG_FEEDBACK ?></th>
+          <?php endif; ?>
         <?php } ?>
 
 
@@ -107,7 +110,21 @@ if (!isset($cid) && isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
 
   if ($row['result'] != 4) {
       $sid = htmlspecialchars($row['solution_id'], ENT_QUOTES);
-      echo "<td><a href='showfeedback.php?solution_id={$sid}' class='ui orange mini button'>피드백 보기</a></td>";
+      <!-- 테이블 본문 -->
+      <?php
+      foreach ($view_status as $row) {
+          echo "<tr>";
+          for ($i = 0; $i <= 9; $i++) {
+              echo "<td>" . $row[$i] . "</td>";
+          }
+
+          if (!isset($cid)) {
+              echo "<td>" . $row[10] . "</td>";  // ✅ 기능 코드에서 이미 정의한 버튼 사용
+          }
+
+          echo "</tr>";
+      }
+      ?>
   } else {
       echo "<td>-</td>";
   }
