@@ -31,34 +31,46 @@ if ($solution_id <= 0) {
 }
 ?>
 
-<div class="ui container" style="margin-top: 2em; max-width: 800px;">
-    <h2 class="ui header">📋 제출 피드백</h2>
+<div class="ui container" style="margin-top: 3em; max-width: 850px;">
+    <div class="ui segment" style="box-shadow: 0 1px 4px rgba(0,0,0,0.1); border-radius: 10px;">
+        <h2 class="ui header" style="font-weight: 500; font-size: 1.5em; color: #2185d0;">
+            📋 제출 피드백
+        </h2>
 
-    <?php if ($feedback_error): ?>
-        <div class="ui negative message">
-            <div class="header"><?php echo $feedback_error; ?></div>
-        </div>
-
-    <?php elseif (empty($feedback_data)): ?>
-        <div class="ui warning message">
-            <div class="header">📭 피드백이 존재하지 않습니다.</div>
-            <p>이 제출에 대한 피드백이 아직 등록되지 않았습니다.</p>
-        </div>
-
-    <?php else: ?>
-        <?php foreach ($feedback_data as $item): ?>
-            <div class="ui segment">
-                <div class="ui top attached label">
-                    문제 ID: <?php echo htmlspecialchars($item['problem_id']); ?>
-                </div>
-                <div class="ui attached segment" style="background: #f9f9f9; border-left: 4px solid #21ba45;">
-                    <pre style="white-space: pre-wrap; word-break: break-word; margin: 0; font-size: 1em;">
-<?php echo htmlspecialchars($item['feedback_code']); ?>
-                    </pre>
-                </div>
+        <?php if ($feedback_error): ?>
+            <div class="ui negative message">
+                <div class="header"><?php echo $feedback_error; ?></div>
             </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
+
+        <?php elseif (empty($feedback_data)): ?>
+            <div class="ui warning message">
+                <div class="header">📭 피드백이 존재하지 않습니다.</div>
+                <p>이 제출에 대한 피드백이 아직 등록되지 않았습니다.</p>
+            </div>
+
+        <?php else: ?>
+            <?php foreach ($feedback_data as $item): ?>
+                <div class="ui fluid styled accordion">
+                    <div class="title active">
+                        <i class="dropdown icon"></i>
+                        문제 ID: <?php echo htmlspecialchars($item['problem_id']); ?>
+                    </div>
+                    <div class="content active" style="background: #fcfcfc;">
+                        <div class="ui attached segment" style="border-left: 4px solid #21ba45; background: #f9f9f9;">
+                            <pre style="white-space: pre-wrap; word-break: break-word; margin: 0; font-size: 1em; color: #333;">
+<?php echo htmlspecialchars($item['feedback_code']); ?>
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
 </div>
+
+<script>
+    // Semantic UI accordion 기능 활성화
+    $('.ui.accordion').accordion();
+</script>
 
 <?php include("template/$OJ_TEMPLATE/footer.php"); ?>
