@@ -8,7 +8,7 @@
 	}
 
 	.ace_gutter-cell {
-		background-color: #ffeeee;
+		background-color: #fffffff;
 	}
 
 	.ace-chrome .ace_marker-layer .ace_active-line {
