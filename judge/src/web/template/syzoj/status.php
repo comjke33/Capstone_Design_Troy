@@ -94,7 +94,10 @@
         <th  class='desktop-only item'><?php echo $MSG_CODE_LENGTH?></th>
         <th ><?php echo $MSG_SUBMIT_TIME?></th>
         <!-- 새로 추가된 피드백 부분 -->
-        <th><?php echo $MSG_FEEDBACK?></th>
+        <?php if (!isset($cid)) { ?>
+          <th><?php echo $MSG_FEEDBACK?></th>
+        <?php } ?>
+
 
         <?php
 if (!isset($cid) && isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
