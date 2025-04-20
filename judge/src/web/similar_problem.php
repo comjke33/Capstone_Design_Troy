@@ -17,10 +17,10 @@ if (empty($result)) {
 
 $problem_id = intval($result[0][0]);
 
-// ✅ 수정된 외부 링크 설정
+// ✅ 문제 번호를 올바르게 사용
 $external_url = "https://codeup.kr/problem.php?id={$problem_id}";
 
-// 리디렉션
+// 외부 페이지로 리디렉션
 header("Location: $external_url");
 exit;
 ?>
