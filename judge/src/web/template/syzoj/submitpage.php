@@ -8,7 +8,7 @@
 	}
 
 	.ace_gutter-cell {
-		background-color: #fffffff;
+		background-color: #ffffff;
 	}
 
 	.ace-chrome .ace_marker-layer .ace_active-line {
@@ -134,79 +134,92 @@
 </center>
 
 <script>
-	var sid = 0;
-	var i = 0;
-	var using_blockly = false;
-	var judge_result = [<?php
-	foreach ($judge_result as $result) {
-		echo "'$result',";
-	}
-	?>''];
-	function print_result(solution_id) {
-		sid = solution_id;
-		$("#out").load("status-ajax.php?tr=1&solution_id=" + solution_id);
-	}
-	function fresh_result(solution_id) {
-		var tb = window.document.getElementById('result');
-		if (solution_id == undefined) {
-			tb.innerHTML = "Vcode Error!";
-			if ($("#vcode") != null) $("#vcode").click();
-			return;
-		}
-		sid = solution_id;
-		var xmlhttp;
-		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest();
-		}
-		else {// code for IE6, IE5
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange = function () {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var r = xmlhttp.responseText;
-				var ra = r.split(",");
-				// alert(r);
-				// alert(judge_result[r]);
-				var loader = "<img width=18 src=image/loader.gif>";
-				var tag = "span";
-				if (ra[0] < 4) tag = "span disabled=true";
-				else tag = "a";
-				{
-					if (ra[0] == 11)
+	var sid = 0; // 현재 확인 중인 solution_id
+    var i = 0;
+    var using_blockly = false; // Blockly 사용 여부
+    var judge_result = [<?php foreach ($judge_result as $result) { echo "'$result',"; } ?>'']; // 채점 결과 문자열 배열
 
-						tb.innerHTML = "<" + tag + " href='ceinfo.php?sid=" + solution_id + "' class='badge badge-info' target=_blank>" + judge_result[ra[0]] + "</" + tag + ">";
-					else
-						tb.innerHTML = "<" + tag + " href='reinfo.php?sid=" + solution_id + "' class='badge badge-info' target=_blank>" + judge_result[ra[0]] + "AC:" + ra[4] + "</" + tag + ">";
-				}
-				if (ra[0] < 4) tb.innerHTML += loader;
-				tb.innerHTML += "Memory:" + ra[1] + "&nbsp;&nbsp;";
-				tb.innerHTML += "Time:" + ra[2] + "";
-				if (ra[0] < 4)
-					window.setTimeout("fresh_result(" + solution_id + ")", 2000);
-				else {
-					window.setTimeout("print_result(" + solution_id + ")", 2000);
-					count = 1;
-				}
-			}
-		}
-		xmlhttp.open("GET", "status-ajax.php?solution_id=" + solution_id, true);
-		xmlhttp.send();
-	}
-	function getSID() {
-		var ofrm1 = document.getElementById("testRun").document;
-		var ret = "0";
-		if (ofrm1 == undefined) {
-			ofrm1 = document.getElementById("testRun").contentWindow.document;
-			var ff = ofrm1;
-			ret = ff.innerHTML;
-		}
-		else {
-			var ie = document.frames["frame1"].document;
-			ret = ie.innerText;
-		}
-		return ret + "";
-	}
-	var count = 0;
+    // 채점 결과를 출력하는 함수 (테스트 실행 시 사용)
+    function print_result(solution_id) {
+        sid = solution_id;
+        $("#out").load("status-ajax.php?tr=1&solution_id=" + solution_id); // AJAX로 결과 받아오기
+    }
+
+    // 주기적으로 결과를 갱신하는 함수 (Test Run 또는 채점 중일 때)
+    function fresh_result(solution_id) {
+        var tb = window.document.getElementById('result');
+        if (solution_id == undefined) {
+            tb.innerHTML = "Vcode Error!"; // 인증 코드 오류
+            if ($("#vcode") != null) $("#vcode").click(); // 새로고침
+            return;
+        }
+        sid = solution_id;
+
+        // 브라우저 호환성을 위한 XMLHttpRequest 객체 생성
+        var xmlhttp;
+        if (window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest(); // 최신 브라우저용
+        }
+        else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); // 구형 IE용
+        }
+
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var r = xmlhttp.responseText;
+                var ra = r.split(",");
+                var loader = "<img width=18 src=image/loader.gif>"; // 로딩 표시
+                var tag = "span";
+                if (ra[0] < 4) tag = "span disabled=true"; // 아직 채점 중
+                else tag = "a"; // 완료된 경우
+
+                // 결과 상태에 따라 링크 생성
+                if (ra[0] == 11) {
+                    tb.innerHTML = "<" + tag + " href='ceinfo.php?sid=" + solution_id + "' class='badge badge-info' target=_blank>" + judge_result[ra[0]] + "</" + tag + ">";
+                } else {
+                    tb.innerHTML = "<" + tag + " href='reinfo.php?sid=" + solution_id + "' class='badge badge-info' target=_blank>" + judge_result[ra[0]] + "AC:" + ra[4] + "</" + tag + ">";
+                }
+
+                if (ra[0] < 4) tb.innerHTML += loader; // 채점 중이면 로딩 애니메이션
+
+                // 메모리/시간 결과 출력
+                tb.innerHTML += "Memory:" + ra[1] + "&nbsp;&nbsp;";
+                tb.innerHTML += "Time:" + ra[2] + "";
+
+                // 반복 호출을 통한 주기적 갱신 또는 최종 결과 표시
+                if (ra[0] < 4)
+                    window.setTimeout("fresh_result(" + solution_id + ")", 2000);
+                else {
+                    window.setTimeout("print_result(" + solution_id + ")", 2000);
+                    count = 1;
+                }
+            }
+        }
+
+        xmlhttp.open("GET", "status-ajax.php?solution_id=" + solution_id, true);
+        xmlhttp.send(); // AJAX 요청 전송
+    }
+
+    // iframe에서 채점 결과의 solution_id 값을 가져오는 함수 (테스트 실행용)
+    function getSID() {
+        var ofrm1 = document.getElementById("testRun").document;
+        var ret = "0";
+
+        if (ofrm1 == undefined) {
+            ofrm1 = document.getElementById("testRun").contentWindow.document;
+            var ff = ofrm1;
+            ret = ff.innerHTML;
+        }
+        else {
+            var ie = document.frames["frame1"].document;
+            ret = ie.innerText;
+        }
+
+        return ret + "";
+    }
+
+    var count = 0; // 자동 재활성화를 위한 카운터 (submit 버튼 재활성화 타이머용)
+
 
 	function encoded_submit() {
 
