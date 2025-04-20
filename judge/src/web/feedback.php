@@ -3,7 +3,6 @@
 
 <?php
 $solution_id = isset($_GET['solution_id']) ? intval($_GET['solution_id']) : 0;
-
 $feedback_data = [];
 $feedback_error = null;
 
@@ -16,14 +15,12 @@ if ($solution_id <= 0) {
         $stmt->bind_param("i", $solution_id);
         $stmt->execute();
         $stmt->bind_result($problem_id, $feedback_code);
-
         while ($stmt->fetch()) {
             $feedback_data[] = [
                 'problem_id' => $problem_id,
                 'feedback_code' => $feedback_code
             ];
         }
-
         $stmt->close();
     } else {
         $feedback_error = "❌ 데이터베이스 오류가 발생했습니다.";
@@ -34,7 +31,7 @@ if ($solution_id <= 0) {
 <div class="ui container" style="margin-top: 3em; max-width: 850px;">
     <div class="ui segment" style="box-shadow: 0 1px 4px rgba(0,0,0,0.1); border-radius: 10px;">
         <h2 class="ui header" style="font-weight: 500; font-size: 1.5em; color: #2185d0;">
-            📋 제출 피드백
+            📋 피드백 가이드
         </h2>
 
         <?php if ($feedback_error): ?>
@@ -50,13 +47,11 @@ if ($solution_id <= 0) {
 
         <?php else: ?>
             <?php foreach ($feedback_data as $item): ?>
-                <div class="ui fluid styled accordion">
-                    <div class="title active">
-                        <i class="dropdown icon"></i>
-                        문제 ID: <?php echo htmlspecialchars($item['problem_id']); ?>
-                    </div>
-                    <div class="content active" style="background: #fcfcfc;">
-                        <div class="ui attached segment" style="border-left: 4px solid #21ba45; background: #f9f9f9;">
+                <div class="ui raised very padded text segment" style="margin-top: 2em;">
+                    <h4 class="ui dividing header">📌 문제 ID: <?php echo htmlspecialchars($item['problem_id']); ?></h4>
+                    <div class="ui message" style="background: #f9f9f9; padding: 1em; border-left: 5px solid #00b5ad;">
+                        <i class="info circle icon"></i> <strong>힌트:</strong>
+                        <div style="margin-top: 0.8em;">
                             <pre style="white-space: pre-wrap; word-break: break-word; margin: 0; font-size: 1em; color: #333;">
 <?php echo htmlspecialchars($item['feedback_code']); ?>
                             </pre>
@@ -69,7 +64,6 @@ if ($solution_id <= 0) {
 </div>
 
 <script>
-    // Semantic UI accordion 기능 활성화
     $('.ui.accordion').accordion();
 </script>
 
