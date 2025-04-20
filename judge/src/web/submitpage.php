@@ -16,7 +16,7 @@ if (!isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
 		exit(0);
 	}
 }
-// $langmask=$OJ_LANGMASK;
+$langmask=$OJ_LANGMASK;
 $problem_id = 1000;
 if (isset($_GET['id'])) {
 	$id = intval($_GET['id']);
@@ -124,14 +124,14 @@ if (isset($_GET['sid'])) {
 
                 if(isset($cid)&&$cid>0){
 
-                        // $sql = "SELECT langmask FROM contest WHERE contest_id=?";
+                        $sql = "SELECT langmask FROM contest WHERE contest_id=?";
 
-                        // $result = pdo_query($sql,$cid);
-                        // $row = $result[0];
+                        $result = pdo_query($sql,$cid);
+                        $row = $result[0];
 
-        //                 if (count($row)>0){
-        //                         $_GET['langmask'] = $row['langmask'];
-				// $langmask= $row['langmask'];
+                        if (count($row)>0){
+                                $_GET['langmask'] = $row['langmask'];
+				$langmask= $row['langmask'];
 			}
                 }
                 $sql="select language from solution where solution_id=?";
