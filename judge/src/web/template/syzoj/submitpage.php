@@ -31,7 +31,14 @@
 
 <script src="<?php echo $OJ_CDN_URL?>include/checksource.js"></script>
 
-<form id=frmSolution action="submit.php<?php if (isset($_GET['spa'])) echo "?spa" ?>" method="post" onsubmit='do_submit()' enctype="multipart/form-data" >
+<?php
+$submit_action = "submit.php";
+if (isset($_GET['spa'])) {
+  $submit_action .= "?spa";
+}
+?>
+<form id="frmSolution" action="<?php echo $submit_action; ?>" method="post" onsubmit="do_submit()" enctype="multipart/form-data">
+
 <?php if (!isset($_GET['spa']) || $solution_name ) {?>
         <input type='file' name='answer' placeholder='Upload answer file' > 
 <?php } ?>
