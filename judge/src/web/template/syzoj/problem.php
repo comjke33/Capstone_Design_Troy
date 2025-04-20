@@ -97,7 +97,11 @@ if(file_exists($solution_file)){
             if(!file_exists($OJ_DATA."/".$id."/solution.name")) echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
 
             // 단계별 풀기 버튼 추가
-            echo "<a class=\"small ui red button\" href=\"selectlevel.php?problem_id=$id\">단계별 풀기</a>";
+            // contest일 경우 버튼 비활성화
+            if (!isset($cid)) {
+              // 연습(problem.php?id=xxx)일 때만 버튼 노출
+              echo "<a class=\"small ui red button\" href=\"selectlevel.php?problem_id=$id\">단계별 풀기</a>";
+            }
       ?>
 
 
