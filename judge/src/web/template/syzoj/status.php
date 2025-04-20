@@ -105,12 +105,6 @@ if (!isset($cid) && isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
   echo $MSG_JUDGER;
   echo "</th>";
 
-  if ($row['result'] != 4) {
-      $sid = htmlspecialchars($row['solution_id'], ENT_QUOTES);
-      echo "<td><a href='showfeedback.php?solution_id={$sid}' class='ui orange mini button'>피드백 보기</a></td>";
-  } else {
-      echo "<td>-</td>";
-  }
 }
 ?>
 
