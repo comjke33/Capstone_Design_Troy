@@ -99,7 +99,7 @@
         <?php } ?>
 
 
-        <?php
+<?php
 if (!isset($cid) && isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
   echo "<th class='desktop-only item'>";
   echo $MSG_JUDGER;
