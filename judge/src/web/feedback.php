@@ -25,16 +25,16 @@ $has_result = false;
     <?php while ($stmt->fetch()): ?>
         <?php $has_result = true; ?>
         <div class="ui segment">
-            <p><strong>문제 ID:</strong> <?php echo $problem_id; ?></p>
-            <div style="background: #f4f4f4; padding: 1em; border-radius: 6px;">
-                <pre style="margin: 0;"><code><?php echo htmlspecialchars($feedback_code); ?></code></pre>
+            <p><strong>문제 ID:</strong> <?php echo htmlspecialchars($problem_id); ?></p>
+            <div class="ui message" style="background: #f9f9f9; border-left: 4px solid #2185d0;">
+                <?php echo nl2br(htmlspecialchars($feedback_code)); ?>
             </div>
         </div>
     <?php endwhile; ?>
 
     <?php if (!$has_result): ?>
         <div class="ui warning message">
-            <div class="header"> 피드백이 존재하지 않습니다.</div>
+            <div class="header">📭 피드백이 존재하지 않습니다.</div>
             <p>이 제출에 대한 피드백이 아직 등록되지 않았습니다.</p>
         </div>
     <?php endif; ?>
