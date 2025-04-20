@@ -1,23 +1,45 @@
 <?php
-require_once('./include/db_info.inc.php');
+// src/web/similar_problem.php
+require_once("./include/db_info.inc.php");
 
 $solution_id = isset($_GET['solution_id']) ? intval($_GET['solution_id']) : 0;
-
 if ($solution_id <= 0) {
-    die("❌ 유효하지 않은 요청입니다.");
+    $error_message = "Invalid solution_id";
+    require("template/$OJ_TEMPLATE/similar_problem.php");
+    exit;
 }
 
-// 1. 제출에서 problem_id 조회
-$sql = "SELECT problem_id FROM solution WHERE solution_id = ?";
-$result = pdo_query($sql, $solution_id);
+// 사용자 코드 가져오기
+$sql = "SELECT source FROM source_code_user WHERE solution_id = ?";
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param("i", $solution_id);
+$stmt->execute();
+$stmt->bind_result($user_code);
+$stmt->fetch();
+$stmt->close();
 
-if (empty($result)) {
-    die("❌ 해당 제출을 찾을 수 없습니다.");
+if (empty($user_code)) {
+    $error_message = "No source found for this solution.";
+    require("template/$OJ_TEMPLATE/similar_problem.php");
+    exit;
 }
 
-$problem_id = intval($result[0][0]);
+// 미리 준비된 문제 코드와 제목 목록 불러오기 (로컬 JSON 파일 또는 DB)
+$problem_data = json_decode(file_get_contents("./similar_problem_dataset.json"), true);
 
-// 2. 외부 유사 문제 페이지로 리디렉션 (CodeJun 예시)
-$external_url = "https://codejun.io/problem/$problem_id/similar";  // 예시 URL
-header("Location: $external_url");
-exit;
+function calc_similarity($a, $b) {
+    similar_text($a, $b, $percent);
+    return $percent;
+}
+
+$results = [];
+foreach ($problem_data as $item) {
+    $sim = calc_similarity($user_code, $item['code']);
+    $item['similarity'] = $sim;
+    $results[] = $item;
+}
+
+usort($results, fn($a, $b) => $b['similarity'] <=> $a['similarity']);
+$top3 = array_slice($results, 0, 3);
+
+require("template/$OJ_TEMPLATE/similar_problem.php");
