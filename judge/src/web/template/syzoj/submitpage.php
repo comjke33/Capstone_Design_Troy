@@ -55,9 +55,10 @@ if(isset($_GET['langmask']))
 	$langmask=$_GET['langmask'];
 $langmask|=$OJ_LANGMASK;
 
-// $lang=(~((int)$langmask))&((1<<($lang_count))-1);
-//$lastlang=$_COOKIE['lastlang'];
-//if($lastlang=="undefined") $lastlang=1;
+$lang=(~((int)$langmask))&((1<<($lang_count))-1);
+$lastlang=$_COOKIE['lastlang'];
+if($lastlang=="undefined") $lastlang=1;
+
 for($i=0;$i<$lang_count;$i++){
 if($lang&(1<<$i))
 echo"<option value=$i ".( $lastlang==$i?"selected":"").">
