@@ -220,229 +220,257 @@
 
     var count = 0; // 자동 재활성화를 위한 카운터 (submit 버튼 재활성화 타이머용)
 
-
 	function encoded_submit() {
+	// 현재 문제 ID 또는 대회 문제 ID를 가져옴
+	var mark = "<?php echo isset($id) ? 'problem_id' : 'cid'; ?>";
+	var problem_id = document.getElementById(mark);
 
-		var mark = "<?php echo isset($id) ? 'problem_id' : 'cid'; ?>";
-		var problem_id = document.getElementById(mark);
+	// ACE 에디터가 사용 중이면, 숨겨진 입력란에 코드 복사
+	if (typeof (editor) != "undefined")
+		$("#hide_source").val(editor.getValue());
 
-		if (typeof (editor) != "undefined")
-			$("#hide_source").val(editor.getValue());
-		if (mark == 'problem_id')
-			problem_id.value = '<?php if (isset($id))
-				echo $id ?>';
-			else
-				problem_id.value = '<?php if (isset($cid))
-				echo $cid ?>';
+	// 문제 번호 설정
+	if (mark == 'problem_id')
+		problem_id.value = '<?php if (isset($id)) echo $id ?>';
+	else
+		problem_id.value = '<?php if (isset($cid)) echo $cid ?>';
 
-			document.getElementById("frmSolution").target = "_self";
-			document.getElementById("encoded_submit_mark").name = "encoded_submit";
-			var source = $("#source").val();
-			if (typeof (editor) != "undefined") {
-				source = editor.getValue();
-				$("#hide_source").val(encode64(utf16to8(source)));
-			} else {
-				$("#source").val(encode64(utf16to8(source)));
-			}
-			//      source.value=source.value.split("").reverse().join("");
-			//      alert(source.value);
-			document.getElementById("frmSolution").submit();
-		}
+	// 제출 대상 설정 및 인코딩 마크 삽입
+	document.getElementById("frmSolution").target = "_self";
+	document.getElementById("encoded_submit_mark").name = "encoded_submit";
 
-		function do_submit() {
-			$("#Submit").attr("disabled", "true");   // mouse has a bad key1
-			if (using_blockly)
-				translate();
-			if (typeof (editor) != "undefined") {
-				$("#hide_source").val(editor.getValue());
-			}
-			var mark = "<?php echo isset($id) ? 'problem_id' : 'cid'; ?>";
-		var problem_id = document.getElementById(mark);
-		if (mark == 'problem_id')
-			problem_id.value = '<?php if (isset($id))
-				echo $id ?>';
-			else
-				problem_id.value = '<?php if (isset($cid))
-				echo $cid ?>';
-			document.getElementById("frmSolution").target = "_self";
-
-		<?php if (isset($_GET['spa'])) { ?>
-			$.post("submit.php?ajax", $("#frmSolution").serialize(), function (data) { fresh_result(data); });
-			$("#Submit").prop('disabled', true);
-			$("#TestRub").prop('disabled', true);
-			count = <?php echo $OJ_SUBMIT_COOLDOWN_TIME ?> * 2;
-			handler_interval = window.setTimeout("resume();", 1000);
-		<?php } else { ?>
-			document.getElementById("frmSolution").submit();
-		<?php } ?>
-
+	// 소스 코드 Base64 인코딩
+	var source = $("#source").val();
+	if (typeof (editor) != "undefined") {
+		source = editor.getValue();
+		$("#hide_source").val(encode64(utf16to8(source))); // 유니코드 → UTF8 → Base64
+	} else {
+		$("#source").val(encode64(utf16to8(source)));
 	}
-	var handler_interval;
-	function do_test_run() {
+
+	// submit 폼 전송
+	document.getElementById("frmSolution").submit();
+    }
+
+function do_submit() {
+	$("#Submit").attr("disabled", "true");   // 중복 클릭 방지용 버튼 비활성화
+
+	if (using_blockly)
+		translate(); // Blockly 코드 변환
+
+	if (typeof (editor) != "undefined") {
+		$("#hide_source").val(editor.getValue()); // 에디터 내용 저장
+	}
+
+	var mark = "<?php echo isset($id) ? 'problem_id' : 'cid'; ?>";
+	var problem_id = document.getElementById(mark);
+
+	if (mark == 'problem_id')
+		problem_id.value = '<?php if (isset($id)) echo $id ?>';
+	else
+		problem_id.value = '<?php if (isset($cid)) echo $cid ?>';
+
+	document.getElementById("frmSolution").target = "_self";
+
+<?php if (isset($_GET['spa'])) { ?>
+	// SPA 모드일 경우 AJAX로 제출
+	$.post("submit.php?ajax", $("#frmSolution").serialize(), function (data) { fresh_result(data); });
+	$("#Submit").prop('disabled', true);
+	$("#TestRub").prop('disabled', true);
+	count = <?php echo $OJ_SUBMIT_COOLDOWN_TIME ?> * 2;
+	handler_interval = window.setTimeout("resume();", 1000);
+<?php } else { ?>
+	// 기본 모드일 경우 폼 제출
+	document.getElementById("frmSolution").submit();
+<?php } ?>
+}
+
+var handler_interval; // 제출 쿨다운 타이머
+
+function do_test_run() {
+	if (handler_interval) window.clearInterval(handler_interval); // 기존 타이머 제거
+
+	var loader = "<img width=18 src=image/loader.gif>"; // 로딩 이미지
+	var tb = window.document.getElementById('result');
+	var source = $("#source").val();
+
+	// ACE 에디터 내용 반영
+	if (typeof (editor) != "undefined") {
+		source = editor.getValue();
+		$("#hide_source").val(source);
+	}
+
+	if (source.length < 10) return alert("too short!"); // 너무 짧은 코드 방지
+	if (tb != null) tb.innerHTML = loader;
+
+	var mark = "<?php echo isset($id) ? 'problem_id' : 'cid'; ?>";
+	var problem_id = document.getElementById(mark);
+	problem_id.value = -problem_id.value; // 음수화 → test run 플래그
+
+	document.getElementById("frmSolution").target = "testRun"; // iframe 사용 안 함
+
+	// AJAX로 test run 실행
+	$.post("submit.php?ajax", $("#frmSolution").serialize(), function (data) { fresh_result(data); });
+
+	// 버튼 비활성화 및 카운트다운
+	$("#Submit").prop('disabled', true);
+	$("#TestRub").prop('disabled', true);
+	problem_id.value = -problem_id.value;
+	count = <?php echo isset($OJ_SUBMIT_COOLDOWN_TIME) ? $OJ_SUBMIT_COOLDOWN_TIME : 5 ?> * 2;
+	handler_interval = window.setTimeout("resume();", 1000);
+}
+
+function resume() {
+	count--; // 카운트 감소
+
+	var s = $("#Submit")[0];
+	var t = $("#TestRub")[0];
+
+	if (count < 0) {
+		// 버튼 재활성화
+		s.disabled = false;
+		if (t != null) t.disabled = false;
+		$("#Submit").text("<?php echo $MSG_SUBMIT ?>");
+		if (t != null) t.value = "<?php echo $MSG_TR ?>";
 		if (handler_interval) window.clearInterval(handler_interval);
-		var loader = "<img width=18 src=image/loader.gif>";
-		var tb = window.document.getElementById('result');
-		var source = $("#source").val();
-		if (typeof (editor) != "undefined") {
-			source = editor.getValue();
-			$("#hide_source").val(source);
-		}
-		if (source.length < 10) return alert("too short!");
-		if (tb != null) tb.innerHTML = loader;
+		if ($("#vcode") != null) $("#vcode").click(); // CAPTCHA 갱신
+	} else {
+		// 남은 시간 표시
+		$("#Submit").text("<?php echo $MSG_SUBMIT ?>(" + count + ")");
+		if (t != null) t.value = "<?php echo $MSG_TR ?>(" + count + ")";
+		window.setTimeout("resume();", 1000);
+	}
+}
 
-		var mark = "<?php echo isset($id) ? 'problem_id' : 'cid'; ?>";
-		var problem_id = document.getElementById(mark);
-		problem_id.value = -problem_id.value;
-		document.getElementById("frmSolution").target = "testRun";
-		//$("#hide_source").val(editor.getValue());
-		//document.getElementById("frmSolution").submit();
-		$.post("submit.php?ajax", $("#frmSolution").serialize(), function (data) { fresh_result(data); });
-		$("#Submit").prop('disabled', true);
-		$("#TestRub").prop('disabled', true);
-		problem_id.value = -problem_id.value;
-		count = <?php echo isset($OJ_SUBMIT_COOLDOWN_TIME) ? $OJ_SUBMIT_COOLDOWN_TIME : 5 ?> * 2;
-		handler_interval = window.setTimeout("resume();", 1000);
-	}
-	function resume() {
-		count--;
-		var s = $("#Submit")[0];
-		var t = $("#TestRub")[0];
-		if (count < 0) {
-			s.disabled = false;
-			if (t != null) t.disabled = false;
-			$("#Submit").text("<?php echo $MSG_SUBMIT ?>");
-			if (t != null) t.value = "<?php echo $MSG_TR ?>";
-			if (handler_interval) window.clearInterval(handler_interval);
-			if ($("#vcode") != null) $("#vcode").click();
-		} else {
-			$("#Submit").text("<?php echo $MSG_SUBMIT ?>(" + count + ")");
-			if (t != null) t.value = "<?php echo $MSG_TR ?>(" + count + ")";
-			window.setTimeout("resume();", 1000);
-		}
-	}
-	function switchLang(lang) {
-		var langnames = new Array("c_cpp", "c_cpp", "pascal", "java", "ruby", "sh", "python", "php", "perl", "csharp", "objectivec", "vbscript", "scheme", "c_cpp", "c_cpp", "lua", "javascript", "golang");
-		editor.getSession().setMode("ace/mode/" + langnames[lang]);
+function switchLang(lang) {
+	// 언어 선택에 따라 ACE 모드 전환
+	var langnames = new Array("c_cpp", "c_cpp", "pascal", "java", "ruby", "sh", "python", "php", "perl", "csharp", "objectivec", "vbscript", "scheme", "c_cpp", "c_cpp", "lua", "javascript", "golang");
+	editor.getSession().setMode("ace/mode/" + langnames[lang]);
+}
 
-	}
-	function reloadtemplate(lang) {
-		console.log("lang=" + lang);
-		document.cookie = "lastlang=" + lang.value;
-		//alert(document.cookie);
-		var url = window.location.href;
-		var i = url.indexOf("sid=");
-		if (i != -1) url = url.substring(0, i - 1);
-		//  if(confirm("<?php echo $MSG_LOAD_TEMPLATE_CONFIRM ?>"))
-		//       document.location.href=url;
-		switchLang(lang);
-	}
-	function openBlockly() {
-		$("#source").hide();
-		$("#TestRun").hide();
-		$("#language")[0].scrollIntoView();
-		$("#language").val(6).hide();
-		//$("#language_span").hide();
-		$("#EditAreaArroundInfos_source").hide();
-		$('#blockly').html('<iframe name=\'frmBlockly\' width=90% height=580 src=\'blockly/demos/code/index.html\'></iframe>');
-		$("#blockly_loader").hide();
-		$("#transrun").show();
-		//$("#Submit").prop('disabled', true);
-		using_blockly = true;
+function reloadtemplate(lang) {
+	console.log("lang=" + lang);
+	document.cookie = "lastlang=" + lang.value; // 쿠키에 저장
 
-	}
-	function translate() {
-		var blockly = $(window.frames['frmBlockly'].document);
-		var tb = blockly.find('td[id=tab_python]');
-		var python = blockly.find('pre[id=content_python]');
-		tb.click();
-		blockly.find('td[id=tab_blocks]').click();
-		if (typeof (editor) != "undefined") editor.setValue(python.text());
-		else $("#source").val(python.text());
-		$("#language").val(6);
+	var url = window.location.href;
+	var i = url.indexOf("sid=");
+	if (i != -1) url = url.substring(0, i - 1);
 
-	}
-	function loadFromBlockly() {
-		translate();
-		do_test_run();
-		$("#frame_source").hide();
-		//  $("#Submit").prop('disabled', false);
-	}
+	switchLang(lang); // 에디터 구문 강조 변경
+}
+
+function openBlockly() {
+	// 블록리 인터페이스 열기
+	$("#source").hide();
+	$("#TestRun").hide();
+	$("#language")[0].scrollIntoView();
+	$("#language").val(6).hide(); // Python 고정
+	$("#EditAreaArroundInfos_source").hide();
+	$('#blockly').html('<iframe name=\'frmBlockly\' width=90% height=580 src=\'blockly/demos/code/index.html\'></iframe>');
+	$("#blockly_loader").hide();
+	$("#transrun").show();
+	using_blockly = true;
+}
+
+function translate() {
+	// Blockly에서 Python 코드 가져오기
+	var blockly = $(window.frames['frmBlockly'].document);
+	var tb = blockly.find('td[id=tab_python]');
+	var python = blockly.find('pre[id=content_python]');
+	tb.click(); // Python 탭 클릭
+	blockly.find('td[id=tab_blocks]').click(); // 다시 블록 탭으로 돌아감
+
+	if (typeof (editor) != "undefined") editor.setValue(python.text());
+	else $("#source").val(python.text());
+	$("#language").val(6); // 언어: Python
+}
+
+function loadFromBlockly() {
+	translate();       // 블록리 → 코드 변환
+	do_test_run();     // 테스트 실행
+	$("#frame_source").hide(); // 기존 에디터 숨김
+}
+
 </script>
+
 <script language="Javascript" type="text/javascript" src="<?php echo $OJ_CDN_URL ?>include/base64.js"></script>
+
 <?php if ($OJ_ACE_EDITOR) { ?>
+	<!-- ACE Editor 및 언어 도구 확장 스크립트 로딩 -->
 	<script src="<?php echo $OJ_CDN_URL ?>ace/ace.js"></script>
 	<script src="<?php echo $OJ_CDN_URL ?>ace/ext-language_tools.js"></script>
 	<script>
-		ace.require("ace/ext/language_tools");
-		var editor = ace.edit("source");
-		editor.setTheme("ace/theme/xcode");
-		switchLang(<?php echo $lastlang ?>);
-		editor.setOptions({
-			enableBasicAutocompletion: true,
-			enableSnippets: true,
-			enableLiveAutocompletion: true,  // true로 설정하면 자동 완성이 활성화되고, false로 설정하면 비활성화됩니다
+		ace.require("ace/ext/language_tools"); // 자동완성 기능 활성화에 필요한 확장 모듈 불러오기
+		var editor = ace.edit("source"); // ACE Editor 인스턴스 생성 (id="source" 요소에 적용)
+		editor.setTheme("ace/theme/xcode"); // 기본 테마를 Xcode 스타일로 설정
+		switchLang(<?php echo $lastlang ?>); // 마지막으로 사용한 언어 구문 강조 설정
 
-			// fontFamily: "Consolas",  // MacOS missing align
-			// theme: "ace/theme/ambiance",   // Black theme
-			fontSize: "18px"
+		// ACE 에디터 설정 구성
+		editor.setOptions({
+			enableBasicAutocompletion: true,     // 기본 자동완성 기능 활성화
+			enableSnippets: true,                // 코드 스니펫 기능 활성화
+			enableLiveAutocompletion: true,      // 실시간 자동완성 기능 활성화
+
+			// fontFamily: "Consolas",            // (선택사항) 폰트 설정 예시
+			// theme: "ace/theme/ambiance",       // (선택사항) 어두운 테마 예시
+			fontSize: "18px"                     // 폰트 크기 설정
 		});
-		reloadtemplate($("#language").val());
+
+		reloadtemplate($("#language").val()); // 언어 선택 값 기준으로 구문 강조 다시 설정
+
+		// 코드 자동 저장 기능: 5초마다 localStorage에 백업 저장
 		function autoSave() {
 			var mark = "<?php echo isset($id) ? 'problem_id' : 'cid'; ?>";
 			var problem_id = $("#" + mark).val();
 			if (!!localStorage) {
 				let key = "<?php echo $_SESSION[$OJ_NAME . '_user_id'] ?>source:" + location.href;
 				if (typeof (editor) != "undefined")
-					$("#hide_source").val(editor.getValue());
-				localStorage.setItem(key, $("#hide_source").val());
-				//console.log("autosaving "+key+"..."+new Date());
+					$("#hide_source").val(editor.getValue()); // 현재 에디터 내용 저장
+				localStorage.setItem(key, $("#hide_source").val()); // localStorage에 백업
 			}
 		}
+
+		// 페이지 로딩 완료 시 실행되는 함수
 		$(document).ready(function () {
-			$("#source").css("height", window.innerHeight - 180);
+			$("#source").css("height", window.innerHeight - 180); // 편집 영역 높이 조정
+
+			// 저장된 자동 백업이 있을 경우 불러오기
 			if (!!localStorage) {
 				let key = "<?php echo $_SESSION[$OJ_NAME . '_user_id'] ?>source:" + location.href;
 				let saved = localStorage.getItem(key);
 				if (saved != null && saved != "" && saved.length > editor.getValue().length) {
 					//let load = confirm("자동 저장된 코드가 있습니다. 지금 불러올까요? (한 번만 선택할 수 있습니다)");
-                    //if(load){
-
-					console.log("loading " + saved.length);
+					//if(load){
+					console.log("loading " + saved.length); // 불러온 코드 길이 확인
 					if (typeof (editor) != "undefined")
-						editor.setValue(saved);
+						editor.setValue(saved); // 자동 저장된 코드 복원
 					//}
 				}
-
 			}
+
+			// 5초마다 자동 저장 실행
 			window.setInterval('autoSave();', 5000);
 		});
 	</script>
+
+	<!-- 에디터 사용자 편의 기능: 폰트 크기 조절 / 테마 전환 -->
 	<script>
 		function increaseFontSize(event) {
 			event.preventDefault();
 			var currentSize = parseInt(editor.getFontSize());
-			editor.setFontSize(currentSize + 3);
+			editor.setFontSize(currentSize + 3); // 폰트 크기 키우기
 		}
 
 		function decreaseFontSize(event) {
 			event.preventDefault();
 			var currentSize = parseInt(editor.getFontSize());
-			editor.setFontSize(currentSize - 3);
-		}
-		function toggleTheme(event) {
-			event.preventDefault();
-
-			if (editor.getTheme() === "ace/theme/xcode") {
-				editor.setTheme("ace/theme/monokai");
-			} else {
-				editor.setTheme("ace/theme/xcode");
-			}
+			editor.setFontSize(currentSize - 3); // 폰트 크기 줄이기
 		}
 
 	</script>
 <?php } ?>
 
 </body>
-
 </html>
-<?php include("template/$OJ_TEMPLATE/footer.php"); ?> 
+
+<?php include("template/$OJ_TEMPLATE/footer.php"); ?>
