@@ -1,152 +1,185 @@
-<?php 
-$show_title = "$MSG_SUBMIT - $OJ_NAME"; 
-include("template/$OJ_TEMPLATE/header.php");
-?>
-
-<style>
-#source {
-    width: 80%;
-    height: 600px;
-    background-color: rgba(255,225,225,0.5);
-}
-
-.ace-chrome .ace_marker-layer .ace_active-line {
-    background-color: rgba(0,0,199,0.3);
-}
-
-.button, input, optgroup, select, textarea {
-    font-family: sans-serif;
-    font-size: 150%;
-    line-height: 1.2;
-}
-
-.ace_error_marker {
-    position: absolute;
-    background-color: rgba(255, 0, 0, 0.3);
-}
-</style>
-
-<center>
-
-<script src="<?php echo $OJ_CDN_URL ?>include/checksource.js"></script>
-
-<form id="frmSolution" action="submit.php" method="post" enctype="multipart/form-data" onsubmit="return do_submit();">
-<?php if (!isset($_GET['spa']) || $solution_name) { ?>
-    <input type='file' name='answer' id='answer_file'> 
-<?php } ?>
-
-<?php if (isset($id)) { ?>
-    <span style="color:#0000ff">Problem <b><?php echo $id ?></b></span>
-    <input id="problem_id" type='hidden' value='<?php echo $id ?>' name="id" >
-<?php } else { ?>
-    Problem <span class=blue><b><?php echo chr($pid + ord('A')) ?></b></span> of Contest <span class=blue><b><?php echo $cid ?></b></span>
-    <input id="cid" type='hidden' value='<?php echo $cid ?>' name="cid">
-    <input id="pid" type='hidden' value='<?php echo $pid ?>' name="pid">
-<?php } ?>
-
-<span id="language_span">Language:
-<select id="language" name="language" onChange="reloadtemplate($(this).val());">
 <?php
-$lang_count = count($language_ext);
-$langmask = isset($_GET['langmask']) ? $_GET['langmask'] : $OJ_LANGMASK;
-$lang = (~((int)$langmask)) & ((1 << ($lang_count)) - 1);
-$lastlang = $_COOKIE['lastlang'] ?? 0;
-for ($i = 0; $i < $lang_count; $i++) {
-    if ($lang & (1 << $i))
-        echo "<option value=$i " . ($lastlang == $i ? "selected" : "") . ">" . $language_name[$i] . "</option>";
+require_once('./include/db_info.inc.php');
+require_once('./include/const.inc.php');
+require_once('./include/my_func.inc.php');
+require_once('./include/memcache.php');
+require_once('./include/setlang.php');
+require_once('./include/curl.php');
+
+$view_title = $MSG_SUBMIT;
+
+if (!isset($_SESSION[$OJ_NAME . '_user_id'])) {
+	if (isset($OJ_GUEST) && $OJ_GUEST) {
+		$_SESSION[$OJ_NAME . '_user_id'] = "Guest";
+	} else {
+		$view_errors = "<a href=loginpage.php>$MSG_Login</a>";
+		require("template/" . $OJ_TEMPLATE . "/error.php");
+		exit(0);
+	}
 }
-?>
-</select>
-<?php if ($OJ_VCODE) { ?>
-<?php echo $MSG_VCODE ?>:
-<input name="vcode" size=4 type=text autocomplete=off ><img id="vcode" alt="click to change" src="vcode.php" onclick="this.src='vcode.php?'+Math.random()">
-<?php } ?>
 
-<button id="Submit" type="submit" class="ui primary icon button"><?php echo $MSG_SUBMIT?></button>
-<label id="countDown"></label>
-<?php if (isset($OJ_ENCODE_SUBMIT)&&$OJ_ENCODE_SUBMIT){?>
-<input class="btn btn-success" title="WAF gives you reset ? try this." type=button value="Encoded <?php echo $MSG_SUBMIT?>" onclick="encoded_submit();">
-<input type=hidden id="encoded_submit_mark" name="reverse2" value="reverse"/>
-<?php }?>
+$langmask = $OJ_LANGMASK;
+$problem_id = 1000;
 
-<?php if ($spj>1 || !$OJ_TEST_RUN ){?>
-<span class="btn" id=result><?php echo $MSG_STATUS?></span>	
-<?php }?>
-</span>
-
-<?php 
-if(!$solution_name){
-    if($OJ_ACE_EDITOR){
-        $height = isset($OJ_TEST_RUN) && $OJ_TEST_RUN ? "400px" : "500px";
-        echo "<pre style=\"width:90%;height:$height\" id=\"source\">" . htmlentities($view_src, ENT_QUOTES, "UTF-8") . "</pre>";
-        echo "<input type=hidden id=\"hide_source\" name=\"source\" value=\"\"/>";
-    } else {
-        echo "<textarea style=\"width:80%;height:600px\" id=\"source\" name=\"source\">" . htmlentities($view_src, ENT_QUOTES, "UTF-8") . "</textarea>";
-    }
+if (isset($_GET['id'])) {
+	$id = intval($_GET['id']);
+} else if (isset($_GET['cid']) && isset($_GET['pid'])) {
+	$cid = intval($_GET['cid']);
+	$pid = intval($_GET['pid']);
+	require_once("contest-check.php");
+	$psql = "SELECT problem_id FROM contest_problem WHERE contest_id=? AND num=?";
+	$data = pdo_query($psql, $cid, $pid);
+	$row = $data[0];
+	$problem_id = $row[0];
 } else {
-    echo "<br><h2>제출할 파일로 지정된 파일명: $solution_name</h2>";
+	$view_errors = "<h2>No Such Problem!</h2>";
+	require("template/" . $OJ_TEMPLATE . "/error.php");
+	exit(0);
 }
-?>
 
-<?php if (isset($OJ_BLOCKLY)&&$OJ_BLOCKLY){?>
-<input id="blockly_loader" type=button class="btn" onclick="openBlockly()" value="<?php echo $MSG_BLOCKLY_OPEN?>" style="color:white;background-color:rgb(169,91,128)">
-<input id="transrun" type=button class="btn" onclick="loadFromBlockly() " value="<?php echo $MSG_BLOCKLY_TEST?>" style="display:none;color:white;background-color:rgb(90,164,139)">
-<div id="blockly" class="center">
-    <iframe name='frmBlockly' width=90% height=580 src='blockly/demos/code/index.html'></iframe>
-</div>
-<?php } ?>
+$view_src = "";
+$lastlang = 1;
+$spj = 0;
+$remote_oj = "";
+$solution_name = false;
+$view_sample_input = "1 2";
+$view_sample_output = "3";
 
-<?php if (!empty($OJ_REMOTE_JUDGE)) { ?>
-<iframe src="remote.php" height="0px" width="0px"></iframe>
-<?php } ?>
-</form>
-</center>
+if (isset($_GET['sid'])) {
+	$sid = intval($_GET['sid']);
+	$sql = "SELECT * FROM `solution` WHERE `solution_id`=?";
+	$result = pdo_query($sql, $sid);
+	$row = $result[0];
+	$cid = intval($row['contest_id']);
+	$sproblem_id = intval($row['problem_id']);
+	$contest_id = $cid;
 
-<script src="<?php echo $OJ_CDN_URL?>include/base64.js"></script>
-<script>
-function do_submit() {
-    const form = document.getElementById("frmSolution");
-    const formData = new FormData(form);
-    if (typeof(editor) != "undefined") {
-        formData.set("source", editor.getValue());
-    }
+	$ok = false;
+	if ($row && $row['user_id'] == $_SESSION[$OJ_NAME . '_user_id']) $ok = true;
 
-    fetch("submit.php", {
-        method: "POST",
-        body: formData
-    }).then(response => response.text())
-      .then(data => {
-        console.log("Submission response:", data);
-        // handle success UI update
-    }).catch(error => {
-        console.error("Submit failed:", error);
-    });
-    return false;
+	$need_check_using = true;
+	$now = time();
+
+	if ($contest_id > 0) {
+		$sql = "SELECT start_time, end_time FROM contest WHERE contest_id=?";
+		$result = pdo_query($sql, $contest_id);
+		if ($result) {
+			$row = $result[0];
+			$start_time = strtotime($row['start_time']);
+			$end_time = strtotime($row['end_time']);
+			$need_check_using = $end_time < $now;
+		}
+	} else {
+		$need_check_using = !isset($_SESSION[$OJ_NAME . '_source_browser']);
+	}
+
+	if ($need_check_using) {
+		$now_str = date('Y-m-d H:i', $now);
+		$sql = "SELECT contest_id FROM contest WHERE contest_id IN (SELECT contest_id FROM contest_problem WHERE problem_id=?) AND start_time < ? AND end_time > ?";
+		$result = pdo_query($sql, $sproblem_id, $now_str, $now_str);
+		if (count($result) > 0 && !isset($_SESSION[$OJ_NAME . '_source_browser'])) {
+			$view_errors = "<center><h3>$MSG_CONTEST_ID : " . $result[0][0] . "</h3><p> $MSG_SOURCE_NOT_ALLOWED_FOR_EXAM </p><br></center><br><br>";
+			require("template/" . $OJ_TEMPLATE . "/error.php");
+			exit(0);
+		}
+	}
+
+	if (isset($_SESSION[$OJ_NAME . '_source_browser'])) $ok = true;
+
+	if (isset($OJ_EXAM_CONTEST_ID) && $cid < $OJ_EXAM_CONTEST_ID && !isset($_SESSION[$OJ_NAME . '_source_browser'])) {
+		$view_errors = "<center><h3>$MSG_CONTEST_ID : $OJ_EXAM_CONTEST_ID+ </h3><p> $MSG_SOURCE_NOT_ALLOWED_FOR_EXAM </p><br></center><br><br>";
+		require("template/" . $OJ_TEMPLATE . "/error.php");
+		exit(0);
+	}
+
+	if ($ok) {
+		$sql = "SELECT `source` FROM `source_code_user` WHERE `solution_id`=?";
+		$result = pdo_query($sql, $sid);
+		$row = $result[0];
+		if ($row) $view_src = $row['source'];
+
+		if (isset($cid) && $cid > 0) {
+			$sql = "SELECT langmask FROM contest WHERE contest_id=?";
+			$result = pdo_query($sql, $cid);
+			$row = $result[0];
+			if (count($row) > 0) {
+				$_GET['langmask'] = $row['langmask'];
+				$langmask = $row['langmask'];
+			}
+		}
+
+		$sql = "SELECT language FROM solution WHERE solution_id=?";
+		$result = pdo_query($sql, $sid);
+		$row = $result[0];
+		if ($row && str_contains($_SERVER['HTTP_REFERER'], "status.php")) {
+			$lastlang = intval($row['language']);
+		} else {
+			$lastlang = intval($_COOKIE['lastlang']);
+		}
+	}
 }
-</script>
 
-<?php if($OJ_ACE_EDITOR){ ?>
-<script src="<?php echo $OJ_CDN_URL?>ace/ace.js"></script>
-<script src="<?php echo $OJ_CDN_URL?>ace/ext-language_tools.js"></script>
-<script>
-ace.require("ace/ext/language_tools");
-var editor = ace.edit("source");
-editor.setTheme("ace/theme/xcode");
-editor.setOptions({
-    enableBasicAutocompletion: true,
-    enableSnippets: true,
-    enableLiveAutocompletion: true,
-    fontSize: "18px"
-});
-editor.getSession().on("change", function() {
-    var markers = editor.getSession().getMarkers(false);
-    for (var id in markers) {
-        if (markers[id].clazz === "ace_error_marker") {
-            editor.getSession().removeMarker(id);
-        }
-    }
-});
-</script>
-<?php } ?>
+if (isset($id)) $problem_id = $id;
 
-<?php include("template/$OJ_TEMPLATE/footer.php"); ?>
+$sample_sql = "SELECT sample_input, sample_output, problem_id, spj, remote_oj FROM problem WHERE problem_id = ?";
+if (isset($_GET['id'])) {
+	$result = pdo_query($sample_sql, $id);
+} else {
+	$result = pdo_query($sample_sql, $problem_id);
+}
+
+if ($result == false) {
+	$view_errors = "<h2>No Such Problem!</h2>";
+	require("template/" . $OJ_TEMPLATE . "/error.php");
+	exit(0);
+}
+
+$row = $result[0];
+$view_sample_input = $row['sample_input'];
+$view_sample_output = $row['sample_output'];
+$problem_id = $row['problem_id'];
+$spj = $row['spj'];
+$remote_oj = $row['remote_oj'];
+if ($spj > 1) $OJ_ACE_EDITOR = false;
+
+$solution_file = "$OJ_DATA/$problem_id/solution.name";
+if (file_exists($solution_file)) {
+	$solution_name = file_get_contents($solution_file);
+} else {
+	$solution_name = false;
+}
+
+if (!$view_src) {
+	if (isset($_COOKIE['lastlang']) && $_COOKIE['lastlang'] != "undefined") {
+		$lastlang = intval($_COOKIE['lastlang']);
+	} else {
+		$sql = "SELECT language FROM solution WHERE user_id=? ORDER BY solution_id DESC LIMIT 1";
+		$result = pdo_query($sql, $_SESSION[$OJ_NAME . '_user_id']);
+		if (count($result) > 0) {
+			$lastlang = $result[0][0];
+		} else {
+			$lastlang = 1;
+		}
+	}
+	$template_file = "$OJ_DATA/$problem_id/template." . $language_ext[$lastlang];
+	if (file_exists($template_file)) {
+		$view_src = file_get_contents($template_file);
+	} else if ($spj > 1 && file_exists("$OJ_DATA/$problem_id/template.c")) {
+		$view_src = file_get_contents("$OJ_DATA/$problem_id/template.c");
+	} else if ($spj == 2 && file_exists("$OJ_DATA/$problem_id/test.in")) {
+		$total = intval(file_get_contents("$OJ_DATA/$problem_id/test.in"));
+		$view_src = "";
+		for ($i = 1; $i <= $total; $i++) {
+			$view_src .= $i . "\n";
+		}
+	}
+}
+
+$sql = "SELECT count(1) FROM `solution` WHERE result<4";
+$result = mysql_query_cache($sql);
+$row = $result[0];
+if ($row[0] > 10) {
+	$OJ_VCODE = true;
+}
+
+require("template/" . $OJ_TEMPLATE . "/submit_origin.php");
