@@ -136,7 +136,7 @@
       if (isset($_GET['prevtop']))
       echo "<a class=\"item\" href=\"status.php?".$str2."&top=".intval($_GET['prevtop'])."\">이전 페이지</a>";
       else
-      echo "<a class=\"item\" href=\"status.php?".$str2."&top=".($top+20)."\">한 페이지</a>";
+      echo "<a class=\"item\" href=\"status.php?".$str2."&top=".($top+20)."\">현재 페이지</a>";
 
       ?>
 

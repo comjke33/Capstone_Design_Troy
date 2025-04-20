@@ -509,15 +509,17 @@ for ($i=0; $i<$rows_cnt; $i++) {
   else
     $view_status[$i][8]= $row['in_date'];
 
-    // 피드백 (status Accepted가 아닐 때만 출력)
-    if ($row['result'] != 4) {  // 틀린 경우
-      // 수정된 코드 (solution_id 포함)
+    if (!isset($cid)) { // 대회 문제가 아닌 경우에만 버튼 출력
       $sid = urlencode($row['solution_id']);
-      $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}\" class=\"ui orange mini button\">피드백 보기</a>";
-
-    } else { // 다 맞은 경우 유사 문제 추천 기능
-      $view_status[$i][10] = "<a target=\"_self\" href=\"similarproblem.php?solution_id={$sid}\" class=\"ui blue mini button\">유사문제 추천</a>";
-    }
+      if ($row['result'] != 4) {  // Accepted가 아닌 경우
+          $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}\" class=\"ui orange mini button\">피드백 보기</a>";
+      } else { // Accepted인 경우
+          $view_status[$i][10] = "<a target=\"_self\" href=\"similarproblem.php?solution_id={$sid}\" class=\"ui blue mini button\">유사문제 추천</a>";
+      }
+  } else {
+      $view_status[$i][10] = "-"; // 대회 문제인 경우 출력 안 함
+  }
+  
 
 }
 if($total_count>0) $avg_delay/= $total_count;
