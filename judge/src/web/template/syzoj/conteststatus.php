@@ -36,7 +36,7 @@
           }
           ?>
         </select>
-        <label style="font-size: 1.2em; margin-right: 1px;margin-left: 10px; ">状态：</label>
+        <label style="font-size: 1.2em; margin-right: 1px;margin-left: 10px; ">상태: </label>
         <select class="form-control" size="1" name="jresult" style="width: 110px;">
           <?php if (isset($_GET['jresult'])) $jresult_get=intval($_GET['jresult']);
           else $jresult_get=-1;
@@ -134,14 +134,14 @@
           </a>
           <?php
       if (isset($_GET['prevtop']))
-      echo "<a class=\"item\" href=\"status.php?".$str2."&top=".intval($_GET['prevtop'])."\">上一页</a>";
+      echo "<a class=\"item\" href=\"status.php?".$str2."&top=".intval($_GET['prevtop'])."\">이전 페이지</a>";
       else
-      echo "<a class=\"item\" href=\"status.php?".$str2."&top=".($top+20)."\">上一页</a>";
+      echo "<a class=\"item\" href=\"status.php?".$str2."&top=".($top+20)."\">한 페이지</a>";
 
       ?>
 
           <a class="icon item" href="<?php echo "status.php?".$str2."&top=".$bottom."&prevtop=$top"; ?>" id="page_next">
-            下一页
+            다음 페이지
           </a>
         </div>
   </div>

@@ -133,13 +133,13 @@
                     <div class="mdui-chip">
                         <span class="mdui-chip-icon"><i class="mdui-icon material-icons">face</i></span>
                         <span class="mdui-chip-title">
-                            <span>状态：</span>
+                            <span>상태: </span>
                             <?php if ($now > $end_time) { ?>
-                                <b class="">已结束</b>
+                                <b class="">종료</b>
                             <?php } else if ($now < $start_time) { ?>
-                                <b class="">未开始</b>
+                                <b class="">시작 안함</b>
                             <?php } else { ?>
-                                <b class="">进行中</b>
+                                <b class="">진행중</b>
                             <?php } ?>
                         </span>
                     </div>
@@ -148,9 +148,9 @@
                         <span class="mdui-chip-icon"><i class="mdui-icon material-icons">remove_red_eye</i></span>
                         <span class="mdui-chip-title">
                             <?php if ($view_private=='0') { ?>
-                                <b class="">公开</b>
+                                <b class="">공개</b>
                             <?php } else { ?>
-                                <b class="">私有</b>
+                                <b class="">사유</b>
                             <?php } ?>
                         </span>
                     </div>

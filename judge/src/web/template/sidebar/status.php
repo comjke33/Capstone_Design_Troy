@@ -35,7 +35,7 @@
           }
           ?>
         </select>
-        <label style="font-size: 1.2em; margin-right: 1px;margin-left: 10px; ">状态：</label>
+        <label style="font-size: 1.2em; margin-right: 1px;margin-left: 10px; ">상태: </label>
         <select class="form-control" size="1" name="jresult" style="width: 110px;">
           <?php if (isset($_GET['jresult'])) $jresult_get=intval($_GET['jresult']);
           else $jresult_get=-1;
