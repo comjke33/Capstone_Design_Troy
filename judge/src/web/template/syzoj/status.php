@@ -97,17 +97,17 @@
         <th><?php echo $MSG_FEEDBACK?></th>
 
         <?php
-if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
-    echo "<th class='desktop-only item'>";
-    echo $MSG_JUDGER; // 페이지 링크 변수
-    echo "</th>";if ($row['result'] != 4) {  // 결과가 맞지 않은 경우 피드백 버튼을 표시
-    $sid = htmlspecialchars($row['solution_id'], ENT_QUOTES);
+if (!isset($cid) && isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
+  echo "<th class='desktop-only item'>";
+  echo $MSG_JUDGER;
+  echo "</th>";
 
-    echo "<td><a href='showfeedback.php?solution_id={$sid}' class='ui orange mini button'>피드백 보기</a></td>";
-} else {
-    echo "<td>-</td>";  // 맞은 문제에는 피드백 버튼을 표시하지 않음
-}
-
+  if ($row['result'] != 4) {
+      $sid = htmlspecialchars($row['solution_id'], ENT_QUOTES);
+      echo "<td><a href='showfeedback.php?solution_id={$sid}' class='ui orange mini button'>피드백 보기</a></td>";
+  } else {
+      echo "<td>-</td>";
+  }
 }
 ?>
 
