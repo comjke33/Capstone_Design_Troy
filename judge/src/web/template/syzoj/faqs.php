@@ -3,6 +3,12 @@
 <div class="ui container" style="margin-top: 2em">
     <h2 class="ui dividing header">문제 해결 전략 게시판</h2>
 
+    <?php
+    require_once("./include/db_info.inc.php");
+    $sql = "SELECT * FROM strategy ORDER BY created_at DESC LIMIT 50";
+    $list = pdo_query($sql);
+    ?>
+
     <?php if (!isset($list) || !is_array($list) || count($list) === 0): ?>
         <div class="ui warning message">
             <div class="header">전략 없음</div>
@@ -32,14 +38,21 @@
                         <td><?php echo mb_substr(strip_tags($item['description']), 0, 50) ?>...</td>
                         <td>
                             <ul>
-                                <?php foreach (explode(',', $item['helper_functions']) as $func): ?>
-                                    <li><?php echo htmlspecialchars(trim($func)) ?></li>
-                                <?php endforeach; ?>
+                                <?php
+                                if (!empty($item['helper_function'])) {
+                                    $funcs = explode("\n", $item['helper_function']);
+                                    foreach ($funcs as $func) {
+                                        echo '<li>' . htmlspecialchars(trim($func)) . '</li>';
+                                    }
+                                } else {
+                                    echo '<li>-</li>';
+                                }
+                                ?>
                             </ul>
                         </td>
                         <td>
                             <pre style="overflow-x: auto; max-width: 300px; font-size: 0.9em;">
-<?php echo htmlspecialchars(mb_substr(strip_tags($item['example_code']), 0, 200)) ?>...</pre>
+<?php echo htmlspecialchars(mb_substr(strip_tags($item['solution_code']), 0, 200)) ?>...</pre>
                         </td>
                         <td>
                             <a class="ui primary mini button" href="faqs.php?action=detail&id=<?php echo $item['id'] ?>">
