@@ -8,12 +8,10 @@
 	}
 
 	.ace_gutter-cell {
-		/* 行号 */
 		background-color: #ffeeee;
 	}
 
 	.ace-chrome .ace_marker-layer .ace_active-line {
-		/*当前行*/
 		background-color: rgba(0, 0, 199, 0.3);
 	}
 
@@ -22,7 +20,6 @@
 	optgroup,
 	select,
 	textarea {
-		/*选择题的题号大小*/
 		font-family: sans-serif;
 		font-size: 150%;
 		line-height: 1.2;
@@ -87,17 +84,13 @@
 			<?php } ?>
 		</span>
 		<?php if ($spj <= 1): ?>
-			<button onclick="toggleTheme(event)"
-				style="background-color: bisque; position: absolute; top: 5px; right: 170px;" v-if="false">
-				<i>🌗</i>
-			</button>
 			<button onclick="increaseFontSize(event)"
 				style="background-color: bisque; position: absolute; top: 5px; right:120px;" v-if="false">
-				<i>➕</i>
+				<i>✚</i>
 			</button>
 			<button onclick="decreaseFontSize(event)"
 				style="background-color: bisque; position: absolute; top: 5px; right: 80px;" v-if="false">
-				<i>➖</i>
+				<i>━</i>
 			</button>
 		<?php endif; ?>
 
@@ -374,7 +367,8 @@
 		editor.setOptions({
 			enableBasicAutocompletion: true,
 			enableSnippets: true,
-			enableLiveAutocompletion: true,  //改为true,打开自动补齐功能，改为false关闭
+			enableLiveAutocompletion: true,  // true로 설정하면 자동 완성이 활성화되고, false로 설정하면 비활성화됩니다
+
 			// fontFamily: "Consolas",  // MacOS missing align
 			// theme: "ace/theme/ambiance",   // Black theme
 			fontSize: "18px"
@@ -397,8 +391,9 @@
 				let key = "<?php echo $_SESSION[$OJ_NAME . '_user_id'] ?>source:" + location.href;
 				let saved = localStorage.getItem(key);
 				if (saved != null && saved != "" && saved.length > editor.getValue().length) {
-					//let load=confirm("发现自动保存的源码，是否加载？（仅有一次机会）");
-					//if(load){
+					//let load = confirm("자동 저장된 코드가 있습니다. 지금 불러올까요? (한 번만 선택할 수 있습니다)");
+                    //if(load){
+
 					console.log("loading " + saved.length);
 					if (typeof (editor) != "undefined")
 						editor.setValue(saved);
