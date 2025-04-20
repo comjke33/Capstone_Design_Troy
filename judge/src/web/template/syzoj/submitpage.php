@@ -31,8 +31,7 @@
 
 <script src="<?php echo $OJ_CDN_URL?>include/checksource.js"></script>
 
-<form id="frmSolution" action="<?php echo isset($_GET['spa']) ? 'submit.php?spa' : 'submit.php'; ?>" method="post" onsubmit='do_submit()' enctype="multipart/form-data">
-
+<form id=frmSolution action="submit.php<?php if (isset($_GET['spa'])) echo "?spa" ?>" method="post" onsubmit='do_submit()' enctype="multipart/form-data" >
 <?php if (!isset($_GET['spa']) || $solution_name ) {?>
         <input type='file' name='answer' placeholder='Upload answer file' > 
 <?php } ?>
@@ -57,9 +56,8 @@ if(isset($_GET['langmask']))
 $langmask|=$OJ_LANGMASK;
 
 $lang=(~((int)$langmask))&((1<<($lang_count))-1);
-$lastlang=$_COOKIE['lastlang'];
-if($lastlang=="undefined") $lastlang=1;
-
+//$lastlang=$_COOKIE['lastlang'];
+//if($lastlang=="undefined") $lastlang=1;
 for($i=0;$i<$lang_count;$i++){
 if($lang&(1<<$i))
 echo"<option value=$i ".( $lastlang==$i?"selected":"").">
@@ -87,27 +85,27 @@ echo"<option value=$i ".( $lastlang==$i?"selected":"").">
 <?php }?>
 </span>
 
-
 <?php 
-if(!$solution_name){
-    if($OJ_ACE_EDITOR){
-        if (isset($OJ_TEST_RUN) && $OJ_TEST_RUN)
-            $height = "400px";
-        else
-            $height = "500px";
-    ?>
-        <pre style="width:90%;height:<?php echo $height ?>" cols=180 rows=16 id="source"><?php echo htmlentities($view_src, ENT_QUOTES, "UTF-8") ?></pre>
-        <input type="hidden" id="hide_source" name="source" value=""/>
-    <?php 
-    } else { ?>
-        <textarea style="width:80%;height:600px" cols=180 rows=30 id="source" name="source"><?php echo htmlentities($view_src, ENT_QUOTES, "UTF-8") ?></textarea>
-    <?php 
-    }
-} else {
-    echo "<br><h2>제출할 파일로 지정된 파일명: $solution_name</h2>";
-}
-?>
+        if(!$solution_name){
+                if($OJ_ACE_EDITOR){
+                        if (isset($OJ_TEST_RUN)&&$OJ_TEST_RUN)
+                                $height="400px";
+                        else
+                                $height="500px";
+                ?>
+                <pre style="width:90%;height:<?php echo $height?>" cols=180 rows=16 id="source"><?php echo htmlentities($view_src,ENT_QUOTES,"UTF-8")?></pre>
+                <input type=hidden id="hide_source" name="source" value=""/>
 
+        <?php }else{ ?>
+                <textarea style="width:80%;height:600" cols=180 rows=30 id="source" name="source"><?php echo htmlentities($view_src,ENT_QUOTES,"UTF-8")?></textarea>
+        <?php }
+
+        }else{
+                echo "<br><h2>指定上传文件：$solution_name</h2>";
+
+        }
+
+	?>
 <style>
             .button, input, optgroup, select, textarea {
     font-family: sans-serif;
