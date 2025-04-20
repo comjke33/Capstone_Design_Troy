@@ -9,17 +9,14 @@ include("template/$OJ_TEMPLATE/header.php");
     height: 600px;
     background-color: rgba(255,225,225,0.5);
 }
-
 .ace-chrome .ace_marker-layer .ace_active-line {
     background-color: rgba(0,0,199,0.3);
 }
-
 .button, input, optgroup, select, textarea {
     font-family: sans-serif;
     font-size: 150%;
     line-height: 1.2;
 }
-
 .ace_error_marker {
     position: absolute;
     background-color: rgba(255, 0, 0, 0.3);
@@ -28,13 +25,16 @@ include("template/$OJ_TEMPLATE/header.php");
 
 <center>
 <script src="<?php echo $OJ_CDN_URL ?>include/checksource.js"></script>
-
 <form id="frmSolution" action="<?php echo isset($_GET['spa']) ? 'submit.php?spa' : 'submit.php'; ?>" method="post" onsubmit='do_submit()' enctype="multipart/form-data">
+
 <?php if (!isset($_GET['spa']) || $solution_name) { ?>
     <input type='file' name='answer' placeholder='Upload answer file'> 
 <?php } ?>
 
-<?php if (isset($id)) { ?>
+<!-- 문제 번호 직접 입력 가능 -->
+<?php if (!isset($id) && !isset($cid)) { ?>
+문제 번호: <input type="text" name="id" id="problem_id" value="">
+<?php } elseif (isset($id)) { ?>
     <span style="color:#0000ff">Problem <b><?php echo $id ?></b></span>
     <input id="problem_id" type='hidden' value='<?php echo $id ?>' name="id" >
 <?php } else { ?>
@@ -65,7 +65,9 @@ for ($i = 0; $i < $lang_count; $i++) {
 <?php echo $MSG_VCODE ?>:
 <input name="vcode" size=4 type=text autocomplete=off ><img id="vcode" alt="click to change" src="vcode.php" onclick="this.src='vcode.php?'+Math.random()">
 <?php } ?>
+</span>
 
+<!-- 제출 처리 -->
 <button id="Submit" type="button" class="ui primary icon button" onclick="do_submit();"><?php echo $MSG_SUBMIT?></button>
 <label id="countDown"></label>
 <?php if (isset($OJ_ENCODE_SUBMIT)&&$OJ_ENCODE_SUBMIT){?>
@@ -74,64 +76,26 @@ for ($i = 0; $i < $lang_count; $i++) {
 <?php }?>
 
 <?php if ($spj>1 || !$OJ_TEST_RUN ){?>
-<span class="btn" id=result><?php echo $MSG_STATUS?></span> 
+<span class="btn" id=result><?php echo $MSG_STATUS?></span>
 <?php }?>
 </span>
 
 <?php 
 if(!$solution_name){
     if($OJ_ACE_EDITOR){
-        if (isset($OJ_TEST_RUN) && $OJ_TEST_RUN)
-            $height = "400px";
-        else
-            $height = "500px";
-    ?>
-        <pre style="width:90%;height:<?php echo $height ?>" cols=180 rows=16 id="source"><?php echo htmlentities($view_src, ENT_QUOTES, "UTF-8") ?></pre>
-        <input type="hidden" id="hide_source" name="source" value=""/>
-    <?php 
-    } else { ?>
-        <textarea style="width:80%;height:600px" cols=180 rows=30 id="source" name="source"><?php echo htmlentities($view_src, ENT_QUOTES, "UTF-8") ?></textarea>
-    <?php 
+        $height = isset($OJ_TEST_RUN) && $OJ_TEST_RUN ? "400px" : "500px";
+        echo "<pre style='width:90%;height:$height' id='source'>" . htmlentities($view_src, ENT_QUOTES, "UTF-8") . "</pre>";
+        echo "<input type='hidden' id='hide_source' name='source' value=''/>";
+    } else {
+        echo "<textarea style='width:80%;height:600px' cols=180 rows=30 id='source' name='source'>" . htmlentities($view_src, ENT_QUOTES, "UTF-8") . "</textarea>";
     }
 } else {
     echo "<br><h2>제출할 파일로 지정된 파일명: $solution_name</h2>";
 }
 ?>
 
-<div class="row">
-    <div class="column" style="display: flex;">
-<?php if (isset($OJ_TEST_RUN) && $OJ_TEST_RUN && $spj<=1 && !$solution_name){?>
-<div style="margin-left: 60px; width: 40%; padding: 14px; flex-direction: column;">
-    <div style="display: flex; border-radius: 8px; background-color: rgba(255,255,255,0.4);" id="language_span"><?php echo $MSG_Input?></div>
-    <textarea style="width:100%" cols=40 rows=5 id="input_text" name="input_text" ><?php echo $view_sample_input?></textarea>
-</div>
-<div style="width: 40%; flex-direction: column;">
-    <div style="display: flex; border-radius: 8px; background-color: rgba(255,255,255,0.4);justify-content: space-between;" id="language_span"><?php echo $MSG_Output ?>
-        <span class="btn" id=result><?php echo $MSG_STATUS?></span> 
-    </div>
-    <textarea style="width:100%;background-color: white;" cols=10 rows=5 id="out" name="out" disabled="true" placeholder='<?php echo htmlentities($view_sample_output,ENT_QUOTES,'UTF-8')?>' ></textarea>    
-</div>
-<?php } ?>
-<?php if (isset($OJ_TEST_RUN)&&$OJ_TEST_RUN && $spj<=1 && !$solution_name){?>
-    <input style="margin-top: 30px; margin-left: 0 auto; width: 7%; background-color: #22ba46a3; border-color: #00fff470; height: 130px;" id="TestRun" class="btn btn-info" type=button value="<?php echo $MSG_TR?>" onclick=do_test_run();>
-<?php }?>
-    </div>
-</div>
-<input type="hidden" value="0" id="problem_id" name="problem_id"/>
 </form>
-
-<?php if (isset($OJ_BLOCKLY)&&$OJ_BLOCKLY){?>
-    <input id="blockly_loader" type=button class="btn" onclick="openBlockly()" value="<?php echo $MSG_BLOCKLY_OPEN?>" style="color:white;background-color:rgb(169,91,128)">
-    <input id="transrun" type=button class="btn" onclick="loadFromBlockly() " value="<?php echo $MSG_BLOCKLY_TEST?>" style="display:none;color:white;background-color:rgb(90,164,139)">
-    <div id="blockly" class="center">
-        <iframe name='frmBlockly' width=90% height=580 src='blockly/demos/code/index.html'></iframe>
-    </div>
-<?php }?>
-
 <?php if (!empty($OJ_REMOTE_JUDGE)){?>
 <iframe src="remote.php" height="0px" width="0px"></iframe>
 <?php }?>
-
 </center>
-
-<?php include("template/$OJ_TEMPLATE/footer.php"); ?>
