@@ -85,26 +85,30 @@ if(file_exists($solution_file)){
       <div class="ui buttons">
 
       <?php
-            if($pr_flag){
-              echo "<a id='submit'  class=\"small ui primary button\" href=\"submitpage.php?id=$id\">$MSG_SUBMIT</a>";
-              echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$id\">$MSG_SUBMIT_RECORD</a>";
-              echo "<a class=\"small ui orange button\" href=\"problemstatus.php?id=$id\">$MSG_STATISTICS</a>";
-            } else {
-              echo "<a href=\"contest.php?cid=$cid\" class=\"ui orange button\">$MSG_RETURN_CONTEST</a>";
-              echo "<a id='submit'  class=\"small ui primary button\" href=\"submitpage.php?cid=$cid&pid=$pid&langmask=$langmask\">$MSG_SUBMIT</a>";
-              echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$PID[$pid]&cid=$cid\">$MSG_SUBMIT_RECORD</a>";
-            }
-            if(!file_exists($OJ_DATA."/".$id."/solution.name")) echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
+      $id = intval($id);
+      $cid = isset($cid) ? intval($cid) : null;
+      $pid = isset($pid) ? intval($pid) : null;
+      $langmask = intval($langmask);
+      $problem_real_id = isset($PID[$pid]) ? $PID[$pid] : 0;
 
-            // 단계별 풀기 버튼 추가
-            // contest일 경우 버튼 비활성화
-            if (!isset($cid)) {
-              // 연습(problem.php?id=xxx)일 때만 버튼 노출
-              echo "<a class=\"small ui red button\" href=\"selectlevel.php?problem_id=$id\">단계별 풀기</a>";
-            }
+      if ($pr_flag) {
+        echo "<a id='submit' class=\"small ui primary button\" href=\"submitpage.php?id=$id\">$MSG_SUBMIT</a>";
+        echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$id\">$MSG_SUBMIT_RECORD</a>";
+        echo "<a class=\"small ui orange button\" href=\"problemstatus.php?id=$id\">$MSG_STATISTICS</a>";
+      } else {
+        echo "<a href=\"contest.php?cid=$cid\" class=\"ui orange button\">$MSG_RETURN_CONTEST</a>";
+        echo "<a id='submit' class=\"small ui primary button\" href=\"submitpage.php?cid=$cid&pid=$pid&langmask=$langmask\">$MSG_SUBMIT</a>";
+        echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$problem_real_id&cid=$cid\">$MSG_SUBMIT_RECORD</a>";
+      }
 
-      ?>
+      if (isset($OJ_DATA, $id) && !file_exists($OJ_DATA . "/$id/solution.name")) {
+        echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
+      }
 
+      if (!isset($cid)) {
+        echo "<a class=\"small ui red button\" href=\"selectlevel.php?problem_id=$id\">단계별 풀기</a>";
+      }
+    ?>
 
           
       </div>
