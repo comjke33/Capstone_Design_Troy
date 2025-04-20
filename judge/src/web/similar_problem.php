@@ -18,6 +18,6 @@ if (empty($result)) {
 $problem_id = intval($result[0][0]);
 
 // 2. 외부 유사 문제 페이지로 리디렉션 (CodeJun 예시)
-$external_url = "https://codejun.io/problem/$problem_id/similar";  // 예시 URL
+$external_url = "https://codeup.kr/problem?$problem_id/similar";  // 예시 URL
 header("Location: $external_url");
 exit;
