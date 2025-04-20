@@ -117,24 +117,32 @@ if (!isset($cid) && isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
   
   <?php
 foreach($view_status as $row){
-    $i=0;
-    echo "<tr>";
-    foreach($row as $table_cell){
-        if ($i==4)
-            echo "<td class='td_result'>";
-        else if($i==0 || $i>7 && $i!=9)
-            echo "<td class='desktop-only item '>";
-        else
-            echo "<td>";
-        echo $table_cell;
-        echo "</td>";
-        $i++;
-    }
+  $i=0;
+  echo "<tr>";
+  foreach($row as $table_cell){
+      if ($i==4)
+          echo "<td class='td_result'>";
+      else if($i==0 || $i>7 && $i!=9)
+          echo "<td class='desktop-only item '>";
+      else
+          echo "<td>";
+      echo $table_cell;
+      echo "</td>";
+      $i++;
+  }
 
-      $sid = htmlspecialchars($row['solution_id'], ENT_QUOTES);
-      # echo "<td><a href='showfeedback.php' class='ui orange mini button'>피드백 보기</a></td>";
-    echo "</tr>\n";
+  $sid = htmlspecialchars($row['solution_id'], ENT_QUOTES);
+  
+  // 대회 중이 아닐 때만 피드백 버튼 표시
+  if (!isset($cid)) {
+      echo "<td><a href='showfeedback.php?solution_id={$sid}' class='ui orange mini button'>피드백 보기</a></td>";
+  } else {
+      echo "<td>-</td>";
+  }
+
+  echo "</tr>\n";
 }
+
 ?>
 
   </tbody>
