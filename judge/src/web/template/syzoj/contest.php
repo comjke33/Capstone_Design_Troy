@@ -93,7 +93,7 @@
                     <thead>
                         <tr>
                             <th class="one wide" style="text-align: center">
-                                    <?php if(isset($_SESSION[$OJ_NAME.'_'.'user_id'])) echo "状态" ?>
+                                    <?php if(isset($_SESSION[$OJ_NAME.'_'.'user_id'])) echo "상태" ?>
                             </th>
                             <th class="two wide" style="text-align: center"><?php echo $MSG_PROBLEM_ID ?></th>
                             <th><?php echo $MSG_TITLE ?></th>
