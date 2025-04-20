@@ -44,14 +44,12 @@ body{
 <?php if (isset($id)){?>
 <span style="color:#0000ff">Problem <b><?php echo $id?></b></span>
 <input id=problem_id type='hidden' value='<?php echo $id?>' name="id" >
-<?php }else{
-//$PID="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-//if ($pid>25) $pid=25;
-?>
-Problem <span class=blue><b><?php echo chr($pid+ord('A'))?></b></span> of Contest <span class=blue><b><?php echo $cid?></b></span>
-<input id="cid" type='hidden' value='<?php echo $cid?>' name="cid">
-<input id="pid" type='hidden' value='<?php echo $pid?>' name="pid">
-<?php }?>
+<?php } else { ?>
+  <input type="hidden" id="cid" name="cid" value="<?php echo $cid ?>">
+  <input type="hidden" id="pid" name="pid" value="<?php echo $pid ?>">
+  Problem <span class="blue"><b><?php echo chr($pid + ord('A')) ?></b></span> of Contest <span class="blue"><b><?php echo $cid ?></b></span>
+<?php } ?>
+
 <span id="language_span">Language: 
 <select id="language" name="language" onChange="reloadtemplate($(this).val());" >
 <?php
