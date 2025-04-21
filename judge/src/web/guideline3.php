@@ -1,39 +1,116 @@
 <?php
-require_once("./include/db_info.inc.php");
+// ✅ 헤더 및 DB 연결
+include("template/syzoj/header.php");
+include("include/db_info.inc.php");
 
-$solution_id = isset($_GET['solution_id']) ? intval($_GET['solution_id']) : 0;
-$source = "";
-$sid = 0;
+$file_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline1.txt";
+$guideline_contents = file_get_contents($file_path);
 
-// ✅ 예제 설명 및 정답
-$description = '아래에 "Hello World"를 출력하는 C 코드를 작성하세요.';
-$correct_source = 
-'#include <stdio.h>
+$txt_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code1.txt";
+$txt_contents = file_get_contents($txt_path);
 
-int main() {
-    printf("Hello World");
-    return 0;
-}';
+function parse_blocks_with_loose_text($text, $depth = 0) {
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[\\1_end\\(\\2\)\]/s";
+    $blocks = [];
+    $offset = 0;
 
-$user_input = $_POST['full_source'] ?? '';
-$result = false;
+    while (preg_match($pattern, $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
+        $start_pos = $m[0][1];
+        $full_len = strlen($m[0][0]);
+        $end_pos = $start_pos + $full_len;
 
-if ($solution_id > 0) {
-    $sql = "SELECT solution_id, source FROM source_code WHERE solution_id = ?";
-    $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("i", $solution_id);
-    $stmt->execute();
-    $stmt->bind_result($sid, $source);
-    $stmt->fetch();
-    $stmt->close();
+        $before_text = substr($text, $offset, $start_pos - $offset);
+        if (trim($before_text) !== '') {
+            foreach (explode("\n", $before_text) as $line) {
+                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+                $blocks[] = [
+                    'type' => 'text',
+                    'content' => rtrim($line),
+                    'depth' => $depth + $indent_level
+                ];
+            }
+        }
+
+        $type = $m[1][0];
+        $idx = (int)$m[2][0];
+        $content = $m[3][0];
+
+        $children = parse_blocks_with_loose_text($content, $depth + 1);
+        $blocks[] = [
+            'type' => $type,
+            'index' => $idx,
+            'depth' => $depth,
+            'children' => $children
+        ];
+
+        $offset = $end_pos;
+    }
+
+    $tail = substr($text, $offset);
+    if (trim($tail) !== '') {
+        foreach (explode("\n", $tail) as $line) {
+            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+            $blocks[] = [
+                'type' => 'text',
+                'content' => rtrim($line),
+                'depth' => $depth + $indent_level
+            ];
+        }
+    }
+
+    return $blocks;
 }
 
-// ✅ 정답 판별
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $normalized_input = preg_replace('/\s+/', '', $user_input);
-    $normalized_answer = preg_replace('/\s+/', '', $correct_source);
-    $result = ($normalized_input === $normalized_answer);
+function extract_tagged_code_lines($text) {
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
+    preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
+
+    $positions = [];
+    foreach ($matches[0] as $i => $match) {
+        $positions[] = [
+            'pos' => $match[1],
+            'end' => $match[1] + strlen($match[0])
+        ];
+    }
+
+    $lines = [];
+    for ($i = 0; $i < count($positions); $i++) {
+        $start_pos = $positions[$i]['end'];
+        $end_pos = isset($positions[$i + 1]) ? $positions[$i + 1]['pos'] : strlen($text);
+        $code_block = substr($text, $start_pos, $end_pos - $start_pos);
+
+        foreach (explode("\n", $code_block) as $line) {
+            $trimmed = trim($line);
+            if ($trimmed !== '') {
+                if ($trimmed === '}') {
+                    $lines[] = [
+                        'content' => $trimmed,
+                        'readonly' => true,
+                        'info' => '닫는 괄호'
+                    ];
+                    $lines[] = [
+                        'content' => '',
+                        'readonly' => false,
+                        'info' => ''
+                    ];
+                } else {
+                    $lines[] = [
+                        'content' => $trimmed,
+                        'readonly' => false,
+                        'info' => ''
+                    ];
+                }
+            }
+        }
+    }
+
+    return $lines;
 }
 
-// 👉 화면 렌더링
+$sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
+$OJ_BLOCK_TREE = parse_blocks_with_loose_text($guideline_contents);
+$OJ_CORRECT_ANSWERS = extract_tagged_code_lines($txt_contents);
+$OJ_SID = $sid;
+
 include("template/$OJ_TEMPLATE/guideline3.php");
+include("template/$OJ_TEMPLATE/footer.php");
