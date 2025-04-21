@@ -15,6 +15,9 @@
 </div>
 
 <script>
+  // 처음 페이지가 로드될 때 첫 번째 단계(step1)의 내용을 자동으로 불러옴
+  loadGuidelineContent('guideline1.php');
+
   // 각 단계별 버튼 클릭 시 동적으로 내용을 로드하는 AJAX 기능
   document.getElementById('step1_button').onclick = function() {
     loadGuidelineContent('guideline1.php');
