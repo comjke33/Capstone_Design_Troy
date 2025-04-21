@@ -244,7 +244,7 @@ if(file_exists($solution_file)){
             if(!file_exists($OJ_DATA."/".$id."/solution.name")) echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
 
             if (!isset($cid)) {
-              echo "<a class=\"small ui red button\" href=\"selectlevel.php?problem_id=$id\">단계별 풀기</a>";
+              echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
             }
     ?>
 
