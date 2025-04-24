@@ -74,7 +74,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="ko" style="position: fixed; width: 100%; overflow: hidden;">
+<html lang="ko">
 
 <head>
     <meta charset="utf-8">
@@ -93,38 +93,62 @@
             }
         }
 
-                /* 슬라이더 바 배경 색 */
+        /* 슬라이더 바 배경 색 변경 */
         .ui.sidebar {
-            background-color: #88B3C2 !important;
+            background-color: #88B3C2 !important; /* 슬라이더 바 배경 색 */
         }
 
         /* 각 버튼 색상 */
         .ui.sidebar .item.source {
-            background-color: #6A98C3 !important;
+            background-color: #6A98C3 !important; /* 소스 버튼 색상 */
         }
 
         .ui.sidebar .item.category {
-            background-color: #9A74B7 !important;
+            background-color: #9A74B7 !important; /* 카테고리 버튼 색상 */
         }
 
-        /* hover 효과 */
+        /* 버튼에 마우스를 올렸을 때 색상 변경 */
         .ui.sidebar .item:hover {
-            background-color: #51779A !important;
+            background-color: #51779A !important; /* 버튼에 마우스를 올렸을 때 색상 */
+        }
+
+        /* body와 html에 대해 전체 화면을 채우도록 설정 */
+        html, body {
+            height: 100%; /* 화면 전체를 차지하도록 설정 */
+            margin: 0; /* 기본 여백 제거 */
         }
 
         /* 배경 이미지 설정 */
         .padding {
-            background: url('../../image/bg.jpg') no-repeat center center fixed;
-            background-size: cover;
-            height: 100%;
-            width: 100%;
+            background: url('../../image/bg.jpg') no-repeat center center fixed; /* 배경 이미지 설정 */
+            background-size: cover; /* 배경 이미지가 화면을 가득 채우도록 설정 */
+            height: 100%; /* 배경을 화면 전체에 적용 */
+            width: 100%; /* 배경이 화면의 너비를 채우도록 설정 */
             backdrop-filter: none !important;
             box-shadow: none !important;
             border: none !important;
         }
 
+        /* 메뉴 스타일 */
+        #menu {
+            background-color: #88B3C2 !important; /* 메뉴 배경색 */
+            margin-left: auto;
+            margin-right: auto;
+            padding: 10px 20px;
+        }
 
+        /* 메뉴 항목 스타일 */
+        .ui.sidebar .item {
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+        }
 
+        .ui.sidebar .item:hover {
+            background-color: #51779A !important;
+        }
 
     </style>
     <script src="<?php echo "$OJ_CDN_URL/include/" ?>jquery-latest.js"></script>
@@ -132,22 +156,17 @@
     <!-- Scripts -->
     <script>
         console.log('\n %c HUSTOJ %c https://github.com/zhblue/hustoj %c\n', 'color: #fadfa3; background: #000000; padding:5px 0;', 'background: #fadfa3; padding:5px 0;', '');
-        console.log('\n %c Theme By %c Baoshuo ( @renbaoshuo ) %c https://baoshuo.ren %c\n', 'color: #fadfa3; background: #000000; padding:5px 0;', 'background: #fadfa3; padding:5px 0;', 'background: #ffbf33; padding:5px 0;', '');
-        console.log('\n GitHub Homepage: https://github.com/zhblue/hustoj \n Document: https://zhblue.github.io/hustoj \n Bug report URL: https://github.com/zhblue/hustoj/issues \n \n%c ★ Please give us a star on GitHub! ★ %c \n', 'color: red;', '')
     </script>
 </head>
 
-<?php if (!isset($_GET['spa'])) 
-
-{ ?>
-   
 <body id="MainBg-C" style="position: relative;background-size: 100%">
-    <div id="page-header" class="ui fixed borderless tiny thin inverted vertical  menu" style="position: fixed; height: 100%; z-index:99999">
+
+    <div id="page-header" class="ui fixed borderless tiny thin inverted vertical menu" style="position: fixed; height: 100%; z-index:99999">
         <div id="menu" class="ui stackable mobile ui container computer" style="margin-left:auto;margin-right:auto;">
-            <a class="header item"  href="/"><span
+            <a class="header item" href="/"><span
                     style="font-family: 'Exo 2'; font-size: 1.5em; font-weight: 600; "><?php echo $domain==$DOMAIN?$OJ_NAME:ucwords($OJ_NAME)."'s OJ"?></span></a>
-            
-          <?php
+
+            <?php
             if(isset($OJ_AI_HTML)&&$OJ_AI_HTML) echo $OJ_AI_HTML;
             else echo '<a class="desktop-only item" href="/"><i class="home icon"></i>'.$MSG_HOME.'</a>';
             if(file_exists("moodle"))  // 如果存在moodle目录，自动添加链接
@@ -203,7 +222,7 @@
                     <div class="ui simple dropdown item">
                         <?php echo $_SESSION[$OJ_NAME.'_'.'user_id']; 
                               if(!empty($_SESSION[$OJ_NAME.'_nick'])) echo "(".$_SESSION[$OJ_NAME.'_nick'].")";
-                              if(!empty($_SESSION[$OJ_NAME.'_group_name'])) echo "[".$_SESSION[$OJ_NAME.'_group_name']."]";
+                              if(!empty($_SESSION[$OJ_NAME.'_group_name'])) echo "[".$_SESSION[$OJ_NAME.'_'.'group_name']."]";
                                       
                         ?>
                         <i class="dropdown icon"></i>
