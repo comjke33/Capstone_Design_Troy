@@ -6,7 +6,6 @@
           $result=pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);
           if(!$result) return false;
           $row=$result[0];
-          //if(intval($row[0])==0) return false;
           $retmsg="<span id=red>(".$row[0].")</span>";
           return $retmsg;
         }
@@ -75,52 +74,75 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="cn" style="position:fixed; width: 100%; overflow: hidden; ">
+<html lang="ko" style="position: fixed; width: 100%; overflow: hidden;">
 
 <head>
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=0.5">
     <title><?php echo $show_title ?></title>
-    <?php include(dirname(__FILE__)."/css.php");?>
-        <style>
-@media (max-width: 991px) {
-        .mobile-only {
-                display:block !important;
+    <?php include(dirname(__FILE__)."/css.php"); ?>
+    <style>
+        @media (max-width: 991px) {
+            .mobile-only {
+                display: block !important;
+            }
+
+            .desktop-only {
+                display: none !important;
+            }
         }
 
-        .desktop-only {
-            display:none !important;
+        /* 슬라이더 바 배경 색 변경 */
+        .ui.sidebar {
+            background-color: #88B3C2 !important; /* 슬라이더 바 배경 색 */
         }
-}
 
-/**毛玻璃背景*/
-.padding {
-  background: rgba(255,255,255,0.6);
-  box-shadow: inset 5px 5px 20px 0px rgba(255,255,255,0.1);
-  border-radius: 20px;
-      box-shadow: 10px -10px 20px rgb(255 255 255 / 20%), -10px 10px 20px rgb(255 255 255 / 10%);
-  backdrop-filter: blur(7px);
-  border-bottom:3px solid rgba(255,255,255,0.4);
-  border-right: 3px solid rgba(255,255,255,0.4);
-  border-left: 3px solid rgba(255, 255, 255, 0.4);
-  /*filter: brightness(1.1);*/
-}
+        /* body와 html에 대해 전체 화면을 채우도록 설정 */
+        html, body {
+            height: 100%; /* 화면 전체를 차지하도록 설정 */
+            margin: 0; /* 기본 여백 제거 */
+        }
 
-</style>
-    <script src="<?php echo "$OJ_CDN_URL/include/"?>jquery-latest.js"></script>
+        /* 배경 이미지 설정 */
+        .padding {
+            background: url('../../image/bg.jpg') no-repeat center center fixed; /* 배경 이미지 설정 */
+            background-size: cover; /* 배경 이미지가 화면을 가득 채우도록 설정 */
+            height: 100%; /* 배경을 화면 전체에 적용 */
+            width: 100%; /* 배경이 화면의 너비를 채우도록 설정 */
+            backdrop-filter: none !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
 
-<!-- Scripts -->
-<script>
-    console.log('\n %c HUSTOJ %c https://github.com/zhblue/hustoj %c\n', 'color: #fadfa3; background: #000000; padding:5px 0;', 'background: #fadfa3; padding:5px 0;', '');
-    console.log('\n %c Theme By %c Baoshuo ( @renbaoshuo ) %c https://baoshuo.ren %c\n', 'color: #fadfa3; background: #000000; padding:5px 0;', 'background: #fadfa3; padding:5px 0;', 'background: #ffbf33; padding:5px 0;', '');
-    console.log('\n GitHub Homepage: https://github.com/zhblue/hustoj \n Document: https://zhblue.github.io/hustoj \n Bug report URL: https://github.com/zhblue/hustoj/issues \n \n%c ★ Please give us a star on GitHub! ★ %c \n', 'color: red;', '')
-</script>
+        /* 각 버튼 item 색상 설정 */
+        .ui.sidebar .item.source {
+            background-color: #6A98C3; /* 소스 버튼 색상 */
+        }
+
+        .ui.sidebar .item.category {
+            background-color: #9A74B7; /* 카테고리 버튼 색상 */
+        }
+
+        /* 버튼에 마우스를 올렸을 때 색상 변경 */
+        .ui.sidebar .item:hover {
+            background-color: #51779A !important; /* 버튼에 마우스를 올렸을 때 색상 */
+        }
+
+    </style>
+    <script src="<?php echo "$OJ_CDN_URL/include/" ?>jquery-latest.js"></script>
+
+    <!-- Scripts -->
+    <script>
+        console.log('\n %c HUSTOJ %c https://github.com/zhblue/hustoj %c\n', 'color: #fadfa3; background: #000000; padding:5px 0;', 'background: #fadfa3; padding:5px 0;', '');
+        console.log('\n %c Theme By %c Baoshuo ( @renbaoshuo ) %c https://baoshuo.ren %c\n', 'color: #fadfa3; background: #000000; padding:5px 0;', 'background: #fadfa3; padding:5px 0;', 'background: #ffbf33; padding:5px 0;', '');
+        console.log('\n GitHub Homepage: https://github.com/zhblue/hustoj \n Document: https://zhblue.github.io/hustoj \n Bug report URL: https://github.com/zhblue/hustoj/issues \n \n%c ★ Please give us a star on GitHub! ★ %c \n', 'color: red;', '')
+    </script>
 </head>
 
-<?php
-        if(!isset($_GET['spa'])){
-?>
+<?php if (!isset($_GET['spa'])) 
+
+{ ?>
    
 <body id="MainBg-C" style="position: relative;background-size: 100%">
     <div id="page-header" class="ui fixed borderless tiny thin inverted vertical  menu" style="position: fixed; height: 100%; z-index:99999">
