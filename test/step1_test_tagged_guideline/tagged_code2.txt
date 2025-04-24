@@ -1,0 +1,26 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+[func_def_start(0)]
+int main() {
+[self_start(1)]
+    int a = 0;
+[self_end(1)]
+[self_start(1)]
+    scanf("%d", &a);
+[self_end(1)]
+[rep_start(1)]
+    for (int i = 0; i <= a-1; i++) {
+[rep_start(2)]
+        for (int j = 0; j <= i; j++) {
+[self_start(3)]
+            printf("*");
+[self_end(3)]
+[rep_end(2)]
+        }
+[self_start(2)]
+        printf("\n");
+[self_end(2)]
+[rep_end(1)]
+    }
+[func_def_end(0)]
+}

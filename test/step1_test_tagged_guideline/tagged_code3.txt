@@ -1,0 +1,49 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+[func_def_start(0)]
+int main() {
+[self_start(1)]
+    unsigned int x, y, min, res;
+[self_end(1)]
+[self_start(1)]
+    unsigned int max = 1;
+[self_end(1)]
+[self_start(1)]
+    scanf("%d %d", &x, &y);
+[self_end(1)]
+[cond_start(1)]
+    if (x > y) {
+[self_start(2)]
+        min = y;
+[self_end(2)]
+[cond_end(1)]
+    }
+[cond_start(1)]
+    if (x < y) {
+[self_start(2)]
+        min = x;
+[self_end(2)]
+[cond_end(1)]
+    }
+[rep_start(1)]
+    for (int i = 2; i <= min; i++) {
+[cond_start(2)]
+        if (x % i == 0 && y % i == 0) {
+[self_start(3)]
+            max = i;
+[self_end(3)]
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    res = max * (x / max) * (y / max);
+[self_end(1)]
+[self_start(1)]
+    printf("%d", res);
+[self_end(1)]
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[func_def_end(0)]
+}

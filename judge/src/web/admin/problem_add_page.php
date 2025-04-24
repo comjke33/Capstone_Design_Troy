@@ -2,7 +2,7 @@
   require_once("../include/db_info.inc.php");
   require_once("admin-header.php");
   if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'contest_creator']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor']))) {
-    echo "<a href='../loginpage.php'>Please Login First!</a>";
+    echo "<a href='../loginpage.php'>로그인 후 이용해 주세요!</a>";
     exit(1);
   }
 ?>
@@ -11,14 +11,14 @@
 <head>
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Cache-Control" content="no-cache">
-  <meta http-equiv="Content-Language" content="zh-cn">
+  <meta http-equiv="Content-Language" content="ko">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Problem Add</title>
+  <title>문제 추가</title>
 </head>	  
-	  <?php
+<?php
   echo "<center><h3>".$MSG_PROBLEM."-".$MSG_ADD."</h3></center>";
   include_once("kindeditor.php") ;
-  $source=pdo_query("select source from problem order by problem_id desc limit 1"); //默认续用最后一次的分类标签
+  $source=pdo_query("select source from problem order by problem_id desc limit 1"); //기본적으로 마지막 문제의 분류 태그 사용
   if(!empty($source)&&isset($source[0]))$source=$source[0][0];else $source="";
 ?>
 
@@ -30,14 +30,14 @@
         <p align=left>
   <div class="ui toggle checkbox">
         <input type="checkbox" id="preview-toggle" checked>
-        <label for="preview-toggle">题目预览</label>
+        <label for="preview-toggle">제목 미리보기</label>
     </div>
           <?php echo "<h3>".$MSG_TITLE."</h3>"?>
           <input class="input input-large" style="width:100%;" type=text name='title' > <input type=submit value='<?php echo $MSG_SAVE?>' name=submit> 
 	</p>
         <p align=left>
           <?php echo $MSG_Time_Limit?>
-          <input class="input input-mini" type=number min="0.001" max="300" step="0.001" name=time_limit size=20 value=1> sec
+          <input class="input input-mini" type=number min="0.001" max="300" step="0.001" name=time_limit size=20 value=1> 초
           <?php echo $MSG_Memory_Limit?>
           <input class="input input-mini" type=number min="1" max="2048" step="1" name=memory_limit size=20 value=128> MiB<br><br>
         </p>
@@ -79,6 +79,7 @@
           <textarea class="kindeditor" rows=13 name=hint cols=80><span class='md'>
 </span></textarea><br></textarea><br>
         </p>
+<<<<<<< HEAD
         <p align=left>
   <h4>문제 태그 선택</h4>
   <style>
@@ -186,6 +187,14 @@
     });
   }
 </script>
+=======
+        <p>
+          <?php echo "<h4>".$MSG_SPJ."</h4>"?>
+	  <input type=radio name=spj value='0' checked ><?php echo $MSG_NJ?> 추가 테스트 데이터는 문제 추가 후 제공됩니다.<br> 
+	  <input type=radio name=spj value='1' ><?php echo $MSG_SPJ?> <?php echo "(".$MSG_HELP_SPJ.")"?><br>
+	  <input type=radio name=spj value='2' ><?php echo $MSG_RTJ?>(빈칸 문제 선택용, 사용법은<a target='_blank' href='http://hustoj.com'>hustoj.com</a>)<br>
+        </p>
+>>>>>>> 7f94ec00c1383db33a666b098a68af23695365c0
         <p align=left>
           <?php echo "<h4>".$MSG_SOURCE."</h4>"?>
           <textarea name=source style="width:100%;" rows=1><?php echo htmlentities($source,ENT_QUOTES,'UTF-8') ?></textarea><br><br>
@@ -195,7 +204,7 @@
             <?php
             $sql="SELECT contest_id,title FROM contest WHERE start_time>NOW() order by contest_id";
             $result=pdo_query($sql);
-            echo "<option value=''>none</option>";
+            echo "<option value=''>없음</option>";
             if (count($result)==0) {
             }
             else {
@@ -285,32 +294,32 @@
   }
  
    $(document).ready(function(){
-            // 默认开启预览功能
+            // 기본적으로 미리보기 기능을 활성화
            <?php if (!(isset($OJ_OLD_FASHINED) && $OJ_OLD_FASHINED )) echo " transform();" ?>
             
-            // 监听checkbox的点击事件
+            // 체크박스 클릭 이벤트 리스너
             $('#preview-toggle').change(function() {
                 if(this.checked) {
                     transform();
                 } else {
-                    // 假设这里是关闭预览的函数
+                    // 미리보기 기능 종료
                     untransform();
                 }
             });
         });
 function untransform() {
-    console.log("预览关闭");
-    // 恢复原始的 #main 元素样式
+    console.log("미리보기 종료");
+    // 원래 #main 요소 스타일 복원
     let main = $("#main");
     main.addClass("padding");
     main.css("width", "");
     main.css("margin-left", "");
 
-    // 移除预览的 iframe
+    // 미리보기 iframe 제거
     $("#preview").remove();
 
   
-    // 移除同步事件
+    // 동기화 이벤트 제거
     $("input").off('keyup', sync);
     $("textarea").off('keyup', sync);
 }

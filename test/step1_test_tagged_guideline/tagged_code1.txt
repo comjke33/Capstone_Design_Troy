@@ -1,0 +1,92 @@
+
+#include <stdio.h>
+
+[func_def_start(0)]
+int main() {
+[self_start(1)]
+    int r, c;
+[self_end(1)]
+[self_start(1)]
+    char map[51][51];
+[self_end(1)]
+[self_start(1)]
+    int count[5] = {0, 0, 0, 0, 0};
+[self_end(1)]
+
+[self_start(1)]
+    scanf("%d %d", &r, &c);
+[self_end(1)]
+
+[rep_start(1)]
+    for (int i = 0; i < r; i++) {
+[self_start(2)]
+        scanf("%s", map[i]);
+[self_end(2)]
+[rep_end(1)]
+    }
+
+[rep_start(1)]
+    for (int i = 0; i < r - 1; i++) {
+[rep_start(2)]
+        for (int j = 0; j < c - 1; j++) {
+[self_start(3)]
+            int car = 0;
+[self_end(3)]
+[cond_start(3)]
+            if (map[i][j] == '#' || map[i + 1][j] == '#' || map[i][j + 1] == '#' || map[i + 1][j + 1] == '#') {
+[self_start(4)]
+                continue;
+[self_end(4)]
+[cond_end(3)]
+            }
+
+[cond_start(3)]
+            if (map[i][j] == 'X') {
+[self_start(4)]
+                car = car + 1;
+[self_end(4)]
+[cond_end(3)]
+            }
+[cond_start(3)]
+            if (map[i + 1][j] == 'X') {
+[self_start(4)]
+                car = car + 1;
+[self_end(4)]
+[cond_end(3)]
+            }
+[cond_start(3)]
+            if (map[i][j + 1] == 'X') {
+[self_start(4)]
+                car = car + 1;
+[self_end(4)]
+[cond_end(3)]
+            }
+[cond_start(3)]
+            if (map[i + 1][j + 1] == 'X') {
+[self_start(4)]
+                car = car + 1;
+[self_end(4)]
+[cond_end(3)]
+            }
+
+[self_start(3)]
+            count[car] = count[car] + 1;
+[self_end(3)]
+[rep_end(2)]
+        }
+[rep_end(1)]
+    }
+
+[rep_start(1)]
+    for (int i = 0; i < 5; i++) {
+[self_start(2)]
+        printf("%d", count[i]);
+[self_end(2)]
+[rep_end(1)]
+    }
+
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[func_def_end(0)]
+}
