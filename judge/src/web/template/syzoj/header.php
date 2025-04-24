@@ -98,13 +98,15 @@
         }
 }
 
-
+/* 배경화면 수정부분 */
 .padding {
-  background: #ffffff !important;
+  background: url('../../image/background.jpg') no-repeat center center fixed; /* 배경 이미지 설정 */
+  background-size: cover; /* 배경 이미지가 화면을 가득 채우도록 설정 */
   backdrop-filter: none !important;
   box-shadow: none !important;
   border: none !important;
 }
+
 
 
 </style>
