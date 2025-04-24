@@ -98,10 +98,19 @@
         }
 }
 
-/* 배경화면 수정부분 */
+/* 새로 추가한 부분 */
+/* body와 html에 대해 전체 화면을 채우도록 설정 */
+html, body {
+  height: 100%; /* 화면 전체를 차지하도록 설정 */
+  margin: 0; /* 기본 여백 제거 */
+}
+
+/* 배경 이미지 설정 */
 .padding {
   background: url('../../image/bg.jpg') no-repeat center center fixed; /* 배경 이미지 설정 */
   background-size: cover; /* 배경 이미지가 화면을 가득 채우도록 설정 */
+  height: 100%; /* 배경을 화면 전체에 적용 */
+  width: 100%; /* 배경이 화면의 너비를 채우도록 설정 */
   backdrop-filter: none !important;
   box-shadow: none !important;
   border: none !important;
