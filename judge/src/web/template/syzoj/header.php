@@ -134,7 +134,8 @@ html, body {
 ?>
    
    <!-- 워터마크 제거  -->
-   <body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay; background: none !important;">
+   <body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay; background: url('src/web/image/bg.jpg') no-repeat center center fixed; background-size: cover !important;">
+
 
     
     <!-- 사이트 이름 표시, 메뉴 항목 링크제공 -->
