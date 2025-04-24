@@ -79,12 +79,113 @@
           <textarea class="kindeditor" rows=13 name=hint cols=80><span class='md'>
 </span></textarea><br></textarea><br>
         </p>
-        <p>
-          <?php echo "<h4>".$MSG_SPJ."</h4>"?>
-	  <input type=radio name=spj value='0' checked ><?php echo $MSG_NJ?> 更多测试数据，在题目添加后补充。<br> 
-	  <input type=radio name=spj value='1' ><?php echo $MSG_SPJ?> <?php echo "(".$MSG_HELP_SPJ.")"?><br>
-	  <input type=radio name=spj value='2' ><?php echo $MSG_RTJ?>(用于选择判断填空题，用法见<a target='_blank' href='http://hustoj.com'>hustoj.com</a>)<br>
-        </p>
+        <p align=left>
+  <h4>문제 태그 선택</h4>
+  <style>
+    .accordion {
+      cursor: pointer;
+      padding: 10px;
+      width: 100%;
+      text-align: left;
+      border: none;
+      outline: none;
+      transition: 0.4s;
+      background-color: #eee;
+      margin-top: 5px;
+    }
+    .active, .accordion:hover {
+      background-color: #ccc;
+    }
+    .panel {
+      padding-left: 20px;
+      display: none;
+      overflow: hidden;
+      background-color: #f9f9f9;
+    }
+    .checkbox-group {
+      margin-left: 20px;
+    }
+  </style>
+
+  <div>
+    <button type="button" class="accordion">C 언어 기초 문법 태그</button>
+    <div class="panel">
+      <button type="button" class="accordion">입출력 및 연산</button>
+      <div class="panel checkbox-group">
+        <label><input type="checkbox" name="tags[]" value="입출력"> 입출력</label><br>
+        <label><input type="checkbox" name="tags[]" value="사칙연산"> 사칙연산</label><br>
+        <label><input type="checkbox" name="tags[]" value="형 변환"> 형 변환</label>
+      </div>
+      <button type="button" class="accordion">조건문</button>
+      <div class="panel checkbox-group">
+        <label><input type="checkbox" name="tags[]" value="if문"> if문</label>
+      </div>
+      <button type="button" class="accordion">반복문 및 제어문</button>
+      <div class="panel checkbox-group">
+        <label><input type="checkbox" name="tags[]" value="반복문"> 반복문</label>
+      </div>
+      <button type="button" class="accordion">배열 및 문자열</button>
+      <div class="panel checkbox-group">
+        <label><input type="checkbox" name="tags[]" value="배열"> 배열</label><br>
+        <label><input type="checkbox" name="tags[]" value="문자열 처리"> 문자열 처리</label>
+      </div>
+      <button type="button" class="accordion">함수</button>
+      <div class="panel checkbox-group">
+        <label><input type="checkbox" name="tags[]" value="기본 함수"> 기본 함수</label><br>
+        <label><input type="checkbox" name="tags[]" value="포인터 함수"> 포인터 함수</label>
+      </div>
+      <button type="button" class="accordion">포인터</button>
+      <div class="panel checkbox-group">
+        <label><input type="checkbox" name="tags[]" value="포인터 기본"> 포인터 기본</label><br>
+        <label><input type="checkbox" name="tags[]" value="포인터와 배열"> 포인터와 배열</label><br>
+        <label><input type="checkbox" name="tags[]" value="포인터 연산"> 포인터 연산</label>
+      </div>
+    </div>
+
+    <button type="button" class="accordion">기초 알고리즘 태그</button>
+    <div class="panel">
+      <button type="button" class="accordion">수학 관련 문제</button>
+      <div class="panel checkbox-group">
+        <label><input type="checkbox" name="tags[]" value="최대공약수(GCD) / 최소공배수(LCM)"> 최대공약수(GCD) / 최소공배수(LCM)</label><br>
+        <label><input type="checkbox" name="tags[]" value="소수 판별"> 소수 판별</label><br>
+        <label><input type="checkbox" name="tags[]" value="약수 구하기"> 약수 구하기</label><br>
+        <label><input type="checkbox" name="tags[]" value="배수와 나머지"> 배수와 나머지</label>
+      </div>
+      <button type="button" class="accordion">배열과 정렬 알고리즘</button>
+      <div class="panel checkbox-group">
+        <label><input type="checkbox" name="tags[]" value="최대값/최소값 찾기"> 최대값/최소값 찾기</label><br>
+        <label><input type="checkbox" name="tags[]" value="배열 정렬"> 배열 정렬</label><br>
+        <label><input type="checkbox" name="tags[]" value="중복 제거"> 중복 제거</label><br>
+        <label><input type="checkbox" name="tags[]" value="배열 뒤집기"> 배열 뒤집기</label>
+      </div>
+      <button type="button" class="accordion">탐색 알고리즘</button>
+      <div class="panel checkbox-group">
+        <label><input type="checkbox" name="tags[]" value="순차 탐색"> 순차 탐색</label>
+      </div>
+      <button type="button" class="accordion">구현 문제</button>
+      <div class="panel checkbox-group">
+        <label><input type="checkbox" name="tags[]" value="좌표 이동"> 좌표 이동</label><br>
+        <label><input type="checkbox" name="tags[]" value="행렬 연산"> 행렬 연산</label><br>
+        <label><input type="checkbox" name="tags[]" value="문자열 조작"> 문자열 조작</label>
+      </div>
+    </div>
+  </div>
+</p>
+
+<script>
+  const acc = document.getElementsByClassName("accordion");
+  for (let i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function () {
+      this.classList.toggle("active");
+      let panel = this.nextElementSibling;
+      if (panel.style.display === "block") {
+        panel.style.display = "none";
+      } else {
+        panel.style.display = "block";
+      }
+    });
+  }
+</script>
         <p align=left>
           <?php echo "<h4>".$MSG_SOURCE."</h4>"?>
           <textarea name=source style="width:100%;" rows=1><?php echo htmlentities($source,ENT_QUOTES,'UTF-8') ?></textarea><br><br>
@@ -92,7 +193,7 @@
         <p align=left><?php echo "<h4>".$MSG_CONTEST."</h4>"?>
           <select name=contest_id>
             <?php
-            $sql="SELECT `contest_id`,`title` FROM `contest` WHERE `start_time`>NOW() order by `contest_id`";
+            $sql="SELECT contest_id,title FROM contest WHERE start_time>NOW() order by contest_id";
             $result=pdo_query($sql);
             echo "<option value=''>none</option>";
             if (count($result)==0) {
