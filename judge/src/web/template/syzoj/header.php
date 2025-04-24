@@ -100,7 +100,7 @@
 
 /* 배경화면 수정부분 */
 .padding {
-  background: #ffffff !important;
+  background: rgba(255, 255, 255, 0.5) !important; /* 배경을 반투명하게 설정 */
   backdrop-filter: none !important;
   box-shadow: none !important;
   border: none !important;
