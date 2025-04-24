@@ -98,24 +98,13 @@
         }
 }
 
-/* 새로 추가한 부분 */
-/* body와 html에 대해 전체 화면을 채우도록 설정 */
-html, body {
-  height: 100%; /* 화면 전체를 차지하도록 설정 */
-  margin: 0; /* 기본 여백 제거 */
-}
-
-/* 배경 이미지 설정 */
+/* 배경화면 수정부분 */
 .padding {
-  background: url('../../image/bg.jpg') no-repeat center center fixed; /* 배경 이미지 설정 */
-  background-size: cover; /* 배경 이미지가 화면을 가득 채우도록 설정 */
-  height: 100%; /* 배경을 화면 전체에 적용 */
-  width: 100%; /* 배경이 화면의 너비를 채우도록 설정 */
+  background: #ffffff !important;
   backdrop-filter: none !important;
   box-shadow: none !important;
   border: none !important;
 }
-
 
 
 </style>
@@ -133,8 +122,8 @@ html, body {
         if(!isset($_GET['spa'])){
 ?>
    
-   <!-- 워터마크 제거  -->
-   <body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay; background: none !important;">
+   <!-- 워터마크 제거 후 배경화면 추가가  -->
+   <body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay; background: url('src/web/image/bg.jpg') no-repeat center center fixed; background-size: cover !important;">
 
     
     <!-- 사이트 이름 표시, 메뉴 항목 링크제공 -->
