@@ -133,7 +133,8 @@ html, body {
 ?>
    
    <!-- 워터마크 제거 후 배경화면 추가가  -->
-   <body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay; background: url('../../image/bg.jpg') no-repeat center center fixed; background-size: cover !important;">
+   <body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+
 
     
     <!-- 사이트 이름 표시, 메뉴 항목 링크제공 -->
