@@ -131,10 +131,14 @@
 
         /* 메뉴 스타일 */
         #menu {
-            background-color: #000000 !important; /* 메뉴 배경색 */
+            background-color: #88B3C2 !important; /* 메뉴 배경색 */
             margin-left: auto;
             margin-right: auto;
             padding: 10px 20px;
+            color: #fff; /* 글씨 색상 */
+            position: fixed !important; /* 고정 위치 */
+            height: 100% !important; /* 전체 높이 */
+            z-index: 99999;
         }
 
         /* 메뉴 항목 스타일 */
