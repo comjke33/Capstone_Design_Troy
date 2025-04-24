@@ -99,6 +99,11 @@
 }
 
 /* 배경화면 수정부분 */
+html, body {
+  height: 100%; /* 전체 화면을 차지하도록 설정 */
+  margin: 0; /* 기본 여백 제거 */
+}
+
 .padding {
   background: rgba(255, 255, 255, 0.3) !important; /* 배경을 반투명하게 설정 */
   backdrop-filter: none !important;
