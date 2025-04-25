@@ -44,11 +44,49 @@
     xhr.onload = function() {
       if (xhr.status === 200) {
         contentArea.innerHTML = xhr.responseText;  // 로드된 내용을 content_area에 삽입
+
+        // 텍스트 영역과 제출 버튼을 포함한 새로운 콘텐츠
+        var submitButton = document.createElement('button');
+        submitButton.classList.add('ui', 'blue', 'button');
+        submitButton.textContent = '제출';
+        submitButton.addEventListener('click', handleSubmit);
+
+        var textarea = document.createElement('textarea');
+        textarea.id = 'user_input';
+        textarea.rows = 10;
+        textarea.style.width = '100%';
+
+        // 기존 content_area에 제출 버튼과 텍스트 영역 추가
+        contentArea.appendChild(textarea);
+        contentArea.appendChild(submitButton);
       } else {
         contentArea.innerHTML = "Error loading content.";  // 오류 처리
       }
     };
     xhr.send();
+  }
+
+  // 제출 버튼 클릭 시 처리할 함수
+  function handleSubmit() {
+    var userInput = document.getElementById('user_input').value;
+
+    // 입력값이 비어있지 않으면 서버로 제출
+    if (userInput.trim() !== '') {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'submit_answer.php', true);  // 서버의 처리 파일로 POST 요청
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          // 서버 응답 처리 (예: 성공 메시지)
+          alert('제출되었습니다!');
+        } else {
+          alert('서버에 문제가 발생했습니다.');
+        }
+      };
+      xhr.send('user_input=' + encodeURIComponent(userInput));  // 사용자 입력값을 서버로 전송
+    } else {
+      alert('내용을 입력해주세요.');
+    }
   }
 </script>
 
