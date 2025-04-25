@@ -160,6 +160,8 @@ function submitAnswer(index) {
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
 
+    console.log(`정답 (index ${index}):`, correct);
+    
     if (input === correct) {
         ta.readOnly = true;
         ta.style.backgroundColor = "#eef1f4";
