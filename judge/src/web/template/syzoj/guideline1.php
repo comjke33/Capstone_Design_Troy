@@ -150,10 +150,7 @@
 </div>
 
 <script>
-const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
-
-// submitAnswer 함수 및 관련 코드
-function submitAnswer(index) {
+    function submitAnswer(index) {
         const ta = document.getElementById(`ta_${index}`);
         const btn = document.getElementById(`btn_${index}`);
         const check = document.getElementById(`check_${index}`);
