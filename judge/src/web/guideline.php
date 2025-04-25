@@ -1,5 +1,5 @@
 <?php
-// 헤더 및 DB 연결
+// ✅ 헤더 및 DB 연결
 include("template/$OJ_TEMPLATE/header.php");
 include("include/db_info.inc.php");
 
@@ -215,17 +215,16 @@ $OJ_SID = $sid;
 </div>
 
 <script>
-    // 정답 데이터를 PHP에서 받아옴
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
     function submitAnswer(index) {
         const ta = document.getElementById(`ta_${index}`);
         const btn = document.getElementById(`btn_${index}`);
         const check = document.getElementById(`check_${index}`);
-        
+
         const input = ta.value.trim();
         const correct = (correctAnswers[index]?.content || "").trim();
-        
+
         if (input === correct) {
             ta.readOnly = true;
             ta.style.backgroundColor = "#eef1f4";
