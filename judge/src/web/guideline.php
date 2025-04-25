@@ -1,17 +1,17 @@
 <?php include("template/$OJ_TEMPLATE/header.php"); ?>
 
 <div class="ui container" style="margin-top: 3em;">
-  <!-- Step 버튼들을 위한 UI -->
-  <div class="ui large buttons" id="step_buttons">
-    <button class="ui blue button" id="step1_button">Step 1</button>
-    <button class="ui blue button" id="step2_button">Step 2</button>
-    <button class="ui blue button" id="step3_button">Step 3</button>
-  </div>
+    <!-- Step 버튼들을 위한 UI -->
+    <div class="ui large buttons" id="step_buttons">
+        <button class="ui blue button" id="step1_button">Step 1</button>
+        <button class="ui blue button" id="step2_button">Step 2</button>
+        <button class="ui blue button" id="step3_button">Step 3</button>
+    </div>
 
-  <!-- 동적으로 내용이 로드될 부분 -->
-  <div id="content_area" class="ui segment" style="margin-top: 2em; padding: 2em;">
-    <h3>여기에 단계별 내용을 표시합니다.</h3>
-  </div>
+    <!-- 동적으로 내용이 로드될 부분 -->
+    <div id="content_area" class="ui segment" style="margin-top: 2em; padding: 2em;">
+        <h3>여기에 단계별 내용을 표시합니다.</h3>
+    </div>
 </div>
 
 <script>
@@ -70,9 +70,6 @@
   function handleSubmit() {
     var userInput = document.getElementById('user_input').value.trim();  // trim()을 사용하여 공백 제거
 
-    console.log('사용자 입력:', userInput);  // 실제 입력된 값 확인
-
-    // 입력값이 비어있지 않으면 서버로 제출
     if (userInput !== '') {
       var xhr = new XMLHttpRequest();
       xhr.open('POST', 'submit_answer.php', true);  // 서버의 처리 파일로 POST 요청
