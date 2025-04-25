@@ -30,6 +30,7 @@
     loadGuidelineContent('guideline3.php');
   };
 
+  // guideline1, guideline2, guideline3의 내용을 동적으로 불러오는 함수
   function loadGuidelineContent(step) {
     var contentArea = document.getElementById('content_area');
     var xhr = new XMLHttpRequest();
@@ -76,7 +77,9 @@
     }
   }
 
-  // 제출 시 문제 해결 함수 정의 (submitAnswer 함수)
+  // submitAnswer 함수 정의 (여기에서 correctAnswers 사용)
+  const correctAnswers = <?php echo json_encode($OJ_CORRECT_ANSWERS); ?>;
+
   function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
