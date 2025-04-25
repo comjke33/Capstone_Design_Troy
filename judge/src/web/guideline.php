@@ -17,7 +17,8 @@
 <script>
   // 페이지가 로드된 후에 실행될 스크립트
   document.addEventListener('DOMContentLoaded', function() {
-    loadGuidelineContent('guideline1.php');  // 기본적으로 guideline1을 로드
+    // 처음 페이지가 로드될 때 첫 번째 단계(step1)의 내용을 자동으로 불러옴
+    loadGuidelineContent('guideline1.php');
   });
 
   // 각 단계별 버튼 클릭 시 동적으로 내용을 로드하는 AJAX 기능
@@ -48,9 +49,7 @@
         var submitButton = document.createElement('button');
         submitButton.classList.add('ui', 'blue', 'button');
         submitButton.textContent = '제출';
-        submitButton.addEventListener('click', function() {
-            submitAnswer('1000');  // 문제 ID를 제출 함수에 전달
-        });
+        submitButton.addEventListener('click', handleSubmit);
 
         var textarea = document.createElement('textarea');
         textarea.id = 'user_input';
@@ -68,25 +67,26 @@
   }
 
   // 제출 버튼 클릭 시 처리할 함수
-  function submitAnswer(problem_id) {
-    var userInput = document.getElementById('user_input').value;
+  function handleSubmit() {
+    var userInput = document.getElementById('user_input').value.trim();  // trim()을 사용하여 공백 제거
+
+    console.log('사용자 입력:', userInput);  // 실제 입력된 값 확인
 
     // 입력값이 비어있지 않으면 서버로 제출
-    if (userInput.trim() !== '') {
+    if (userInput !== '') {
       var xhr = new XMLHttpRequest();
       xhr.open('POST', 'submit_answer.php', true);  // 서버의 처리 파일로 POST 요청
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xhr.onload = function() {
         if (xhr.status === 200) {
-          // 서버 응답 처리 (예: 성공 메시지)
-          alert('제출되었습니다!');
+          alert('제출되었습니다!');  // 서버 응답 처리
         } else {
-          alert('서버에 문제가 발생했습니다.');
+          alert('서버에 문제가 발생했습니다.');  // 오류 처리
         }
       };
-      xhr.send('user_input=' + encodeURIComponent(userInput) + '&problem_id=' + problem_id);  // 사용자 입력값과 문제 ID를 서버로 전송
+      xhr.send('user_input=' + encodeURIComponent(userInput));  // 사용자 입력값을 서버로 전송
     } else {
-      alert('내용을 입력해주세요.');
+      alert('내용을 입력해주세요.');  // 입력이 비어있을 때
     }
   }
 </script>
