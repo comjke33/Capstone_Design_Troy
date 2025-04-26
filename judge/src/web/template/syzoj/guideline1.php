@@ -3,44 +3,77 @@
     <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
 </div>
 
-<!-- ✅ CSS 외부 파일 연결 -->
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
 <div class="main-layout">
     <div class="left-panel">
-    <?php
+        <?php
         function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
 
             foreach ($blocks as $block) {
                 $indent_px = 10 * ($block['depth'] ?? 0);
 
-                if (isset($block['children'])) {
-                    $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
-                    $html .= render_tree_plain($block['children'], $answer_index);
-                    $html .= "</div>";
-                } elseif ($block['type'] === 'text') {
+                // 1. self, func_def, rep, cond, struct, construct 블록을 다 다룸
+                if (in_array($block['type'], ['self', 'func_def', 'rep', 'cond', 'struct', 'construct'])) {
+                    foreach ($block['children'] as $child) {
+                        if ($child['type'] === 'text') {
+                            $raw = trim($child['content']);
+                            if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
+                                continue;
+                            }
+
+                            // 🟰 문제 설명 (guideline 줄 출력)
+                            $line = htmlspecialchars($raw);
+                            $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$line}</div>";
+
+                            // 🟰 코드 입력 (tagged_code 줄 출력)
+                            $code_content = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
+                            $code_clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $code_content);
+                            $code_clean = htmlspecialchars(trim($code_clean));
+                            $disabled = $answer_index > 0 ? "disabled" : "";
+
+                            $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                            $html .= "<div style='flex: 1'>";
+                            $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$code_clean}</textarea>";
+                            $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                            $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none; margin-left: 10px;'>✔️</span>";
+                            $html .= "<span id='wrong_{$answer_index}' class='wrongmark' style='display:none; margin-left: 10px; color: #e74c3c;'>❌</span>";
+                            $html .= "</div></div>";
+
+                            $answer_index++;
+                        }
+                    }
+                }
+                // 2. text 블록 (단독 텍스트들)
+                elseif ($block['type'] === 'text') {
                     $raw = trim($block['content']);
-                    
                     if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
                         continue;
                     }
 
-                    $line = htmlspecialchars($block['content']);
-                    $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
+                    $line = htmlspecialchars($raw);
+                    $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$line}</div>";
+
+                    $code_content = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
+                    $code_clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $code_content);
+                    $code_clean = htmlspecialchars(trim($code_clean));
                     $disabled = $answer_index > 0 ? "disabled" : "";
 
                     $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                     $html .= "<div style='flex: 1'>";
-                    $html .= "<div class='code-line'>{$line}</div>";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code}</textarea>";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$code_clean}</textarea>";
                     $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
                     $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none; margin-left: 10px;'>✔️</span>";
                     $html .= "<span id='wrong_{$answer_index}' class='wrongmark' style='display:none; margin-left: 10px; color: #e74c3c;'>❌</span>";
-                    $html .= "</div>";
-                    $html .= "</div>";
+                    $html .= "</div></div>";
 
                     $answer_index++;
+                }
+
+                // 3. children 블록 있으면 재귀
+                if (isset($block['children'])) {
+                    $html .= render_tree_plain($block['children'], $answer_index);
                 }
             }
 
@@ -52,16 +85,15 @@
         ?>
     </div>
 
-    <!-- ✅ 오른쪽 패널은 그냥 빈 상태로 둠 -->
     <div class="right-panel" id="feedback-panel">
+        <!-- 아무것도 출력 안 함 -->
     </div>
 </div>
 
 <script>
-// 정답 리스트
+// ✅ js 부분 그대로
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
-// 제출 버튼 클릭시 호출
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
@@ -95,13 +127,11 @@ function submitAnswer(index) {
     }
 }
 
-// textarea 자동 리사이즈
 function autoResize(ta) {
     ta.style.height = 'auto';
     ta.style.height = ta.scrollHeight + 'px';
 }
 
-// 초기화
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.styled-textarea').forEach(ta => {
         if (!ta.disabled) {
