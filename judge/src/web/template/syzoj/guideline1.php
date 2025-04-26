@@ -14,40 +14,43 @@
         foreach ($blocks as $block) {
             $indent_px = 10 * ($block['depth'] ?? 0);
 
-            // ✅ self, func_def, rep, cond, struct, construct 들도 children만 순회
+            // self, func_def, rep, cond, struct, construct 블록일 경우 children 순회
             if (in_array($block['type'], ['self', 'func_def', 'rep', 'cond', 'struct', 'construct'])) {
                 foreach ($block['children'] as $child) {
                     $html .= render_tree_plain([$child], $answer_index);
                 }
             }
-            // ✅ 실제 텍스트만 렌더링
+            // 텍스트 블록
             elseif ($block['type'] === 'text') {
                 $raw = trim($block['content']);
 
-                // 🔵 태그([func_def_start], [rep_end] 등)은 스킵
+                // 태그는 무시
                 if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
                     continue;
                 }
 
-                // 🔵 설명 출력
+                // 설명 출력
                 $line = htmlspecialchars($raw);
                 $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$line}</div>";
 
-                // 🔵 코드 입력 칸 출력
-                $code_content = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
-                $code_clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $code_content);
-                $code_clean = htmlspecialchars(trim($code_clean));
-                $disabled = $answer_index > 0 ? "disabled" : "";
+                // 코드 입력 영역 출력
+                if (isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index])) {
+                    $code_content = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
+                    $code_clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $code_content);
+                    $code_clean = htmlspecialchars(trim($code_clean));
+                    
+                    $disabled = $answer_index > 0 ? "disabled" : "";
 
-                $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                $html .= "<div style='flex: 1'>";
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$code_clean}</textarea>";
-                $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
-                $html .= "<span id='wrong_{$answer_index}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
-                $html .= "</div></div>";
+                    $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                    $html .= "<div style='flex: 1'>";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$code_clean}</textarea>";
+                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                    $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
+                    $html .= "<span id='wrong_{$answer_index}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
+                    $html .= "</div></div>";
 
-                $answer_index++;
+                    $answer_index++;
+                }
             }
         }
 
@@ -60,7 +63,7 @@
     </div>
 
     <div class="right-panel" id="feedback-panel" style="height: 200px; overflow-y: auto;">
-        <!-- 오른쪽 패널: 비워두되 높이 고정 -->
+        <!-- 오른쪽 패널: 비워두고 스크롤만 가능 -->
     </div>
 </div>
 
