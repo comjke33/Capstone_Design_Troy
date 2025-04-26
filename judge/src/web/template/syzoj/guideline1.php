@@ -1,52 +1,58 @@
-<?php /** @var string $OJ_SID */ /** @var array $OJ_BLOCK_TREE */ /** @var array $OJ_CORRECT_ANSWERS */ ?>
-
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
     <h1>한 줄씩 풀기</h1>
-    <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
+    <span>
+    문제 번호: <?= htmlspecialchars($OJ_SID) ?>
 </div>
 
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
-
 <div class="main-layout">
     <div class="left-panel">
     <?php
     function render_tree_plain($blocks, &$answer_index = 0) {
         $html = "";
-
+    
         foreach ($blocks as $block) {
             $indent_px = 10 * ($block['depth'] ?? 0);
-
+    
             if ($block['type'] === 'text') {
                 $raw = trim($block['content']);
-                if (
-                    $raw === '' || 
-                    preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)
-                ) {
+    
+                // 1. 태그 ([func_def_start(1)] 같은거) 는 무시
+                if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
                     continue;
                 }
-
-                $line = htmlspecialchars($raw);
-                $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
-                $disabled = $answer_index > 0 ? "disabled" : "";
-
-                $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                $html .= "<div style='flex: 1'>";
-                $html .= "<div class='code-line'>{$line}</div>";
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code}</textarea>";
-                $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                $html .= "</div></div>";
-
-                $answer_index++;
+    
+                // 2. 설명줄(주석 등) 이면 일반 텍스트 출력
+                if (preg_match("/^\/\//", $raw) || preg_match("/^\/\*/", $raw)) {
+                    $line = htmlspecialchars($raw);
+                    $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$line}</div>";
+                } 
+                // 3. 코드줄 이면 textarea 생성
+                else {
+                    $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
+                    $disabled = $answer_index > 0 ? "disabled" : "";
+    
+                    $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                    $html .= "<div style='flex: 1'>";
+                    $html .= "<div class='code-line'>코드 작성:</div>";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code}</textarea>";
+                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                    $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                    $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                    $html .= "</div></div>";
+    
+                    $answer_index++;
+                }
+            }
+    
+            // 4. 재귀적으로 children 순회 (중첩 block 지원)
+            if (isset($block['children'])) {
+                $html .= render_tree_plain($block['children'], $answer_index);
             }
         }
-
+    
         return $html;
     }
-
-    $answer_index = 0;
-    echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
     ?>
     </div>
 
@@ -66,11 +72,13 @@ function submitAnswer(index) {
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
 
+    console.log(`정답 (index ${index}):`, correct);
+    
     if (input === correct) {
         ta.readOnly = true;
         ta.style.backgroundColor = "#eef1f4";
-        btn.style.display = "none";
-        check.style.display = "inline";
+        if (btn) btn.style.display = "none";
+        if (check) check.style.display = "inline";
         updateFeedback(index, true);
 
         const nextIndex = index + 1;
