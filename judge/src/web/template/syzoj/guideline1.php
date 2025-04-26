@@ -9,64 +9,66 @@
     <div class="left-panel">
     <?php
     function render_guideline_and_code($guidelines, $codes) {
-        $html = "";
         $guideline_index = 0;
         $code_index = 0;
         $guideline_count = count($guidelines);
         $code_count = count($codes);
 
         while ($guideline_index < $guideline_count && $code_index < $code_count) {
-            // 1. 설명 출력
-            $desc = trim($guidelines[$guideline_index]['content'] ?? '');
-            $guideline_index++;
+            $desc = trim($guidelines[$guideline_index]);
 
-            if ($desc === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $desc)) {
-                continue; // 빈 줄, 태그 무시
+            // 빈줄이나 태그라인은 무시
+            if ($desc === "" || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $desc)) {
+                $guideline_index++;
+                continue;
             }
 
-            $html .= "<div class='code-line'>" . htmlspecialchars($desc) . "</div>";
+            // 설명 출력
+            echo "<div class='code-line'>" . htmlspecialchars($desc) . "</div>";
 
-            // 2. 코드 묶음 출력
-            $code_block = "";
+            // 코드 블록 출력
+            $block = "";
+            // 여러줄을 포함할 수 있음
             while ($code_index < $code_count) {
-                $line = $codes[$code_index]['content'] ?? '';
-                $line_clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $line);
-                $line_clean = trim($line_clean);
+                $code_line = $codes[$code_index]['content'] ?? '';
+                $clean_line = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $code_line);
+                $clean_line = trim($clean_line);
 
-                if ($line_clean !== '') {
-                    $code_block .= $line_clean . "\n";
+                if ($clean_line !== "") {
+                    $block .= $clean_line . "\n";
                 }
+                $code_index++;
 
-                // 만약 다음 코드가 [xxx_start(n)] 이면 멈춤 (하나의 블럭 끝)
-                if (isset($codes[$code_index + 1]['content']) && 
-                    preg_match("/^\[(func_def|rep|cond|self|struct|construct)_start\(\d+\)\]$/", trim($codes[$code_index + 1]['content']))) {
-                    $code_index++;
+                // 코드가 다음 설명으로 넘어가기 전까지만 쌓기
+                if (
+                    $code_index >= $code_count || 
+                    (isset($codes[$code_index]['start']) && $codes[$code_index]['start'])
+                ) {
                     break;
                 }
-
-                $code_index++;
             }
 
-            $code_block = trim($code_block);
+            $block = rtrim($block);
 
-            $ta_id = $guideline_index - 1; // textarea id는 설명 인덱스 기준
-            $html .= "<div class='submission-line'>";
-            $html .= "<div style='flex: 1'>";
-            $html .= "<textarea id='ta_{$ta_id}' class='styled-textarea' data-index='{$ta_id}'>" . htmlspecialchars($code_block) . "</textarea>";
-            $html .= "<button onclick='submitAnswer({$ta_id})' id='btn_{$ta_id}' class='submit-button'>제출</button>";
-            $html .= "<span id='check_{$ta_id}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
-            $html .= "<span id='wrong_{$ta_id}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
-            $html .= "</div></div>";
+            echo "<div class='submission-line'>";
+            echo "<div style='flex: 1'>";
+            echo "<textarea id='ta_{$guideline_index}' class='styled-textarea' data-index='{$guideline_index}'>" . htmlspecialchars($block) . "</textarea>";
+            echo "<button onclick='submitAnswer({$guideline_index})' id='btn_{$guideline_index}' class='submit-button'>제출</button>";
+            echo "<span id='check_{$guideline_index}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
+            echo "<span id='wrong_{$guideline_index}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
+            echo "</div></div>";
+
+            $guideline_index++;
         }
-
-        echo $html;
     }
 
+    // 실제 호출
     render_guideline_and_code($OJ_BLOCK_TREE, $OJ_CORRECT_ANSWERS);
     ?>
     </div>
 
     <div class="right-panel" id="feedback-panel" style="height: 200px; overflow-y: auto;">
+        <!-- 오른쪽 패널 비워둠 -->
     </div>
 </div>
 
@@ -88,6 +90,16 @@ function submitAnswer(index) {
         if (btn) btn.style.display = "none";
         if (check) check.style.display = "inline";
         if (wrong) wrong.style.display = "none";
+
+        const nextIndex = index + 1;
+        const nextTa = document.getElementById(`ta_${nextIndex}`);
+        const nextBtn = document.getElementById(`btn_${nextIndex}`);
+        if (nextTa && nextBtn) {
+            nextTa.disabled = false;
+            nextBtn.disabled = false;
+            nextTa.focus();
+            nextTa.addEventListener('input', () => autoResize(nextTa));
+        }
     } else {
         ta.style.backgroundColor = "#ffecec";
         ta.style.border = "1px solid #e06060";
