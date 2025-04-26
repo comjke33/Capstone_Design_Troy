@@ -2,51 +2,57 @@
 include("template/syzoj/header.php");
 include("include/db_info.inc.php");
 
-// ✅ step 파라미터 받기
+// ✅ 현재 step 파라미터
 $step = isset($_GET['step']) ? intval($_GET['step']) : 1;
 $step = max(1, min(3, $step));
 
-// ✅ step별 파일 지정
+// ✅ 렌더링할 파일 결정
 switch ($step) {
     case 1:
-        $guideline_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline1.txt";
-        $tagged_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code1.txt";
+        $include_file = "guideline1.php";
         break;
     case 2:
-        $guideline_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline2.txt";
-        $tagged_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code2.txt";
+        $include_file = "guideline2.php";
         break;
     case 3:
-        $guideline_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline3.txt";
-        $tagged_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code3.txt";
+        $include_file = "guideline3.php";
         break;
     default:
-        die("Invalid step.");
+        die("Invalid step");
 }
 
-// ✅ 글로벌 변수로 넘긴다
-$GLOBALS['guideline_file'] = $guideline_file;
-$GLOBALS['tagged_file'] = $tagged_file;
-
-// ✅ 출력 버퍼 시작
+// ✅ 출력 버퍼링으로 내용 받아오기
 ob_start();
-
-// ✅ guideline2.php 실행 (출력은 버퍼로 저장)
-include("guideline2.php");
-
-// ✅ 버퍼 내용을 가져오기
+include($include_file);
 $guideline_content = ob_get_clean();
-
-// ✅ 이제 $guideline_content 변수에 guideline2.php의 출력이 저장되어 있음!
-
 ?>
 
-<!-- 여기서 원하는 곳에 렌더링 -->
-<div class="ui container" style="margin-top:3em;">
-    <h2>📖 Guideline Viewer</h2>
+<style>
+.step-buttons {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2em;
+}
+.step-buttons .ui.button {
+    border-radius: 0;
+    background-color: #2185d0;
+    color: white;
+}
+.step-buttons .ui.button.active {
+    background-color: #0d71bb;
+}
+</style>
+
+<div class="ui container" style="margin-top: 3em;">
+    <!-- ✅ Step 탭 버튼 UI -->
+    <div class="step-buttons">
+        <a href="?step=1" class="ui button <?= $step == 1 ? 'active' : '' ?>">Step 1</a>
+        <a href="?step=2" class="ui button <?= $step == 2 ? 'active' : '' ?>">Step 2</a>
+        <a href="?step=3" class="ui button <?= $step == 3 ? 'active' : '' ?>">Step 3</a>
+    </div>
+
+    <!-- ✅ 선택된 파일 렌더링 결과 출력 -->
     <?= $guideline_content ?>
 </div>
 
-<?php
-include("template/syzoj/footer.php");
-?>
+<?php include("template/syzoj/footer.php"); ?>
