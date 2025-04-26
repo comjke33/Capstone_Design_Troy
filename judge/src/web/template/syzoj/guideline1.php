@@ -8,6 +8,26 @@
 <div class="main-layout">
     <div class="left-panel">
     <?php
+    // 🔥 새로운 함수: block 트리에서 순수 텍스트만 추출
+    function extract_guidelines($blocks) {
+        $guidelines = [];
+
+        foreach ($blocks as $block) {
+            if ($block['type'] === 'text') {
+                $raw = trim($block['content']);
+                if ($raw !== '' && !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
+                    $guidelines[] = $raw;
+                }
+            }
+            if (isset($block['children']) && is_array($block['children'])) {
+                $guidelines = array_merge($guidelines, extract_guidelines($block['children']));
+            }
+        }
+
+        return $guidelines;
+    }
+
+    // 🔥 실제 출력
     function render_guideline_and_code($guidelines, $codes) {
         $guideline_index = 0;
         $code_index = 0;
@@ -17,58 +37,37 @@
         while ($guideline_index < $guideline_count && $code_index < $code_count) {
             $desc = trim($guidelines[$guideline_index]);
 
-            // 빈줄이나 태그라인은 무시
-            if ($desc === "" || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $desc)) {
-                $guideline_index++;
-                continue;
-            }
-
             // 설명 출력
             echo "<div class='code-line'>" . htmlspecialchars($desc) . "</div>";
 
-            // 코드 블록 출력
-            $block = "";
-            // 여러줄을 포함할 수 있음
-            while ($code_index < $code_count) {
-                $code_line = $codes[$code_index]['content'] ?? '';
-                $clean_line = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $code_line);
-                $clean_line = trim($clean_line);
-
-                if ($clean_line !== "") {
-                    $block .= $clean_line . "\n";
-                }
-                $code_index++;
-
-                // 코드가 다음 설명으로 넘어가기 전까지만 쌓기
-                if (
-                    $code_index >= $code_count || 
-                    (isset($codes[$code_index]['start']) && $codes[$code_index]['start'])
-                ) {
-                    break;
-                }
-            }
-
-            $block = rtrim($block);
+            // 코드 블럭 출력
+            $code_content = $codes[$code_index]['content'] ?? '';
+            $code_clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $code_content);
+            $code_clean = htmlspecialchars(trim($code_clean));
 
             echo "<div class='submission-line'>";
             echo "<div style='flex: 1'>";
-            echo "<textarea id='ta_{$guideline_index}' class='styled-textarea' data-index='{$guideline_index}'>" . htmlspecialchars($block) . "</textarea>";
+            echo "<textarea id='ta_{$guideline_index}' class='styled-textarea' data-index='{$guideline_index}'>".$code_clean."</textarea>";
             echo "<button onclick='submitAnswer({$guideline_index})' id='btn_{$guideline_index}' class='submit-button'>제출</button>";
             echo "<span id='check_{$guideline_index}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
             echo "<span id='wrong_{$guideline_index}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
             echo "</div></div>";
 
             $guideline_index++;
+            $code_index++;
         }
     }
 
-    // 실제 호출
-    render_guideline_and_code($OJ_BLOCK_TREE, $OJ_CORRECT_ANSWERS);
+    // ✅ guideline 텍스트 추출
+    $guidelines = extract_guidelines($OJ_BLOCK_TREE);
+
+    // ✅ guideline과 code를 매칭 출력
+    render_guideline_and_code($guidelines, $OJ_CORRECT_ANSWERS);
     ?>
     </div>
 
     <div class="right-panel" id="feedback-panel" style="height: 200px; overflow-y: auto;">
-        <!-- 오른쪽 패널 비워둠 -->
+        <!-- 오른쪽 패널: 높이 고정 -->
     </div>
 </div>
 
