@@ -14,18 +14,20 @@
             foreach ($blocks as $block) {
                 $indent_px = 10 * ($block['depth'] ?? 0);
 
+                // ⭐ self, func_def, rep, cond, struct, construct 블록은 직접 children만 돌고 재귀 호출 안 함
                 if (in_array($block['type'], ['self', 'func_def', 'rep', 'cond', 'struct', 'construct'])) {
-                    // ✅ 설명 출력
                     foreach ($block['children'] as $child) {
                         if ($child['type'] === 'text') {
                             $raw = trim($child['content']);
                             if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
                                 continue;
                             }
+
+                            // 🔵 설명 출력
                             $line = htmlspecialchars($raw);
                             $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$line}</div>";
 
-                            // ✅ 이어서 바로 textarea + 제출버튼 출력
+                            // 🔵 코드 작성 영역 출력
                             $code_content = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
                             $code_clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $code_content);
                             $code_clean = htmlspecialchars(trim($code_clean));
@@ -42,12 +44,15 @@
                             $answer_index++;
                         }
                     }
+                    // ✅ 여기선 재귀 호출 X (children 다 돌았으니까)
                 }
+                // ⭐ 단독 text 블록은 그대로 처리
                 elseif ($block['type'] === 'text') {
                     $raw = trim($block['content']);
                     if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
                         continue;
                     }
+
                     $line = htmlspecialchars($raw);
                     $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$line}</div>";
 
@@ -66,10 +71,6 @@
 
                     $answer_index++;
                 }
-
-                if (isset($block['children'])) {
-                    $html .= render_tree_plain($block['children'], $answer_index);
-                }
             }
 
             return $html;
@@ -81,11 +82,12 @@
     </div>
 
     <div class="right-panel" id="feedback-panel">
-        <!-- 오른쪽 패널 비워두기 -->
+        <!-- 아무것도 출력하지 않음 -->
     </div>
 </div>
 
 <script>
+// ✅ js 부분
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
 function submitAnswer(index) {
