@@ -1,137 +1,127 @@
-<div class="main-layout">
-    <div class="left-panel">
-    <?php
-        function render_tree_plain($blocks, &$answer_index = 0) {
-            $html = "";
+<?php
+// ✅ 파일 경로 설정
+$step = isset($_GET['step']) ? intval($_GET['step']) : 1;
+$step = max(1, min(3, $step));
 
-            foreach ($blocks as $block) {
-                $indent_px = 10 * ($block['depth'] ?? 0);
+switch ($step) {
+    case 1:
+        $guideline_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline1.txt";
+        $tagged_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code1.txt";
+        break;
+    case 2:
+        $guideline_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline2.txt";
+        $tagged_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code2.txt";
+        break;
+    case 3:
+        $guideline_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline3.txt";
+        $tagged_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code3.txt";
+        break;
+    default:
+        die("Invalid step.");
+}
 
-                if (isset($block['children'])) {
-                    $desc_lines = [];
-                    $is_closing_brace = false;
-                    $code_data = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index] ?? null;
-                    $readonly = $code_data['readonly'] ?? false;
-                    $info = $code_data['info'] ?? '';
+// ✅ 파일 읽기
+$guideline_contents = file_get_contents($guideline_file);
+$tagged_contents = file_get_contents($tagged_file);
 
-                    if ($readonly && $info === '닫는 괄호') {
-                        $html .= "<div class='code-line' style='margin-left: {$indent_px}px; color: #666; font-style: italic;'>※ {$info}</div>";
-                        $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$code_data['content']}</div>";
-                        $answer_index++;
-                        $is_closing_brace = true;
-                    }
+// ✅ 파싱 함수
+function parse_blocks_with_loose_text($text, $depth = 0) {
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
+    $blocks = [];
+    $offset = 0;
+    while (preg_match($pattern, $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
+        $start_pos = $m[0][1];
+        $full_len = strlen($m[0][0]);
+        $end_pos = $start_pos + $full_len;
+        $before_text = substr($text, $offset, $start_pos - $offset);
+        if (trim($before_text) !== '') {
+            foreach (explode("\n", $before_text) as $line) {
+                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+                $blocks[] = [
+                    'type' => 'text',
+                    'content' => rtrim($line),
+                    'depth' => $depth + $indent_level
+                ];
+            }
+        }
+        $type = $m[1][0];
+        $idx = $m[2][0];
+        $content = $m[3][0];
+        $children = parse_blocks_with_loose_text($content, $depth + 1);
+        array_unshift($children, ['type' => 'text', 'content' => "[{$type}_start({$idx})]", 'depth' => $depth + 1]);
+        array_push($children, ['type' => 'text', 'content' => "[{$type}_end({$idx})]", 'depth' => $depth + 1]);
+        $blocks[] = [
+            'type' => $type,
+            'index' => $idx,
+            'depth' => $depth,
+            'children' => $children
+        ];
+        $offset = $end_pos;
+    }
+    $tail = substr($text, $offset);
+    if (trim($tail) !== '') {
+        foreach (explode("\n", $tail) as $line) {
+            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+            $blocks[] = [
+                'type' => 'text',
+                'content' => rtrim($line),
+                'depth' => $depth + $indent_level
+            ];
+        }
+    }
+    return $blocks;
+}
 
-                    if (!$is_closing_brace) {
-                        foreach ($block['children'] as $child) {
-                            if ($child['type'] === 'text') {
-                                $raw = trim($child['content']);
-                                if (
-                                    $raw !== '' &&
-                                    $raw !== '}' &&
-                                    !preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", $raw)
-                                ) {
-                                    $desc_lines[] = htmlspecialchars($raw);
-                                }
-                            }
-                        }
-
-                        if (!empty($desc_lines)) {
-                            $desc_html = implode("<br>", $desc_lines);
-                            $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$desc_html}</div>";
-                        }
-
-                        if ($code_data) {
-                            $code_line = htmlspecialchars(trim($code_data['content']));
-                            $readonly_attr = $readonly ? 'readonly' : '';
-                            $disabled = (!$readonly && $answer_index !== 0) ? 'disabled' : '';
-
-                            $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                            $html .= "<div style='flex: 1'>";
-                            if ($info !== '' && !$readonly) {
-                                $html .= "<div class='code-line' style='color: #666; font-style: italic;'>※ {$info}</div>";
-                            }
-                            $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$readonly_attr} {$disabled}>{$code_line}</textarea>";
-                            if (!$readonly) {
-                                $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                            }
-                            $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                            $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                            $html .= "</div></div>";
-                            $answer_index++;
-                        }
-                    }
-
-                    $html .= render_tree_plain($block['children'], $answer_index);
+function extract_tagged_blocks($text) {
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\d+)\)\]|\[(func_def|rep|cond|self|struct|construct)_end\\((\d+)\)\]/";
+    preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
+    $stack = [];
+    $blocks = [];
+    foreach ($matches[0] as $i => $match) {
+        $full = $match[0];
+        $pos = $match[1];
+        if (strpos($full, '_start(') !== false) {
+            preg_match("/\[(\w+)_start\((\d+)\)\]/", $full, $m);
+            $stack[] = [
+                'type' => $m[1],
+                'index' => intval($m[2]),
+                'start' => $pos + strlen($full),
+                'token_pos' => $pos
+            ];
+        } elseif (strpos($full, '_end(') !== false) {
+            preg_match("/\[(\w+)_end\((\d+)\)\]/", $full, $m);
+            $type = $m[1];
+            $index = intval($m[2]);
+            for ($j = count($stack) - 1; $j >= 0; $j--) {
+                if ($stack[$j]['type'] === $type && $stack[$j]['index'] === $index) {
+                    $start = $stack[$j]['start'];
+                    $token_pos = $stack[$j]['token_pos'];
+                    $end = $pos;
+                    $content = substr($text, $start, $end - $start);
+                    $blocks[] = [
+                        'type' => $type,
+                        'index' => $index,
+                        'content' => trim($content),
+                        'pos' => $token_pos
+                    ];
+                    array_splice($stack, $j, 1);
+                    break;
                 }
             }
-
-            return $html;
         }
-
-        $answer_index = 0;
-        echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
-    ?>
-    </div>
-
-    <div class="right-panel" id="feedback-panel">
-        <h4>📝 피드백</h4>
-    </div>
-</div>
-
-<script>
-const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
-
-function submitAnswer(index) {
-    const ta = document.getElementById(`ta_${index}`);
-    const btn = document.getElementById(`btn_${index}`);
-    const check = document.getElementById(`check_${index}`);
-
-    const input = ta.value.trim();
-    const correct = (correctAnswers[index]?.content || "").trim();
-
-    if (input === correct) {
-        ta.readOnly = true;
-        ta.style.backgroundColor = "#eef1f4";
-        if (btn) btn.style.display = "none";
-        if (check) check.style.display = "inline";
-        updateFeedback(index, true);
-
-        const nextIndex = index + 1;
-        const nextTa = document.getElementById(`ta_${nextIndex}`);
-        const nextBtn = document.getElementById(`btn_${nextIndex}`);
-        if (nextTa && nextBtn) {
-            nextTa.disabled = false;
-            nextBtn.disabled = false;
-            nextTa.focus();
-            nextTa.addEventListener('input', () => autoResize(nextTa));
-        }
-    } else {
-        ta.style.backgroundColor = "#ffecec";
-        ta.style.border = "1px solid #e06060";
-        ta.style.color = "#c00";
-        updateFeedback(index, false);
     }
+    usort($blocks, fn($a, $b) => $a['pos'] <=> $b['pos']);
+    return array_map(fn($b) => [
+        'type' => $b['type'],
+        'index' => $b['index'],
+        'content' => $b['content']
+    ], $blocks);
 }
 
-function updateFeedback(index, isCorrect) {
-    const panel = document.getElementById('feedback-panel');
-    const existing = document.getElementById(`feedback_${index}`);
-    const result = isCorrect ? "✔️ 정답" : "❌ 오답";
-    const line = `<div id="feedback_${index}" class="feedback-line ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}">Line ${index + 1}: ${result}</div>`;
-    if (existing) existing.outerHTML = line;
-    else panel.insertAdjacentHTML('beforeend', line);
-}
+// ✅ 최종 데이터
+$OJ_BLOCK_TREE = parse_blocks_with_loose_text($guideline_contents);
+$OJ_CORRECT_ANSWERS = extract_tagged_blocks($tagged_contents);
+$OJ_SID = "STEP {$step}";
 
-function autoResize(ta) {
-    ta.style.height = 'auto';
-    ta.style.height = ta.scrollHeight + 'px';
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.styled-textarea').forEach(ta => {
-        if (!ta.disabled) {
-            ta.addEventListener('input', () => autoResize(ta));
-        }
-    });
-});
-</script>
+// ✅ 이제 아까 너가 준 본문 출력 부분 (left-panel, right-panel, submit 기능) 이어서 사용
+?>
