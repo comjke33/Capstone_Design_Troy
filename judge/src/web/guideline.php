@@ -1,67 +1,128 @@
-<?php include("template/$OJ_TEMPLATE/header.php"); ?>
+<?php
+include("template/syzoj/header.php");
+include("include/db_info.inc.php");
 
-<div class="ui container" style="margin-top: 3em;">
-    <!-- Step 버튼들을 위한 UI -->
-    <div class="ui large buttons" id="step_buttons">
-        <button class="ui blue button" id="step1_button">Step 1</button>
-        <button class="ui blue button" id="step2_button">Step 2</button>
-        <button class="ui blue button" id="step3_button">Step 3</button>
-    </div>
+// 📌 Step 구분
+$step = isset($_GET['step']) ? intval($_GET['step']) : 1;
+$step = max(1, min($step, 3));
 
-    <div id="content_area" class="ui segment" style="margin-top: 2em; padding: 2em;">
-        <h3>여기에 단계별 내용을 표시합니다.</h3>
-    </div>
-</div>
+// 📌 경로 설정
+$base_path = "/home/Capstone_Design_Troy/test/step{$step}/";
+$guideline_file = $base_path . "guideline.txt";
+$tagged_file = $base_path . "tagged_code.txt";
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // 처음에는 Step1 내용을 불러옴
-    loadGuidelineContent('guideline1.php');
-});
+$guideline_contents = file_get_contents($guideline_file);
+$txt_contents = file_get_contents($tagged_file);
 
-document.getElementById('step1_button').onclick = function() {
-    loadGuidelineContent('guideline1.php');
-};
+// 📌 설명 파싱
+function parse_blocks_with_loose_text($text, $depth = 0) {
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
+    $blocks = [];
+    $offset = 0;
 
-document.getElementById('step2_button').onclick = function() {
-    loadGuidelineContent('guideline2.php');
-};
+    while (preg_match($pattern, $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
+        $start_pos = $m[0][1];
+        $full_len = strlen($m[0][0]);
+        $end_pos = $start_pos + $full_len;
 
-document.getElementById('step3_button').onclick = function() {
-    loadGuidelineContent('guideline3.php');
-};
-
-// guideline1, 2, 3의 내용을 동적으로 불러오는 함수
-function loadGuidelineContent(step) {
-    var contentArea = document.getElementById('content_area');
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', step, true);
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            contentArea.innerHTML = xhr.responseText;
-
-            // 🔥 중요: 불러온 내용 중 <script> 태그를 강제로 실행시킨다
-            executeScripts(contentArea);
-        } else {
-            contentArea.innerHTML = "Error loading content.";
+        $before_text = substr($text, $offset, $start_pos - $offset);
+        if (trim($before_text) !== '') {
+            foreach (explode("\n", $before_text) as $line) {
+                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+                $blocks[] = [
+                    'type' => 'text',
+                    'content' => rtrim($line),
+                    'depth' => $depth + $indent_level
+                ];
+            }
         }
-    };
-    xhr.send();
+
+        $type = $m[1][0];
+        $idx = $m[2][0];
+        $content = $m[3][0];
+
+        $start_tag = "[{$type}_start({$idx})]";
+        $end_tag = "[{$type}_end({$idx})]";
+
+        $children = parse_blocks_with_loose_text($content, $depth + 1);
+        array_unshift($children, ['type' => 'text', 'content' => $start_tag, 'depth' => $depth + 1]);
+        array_push($children, ['type' => 'text', 'content' => $end_tag, 'depth' => $depth + 1]);
+
+        $blocks[] = [
+            'type' => $type,
+            'index' => $idx,
+            'depth' => $depth,
+            'children' => $children
+        ];
+
+        $offset = $end_pos;
+    }
+
+    $tail = substr($text, $offset);
+    if (trim($tail) !== '') {
+        foreach (explode("\n", $tail) as $line) {
+            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+            $blocks[] = [
+                'type' => 'text',
+                'content' => rtrim($line),
+                'depth' => $depth + $indent_level
+            ];
+        }
+    }
+
+    return $blocks;
 }
 
-// 🔥 불러온 content 안에 있는 <script> 들을 실행하는 함수
-function executeScripts(element) {
-    const scripts = element.querySelectorAll('script');
-    scripts.forEach(oldScript => {
-        const newScript = document.createElement('script');
-        if (oldScript.src) {
-            newScript.src = oldScript.src;
-        } else {
-            newScript.textContent = oldScript.textContent;
-        }
-        document.body.appendChild(newScript);
-    });
-}
-</script>
+// 📌 정답 추출 (라인 단위)
+function extract_tagged_code_lines($text) {
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
+    preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
-<?php include("template/$OJ_TEMPLATE/footer.php"); ?>
+    $positions = [];
+    foreach ($matches[0] as $i => $match) {
+        $positions[] = [
+            'pos' => $match[1],
+            'end' => $match[1] + strlen($match[0])
+        ];
+    }
+
+    $lines = [];
+    for ($i = 0; $i < count($positions); $i++) {
+        $start_pos = $positions[$i]['end'];
+        $end_pos = isset($positions[$i + 1]) ? $positions[$i + 1]['pos'] : strlen($text);
+        $code_block = substr($text, $start_pos, $end_pos - $start_pos);
+
+        foreach (explode("\n", $code_block) as $line) {
+            $trimmed = trim($line);
+            if ($trimmed !== '') {
+                if ($trimmed === '}') {
+                    $lines[] = ['content' => $trimmed, 'readonly' => true, 'info' => '닫는 괄호'];
+                    $lines[] = ['content' => '', 'readonly' => false, 'info' => ''];
+                } else {
+                    $lines[] = ['content' => $trimmed, 'readonly' => false, 'info' => ''];
+                }
+            }
+        }
+    }
+
+    return $lines;
+}
+
+// 📌 데이터 설정
+$OJ_BLOCK_TREE = parse_blocks_with_loose_text($guideline_contents);
+$OJ_CORRECT_ANSWERS = extract_tagged_code_lines($txt_contents);
+$OJ_SID = "STEP {$step}";
+
+// 📌 탭 버튼 출력
+echo "<div class='ui large buttons' style='margin-bottom:2em;'>";
+for ($i = 1; $i <= 3; $i++) {
+    $active = ($i === $step) ? "style='background-color:#1678c2; color:white;'" : "";
+    echo "<a href='guideline.php?step=$i' class='ui blue button' $active>Step $i</a>";
+}
+echo "</div>";
+
+// 📌 렌더링 템플릿 호출
+include("template/syzoj/guideline_render.php");
+
+include("template/syzoj/footer.php");
+?>
