@@ -1,135 +1,45 @@
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
     <h1>한 줄씩 풀기</h1>
-    <span>
-    문제 번호: <?= htmlspecialchars($OJ_SID) ?>
+    <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
 </div>
 
-<style>
-    .main-layout {
-        display: flex;
-        gap: 40px;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    .left-panel {
-        flex: 2;
-    }
-
-    .right-panel {
-        flex: 1;
-        padding: 16px;
-        background-color: #fafafa;
-        border: 1px solid #eee;
-        border-radius: 8px;
-        font-family: monospace;
-    }
-
-    .code-line {
-        background-color: #f8f8fa;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        padding: 10px 16px;
-        margin-bottom: 10px;
-        font-size: 15px;
-        color: #333;
-        white-space: pre-wrap;
-    }
-
-    .styled-textarea {
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        padding: 10px 14px;
-        font-family: monospace;
-        font-size: 15px;
-        background-color: #fff;
-        line-height: 1.6;
-        resize: none;
-        width: 100%;
-        box-sizing: border-box;
-        min-height: 40px;
-    }
-
-    .submit-button {
-        margin-top: 6px;
-        background-color: #4a90e2;
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    .checkmark {
-        font-size: 18px;
-        margin-left: 6px;
-        color: #2ecc71;
-    }
-
-    .submission-line {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 20px;
-        margin-bottom: 28px;
-    }
-
-    .feedback-line {
-        margin-bottom: 12px;
-        font-size: 15px;
-    }
-
-    .feedback-correct {
-        color: #2ecc71;
-    }
-
-    .feedback-wrong {
-        color: #e74c3c;
-    }
-</style>
+<link rel="stylesheet" href="css/guideline.css">
 
 <div class="main-layout">
     <div class="left-panel">
-    <?php
-        function render_tree_plain($blocks, &$answer_index = 0) {
-            $html = "";
-
-            foreach ($blocks as $block) {
-                $indent_px = 10 * ($block['depth'] ?? 0);
-
-                if (isset($block['children'])) {
-                    $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
-                    $html .= render_tree_plain($block['children'], $answer_index);
-                    $html .= "</div>";
-                } elseif ($block['type'] === 'text') {
-                    $raw = trim($block['content']);
-
-                    if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
-                        continue;
+        <?php
+        $answer_index = 0;
+        foreach ($OJ_BLOCK_TREE as $block) {
+            $indent_px = 10 * ($block['depth'] ?? 0);
+            if (isset($block['children'])) {
+                // 중첩 블록은 재귀적으로 렌더링
+                foreach ($block['children'] as $child) {
+                    if ($child['type'] === 'text') {
+                        $raw = trim($child['content']);
+                        if ($raw !== '' && !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
+                            $line = htmlspecialchars($raw);
+                            echo "<div class='code-line' style='margin-left: {$indent_px}px;'>{$line}</div>";
+                        }
                     }
-
+                }
+            } elseif ($block['type'] === 'text') {
+                $raw = trim($block['content']);
+                if ($raw !== '' && !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
                     $line = htmlspecialchars($block['content']);
-                    $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
+                    $correct_code = htmlspecialchars($OJ_CORRECT_ANSWERS[$answer_index]['content'] ?? '');
                     $disabled = $answer_index > 0 ? "disabled" : "";
-
-                    $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                    $html .= "<div style='flex: 1'>";
-                    $html .= "<div class='code-line'>{$line}</div>";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code}</textarea>";
-                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                    $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                    $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                    $html .= "</div></div>";
-
+                    echo "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                    echo "<div style='flex: 1'>";
+                    echo "<div class='code-line'>{$line}</div>";
+                    echo "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code}</textarea>";
+                    echo "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                    echo "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                    echo "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                    echo "</div></div>";
                     $answer_index++;
                 }
             }
-
-            return $html;
         }
-
-        $answer_index = 0;
-        echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
         ?>
     </div>
 
@@ -155,7 +65,6 @@ function submitAnswer(index) {
         btn.style.display = "none";
         check.style.display = "inline";
         updateFeedback(index, true);
-
         const nextIndex = index + 1;
         const nextTa = document.getElementById(`ta_${nextIndex}`);
         const nextBtn = document.getElementById(`btn_${nextIndex}`);
