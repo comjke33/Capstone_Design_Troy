@@ -72,7 +72,7 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
 
 // ✅ 정답 코드 라인 추출
 function extract_tagged_code_lines($text) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\\d+)\)\]/";
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
     $positions = [];
@@ -108,9 +108,8 @@ function extract_tagged_code_lines($text) {
 // ✅ 데이터 준비
 $OJ_BLOCK_TREE = parse_blocks_with_loose_text($guideline_contents);
 $OJ_CORRECT_ANSWERS = extract_tagged_code_lines($txt_contents);
-$OJ_SID = "STEP $step";
 
-// ✅ 탭 버튼
+// ✅ 탭 버튼 UI
 echo "<div class='ui large buttons' style='margin-bottom:2em;'>";
 for ($i = 1; $i <= 3; $i++) {
     $active = ($i === $step) ? "style='background-color:#1678c2; color:white;'" : "";
@@ -168,7 +167,7 @@ function render_tree_plain($blocks, &$answer_index = 0) {
                     if ($info !== '' && !$readonly) {
                         $html .= "<div class='code-line' style='color: #666; font-style: italic;'>※ {$info}</div>";
                     }
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$readonly_attr} {$disabled}>{$code_line}</textarea>";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' {$readonly_attr} {$disabled}>{$code_line}</textarea>";
                     if (!$readonly) {
                         $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
                     }
@@ -186,7 +185,7 @@ function render_tree_plain($blocks, &$answer_index = 0) {
     return $html;
 }
 
-// ✅ 출력
+// ✅ HTML 출력
 echo "<div class='main-layout'>";
 echo "<div class='left-panel'>";
 $answer_index = 0;
@@ -196,6 +195,54 @@ echo "<div class='right-panel' id='feedback-panel'><h4>📝 피드백</h4></div>
 echo "</div>";
 ?>
 
+<!-- ✅ CSS 스타일 -->
+<style>
+.main-layout {
+    display: flex;
+    gap: 30px;
+}
+.left-panel {
+    flex: 2;
+}
+.right-panel {
+    flex: 1;
+    background-color: #fafafa;
+    padding: 16px;
+    border-left: 2px solid #eee;
+    min-height: 200px;
+}
+.code-line {
+    background: #f0f2f5;
+    margin-bottom: 8px;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: monospace;
+}
+.submission-line {
+    margin-bottom: 12px;
+}
+.styled-textarea {
+    width: 100%;
+    font-family: monospace;
+    margin-top: 8px;
+}
+.submit-button {
+    margin-top: 5px;
+}
+.feedback-line {
+    margin-top: 10px;
+}
+.feedback-correct {
+    color: #2ecc71;
+    font-weight: bold;
+}
+.feedback-wrong {
+    color: #e74c3c;
+    font-weight: bold;
+}
+</style>
+
+<!-- ✅ JavaScript 기능 -->
 <script>
 function initializeGuideline(correctAnswers) {
     document.querySelectorAll('.styled-textarea').forEach(ta => {
@@ -241,8 +288,11 @@ function initializeGuideline(correctAnswers) {
         const existing = document.getElementById(`feedback_${index}`);
         const result = isCorrect ? "✔️ 정답" : "❌ 오답";
         const line = `<div id="feedback_${index}" class="feedback-line ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}">Line ${index + 1}: ${result}</div>`;
-        if (existing) existing.outerHTML = line;
-        else panel.insertAdjacentHTML('beforeend', line);
+        if (existing) {
+            existing.outerHTML = line;
+        } else {
+            panel.insertAdjacentHTML('beforeend', line);
+        }
     }
 
     function autoResize(ta) {
