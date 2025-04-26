@@ -8,43 +8,54 @@
 <div class="main-layout">
     <div class="left-panel">
     <?php
-    // ✅ 설명들
-    $guidelines = array_filter($GLOBALS['OJ_BLOCK_TREE'], function($line) {
-        $trimmed = trim($line);
-        return $trimmed !== '' && !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $trimmed);
-    });
-
-    // ✅ 코드 블록 쪼개기
-    $raw_codes = $GLOBALS['OJ_CORRECT_ANSWERS'] ?? [];
-    $blocks = [];
-    $current = "";
-
-    foreach ($raw_codes as $entry) {
-        $line = trim($entry['content']);
-        if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_start\(\d+\)\]$/", $line)) {
-            $current = "";
-        } elseif (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_end\(\d+\)\]$/", $line)) {
-            $blocks[] = trim($current);
-        } else {
-            $line = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $line);
-            $current .= $line . "\n";
+    // 1. 설명 (guideline) 준비
+    function extract_guidelines($tree) {
+        $guidelines = [];
+        foreach ($tree as $block) {
+            if ($block['type'] == 'text') {
+                $text = trim($block['content']);
+                if ($text !== '' && !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $text)) {
+                    $guidelines[] = $text;
+                }
+            }
+            if (isset($block['children'])) {
+                $guidelines = array_merge($guidelines, extract_guidelines($block['children']));
+            }
         }
+        return $guidelines;
     }
+    $guidelines = extract_guidelines($OJ_BLOCK_TREE);
 
-    $guidelines = array_values($guidelines);
-    $blocks = array_values($blocks);
+    // 2. 코드 블럭 준비
+    function extract_code_blocks($codes) {
+        $blocks = [];
+        $current_block = [];
+        foreach ($codes as $entry) {
+            $line = trim($entry['content']);
+            if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_start\(\d+\)\]$/", $line)) {
+                $current_block = [];
+            } elseif (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_end\(\d+\)\]$/", $line)) {
+                if (!empty($current_block)) {
+                    $blocks[] = implode("\n", $current_block);
+                }
+            } else {
+                $line = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $line);
+                $current_block[] = $line;
+            }
+        }
+        return $blocks;
+    }
+    $code_blocks = extract_code_blocks($OJ_CORRECT_ANSWERS);
 
-    // ✅ 출력
-    $correctAnswerList = [];
-    for ($i = 0; $i < min(count($guidelines), count($blocks)); $i++) {
+    // 3. 출력
+    $count = min(count($guidelines), count($code_blocks));
+    for ($i = 0; $i < $count; $i++) {
         $desc = htmlspecialchars($guidelines[$i]);
-        $code = htmlspecialchars(trim($blocks[$i]));
-        $correctAnswerList[$i] = trim($blocks[$i]);
-
+        $code = htmlspecialchars($code_blocks[$i]);
         echo "<div class='code-line'>{$desc}</div>";
         echo "<div class='submission-line'>";
         echo "<div style='flex: 1'>";
-        echo "<textarea id='ta_{$i}' class='styled-textarea' data-index='{$i}'>".$code."</textarea>";
+        echo "<textarea id='ta_{$i}' class='styled-textarea' data-index='{$i}'>{$code}</textarea>";
         echo "<button onclick='submitAnswer({$i})' id='btn_{$i}' class='submit-button'>제출</button>";
         echo "<span id='check_{$i}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
         echo "<span id='wrong_{$i}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
@@ -54,11 +65,12 @@
     </div>
 
     <div class="right-panel" id="feedback-panel" style="height: 200px; overflow-y: auto;">
+        <!-- 오른쪽 패널은 고정 -->
     </div>
 </div>
 
 <script>
-const correctAnswers = <?= json_encode($correctAnswerList, JSON_UNESCAPED_UNICODE) ?>;
+const correctAnswers = <?= json_encode($code_blocks, JSON_UNESCAPED_UNICODE) ?>;
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
