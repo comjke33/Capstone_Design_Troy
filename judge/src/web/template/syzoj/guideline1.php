@@ -8,52 +8,56 @@
 <div class="main-layout">
     <div class="left-panel">
     <?php
-    // 📦 가이드라인 한 줄씩
-    $guideline_lines = $GLOBALS['OJ_BLOCK_TREE']; // 예: ['main 함수입니다.', 'r, c 변수 선언', ...]
+    $guideline_lines = $GLOBALS['OJ_BLOCK_TREE']; // 설명 줄들
+    $codes = $GLOBALS['OJ_CORRECT_ANSWERS'];       // 코드 줄들
 
-    // 📦 코드 블록 (tagged_code 파싱)
+    $guideline_index = 0;
+    $code_index = 0;
     $code_blocks = [];
+
+    // 코드 블럭 재구성
     $current_block = '';
 
-    foreach ($GLOBALS['OJ_CORRECT_ANSWERS'] as $entry) {
-        $content = trim($entry['content']);
+    foreach ($codes as $line) {
+        $content = trim($line['content']);
         if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_start\(\d+\)\]$/", $content)) {
-            $current_block = ''; // 새 블럭 시작
+            $current_block = '';
         } elseif (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_end\(\d+\)\]$/", $content)) {
-            $code_blocks[] = trim($current_block); // 블럭 저장
+            $code_blocks[] = trim($current_block);
         } else {
             $clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $content);
-            $current_block .= $clean . "\n"; // 코드 누적
+            $current_block .= $clean . "\n";
         }
     }
 
-    // 📦 출력
-    $guideline_index = 0;
-    $code_index = 0;
+    $output_index = 0;
+    $correctAnswerList = [];
 
-    while ($guideline_index < count($guideline_lines) && $code_index < count($code_blocks)) {
+    while ($guideline_index < count($guideline_lines) && $output_index < count($code_blocks)) {
         $desc = trim($guideline_lines[$guideline_index]);
         $guideline_index++;
 
-        // 설명이 빈 줄이거나 태그면 스킵
         if ($desc === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $desc)) {
             continue;
         }
 
-        // ✏️ 설명 출력
+        // ✏️ 문제 설명 출력
         echo "<div class='code-line'>".htmlspecialchars($desc)."</div>";
 
-        // ✏️ 코드 블럭 출력
-        $code = trim($code_blocks[$code_index]);
-        $code_index++;
+        // ✏️ 코드 입력창 출력
+        $code = trim($code_blocks[$output_index]);
+        $correctAnswerList[$output_index] = $code; // 저장
+        $escaped_code = htmlspecialchars($code);
 
         echo "<div class='submission-line'>";
         echo "<div style='flex: 1'>";
-        echo "<textarea id='ta_{$code_index}' class='styled-textarea' data-index='{$code_index}'>".htmlspecialchars($code)."</textarea>";
-        echo "<button onclick='submitAnswer({$code_index})' id='btn_{$code_index}' class='submit-button'>제출</button>";
-        echo "<span id='check_{$code_index}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
-        echo "<span id='wrong_{$code_index}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
+        echo "<textarea id='ta_{$output_index}' class='styled-textarea' data-index='{$output_index}'>".$escaped_code."</textarea>";
+        echo "<button onclick='submitAnswer({$output_index})' id='btn_{$output_index}' class='submit-button'>제출</button>";
+        echo "<span id='check_{$output_index}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
+        echo "<span id='wrong_{$output_index}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
         echo "</div></div>";
+
+        $output_index++;
     }
     ?>
     </div>
@@ -63,9 +67,8 @@
 </div>
 
 <script>
-const correctAnswers = <?= json_encode(array_map(function($block) {
-    return trim($block);
-}, $code_blocks)) ?>;
+// 🧩 정답 배열
+const correctAnswers = <?= json_encode($correctAnswerList, JSON_UNESCAPED_UNICODE) ?>;
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
@@ -74,7 +77,7 @@ function submitAnswer(index) {
     const wrong = document.getElementById(`wrong_${index}`);
 
     const input = ta.value.trim();
-    const correct = (correctAnswers[index - 1] || "").trim(); // index - 1 맞춰줌
+    const correct = (correctAnswers[index] || "").trim();
 
     if (input === correct) {
         ta.readOnly = true;
