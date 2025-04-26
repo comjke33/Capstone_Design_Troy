@@ -16,7 +16,7 @@
                 $indent_px = 10 * ($block['depth'] ?? 0);
 
                 if ($block['type'] === 'self') {
-                    // ✨ self 블록은 문제 설명으로 출력
+                    // self 블록은 설명만 출력, answer_index 건드리지 않음
                     foreach ($block['children'] as $child) {
                         if ($child['type'] === 'text') {
                             $desc = trim($child['content']);
@@ -27,12 +27,11 @@
                     }
                 } elseif ($block['type'] === 'text') {
                     $raw = trim($block['content']);
-                    // 태그는 무시
                     if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
                         continue;
                     }
 
-                    // 🔵 코드 작성 부분
+                    // 코드 입력 부분: 정답 연결하고 answer_index 증가
                     $raw_code = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
                     $cleaned_code = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $raw_code);
                     $correct_code = htmlspecialchars(trim($cleaned_code));
@@ -46,10 +45,10 @@
                     $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
                     $html .= "</div></div>";
 
-                    $answer_index++;
+                    $answer_index++; // 오로지 코드 부분에서만 증가
                 }
 
-                // 자식 블록 재귀 호출
+                // 자식 재귀 순회
                 if (isset($block['children'])) {
                     $html .= render_tree_plain($block['children'], $answer_index);
                 }
@@ -73,7 +72,7 @@
 // 정답 리스트
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
-// 제출 버튼 클릭시 호출
+// 제출 버튼 클릭
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
@@ -106,7 +105,7 @@ function submitAnswer(index) {
     }
 }
 
-// 피드백 업데이트
+// 피드백 갱신
 function updateFeedback(index, isCorrect) {
     const panel = document.getElementById('feedback-panel');
     const existing = document.getElementById(`feedback_${index}`);
@@ -122,7 +121,7 @@ function autoResize(ta) {
     ta.style.height = ta.scrollHeight + 'px';
 }
 
-// 초기화
+// 페이지 로드시 초기화
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.styled-textarea').forEach(ta => {
         if (!ta.disabled) {
