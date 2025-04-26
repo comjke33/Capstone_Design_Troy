@@ -1,16 +1,17 @@
 <?php
-// ✅ 헤더, 푸터 없음
+include("template/syzoj/header.php");
+include("include/db_info.inc.php");
+include("guideline_common.php"); // ✨ 공통 파일 사용
 
-$file_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline3.txt";
-$tagged_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code3.txt";
+$file_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline1.txt";
+$tagged_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code1.txt";
 
-// 파싱 함수 복붙
-function parse_blocks_with_loose_text($text, $depth = 0) { /* ... */ }
-function extract_tagged_blocks($text) { /* ... */ }
+$guideline_contents = file_get_contents($file_path);
+$tagged_contents = file_get_contents($tagged_path);
 
-$OJ_BLOCK_TREE = parse_blocks_with_loose_text(file_get_contents($file_path));
-$OJ_CORRECT_ANSWERS = extract_tagged_blocks(file_get_contents($tagged_path));
-$OJ_SID = "STEP 3";
+$OJ_BLOCK_TREE = parse_blocks_with_loose_text($guideline_contents);
+$OJ_CORRECT_ANSWERS = extract_tagged_blocks($tagged_contents);
+$OJ_SID = "STEP 1";
 
 include("template/syzoj/guideline2.php");
 ?>
