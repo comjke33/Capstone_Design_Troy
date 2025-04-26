@@ -13,5 +13,5 @@ $OJ_BLOCK_TREE = parse_blocks_with_loose_text($guideline_contents);
 $OJ_CORRECT_ANSWERS = extract_tagged_blocks($tagged_contents);
 $OJ_SID = "STEP 1";
 
-include("template/syzoj/guideline2.php");
+include("template/syzoj/guideline3.php");
 ?>
