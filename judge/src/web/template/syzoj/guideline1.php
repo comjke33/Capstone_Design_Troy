@@ -8,7 +8,7 @@
 <div class="main-layout">
     <div class="left-panel">
     <?php
-    // 🔥 새로운 함수: block 트리에서 순수 텍스트만 추출
+    // ✅ 블록에서 텍스트 설명만 뽑아내는 함수
     function extract_guidelines($blocks) {
         $guidelines = [];
 
@@ -27,7 +27,7 @@
         return $guidelines;
     }
 
-    // 🔥 실제 출력
+    // ✅ 설명과 코드 짝지어서 출력하는 함수
     function render_guideline_and_code($guidelines, $codes) {
         $guideline_index = 0;
         $code_index = 0;
@@ -37,10 +37,10 @@
         while ($guideline_index < $guideline_count && $code_index < $code_count) {
             $desc = trim($guidelines[$guideline_index]);
 
-            // 설명 출력
+            // ✨ 설명 출력
             echo "<div class='code-line'>" . htmlspecialchars($desc) . "</div>";
 
-            // 코드 블럭 출력
+            // ✨ 코드 블럭 출력
             $code_content = $codes[$code_index]['content'] ?? '';
             $code_clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $code_content);
             $code_clean = htmlspecialchars(trim($code_clean));
@@ -58,22 +58,22 @@
         }
     }
 
-    // ✅ guideline 텍스트 추출
+    // ✅ 실제 실행
     $guidelines = extract_guidelines($OJ_BLOCK_TREE);
-
-    // ✅ guideline과 code를 매칭 출력
     render_guideline_and_code($guidelines, $OJ_CORRECT_ANSWERS);
     ?>
     </div>
 
     <div class="right-panel" id="feedback-panel" style="height: 200px; overflow-y: auto;">
-        <!-- 오른쪽 패널: 높이 고정 -->
+        <!-- 오른쪽 패널: 고정 높이 -->
     </div>
 </div>
 
 <script>
+// ✅ 정답 리스트
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
+// ✅ 제출 버튼 클릭시
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
@@ -107,11 +107,13 @@ function submitAnswer(index) {
     }
 }
 
+// ✅ 텍스트영역 자동 크기조정
 function autoResize(ta) {
     ta.style.height = 'auto';
     ta.style.height = ta.scrollHeight + 'px';
 }
 
+// ✅ 초기화
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.styled-textarea').forEach(ta => {
         if (!ta.disabled) {
