@@ -14,20 +14,20 @@
             foreach ($blocks as $block) {
                 $indent_px = 10 * ($block['depth'] ?? 0);
 
-                // ⭐ self, func_def, rep, cond, struct, construct 블록은 직접 children만 돌고 재귀 호출 안 함
                 if (in_array($block['type'], ['self', 'func_def', 'rep', 'cond', 'struct', 'construct'])) {
+                    // ⭐ 큰 블록이면, children 텍스트 하나씩 읽어서 설명+코드 매칭
                     foreach ($block['children'] as $child) {
                         if ($child['type'] === 'text') {
-                            $raw = trim($child['content']);
-                            if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
+                            $line_raw = trim($child['content']);
+                            if ($line_raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line_raw)) {
                                 continue;
                             }
 
-                            // 🔵 설명 출력
-                            $line = htmlspecialchars($raw);
+                            // ✨ 설명 출력
+                            $line = htmlspecialchars($line_raw);
                             $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$line}</div>";
 
-                            // 🔵 코드 작성 영역 출력
+                            // ✨ 대응하는 코드 출력
                             $code_content = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
                             $code_clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $code_content);
                             $code_clean = htmlspecialchars(trim($code_clean));
@@ -44,18 +44,18 @@
                             $answer_index++;
                         }
                     }
-                    // ✅ 여기선 재귀 호출 X (children 다 돌았으니까)
                 }
-                // ⭐ 단독 text 블록은 그대로 처리
                 elseif ($block['type'] === 'text') {
-                    $raw = trim($block['content']);
-                    if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
+                    $line_raw = trim($block['content']);
+                    if ($line_raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $line_raw)) {
                         continue;
                     }
 
-                    $line = htmlspecialchars($raw);
+                    // ✨ 설명 출력
+                    $line = htmlspecialchars($line_raw);
                     $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$line}</div>";
 
+                    // ✨ 대응하는 코드 출력
                     $code_content = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
                     $code_clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $code_content);
                     $code_clean = htmlspecialchars(trim($code_clean));
@@ -82,12 +82,11 @@
     </div>
 
     <div class="right-panel" id="feedback-panel">
-        <!-- 아무것도 출력하지 않음 -->
+        <!-- 피드백 창은 비워둠 -->
     </div>
 </div>
 
 <script>
-// ✅ js 부분
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
 function submitAnswer(index) {
