@@ -8,56 +8,47 @@
 <div class="main-layout">
     <div class="left-panel">
     <?php
-    $guideline_lines = $GLOBALS['OJ_BLOCK_TREE']; // 설명 줄들
-    $codes = $GLOBALS['OJ_CORRECT_ANSWERS'];       // 코드 줄들
+    // ✅ 설명들
+    $guidelines = array_filter($GLOBALS['OJ_BLOCK_TREE'], function($line) {
+        $trimmed = trim($line);
+        return $trimmed !== '' && !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $trimmed);
+    });
 
-    $guideline_index = 0;
-    $code_index = 0;
-    $code_blocks = [];
+    // ✅ 코드 블록 쪼개기
+    $raw_codes = $GLOBALS['OJ_CORRECT_ANSWERS'] ?? [];
+    $blocks = [];
+    $current = "";
 
-    // 코드 블럭 재구성
-    $current_block = '';
-
-    foreach ($codes as $line) {
-        $content = trim($line['content']);
-        if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_start\(\d+\)\]$/", $content)) {
-            $current_block = '';
-        } elseif (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_end\(\d+\)\]$/", $content)) {
-            $code_blocks[] = trim($current_block);
+    foreach ($raw_codes as $entry) {
+        $line = trim($entry['content']);
+        if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_start\(\d+\)\]$/", $line)) {
+            $current = "";
+        } elseif (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_end\(\d+\)\]$/", $line)) {
+            $blocks[] = trim($current);
         } else {
-            $clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $content);
-            $current_block .= $clean . "\n";
+            $line = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $line);
+            $current .= $line . "\n";
         }
     }
 
-    $output_index = 0;
+    $guidelines = array_values($guidelines);
+    $blocks = array_values($blocks);
+
+    // ✅ 출력
     $correctAnswerList = [];
+    for ($i = 0; $i < min(count($guidelines), count($blocks)); $i++) {
+        $desc = htmlspecialchars($guidelines[$i]);
+        $code = htmlspecialchars(trim($blocks[$i]));
+        $correctAnswerList[$i] = trim($blocks[$i]);
 
-    while ($guideline_index < count($guideline_lines) && $output_index < count($code_blocks)) {
-        $desc = trim($guideline_lines[$guideline_index]);
-        $guideline_index++;
-
-        if ($desc === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $desc)) {
-            continue;
-        }
-
-        // ✏️ 문제 설명 출력
-        echo "<div class='code-line'>".htmlspecialchars($desc)."</div>";
-
-        // ✏️ 코드 입력창 출력
-        $code = trim($code_blocks[$output_index]);
-        $correctAnswerList[$output_index] = $code; // 저장
-        $escaped_code = htmlspecialchars($code);
-
+        echo "<div class='code-line'>{$desc}</div>";
         echo "<div class='submission-line'>";
         echo "<div style='flex: 1'>";
-        echo "<textarea id='ta_{$output_index}' class='styled-textarea' data-index='{$output_index}'>".$escaped_code."</textarea>";
-        echo "<button onclick='submitAnswer({$output_index})' id='btn_{$output_index}' class='submit-button'>제출</button>";
-        echo "<span id='check_{$output_index}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
-        echo "<span id='wrong_{$output_index}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
+        echo "<textarea id='ta_{$i}' class='styled-textarea' data-index='{$i}'>".$code."</textarea>";
+        echo "<button onclick='submitAnswer({$i})' id='btn_{$i}' class='submit-button'>제출</button>";
+        echo "<span id='check_{$i}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
+        echo "<span id='wrong_{$i}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
         echo "</div></div>";
-
-        $output_index++;
     }
     ?>
     </div>
@@ -67,7 +58,6 @@
 </div>
 
 <script>
-// 🧩 정답 배열
 const correctAnswers = <?= json_encode($correctAnswerList, JSON_UNESCAPED_UNICODE) ?>;
 
 function submitAnswer(index) {
