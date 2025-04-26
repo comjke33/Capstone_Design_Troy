@@ -1,8 +1,3 @@
-<?php
-/** @var string $OJ_SID */
-/** @var array $OJ_BLOCK_TREE */
-/** @var array $OJ_CORRECT_ANSWERS */
-?>
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
     <h1>한 줄씩 풀기</h1>
     <span>
@@ -10,8 +5,17 @@
 </div>
 
 <style>
-    .main-layout { display: flex; gap: 40px; max-width: 1200px; margin: 0 auto; }
-    .left-panel { flex: 2; }
+    .main-layout {
+        display: flex;
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .left-panel {
+        flex: 2;
+    }
+
     .right-panel {
         flex: 1;
         padding: 16px;
@@ -20,6 +24,7 @@
         border-radius: 8px;
         font-family: monospace;
     }
+
     .code-line {
         background-color: #f8f8fa;
         border: 1px solid #ddd;
@@ -30,6 +35,7 @@
         color: #333;
         white-space: pre-wrap;
     }
+
     .styled-textarea {
         border: 1px solid #ccc;
         border-radius: 6px;
@@ -43,6 +49,7 @@
         box-sizing: border-box;
         min-height: 40px;
     }
+
     .submit-button {
         margin-top: 6px;
         background-color: #4a90e2;
@@ -52,11 +59,13 @@
         border-radius: 4px;
         cursor: pointer;
     }
+
     .checkmark {
         font-size: 18px;
         margin-left: 6px;
         color: #2ecc71;
     }
+
     .submission-line {
         display: flex;
         justify-content: space-between;
@@ -64,84 +73,64 @@
         gap: 20px;
         margin-bottom: 28px;
     }
-    .feedback-line { margin-bottom: 12px; font-size: 15px; }
-    .feedback-correct { color: #2ecc71; }
-    .feedback-wrong { color: #e74c3c; }
+
+    .feedback-line {
+        margin-bottom: 12px;
+        font-size: 15px;
+    }
+
+    .feedback-correct {
+        color: #2ecc71;
+    }
+
+    .feedback-wrong {
+        color: #e74c3c;
+    }
 </style>
 
 <div class="main-layout">
     <div class="left-panel">
     <?php
-    function render_tree_plain($blocks, &$answer_index = 0) {
-        $html = "";
+        function render_tree_plain($blocks, &$answer_index = 0) {
+            $html = "";
 
-        foreach ($blocks as $block) {
-            $indent_px = 10 * ($block['depth'] ?? 0);
+            foreach ($blocks as $block) {
+                $indent_px = 10 * ($block['depth'] ?? 0);
 
-            if (isset($block['children'])) {
-                $desc_lines = [];
-                $is_closing_brace = false;
-                $code_data = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index] ?? null;
-                $readonly = $code_data['readonly'] ?? false;
-                $info = $code_data['info'] ?? '';
+                if (isset($block['children'])) {
+                    $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
+                    $html .= render_tree_plain($block['children'], $answer_index);
+                    $html .= "</div>";
+                } elseif ($block['type'] === 'text') {
+                    $raw = trim($block['content']);
 
-                if ($readonly && $info === '닫는 괄호') {
-                    $html .= "<div class='code-line' style='margin-left: {$indent_px}px; color: #666; font-style: italic;'>※ {$info}</div>";
-                    $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$code_data['content']}</div>";
+                    if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
+                        continue;
+                    }
+
+                    $line = htmlspecialchars($block['content']);
+                    $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
+                    $disabled = $answer_index > 0 ? "disabled" : "";
+
+                    $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                    $html .= "<div style='flex: 1'>";
+                    $html .= "<div class='code-line'>{$line}</div>";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code}</textarea>";
+                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                    $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                    $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                    $html .= "</div></div>";
+
                     $answer_index++;
-                    $is_closing_brace = true;
                 }
-
-                if (!$is_closing_brace) {
-                    foreach ($block['children'] as $child) {
-                        if ($child['type'] === 'text') {
-                            $raw = trim($child['content']);
-                            if (
-                                $raw !== '' &&
-                                $raw !== '}' &&
-                                !preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", $raw)
-                            ) {
-                                $desc_lines[] = htmlspecialchars($raw);
-                            }
-                        }
-                    }
-
-                    if (!empty($desc_lines)) {
-                        $desc_html = implode("<br>", $desc_lines);
-                        $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$desc_html}</div>";
-                    }
-
-                    if ($code_data) {
-                        $code_line = htmlspecialchars(trim($code_data['content']));
-                        $readonly_attr = $readonly ? 'readonly' : '';
-                        $disabled = (!$readonly && $answer_index !== 0) ? 'disabled' : '';
-
-                        $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                        $html .= "<div style='flex: 1'>";
-                        if ($info !== '' && !$readonly) {
-                            $html .= "<div class='code-line' style='color: #666; font-style: italic;'>※ {$info}</div>";
-                        }
-                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$readonly_attr} {$disabled}>{$code_line}</textarea>";
-                        if (!$readonly) {
-                            $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                        }
-                        $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                        $html .= "</div></div>";
-                        $answer_index++;
-                    }
-                }
-
-                $html .= render_tree_plain($block['children'], $answer_index);
             }
+
+            return $html;
         }
 
-        return $html;
-    }
-
-    $answer_index = 0;
-    echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
-    ?>
+        $answer_index = 0;
+        echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
+        ?>
     </div>
 
     <div class="right-panel" id="feedback-panel">
@@ -160,13 +149,11 @@ function submitAnswer(index) {
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
 
-    console.log(`정답 (index ${index}):`, correct);
-    
     if (input === correct) {
         ta.readOnly = true;
         ta.style.backgroundColor = "#eef1f4";
-        if (btn) btn.style.display = "none";
-        if (check) check.style.display = "inline";
+        btn.style.display = "none";
+        check.style.display = "inline";
         updateFeedback(index, true);
 
         const nextIndex = index + 1;
