@@ -1,116 +1,42 @@
 <?php
-// ✅ 헤더 및 DB 연결
-include("template/syzoj/header.php");
-include("include/db_info.inc.php");
+/** @var string $OJ_SID */
+/** @var array $OJ_BLOCK_TREE */
+/** @var array $OJ_CORRECT_ANSWERS */
+?>
+<div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
+    <h1>한 줄씩 풀기</h1>
+    <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
+</div>
 
-$file_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline1.txt";
-$guideline_contents = file_get_contents($file_path);
+<style>
+/* 기존 style 그대로 유지 */
+...
+</style>
 
-$txt_path = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code1.txt";
-$txt_contents = file_get_contents($txt_path);
-
-function parse_blocks_with_loose_text($text, $depth = 0) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[\\1_end\\(\\2\)\]/s";
-    $blocks = [];
-    $offset = 0;
-
-    while (preg_match($pattern, $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
-        $start_pos = $m[0][1];
-        $full_len = strlen($m[0][0]);
-        $end_pos = $start_pos + $full_len;
-
-        $before_text = substr($text, $offset, $start_pos - $offset);
-        if (trim($before_text) !== '') {
-            foreach (explode("\n", $before_text) as $line) {
-                $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-                $blocks[] = [
-                    'type' => 'text',
-                    'content' => rtrim($line),
-                    'depth' => $depth + $indent_level
-                ];
+<div class="main-layout">
+    <div class="left-panel">
+        <?php
+        function render_tree_plain($blocks, &$answer_index = 0) {
+            $html = "";
+            foreach ($blocks as $block) {
+                ...
             }
+            return $html;
         }
 
-        $type = $m[1][0];
-        $idx = (int)$m[2][0];
-        $content = $m[3][0];
+        $answer_index = 0;
+        echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
+        ?>
+    </div>
 
-        $children = parse_blocks_with_loose_text($content, $depth + 1);
-        $blocks[] = [
-            'type' => $type,
-            'index' => $idx,
-            'depth' => $depth,
-            'children' => $children
-        ];
+    <div class="right-panel" id="feedback-panel">
+        <h4>📝 피드백</h4>
+    </div>
+</div>
 
-        $offset = $end_pos;
-    }
-
-    $tail = substr($text, $offset);
-    if (trim($tail) !== '') {
-        foreach (explode("\n", $tail) as $line) {
-            $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-            $blocks[] = [
-                'type' => 'text',
-                'content' => rtrim($line),
-                'depth' => $depth + $indent_level
-            ];
-        }
-    }
-
-    return $blocks;
-}
-
-function extract_tagged_code_lines($text) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
-    preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
-
-    $positions = [];
-    foreach ($matches[0] as $i => $match) {
-        $positions[] = [
-            'pos' => $match[1],
-            'end' => $match[1] + strlen($match[0])
-        ];
-    }
-
-    $lines = [];
-    for ($i = 0; $i < count($positions); $i++) {
-        $start_pos = $positions[$i]['end'];
-        $end_pos = isset($positions[$i + 1]) ? $positions[$i + 1]['pos'] : strlen($text);
-        $code_block = substr($text, $start_pos, $end_pos - $start_pos);
-
-        foreach (explode("\n", $code_block) as $line) {
-            $trimmed = trim($line);
-            if ($trimmed !== '') {
-                if ($trimmed === '}') {
-                    $lines[] = [
-                        'content' => $trimmed,
-                        'readonly' => true,
-                        'info' => '닫는 괄호'
-                    ];
-                    $lines[] = [
-                        'content' => '',
-                        'readonly' => false,
-                        'info' => ''
-                    ];
-                } else {
-                    $lines[] = [
-                        'content' => $trimmed,
-                        'readonly' => false,
-                        'info' => ''
-                    ];
-                }
-            }
-        }
-    }
-
-    return $lines;
-}
-
-$sid = isset($_GET['problem_id']) ? urlencode($_GET['problem_id']) : '';
-$OJ_BLOCK_TREE = parse_blocks_with_loose_text($guideline_contents);
-$OJ_CORRECT_ANSWERS = extract_tagged_code_lines($txt_contents);
-$OJ_SID = $sid;
-
-include("template/$OJ_TEMPLATE/guideline1.php");
-include("template/$OJ_TEMPLATE/footer.php");
+<!-- ⭐ 이 부분만 추가 -->
+<script src="template/syzoj/js/guideline1.js"></script>
+<script>
+const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
+initializeGuideline(correctAnswers);
+</script>
