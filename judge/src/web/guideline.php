@@ -1,4 +1,5 @@
 <?php include("template/syzoj/header.php"); ?>
+
 <style>
 .step-buttons {
     display: flex;
@@ -23,7 +24,7 @@
     </div>
 
     <div id="guideline-content">
-        <!-- 🔄 여기에 동적으로 guideline1,2,3의 본문이 들어옵니다 -->
+        <!-- 🔄 여기에 동적으로 guideline1/2/3.php의 결과가 삽입됩니다 -->
     </div>
 </div>
 
@@ -33,15 +34,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const content = document.getElementById("guideline-content");
 
     function loadStep(step) {
-        content.innerHTML = "<div>로딩 중...</div>"; // ✨ 로딩 표시 추가
         fetch(`guideline${step}.php`)
             .then(res => res.text())
             .then(html => {
                 content.innerHTML = html;
                 window.history.replaceState(null, "", `?step=${step}`);
+            })
+            .catch(error => {
+                content.innerHTML = "<div class='ui red message'>⚠️ 가이드라인을 불러올 수 없습니다.</div>";
             });
     }
 
+    // 버튼 클릭 이벤트
     buttons.forEach(btn => {
         btn.addEventListener("click", () => {
             buttons.forEach(b => b.classList.remove("active"));
@@ -52,11 +56,19 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // 기본 Step 1 로딩
+    // URL에 step이 이미 있으면 그걸 로딩, 아니면 기본 1로
     const urlParams = new URLSearchParams(window.location.search);
-    const stepParam = urlParams.get('step') || 1;
-    document.querySelector(`.step-buttons .ui.button[data-step="${stepParam}"]`).classList.add("active");
-    loadStep(stepParam);
+    const initialStep = urlParams.get('step') || 1;
+    loadStep(initialStep);
+
+    // 버튼 활성화도 초기 상태 반영
+    buttons.forEach(btn => {
+        if (btn.dataset.step == initialStep) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
 });
 </script>
 
