@@ -1,59 +1,74 @@
-<?php
-// 📦 파일 읽기 (guideline 설명과 tagged code)
-$guideline_lines = explode("\n", trim(file_get_contents($GLOBALS['guideline_file'])));
-$tagged_code_lines_raw = explode("\n", trim(file_get_contents($GLOBALS['tagged_file'])));
-
-// 📦 tagged_code에서 태그 제거 (진짜 코드라인만 남김)
-$tagged_code_lines = [];
-foreach ($tagged_code_lines_raw as $line) {
-    $clean = trim($line);
-    if ($clean === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\]\$/", $clean)) {
-        continue; // 태그라인은 스킵
-    }
-    $tagged_code_lines[] = $clean;
-}
-
-// 📦 줄 수 맞는지 확인
-if (count($guideline_lines) !== count($tagged_code_lines)) {
-    echo "<div style='color:red'>❌ 줄 수가 다릅니다. guideline 줄수: ".count($guideline_lines).", tagged_code 줄수: ".count($tagged_code_lines)."</div>";
-    exit;
-}
-
-?>
-
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
     <h1>한 줄씩 풀기</h1>
-    <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
+    <span>목적 번호: <?= htmlspecialchars(\$OJ_SID) ?></span>
 </div>
 
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
 <div class="main-layout">
     <div class="left-panel">
-    <?php
-    foreach ($guideline_lines as $i => $guideline_line) {
-        $description = htmlspecialchars(trim($guideline_line));
-        $code_line = htmlspecialchars(trim($tagged_code_lines[$i]));
-        $disabled = $i > 0 ? "disabled" : "";
-        echo "<div class='code-line'>{$description}</div>";
-        echo "<div class='submission-line'>";
-        echo "<div style='flex:1'>";
-        echo "<textarea id='ta_{$i}' class='styled-textarea' data-index='{$i}' {$disabled}>{$code_line}</textarea>";
-        echo "<button onclick='submitAnswer({$i})' id='btn_{$i}' class='submit-button' {$disabled}>제출</button>";
-        echo "<span id='check_{$i}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
-        echo "<span id='wrong_{$i}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
-        echo "</div></div>";
-    }
-    ?>
+        <?php
+        function render_guideline_and_code(\$guideline_blocks, \$code_blocks) {
+            \$html = "";
+            \$guideline_index = 0;
+            \$code_index = 0;
+
+            while (\$guideline_index < count(\$guideline_blocks) && \$code_index < count(\$code_blocks)) {
+                \$guide_block = \$guideline_blocks[\$guideline_index];
+                \$code_block = \$code_blocks[\$code_index];
+
+                // 설명 텍스트 처리
+                if (\$guide_block['type'] === 'text') {
+                    \$raw = trim(\$guide_block['content']);
+
+                    // 태그 무시
+                    if (\$raw === '' || preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", \$raw)) {
+                        \$guideline_index++;
+                        continue;
+                    }
+
+                    \$indent_px = 10 * (\$guide_block['depth'] ?? 0);
+                    \$line = htmlspecialchars(\$raw);
+                    \$html .= "<div class='code-line' style='margin-left: {\$indent_px}px;'> {\$line} </div>";
+
+                    // 이어서 코드 입력 영역
+                    if (isset(\$code_block['content'])) {
+                        \$code_raw = preg_replace("/\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]/", "", \$code_block['content']);
+                        \$code_clean = htmlspecialchars(trim(\$code_raw));
+
+                        \$html .= "<div class='submission-line' style='padding-left: {\$indent_px}px;'>";
+                        \$html .= "<div style='flex:1'>";
+                        \$html .= "<textarea id='ta_{$code_index}' class='styled-textarea' data-index='{$code_index}'>{$code_clean}</textarea>";
+                        \$html .= "<button onclick='submitAnswer({$code_index})' id='btn_{$code_index}' class='submit-button'>제출</button>";
+                        \$html .= "<span id='check_{$code_index}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
+                        \$html .= "<span id='wrong_{$code_index}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
+                        \$html .= "</div></div>";
+
+                        \$code_index++;
+                    }
+
+                    \$guideline_index++;
+                } else {
+                    // self, func_def 등은 children 순회
+                    if (isset(\$guide_block['children'])) {
+                        \$html .= render_guideline_and_code(\$guide_block['children'], \$code_blocks);
+                    }
+                    \$guideline_index++;
+                }
+            }
+
+            return \$html;
+        }
+
+        echo render_guideline_and_code(\$OJ_BLOCK_TREE, \$OJ_CORRECT_ANSWERS);
+        ?>
     </div>
 
-    <div class="right-panel" id="feedback-panel" style="height: 200px; overflow-y: auto;">
-        <!-- 오른쪽 패널 비워둠 -->
-    </div>
+    <div class="right-panel" id="feedback-panel" style="height: 200px; overflow-y: auto;"></div>
 </div>
 
 <script>
-const correctAnswers = <?= json_encode($tagged_code_lines) ?>;
+const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
@@ -62,7 +77,7 @@ function submitAnswer(index) {
     const wrong = document.getElementById(`wrong_${index}`);
 
     const input = ta.value.trim();
-    const correct = (correctAnswers[index] || "").trim();
+    const correct = (correctAnswers[index]?.content || "").replace(/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/g, '').trim();
 
     if (input === correct) {
         ta.readOnly = true;
@@ -93,7 +108,6 @@ function autoResize(ta) {
     ta.style.height = ta.scrollHeight + 'px';
 }
 
-// 초기화
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.styled-textarea').forEach(ta => {
         if (!ta.disabled) {
