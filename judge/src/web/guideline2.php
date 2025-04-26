@@ -9,16 +9,16 @@ $step = max(1, min(3, $step));
 // ✅ step별 파일 지정
 switch ($step) {
     case 1:
-        $guideline_file = "/home/Capstone_Design_Troy/test/guideline_code1.txt";
-        $tagged_file = "/home/Capstone_Design_Troy/test/tagged_code1.txt";
+        $guideline_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline_code1.txt";
+        $tagged_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code1.txt";
         break;
     case 2:
-        $guideline_file = "/home/Capstone_Design_Troy/test/guideline_code2.txt";
-        $tagged_file = "/home/Capstone_Design_Troy/test/tagged_code2.txt";
+        $guideline_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline_code2.txt";
+        $tagged_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code2.txt";
         break;
     case 3:
-        $guideline_file = "/home/Capstone_Design_Troy/test/guideline_code3.txt";
-        $tagged_file = "/home/Capstone_Design_Troy/test/tagged_code3.txt";
+        $guideline_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/guideline_code3.txt";
+        $tagged_file = "/home/Capstone_Design_Troy/test/step1_test_tagged_guideline/tagged_code3.txt";
         break;
     default:
         die("Invalid step.");
