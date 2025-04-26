@@ -14,19 +14,26 @@
         foreach ($blocks as $block) {
             $indent_px = 10 * ($block['depth'] ?? 0);
 
-            if ($block['type'] === 'text') {
+            // ✅ self, func_def, rep, cond, struct, construct 들도 children만 순회
+            if (in_array($block['type'], ['self', 'func_def', 'rep', 'cond', 'struct', 'construct'])) {
+                foreach ($block['children'] as $child) {
+                    $html .= render_tree_plain([$child], $answer_index);
+                }
+            }
+            // ✅ 실제 텍스트만 렌더링
+            elseif ($block['type'] === 'text') {
                 $raw = trim($block['content']);
 
-                // 태그 라인은 무시
+                // 🔵 태그([func_def_start], [rep_end] 등)은 스킵
                 if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
                     continue;
                 }
 
-                // 설명 (guideline 한 줄 출력)
+                // 🔵 설명 출력
                 $line = htmlspecialchars($raw);
                 $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$line}</div>";
 
-                // 코드 입력 영역
+                // 🔵 코드 입력 칸 출력
                 $code_content = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
                 $code_clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $code_content);
                 $code_clean = htmlspecialchars(trim($code_clean));
@@ -42,11 +49,6 @@
 
                 $answer_index++;
             }
-
-            // children이 있는 경우 재귀
-            if (isset($block['children'])) {
-                $html .= render_tree_plain($block['children'], $answer_index);
-            }
         }
 
         return $html;
@@ -57,8 +59,8 @@
     ?>
     </div>
 
-    <div class="right-panel" id="feedback-panel">
-        <!-- 오른쪽 패널은 비워둠 -->
+    <div class="right-panel" id="feedback-panel" style="height: 200px; overflow-y: auto;">
+        <!-- 오른쪽 패널: 비워두되 높이 고정 -->
     </div>
 </div>
 
