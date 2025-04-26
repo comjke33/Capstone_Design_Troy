@@ -1,4 +1,4 @@
-<div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
+<div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom:24px;'>
     <h1>한 줄씩 풀기</h1>
     <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
 </div>
@@ -9,64 +9,55 @@
     <div class="left-panel">
     <?php
     function render_tree_plain($blocks, &$answer_index = 0) {
-        $html = "";
-
         foreach ($blocks as $block) {
             $indent_px = 10 * ($block['depth'] ?? 0);
 
-            // self 블록: 설명 + 코드 세트 출력
-            if ($block['type'] === 'self') {
-                $desc_lines = [];
-
+            if (in_array($block['type'], ['self', 'func_def', 'rep', 'cond', 'struct', 'construct'])) {
                 foreach ($block['children'] as $child) {
-                    if ($child['type'] === 'text') {
-                        $raw = trim($child['content']);
-                        if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
-                            continue;
-                        }
-                        $desc_lines[] = $raw;
-                    }
-                }
-
-                foreach ($desc_lines as $desc) {
-                    $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>" . htmlspecialchars($desc) . "</div>";
-
-                    if (isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index])) {
-                        $code_content = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
-                        $code_clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $code_content);
-                        $code_clean = htmlspecialchars(trim($code_clean));
-                        $disabled = $answer_index > 0 ? "disabled" : "";
-
-                        $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                        $html .= "<div style='flex: 1'>";
-                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$code_clean}</textarea>";
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
-                        $html .= "<span id='wrong_{$answer_index}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
-                        $html .= "</div></div>";
-
-                        $answer_index++;
-                    }
+                    render_tree_plain([$child], $answer_index);
                 }
             }
-            // 다른 func_def, rep, cond 등은 그냥 재귀
-            elseif (in_array($block['type'], ['func_def', 'rep', 'cond', 'struct', 'construct'])) {
-                if (isset($block['children'])) {
-                    $html .= render_tree_plain($block['children'], $answer_index);
+            elseif ($block['type'] === 'text') {
+                $raw = trim($block['content']);
+
+                // 태그는 무시
+                if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
+                    continue;
+                }
+
+                // 설명 출력
+                $line = htmlspecialchars($raw);
+                echo "<div class='code-line' style='margin-left: {$indent_px}px;'>{$line}</div>";
+
+                // 코드 입력 영역 출력 (answer_index 증가는 이 위치에서 정확하게)
+                if (isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index])) {
+                    $code_content = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
+                    $code_clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $code_content);
+                    $code_clean = htmlspecialchars(trim($code_clean));
+
+                    $disabled = ($answer_index > 0) ? "disabled" : "";
+
+                    echo "<div class='submission-line' style='padding-left: {$indent_px}px; margin-top: 5px;'>";
+                    echo "<div style='flex: 1'>";
+                    echo "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$code_clean}</textarea>";
+                    echo "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                    echo "<span id='check_{$answer_index}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
+                    echo "<span id='wrong_{$answer_index}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
+                    echo "</div></div>";
+
+                    $answer_index++;
                 }
             }
         }
-
-        return $html;
     }
 
     $answer_index = 0;
-    echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
+    render_tree_plain($OJ_BLOCK_TREE, $answer_index);
     ?>
     </div>
 
     <div class="right-panel" id="feedback-panel" style="height: 200px; overflow-y: auto;">
-        <!-- 오른쪽 패널 비워두되, 스크롤만 가능 -->
+        <!-- 오른쪽 패널은 비워두고 높이 제한 -->
     </div>
 </div>
 
