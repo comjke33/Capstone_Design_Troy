@@ -4,7 +4,7 @@
     문제 번호: <?= htmlspecialchars($OJ_SID) ?>
 </div>
 
-<link rel="stylesheet" href="css/guideline.css">
+<link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
 <div class="main-layout">
     <div class="left-panel">
