@@ -1,4 +1,5 @@
 <?php include("template/syzoj/header.php"); ?>
+
 <style>
 .step-buttons {
     display: flex;
@@ -23,7 +24,7 @@
     </div>
 
     <div id="guideline-content">
-        <!-- 🔄 여기에 동적으로 내용이 들어옵니다 -->
+        <!-- 🔄 여기에 동적으로 guideline1/2/3.php의 결과가 삽입됩니다 -->
     </div>
 </div>
 
@@ -38,6 +39,9 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(html => {
                 content.innerHTML = html;
                 window.history.replaceState(null, "", `?step=${step}`);
+            })
+            .catch(error => {
+                content.innerHTML = "<div class='ui red message'>⚠️ 가이드라인을 불러올 수 없습니다.</div>";
             });
     }
 
@@ -52,8 +56,19 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // 기본 로딩 (step=1)
-    loadStep(1);
+    // URL에 step이 이미 있으면 그걸 로딩, 아니면 기본 1로
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialStep = urlParams.get('step') || 1;
+    loadStep(initialStep);
+
+    // 버튼 활성화도 초기 상태 반영
+    buttons.forEach(btn => {
+        if (btn.dataset.step == initialStep) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
 });
 </script>
 
