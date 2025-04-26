@@ -14,72 +14,26 @@
         foreach ($blocks as $block) {
             $indent_px = 10 * ($block['depth'] ?? 0);
 
-            if (in_array($block['type'], ['func_def', 'rep', 'cond', 'struct', 'construct'])) {
-                // [func_def_start] 같은 블록 안
+            // ✅ self, func_def, rep, cond, struct, construct 들도 children만 순회
+            if (in_array($block['type'], ['self', 'func_def', 'rep', 'cond', 'struct', 'construct'])) {
                 foreach ($block['children'] as $child) {
-                    if ($child['type'] === 'text') {
-                        $raw = trim($child['content']);
-                        if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
-                            continue;
-                        }
-
-                        // 🧩 코드 입력 (블럭 안 직접 코드)
-                        $code_content = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
-                        $code_clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $code_content);
-                        $code_clean = htmlspecialchars(trim($code_clean));
-                        $disabled = $answer_index > 0 ? "disabled" : "";
-
-                        $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                        $html .= "<div style='flex: 1'>";
-                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$code_clean}</textarea>";
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
-                        $html .= "<span id='wrong_{$answer_index}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
-                        $html .= "</div></div>";
-
-                        $answer_index++;
-                    }
-                    elseif (in_array($child['type'], ['self'])) {
-                        // ✨ self 블럭(설명+코드)
-                        foreach ($child['children'] as $gchild) {
-                            if ($gchild['type'] === 'text') {
-                                $desc = trim($gchild['content']);
-                                if ($desc === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $desc)) {
-                                    continue;
-                                }
-
-                                // 설명 출력
-                                $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>".htmlspecialchars($desc)."</div>";
-
-                                // 이어서 코드 입력
-                                $code_content = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
-                                $code_clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $code_content);
-                                $code_clean = htmlspecialchars(trim($code_clean));
-                                $disabled = $answer_index > 0 ? "disabled" : "";
-
-                                $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                                $html .= "<div style='flex: 1'>";
-                                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$code_clean}</textarea>";
-                                $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                                $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
-                                $html .= "<span id='wrong_{$answer_index}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
-                                $html .= "</div></div>";
-
-                                $answer_index++;
-                            }
-                        }
-                    }
+                    $html .= render_tree_plain([$child], $answer_index);
                 }
             }
+            // ✅ 실제 텍스트만 렌더링
             elseif ($block['type'] === 'text') {
-                // 최상위 text (일반 코드)
                 $raw = trim($block['content']);
+
+                // 🔵 태그([func_def_start], [rep_end] 등)은 스킵
                 if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
                     continue;
                 }
 
-                $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>".htmlspecialchars($raw)."</div>";
+                // 🔵 설명 출력
+                $line = htmlspecialchars($raw);
+                $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$line}</div>";
 
+                // 🔵 코드 입력 칸 출력
                 $code_content = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
                 $code_clean = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $code_content);
                 $code_clean = htmlspecialchars(trim($code_clean));
@@ -105,8 +59,8 @@
     ?>
     </div>
 
-    <div class="right-panel" id="feedback-panel" style="min-height: 400px;">
-        <!-- 오른쪽 패널은 비워둠, 높이 제한 -->
+    <div class="right-panel" id="feedback-panel" style="height: 200px; overflow-y: auto;">
+        <!-- 오른쪽 패널: 비워두되 높이 고정 -->
     </div>
 </div>
 
