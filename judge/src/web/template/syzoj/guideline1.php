@@ -3,7 +3,7 @@
     <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
 </div>
 
-<link rel="stylesheet" href="css/guideline.css">
+<link rel="stylesheet" href="/css/guideline.css">
 
 <div class="main-layout">
     <div class="left-panel">
