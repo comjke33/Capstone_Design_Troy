@@ -29,10 +29,8 @@
                             continue;
                         }
 
-                        // [self_start]와 [self_end] 태그 사이의 내용을 필터링하여 출력
                         // 태그를 제거하고 내용만 추출
                         $line = htmlspecialchars($block['content']);
-                        // 태그를 제거하고 코드만 출력
                         $line = preg_replace('/\[\s*(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\s*\]/', '', $line); // 태그 제거
 
                         // 태그 사이의 코드 추출 (모든 태그에 대해 처리)
@@ -68,7 +66,7 @@
     </div>
 
     <!-- 오른쪽 패널: 정답확인 영역 -->
-    <div class="right-panel" id="feedback-panel" style="width: 250px; max-width: 250px; min-width: 200px; overflow-y: auto; padding-left: 10px;">
+    <div class="right-panel" id="feedback-panel" style="width: 300px; max-width: 300px; min-width: 250px; overflow-y: auto; padding-left: 10px;">
         <h4>📝 정답 확인</h4>
     </div>
 </div>
