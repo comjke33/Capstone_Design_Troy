@@ -72,7 +72,7 @@ function submitAnswer(index) {
         ta.style.backgroundColor = "#eef1f4";
         btn.style.display = "none";
         check.style.display = "inline";
-        updateFeedback(index, true);
+        updateFeedback(index, true, input);
 
         const nextIndex = index + 1;
         const nextTa = document.getElementById(`ta_${nextIndex}`);
@@ -87,17 +87,22 @@ function submitAnswer(index) {
         ta.style.backgroundColor = "#ffecec";
         ta.style.border = "1px solid #e06060";
         ta.style.color = "#c00";
-        updateFeedback(index, false);
+        updateFeedback(index, false, input);
     }
 }
 
-function updateFeedback(index, isCorrect) {
+function updateFeedback(index, isCorrect, inputCode) {
     const panel = document.getElementById('feedback-panel');
     const existing = document.getElementById(`feedback_${index}`);
     const result = isCorrect ? "✔️ 정답" : "❌ 오답";
-    const line = `<div id="feedback_${index}" class="feedback-line ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}">Line ${index + 1}: ${result}</div>`;
-    if (existing) existing.outerHTML = line;
-    else panel.insertAdjacentHTML('beforeend', line);
+    const feedbackLine = `
+        <div id="feedback_${index}" class="feedback-line ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}">
+            <strong>Line ${index + 1}:</strong> ${result}<br>
+            <strong>제출 코드:</strong><pre>${inputCode}</pre>
+        </div>
+    `;
+    if (existing) existing.outerHTML = feedbackLine;
+    else panel.insertAdjacentHTML('beforeend', feedbackLine);
 }
 
 function autoResize(ta) {
