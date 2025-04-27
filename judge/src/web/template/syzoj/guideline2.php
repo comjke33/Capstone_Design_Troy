@@ -6,8 +6,9 @@
 
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
-<div class="main-layout">
-    <div class="left-panel">
+<div class="main-layout" style="display: flex; justify-content: space-between;">
+    <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역 -->
+    <div class="left-panel" style="flex: 1; padding-right: 10px;">
         <?php
             // 1. 태그들을 파싱해서 필요한 내용만 출력하는 함수
             function render_tree_plain($blocks, &$answer_index = 0) {
@@ -57,7 +58,8 @@
         ?>
     </div>
 
-    <div class="right-panel" id="feedback-panel">
+    <!-- 오른쪽 패널: 피드백 영역 -->
+    <div class="right-panel" id="feedback-panel" style="width: 300px; max-width: 300px; min-width: 250px; overflow-y: auto; padding-left: 10px;">
         <h4>📝 피드백</h4>
     </div>
 </div>
