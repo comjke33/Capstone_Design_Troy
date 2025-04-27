@@ -32,12 +32,13 @@
                         // [self_start]와 [self_end] 태그 사이의 내용을 필터링하여 출력
                         // 태그를 제거하고 내용만 추출
                         $line = htmlspecialchars($block['content']);
+                        // 태그를 제거하고 코드만 출력
                         $line = preg_replace('/\[\s*(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\s*\]/', '', $line); // 태그 제거
 
-                        // **모든 태그 사이의 내용 추출**
+                        // 태그 사이의 코드 추출 (모든 태그에 대해 처리)
                         $pattern = '/\[(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\](.*?)\[\s*\1_end\(\d+\)\]/s';
                         preg_match_all($pattern, $line, $matches);
-                        
+
                         // 태그 안의 내용만 출력 (matches[2]는 실제 코드 내용)
                         foreach ($matches[2] as $code_content) {
                             $code_content = htmlspecialchars(trim($code_content)); // 내용만 출력, 불필요한 공백 제거
