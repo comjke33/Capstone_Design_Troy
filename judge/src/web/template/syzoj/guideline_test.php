@@ -8,7 +8,7 @@
 <div class="main-layout">
     <div class="left-panel">
     <?php
-    // 설명(guideline)과 코드 추출 함수
+    // 1. 설명 (guideline) 준비
     function extract_guidelines($tree) {
         $guidelines = [];
         foreach ($tree as $block) {
@@ -24,8 +24,9 @@
         }
         return $guidelines;
     }
+    $guidelines = extract_guidelines($OJ_BLOCK_TREE);
 
-    // 코드 추출 함수
+    // 2. 코드 블럭 준비
     function extract_code_blocks($codes) {
         $blocks = [];
         $current_block = [];
@@ -44,12 +45,9 @@
         }
         return $blocks;
     }
-
-    // 가이드라인과 코드 가져오기
-    $guidelines = extract_guidelines($OJ_BLOCK_TREE);
     $code_blocks = extract_code_blocks($OJ_CORRECT_ANSWERS);
 
-    // 가이드라인과 코드 출력
+    // 3. 출력
     $count = min(count($guidelines), count($code_blocks));
     for ($i = 0; $i < $count; $i++) {
         $desc = htmlspecialchars($guidelines[$i]);
@@ -72,10 +70,8 @@
 </div>
 
 <script>
-// 정답 배열을 PHP에서 JavaScript로 전달
 const correctAnswers = <?= json_encode($code_blocks, JSON_UNESCAPED_UNICODE) ?>;
 
-// 사용자가 제출한 답을 확인하는 함수
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
@@ -109,13 +105,11 @@ function submitAnswer(index) {
     }
 }
 
-// 텍스트 에어리어 자동 크기 조정 함수
 function autoResize(ta) {
     ta.style.height = 'auto';
     ta.style.height = ta.scrollHeight + 'px';
 }
 
-// 페이지가 로드된 후 텍스트 에어리어에 이벤트 리스너 추가
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.styled-textarea').forEach(ta => {
         if (!ta.disabled) {
