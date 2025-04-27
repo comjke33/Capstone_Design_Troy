@@ -68,7 +68,7 @@
     </div>
 
     <!-- 오른쪽 패널: 정답확인 영역 -->
-    <div class="right-panel" id="feedback-panel" style="width: 300px; max-width: 300px; min-width: 250px; overflow-y: auto; padding-left: 10px;">
+    <div class="right-panel" id="feedback-panel" style="width: 250px; max-width: 250px; min-width: 200px; overflow-y: auto; padding-left: 10px;">
         <h4>📝 정답 확인</h4>
     </div>
 </div>
