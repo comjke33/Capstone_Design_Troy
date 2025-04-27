@@ -1,7 +1,6 @@
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
     <h1>한 문단씩 풀기</h1>
-    <span>
-    문제 번호: <?= htmlspecialchars($OJ_SID) ?>
+    <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
 </div>
 
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
@@ -9,7 +8,7 @@
 <div class="main-layout">
     <div class="left-panel">
         <?php
-            // 1. 태그들을 파싱해서 중간 텍스트만 출력하는 함수
+            // 1. 태그들을 파싱해서 필요한 내용만 출력하는 함수
             function render_tree_plain($blocks, &$answer_index = 0) {
                 $html = "";
 
@@ -23,11 +22,18 @@
                     } elseif ($block['type'] === 'text') {
                         $raw = trim($block['content']);
 
+                        // 불필요한 태그를 포함한 코드를 제거 (예: [self_start]와 [self_end] 사이의 내용만 추출)
                         if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
                             continue;
                         }
 
+                        // [self_start]와 [self_end] 사이의 내용만 출력
                         $line = htmlspecialchars($block['content']);
+                        if (strpos($line, '[self_start]') !== false && strpos($line, '[self_end]') !== false) {
+                            $line = preg_replace('/\[(.*?)\]/', '', $line);  // 태그 제거
+                            $line = trim($line);  // 양옆 공백 제거
+                        }
+
                         $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
                         $disabled = $answer_index > 0 ? "disabled" : "";
 
@@ -52,7 +58,7 @@
         ?>
     </div>
 
-    <div class="right-panel" id="feedback-panel" style="width: 250px;"> <!-- 피드백 패널의 너비 조정 -->
+    <div class="right-panel" id="feedback-panel">
         <h4>📝 피드백</h4>
     </div>
 </div>
@@ -96,23 +102,14 @@ function updateFeedback(index, isCorrect, inputCode) {
     const panel = document.getElementById('feedback-panel');
     const existing = document.getElementById(`feedback_${index}`);
     const result = isCorrect ? "✔️ 정답" : "❌ 오답";
-
-    // 태그를 제거하고 피드백 내용 출력
-    const cleanInputCode = stripTags(inputCode);
-
     const feedbackLine = `
         <div id="feedback_${index}" class="feedback-line ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}">
             <strong>Line ${index + 1}:</strong> ${result}<br>
-            <strong>제출 코드:</strong><pre>${cleanInputCode}</pre>
+            <strong>제출 코드:</strong><pre>${inputCode}</pre>
         </div>
     `;
     if (existing) existing.outerHTML = feedbackLine;
     else panel.insertAdjacentHTML('beforeend', feedbackLine);
-}
-
-// 태그 제거 함수
-function stripTags(input) {
-    return input.replace(/<\/?[^>]+(>|$)/g, ""); // HTML 태그를 제거
 }
 
 function autoResize(ta) {
