@@ -8,7 +8,7 @@
 <div class="main-layout">
     <div class="left-panel">
     <?php
-    // 1. 설명 (guideline) 준비
+    // 설명 (guideline)과 코드 추출 함수
     function extract_guidelines($tree) {
         $guidelines = [];
         foreach ($tree as $block) {
@@ -24,9 +24,8 @@
         }
         return $guidelines;
     }
-    $guidelines = extract_guidelines($OJ_BLOCK_TREE);
 
-    // 2. 코드 블럭 준비
+    // 코드 추출 함수
     function extract_code_blocks($codes) {
         $blocks = [];
         $current_block = [];
@@ -45,9 +44,12 @@
         }
         return $blocks;
     }
+
+    // 가이드라인과 코드 가져오기
+    $guidelines = extract_guidelines($OJ_BLOCK_TREE);
     $code_blocks = extract_code_blocks($OJ_CORRECT_ANSWERS);
 
-    // 3. 출력
+    // 가이드라인과 코드 출력
     $count = min(count($guidelines), count($code_blocks));
     for ($i = 0; $i < $count; $i++) {
         $desc = htmlspecialchars($guidelines[$i]);
