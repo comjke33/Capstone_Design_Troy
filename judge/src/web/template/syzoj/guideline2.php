@@ -35,7 +35,7 @@
                         // 태그를 제거하고 코드만 출력
                         $line = preg_replace('/\[\s*(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\s*\]/', '', $line); // 태그 제거
 
-                        // **모든 태그 사이의 내용 추출**
+                        // 태그 사이의 코드 추출 (모든 태그에 대해 처리)
                         $pattern = '/\[(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\](.*?)\[\s*\1_end\(\d+\)\]/s';
                         preg_match_all($pattern, $line, $matches);
 
