@@ -1,7 +1,6 @@
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
     <h1>한 문단씩 풀기</h1>
-    <span>
-    문제 번호: <?= htmlspecialchars($OJ_SID) ?>
+    <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
 </div>
 
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
@@ -30,9 +29,16 @@
                             continue;
                         }
 
-                        // [self_start]와 [self_end] 태그 사이의 내용을 필터링
+                        // [self_start]와 [self_end] 태그 사이의 내용을 필터링하여 출력
+                        // 태그를 제거하고 내용만 추출
                         $line = htmlspecialchars($block['content']);
                         $line = preg_replace('/\[\s*(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\s*\]/', '', $line); // 태그 제거
+
+                        // [self_start]와 [self_end] 사이의 코드만 추출
+                        if (strpos($line, '[self_start]') !== false && strpos($line, '[self_end]') !== false) {
+                            $line = preg_replace('/\[\s*self_start\s*\(\d+\)\]/', '', $line); // [self_start] 태그 제거
+                            $line = preg_replace('/\[\s*self_end\s*\(\d+\)\]/', '', $line); // [self_end] 태그 제거
+                        }
 
                         $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
                         $disabled = $answer_index > 0 ? "disabled" : "";
