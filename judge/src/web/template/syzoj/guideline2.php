@@ -26,15 +26,15 @@
 
                         // 문제 설명 부분을 출력
                         if ($raw !== '' && !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
+                            // 일반적인 텍스트 (문제 설명)을 그대로 출력
                             $html .= "<div class='problem-description'>{$raw}</div>";
-                            continue;
                         }
                     } elseif ($block['type'] === 'code') {
                         // 태그 사이 코드만 추출
                         $line = htmlspecialchars($block['content']);
                         $line = preg_replace('/\[\s*(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\s*\]/', '', $line); // 태그 제거
 
-                        // 태그 사이의 코드 추출
+                        // 태그 사이의 코드 추출 (모든 태그에 대해 처리)
                         $pattern = '/\[(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\](.*?)\[\s*\1_end\(\d+\)\]/s';
                         preg_match_all($pattern, $line, $matches);
 
