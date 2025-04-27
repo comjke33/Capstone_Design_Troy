@@ -52,7 +52,7 @@
         ?>
     </div>
 
-    <div class="right-panel" id="feedback-panel">
+    <div class="right-panel" id="feedback-panel" style="width: 250px;"> <!-- 피드백 패널의 너비 조정 -->
         <h4>📝 피드백</h4>
     </div>
 </div>
@@ -96,14 +96,23 @@ function updateFeedback(index, isCorrect, inputCode) {
     const panel = document.getElementById('feedback-panel');
     const existing = document.getElementById(`feedback_${index}`);
     const result = isCorrect ? "✔️ 정답" : "❌ 오답";
+
+    // 태그를 제거하고 피드백 내용 출력
+    const cleanInputCode = stripTags(inputCode);
+
     const feedbackLine = `
         <div id="feedback_${index}" class="feedback-line ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}">
             <strong>Line ${index + 1}:</strong> ${result}<br>
-            <strong>제출 코드:</strong><pre>${inputCode}</pre>
+            <strong>제출 코드:</strong><pre>${cleanInputCode}</pre>
         </div>
     `;
     if (existing) existing.outerHTML = feedbackLine;
     else panel.insertAdjacentHTML('beforeend', feedbackLine);
+}
+
+// 태그 제거 함수
+function stripTags(input) {
+    return input.replace(/<\/?[^>]+(>|$)/g, ""); // HTML 태그를 제거
 }
 
 function autoResize(ta) {
