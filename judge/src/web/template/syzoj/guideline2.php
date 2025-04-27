@@ -35,7 +35,7 @@
                         // 태그를 제거하고 코드만 출력
                         $line = preg_replace('/\[\s*(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\s*\]/', '', $line); // 태그 제거
 
-                        // 태그 사이의 코드 추출 (모든 태그에 대해 처리)
+                        // **모든 태그 사이의 내용 추출**
                         $pattern = '/\[(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\](.*?)\[\s*\1_end\(\d+\)\]/s';
                         preg_match_all($pattern, $line, $matches);
 
@@ -67,9 +67,9 @@
         ?>
     </div>
 
-    <!-- 오른쪽 패널: 피드백 영역 -->
+    <!-- 오른쪽 패널: 정답확인 영역 -->
     <div class="right-panel" id="feedback-panel" style="width: 300px; max-width: 300px; min-width: 250px; overflow-y: auto; padding-left: 10px;">
-        <h4>📝 피드백</h4>
+        <h4>📝 정답 확인</h4>
     </div>
 </div>
 
