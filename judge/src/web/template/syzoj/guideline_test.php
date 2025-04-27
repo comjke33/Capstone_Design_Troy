@@ -7,66 +7,65 @@
 
 <div class="main-layout">
     <div class="left-panel">
-    <?php
-    // 1. 설명 (guideline) 준비
-    function extract_guidelines($tree) {
-        $guidelines = [];
-        foreach ($tree as $block) {
-            if ($block['type'] == 'text') {
-                $text = trim($block['content']);
-                if ($text !== '' && !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $text)) {
-                    $guidelines[] = $text;
+        <?php
+        // 1. 설명 (guideline) 준비
+        function extract_guidelines($tree) {
+            $guidelines = [];
+            foreach ($tree as $block) {
+                if ($block['type'] == 'text') {
+                    $text = trim($block['content']);
+                    if ($text !== '' && !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $text)) {
+                        $guidelines[] = $text;
+                    }
+                }
+                if (isset($block['children'])) {
+                    $guidelines = array_merge($guidelines, extract_guidelines($block['children']));
                 }
             }
-            if (isset($block['children'])) {
-                $guidelines = array_merge($guidelines, extract_guidelines($block['children']));
-            }
+            return $guidelines;
         }
-        return $guidelines;
-    }
-    $guidelines = extract_guidelines($OJ_BLOCK_TREE);
+        $guidelines = extract_guidelines($OJ_BLOCK_TREE);
 
-    // 2. 코드 블럭 준비
-    function extract_code_blocks($codes) {
-        $blocks = [];
-        $current_block = [];
-        foreach ($codes as $entry) {
-            $line = trim($entry['content']);
-            if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_start\(\d+\)\]$/", $line)) {
-                $current_block = [];
-            } elseif (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_end\(\d+\)\]$/", $line)) {
-                if (!empty($current_block)) {
-                    $blocks[] = implode("\n", $current_block);
+        // 2. 코드 블럭 준비
+        function extract_code_blocks($codes) {
+            $blocks = [];
+            $current_block = [];
+            foreach ($codes as $entry) {
+                $line = trim($entry['content']);
+                if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_start\(\d+\)\]$/", $line)) {
+                    $current_block = [];
+                } elseif (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_end\(\d+\)\]$/", $line)) {
+                    if (!empty($current_block)) {
+                        $blocks[] = implode("\n", $current_block);
+                    }
+                } else {
+                    $line = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $line);
+                    $current_block[] = $line;
                 }
-            } else {
-                $line = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $line);
-                $current_block[] = $line;
             }
+            return $blocks;
         }
-        return $blocks;
-    }
-    $code_blocks = extract_code_blocks($OJ_CORRECT_ANSWERS);
+        $code_blocks = extract_code_blocks($OJ_CORRECT_ANSWERS);
 
-    // 3. 출력
-    $count = min(count($guidelines), count($code_blocks));
-    for ($i = 0; $i < $count; $i++) {
-        $desc = htmlspecialchars($guidelines[$i]);
-        $code = htmlspecialchars($code_blocks[$i]);
-        echo "<div class='code-line'>{$desc}</div>";
-        echo "<div class='submission-line'>";
-        echo "<div style='flex: 1'>";
-        echo "<textarea id='ta_{$i}' class='styled-textarea' data-index='{$i}'>{$code}</textarea>";
-        echo "<button onclick='submitAnswer({$i})' id='btn_{$i}' class='submit-button'>제출</button>";
-        echo "<span id='check_{$i}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
-        echo "<span id='wrong_{$i}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
-        echo "</div></div>";
-    }
-    ?>
+        // 3. 출력
+        $count = min(count($guidelines), count($code_blocks));
+        for ($i = 0; $i < $count; $i++) {
+            $desc = htmlspecialchars($guidelines[$i]);
+            $code = htmlspecialchars($code_blocks[$i]);
+            echo "<div class='code-line'>{$desc}</div>";
+            echo "<div class='submission-line'>";
+            echo "<div style='flex: 1'>";
+            echo "<textarea id='ta_{$i}' class='styled-textarea' data-index='{$i}'>{$code}</textarea>";
+            echo "<button onclick='submitAnswer({$i})' id='btn_{$i}' class='submit-button'>제출</button>";
+            echo "<span id='check_{$i}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
+            echo "<span id='wrong_{$i}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
+            echo "</div></div>";
+        }
+        ?>
     </div>
 
-    <div class="right-panel" id="feedback-panel" style="height: 200px; overflow-y: auto;">
-        <!-- 오른쪽 패널은 고정 -->
-    </div>
+    <!-- 오른쪽 피드백 패널은 삭제되었습니다. -->
+
 </div>
 
 <script>
