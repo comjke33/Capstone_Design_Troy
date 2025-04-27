@@ -10,56 +10,57 @@
     <div class="left-panel" style="flex: 1; padding-right: 10px;">
         <?php
             // 1. 태그들을 파싱해서 필요한 내용만 출력하는 함수
-            function render_tree_plain($blocks, &$answer_index = 0) {
-                $html = "";
+function render_tree_plain($blocks, &$answer_index = 0) {
+    $html = "";
 
-                foreach ($blocks as $block) {
-                    $indent_px = 10 * ($block['depth'] ?? 0);
+    foreach ($blocks as $block) {
+        $indent_px = 10 * ($block['depth'] ?? 0);
 
-                    // 자식 블록이 있는 경우 재귀적으로 처리
-                    if (isset($block['children'])) {
-                        $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
-                        $html .= render_tree_plain($block['children'], $answer_index);
-                        $html .= "</div>";
-                    } elseif ($block['type'] === 'text') {
-                        $raw = trim($block['content']);
+        // 자식 블록이 있는 경우 재귀적으로 처리
+        if (isset($block['children'])) {
+            $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
+            $html .= render_tree_plain($block['children'], $answer_index);
+            $html .= "</div>";
+        } elseif ($block['type'] === 'text') {
+            $raw = trim($block['content']);
 
-                        // 문제 설명 부분을 출력
-                        if ($raw !== '' && !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
-                            // 일반적인 텍스트 (문제 설명)을 그대로 출력
-                            $html .= "<div class='problem-description'>{$raw}</div>";
-                        }
-                    } elseif ($block['type'] === 'code') {
-                        // 태그 사이 코드만 추출
-                        $line = htmlspecialchars($block['content']);
-                        $line = preg_replace('/\[\s*(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\s*\]/', '', $line); // 태그 제거
-
-                        // 태그 사이의 코드 추출 (모든 태그에 대해 처리)
-                        $pattern = '/\[(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\](.*?)\[\s*\1_end\(\d+\)\]/s';
-                        preg_match_all($pattern, $line, $matches);
-
-                        // 태그 안의 내용만 출력 (matches[2]는 실제 코드 내용)
-                        foreach ($matches[2] as $code_content) {
-                            $code_content = htmlspecialchars(trim($code_content)); // 내용만 출력, 불필요한 공백 제거
-                            $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
-                            $disabled = $answer_index > 0 ? "disabled" : "";
-
-                            $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                            $html .= "<div style='flex: 1'>";
-                            $html .= "<div class='code-line'>{$code_content}</div>";
-                            $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code}</textarea>";
-                            $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                            $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                            $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                            $html .= "</div></div>";
-
-                            $answer_index++;
-                        }
-                    }
-                }
-
-                return $html;
+            // 태그가 포함되지 않은 내용 출력
+            if ($raw !== '' && !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
+                // 일반적인 텍스트 내용 출력
+                $html .= "<div class='problem-description'>{$raw}</div>";
             }
+        } elseif ($block['type'] === 'code') {
+            // 태그 사이의 코드만 추출
+            $line = htmlspecialchars($block['content']);
+            $line = preg_replace('/\[\s*(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\s*\]/', '', $line); // 태그 제거
+
+            // 태그 사이의 코드 추출 (모든 태그에 대해 처리)
+            $pattern = '/\[(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\](.*?)\[\s*\1_end\(\d+\)\]/s';
+            preg_match_all($pattern, $line, $matches);
+
+            // 태그 안의 내용만 출력 (matches[2]는 실제 코드 내용)
+            foreach ($matches[2] as $code_content) {
+                $code_content = htmlspecialchars(trim($code_content)); // 내용만 출력, 불필요한 공백 제거
+                $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
+                $disabled = $answer_index > 0 ? "disabled" : "";
+
+                $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                $html .= "<div style='flex: 1'>";
+                $html .= "<div class='code-line'>{$code_content}</div>";
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code}</textarea>";
+                $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                $html .= "</div></div>";
+
+                $answer_index++;
+            }
+        }
+    }
+
+    return $html;
+}
+
 
             $answer_index = 0;
             echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
