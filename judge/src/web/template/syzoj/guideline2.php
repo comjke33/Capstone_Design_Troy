@@ -32,6 +32,7 @@
                         // [self_start]와 [self_end] 태그 사이의 내용을 필터링하여 출력
                         // 태그를 제거하고 내용만 추출
                         $line = htmlspecialchars($block['content']);
+                        // 태그를 제거하고 코드만 출력
                         $line = preg_replace('/\[\s*(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\s*\]/', '', $line); // 태그 제거
 
                         // [self_start]와 [self_end] 사이의 코드만 추출
@@ -40,19 +41,25 @@
                             $line = preg_replace('/\[\s*self_end\s*\(\d+\)\]/', '', $line); // [self_end] 태그 제거
                         }
 
-                        $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
-                        $disabled = $answer_index > 0 ? "disabled" : "";
+                        // 여러 개의 코드를 [태그] 사이로 분리하여 각각 출력
+                        $code_parts = explode('[self_end]', $line);
+                        foreach ($code_parts as $code_part) {
+                            if (!empty($code_part)) {
+                                $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
+                                $disabled = $answer_index > 0 ? "disabled" : "";
 
-                        $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                        $html .= "<div style='flex: 1'>";
-                        $html .= "<div class='code-line'>{$line}</div>";
-                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code}</textarea>";
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                        $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                        $html .= "</div></div>";
+                                $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                                $html .= "<div style='flex: 1'>";
+                                $html .= "<div class='code-line'>{$code_part}</div>";
+                                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code}</textarea>";
+                                $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                                $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                                $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                                $html .= "</div></div>";
 
-                        $answer_index++;
+                                $answer_index++;
+                            }
+                        }
                     }
                 }
 
