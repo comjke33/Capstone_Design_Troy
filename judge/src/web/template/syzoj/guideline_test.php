@@ -106,16 +106,27 @@ function submitAnswer(index) {
 // 답안 보기 버튼 클릭 시 오른쪽 패널에 정답을 표시
 function showAnswer(index) {
     const panel = document.getElementById('feedback-panel');
-    let answerHtml = "<h4>정답:</h4><div>";
-    
-    // 정답 코드 출력
+
     const correctCode = correctAnswers[index]?.content.trim();
-    answerHtml += `<pre class='code-line'>${correctCode}</pre>`;
-    answerHtml += "</div>";
-    
-    // 오른쪽 패널에 정답 추가
-    panel.innerHTML = answerHtml;
+    if (!correctCode) return; // 정답 없으면 리턴
+
+    let answerHtml = `
+        <div id="answer_${index}" class="answer-line">
+            <h4>Line ${index + 1} 정답:</h4>
+            <pre class='code-line'>${correctCode}</pre>
+        </div>
+    `;
+
+    const existingAnswer = document.getElementById(`answer_${index}`);
+    if (existingAnswer) {
+        // 이미 표시된 정답이 있으면 업데이트
+        existingAnswer.outerHTML = answerHtml;
+    } else {
+        // 새로 추가
+        panel.insertAdjacentHTML('beforeend', answerHtml);
+    }
 }
+
 
 function updateFeedback(index, isCorrect, inputCode) {
     const panel = document.getElementById('feedback-panel');
