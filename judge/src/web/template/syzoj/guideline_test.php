@@ -79,7 +79,6 @@ function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
     const check = document.getElementById(`check_${index}`);
-    const feedbackPanel = ta.closest('.submission-line').querySelector('.feedback-container');  // textarea 바로 아래의 피드백 영역 선택
 
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
@@ -92,11 +91,8 @@ function submitAnswer(index) {
         ta.style.color = "#155724";             // ✅ 진한 초록색 글자 추가
         btn.style.display = "none";
         check.style.display = "inline";
+        updateFeedback(index, true, input);
 
-        // 정답을 바로 아래에 출력
-        feedbackPanel.innerHTML = `<strong>정답:</strong> <pre class='code-line'>${correct}</pre>`;
-
-        // 다음 코드로 이동
         const nextIndex = index + 1;
         const nextTa = document.getElementById(`ta_${nextIndex}`);
         const nextBtn = document.getElementById(`btn_${nextIndex}`);
@@ -110,37 +106,46 @@ function submitAnswer(index) {
         ta.style.backgroundColor = "#ffecec";
         ta.style.border = "1px solid #e06060";
         ta.style.color = "#c00";
-        feedbackPanel.innerHTML = `<strong>오답:</strong> <pre>${input}</pre>`;
+        updateFeedback(index, false, input);
     }
 }
 
 function showAnswer(index) {
-    const ta = document.getElementById(`ta_${index}`);
-    const feedbackPanel = ta.closest('.submission-line').querySelector('.feedback-container');  // textarea 바로 밑에 위치한 영역 선택
+    const panel = document.getElementById('feedback-panel');
 
     const correctCode = correctAnswers[index]?.content.trim();
     if (!correctCode) return; // 정답 없으면 리턴
 
     let answerHtml = ` 
-        <div id="feedback_${index}" class="feedback-line">
-            <strong>정답:</strong>
+        <div id="answer_${index}" class="answer-line">
+            <h4>Line ${index + 1} 정답:</h4>
             <pre class='code-line'>${correctCode}</pre>
         </div>
     `;
 
-    feedbackPanel.innerHTML = answerHtml;  // 정답을 textarea 바로 아래에 위치시킴
+    const existingAnswer = document.getElementById(`answer_${index}`);
+    if (existingAnswer) {
+        // 이미 표시된 정답이 있으면 업데이트
+        existingAnswer.outerHTML = answerHtml;
+    } else {
+        // 새로 추가
+        panel.insertAdjacentHTML('beforeend', answerHtml);
+    }
 }
 
 function updateFeedback(index, isCorrect, inputCode) {
-    const ta = document.getElementById(`ta_${index}`);
-    const check = document.getElementById(`check_${index}`);
-
-    if (isCorrect) {
-        check.style.display = "inline";  // 정답 표시
-    } else {
-        check.style.display = "none";   // 오답 표시
-    }
+    const panel = document.getElementById('feedback-panel');
+    const existing = document.getElementById(`feedback_${index}`);
+    const result = isCorrect ? "✔️ 정답" : "❌ 오답";
+    const feedbackLine = `
+        <div id="feedback_${index}" class="feedback-line ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}">
+            <strong>Line ${index + 1}:</strong> ${result}<br>
+        </div>
+    `;
+    if (existing) existing.outerHTML = feedbackLine;
+    else panel.insertAdjacentHTML('beforeend', feedbackLine);
 }
+
 
 function autoResize(ta) {
     ta.style.height = 'auto';
@@ -154,3 +159,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+</script>
