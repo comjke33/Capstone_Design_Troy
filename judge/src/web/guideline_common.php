@@ -59,8 +59,8 @@ function parse_blocks($text) {
 
 function extract_tagged_blocks($text) {
     // 태그 패턴
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
-    preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
+    $tag_pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
+    preg_match_all($tag_pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
     $blocks = [];
     $stack = [];
@@ -70,16 +70,16 @@ function extract_tagged_blocks($text) {
         $pos = $match[1];
 
         if (strpos($full, '_start(') !== false) {
-            // start 태그면 스택에 push
+            // start 태그
             preg_match("/\[(\w+)_start\((\d+)\)\]/", $full, $m);
             $stack[] = [
                 'type' => $m[1],
                 'index' => intval($m[2]),
-                'start' => $pos + strlen($full),  // start 이후부터 본문 시작
+                'start' => $pos + strlen($full),
                 'token_pos' => $pos
             ];
         } elseif (strpos($full, '_end(') !== false) {
-            // end 태그면 스택에 있는 start랑 매칭
+            // end 태그
             preg_match("/\[(\w+)_end\((\d+)\)\]/", $full, $m);
             $type = $m[1];
             $index = intval($m[2]);
@@ -90,29 +90,35 @@ function extract_tagged_blocks($text) {
                     $token_pos = $stack[$j]['token_pos'];
                     $end = $pos;
 
-                    $content = substr($text, $start, $end - $start);
+                    // 본문 추출
+                    $raw_content = substr($text, $start, $end - $start);
 
-                    // 태그 제거: 각 줄별로 태그가 끼어있을 수 있어서 추가로 정리
-                    $content = preg_replace($pattern, '', $content);
+                    // 본문 안에 있는 추가 태그 제거
+                    $clean_content = preg_replace($tag_pattern, '', $raw_content);
+
+                    // 각 줄 양끝 공백 제거
+                    $lines = explode("\n", $clean_content);
+                    $lines = array_map('rtrim', $lines);
+                    $clean_content = implode("\n", $lines);
 
                     $blocks[] = [
                         'type' => $type,
                         'index' => $index,
-                        'content' => trim($content), // 공백 정리
+                        'content' => trim($clean_content),
                         'pos' => $token_pos
                     ];
 
-                    array_splice($stack, $j, 1); // 매칭된 start 제거
+                    array_splice($stack, $j, 1);
                     break;
                 }
             }
         }
     }
 
-    // 블록들을 코드상 등장 순서대로 정렬
+    // 정렬
     usort($blocks, fn($a, $b) => $a['pos'] <=> $b['pos']);
 
-    // 블록 결과 리턴
+    // 필요한 필드만 리턴
     return array_map(fn($b) => [
         'type' => $b['type'],
         'index' => $b['index'],
