@@ -69,13 +69,14 @@
 
 <script>
 // 정답 확인 및 제출 기능
+// 정답 확인 및 제출 기능
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
     const check = document.getElementById(`check_${index}`);
-    const feedbackPanel = document.getElementById(`feedback_${index}`);
+    const feedbackPanel = document.getElementById(`feedback_${index}`); // 피드백을 표시할 영역
 
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
@@ -89,8 +90,8 @@ function submitAnswer(index) {
         btn.style.display = "none";
         check.style.display = "inline";
 
-        // 피드백 업데이트
-        updateFeedback(index, true, input);
+        // 정답을 바로 아래에 표시
+        feedbackPanel.innerHTML = `<strong>정답:</strong> <pre class='code-line'>${correct}</pre>`;
 
         // 다음 코드로 이동
         const nextIndex = index + 1;
@@ -106,13 +107,13 @@ function submitAnswer(index) {
         ta.style.backgroundColor = "#ffecec";
         ta.style.border = "1px solid #e06060";
         ta.style.color = "#c00";
-        updateFeedback(index, false, input);
+        feedbackPanel.innerHTML = `<strong>오답:</strong> <pre>${input}</pre>`;
     }
 }
 
 function showAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
-    const panel = ta.closest('.submission-line');  // 피드백을 코드 바로 아래에 표시
+    const feedbackPanel = document.getElementById(`feedback_${index}`);
 
     const correctCode = correctAnswers[index]?.content.trim();
     if (!correctCode) return; // 정답 없으면 리턴
@@ -124,8 +125,9 @@ function showAnswer(index) {
         </div>
     `;
 
-    panel.insertAdjacentHTML('beforeend', answerHtml);  // 코드 바로 아래에 피드백 추가
+    feedbackPanel.innerHTML = answerHtml;  // 정답을 textarea 아래에 위치시킴
 }
+
 
 function updateFeedback(index, isCorrect, inputCode) {
     const ta = document.getElementById(`ta_${index}`);
