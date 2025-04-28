@@ -51,34 +51,6 @@
                         $html .= "</div></div>";
 
                         $answer_index++;
-                    } elseif ($block['type'] === 'code') {
-                        // 태그 사이의 코드만 추출
-                        $line = htmlspecialchars($block['content']);
-                        // 태그 제거
-                        $line = preg_replace('/\[\s*(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\s*\]/', '', $line); // 태그 제거
-
-                        // 태그 사이의 코드 추출 (모든 태그에 대해 처리)
-                        $pattern = '/\[(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\](.*?)\[\s*\1_end\(\d+\)\]/s';
-                        preg_match_all($pattern, $line, $matches);
-
-                        // 태그 안의 내용만 출력 (matches[2]는 실제 코드 내용)
-                        foreach ($matches[2] as $code_content) {
-                            $code_content = htmlspecialchars(trim($code_content)); // 내용만 출력, 불필요한 공백 제거
-                            $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
-                            $disabled = $answer_index > 0 ? "disabled" : "";
-
-                            // `textarea`는 비워두기
-                            $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                            $html .= "<div style='flex: 1'>";
-                            $html .= "<div class='code-line'>{$code_content}</div>";
-                            $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
-                            $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                            $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                            $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                            $html .= "</div></div>";
-
-                            $answer_index++;
-                        }
                     }
                 }
 
@@ -88,15 +60,33 @@
             $answer_index = 0;
             echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
         ?>
+        <!-- 답안 보기 버튼 -->
+        <button onclick="showAnswer()">답안 보기</button>
     </div>
 
-    <div class="right-panel" id="feedback-panel">
-        <h4>📝 피드백</h4>
+    <!-- 오른쪽 패널: 정답확인 영역 -->
+    <div class="right-panel" id="feedback-panel" style="width: 300px; max-width: 300px; min-width: 250px; overflow-y: auto; padding-left: 10px;">
+        <h4>📝 정답 확인</h4>
+        <!-- 정답이 이 곳에 표시될 것입니다 -->
     </div>
 </div>
 
 <script>
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
+
+// 답안 보기 버튼 클릭 시 오른쪽 패널에 정답을 표시
+function showAnswer() {
+    const panel = document.getElementById('feedback-panel');
+    let answerHtml = "<h4>정답:</h4><div>";
+    
+    // 정답 코드를 오른쪽 패널에 표시
+    correctAnswers.forEach((answer, index) => {
+        answerHtml += `<pre class='code-line'>${answer.content}</pre>`;
+    });
+
+    answerHtml += "</div>";
+    panel.innerHTML = answerHtml; // 정답 코드 출력
+}
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
