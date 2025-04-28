@@ -68,31 +68,17 @@ function extract_tagged_blocks($text) {
         $current_tag = $match[0][0];
         $current_pos = $match[0][1];
 
-        // 태그 앞 코드 읽기
-        $before_text = substr($text, $pos, $current_pos - $pos);
-        $before_text = preg_replace($tag_pattern, '', $before_text); // 혹시 모를 태그 중복 제거
-        $lines = explode("\n", $before_text);
-        foreach ($lines as $line) {
-            $trimmed = trim($line);
-            if ($trimmed !== '' && !str_starts_with($trimmed, '#include')) {
-                $blocks[] = [
-                    'type' => 'text',
-                    'content' => $trimmed
-                ];
-            }
-        }
-
-        // 현재 태그 이후부터 다음 태그까지 찾기
+        // 현재 태그 이후부터 다음 태그까지 읽는다
         $next_pos = $current_pos + strlen($current_tag);
         if (preg_match($tag_pattern, $text, $next_match, PREG_OFFSET_CAPTURE, $next_pos)) {
             $next_tag_pos = $next_match[0][1];
             $between_text = substr($text, $next_pos, $next_tag_pos - $next_pos);
         } else {
-            // 마지막이면 끝까지
+            // 마지막 태그이면 끝까지
             $between_text = substr($text, $next_pos);
         }
 
-        $between_text = preg_replace($tag_pattern, '', $between_text); // 혹시 모를 태그 중복 제거
+        $between_text = preg_replace($tag_pattern, '', $between_text); // 혹시 모를 태그 제거
         $lines = explode("\n", $between_text);
         foreach ($lines as $line) {
             $trimmed = trim($line);
@@ -110,3 +96,4 @@ function extract_tagged_blocks($text) {
 
     return $blocks;
 }
+
