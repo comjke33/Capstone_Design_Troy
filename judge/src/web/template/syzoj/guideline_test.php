@@ -47,10 +47,9 @@
                             $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
                             $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
                         }
-                        $html .= "</div>";
-                        // Feedback will be inserted here directly under the textarea and submit button
-                        $html .= "<div id='feedback_{$answer_index}' class='feedback-line' style='display:none; margin-top: 10px;'></div>";
-                        $html .= "</div>";
+                        $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                        $html .= "</div></div>";
             
                         $answer_index++;
                     }
@@ -72,16 +71,14 @@
     </div>
 </div>
 
-
 <script>
-
+// 정답 확인 및 제출 기능
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
     const check = document.getElementById(`check_${index}`);
-    const feedbackDiv = document.getElementById(`feedback_${index}`); // Get the feedback div
 
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
@@ -94,10 +91,8 @@ function submitAnswer(index) {
         ta.style.color = "#155724";             // ✅ 진한 초록색 글자 추가
         btn.style.display = "none";
         check.style.display = "inline";
-        
         updateFeedback(index, true, input);
-        
-        // Enable next textarea and button
+
         const nextIndex = index + 1;
         const nextTa = document.getElementById(`ta_${nextIndex}`);
         const nextBtn = document.getElementById(`btn_${nextIndex}`);
@@ -138,20 +133,6 @@ function showAnswer(index) {
     }
 }
 
-function updateFeedback(index, isCorrect, inputCode) {
-    const feedbackDiv = document.getElementById(`feedback_${index}`);
-    const result = isCorrect ? "✔️ 정답" : "❌ 오답";
-
-    // Construct the feedback message
-    const feedbackLine = `
-        <strong>Line ${index + 1}:</strong> ${result}
-    `;
-    
-    // Show the feedback in the feedback div
-    feedbackDiv.innerHTML = feedbackLine;
-    feedbackDiv.style.display = 'block';  // Make it visible
-}
-
 function autoResize(ta) {
     ta.style.height = 'auto';
     ta.style.height = ta.scrollHeight + 'px';
@@ -164,3 +145,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+</script>
