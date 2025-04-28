@@ -75,11 +75,11 @@ function extract_tagged_blocks($text) {
 
         // 태그 앞에 있는 코드 가져오기
         $before_text = substr($text, $pos, $tag_pos - $pos);
-        $before_text = preg_replace($tag_pattern, '', $before_text); // <== ★ 태그 제거
+        $before_text = preg_replace($tag_pattern, '', $before_text); // 태그 제거
         $lines = explode("\n", $before_text);
         foreach ($lines as $line) {
-            $trimmed = rtrim($line);
-            if ($trimmed !== '') {
+            $trimmed = trim($line);
+            if ($trimmed !== '' && !str_starts_with($trimmed, '#include')) { // ★ 헤더 파일 무시
                 $blocks[] = [
                     'type' => 'text',
                     'content' => $trimmed
@@ -108,11 +108,11 @@ function extract_tagged_blocks($text) {
 
     // 마지막 남은 텍스트 처리
     $after_text = substr($text, $pos);
-    $after_text = preg_replace($tag_pattern, '', $after_text); // <== ★ 태그 제거
+    $after_text = preg_replace($tag_pattern, '', $after_text); // 태그 제거
     $lines = explode("\n", $after_text);
     foreach ($lines as $line) {
-        $trimmed = rtrim($line);
-        if ($trimmed !== '') {
+        $trimmed = trim($line);
+        if ($trimmed !== '' && !str_starts_with($trimmed, '#include')) { // ★ 헤더 파일 무시
             $blocks[] = [
                 'type' => 'text',
                 'content' => $trimmed
