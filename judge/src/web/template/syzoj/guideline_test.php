@@ -133,18 +133,18 @@ function showAnswer(index) {
     }
 }
 
-function updateFeedback(index, isCorrect, inputCode) {
-    const panel = document.getElementById('feedback-panel');
-    const existing = document.getElementById(`feedback_${index}`);
-    const result = isCorrect ? "✔️ 정답" : "❌ 오답";
-    const feedbackLine = `
-        <div id="feedback_${index}" class="feedback-line ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}">
-            <strong>Line ${index + 1}:</strong> ${result}<br>
-        </div>
-    `;
-    if (existing) existing.outerHTML = feedbackLine;
-    else panel.insertAdjacentHTML('beforeend', feedbackLine);
-}
+// function updateFeedback(index, isCorrect, inputCode) {
+//     const panel = document.getElementById('feedback-panel');
+//     const existing = document.getElementById(`feedback_${index}`);
+//     const result = isCorrect ? "✔️ 정답" : "❌ 오답";
+//     const feedbackLine = `
+//         <div id="feedback_${index}" class="feedback-line ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}">
+//             <strong>Line ${index + 1}:</strong> ${result}<br>
+//         </div>
+//     `;
+//     if (existing) existing.outerHTML = feedbackLine;
+//     else panel.insertAdjacentHTML('beforeend', feedbackLine);
+// }
 
 
 function autoResize(ta) {
