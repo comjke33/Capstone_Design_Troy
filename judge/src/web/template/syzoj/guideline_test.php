@@ -1,5 +1,5 @@
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
-    <h1>한 문단씩 풀기</h1>
+    <h1>한 줄씩 풀기</h1>
     <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
 </div>
 
