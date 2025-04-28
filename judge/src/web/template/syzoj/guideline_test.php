@@ -64,11 +64,7 @@
         ?>
     </div>
 
-    <!-- 오른쪽 패널: 정답확인 영역 -->
-    <div class="right-panel" id="feedback-panel" style="width: 300px; max-width: 300px; min-width: 250px; overflow-y: auto; padding-left: 10px;">
-        <h4>📝 정답 확인</h4>
-        <!-- 정답이 이 곳에 표시될 것입니다 -->
-    </div>
+    <!-- 오른쪽 패널은 제거됨 -->
 </div>
 
 <script>
@@ -79,6 +75,7 @@ function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
     const check = document.getElementById(`check_${index}`);
+    const feedbackPanel = document.getElementById(`feedback_${index}`);
 
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
@@ -91,8 +88,11 @@ function submitAnswer(index) {
         ta.style.color = "#155724";             // ✅ 진한 초록색 글자 추가
         btn.style.display = "none";
         check.style.display = "inline";
+
+        // 피드백 업데이트
         updateFeedback(index, true, input);
 
+        // 다음 코드로 이동
         const nextIndex = index + 1;
         const nextTa = document.getElementById(`ta_${nextIndex}`);
         const nextBtn = document.getElementById(`btn_${nextIndex}`);
@@ -111,40 +111,31 @@ function submitAnswer(index) {
 }
 
 function showAnswer(index) {
-    const panel = document.getElementById('feedback-panel');
+    const ta = document.getElementById(`ta_${index}`);
+    const panel = ta.closest('.submission-line');  // 피드백을 코드 바로 아래에 표시
 
     const correctCode = correctAnswers[index]?.content.trim();
     if (!correctCode) return; // 정답 없으면 리턴
 
     let answerHtml = ` 
-        <div id="answer_${index}" class="answer-line">
-            <h4>Line ${index + 1} 정답:</h4>
+        <div id="feedback_${index}" class="feedback-line">
+            <strong>정답:</strong>
             <pre class='code-line'>${correctCode}</pre>
         </div>
     `;
 
-    const existingAnswer = document.getElementById(`answer_${index}`);
-    if (existingAnswer) {
-        // 이미 표시된 정답이 있으면 업데이트
-        existingAnswer.outerHTML = answerHtml;
-    } else {
-        // 새로 추가
-        panel.insertAdjacentHTML('beforeend', answerHtml);
-    }
+    panel.insertAdjacentHTML('beforeend', answerHtml);  // 코드 바로 아래에 피드백 추가
 }
 
 function updateFeedback(index, isCorrect, inputCode) {
-    const panel = document.getElementById('feedback-panel');
-    const existing = document.getElementById(`feedback_${index}`);
-    const result = isCorrect ? "✔️ 정답" : "❌ 오답";
-    const feedbackLine = `
-        <div id="feedback_${index}" class="feedback-line ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}">
-            <strong>Line ${index + 1}:</strong> ${result}<br>
-            <strong>제출 코드:</strong><pre>${inputCode}</pre>
-        </div>
-    `;
-    if (existing) existing.outerHTML = feedbackLine;
-    else panel.insertAdjacentHTML('beforeend', feedbackLine);
+    const ta = document.getElementById(`ta_${index}`);
+    const check = document.getElementById(`check_${index}`);
+
+    if (isCorrect) {
+        check.style.display = "inline";  // 정답 표시
+    } else {
+        check.style.display = "none";   // 오답 표시
+    }
 }
 
 function autoResize(ta) {
