@@ -122,6 +122,7 @@ function showAnswer(index) {
         </div>
     `;
 
+    // 피드백을 textarea 아래로 넣기
     submissionLine.insertAdjacentHTML('beforeend', answerHtml);  // 코드 바로 아래에 피드백 추가
 }
 
