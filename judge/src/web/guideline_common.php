@@ -10,7 +10,7 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $start_pos = $m[0][1];
         $full_len = strlen($m[0][0]);
         $end_pos = $start_pos + $full_len;
-        
+
         // Extract any content before the tag
         $before_text = substr($text, $offset, $start_pos - $offset);
         if (trim($before_text) !== '') {

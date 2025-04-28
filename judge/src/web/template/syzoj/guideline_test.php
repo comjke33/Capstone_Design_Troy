@@ -9,7 +9,7 @@
     <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역 -->
     <div class="left-panel" style="flex: 1; padding-right: 10px;">
         <?php
-            // 1. 태그들을 파싱해서 필요한 내용만 출력하는 함수
+            // Render parsed blocks
             function render_tree_plain($blocks, &$answer_index = 0) {
                 $html = "";
 
@@ -23,29 +23,28 @@
                     } elseif ($block['type'] === 'text') {
                         $raw = trim($block['content']);
 
-                        // 불필요한 태그를 포함한 코드를 제거 (예: [self_start]와 [self_end] 사이의 내용만 추출)
+                        // Remove unwanted tags like [start] and [end]
                         if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
                             continue;
                         }
 
-                        // [self_start]와 [self_end] 사이의 내용만 출력
+                        // Output content inside [start] and [end] tags
                         $line = htmlspecialchars($block['content']);
-                        if (strpos($line, '[self_start]') !== false && strpos($line, '[self_end]') !== false) {
-                            // [self_start]와 [self_end] 사이의 내용을 출력
-                            $line = preg_replace('/\[(.*?)\]/', '', $line);  // 태그 제거
-                            $line = trim($line);  // 양옆 공백 제거
+                        if (strpos($line, '[start]') !== false && strpos($line, '[end]') !== false) {
+                            $line = preg_replace('/\[(.*?)\]/', '', $line);  // Remove tags
+                            $line = trim($line);  // Trim whitespace
                         }
 
                         $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
                         $disabled = $answer_index > 0 ? "disabled" : "";
 
+                        // Render the submission block
                         $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                         $html .= "<div style='flex: 1'>";
                         $html .= "<div class='code-line'>{$line}</div>";
-                        // 정답은 비워두기
                         $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
                         $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                        $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button' {$disabled}>답안 확인</button>"; // 답안 확인 버튼 추가
+                        $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button' {$disabled}>답안 확인</button>";
                         $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
                         $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
                         $html .= "</div></div>";
