@@ -10,66 +10,44 @@
     <div class="left-panel" style="flex: 1; padding-right: 10px;">
         <?php
             // 1. 태그들을 파싱해서 필요한 내용만 출력하는 함수
-            function parse_blocks_with_loose_text($text, $depth = 0) {
-                // 패턴 수정: start와 end가 뒤죽박죽일 경우에도 처리할 수 있도록
-                $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/s";
-                
-                $blocks = [];
-                $offset = 0;
-            
-                // 정규식으로 태그 및 그 사이의 내용을 찾는다.
-                while (preg_match($pattern, $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
-                    $start_pos = $m[0][1];
-                    $full_len = strlen($m[0][0]);
-                    $end_pos = $start_pos + $full_len;
-            
-                    // start와 end 사이의 텍스트를 처리
-                    $content = $m[3][0]; // 태그 사이에 있는 내용
-                    
-                    // 재귀적으로 처리하여 중첩된 블록을 파싱
-                    $children = parse_blocks_with_loose_text($content, $depth + 1);
-                    
-                    // 시작과 종료 태그에 대한 메타정보 추가
-                    $type = $m[1][0];
-                    $index = $m[3][0];
-                    array_unshift($children, [
-                        'type' => 'text',
-                        'content' => "[{$type}_start({$index})]",
-                        'depth' => $depth + 1
-                    ]);
-                    array_push($children, [
-                        'type' => 'text',
-                        'content' => "[{$type}_end({$index})]",
-                        'depth' => $depth + 1
-                    ]);
-                    
-                    // 블록 추가
-                    $blocks[] = [
-                        'type' => $type,
-                        'index' => $index,
-                        'depth' => $depth,
-                        'children' => $children
-                    ];
-                    
-                    $offset = $end_pos; // 다음 검색을 위한 오프셋 업데이트
-                }
-            
-                // 마지막까지 읽은 부분 처리
-                $tail = substr($text, $offset);
-                if (trim($tail) !== '') {
-                    foreach (explode("\n", $tail) as $line) {
-                        $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
-                        $blocks[] = [
-                            'type' => 'text',
-                            'content' => rtrim($line),
-                            'depth' => $depth + $indent_level
-                        ];
+            function render_tree_plain($blocks, &$answer_index = 0) {
+                $html = "";
+
+                foreach ($blocks as $block) {
+                    $indent_px = 10 * ($block['depth'] ?? 0);
+
+                    if (isset($block['children'])) {
+                        $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
+                        $html .= render_tree_plain($block['children'], $answer_index);
+                        $html .= "</div>";
+                    } elseif ($block['type'] === 'text') {
+                        $raw = trim($block['content']);
+
+                        // 불필요한 태그를 포함한 코드를 제거 (예: [self_start]와 [self_end] 사이의 내용만 추출)
+                        if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
+                            continue;
+                        }
+
+                        $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
+                        $disabled = $answer_index > 0 ? "disabled" : "";
+
+                        $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                        $html .= "<div style='flex: 1'>";
+                        $html .= "<div class='code-line'>{$line}</div>";
+                        // 정답은 비워두기
+                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                        $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button' {$disabled}>답안 확인</button>"; // 답안 확인 버튼 추가
+                        $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                        $html .= "</div></div>";
+
+                        $answer_index++;
                     }
                 }
-            
-                return $blocks;
+
+                return $html;
             }
-            
 
             $answer_index = 0;
             echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
