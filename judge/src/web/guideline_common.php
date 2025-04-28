@@ -60,68 +60,65 @@ function parse_blocks($text) {
 function extract_tagged_blocks($text) {
     // 태그 패턴
     $tag_pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
-    preg_match_all($tag_pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
     $blocks = [];
     $stack = [];
+    $pos = 0;
 
-    foreach ($matches[0] as $i => $match) {
-        $full = $match[0];
-        $pos = $match[1];
+    // 텍스트를 순서대로 스캔
+    while (preg_match($tag_pattern, $text, $match, PREG_OFFSET_CAPTURE, $pos)) {
+        $full_tag = $match[0][0];
+        $tag_pos = $match[0][1];
+        $type = $match[1][0];
+        $direction = $match[2][0];
+        $index = intval($match[3][0]);
 
-        if (strpos($full, '_start(') !== false) {
-            // start 태그
-            preg_match("/\[(\w+)_start\((\d+)\)\]/", $full, $m);
+        $before_text = substr($text, $pos, $tag_pos - $pos); // 태그 앞에 있는 코드
+
+        // 앞에 있는 코드 처리 (공백/줄바꿈 무시하고 유효한 코드만)
+        $lines = explode("\n", $before_text);
+        foreach ($lines as $line) {
+            $trimmed = rtrim($line);
+            if ($trimmed !== '') {
+                $blocks[] = [
+                    'type' => 'text', // 일반 코드
+                    'content' => $trimmed
+                ];
+            }
+        }
+
+        if ($direction === 'start') {
+            // start 태그는 스택에 쌓아
             $stack[] = [
-                'type' => $m[1],
-                'index' => intval($m[2]),
-                'start' => $pos + strlen($full),
-                'token_pos' => $pos
+                'type' => $type,
+                'index' => $index
             ];
-        } elseif (strpos($full, '_end(') !== false) {
-            // end 태그
-            preg_match("/\[(\w+)_end\((\d+)\)\]/", $full, $m);
-            $type = $m[1];
-            $index = intval($m[2]);
-
-            for ($j = count($stack) - 1; $j >= 0; $j--) {
-                if ($stack[$j]['type'] === $type && $stack[$j]['index'] === $index) {
-                    $start = $stack[$j]['start'];
-                    $token_pos = $stack[$j]['token_pos'];
-                    $end = $pos;
-
-                    // 본문 추출
-                    $raw_content = substr($text, $start, $end - $start);
-
-                    // 본문 안에 있는 추가 태그 제거
-                    $clean_content = preg_replace($tag_pattern, '', $raw_content);
-
-                    // 각 줄 양끝 공백 제거
-                    $lines = explode("\n", $clean_content);
-                    $lines = array_map('rtrim', $lines);
-                    $clean_content = implode("\n", $lines);
-
-                    $blocks[] = [
-                        'type' => $type,
-                        'index' => $index,
-                        'content' => trim($clean_content),
-                        'pos' => $token_pos
-                    ];
-
-                    array_splice($stack, $j, 1);
+        } elseif ($direction === 'end') {
+            // end 태그는 스택에서 짝 맞는 걸 제거
+            for ($i = count($stack) - 1; $i >= 0; $i--) {
+                if ($stack[$i]['type'] === $type && $stack[$i]['index'] === $index) {
+                    array_splice($stack, $i, 1);
                     break;
                 }
             }
         }
+
+        // 다음 검색 위치 갱신
+        $pos = $tag_pos + strlen($full_tag);
     }
 
-    // 정렬
-    usort($blocks, fn($a, $b) => $a['pos'] <=> $b['pos']);
+    // 마지막 남은 텍스트 처리
+    $after_text = substr($text, $pos);
+    $lines = explode("\n", $after_text);
+    foreach ($lines as $line) {
+        $trimmed = rtrim($line);
+        if ($trimmed !== '') {
+            $blocks[] = [
+                'type' => 'text',
+                'content' => $trimmed
+            ];
+        }
+    }
 
-    // 필요한 필드만 리턴
-    return array_map(fn($b) => [
-        'type' => $b['type'],
-        'index' => $b['index'],
-        'content' => $b['content']
-    ], $blocks);
+    return $blocks;
 }
