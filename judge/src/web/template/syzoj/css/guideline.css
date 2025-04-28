@@ -36,7 +36,7 @@
 }
 
 /* 제출 버튼 스타일 (파란색) */
-.view-button {
+.submit-button {
   margin-top: 6px;
   background-color: #4a90e2; /* 파란색 배경 */
   color: white; /* 버튼 글자 색상 */
@@ -51,7 +51,7 @@
 }
 
 /* 답안 확인 버튼 스타일 (주황색) */
-.submit-button {
+.view-button {
   margin-top: 6px;
   background-color: #ff8c00; /* 주황색 배경 */
   color: white; /* 버튼 글자 색상 */
