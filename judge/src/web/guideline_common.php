@@ -93,25 +93,12 @@ function extract_tagged_blocks($text) {
                     $end = $pos;
 
                     $raw_content = substr($text, $start, $end - $start);
-                    
-                    // [수정 포인트]
-                    if ($type === 'func_def') {
-                        // func_def는 첫 줄만 파싱
-                        $lines = explode("\n", $raw_content);
-                        $first_line = isset($lines[0]) ? $lines[0] : '';
-                        $clean_content = trim(preg_replace($tag_pattern, '', $first_line));
-                    } else {
-                        // 나머지 (self, rep 등)는 전체 파싱
-                        $clean_content = trim(preg_replace($tag_pattern, '', $raw_content));
-                    }
-
                     $blocks[] = [
                         'type' => $type,
                         'index' => $index,
-                        'content' => $clean_content,
+                        'content' => $raw_content,
                         'pos' => $token_pos
                     ];
-
                     array_splice($stack, $j, 1);
                     break;
                 }
@@ -122,10 +109,5 @@ function extract_tagged_blocks($text) {
     // 정렬
     usort($blocks, fn($a, $b) => $a['pos'] <=> $b['pos']);
 
-    // 필요한 필드만 리턴
-    return array_map(fn($b) => [
-        'type' => $b['type'],
-        'index' => $b['index'],
-        'content' => $b['content']
-    ], $blocks);
+    return $blocks;
 }
