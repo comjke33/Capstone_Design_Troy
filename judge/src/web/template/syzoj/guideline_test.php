@@ -84,12 +84,10 @@ function submitAnswer(index) {
 
     if (input === correct) {
         ta.readOnly = true;
-        ta.style.backgroundColor = "#eef1f4";
+        ta.style.backgroundColor = "#d4edda"; // ✅ 연한 초록색으로 변경
         btn.style.display = "none";
         check.style.display = "inline";
         updateFeedback(index, true, input);
-
-        // ✅ showAnswer(index); <<== 이거 삭제!!
 
         const nextIndex = index + 1;
         const nextTa = document.getElementById(`ta_${nextIndex}`);
