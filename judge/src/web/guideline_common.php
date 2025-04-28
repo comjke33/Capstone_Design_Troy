@@ -10,12 +10,13 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
         $start_pos = $m[0][1];
         $full_len = strlen($m[0][0]);
         $end_pos = $start_pos + $full_len;
-
+        
         // Extract any content before the tag
         $before_text = substr($text, $offset, $start_pos - $offset);
         if (trim($before_text) !== '') {
             foreach (explode("\n", $before_text) as $line) {
                 $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+                // Add normal text lines without tags
                 $blocks[] = [
                     'type' => 'text',
                     'content' => rtrim($line),
@@ -31,6 +32,8 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
 
         // Recurse into any nested blocks (if any)
         $children = parse_blocks_with_loose_text($content, $depth + 1);
+        
+        // Only add the start and end tags for blocks that need them
         array_unshift($children, ['type' => 'text', 'content' => "[{$type}_start({$idx})]", 'depth' => $depth + 1]);
         array_push($children, ['type' => 'text', 'content' => "[{$type}_end({$idx})]", 'depth' => $depth + 1]);
 
@@ -51,6 +54,7 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
     if (trim($tail) !== '') {
         foreach (explode("\n", $tail) as $line) {
             $indent_level = (strlen($line) - strlen(ltrim($line))) / 4;
+            // Add normal text lines without tags
             $blocks[] = [
                 'type' => 'text',
                 'content' => rtrim($line),
@@ -61,6 +65,7 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
 
     return $blocks;
 }
+
 
 function extract_tagged_blocks($text) {
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\d+)\)\]|\[(func_def|rep|cond|self|struct|construct)_end\\((\d+)\)\]/";
