@@ -9,52 +9,55 @@
     <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역 -->
     <div class="left-panel" style="flex: 1; padding-right: 10px;">
         <?php
-            // Render parsed blocks
             function render_tree_plain($blocks, &$answer_index = 0) {
                 $html = "";
-
+            
                 foreach ($blocks as $block) {
                     $indent_px = 10 * ($block['depth'] ?? 0);
-
+            
                     if (isset($block['children'])) {
                         $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
                         $html .= render_tree_plain($block['children'], $answer_index);
                         $html .= "</div>";
                     } elseif ($block['type'] === 'text') {
                         $raw = trim($block['content']);
-
-                        // Remove unwanted tags like [start] and [end]
+            
+                        // 태그라인 무시
                         if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
                             continue;
                         }
-
-                        // Output content inside [start] and [end] tags
+            
                         $line = htmlspecialchars($block['content']);
                         if (strpos($line, '[start]') !== false && strpos($line, '[end]') !== false) {
-                            $line = preg_replace('/\[(.*?)\]/', '', $line);  // Remove tags
-                            $line = trim($line);  // Trim whitespace
+                            $line = preg_replace('/\[(.*?)\]/', '', $line);
+                            $line = trim($line);
                         }
-
-                        $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
-                        $disabled = $answer_index > 0 ? "disabled" : "";
-
-                        // Render the submission block
+            
+                        // 정답 데이터가 존재하는지 먼저 확인
+                        $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
+            
+                        $disabled = $has_correct_answer ? "" : "disabled";
+            
+                        // Render textarea and buttons only if correct answer exists
                         $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                         $html .= "<div style='flex: 1'>";
                         $html .= "<div class='code-line'>{$line}</div>";
                         $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                        $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button' {$disabled}>답안 확인</button>";
+                        if ($has_correct_answer) {
+                            $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
+                            $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
+                        }
                         $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
                         $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
                         $html .= "</div></div>";
-
+            
                         $answer_index++;
                     }
                 }
-
+            
                 return $html;
             }
+            
 
             $answer_index = 0;
             echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
