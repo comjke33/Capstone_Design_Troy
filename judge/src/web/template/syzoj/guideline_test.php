@@ -44,6 +44,8 @@
                         $html .= "<div class='code-line'>{$line}</div>";
                         // 정답은 비워두기
                         $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                        $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button' {$disabled}>답안 확인</button>"; // 답안 확인 버튼 추가
                         $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
                         $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
                         $html .= "</div></div>";
@@ -58,8 +60,6 @@
             $answer_index = 0;
             echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
         ?>
-        <!-- 답안 보기 버튼 -->
-        <button onclick="showAnswer()">답안 보기</button>
     </div>
 
     <!-- 오른쪽 패널: 정답확인 영역 -->
@@ -71,20 +71,6 @@
 
 <script>
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
-
-// 답안 보기 버튼 클릭 시 오른쪽 패널에 정답을 표시
-function showAnswer() {
-    const panel = document.getElementById('feedback-panel');
-    let answerHtml = "<h4>정답:</h4><div>";
-    
-    // 정답 코드를 오른쪽 패널에 표시
-    correctAnswers.forEach((answer, index) => {
-        answerHtml += `<pre class='code-line'>${answer.content}</pre>`;
-    });
-
-    answerHtml += "</div>";
-    panel.innerHTML = answerHtml; // 정답 코드 출력
-}
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
@@ -116,6 +102,20 @@ function submitAnswer(index) {
         ta.style.color = "#c00";
         updateFeedback(index, false, input);
     }
+}
+
+// 답안 보기 버튼 클릭 시 오른쪽 패널에 정답을 표시
+function showAnswer(index) {
+    const panel = document.getElementById('feedback-panel');
+    let answerHtml = "<h4>정답:</h4><div>";
+    
+    // 정답 코드 출력
+    const correctCode = correctAnswers[index]?.content.trim();
+    answerHtml += `<pre class='code-line'>${correctCode}</pre>`;
+    answerHtml += "</div>";
+    
+    // 오른쪽 패널에 정답 추가
+    panel.innerHTML = answerHtml;
 }
 
 function updateFeedback(index, isCorrect, inputCode) {
