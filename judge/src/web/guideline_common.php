@@ -56,7 +56,6 @@ function parse_blocks($text) {
     return $blocks;
 }
 
-
 function extract_tagged_blocks($text) {
     $tag_pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
 
@@ -81,20 +80,24 @@ function extract_tagged_blocks($text) {
         // 태그 내 내용만 추출하고, 태그는 제거
         $between_text = preg_replace($tag_pattern, '', $between_text);
         $lines = explode("\n", $between_text);
-        
-        // 여러 줄을 하나의 블록으로 처리
+
+        // 코드가 비어 있거나 } 하나만 있는 경우 건너뛰기
         $block_content = "";
         foreach ($lines as $line) {
             $trimmed = trim($line);
-            if ($trimmed !== '') {
-                $block_content .= $trimmed . "\n";
+            if ($trimmed === '' || $trimmed === '}') {
+                continue;  // 빈 줄이나 }만 있는 경우 건너뜀
             }
+            $block_content .= $trimmed . "\n";  // 코드 내용 추가
         }
 
-        $blocks[] = [
-            'type' => 'text',
-            'content' => $block_content
-        ];
+        // 코드 내용이 비어 있지 않으면 블록에 추가
+        if (!empty($block_content)) {
+            $blocks[] = [
+                'type' => 'text',
+                'content' => $block_content
+            ];
+        }
 
         // 다음 검색 위치 갱신
         $pos = $next_pos;
