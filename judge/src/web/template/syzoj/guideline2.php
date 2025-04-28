@@ -44,10 +44,12 @@
                             $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
                             $disabled = $answer_index > 0 ? "disabled" : "";
 
+                            // textarea 비워두기
                             $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                             $html .= "<div style='flex: 1'>";
                             $html .= "<div class='code-line'>{$code_content}</div>";
-                            $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$correct_code}</textarea>";
+                            // 내용을 비운 textarea
+                            $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
                             $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
                             $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
                             $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
