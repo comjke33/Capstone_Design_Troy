@@ -86,6 +86,8 @@ function submitAnswer(index) {
         check.style.display = "inline";
         updateFeedback(index, true, input);
 
+        // ✅ showAnswer(index); <<== 이거 삭제!!
+
         const nextIndex = index + 1;
         const nextTa = document.getElementById(`ta_${nextIndex}`);
         const nextBtn = document.getElementById(`btn_${nextIndex}`);
@@ -102,6 +104,7 @@ function submitAnswer(index) {
         updateFeedback(index, false, input);
     }
 }
+
 
 // 답안 보기 버튼 클릭 시 오른쪽 패널에 정답을 표시
 function showAnswer(index) {
