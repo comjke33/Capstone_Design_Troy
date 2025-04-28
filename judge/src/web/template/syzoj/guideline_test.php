@@ -57,7 +57,6 @@
             
                 return $html;
             }
-            
 
             $answer_index = 0;
             echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
@@ -72,6 +71,7 @@
 </div>
 
 <script>
+// 정답 확인 및 제출 기능
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
 function submitAnswer(index) {
@@ -108,16 +108,13 @@ function submitAnswer(index) {
     }
 }
 
-
-
-// 답안 보기 버튼 클릭 시 오른쪽 패널에 정답을 표시
 function showAnswer(index) {
     const panel = document.getElementById('feedback-panel');
 
     const correctCode = correctAnswers[index]?.content.trim();
     if (!correctCode) return; // 정답 없으면 리턴
 
-    let answerHtml = `
+    let answerHtml = ` 
         <div id="answer_${index}" class="answer-line">
             <h4>Line ${index + 1} 정답:</h4>
             <pre class='code-line'>${correctCode}</pre>
@@ -133,7 +130,6 @@ function showAnswer(index) {
         panel.insertAdjacentHTML('beforeend', answerHtml);
     }
 }
-
 
 function updateFeedback(index, isCorrect, inputCode) {
     const panel = document.getElementById('feedback-panel');
