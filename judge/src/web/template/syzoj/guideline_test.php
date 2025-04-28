@@ -16,6 +16,7 @@
                 foreach ($blocks as $block) {
                     $indent_px = 10 * ($block['depth'] ?? 0);
 
+                    // 자식 블록이 있는 경우 재귀적으로 처리
                     if (isset($block['children'])) {
                         $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
                         $html .= render_tree_plain($block['children'], $answer_index);
@@ -39,13 +40,13 @@
                         $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
                         $disabled = $answer_index > 0 ? "disabled" : "";
 
+                        // 텍스트와 입력을 위한 textarea와 버튼
                         $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                         $html .= "<div style='flex: 1'>";
                         $html .= "<div class='code-line'>{$line}</div>";
-                        // 정답은 비워두기
                         $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
                         $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                        $html .= "<button onclick='showAnswer({$answer_index})' id='btn_{$answer_index}' class='view-button' {$disabled}>답안 확인</button>"; // 답안 확인 버튼 추가
+                        $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button' {$disabled}>답안 확인</button>"; // 답안 확인 버튼 추가
                         $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
                         $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
                         $html .= "</div></div>";
@@ -72,6 +73,7 @@
 <script>
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
+// 제출 버튼을 누르면 실행되는 함수
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
@@ -118,6 +120,7 @@ function showAnswer(index) {
     panel.innerHTML = answerHtml;
 }
 
+// 피드백 갱신 함수
 function updateFeedback(index, isCorrect, inputCode) {
     const panel = document.getElementById('feedback-panel');
     const existing = document.getElementById(`feedback_${index}`);
@@ -132,6 +135,7 @@ function updateFeedback(index, isCorrect, inputCode) {
     else panel.insertAdjacentHTML('beforeend', feedbackLine);
 }
 
+// 자동 크기 조정 함수
 function autoResize(ta) {
     ta.style.height = 'auto';
     ta.style.height = ta.scrollHeight + 'px';
