@@ -28,6 +28,14 @@
                             continue;
                         }
 
+                        // [self_start]와 [self_end] 사이의 내용만 출력
+                        $line = htmlspecialchars($block['content']);
+                        if (strpos($line, '[self_start]') !== false && strpos($line, '[self_end]') !== false) {
+                            // [self_start]와 [self_end] 사이의 내용을 출력
+                            $line = preg_replace('/\[(.*?)\]/', '', $line);  // 태그 제거
+                            $line = trim($line);  // 양옆 공백 제거
+                        }
+
                         $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
                         $disabled = $answer_index > 0 ? "disabled" : "";
 
