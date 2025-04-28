@@ -2,13 +2,16 @@
 // 📦 공통 파싱 함수 모음
 
 function parse_blocks_with_loose_text($text, $depth = 0) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\3\)\]/s";
     $blocks = [];
     $offset = 0;
+
     while (preg_match($pattern, $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
         $start_pos = $m[0][1];
         $full_len = strlen($m[0][0]);
         $end_pos = $start_pos + $full_len;
+        
+        // Extract any content before the tag
         $before_text = substr($text, $offset, $start_pos - $offset);
         if (trim($before_text) !== '') {
             foreach (explode("\n", $before_text) as $line) {
@@ -20,20 +23,30 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
                 ];
             }
         }
+
+        // Extract the block content (between start and end)
         $type = $m[1][0];
-        $idx = $m[2][0];
-        $content = $m[3][0];
+        $idx = $m[3][0];
+        $content = $m[4][0];
+
+        // Recurse into any nested blocks (if any)
         $children = parse_blocks_with_loose_text($content, $depth + 1);
         array_unshift($children, ['type' => 'text', 'content' => "[{$type}_start({$idx})]", 'depth' => $depth + 1]);
         array_push($children, ['type' => 'text', 'content' => "[{$type}_end({$idx})]", 'depth' => $depth + 1]);
+
+        // Add the block and its children
         $blocks[] = [
             'type' => $type,
             'index' => $idx,
             'depth' => $depth,
             'children' => $children
         ];
+
+        // Move offset past the current match
         $offset = $end_pos;
     }
+
+    // Process any remaining text after the last match
     $tail = substr($text, $offset);
     if (trim($tail) !== '') {
         foreach (explode("\n", $tail) as $line) {
@@ -45,6 +58,7 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
             ];
         }
     }
+
     return $blocks;
 }
 
