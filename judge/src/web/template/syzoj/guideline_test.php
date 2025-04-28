@@ -47,9 +47,7 @@
                             $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
                             $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
                         }
-                        $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                        $html .= "</div></div>";
+                        $html .= "</div>";
             
                         $answer_index++;
                     }
@@ -75,7 +73,7 @@ function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
     const check = document.getElementById(`check_${index}`);
-    const feedbackPanel = document.getElementById(`feedback_${index}`);
+    const submissionLine = document.getElementById(`submission_line_${index}`); // `textarea`의 부모 div
 
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
@@ -112,7 +110,7 @@ function submitAnswer(index) {
 
 function showAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
-    const panel = ta.closest('.submission-line');  // 피드백을 코드 바로 아래에 표시
+    const submissionLine = ta.closest('.submission-line');  // `textarea`의 부모 div
 
     const correctCode = correctAnswers[index]?.content.trim();
     if (!correctCode) return; // 정답 없으면 리턴
@@ -124,7 +122,7 @@ function showAnswer(index) {
         </div>
     `;
 
-    panel.insertAdjacentHTML('beforeend', answerHtml);  // 코드 바로 아래에 피드백 추가
+    submissionLine.insertAdjacentHTML('beforeend', answerHtml);  // 코드 바로 아래에 피드백 추가
 }
 
 function updateFeedback(index, isCorrect, inputCode) {
