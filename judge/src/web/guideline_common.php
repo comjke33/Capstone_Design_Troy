@@ -57,65 +57,47 @@ function parse_blocks($text) {
 }
 
 
-function extract_tagged_blocks($text) {
-    // 태그 패턴
+function extract_blocks_by_any_tag($text) {
+    // 태그 찾기 (start나 end 모두)
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
     $blocks = [];
-    $stack = [];
+    $last_pos = 0;
 
+    // 태그들을 순서대로 읽는다
     foreach ($matches[0] as $i => $match) {
         $full = $match[0];
         $pos = $match[1];
 
-        if (strpos($full, '_start(') !== false) {
-            // start 태그면 스택에 push
-            preg_match("/\[(\w+)_start\((\d+)\)\]/", $full, $m);
-            $stack[] = [
-                'type' => $m[1],
-                'index' => intval($m[2]),
-                'start' => $pos + strlen($full),  // start 이후부터 본문 시작
-                'token_pos' => $pos
-            ];
-        } elseif (strpos($full, '_end(') !== false) {
-            // end 태그면 스택에 있는 start랑 매칭
-            preg_match("/\[(\w+)_end\((\d+)\)\]/", $full, $m);
-            $type = $m[1];
-            $index = intval($m[2]);
+        if ($i > 0) {
+            // 이전 태그 끝부터 현재 태그 시작까지 추출
+            $prev_tag_end = $matches[0][$i - 1][1] + strlen($matches[0][$i - 1][0]);
+            $block_text = substr($text, $prev_tag_end, $pos - $prev_tag_end);
 
-            for ($j = count($stack) - 1; $j >= 0; $j--) {
-                if ($stack[$j]['type'] === $type && $stack[$j]['index'] === $index) {
-                    $start = $stack[$j]['start'];
-                    $token_pos = $stack[$j]['token_pos'];
-                    $end = $pos;
+            // 태그들을 제거
+            $clean_block = preg_replace($pattern, '', $block_text);
 
-                    $content = substr($text, $start, $end - $start);
-
-                    // 태그 제거: 각 줄별로 태그가 끼어있을 수 있어서 추가로 정리
-                    $content = preg_replace($pattern, '', $content);
-
-                    $blocks[] = [
-                        'type' => $type,
-                        'index' => $index,
-                        'content' => trim($content), // 공백 정리
-                        'pos' => $token_pos
-                    ];
-
-                    array_splice($stack, $j, 1); // 매칭된 start 제거
-                    break;
-                }
+            $clean_block = trim($clean_block);
+            if ($clean_block !== '') {
+                $blocks[] = $clean_block;
             }
         }
     }
 
-    // 블록들을 코드상 등장 순서대로 정렬
-    usort($blocks, fn($a, $b) => $a['pos'] <=> $b['pos']);
+    // 마지막 태그 이후 텍스트도 체크
+    if (!empty($matches[0])) {
+        $last_tag = end($matches[0]);
+        $last_tag_end = $last_tag[1] + strlen($last_tag[0]);
+        if ($last_tag_end < strlen($text)) {
+            $block_text = substr($text, $last_tag_end);
+            $clean_block = preg_replace($pattern, '', $block_text);
+            $clean_block = trim($clean_block);
+            if ($clean_block !== '') {
+                $blocks[] = $clean_block;
+            }
+        }
+    }
 
-    // 블록 결과 리턴
-    return array_map(fn($b) => [
-        'type' => $b['type'],
-        'index' => $b['index'],
-        'content' => $b['content']
-    ], $blocks);
+    return $blocks;
 }
