@@ -3,7 +3,7 @@
     <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
 </div>
 
-<!-- <link rel="stylesheet" href="/template/syzoj/css/guideline.css"> -->
+<link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
 <div class="main-layout" style="display: flex; justify-content: space-between;">
     <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역 -->
