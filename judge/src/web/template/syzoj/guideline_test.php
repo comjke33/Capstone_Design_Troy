@@ -70,13 +70,15 @@
 <script>
 // 정답 확인 및 제출 기능
 // 정답 확인 및 제출 기능
+
+// 정답 확인 및 제출 기능
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
     const check = document.getElementById(`check_${index}`);
-    const feedbackPanel = document.getElementById(`feedback_${index}`); // 피드백을 표시할 영역
+    const feedbackPanel = ta.nextElementSibling; // 텍스트 입력 영역 바로 밑에 위치한 영역
 
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
@@ -113,7 +115,7 @@ function submitAnswer(index) {
 
 function showAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
-    const feedbackPanel = document.getElementById(`feedback_${index}`);
+    const feedbackPanel = ta.nextElementSibling;  // 텍스트 입력 영역 바로 밑에 위치한 영역
 
     const correctCode = correctAnswers[index]?.content.trim();
     if (!correctCode) return; // 정답 없으면 리턴
@@ -127,7 +129,6 @@ function showAnswer(index) {
 
     feedbackPanel.innerHTML = answerHtml;  // 정답을 textarea 아래에 위치시킴
 }
-
 
 function updateFeedback(index, isCorrect, inputCode) {
     const ta = document.getElementById(`ta_${index}`);
@@ -152,4 +153,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-</script>
