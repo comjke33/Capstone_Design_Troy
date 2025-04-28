@@ -16,7 +16,6 @@
                 foreach ($blocks as $block) {
                     $indent_px = 10 * ($block['depth'] ?? 0);
 
-                    // 자식 블록이 있는 경우 재귀적으로 처리
                     if (isset($block['children'])) {
                         $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
                         $html .= render_tree_plain($block['children'], $answer_index);
@@ -45,7 +44,6 @@
                         $html .= "<div class='code-line'>{$line}</div>";
                         // 정답은 비워두기
                         $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
                         $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
                         $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
                         $html .= "</div></div>";
