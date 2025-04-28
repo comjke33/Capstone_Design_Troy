@@ -24,14 +24,37 @@
                     } elseif ($block['type'] === 'text') {
                         $raw = trim($block['content']);
 
-                        // 태그가 포함되지 않은 내용 출력
-                        if ($raw !== '' && !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
-                            // 일반적인 텍스트 내용 출력
-                            $html .= "<div class='problem-description'>{$raw}</div>";
+                        // 불필요한 태그를 포함한 코드를 제거 (예: [self_start]와 [self_end] 사이의 내용만 추출)
+                        if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
+                            continue;
                         }
+
+                        // [self_start]와 [self_end] 사이의 내용만 출력
+                        $line = htmlspecialchars($block['content']);
+                        if (strpos($line, '[self_start]') !== false && strpos($line, '[self_end]') !== false) {
+                            // [self_start]와 [self_end] 사이의 내용을 출력
+                            $line = preg_replace('/\[(.*?)\]/', '', $line);  // 태그 제거
+                            $line = trim($line);  // 양옆 공백 제거
+                        }
+
+                        $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
+                        $disabled = $answer_index > 0 ? "disabled" : "";
+
+                        $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                        $html .= "<div style='flex: 1'>";
+                        $html .= "<div class='code-line'>{$line}</div>";
+                        // 정답은 비워두기
+                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                        $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                        $html .= "</div></div>";
+
+                        $answer_index++;
                     } elseif ($block['type'] === 'code') {
                         // 태그 사이의 코드만 추출
                         $line = htmlspecialchars($block['content']);
+                        // 태그 제거
                         $line = preg_replace('/\[\s*(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\s*\]/', '', $line); // 태그 제거
 
                         // 태그 사이의 코드 추출 (모든 태그에 대해 처리)
@@ -67,28 +90,8 @@
         ?>
     </div>
 
-    <!-- 오른쪽 패널: 정답확인 영역 -->
-    <div class="right-panel" id="feedback-panel" style="width: 300px; max-width: 300px; min-width: 250px; overflow-y: auto; padding-left: 10px;">
-        <h4>📝 정답 확인</h4>
-        <?php
-            // 태그 제거된 코드 내용만 오른쪽 패널에 출력하기
-            function render_right_panel($blocks) {
-                $output = "<div class='code-blocks'>";
-                foreach ($blocks as $block) {
-                    if ($block['type'] === 'text') {
-                        continue; // 텍스트는 제외
-                    } elseif ($block['type'] === 'code') {
-                        $line = $block['content'];
-                        $line = preg_replace('/\[\s*(func_def|rep|cond|self|struct|construct)_[a-zA-Z0-9_]+\(\d+\)\s*\]/', '', $line); // 태그 제거
-                        $output .= "<pre class='code-line'>{$line}</pre>";
-                    }
-                }
-                $output .= "</div>";
-                return $output;
-            }
-
-            echo render_right_panel($OJ_BLOCK_TREE);
-        ?>
+    <div class="right-panel" id="feedback-panel">
+        <h4>📝 피드백</h4>
     </div>
 </div>
 
@@ -108,7 +111,7 @@ function submitAnswer(index) {
         ta.style.backgroundColor = "#eef1f4";
         btn.style.display = "none";
         check.style.display = "inline";
-        updateFeedback(index, true);
+        updateFeedback(index, true, input);
 
         const nextIndex = index + 1;
         const nextTa = document.getElementById(`ta_${nextIndex}`);
@@ -123,17 +126,22 @@ function submitAnswer(index) {
         ta.style.backgroundColor = "#ffecec";
         ta.style.border = "1px solid #e06060";
         ta.style.color = "#c00";
-        updateFeedback(index, false);
+        updateFeedback(index, false, input);
     }
 }
 
-function updateFeedback(index, isCorrect) {
+function updateFeedback(index, isCorrect, inputCode) {
     const panel = document.getElementById('feedback-panel');
     const existing = document.getElementById(`feedback_${index}`);
     const result = isCorrect ? "✔️ 정답" : "❌ 오답";
-    const line = `<div id="feedback_${index}" class="feedback-line ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}">Line ${index + 1}: ${result}</div>`;
-    if (existing) existing.outerHTML = line;
-    else panel.insertAdjacentHTML('beforeend', line);
+    const feedbackLine = `
+        <div id="feedback_${index}" class="feedback-line ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}">
+            <strong>Line ${index + 1}:</strong> ${result}<br>
+            <strong>제출 코드:</strong><pre>${inputCode}</pre>
+        </div>
+    `;
+    if (existing) existing.outerHTML = feedbackLine;
+    else panel.insertAdjacentHTML('beforeend', feedbackLine);
 }
 
 function autoResize(ta) {
