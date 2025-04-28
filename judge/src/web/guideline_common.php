@@ -56,54 +56,31 @@ function parse_blocks($text) {
     return $blocks;
 }
 
-function extract_tagged_blocks($text) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
-    preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
+function extract_content_lines($text) {
+    $lines = explode("\n", $text);  // 한 줄씩 나눈다
+    $in_block = false;              // 현재 태그 안에 있는지 표시
+    $result = [];
 
-    $blocks = [];
-    $stack = [];
+    foreach ($lines as $line) {
+        $line = trim($line); // 앞뒤 공백 제거
 
-    foreach ($matches[0] as $i => $match) {
-        $full = $match[0];
-        $pos = $match[1];
+        // 시작 태그를 만나면 블록 안으로
+        if (preg_match("/\[(func_def|rep|cond|self|struct|construct)_start\(\d+\)\]/", $line)) {
+            $in_block = true;
+            continue; // 태그 줄은 건너뛴다
+        }
 
-        if (strpos($full, '_start(') !== false) {
-            preg_match("/\[(\w+)_start\((\d+)\)\]/", $full, $m);
-            $stack[] = [
-                'type' => $m[1],
-                'index' => intval($m[2]),
-                'start_pos' => $pos + strlen($full)
-            ];
-        } elseif (strpos($full, '_end(') !== false) {
-            preg_match("/\[(\w+)_end\((\d+)\)\]/", $full, $m);
-            $type = $m[1];
-            $index = intval($m[2]);
+        // 끝 태그를 만나면 블록 밖으로
+        if (preg_match("/\[(func_def|rep|cond|self|struct|construct)_end\(\d+\)\]/", $line)) {
+            $in_block = false;
+            continue; // 태그 줄은 건너뛴다
+        }
 
-            for ($j = count($stack) - 1; $j >= 0; $j--) {
-                if ($stack[$j]['type'] === $type && $stack[$j]['index'] === $index) {
-                    $start = $stack[$j]['start_pos'];
-                    $end = $pos;
-
-                    $content = substr($text, $start, $end - $start);
-
-                    $blocks[] = [
-                        'type' => $type,
-                        'index' => $index,
-                        'content' => trim($content)
-                    ];
-
-                    array_splice($stack, $j, 1);
-                    break;
-                }
-            }
+        // 블록 안에 있고 내용이 있으면 저장
+        if ($in_block && $line !== '') {
+            $result[] = $line;
         }
     }
 
-    // 본문 text에서 태그를 제거
-    $text_without_tags = preg_replace($pattern, '', $text);
-
-    return [
-        'blocks' => $blocks,           // 추출된 블록 정보
-        'text' => trim($text_without_tags)   // 태그 제거한 전체 본문
-    ];
+    return $result;
 }
