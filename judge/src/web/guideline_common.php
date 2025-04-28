@@ -1,7 +1,4 @@
 <?php
-// 📦 공통 파싱 함수 모음
-
-// 가이드라인 텍스트에서 블록을 추출하는 함수
 function parse_blocks_with_loose_text($text, $depth = 0) {
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\\d+)\\)\](.*?)\[(func_def|rep|cond|self|struct|construct)_end\\(\\2\\)\]/s";
     $blocks = [];
@@ -49,7 +46,6 @@ function parse_blocks_with_loose_text($text, $depth = 0) {
     return $blocks;
 }
 
-// 정답 코드 블록 추출 함수
 function extract_tagged_blocks($text) {
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_start\\((\d+)\)\]|\[(func_def|rep|cond|self|struct|construct)_end\\((\d+)\)\]/";
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
