@@ -1,5 +1,6 @@
 /* 📄 src/web/css/guideline.css */
 
+/* 전체 레이아웃 */
 .main-layout {
   display: flex;
   gap: 40px;
@@ -7,10 +8,12 @@
   margin: 0 auto;
 }
 
+/* 왼쪽 패널: 문제 설명과 텍스트 입력 영역 */
 .left-panel {
   flex: 2;
 }
 
+/* 오른쪽 패널: 정답 확인 영역 */
 .right-panel {
   flex: 1;
   padding: 16px;
@@ -20,6 +23,7 @@
   font-family: monospace;
 }
 
+/* 코드 라인 스타일 */
 .code-line {
   background-color: #f8f8fa;
   border: 1px solid #ddd;
@@ -31,14 +35,34 @@
   white-space: pre-wrap;
 }
 
+/* 제출 버튼 스타일 (파란색) */
+.submit-button {
+  margin-top: 6px;
+  background-color: #4a90e2; /* 파란색 배경 */
+  color: white; /* 버튼 글자 색상 */
+  border: none; /* 테두리 제거 */
+  padding: 8px 12px; /* 버튼 패딩 */
+  border-radius: 4px; /* 둥근 모서리 */
+  cursor: pointer; /* 클릭 시 커서 변경 */
+  display: inline-block;
+  text-align: center;
+  font-size: 16px;
+  font-family: monospace; /* 글꼴을 monospace로 설정 */
+}
 
 /* 답안 확인 버튼 스타일 (주황색) */
 .view-button {
-  background-color: #ff8c00 ; 
+  margin-top: 6px;
+  background-color: #ff8c00; /* 주황색 배경 */
   color: white; /* 버튼 글자 색상 */
-  font-size: 15px;
+  border: none; /* 테두리 제거 */
+  padding: 8px 12px; /* 버튼 패딩 */
+  border-radius: 4px; /* 둥근 모서리 */
+  cursor: pointer; /* 클릭 시 커서 변경 */
+  display: inline-block;
+  text-align: center;
+  font-size: 16px;
   font-family: monospace; /* 글꼴을 monospace로 설정 */
-  text-align: center; /* 텍스트 가운데 정렬 */
 }
 
 /* 텍스트 영역 스타일 */
@@ -56,12 +80,14 @@
   min-height: 40px;
 }
 
+/* 체크 마크 스타일 (정답 표시) */
 .checkmark {
   font-size: 18px;
   margin-left: 6px;
   color: #2ecc71;
 }
 
+/* 제출된 문제 코드 스타일 */
 .submission-line {
   display: flex;
   justify-content: space-between;
@@ -70,15 +96,18 @@
   margin-bottom: 28px;
 }
 
+/* 정답 및 오답 피드백 스타일 */
 .feedback-line {
   margin-bottom: 12px;
   font-size: 15px;
 }
 
+/* 정답 피드백 스타일 */
 .feedback-correct {
   color: #2ecc71;
 }
 
+/* 오답 피드백 스타일 */
 .feedback-wrong {
   color: #e74c3c;
 }
