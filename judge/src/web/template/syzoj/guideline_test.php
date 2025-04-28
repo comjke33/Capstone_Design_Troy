@@ -84,8 +84,9 @@ function submitAnswer(index) {
 
     if (input === correct) {
         ta.readOnly = true;
-        ta.style.backgroundColor = "#d4edda"; // ✅ 연한 초록색으로 변경
-        ta.style.border = "1px solid #d4edda"
+        ta.style.backgroundColor = "#d4edda";  // 연한 초록색 배경
+        ta.style.border = "1px solid #d4edda";  // 연한 초록색 테두리
+        ta.style.color = "#155724";             // ✅ 진한 초록색 글자 추가
         btn.style.display = "none";
         check.style.display = "inline";
         updateFeedback(index, true, input);
@@ -106,6 +107,7 @@ function submitAnswer(index) {
         updateFeedback(index, false, input);
     }
 }
+
 
 
 // 답안 보기 버튼 클릭 시 오른쪽 패널에 정답을 표시
