@@ -35,6 +35,27 @@
   white-space: pre-wrap;
 }
 
+.submit-button, .view-button {
+  margin-top: 6px;
+  color: white !important; /* Add !important to force the style */
+  border: none !important; 
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+}
+
+/* Submit Button Specific Style */
+.submit-button {
+  background-color: #4a90e2 !important; /* Blue background */
+}
+
+/* View Button Specific Style */
+.view-button {
+  background-color: #ff8c00 !important; /* Orange background */
+}
+
 
 /* 텍스트 영역 스타일 */
 .styled-textarea {
