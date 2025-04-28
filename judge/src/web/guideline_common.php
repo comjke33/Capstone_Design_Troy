@@ -15,10 +15,12 @@ function parse_blocks($text) {
         $before_text = substr($text, $offset, $start_pos - $offset);
         if (trim($before_text) !== '') {
             // 불필요한 텍스트도 처리 (예: 다른 내용)
-            $blocks[] = [
-                'type' => 'text',
-                'content' => rtrim($before_text)
-            ];
+            foreach (explode("\n", $before_text) as $line) {
+                $blocks[] = [
+                    'type' => 'text',
+                    'content' => rtrim($line)
+                ];
+            }
         }
 
         // 추출된 태그와 그 안의 내용 처리
@@ -29,7 +31,6 @@ function parse_blocks($text) {
         // 태그 안에 다른 태그가 있을 수 있기 때문에 재귀적으로 처리
         $children = parse_blocks($content);
 
-        // 블록에 태그와 그 안의 내용을 추가
         $blocks[] = [
             'type' => $tag_type,
             'index' => $tag_index,
@@ -44,14 +45,17 @@ function parse_blocks($text) {
     // 텍스트의 나머지 부분도 처리
     $tail = substr($text, $offset);
     if (trim($tail) !== '') {
-        $blocks[] = [
-            'type' => 'text',
-            'content' => rtrim($tail)
-        ];
+        foreach (explode("\n", $tail) as $line) {
+            $blocks[] = [
+                'type' => 'text',
+                'content' => rtrim($line)
+            ];
+        }
     }
 
     return $blocks;
 }
+
 
 function extract_tagged_blocks($text) {
     $tag_pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
@@ -74,8 +78,7 @@ function extract_tagged_blocks($text) {
             $between_text = substr($text, $next_pos);
         }
 
-        // 태그 내 내용만 추출하고, 태그는 제거
-        $between_text = preg_replace($tag_pattern, '', $between_text);
+        $between_text = preg_replace($tag_pattern, '', $between_text); // 혹시 모를 태그 제거
         $lines = explode("\n", $between_text);
         foreach ($lines as $line) {
             $trimmed = trim($line);
@@ -93,3 +96,4 @@ function extract_tagged_blocks($text) {
 
     return $blocks;
 }
+
