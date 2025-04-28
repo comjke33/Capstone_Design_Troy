@@ -29,16 +29,16 @@
             
                         $line = htmlspecialchars($block['content']);
                         if (strpos($line, '[start]') !== false && strpos($line, '[end]') !== false) {
-                            $line = preg_replace('/\[(.*?)\]/', '', $line);
+                            $line = preg_replace('/\[(.*?)\]/', '', $line);  // 태그 제거
                             $line = trim($line);
                         }
-            
-                        // 정답 데이터가 존재하는지 먼저 확인
+
+                        // 정답 코드가 존재하는지 먼저 확인
                         $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
             
                         $disabled = $has_correct_answer ? "" : "disabled";
             
-                        // Render textarea and buttons only if correct answer exists
+                        // 가이드라인 설명 및 코드 입력 영역
                         $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                         $html .= "<div style='flex: 1'>";
                         $html .= "<div class='code-line'>{$line}</div>";
@@ -58,6 +58,7 @@
                 return $html;
             }
 
+            // 주어진 코드를 파싱하여 문제와 설명을 출력
             $answer_index = 0;
             echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
         ?>
@@ -72,7 +73,7 @@
 
 <script>
 // 정답 확인 및 제출 기능
-const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
+const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
@@ -82,6 +83,7 @@ function submitAnswer(index) {
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
 
+    // 사용자가 제출한 코드와 정답 코드 비교
     if (input === correct) {
         ta.readOnly = true;
         ta.style.backgroundColor = "#d4edda";  // 연한 초록색 배경
