@@ -2,13 +2,13 @@
 // 📦 공통 파싱 함수 모음
 
 function parse_blocks($text) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\](.*?)(?=\[.*_\3\(\d+\)\])/s";
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\](.*?)(?=\[.*_\3\(\d+\)\])/s";  // 전체 패턴
     $blocks = [];
     $offset = 0;
 
     while (preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE, $offset)) {
-        $start_pos = $matches[0][1];
-        $full_len = strlen($matches[0][0]);
+        $start_pos = $matches[0][1]; // 태그 시작 위치
+        $full_len = strlen($matches[0][0]); // 태그 전체 길이
         $end_pos = $start_pos + $full_len;
 
         // 태그 앞에 있는 텍스트를 추출
@@ -78,17 +78,23 @@ function extract_tagged_blocks($text) {
             $between_text = substr($text, $next_pos);
         }
 
-        $between_text = preg_replace($tag_pattern, '', $between_text); // 혹시 모를 태그 제거
+        // 태그 내 내용만 추출하고, 태그는 제거
+        $between_text = preg_replace($tag_pattern, '', $between_text);
         $lines = explode("\n", $between_text);
+        
+        // 여러 줄을 하나의 블록으로 처리
+        $block_content = "";
         foreach ($lines as $line) {
             $trimmed = trim($line);
-            if ($trimmed !== '' && !str_starts_with($trimmed, '#include')) {
-                $blocks[] = [
-                    'type' => 'text',
-                    'content' => $trimmed
-                ];
+            if ($trimmed !== '') {
+                $block_content .= $trimmed . "\n";
             }
         }
+
+        $blocks[] = [
+            'type' => 'text',
+            'content' => $block_content
+        ];
 
         // 다음 검색 위치 갱신
         $pos = $next_pos;
@@ -96,4 +102,3 @@ function extract_tagged_blocks($text) {
 
     return $blocks;
 }
-
