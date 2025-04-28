@@ -72,9 +72,11 @@ function extract_tagged_blocks($text) {
         if (strpos($full, '_start(') !== false) {
             // start 태그
             preg_match("/\[(\w+)_start\((\d+)\)\]/", $full, $m);
+            $type = $m[1];
+            $index = intval($m[2]);
             $stack[] = [
-                'type' => $m[1],
-                'index' => intval($m[2]),
+                'type' => $type,
+                'index' => $index,
                 'start' => $pos + strlen($full),
                 'token_pos' => $pos
             ];
@@ -90,21 +92,23 @@ function extract_tagged_blocks($text) {
                     $token_pos = $stack[$j]['token_pos'];
                     $end = $pos;
 
-                    // 본문 추출
                     $raw_content = substr($text, $start, $end - $start);
-
-                    // 본문 안에 있는 추가 태그 제거
-                    $clean_content = preg_replace($tag_pattern, '', $raw_content);
-
-                    // 각 줄 양끝 공백 제거
-                    $lines = explode("\n", $clean_content);
-                    $lines = array_map('rtrim', $lines);
-                    $clean_content = implode("\n", $lines);
+                    
+                    // [수정 포인트]
+                    if ($type === 'func_def') {
+                        // func_def는 첫 줄만 파싱
+                        $lines = explode("\n", $raw_content);
+                        $first_line = isset($lines[0]) ? $lines[0] : '';
+                        $clean_content = trim(preg_replace($tag_pattern, '', $first_line));
+                    } else {
+                        // 나머지 (self, rep 등)는 전체 파싱
+                        $clean_content = trim(preg_replace($tag_pattern, '', $raw_content));
+                    }
 
                     $blocks[] = [
                         'type' => $type,
                         'index' => $index,
-                        'content' => trim($clean_content),
+                        'content' => $clean_content,
                         'pos' => $token_pos
                     ];
 
