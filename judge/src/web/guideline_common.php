@@ -56,7 +56,6 @@ function parse_blocks($text) {
     return $blocks;
 }
 
-
 function extract_tagged_blocks($text) {
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
     preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
@@ -100,7 +99,11 @@ function extract_tagged_blocks($text) {
         }
     }
 
-    usort($blocks, fn($a, $b) => $a['index'] <=> $b['index']);
+    // 본문 text에서 태그를 제거
+    $text_without_tags = preg_replace($pattern, '', $text);
 
-    return $blocks;
+    return [
+        'blocks' => $blocks,           // 추출된 블록 정보
+        'text' => trim($text_without_tags)   // 태그 제거한 전체 본문
+    ];
 }
