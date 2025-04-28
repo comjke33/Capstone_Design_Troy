@@ -58,28 +58,23 @@ function parse_blocks($text) {
 
 
 function extract_tagged_blocks($text) {
-    // 태그 패턴
     $tag_pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
 
     $blocks = [];
-    $stack = [];
     $pos = 0;
+    $length = strlen($text);
 
-    // 텍스트를 순서대로 스캔
     while (preg_match($tag_pattern, $text, $match, PREG_OFFSET_CAPTURE, $pos)) {
-        $full_tag = $match[0][0];
-        $tag_pos = $match[0][1];
-        $type = $match[1][0];
-        $direction = $match[2][0];
-        $index = intval($match[3][0]);
+        $current_tag = $match[0][0];
+        $current_pos = $match[0][1];
 
-        // 태그 앞에 있는 코드 가져오기
-        $before_text = substr($text, $pos, $tag_pos - $pos);
-        $before_text = preg_replace($tag_pattern, '', $before_text); // 태그 제거
+        // 태그 앞 코드 읽기
+        $before_text = substr($text, $pos, $current_pos - $pos);
+        $before_text = preg_replace($tag_pattern, '', $before_text); // 혹시 모를 태그 중복 제거
         $lines = explode("\n", $before_text);
         foreach ($lines as $line) {
             $trimmed = trim($line);
-            if ($trimmed !== '' && !str_starts_with($trimmed, '#include')) { // ★ 헤더 파일 무시
+            if ($trimmed !== '' && !str_starts_with($trimmed, '#include')) {
                 $blocks[] = [
                     'type' => 'text',
                     'content' => $trimmed
@@ -87,37 +82,30 @@ function extract_tagged_blocks($text) {
             }
         }
 
-        // start, end 태그 스택 처리
-        if ($direction === 'start') {
-            $stack[] = [
-                'type' => $type,
-                'index' => $index
-            ];
-        } elseif ($direction === 'end') {
-            for ($i = count($stack) - 1; $i >= 0; $i--) {
-                if ($stack[$i]['type'] === $type && $stack[$i]['index'] === $index) {
-                    array_splice($stack, $i, 1);
-                    break;
-                }
+        // 현재 태그 이후부터 다음 태그까지 찾기
+        $next_pos = $current_pos + strlen($current_tag);
+        if (preg_match($tag_pattern, $text, $next_match, PREG_OFFSET_CAPTURE, $next_pos)) {
+            $next_tag_pos = $next_match[0][1];
+            $between_text = substr($text, $next_pos, $next_tag_pos - $next_pos);
+        } else {
+            // 마지막이면 끝까지
+            $between_text = substr($text, $next_pos);
+        }
+
+        $between_text = preg_replace($tag_pattern, '', $between_text); // 혹시 모를 태그 중복 제거
+        $lines = explode("\n", $between_text);
+        foreach ($lines as $line) {
+            $trimmed = trim($line);
+            if ($trimmed !== '' && !str_starts_with($trimmed, '#include')) {
+                $blocks[] = [
+                    'type' => 'text',
+                    'content' => $trimmed
+                ];
             }
         }
 
         // 다음 검색 위치 갱신
-        $pos = $tag_pos + strlen($full_tag);
-    }
-
-    // 마지막 남은 텍스트 처리
-    $after_text = substr($text, $pos);
-    $after_text = preg_replace($tag_pattern, '', $after_text); // 태그 제거
-    $lines = explode("\n", $after_text);
-    foreach ($lines as $line) {
-        $trimmed = trim($line);
-        if ($trimmed !== '' && !str_starts_with($trimmed, '#include')) { // ★ 헤더 파일 무시
-            $blocks[] = [
-                'type' => 'text',
-                'content' => $trimmed
-            ];
-        }
+        $pos = $next_pos;
     }
 
     return $blocks;
