@@ -12,50 +12,51 @@
             // 1. 태그들을 파싱해서 필요한 내용만 출력하는 함수
             function render_tree_plain($blocks, &$answer_index = 0) {
                 $html = "";
-
+            
                 foreach ($blocks as $block) {
                     $indent_px = 10 * ($block['depth'] ?? 0);
-
+            
+                    // children이 있는 경우
                     if (isset($block['children'])) {
                         $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
                         $html .= render_tree_plain($block['children'], $answer_index);
                         $html .= "</div>";
-                    } elseif ($block['type'] === 'text') {
-                        $raw = trim($block['content']);
-
-                        // 불필요한 태그를 포함한 코드를 제거 (예: [self_start]와 [self_end] 사이의 내용만 추출)
-                        if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
-                            continue;
-                        }
-
-                        // [self_start]와 [self_end] 사이의 내용만 출력
-                        $line = htmlspecialchars($block['content']);
-                        if (strpos($line, '[self_start]') !== false && strpos($line, '[self_end]') !== false) {
-                            // [self_start]와 [self_end] 사이의 내용을 출력
-                            $line = preg_replace('/\[(.*?)\]/', '', $line);  // 태그 제거
-                            $line = trim($line);  // 양옆 공백 제거
-                        }
-
-                        $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
-                        $disabled = $answer_index > 0 ? "disabled" : "";
-
-                        $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                        $html .= "<div style='flex: 1'>";
-                        $html .= "<div class='code-line'>{$line}</div>";
-                        // 정답은 비워두기
-                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                        $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button' {$disabled}>답안 확인</button>"; // 답안 확인 버튼 추가
-                        $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                        $html .= "</div></div>";
-
-                        $answer_index++;
                     }
+                    // type이 'text'일 경우
+                    elseif ($block['type'] === 'text') {
+                        $raw = trim($block['content']);
+            
+                        // 불필요한 태그를 포함한 코드를 제거하는 조건을 없앰 (모든 텍스트 출력)
+                        if ($raw !== '') {
+                            // 텍스트 내용만 출력
+                            $line = htmlspecialchars($block['content']);
+                            $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$line}</div>";
+                        }
+                    }
+                    // 기타 다른 type들이 있을 경우
+                    else {
+                        $line = htmlspecialchars($block['content']);
+                        $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$line}</div>";
+                    }
+            
+                    // 입력 영역 (textarea와 버튼)
+                    $correct_code = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '');
+                    $disabled = $answer_index > 0 ? "disabled" : "";
+            
+                    // 텍스트 박스와 버튼 추가
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
+                    $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button' {$disabled}>답안 확인</button>"; // 답안 확인 버튼 추가
+                    $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
+                    $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                    $html .= "</div></div>";
+            
+                    $answer_index++;
                 }
-
+            
                 return $html;
             }
+            
 
             $answer_index = 0;
             echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
