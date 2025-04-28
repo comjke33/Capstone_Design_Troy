@@ -47,9 +47,10 @@
                             $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
                             $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
                         }
-                        $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                        $html .= "</div></div>";
+                        $html .= "</div>";
+                        // Feedback will be inserted here directly under the textarea and submit button
+                        $html .= "<div id='feedback_{$answer_index}' class='feedback-line' style='display:none; margin-top: 10px;'></div>";
+                        $html .= "</div>";
             
                         $answer_index++;
                     }
@@ -71,7 +72,9 @@
     </div>
 </div>
 
+
 <script>
+
 // 정답 확인 및 제출 기능
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
 
@@ -133,19 +136,20 @@ function showAnswer(index) {
     }
 }
 
-// function updateFeedback(index, isCorrect, inputCode) {
-//     const panel = document.getElementById('feedback-panel');
-//     const existing = document.getElementById(`feedback_${index}`);
-//     const result = isCorrect ? "✔️ 정답" : "❌ 오답";
-//     const feedbackLine = `
-//         <div id="feedback_${index}" class="feedback-line ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}">
-//             <strong>Line ${index + 1}:</strong> ${result}<br>
-//         </div>
-//     `;
-//     if (existing) existing.outerHTML = feedbackLine;
-//     else panel.insertAdjacentHTML('beforeend', feedbackLine);
-// }
-
+// 정답을 업데이트
+function updateFeedback(index, isCorrect, inputCode) {
+    const feedbackDiv = document.getElementById(`feedback_${index}`);
+    const result = isCorrect ? "✔️ 정답" : "❌ 오답";
+    
+    // Construct the feedback message
+    const feedbackLine = `
+        <strong>Line ${index + 1}:</strong> ${result}
+    `;
+    
+    // Update the feedback area inside the submission line
+    feedbackDiv.innerHTML = feedbackLine;
+    feedbackDiv.style.display = 'block';  // Make it visible
+}
 
 function autoResize(ta) {
     ta.style.height = 'auto';
@@ -159,4 +163,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-</script>
