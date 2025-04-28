@@ -48,7 +48,7 @@
                             $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
                         }
                         $html .= "</div>";
-                        // 피드백을 textarea와 제출 버튼 아래에 표시할 공간 추가
+                        // Feedback will be inserted here directly under the textarea and submit button
                         $html .= "<div id='feedback_{$answer_index}' class='feedback-line' style='display:none; margin-top: 10px;'></div>";
                         $html .= "</div>";
             
@@ -64,17 +64,24 @@
             echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
         ?>
     </div>
+
+    <!-- 오른쪽 패널: 정답확인 영역 -->
+    <div class="right-panel" id="feedback-panel" style="width: 300px; max-width: 300px; min-width: 250px; overflow-y: auto; padding-left: 10px;">
+        <h4>📝 정답 확인</h4>
+        <!-- 정답이 이 곳에 표시될 것입니다 -->
+    </div>
 </div>
 
+
 <script>
-// 정답 확인 및 제출 기능
+
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
     const check = document.getElementById(`check_${index}`);
-    const feedbackDiv = document.getElementById(`feedback_${index}`); // 피드백 div 참조
+    const feedbackDiv = document.getElementById(`feedback_${index}`); // Get the feedback div
 
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
@@ -87,11 +94,10 @@ function submitAnswer(index) {
         ta.style.color = "#155724";             // ✅ 진한 초록색 글자 추가
         btn.style.display = "none";
         check.style.display = "inline";
-
-        // 피드백 업데이트
+        
         updateFeedback(index, true, input);
-
-        // 다음 문제 활성화
+        
+        // Enable next textarea and button
         const nextIndex = index + 1;
         const nextTa = document.getElementById(`ta_${nextIndex}`);
         const nextBtn = document.getElementById(`btn_${nextIndex}`);
@@ -105,8 +111,6 @@ function submitAnswer(index) {
         ta.style.backgroundColor = "#ffecec";
         ta.style.border = "1px solid #e06060";
         ta.style.color = "#c00";
-
-        // 피드백 업데이트
         updateFeedback(index, false, input);
     }
 }
@@ -134,22 +138,20 @@ function showAnswer(index) {
     }
 }
 
-// 피드백을 업데이트하는 함수
 function updateFeedback(index, isCorrect, inputCode) {
     const feedbackDiv = document.getElementById(`feedback_${index}`);
     const result = isCorrect ? "✔️ 정답" : "❌ 오답";
 
-    // 피드백 내용 작성
+    // Construct the feedback message
     const feedbackLine = `
         <strong>Line ${index + 1}:</strong> ${result}
     `;
     
-    // 피드백을 div에 표시
+    // Show the feedback in the feedback div
     feedbackDiv.innerHTML = feedbackLine;
-    feedbackDiv.style.display = 'block';  // 피드백을 보이도록 설정
+    feedbackDiv.style.display = 'block';  // Make it visible
 }
 
-// 텍스트 영역 자동 크기 조정
 function autoResize(ta) {
     ta.style.height = 'auto';
     ta.style.height = ta.scrollHeight + 'px';
