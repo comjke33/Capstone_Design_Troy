@@ -72,11 +72,9 @@ function extract_tagged_blocks($text) {
         if (strpos($full, '_start(') !== false) {
             // start 태그
             preg_match("/\[(\w+)_start\((\d+)\)\]/", $full, $m);
-            $type = $m[1];
-            $index = intval($m[2]);
             $stack[] = [
-                'type' => $type,
-                'index' => $index,
+                'type' => $m[1],
+                'index' => intval($m[2]),
                 'start' => $pos + strlen($full),
                 'token_pos' => $pos
             ];
@@ -92,13 +90,24 @@ function extract_tagged_blocks($text) {
                     $token_pos = $stack[$j]['token_pos'];
                     $end = $pos;
 
+                    // 본문 추출
                     $raw_content = substr($text, $start, $end - $start);
+
+                    // 본문 안에 있는 추가 태그 제거
+                    $clean_content = preg_replace($tag_pattern, '', $raw_content);
+
+                    // 각 줄 양끝 공백 제거
+                    $lines = explode("\n", $clean_content);
+                    $lines = array_map('rtrim', $lines);
+                    $clean_content = implode("\n", $lines);
+
                     $blocks[] = [
                         'type' => $type,
                         'index' => $index,
-                        'content' => $raw_content,
+                        'content' => trim($clean_content),
                         'pos' => $token_pos
                     ];
+
                     array_splice($stack, $j, 1);
                     break;
                 }
@@ -109,5 +118,10 @@ function extract_tagged_blocks($text) {
     // 정렬
     usort($blocks, fn($a, $b) => $a['pos'] <=> $b['pos']);
 
-    return $blocks;
+    // 필요한 필드만 리턴
+    return array_map(fn($b) => [
+        'type' => $b['type'],
+        'index' => $b['index'],
+        'content' => $b['content']
+    ], $blocks);
 }
