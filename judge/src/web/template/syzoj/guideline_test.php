@@ -85,6 +85,7 @@ function submitAnswer(index) {
     if (input === correct) {
         ta.readOnly = true;
         ta.style.backgroundColor = "#d4edda"; // ✅ 연한 초록색으로 변경
+        ta.style.border = "1px solid #d4edda"
         btn.style.display = "none";
         check.style.display = "inline";
         updateFeedback(index, true, input);
