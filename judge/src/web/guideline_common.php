@@ -73,28 +73,27 @@ function extract_tagged_blocks($text) {
         $direction = $match[2][0];
         $index = intval($match[3][0]);
 
-        $before_text = substr($text, $pos, $tag_pos - $pos); // 태그 앞에 있는 코드
-
-        // 앞에 있는 코드 처리 (공백/줄바꿈 무시하고 유효한 코드만)
+        // 태그 앞에 있는 코드 가져오기
+        $before_text = substr($text, $pos, $tag_pos - $pos);
+        $before_text = preg_replace($tag_pattern, '', $before_text); // <== ★ 태그 제거
         $lines = explode("\n", $before_text);
         foreach ($lines as $line) {
             $trimmed = rtrim($line);
             if ($trimmed !== '') {
                 $blocks[] = [
-                    'type' => 'text', // 일반 코드
+                    'type' => 'text',
                     'content' => $trimmed
                 ];
             }
         }
 
+        // start, end 태그 스택 처리
         if ($direction === 'start') {
-            // start 태그는 스택에 쌓아
             $stack[] = [
                 'type' => $type,
                 'index' => $index
             ];
         } elseif ($direction === 'end') {
-            // end 태그는 스택에서 짝 맞는 걸 제거
             for ($i = count($stack) - 1; $i >= 0; $i--) {
                 if ($stack[$i]['type'] === $type && $stack[$i]['index'] === $index) {
                     array_splice($stack, $i, 1);
@@ -109,6 +108,7 @@ function extract_tagged_blocks($text) {
 
     // 마지막 남은 텍스트 처리
     $after_text = substr($text, $pos);
+    $after_text = preg_replace($tag_pattern, '', $after_text); // <== ★ 태그 제거
     $lines = explode("\n", $after_text);
     foreach ($lines as $line) {
         $trimmed = rtrim($line);
