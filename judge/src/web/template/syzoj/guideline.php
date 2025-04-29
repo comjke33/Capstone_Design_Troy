@@ -143,3 +143,6 @@ function initDynamicFeatures() {
         });
     });
 }
+</script>
+
+<?php include("template/syzoj/footer.php"); ?>
