@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(res => res.text())
             .then(html => {
                 content.innerHTML = html;
-                window.history.replaceState(null, "", `?step=${step}`);
             })
             .catch(error => {
                 content.innerHTML = "<div class='ui red message'>⚠️ 가이드라인을 불러올 수 없습니다.</div>";
