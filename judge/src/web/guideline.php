@@ -1,5 +1,3 @@
-<?php include("template/syzoj/header.php"); ?>
-
 <style>
 .step-buttons {
     display: flex;
@@ -71,5 +69,3 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
-
-<?php include("template/syzoj/footer.php"); ?>
