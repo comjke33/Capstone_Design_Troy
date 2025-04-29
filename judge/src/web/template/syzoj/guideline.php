@@ -21,10 +21,6 @@ document.addEventListener("DOMContentLoaded", function () {
     function loadStep(step) {
         fetch(`guideline${step}.php`)  // guideline1.php, guideline2.php, guideline3.php를 동적으로 불러옴
             .then(res => res.text())
-            .then(html => {
-                content.innerHTML = html;  // 가이드라인 내용 삽입
-                window.history.replaceState(null, "", `?step=${step}`); // URL에 step 파라미터 갱신
-            })
             .catch(error => {
                 content.innerHTML = "<div class='ui red message'>⚠️ 가이드라인을 불러올 수 없습니다.</div>";
                 console.error("가이드라인 로딩 오류:", error);
