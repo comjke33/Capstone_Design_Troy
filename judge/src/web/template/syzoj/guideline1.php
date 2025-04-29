@@ -10,8 +10,9 @@
 
     <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역 -->
     <div class="left-panel" style="flex: 0.3; padding-right: 10px; overflow-y: auto; position: relative;">
-        <!-- 왼쪽 패널에서 스크롤할 때 따라오는 피드백 이미지 -->
-        <img src="/path/to/feedback.png" alt="Feedback" id="feedback-img" style="position: absolute; top: 20px; right: 20px; max-width: 100px; display: none;">
+        <!-- 네모난 모양의 이미지를 왼쪽 패널에 추가 -->
+        <img src="/path/to/feedback.png" alt="Feedback" id="feedback-img" 
+            style="position: absolute; top: 20px; right: 20px; width: 100px; height: 100px; display: block;">
 
         <?php
             function render_tree_plain($blocks, &$answer_index = 0) {
@@ -96,11 +97,9 @@
     // 스크롤 이벤트에서 피드백 이미지를 따라오게 만들기
     document.querySelector('.left-panel').addEventListener('scroll', function() {
         const feedbackImage = document.getElementById('feedback-img');
-        if (this.scrollTop > 50) {
-            feedbackImage.style.display = 'block';
-        } else {
-            feedbackImage.style.display = 'none';
-        }
+        // 스크롤할 때 이미지를 위로 따라올리기
+        const scrollPosition = this.scrollTop;
+        feedbackImage.style.top = `${20 + scrollPosition}px`;
     });
 
     function submitAnswer(index) {
