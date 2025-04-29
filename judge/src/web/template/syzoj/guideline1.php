@@ -8,13 +8,15 @@
 
 <div class="main-layout" style="display: flex; justify-content: space-between;">
 
-    <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역 -->
+    <!-- 왼쪽 패널을 빈 상태로 두고, 내용을 center-panel로 이동 -->
     <div class="left-panel" style="flex: 0.3; padding-right: 10px; overflow-y: auto; position: relative;">
         <!-- 네모난 모양의 이미지를 왼쪽 패널에 추가 -->
         <img src="/judge/src/web/image/feedback.jpg" alt="Feedback" id="feedback-img" 
-     style="position: absolute; top: 20px; right: 20px; width: 100px; height: 100px; display: block;">
+        style="position: absolute; top: 20px; right: 20px; width: 100px; height: 100px; display: block;">
+    </div>
 
-
+    <!-- 가운데 패널: 문제 설명 및 텍스트 입력 영역 (이 부분을 수정하여 왼쪽 패널의 내용을 이동) -->
+    <div class="center-panel" style="flex: 0.4; padding: 20px; overflow-y: auto;">
         <?php
             function render_tree_plain($blocks, &$answer_index = 0) {
                 $html = "";
@@ -70,13 +72,6 @@
             $answer_index = 0;
             echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
         ?>
-    </div>
-
-    <!-- 가운데 패널: 문제의 핵심 내용 -->
-    <div class="center-panel" style="flex: 0.4; padding: 20px; overflow-y: auto;">
-        <!-- 여기에 문제의 핵심 내용이나 추가적인 설명을 넣을 수 있습니다 -->
-        <h3>문제 설명</h3>
-        <p>여기에는 문제의 핵심 내용이나 설명이 들어갑니다.</p>
     </div>
 
     <!-- 오른쪽 패널: 피드백 부분 -->
