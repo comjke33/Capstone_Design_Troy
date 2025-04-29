@@ -67,7 +67,6 @@
     </div>
 </div>
 
-
 <script>
 // 정답 확인 및 제출 기능
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
@@ -118,6 +117,7 @@ function showAnswer(index) {
         <pre class='code-line'>${correctCode}</pre>
     `;
 
+    // 정답을 표시하고, 표시된 영역을 보이도록 설정
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';  // 정답을 보이도록 설정
 }
@@ -134,3 +134,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+</script>
