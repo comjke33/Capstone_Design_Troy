@@ -1,5 +1,3 @@
-<?php include("template/syzoj/header.php"); ?>
-
 
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
     <h1>한줄씩 풀기</h1>
