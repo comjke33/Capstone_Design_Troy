@@ -140,5 +140,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 </script>
-
-<?php include("template/syzoj/footer.php"); ?>
