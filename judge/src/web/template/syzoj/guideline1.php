@@ -14,7 +14,7 @@
         <!-- 슬라이더를 추가해서 이미지를 스크롤하면서 위치 조정 -->
         <div id="slider-container" style="position: absolute; height: 100%; width: 100px; overflow-y: auto;">
             <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img" 
-                 style="width: 100px; height: 400px; object-fit: cover;">
+                 style="width: 400px; height: 400px; object-fit: cover;">
         </div>
     </div>
 
