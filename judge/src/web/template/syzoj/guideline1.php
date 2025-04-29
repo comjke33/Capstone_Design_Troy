@@ -71,4 +71,4 @@
 
 </div>
 
-<script src="/template/syzoj/js/guideline.js"></script>
+<!-- <script src="/template/syzoj/js/guideline.js"></script> -->
