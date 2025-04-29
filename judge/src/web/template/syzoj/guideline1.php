@@ -14,9 +14,12 @@
             $html = "";
 
             foreach ($blocks as $block) {
+                // `depth`가 제대로 설정되어 있는지 확인
                 $indent_px = 10 * ($block['depth'] ?? 0);
+                echo "<!-- Debugging indent_px value: {$indent_px} -->"; // debug용
 
                 if (isset($block['children'])) {
+                    // margin-left 값을 콘솔로 확인하여 적용이 잘 되는지 점검
                     $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
                     $html .= render_tree_plain($block['children'], $answer_index);
                     $html .= "</div>";
@@ -65,6 +68,7 @@
         echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
         ?>
     </div>
+
     <div class="">
 
     </div>
