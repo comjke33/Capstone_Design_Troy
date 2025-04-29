@@ -3,11 +3,16 @@
     <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
 </div>
 
+<!-- 스타일 불러오기 -->
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
 <div class="main-layout" style="display: flex; justify-content: space-between;">
+
     <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역 -->
-    <div class="left-panel" style="flex: 1; padding-right: 10px;">
+    <div class="left-panel" style="flex: 0.3; padding-right: 10px; overflow-y: auto; position: relative;">
+        <!-- 왼쪽 패널에서 스크롤할 때 따라오는 피드백 이미지 -->
+        <img src="/path/to/feedback.png" alt="Feedback" id="feedback-img" style="position: absolute; top: 20px; right: 20px; max-width: 100px; display: none;">
+
         <?php
             function render_tree_plain($blocks, &$answer_index = 0) {
                 $html = "";
@@ -65,6 +70,13 @@
         ?>
     </div>
 
+    <!-- 가운데 패널: 문제의 핵심 내용 -->
+    <div class="center-panel" style="flex: 0.4; padding: 20px; overflow-y: auto;">
+        <!-- 여기에 문제의 핵심 내용이나 추가적인 설명을 넣을 수 있습니다 -->
+        <h3>문제 설명</h3>
+        <p>여기에는 문제의 핵심 내용이나 설명이 들어갑니다.</p>
+    </div>
+
     <!-- 오른쪽 패널: 피드백 부분 -->
     <div class="right-panel" style="flex: 0.3; padding-left: 20px; border-left: 1px solid #ddd; height: 100vh;">
         <h3>피드백 부분</h3>
@@ -75,71 +87,80 @@
 
 </div>
 
+<!-- js 불러오기 -->
+<script src="/template/syzoj/js/guideline.js"></script>
+
 <script>
-// 정답 확인 및 제출 기능
-const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
+    const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
 
-function submitAnswer(index) {
-    const ta = document.getElementById(`ta_${index}`);
-    const btn = document.getElementById(`btn_${index}`);
-    const check = document.getElementById(`check_${index}`);
-
-    const input = ta.value.trim();
-    const correct = (correctAnswers[index]?.content || "").trim();
-
-    // 사용자가 제출한 코드와 정답 코드 비교
-    if (input === correct) {
-        ta.readOnly = true;
-        ta.style.backgroundColor = "#d4edda";  // 연한 초록색 배경
-        ta.style.border = "1px solid #d4edda";  // 연한 초록색 테두리
-        ta.style.color = "#155724";             // ✅ 진한 초록색 글자 추가
-        btn.style.display = "none";
-        check.style.display = "inline";
-        updateFeedback(index, true, input);
-
-        const nextIndex = index + 1;
-        const nextTa = document.getElementById(`ta_${nextIndex}`);
-        const nextBtn = document.getElementById(`btn_${nextIndex}`);
-        if (nextTa && nextBtn) {
-            nextTa.disabled = false;
-            nextBtn.disabled = false;
-            nextTa.focus();
-            nextTa.addEventListener('input', () => autoResize(nextTa));
-        }
-    } else {
-        ta.style.backgroundColor = "#ffecec";
-        ta.style.border = "1px solid #e06060";
-        ta.style.color = "#c00";
-        updateFeedback(index, false, input);
-    }
-}
-
-// 답안 확인 버튼 클릭 시 정답을 textarea 아래에 표시
-function showAnswer(index) {
-    const correctCode = correctAnswers[index]?.content.trim();
-    if (!correctCode) return; // 정답 없으면 리턴
-
-    const answerArea = document.getElementById(`answer_area_${index}`);
-    const answerHtml = `
-        <strong>정답:</strong><br>
-        <pre class='code-line'>${correctCode}</pre>
-    `;
-
-    // 정답을 표시하고, 표시된 영역을 보이도록 설정
-    answerArea.innerHTML = answerHtml;
-    answerArea.style.display = 'block';  // 정답을 보이도록 설정
-}
-
-function autoResize(ta) {
-    ta.style.height = 'auto';
-    ta.style.height = ta.scrollHeight + 'px';
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.styled-textarea').forEach(ta => {
-        if (!ta.disabled) {
-            ta.addEventListener('input', () => autoResize(ta));
+    // 스크롤 이벤트에서 피드백 이미지를 따라오게 만들기
+    document.querySelector('.left-panel').addEventListener('scroll', function() {
+        const feedbackImage = document.getElementById('feedback-img');
+        if (this.scrollTop > 50) {
+            feedbackImage.style.display = 'block';
+        } else {
+            feedbackImage.style.display = 'none';
         }
     });
-});
+
+    function submitAnswer(index) {
+        const ta = document.getElementById(`ta_${index}`);
+        const btn = document.getElementById(`btn_${index}`);
+        const check = document.getElementById(`check_${index}`);
+
+        const input = ta.value.trim();
+        const correct = (correctAnswers[index]?.content || "").trim();
+
+        if (input === correct) {
+            ta.readOnly = true;
+            ta.style.backgroundColor = "#d4edda";  // 연한 초록색 배경
+            ta.style.border = "1px solid #d4edda";  // 연한 초록색 테두리
+            ta.style.color = "#155724";             // ✅ 진한 초록색 글자 추가
+            btn.style.display = "none";
+            check.style.display = "inline";
+            updateFeedback(index, true, input);
+
+            const nextIndex = index + 1;
+            const nextTa = document.getElementById(`ta_${nextIndex}`);
+            const nextBtn = document.getElementById(`btn_${nextIndex}`);
+            if (nextTa && nextBtn) {
+                nextTa.disabled = false;
+                nextBtn.disabled = false;
+                nextTa.focus();
+                nextTa.addEventListener('input', () => autoResize(nextTa));
+            }
+        } else {
+            ta.style.backgroundColor = "#ffecec";
+            ta.style.border = "1px solid #e06060";
+            ta.style.color = "#c00";
+            updateFeedback(index, false, input);
+        }
+    }
+
+    function showAnswer(index) {
+        const correctCode = correctAnswers[index]?.content.trim();
+        if (!correctCode) return; // 정답 없으면 리턴
+
+        const answerArea = document.getElementById(`answer_area_${index}`);
+        const answerHtml = `
+            <strong>정답:</strong><br>
+            <pre class='code-line'>${correctCode}</pre>
+        `;
+
+        answerArea.innerHTML = answerHtml;
+        answerArea.style.display = 'block';
+    }
+
+    function autoResize(ta) {
+        ta.style.height = 'auto';
+        ta.style.height = ta.scrollHeight + 'px';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.styled-textarea').forEach(ta => {
+            if (!ta.disabled) {
+                ta.addEventListener('input', () => autoResize(ta));
+            }
+        });
+    });
 </script>
