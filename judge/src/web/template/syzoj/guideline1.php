@@ -11,7 +11,7 @@
     <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역 -->
     <div class="left-panel" style="flex: 0.3; padding-right: 10px; overflow-y: auto; position: relative;">
         <!-- 네모난 모양의 이미지를 왼쪽 패널에 추가 -->
-        <img src="/path/to/feedback.png" alt="Feedback" id="feedback-img" 
+        <img src="/src/web/image/feedback.jpg" 
             style="position: absolute; top: 20px; right: 20px; width: 100px; height: 100px; display: block;">
 
         <?php
