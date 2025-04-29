@@ -75,13 +75,66 @@
 <script src="/template/syzoj/js/guideline.js"></script>
 
 <script>
-    // js 파일 로딩이 정상적으로 되었는지 확인하는 코드
-    window.onload = function() {
-        // guideline.js가 정상적으로 로드되었는지 확인
-        if (typeof submitAnswer === 'function' && typeof showAnswer === 'function') {
-            console.log("guideline.js 파일이 정상적으로 로드되었습니다.");
-        } else {
-            console.error("guideline.js 파일 로드에 실패했습니다.");
+    const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
+
+function submitAnswer(index) {
+    const ta = document.getElementById(`ta_${index}`);
+    const btn = document.getElementById(`btn_${index}`);
+    const check = document.getElementById(`check_${index}`);
+
+    const input = ta.value.trim();
+    const correct = (correctAnswers[index]?.content || "").trim();
+
+    if (input === correct) {
+        ta.readOnly = true;
+        ta.style.backgroundColor = "#d4edda";  // 연한 초록색 배경
+        ta.style.border = "1px solid #d4edda";  // 연한 초록색 테두리
+        ta.style.color = "#155724";             // ✅ 진한 초록색 글자 추가
+        btn.style.display = "none";
+        check.style.display = "inline";
+        updateFeedback(index, true, input);
+
+        const nextIndex = index + 1;
+        const nextTa = document.getElementById(`ta_${nextIndex}`);
+        const nextBtn = document.getElementById(`btn_${nextIndex}`);
+        if (nextTa && nextBtn) {
+            nextTa.disabled = false;
+            nextBtn.disabled = false;
+            nextTa.focus();
+            nextTa.addEventListener('input', () => autoResize(nextTa));
         }
-    };
+    } else {
+        ta.style.backgroundColor = "#ffecec";
+        ta.style.border = "1px solid #e06060";
+        ta.style.color = "#c00";
+        updateFeedback(index, false, input);
+    }
+}
+
+function showAnswer(index) {
+    const correctCode = correctAnswers[index]?.content.trim();
+    if (!correctCode) return; // 정답 없으면 리턴
+
+    const answerArea = document.getElementById(`answer_area_${index}`);
+    const answerHtml = `
+        <strong>정답:</strong><br>
+        <pre class='code-line'>${correctCode}</pre>
+    `;
+
+    answerArea.innerHTML = answerHtml;
+    answerArea.style.display = 'block';
+}
+
+function autoResize(ta) {
+    ta.style.height = 'auto';
+    ta.style.height = ta.scrollHeight + 'px';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.styled-textarea').forEach(ta => {
+        if (!ta.disabled) {
+            ta.addEventListener('input', () => autoResize(ta));
+        }
+    });
+});
 </script>
