@@ -75,7 +75,7 @@
 </div>
 
 <!-- js 불러오기 -->
-<script src="/template/syzoj/js/guideline.js"></script>
+<script src="/js/guideline.js"></script>
 
 <script>
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
