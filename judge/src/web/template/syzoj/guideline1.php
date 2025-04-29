@@ -11,7 +11,7 @@
     <!-- 왼쪽 패널을 빈 상태로 두고, 내용을 center-panel로 이동 -->
     <div class="left-panel" style="flex: 0.3; padding-right: 10px; overflow-y: auto; position: relative;">
         <!-- 네모난 모양의 이미지를 왼쪽 패널에 추가 -->
-        <img src="/judge/src/web/image/feedback.jpg" alt="Feedback" id="feedback-img" 
+        <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img" 
         style="position: absolute; top: 20px; right: 20px; width: 100px; height: 100px; display: block;">
     </div>
 
