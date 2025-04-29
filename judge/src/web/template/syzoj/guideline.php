@@ -144,4 +144,47 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// Step 버튼 클릭 시 가이드라인 파일 동적 로딩
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".step-buttons .ui.button");
+    const content = document.getElementById("guideline-content");
+
+    function loadStep(step) {
+        fetch(`guideline${step}.php`)
+            .then(res => res.text())
+            .then(html => {
+                content.innerHTML = html; // 가이드라인 내용을 삽입
+                window.history.pushState(null, "", `?step=${step}`); // URL에 step 파라미터 추가
+            })
+            .catch(error => {
+                content.innerHTML = "<div class='ui red message'>⚠️ 가이드라인을 불러올 수 없습니다.</div>";
+            });
+    }
+
+    // 버튼 클릭 이벤트
+    buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            buttons.forEach(b => b.classList.remove("active")); // 모든 버튼에서 active 제거
+            btn.classList.add("active"); // 클릭된 버튼에 active 추가
+
+            const step = btn.dataset.step;
+            loadStep(step); // 해당 step 로드
+        });
+    });
+
+    // URL에 step이 이미 있으면 그걸 로딩, 아니면 기본 1로
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialStep = urlParams.get('step') || 1;
+    loadStep(initialStep); // 초기 step 로드
+
+    // 버튼 활성화도 초기 상태 반영
+    buttons.forEach(btn => {
+        if (btn.dataset.step == initialStep) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+});
 </script>
