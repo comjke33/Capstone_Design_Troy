@@ -49,10 +49,10 @@ function submitAnswer(index) {
   const ta = document.getElementById(`ta_${index}`);
   const btn = document.getElementById(`btn_${index}`);
   const check = document.getElementById(`check_${index}`);
-
+  
   const input = ta.value.trim();
   const correct = (correctAnswers[index]?.content || "").trim();
-
+  
   // 사용자가 제출한 코드와 정답 코드 비교
   if (input === correct) {
       ta.readOnly = true;
