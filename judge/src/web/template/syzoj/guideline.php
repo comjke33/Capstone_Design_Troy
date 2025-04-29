@@ -12,6 +12,8 @@
     </div>
 </div>
 
+<script src="/template/syzoj/js/guideline.js"></script>  <!-- guideline.js 파일 로드 -->
+
 <script>
 // DOM이 로드된 후 실행되는 코드
 document.addEventListener("DOMContentLoaded", function () {
