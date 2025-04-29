@@ -107,7 +107,7 @@ if(file_exists($solution_file)){
 
       //단계별 풀기 상단
       if (!isset($cid)) {
-        echo "<a class=\"small ui red button\" href=\"guideline_test.php?problem_id=$id\">단계별 풀기</a>";
+        echo "<a class=\"small ui red button\" href=\"guideline1.php?problem_id=$id\">단계별 풀기</a>";
       }
     ?>
 
