@@ -14,7 +14,6 @@
 
 <script>
 // JS 코드에서 fetch를 사용하여 PHP 파일로부터 데이터를 가져옵니다.
-
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
     const content = document.getElementById("guideline-content");
@@ -69,10 +68,15 @@ function initDynamicFeatures() {
 
     // 동적으로 버튼에 이벤트 리스너 추가
     document.querySelectorAll('.submit-button').forEach((btn, index) => {
-        btn.addEventListener("click", () => submitAnswer(index));
+        btn.addEventListener("click", function () {
+            submitAnswer(index);
+        });
     });
+
     document.querySelectorAll('.view-button').forEach((btn, index) => {
-        btn.addEventListener("click", () => showAnswer(index));
+        btn.addEventListener("click", function () {
+            showAnswer(index);
+        });
     });
 
     // 제출 함수
