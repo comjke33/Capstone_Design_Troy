@@ -47,6 +47,13 @@
 &nbsp;</span></textarea><br>
         </p>
         <p align=left>
+          <!-- 모범 코드 제목 -->
+          <h4>모범코드</h4>
+          <!-- 코드 입력 텍스트 영역 -->
+          <textarea class="kindeditor" rows=13 name=reference_code cols=80><span class='md'>
+        </span></textarea><br>
+        </p>
+        <p align=left>
           <?php echo "<h4>".$MSG_Input."(<64kB)</h4>"?>
           <textarea class="kindeditor" rows=13 name=input cols=80><span class='md'>
 </span></textarea><br></textarea><br>
@@ -315,7 +322,7 @@ function untransform() {
     main.css("width", "");
     main.css("margin-left", "");
 
-    // 미리보기 iframe 제거
+    // 미리보기 iframe 제거Q
     $("#preview").remove();
 
   

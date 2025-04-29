@@ -77,6 +77,15 @@ $hint = ($hint);
 $pid = addproblem($title, $time_limit, $memory_limit, $description, $input, $output, $sample_input, $sample_output, $hint, $source, $spj, $OJ_DATA);
 $basedir = "$OJ_DATA/$pid";
 mkdir($basedir);
+
+//모범코드 DB저장
+$reference_code = $_POST['reference_code'];
+if (!empty($reference_code)) {
+  $sql = "INSERT INTO Exemplary (problem_id, exemplary_code) VALUES (?, ?)";
+  pdo_query($sql, $pid, $reference_code);
+}
+//모범코드 DB저장
+
 if(strlen($sample_output) && !strlen($sample_input)) $sample_input = "0";
 if(strlen($sample_input)) mkdata($pid, "sample.in", $sample_input, $OJ_DATA);
 if(strlen($sample_output)) mkdata($pid, "sample.out", $sample_output, $OJ_DATA);
