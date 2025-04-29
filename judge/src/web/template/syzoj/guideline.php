@@ -14,6 +14,7 @@
 
 <script>
 // JS 코드에서 fetch를 사용하여 PHP 파일로부터 데이터를 가져옵니다.
+
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
     const content = document.getElementById("guideline-content");
@@ -66,6 +67,15 @@ document.addEventListener("DOMContentLoaded", function () {
 function initDynamicFeatures() {
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
 
+    // 버튼 클릭 이벤트를 동적으로 추가
+    document.querySelectorAll('.submit-button').forEach((btn, index) => {
+        btn.addEventListener("click", () => submitAnswer(index));
+    });
+    document.querySelectorAll('.view-button').forEach((btn, index) => {
+        btn.addEventListener("click", () => showAnswer(index));
+    });
+
+    // 제출 함수
     function submitAnswer(index) {
         const ta = document.getElementById(`ta_${index}`);
         const btn = document.getElementById(`btn_${index}`);
@@ -100,6 +110,7 @@ function initDynamicFeatures() {
         }
     }
 
+    // 답안 확인 함수
     function showAnswer(index) {
         const correctCode = correctAnswers[index]?.content.trim();
         if (!correctCode) return; // 정답 없으면 리턴
@@ -114,6 +125,7 @@ function initDynamicFeatures() {
         answerArea.style.display = 'block';
     }
 
+    // 텍스트 영역 크기 자동 조정 함수
     function autoResize(ta) {
         ta.style.height = 'auto';
         ta.style.height = ta.scrollHeight + 'px';
@@ -127,6 +139,3 @@ function initDynamicFeatures() {
         });
     });
 }
-</script>
-
-<?php include("template/syzoj/footer.php"); ?>
