@@ -4,13 +4,13 @@
 .main-layout {
   display: flex;
   gap: 20px;  /* 패널 간의 간격 조정 */
-  max-width: 2500px;
+  width: 100%;  /* 화면 너비에 맞게 확장 */
   margin: 0 auto;
 }
 
 /* 왼쪽 패널: 문제 설명과 텍스트 입력 영역 */
 .left-panel {
-  flex: 0.3;
+  flex: 1;  /* 화면 너비에 맞게 동적으로 확장 */
   position: relative;  /* 이미지를 따라오게 하기 위한 고정 위치 설정 */
   padding-right: 10px;
   overflow-y: auto; /* 스크롤 가능하도록 설정 */
@@ -20,22 +20,22 @@
 #feedback-img {
   position: sticky;
   top: 20px;
-  right: 20px;
-  width: 100px;
-  height: 100px;
+  left: 20px;  /* 왼쪽으로 위치를 변경 */
+  width: 300px;  /* 이미지 크기를 크게 설정 */
+  height: 300px;
   z-index: 10;
 }
 
 /* 가운데 패널: 문제 설명 및 텍스트 입력 영역 */
 .center-panel {
-  flex: 0.4;
+  flex: 2;  /* 화면 너비에 맞게 동적으로 확장 */
   padding: 60px;
   overflow-y: auto;
 }
 
 /* 오른쪽 패널: 피드백 부분 */
 .right-panel {
-  flex: 0.3;
+  flex: 1;  /* 화면 너비에 맞게 동적으로 확장 */
   padding-left: 20px;
   background-color: #fafafa;
   border: 1px solid #eee;
