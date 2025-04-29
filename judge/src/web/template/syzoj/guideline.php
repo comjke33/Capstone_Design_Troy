@@ -12,16 +12,13 @@
     </div>
 </div>
 
-
 <script>
-// DOM이 로드된 후 실행되는 코드
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
     const content = document.getElementById("guideline-content");
 
     // 파일 로딩 함수 (step에 해당하는 guideline1.php, guideline2.php, guideline3.php를 불러옴)
     function loadStep(step) {
-        // 실제 파일을 동적으로 로드
         fetch(`guideline${step}.php`)  // guideline1.php, guideline2.php, guideline3.php를 동적으로 불러옴
             .then(res => res.text())
             .then(html => {
@@ -60,19 +57,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-//가이드라인 submitAnswer, showAnswer 불러오기
-src="/template/syzoj/js/guideline.js">
-
-// js 파일 로딩이 정상적으로 되었는지 확인하는 코드
-window.onload = function() {
-        // guideline.js가 정상적으로 로드되었는지 확인
-        if (typeof submitAnswer === 'function' && typeof showAnswer === 'function') {
-            console.log("guideline.js 파일이 정상적으로 로드되었습니다.");
-        } else {
-            console.error("guideline.js 파일 로드에 실패했습니다.");
-        }
-    };
-
+// js 파일 불러오기 (guideline.js)
+let script = document.createElement('script');
+script.src = '/template/syzoj/js/guideline.js';  // js 파일 경로
+script.onload = function() {
+    console.log('guideline.js 파일이 정상적으로 로드되었습니다.');
+};
+script.onerror = function() {
+    console.error('guideline.js 파일 로딩에 실패했습니다.');
+};
+document.body.appendChild(script);
 </script>
 
 <?php include("template/syzoj/footer.php"); ?>
