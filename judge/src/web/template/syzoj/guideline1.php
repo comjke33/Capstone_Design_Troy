@@ -6,17 +6,17 @@
 <!-- 스타일 불러오기 -->
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
-<div class="main-layout" style="display: flex; justify-content: space-between;">
+<div class="main-layout" style="display: flex; justify-content: space-between; gap: 40px;">
 
-    <!-- 왼쪽 패널을 빈 상태로 두고, 내용을 center-panel로 이동 -->
-    <div class="left-panel" style="flex: 0.3; padding-right: 10px; overflow-y: auto; position: relative;">
+    <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역 -->
+    <div class="left-panel" style="flex: 0.2; padding-right: 10px; overflow-y: auto; position: relative;">
         <!-- 네모난 모양의 이미지를 왼쪽 패널에 추가 -->
         <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img" 
         style="position: absolute; top: 20px; right: 20px; width: 100px; height: 100px; display: block;">
     </div>
 
     <!-- 가운데 패널: 문제 설명 및 텍스트 입력 영역 (이 부분을 수정하여 왼쪽 패널의 내용을 이동) -->
-    <div class="center-panel" style="flex: 0.4; padding: 20px; overflow-y: auto;">
+    <div class="center-panel" style="flex: 0.6; padding: 20px; overflow-y: auto;">
         <?php
             function render_tree_plain($blocks, &$answer_index = 0) {
                 $html = "";
@@ -75,7 +75,7 @@
     </div>
 
     <!-- 오른쪽 패널: 피드백 부분 -->
-    <div class="right-panel" style="flex: 0.3; padding-left: 20px; border-left: 1px solid #ddd; height: 100vh;">
+    <div class="right-panel" style="flex: 0.2; padding-left: 20px; border-left: 1px solid #ddd; height: 100vh;">
         <h3>피드백 부분</h3>
         <div class="feedback-content" style="padding: 20px; background-color: #f9f9f9; height: calc(100% - 40px);">
             <!-- 피드백 내용이 여기에 표시됩니다. -->
