@@ -33,33 +33,35 @@ document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
     const content = document.getElementById("guideline-content");
 
+    // loadStep 함수는 step 번호에 맞는 PHP 파일을 동적으로 불러옵니다.
     function loadStep(step) {
-        fetch(`guideline${step}.php`)
+        fetch(`guideline${step}.php`) // guideline1.php, guideline2.php, guideline3.php를 동적으로 불러옴
             .then(res => res.text())
             .then(html => {
-                content.innerHTML = html;
-                window.history.replaceState(null, "", `?step=${step}`);
+                content.innerHTML = html;  // 가이드라인 내용 삽입
+                window.history.replaceState(null, "", `?step=${step}`); // URL에 step 파라미터 갱신
             })
             .catch(error => {
                 content.innerHTML = "<div class='ui red message'>⚠️ 가이드라인을 불러올 수 없습니다.</div>";
+                console.error("가이드라인 로딩 오류:", error);
             });
     }
 
     // 버튼 클릭 이벤트
     buttons.forEach(btn => {
         btn.addEventListener("click", () => {
-            buttons.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
+            buttons.forEach(b => b.classList.remove("active")); // 기존 활성화된 버튼 비활성화
+            btn.classList.add("active"); // 클릭된 버튼을 활성화
 
-            const step = btn.dataset.step;
-            loadStep(step);
+            const step = btn.dataset.step; // 클릭된 버튼의 data-step 값
+            loadStep(step); // 해당 step에 맞는 가이드라인 로드
         });
     });
 
-    // URL에 step이 이미 있으면 그걸 로딩, 아니면 기본 1로
+    // URL에 step이 이미 있으면 그 값을 사용하여 초기화, 없으면 기본 1로 설정
     const urlParams = new URLSearchParams(window.location.search);
     const initialStep = urlParams.get('step') || 1;
-    loadStep(initialStep);
+    loadStep(initialStep); // 초기 step 로드
 
     // 버튼 활성화도 초기 상태 반영
     buttons.forEach(btn => {
