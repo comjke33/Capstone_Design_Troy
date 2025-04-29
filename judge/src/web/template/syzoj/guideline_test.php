@@ -34,8 +34,7 @@
                         }
 
                         // 정답 코드가 존재하는지 먼저 확인
-                        $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
-            
+                        $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);            
                         $disabled = $has_correct_answer ? "" : "disabled";
             
                         // 가이드라인 설명 및 코드 입력 영역
@@ -65,6 +64,9 @@
             echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
         ?>
     </div>
+
+    <div class>
+
 </div>
 
 <script>
