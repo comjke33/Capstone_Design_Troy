@@ -9,10 +9,13 @@
 <div class="main-layout" style="display: flex; justify-content: space-between; gap: 20px;">
 
     <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역 -->
-    <div class="left-panel" style="flex: 0.2; padding-right: 10px; overflow-y: auto; position: relative; display: flex; justify-content: center; align-items: center;">
-        <!-- 왼쪽 패널에 이미지를 가운데로 배치하고 크기 키우기 -->
-        <img src="/mnt/data/4ccb164f-593f-433d-9f09-e7b8e03dabb1.png" alt="Feedback" id="feedback-img" 
-        style="position: absolute; width: 300px; height: 300px; display: block;">
+    <div class="left-panel" style="flex: 0.2; padding-right: 10px; overflow-y: hidden; position: relative; display: flex; justify-content: center; align-items: center;">
+        
+        <!-- 슬라이더를 추가해서 이미지를 스크롤하면서 위치 조정 -->
+        <div id="slider-container" style="position: absolute; height: 100%; width: 100px; overflow-y: auto;">
+            <img src="/mnt/data/e1ece0f6-d247-4559-8f29-e231d4c70549.png" alt="Feedback" id="feedback-img" 
+                 style="width: 100px; height: 400px; object-fit: cover;">
+        </div>
     </div>
 
     <!-- 가운데 패널: 문제 설명 및 텍스트 입력 영역 -->
@@ -91,10 +94,10 @@
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
 
     // 마우스 스크롤에 따라 피드백 이미지를 실시간으로 위아래로 움직이게 함
-    document.querySelector('.left-panel').addEventListener('scroll', function() {
+    document.getElementById('slider-container').addEventListener('scroll', function() {
         const feedbackImage = document.getElementById('feedback-img');
         const scrollPosition = this.scrollTop;
-        feedbackImage.style.top = `${20 + scrollPosition}px`;  // 이미지의 top 값을 스크롤 위치에 맞게 변경
+        feedbackImage.style.top = `${scrollPosition}px`;  // 이미지의 top 값을 스크롤 위치에 맞게 변경
     });
 
     function submitAnswer(index) {
