@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function initDynamicFeatures() {
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
 
-    // 버튼 클릭 이벤트를 동적으로 추가
+    // 동적으로 버튼에 이벤트 리스너 추가
     document.querySelectorAll('.submit-button').forEach((btn, index) => {
         btn.addEventListener("click", () => submitAnswer(index));
     });
