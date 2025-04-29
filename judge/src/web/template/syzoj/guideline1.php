@@ -1,95 +1,92 @@
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
-    <h1>한줄씩 풀기</h1>
+    <h1>한 줄씩 풀기</h1>
     <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
 </div>
 
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
-<div class="main-layout" style="display: flex; justify-content: space-between;">
-    <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역 -->
-    <div class="left-panel" style="flex: 1; padding-right: 10px;">
-        <?php
-            function render_tree_plain($blocks, &$answer_index = 0) {
-                $html = "";
-            
-                foreach ($blocks as $block) {
-                    $indent_px = 10 * ($block['depth'] ?? 0);
-            
-                    if (isset($block['children'])) {
-                        $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$indent_px}px;'>";
-                        $html .= render_tree_plain($block['children'], $answer_index);
-                        $html .= "</div>";
-                    } elseif ($block['type'] === 'text') {
-                        $raw = trim($block['content']);
-            
-                        // 태그라인 무시
-                        if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) {
-                            continue;
-                        }
-            
-                        $line = htmlspecialchars($block['content']);
-                        if (strpos($line, '[start]') !== false && strpos($line, '[end]') !== false) {
-                            $line = preg_replace('/\[(.*?)\]/', '', $line);  // 태그 제거
-                            $line = trim($line);
-                        }
-
-                        // 정답 코드가 존재하는지 먼저 확인
-                        $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);            
-                        $disabled = $has_correct_answer ? "" : "disabled";
-            
-                        // 가이드라인 설명 및 코드 입력 영역
-                        $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                        $html .= "<div style='flex: 1'>";
-                        $html .= "<div class='code-line'>{$line}</div>";
-                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
-                        if ($has_correct_answer) {
-                            $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
-                            $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
-                        }
-                        // 정답이 표시될 공간 추가 (textarea와 제출 버튼 사이)
-                        $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
-                        $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                        $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                        $html .= "</div></div>";
-            
-                        $answer_index++;
-                    }
+<div class="main-layout">
+    <div class="left-panel">
+    <?php
+    // 1. 설명 (guideline) 준비
+    function extract_guidelines($tree) {
+        $guidelines = [];
+        foreach ($tree as $block) {
+            if ($block['type'] == 'text') {
+                $text = trim($block['content']);
+                if ($text !== '' && !preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $text)) {
+                    $guidelines[] = $text;
                 }
-            
-                return $html;
             }
+            if (isset($block['children'])) {
+                $guidelines = array_merge($guidelines, extract_guidelines($block['children']));
+            }
+        }
+        return $guidelines;
+    }
+    $guidelines = extract_guidelines($OJ_BLOCK_TREE);
 
-            // 주어진 코드를 파싱하여 문제와 설명을 출력
-            $answer_index = 0;
-            echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
-        ?>
+    // 2. 코드 블럭 준비
+    function extract_code_blocks($codes) {
+        $blocks = [];
+        $current_block = [];
+        foreach ($codes as $entry) {
+            $line = trim($entry['content']);
+            if (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_start\(\d+\)\]$/", $line)) {
+                $current_block = [];
+            } elseif (preg_match("/^\[(func_def|rep|cond|self|struct|construct)_end\(\d+\)\]$/", $line)) {
+                if (!empty($current_block)) {
+                    $blocks[] = implode("\n", $current_block);
+                }
+            } else {
+                $line = preg_replace("/\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]/", "", $line);
+                $current_block[] = $line;
+            }
+        }
+        return $blocks;
+    }
+    $code_blocks = extract_code_blocks($OJ_CORRECT_ANSWERS);
+
+    // 3. 출력
+    $count = min(count($guidelines), count($code_blocks));
+    for ($i = 0; $i < $count; $i++) {
+        $desc = htmlspecialchars($guidelines[$i]);
+        $code = htmlspecialchars($code_blocks[$i]);
+        echo "<div class='code-line'>{$desc}</div>";
+        echo "<div class='submission-line'>";
+        echo "<div style='flex: 1'>";
+        echo "<textarea id='ta_{$i}' class='styled-textarea' data-index='{$i}'>{$code}</textarea>";
+        echo "<button onclick='submitAnswer({$i})' id='btn_{$i}' class='submit-button'>제출</button>";
+        echo "<span id='check_{$i}' class='checkmark' style='display:none; margin-left:10px;'>✔️</span>";
+        echo "<span id='wrong_{$i}' class='wrongmark' style='display:none; margin-left:10px; color:#e74c3c;'>❌</span>";
+        echo "</div></div>";
+    }
+    ?>
     </div>
 
-    <div class>
-
+    <div class="right-panel" id="feedback-panel" style="height: 200px; overflow-y: auto;">
+        <!-- 오른쪽 패널은 고정 -->
+    </div>
 </div>
 
 <script>
-// 정답 확인 및 제출 기능
-const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
+const correctAnswers = <?= json_encode($code_blocks, JSON_UNESCAPED_UNICODE) ?>;
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
     const check = document.getElementById(`check_${index}`);
+    const wrong = document.getElementById(`wrong_${index}`);
 
     const input = ta.value.trim();
-    const correct = (correctAnswers[index]?.content || "").trim();
+    const correct = (correctAnswers[index] || "").trim();
 
-    // 사용자가 제출한 코드와 정답 코드 비교
     if (input === correct) {
         ta.readOnly = true;
-        ta.style.backgroundColor = "#d4edda";  // 연한 초록색 배경
-        ta.style.border = "1px solid #d4edda";  // 연한 초록색 테두리
-        ta.style.color = "#155724";             // ✅ 진한 초록색 글자 추가
-        btn.style.display = "none";
-        check.style.display = "inline";
-        updateFeedback(index, true, input);
+        ta.style.backgroundColor = "#eef1f4";
+        if (btn) btn.style.display = "none";
+        if (check) check.style.display = "inline";
+        if (wrong) wrong.style.display = "none";
 
         const nextIndex = index + 1;
         const nextTa = document.getElementById(`ta_${nextIndex}`);
@@ -104,24 +101,8 @@ function submitAnswer(index) {
         ta.style.backgroundColor = "#ffecec";
         ta.style.border = "1px solid #e06060";
         ta.style.color = "#c00";
-        updateFeedback(index, false, input);
+        if (wrong) wrong.style.display = "inline";
     }
-}
-
-// 답안 확인 버튼 클릭 시 정답을 textarea 아래에 표시
-function showAnswer(index) {
-    const correctCode = correctAnswers[index]?.content.trim();
-    if (!correctCode) return; // 정답 없으면 리턴
-
-    const answerArea = document.getElementById(`answer_area_${index}`);
-    const answerHtml = `
-        <strong>정답:</strong><br>
-        <pre class='code-line'>${correctCode}</pre>
-    `;
-
-    // 정답을 표시하고, 표시된 영역을 보이도록 설정
-    answerArea.innerHTML = answerHtml;
-    answerArea.style.display = 'block';  // 정답을 보이도록 설정
 }
 
 function autoResize(ta) {
