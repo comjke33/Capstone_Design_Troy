@@ -46,7 +46,10 @@
                         if ($has_correct_answer) {
                             $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
                             $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
+                            $html .= "<button onclick='showFeedback({$answer_index})' id='view_feedback_btn_{$answer_index}' class='view-button'>피드백 확인</button>";
                         }
+                        // 피드백 및 정답을 여기에 표시할 수 있는 공간 추가
+                        $html .= "<div id='feedback_{$answer_index}' class='feedback-line' style='display:none; margin-top: 10px;'></div>";
                         $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
                         $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
                         $html .= "</div></div>";
@@ -63,22 +66,19 @@
             echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
         ?>
     </div>
-
-    <!-- 오른쪽 패널: 정답확인 영역 -->
-    <div class="right-panel" id="feedback-panel" style="width: 300px; max-width: 300px; min-width: 250px; overflow-y: auto; padding-left: 10px;">
-        <h4>📝 정답 확인</h4>
-        <!-- 정답이 이 곳에 표시될 것입니다 -->
-    </div>
 </div>
+
 
 <script>
 // 정답 확인 및 제출 기능
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
 
+// 제출 버튼 클릭 시 정답 확인 및 피드백 처리
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
     const check = document.getElementById(`check_${index}`);
+    const feedbackDiv = document.getElementById(`feedback_${index}`); // 피드백 div 참조
 
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
@@ -110,27 +110,33 @@ function submitAnswer(index) {
     }
 }
 
+// 정답을 보여주는 함수
 function showAnswer(index) {
-    const panel = document.getElementById('feedback-panel');
-
     const correctCode = correctAnswers[index]?.content.trim();
     if (!correctCode) return; // 정답 없으면 리턴
 
-    let answerHtml = ` 
-        <div id="answer_${index}" class="answer-line">
-            <h4>Line ${index + 1} 정답:</h4>
-            <pre class='code-line'>${correctCode}</pre>
-        </div>
+    const feedbackDiv = document.getElementById(`feedback_${index}`);
+    const feedbackHtml = `
+        <strong>정답:</strong><br>
+        <pre class='code-line'>${correctCode}</pre>
     `;
 
-    const existingAnswer = document.getElementById(`answer_${index}`);
-    if (existingAnswer) {
-        // 이미 표시된 정답이 있으면 업데이트
-        existingAnswer.outerHTML = answerHtml;
-    } else {
-        // 새로 추가
-        panel.insertAdjacentHTML('beforeend', answerHtml);
-    }
+    feedbackDiv.innerHTML = feedbackHtml;
+    feedbackDiv.style.display = 'block';  // 피드백 보이기
+}
+
+// 피드백을 보여주는 함수
+function showFeedback(index) {
+    const feedbackContent = `이 코드는 정답을 제출했을 때 발생하는 피드백입니다.`; // 실제 피드백 내용을 추가하세요.
+
+    const feedbackDiv = document.getElementById(`feedback_${index}`);
+    const feedbackHtml = `
+        <strong>피드백:</strong><br>
+        ${feedbackContent}
+    `;
+
+    feedbackDiv.innerHTML = feedbackHtml;
+    feedbackDiv.style.display = 'block';  // 피드백 보이기
 }
 
 function autoResize(ta) {
@@ -145,4 +151,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-</script>
