@@ -1,3 +1,5 @@
+<?php include("template/$OJ_TEMPLATE/header.php");?>
+
 <div class="ui container" style="margin-top: 3em;">
     <div class="step-buttons">
         <button class="ui button active" data-step="1">Step 1</button>
@@ -188,3 +190,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+
+
+<?php include("template/$OJ_TEMPLATE/footer.php");?>
