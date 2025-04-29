@@ -29,7 +29,7 @@
 /* 가운데 패널: 문제 설명 및 텍스트 입력 영역 */
 .center-panel {
   flex: 0.4;
-  padding: 20px;
+  padding: 60px;
   overflow-y: auto;
 }
 
