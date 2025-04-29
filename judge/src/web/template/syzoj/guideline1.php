@@ -9,12 +9,10 @@
 <div class="main-layout" style="display: flex; justify-content: space-between; gap: 20px;">
 
     <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역 -->
-    <div class="left-panel" style="flex: 0.2; padding-right: 10px; overflow-y: auto; position: relative;">
-
-        <!-- 이미지 크기 400x400px로 설정하고, 마우스 스크롤에 따라 실시간으로 위치 변경 -->
-        <img src="/mnt/data/89e2e371-9445-4327-96ee-cc4d24d0e2b9.png" alt="Feedback" id="feedback-img" 
-        style="position: absolute; top: 20px; left: 20px; width: 400px; height: 400px; display: block;">
-
+    <div class="left-panel" style="flex: 0.2; padding-right: 10px; overflow-y: auto; position: relative; display: flex; justify-content: center; align-items: center;">
+        <!-- 왼쪽 패널에 이미지를 가운데로 배치하고 크기 키우기 -->
+        <img src="/mnt/data/4ccb164f-593f-433d-9f09-e7b8e03dabb1.png" alt="Feedback" id="feedback-img" 
+        style="position: absolute; width: 300px; height: 300px; display: block;">
     </div>
 
     <!-- 가운데 패널: 문제 설명 및 텍스트 입력 영역 -->
@@ -77,7 +75,7 @@
     </div>
 
     <!-- 오른쪽 패널: 피드백 부분 -->
-    <div class="right-panel" style="flex: 0.2; padding-left: 20px; border-left: 1px solid #ddd; height: 100vh;">
+    <div class="right-panel" style="flex: 0.3; padding-left: 20px; border-left: 1px solid #ddd; height: 100vh;">
         <h3>피드백 부분</h3>
         <div class="feedback-content" style="padding: 20px; background-color: #f9f9f9; height: calc(100% - 40px);">
             <!-- 피드백 내용이 여기에 표시됩니다. -->
