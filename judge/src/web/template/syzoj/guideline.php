@@ -13,17 +13,19 @@
 </div>
 
 <script>
+// DOM이 로드된 후 실행되는 코드
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
     const content = document.getElementById("guideline-content");
 
-    // 파일 로딩 함수
+    // 파일 로딩 함수 (step에 해당하는 guideline1.php, guideline2.php, guideline3.php를 불러옴)
     function loadStep(step) {
+        // 실제 파일을 동적으로 로드
         fetch(`guideline${step}.php`)  // guideline1.php, guideline2.php, guideline3.php를 동적으로 불러옴
             .then(res => res.text())
             .then(html => {
-                content.innerHTML = html;  // 가이드라인 내용 삽입
-                window.history.pushState(null, "", `guideline${step}.php`); 
+                content.innerHTML = html;  // 가이드라인 내용을 삽입
+                window.history.pushState(null, "", `?step=${step}`);  // URL에 step 파라미터 추가
             })
             .catch(error => {
                 content.innerHTML = "<div class='ui red message'>⚠️ 가이드라인을 불러올 수 없습니다.</div>";
