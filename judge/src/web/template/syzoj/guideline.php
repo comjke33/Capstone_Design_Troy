@@ -58,6 +58,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+//가이드라인 submitAnswer, showAnswer 불러오기
+src="/template/syzoj/js/guideline.js">
+
 </script>
 
 <?php include("template/syzoj/footer.php"); ?>
