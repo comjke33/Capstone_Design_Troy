@@ -12,7 +12,7 @@
     <div class="left-panel" style="flex: 0.2; padding-right: 10px; overflow-y: auto; position: relative;">
         <!-- 네모난 모양의 이미지를 왼쪽 패널에 추가 -->
         <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img" 
-        style="position: absolute; top: 40px; right: 40px; width: 300px; height: 300px; display: block;">
+        style="position: absolute; top: 40px; right: 40px; width: 400px; height: 400px; display: block;">
     </div>
 
     <!-- 가운데 패널: 문제 설명 및 텍스트 입력 영역 (이 부분을 수정하여 왼쪽 패널의 내용을 이동) -->
