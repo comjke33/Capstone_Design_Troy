@@ -1,4 +1,4 @@
-<?php include("template/syzoj/header.php"); ?>
+<?php include("template/$OJ_TEMPLATE/header.php"); ?>
 
 <style>
 .step-buttons {
@@ -24,7 +24,7 @@
     </div>
 
     <div id="guideline-content">
-        <!-- 🔄 여기에 동적으로 guideline1/2/3.php의 결과가 삽입됩니다 -->
+        <!-- 여기에 동적으로 guideline1/2/3.php의 결과가 삽입됩니다 -->
     </div>
 </div>
 
@@ -74,4 +74,4 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-<?php include("template/syzoj/footer.php"); ?>
+<?php include("template/$OJ_TEMPLATE/footer.php"); ?>
