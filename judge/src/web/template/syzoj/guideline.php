@@ -15,17 +15,17 @@
 <script>
 // JS 코드 직접 삽입
 
-// DOM이 로드된 후 실행되는 코드
+// JS 코드에서 fetch를 사용하여 PHP 파일로부터 데이터를 가져옵니다.
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
     const content = document.getElementById("guideline-content");
 
     // 파일 로딩 함수 (step에 해당하는 guideline1.php, guideline2.php, guideline3.php를 불러옴)
     function loadStep(step) {
-        fetch(`guideline${step}.php`)  // guideline1.php, guideline2.php, guideline3.php를 동적으로 불러옴
-            .then(res => res.text())
-            .then(html => {
-                content.innerHTML = html;  // 가이드라인 내용을 삽입
+        fetch(`guideline1.php?step=${step}`)  // PHP 파일에서 데이터를 가져옵니다.
+            .then(res => res.json())  // JSON 형식으로 응답을 받습니다.
+            .then(data => {
+                content.innerHTML = data.content;  // 반환된 content를 HTML에 삽입
                 window.history.pushState(null, "", `?step=${step}`);  // URL에 step 파라미터 추가
             })
             .catch(error => {
@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
 
 // 제출 및 답안 확인 함수
 
