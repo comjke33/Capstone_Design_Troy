@@ -12,9 +12,9 @@
     <div class="left-panel" style="flex: 0.2; padding-right: 10px; overflow-y: hidden; position: relative; display: flex; justify-content: center; align-items: center;">
         
         <!-- 슬라이더를 추가해서 이미지를 스크롤하면서 위치 조정 -->
-        <<div id="slider-container" style="position: absolute; height: 100px; width: 100px; overflow-y: auto;">
+        <div id="slider-container" style="position: absolute; height: 100%; width: 100px; overflow-y: auto;">
             <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img" 
-                style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
+                 style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
         </div>
 
     </div>
