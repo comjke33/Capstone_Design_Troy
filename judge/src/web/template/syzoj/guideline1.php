@@ -11,8 +11,8 @@
     <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역 -->
     <div class="left-panel" style="flex: 0.2; padding-right: 10px; overflow-y: hidden; position: relative; display: flex; justify-content: center; align-items: center;">
         
-        <!-- 슬라이더를 추가해서 이미지를 스크롤하면서 위치 조정 -->
-        <div id="slider-container" style="position: absolute; height: 100%; width: 100px; overflow-y: auto;">
+        <!-- 슬라이더를 추가해서 이미지를 마우스 커서의 Y 위치에 따라 위 아래로 움직이게 하기 -->
+        <div id="slider-container" style="position: absolute; height: 100%; width: 100px; overflow-y: hidden;">
             <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img" 
                  style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
         </div>
@@ -94,11 +94,17 @@
 <script>
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
 
-    // 마우스 스크롤에 따라 피드백 이미지를 실시간으로 위아래로 움직이게 함
-    document.getElementById('slider-container').addEventListener('scroll', function() {
+    // 마우스 커서에 Y 위치에 따라 이미지를 실시간으로 위아래로만 움직이게 하는 기능
+    document.getElementById('slider-container').addEventListener('mousemove', function(event) {
         const feedbackImage = document.getElementById('feedback-img');
-        const scrollPosition = this.scrollTop;
-        feedbackImage.style.top = `${scrollPosition}px`;  // 이미지의 top 값을 스크롤 위치에 맞게 변경
+        const container = document.getElementById('slider-container');
+        
+        // 이미지의 이동 범위 제한
+        const containerHeight = container.clientHeight;
+        const scrollPosition = event.clientY; // 마우스 위치
+        const imageTop = Math.min(containerHeight - feedbackImage.height, Math.max(0, scrollPosition - 20)); // 위치 제한
+
+        feedbackImage.style.top = `${imageTop}px`;  // 이미지의 Y 위치를 마우스 위치에 맞게 변경
     });
 
     function submitAnswer(index) {
