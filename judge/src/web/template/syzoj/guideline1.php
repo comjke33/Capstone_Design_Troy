@@ -10,9 +10,11 @@
 
     <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역 -->
     <div class="left-panel" style="flex: 0.2; padding-right: 10px; overflow-y: auto; position: relative;">
-        <!-- 왼쪽 패널에 이미지를 왼쪽에 붙임 -->
-        <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img" 
-        style="position: absolute; top: 20px; left: 20px; width: 100px; height: 100px; display: block;">
+
+        <!-- 이미지 크기 400x400px로 설정하고, 마우스 스크롤에 따라 실시간으로 위치 변경 -->
+        <img src="/mnt/data/89e2e371-9445-4327-96ee-cc4d24d0e2b9.png" alt="Feedback" id="feedback-img" 
+        style="position: absolute; top: 20px; left: 20px; width: 400px; height: 400px; display: block;">
+
     </div>
 
     <!-- 가운데 패널: 문제 설명 및 텍스트 입력 영역 -->
@@ -75,7 +77,7 @@
     </div>
 
     <!-- 오른쪽 패널: 피드백 부분 -->
-    <div class="right-panel" style="flex: 0.3; padding-left: 20px; border-left: 1px solid #ddd; height: 100vh;">
+    <div class="right-panel" style="flex: 0.2; padding-left: 20px; border-left: 1px solid #ddd; height: 100vh;">
         <h3>피드백 부분</h3>
         <div class="feedback-content" style="padding: 20px; background-color: #f9f9f9; height: calc(100% - 40px);">
             <!-- 피드백 내용이 여기에 표시됩니다. -->
@@ -90,12 +92,11 @@
 <script>
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
 
-    // 스크롤 이벤트에서 피드백 이미지를 따라오게 만들기
+    // 마우스 스크롤에 따라 피드백 이미지를 실시간으로 위아래로 움직이게 함
     document.querySelector('.left-panel').addEventListener('scroll', function() {
         const feedbackImage = document.getElementById('feedback-img');
-        // 스크롤할 때 이미지를 위로 따라올리기
         const scrollPosition = this.scrollTop;
-        feedbackImage.style.top = `${20 + scrollPosition}px`;
+        feedbackImage.style.top = `${20 + scrollPosition}px`;  // 이미지의 top 값을 스크롤 위치에 맞게 변경
     });
 
     function submitAnswer(index) {
