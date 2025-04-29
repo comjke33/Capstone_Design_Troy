@@ -65,7 +65,13 @@
         ?>
     </div>
 
-    <div class>
+    <!-- 오른쪽 패널: 피드백 부분 -->
+    <div class="right-panel" style="flex: 0.3; padding-left: 20px; border-left: 1px solid #ddd; height: 100vh;">
+        <h3>피드백 부분</h3>
+        <div class="feedback-content" style="padding: 20px; background-color: #f9f9f9; height: calc(100% - 40px);">
+            <!-- 피드백 내용이 여기에 표시됩니다. -->
+        </div>
+    </div>
 
 </div>
 
