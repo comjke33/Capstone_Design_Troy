@@ -6,17 +6,17 @@
 <!-- 스타일 불러오기 -->
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
-<div class="main-layout" style="display: flex; justify-content: space-between; gap: 40px;">
+<div class="main-layout" style="display: flex; justify-content: flex-start; gap: 20px;">
 
     <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역 -->
     <div class="left-panel" style="flex: 0.2; padding-right: 10px; overflow-y: auto; position: relative;">
         <!-- 네모난 모양의 이미지를 왼쪽 패널에 추가 -->
         <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img" 
-        style="position: absolute; top: 40px; right: 40px; width: 400px; height: 400px; display: block;">
+        style="position: absolute; top: 20px; right: 20px; width: 100px; height: 100px; display: block;">
     </div>
 
     <!-- 가운데 패널: 문제 설명 및 텍스트 입력 영역 (이 부분을 수정하여 왼쪽 패널의 내용을 이동) -->
-    <div class="center-panel" style="flex: 0.6; padding: 20px; overflow-y: auto;">
+    <div class="center-panel" style="flex-grow: 1; padding: 20px; overflow-y: auto;">
         <?php
             function render_tree_plain($blocks, &$answer_index = 0) {
                 $html = "";
