@@ -4,8 +4,10 @@
     <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
 </div>
 
+<!-- 스타일 불러오기 -->
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
-
+<!-- js 불러오기 -->
+<script src="/template/syzoj/js/guideline.js"></script>
 
 <div class="main-layout" style="display: flex; justify-content: space-between;">
     <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역 -->
@@ -71,4 +73,3 @@
 
 </div>
 
-<!-- <script src="/template/syzoj/js/guideline.js"></script> -->
