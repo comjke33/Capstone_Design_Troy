@@ -29,8 +29,6 @@
 
 <center>
 
-
-
 	<script src="<?php echo $OJ_CDN_URL ?>include/checksource.js"></script>
 	<form id=frmSolution action="submit.php<?php if (isset($_GET['spa']))
 		echo "?spa" ?>" method="post"
@@ -285,31 +283,6 @@ function do_submit() {
 	// 기본 모드일 경우 폼 제출
 	document.getElementById("frmSolution").submit();
 <?php } ?>
-
-var source = $("#source").val();
-
-<?php
-// 폼이 POST로 제출될 때 실행됨
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Python 스크립트 경로 (경로 구분자 '/' 사용)
-    $pythonScriptPath = realpath(__DIR__ . '/../../py/matching_hyperlink.py');
-
-    // 첫 번째 Python 스크립트 실행 (결과를 $output에 저장)
-    $output = shell_exec("python3 \"$pythonScriptPath\"");
-
-    // 출력된 결과 확인 (디버깅용)
-    echo "<pre>$output</pre>";
-
-    // 두 번째 Python 스크립트 실행 (첫 번째 결과를 인자로 전달)
-    $matchingScriptPath = realpath(__DIR__ . '/../../py/matching_hyperlink.py');
-    $matched_links = shell_exec("python3 \"$matchingScriptPath\" \"$output\"");
-
-    // 두 번째 Python 스크립트의 결과를 출력
-    echo "<pre>$matched_links</pre>";
-}
-?>
-
-
 }
 
 var handler_interval; // 제출 쿨다운 타이머
