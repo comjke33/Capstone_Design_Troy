@@ -34,12 +34,18 @@
 }
 
 /* 가운데 패널: 문제 설명 및 코드 입력 영역 */
+/* 가운데 패널: 문제 설명 및 코드 입력 영역 */
 .center-panel {
-  flex-grow: 1;  /* 가운데 패널 크기 동적 확장 */
-  padding: 20px;
-  overflow-y: auto;
-  background-color: #fff;
+  flex-grow: 1;  /* 가운데 패널이 남은 공간을 차지하도록 설정 */
+  padding: 20px;  /* 내부 여백 */
+  background-color: #fff;  /* 배경 색상 */
   box-sizing: border-box;
+  display: flex;  /* flexbox를 사용하여 내용 정렬 */
+  flex-direction: column;  /* 세로 방향으로 정렬 */
+  justify-content: flex-start;  /* 내용이 위에서부터 차례대로 정렬되도록 설정 */
+  align-items: stretch;  /* 내용들이 좌우로 균일하게 배치되도록 설정 */
+  overflow-y: auto;  /* 세로 스크롤을 활성화 */
+  height: 100%;  /* 패널의 높이를 100%로 설정 */
 }
 
 /* 코드 라인 스타일 */
@@ -52,7 +58,7 @@
   font-size: 15px;
   color: #333;
   white-space: pre-wrap;
-  width: 100%;
+  width: 100%;  /* 너비를 100%로 설정하여 균일한 배치 */
 }
 
 /* 텍스트 영역 스타일 */
@@ -65,9 +71,10 @@
   background-color: #fff;
   line-height: 1.6;
   resize: none;
-  width: 100%;
+  width: 100%;  /* 텍스트 영역 너비를 100%로 설정 */
   box-sizing: border-box;
   min-height: 40px;
+  margin-bottom: 20px;  /* 텍스트 영역 간의 간격 추가 */
 }
 
 /* 제출 및 보기 버튼 스타일 */
@@ -80,6 +87,8 @@
   cursor: pointer;
   display: inline-block;
   text-align: center;
+  width: 100%;  /* 버튼이 텍스트 영역과 같은 크기로 맞춰짐 */
+  box-sizing: border-box;
 }
 
 /* Submit Button Specific Style */
@@ -98,6 +107,7 @@
   margin-left: 6px;
   color: #2ecc71;
 }
+
 
 /* 제출된 문제 코드 스타일 */
 .submission-line {
