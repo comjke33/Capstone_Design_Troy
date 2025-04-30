@@ -48,7 +48,9 @@
                             $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
                             $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
                         }
-                        $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
+                        $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";  <!-- 피드백이 나오기 전 피드백 영역 -->
+                        $html .= "<div id='feedback_area_{$answer_index}' class='feedback-area' style='display:none; margin-top: 10px;'>";  <!-- 피드백을 textarea 밑에 위치 -->
+                        $html .= "</div>";
                         $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
                         $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
                         $html .= "</div></div>";
@@ -118,6 +120,7 @@
         if (!correctCode) return;
 
         const answerArea = document.getElementById(`answer_area_${index}`);
+        const feedbackArea = document.getElementById(`feedback_area_${index}`);
         const answerHtml = `
             <strong>정답:</strong><br>
             <pre class='code-line'>${correctCode}</pre>
@@ -125,6 +128,13 @@
 
         answerArea.innerHTML = answerHtml;
         answerArea.style.display = 'block';
+
+        // 피드백을 textarea 아래로 표시
+        feedbackArea.innerHTML = `
+            <strong>피드백:</strong><br>
+            <pre class='feedback-line'>정답을 제출하셨습니다!</pre>
+        `;
+        feedbackArea.style.display = 'block';
     }
 
     function autoResize(ta) {
