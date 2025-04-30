@@ -8,8 +8,16 @@
 
 <div class="main-layout" style="display: flex; justify-content: space-between; gap: 20px;">
 
-    <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역 -->
-    <div class="center-panel" style="flex-grow: 1; padding: 20px; overflow-y: auto; margin-top: 120px;">
+    <!-- 왼쪽 패널: 문제 설명과 텍스트 입력 영역, 이미지 위치 조정 -->
+    <div class="left-panel" style="flex: 0.6; padding-right: 10px; position: relative; display: flex; flex-direction: column; justify-content: flex-start; align-items: center;">
+
+        <!-- 이미지를 왼쪽에 고정 -->
+        <div id="slider-container" style="position: absolute; top: 10px; width: 100%; height: 100px; overflow-y: hidden; display: flex; justify-content: flex-start; align-items: center;">
+            <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
+        </div>
+
+        <!-- 콘텐츠 (문제 설명 및 코드 입력 부분) -->
+        <div class="center-panel" style="flex-grow: 1; padding: 20px; overflow-y: auto; margin-top: 120px;">
             <?php
                 function render_tree_plain($blocks, &$answer_index = 0) {
                     $html = "";
