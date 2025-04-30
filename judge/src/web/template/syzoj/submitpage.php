@@ -29,6 +29,21 @@
 
 <center>
 
+<?php
+
+	//폼이 POST로 제출될 때 실행됨
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			// secret.py 파일의 경로
+			$pythonScriptPath = 'C:\Users\sonsm\seungmin\Capstone_Design_Troy\py\secret.py';
+
+			// shell_exec()를 사용해 Python 스크립트를 실행
+			$output = shell_exec("python \"$pythonScriptPath\"");
+
+			// 실행된 결과 출력 (선택 사항)
+			echo "<pre>$output</pre>";
+	}
+	?>
+
 	<script src="<?php echo $OJ_CDN_URL ?>include/checksource.js"></script>
 	<form id=frmSolution action="submit.php<?php if (isset($_GET['spa']))
 		echo "?spa" ?>" method="post"
