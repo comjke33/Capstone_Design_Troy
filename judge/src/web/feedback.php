@@ -80,7 +80,7 @@ include("template/syzoj/feedback.php");
 ?>
 
 
-// if ($solution_id <= 0) {
+<!-- // if ($solution_id <= 0) {
 //     $feedback_error = "❌ 유효하지 않은 요청입니다.";
 // } else {
 //     $sql = "SELECT link FROM hyperlink WHERE solution_id = ?";
@@ -105,4 +105,4 @@ include("template/syzoj/feedback.php");
 //     }
 // }
 // include("template/syzoj/feedback.php");
-// ?>
+// ?> -->
