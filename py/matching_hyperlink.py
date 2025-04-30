@@ -110,5 +110,5 @@ def map_to_concepts(errors: str):
 
 def matching_hyperlink(compile_result):
 
-        links = map_to_concepts(errors)
+        links = map_to_concepts(compile_result)
         return links
