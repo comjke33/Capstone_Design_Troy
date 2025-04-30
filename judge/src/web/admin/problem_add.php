@@ -86,6 +86,16 @@ if (!empty($exemplary_code)) {
 }
 //모범코드 DB저장
 
+
+//문제태그 db저장
+$tag_ids = isset($_POST['tag_ids']) ? $_POST['tag_ids'] : [];
+foreach ($tag_ids as $tag_id) {
+    $sql = "INSERT INTO problem_tag (problem_id, tag_id) VALUES (?, ?)";
+    pdo_query($sql, $pid, intval($tag_id));
+}
+
+
+
 if(strlen($sample_output) && !strlen($sample_input)) $sample_input = "0";
 if(strlen($sample_input)) mkdata($pid, "sample.in", $sample_input, $OJ_DATA);
 if(strlen($sample_output)) mkdata($pid, "sample.out", $sample_output, $OJ_DATA);
@@ -138,3 +148,4 @@ function phpfm(pid){
   });
 }
 </script>
+

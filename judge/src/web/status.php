@@ -515,7 +515,10 @@ for ($i=0; $i<$rows_cnt; $i++) {
       if ($row['result'] != 4) {  // Accepted가 아닌 경우
           $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}&problem_id={$pid}\" class=\"ui orange mini button\">피드백 보기</a>";
       } else { // Accepted인 경우
-          $view_status[$i][10] = "<a target=\"_self\" href=\"similar_problem.php?solution_id={$sid}\" class=\"ui blue mini button\">유사문제 추천</a>";
+        $view_status[$i][10] = "
+        <button class='toggle-similar ui blue mini button' data-sid='{$sid}'>유사문제 추천</button>
+        <div id='similar-{$sid}' class='similar-box' style='display:none; margin-top:5px;'></div>
+      ";
       }
   } else {
       $view_status[$i][10] = "-"; // 대회 문제인 경우 출력 안 함
@@ -545,3 +548,33 @@ if( $need_refresh_remote && isset($OJ_REMOTE_JUDGE)&&$OJ_REMOTE_JUDGE&& (time()-
 /////////////////////////Common foot
 if(file_exists('./include/cache_end.php'))
   require_once('./include/cache_end.php');
+
+?>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll(".toggle-similar").forEach(function(button) {
+    button.addEventListener("click", function() {
+      const sid = this.dataset.sid;
+      const box = document.getElementById("similar-" + sid);
+
+      if (box.style.display === "none") {
+        box.innerHTML = "<i>🔄 유사 문제 불러오는 중...</i>";
+        fetch("/ajax/similar_problem.php?solution_id=" + sid)
+          .then(res => res.text())
+          .then(html => {
+            box.innerHTML = html;
+            box.style.display = "block";
+          })
+          .catch(() => {
+            box.innerHTML = "<span style='color:red'>❌ 유사 문제 불러오기 실패</span>";
+          });
+      } else {
+        box.style.display = "none";
+      }
+    });
+  });
+});
+</script>

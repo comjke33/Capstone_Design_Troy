@@ -15,7 +15,9 @@ algorithm_tags = {
     "순차 탐색",
     "좌표 이동",
     "행렬 연산",
-    "문자열 조작"
+    "문자열 조작",
+    "피보나치 수열",
+    "수학 관련 문제"
 }
 
 # ✅ 문제 데이터 로드
@@ -36,10 +38,10 @@ def weighted_similarity(tags1: List[str], tags2: List[str]) -> float:
 
     # 가중치 포함한 교집합 및 합집합 계산
     weighted_intersection = sum(
-        2 if tag in algorithm_tags else 1 for tag in set1 & set2
+        3 if tag in algorithm_tags else 1 for tag in set1 & set2
     )
     weighted_union = sum(
-        2 if tag in algorithm_tags else 1 for tag in set1 | set2
+        3 if tag in algorithm_tags else 1 for tag in set1 | set2
     )
 
     base_score = weighted_intersection / weighted_union
@@ -52,12 +54,12 @@ def weighted_similarity(tags1: List[str], tags2: List[str]) -> float:
     return base_score + bonus
 
 # ✅ 추천 함수
-def recommend(tags: List[str], top_k: int = 3) -> List[Tuple[str, str, float, str, List[str]]]:
+def recommend(tags: List[str], top_k: int = 3, threshold: float = 0.3) -> List[Tuple[str, str, float, str, List[str]]]:
     results = []
     for problem in problems:
         problem_tags = problem.get("tags", [])
         score = weighted_similarity(tags, problem_tags)
-        if score > 0:
+        if score > threshold:
             results.append((
                 problem["problem_id"],
                 problem["title"],
@@ -68,14 +70,10 @@ def recommend(tags: List[str], top_k: int = 3) -> List[Tuple[str, str, float, st
     results.sort(key=lambda x: x[2], reverse=True)
     return results[:top_k]
 
-# 🔖 태그 출력
-print("🔖 현재 문제의 태그")
-for tag in tags_input:
-    print(f"- {tag}")
 
 # 🔍 추천 결과 출력
-print("\n🔍 유사한 Codeup 문제 추천 결과")
 recommendations = recommend(tags_input)
 
 for pid, title, score, link, taglist in recommendations:
     print(f"{pid}||{title}||{score:.2f}||{link}||{','.join(taglist)}")
+

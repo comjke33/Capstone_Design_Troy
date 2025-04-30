@@ -1,966 +1,2194 @@
 [
   {
-    "title": "사각형 넓이 구하기/area",
-    "link": "http://59.23.132.191/30stair/area/area.php?pname=area",
+    "problem_id": "1010",
+    "title": "[기초-입출력] 정수 1개 입력받아 그대로 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1010",
     "tags": [
       "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "area"
+      "기본 함수",
+      "형 변환"
+    ]
   },
   {
-    "title": "분을 초로 변환/m2s",
-    "link": "http://59.23.132.191/30stair/m2s/m2s.php?pname=m2s",
+    "problem_id": "1011",
+    "title": "[기초-입출력] 문자 1개 입력받아 그대로 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1011",
     "tags": [
       "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "m2s"
+      "형 변환"
+    ]
   },
   {
-    "title": "두수의 교환/swap",
-    "link": "http://59.23.132.191/30stair/swap/swap.php?pname=swap",
+    "problem_id": "1012",
+    "title": "[기초-입출력] 실수 1개 입력받아 그대로 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1012",
     "tags": [
       "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "swap"
+      "형 변환"
+    ]
   },
   {
-    "title": "기본 연산/op",
-    "link": "http://59.23.132.191/30stair/op/op.php?pname=op",
+    "problem_id": "1013",
+    "title": "[기초-입출력] 정수 2개 입력받아 그대로 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1013",
     "tags": [
       "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "op"
+      "형 변환"
+    ]
   },
   {
-    "title": "삼각형 넓이 구하기/triangle",
-    "link": "http://59.23.132.191/30stair/triangle/triangle.php?pname=triangle",
+    "problem_id": "1014",
+    "title": "[기초-입출력] 문자 2개 입력받아 순서 바꿔 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1014",
     "tags": [
       "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "triangle"
+      "형 변환"
+    ]
   },
   {
-    "title": "네 수의 평균/average",
-    "link": "http://59.23.132.191/30stair/average/average.php?pname=average",
+    "problem_id": "1015",
+    "title": "[기초-입출력] 실수 입력받아 둘째 자리까지 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1015",
     "tags": [
       "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "average"
+      "형 변환"
+    ]
   },
   {
-    "title": "섭씨온도를 화씨온도로 변환/CtoF",
-    "link": "http://59.23.132.191/30stair/CtoF/CtoF.php?pname=CtoF",
+    "problem_id": "1017",
+    "title": "[기초-입출력] 정수 1개 입력받아 3번 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1017",
     "tags": [
       "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "CtoF"
+      "형 변환"
+    ]
   },
   {
-    "title": "몫과 나머지 구하기/q_r",
-    "link": "http://59.23.132.191/30stair/q_r/q_r.php?pname=q_r",
+    "problem_id": "1018",
+    "title": "[기초-입출력] 시간 입력받아 그대로 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1018",
     "tags": [
       "입출력",
-      "배수와 나머지"
-    ],
-    "problem_id": "q_r"
+      "기본 함수"
+    ]
   },
   {
-    "title": "거스름 돈/change",
-    "link": "http://59.23.132.191/30stair/change/change.php?pname=change",
+    "problem_id": "1019",
+    "title": "[기초-입출력] 연월일 입력받아 그대로 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1019",
     "tags": [
       "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "change"
+      "형 변환"
+    ]
   },
   {
-    "title": "초 변환/sec",
-    "link": "http://59.23.132.191/30stair/sec/sec.php?pname=sec",
+    "problem_id": "1020",
+    "title": "[기초-입출력] 주민번호 입력받아 형태 바꿔 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1020",
     "tags": [
       "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "sec"
-  },
-  {
-    "title": "세자리수 곱셈/three",
-    "link": "http://59.23.132.191/30stair/three/three.php?pname=three",
-    "tags": [
-      "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "three"
-  },
-  {
-    "title": "인공지능 시계/koi_watch",
-    "link": "http://59.23.132.191/30stair/koi_watch/koi_watch.php?pname=koi_watch",
-    "tags": [
-      "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "koi_watch"
-  },
-  {
-    "title": "빈병/empty_bottle",
-    "link": "http://59.23.132.191/30stair/empty_bottle/empty_bottle.php?pname=empty_bottle",
-    "tags": [
-      "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "empty_bottle"
-  },
-  {
-    "title": "손해 본 금액/business",
-    "link": "http://59.23.132.191/30stair/business/business.php?pname=business",
-    "tags": [
-      "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "business"
-  },
-  {
-    "title": "퓨 즈/fuse",
-    "link": "http://59.23.132.191/30stair/fuse/fuse.php?pname=fuse",
-    "tags": [
-      "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "fuse"
-  },
-  {
-    "title": "블럭 색칠하기/paintblock",
-    "link": "http://59.23.132.191/30stair/paintblock/paintblock.php?pname=paintblock",
-    "tags": [
-      "입출력",
-      "행렬 연산"
-    ],
-    "problem_id": "paintblock"
-  },
-  {
-    "title": "r2/r2",
-    "link": "http://59.23.132.191/30stair/r2/r2.php?pname=r2",
-    "tags": [
-      "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "r2"
-  },
-  {
-    "title": "논문인용/coci_faktor",
-    "link": "http://59.23.132.191/30stair/coci_faktor/coci_faktor.php?pname=coci_faktor",
-    "tags": [
-      "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "coci_faktor"
-  },
-  {
-    "title": "사탕/coci_slatkisi",
-    "link": "http://59.23.132.191/30stair/coci_slatkisi/coci_slatkisi.php?pname=coci_slatkisi",
-    "tags": [
-      "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "coci_slatkisi"
-  },
-  {
-    "title": "버터 먹기/butter",
-    "link": "http://59.23.132.191/30stair/butter/butter.php?pname=butter",
-    "tags": [
-      "입출력",
-      "사칙연산"
-    ],
-    "problem_id": "butter"
-  },
-  {
-    "title": "대소 판별하기/compare",
-    "link": "http://59.23.132.191/30stair/compare/compare.php?pname=compare",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "compare"
-  },
-  {
-    "title": "분수 크기 비교/comparefrac",
-    "link": "http://59.23.132.191/30stair/comparefrac/comparefrac.php?pname=comparefrac",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "comparefrac"
-  },
-  {
-    "title": "음표/coci_note",
-    "link": "http://59.23.132.191/30stair/coci_note/coci_note.php?pname=coci_note",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "coci_note"
-  },
-  {
-    "title": "수영장 가는 날/swimming",
-    "link": "http://59.23.132.191/30stair/swimming/swimming.php?pname=swimming",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "swimming"
-  },
-  {
-    "title": "해킹 회사/hack",
-    "link": "http://59.23.132.191/30stair/hack/hack.php?pname=hack",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "hack"
-  },
-  {
-    "title": "지하 차도/truck",
-    "link": "http://59.23.132.191/30stair/truck/truck.php?pname=truck",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "truck"
-  },
-  {
-    "title": "트로이 목마/troy",
-    "link": "http://59.23.132.191/30stair/troy/troy.php?pname=troy",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "troy"
-  },
-  {
-    "title": "약수 판별/div_mul",
-    "link": "http://59.23.132.191/30stair/div_mul/div_mul.php?pname=div_mul",
-    "tags": [
-      "입출력",
-      "if문",
-      "약수 구하기"
-    ],
-    "problem_id": "div_mul"
-  },
-  {
-    "title": "45 분전/coci_spa",
-    "link": "http://59.23.132.191/30stair/coci_spa/coci_spa.php?pname=coci_spa",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "coci_spa"
-  },
-  {
-    "title": "사주 팔자/saju",
-    "link": "http://59.23.132.191/30stair/saju/saju.php?pname=saju",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "saju"
-  },
-  {
-    "title": "윤 년/leap_year",
-    "link": "http://59.23.132.191/30stair/leap_year/leap_year.php?pname=leap_year",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "leap_year"
-  },
-  {
-    "title": "ATM 기/ATM",
-    "link": "http://59.23.132.191/30stair/ATM/ATM.php?pname=ATM",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "ATM"
-  },
-  {
-    "title": "칼로리 계산하기/calorie",
-    "link": "http://59.23.132.191/30stair/calorie/calorie.php?pname=calorie",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "calorie"
-  },
-  {
-    "title": "요정/fairy",
-    "link": "http://59.23.132.191/30stair/fairy/fairy.php?pname=fairy",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "fairy"
-  },
-  {
-    "title": "펀치게임/punch_game",
-    "link": "http://59.23.132.191/30stair/punch_game/punch_game.php?pname=punch_game",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "punch_game"
-  },
-  {
-    "title": "짝 홀수성/even_odd",
-    "link": "http://59.23.132.191/30stair/even_odd/even_odd.php?pname=even_odd",
-    "tags": [
-      "입출력",
-      "if문",
-      "배수와 나머지"
-    ],
-    "problem_id": "even_odd"
-  },
-  {
-    "title": "중위수/med",
-    "link": "http://59.23.132.191/30stair/med/med.php?pname=med",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "med"
-  },
-  {
-    "title": "팀 구성/fill",
-    "link": "http://59.23.132.191/30stair/fill/fill.php?pname=fill",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "fill"
-  },
-  {
-    "title": "What is n, Daddy?/whatisn",
-    "link": "http://59.23.132.191/30stair/whatisn/whatisn.php?pname=whatisn",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "whatisn"
-  },
-  {
-    "title": "캥거루/kangaroo",
-    "link": "http://59.23.132.191/30stair/kangaroo/kangaroo.php?pname=kangaroo",
-    "tags": [
-      "입출력",
-      "if문"
-    ],
-    "problem_id": "kangaroo"
-  },
-  {
-    "title": "별 출력/star",
-    "link": "http://59.23.132.191/30stair/star/star.php?pname=star",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "star"
-  },
-  {
-    "title": "순차 출력/rep",
-    "link": "http://59.23.132.191/30stair/rep/rep.php?pname=rep",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "rep"
-  },
-  {
-    "title": "두 수 사이수 출력/seq",
-    "link": "http://59.23.132.191/30stair/seq/seq.php?pname=seq",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "seq"
-  },
-  {
-    "title": "구구단/gugudan",
-    "link": "http://59.23.132.191/30stair/gugudan/gugudan.php?pname=gugudan",
-    "tags": [
-      "반복문",
-      "사칙연산"
-    ],
-    "problem_id": "gugudan"
-  },
-  {
-    "title": "7개 합/sum",
-    "link": "http://59.23.132.191/30stair/sum/sum.php?pname=sum",
-    "tags": [
-      "반복문",
-      "사칙연산"
-    ],
-    "problem_id": "sum"
-  },
-  {
-    "title": "순차합/seq2",
-    "link": "http://59.23.132.191/30stair/seq2/seq2.php?pname=seq2",
-    "tags": [
-      "반복문",
-      "사칙연산"
-    ],
-    "problem_id": "seq2"
-  },
-  {
-    "title": "끼리끼리 합/adigit",
-    "link": "http://59.23.132.191/30stair/adigit/adigit.php?pname=adigit",
-    "tags": [
-      "반복문",
-      "사칙연산"
-    ],
-    "problem_id": "adigit"
-  },
-  {
-    "title": "순차 합 II/1ton1",
-    "link": "http://59.23.132.191/30stair/1ton1/1ton1.php?pname=1ton1",
-    "tags": [
-      "반복문",
-      "사칙연산"
-    ],
-    "problem_id": "1ton1"
-  },
-  {
-    "title": "최대 값/max",
-    "link": "http://59.23.132.191/30stair/max/max.php?pname=max",
-    "tags": [
-      "반복문",
-      "최대값/최소값 찾기"
-    ],
-    "problem_id": "max"
-  },
-  {
-    "title": "최소 값/min",
-    "link": "http://59.23.132.191/30stair/min/min.php?pname=min",
-    "tags": [
-      "반복문",
-      "최대값/최소값 찾기"
-    ],
-    "problem_id": "min"
-  },
-  {
-    "title": "최대,최소값 출력/mM",
-    "link": "http://59.23.132.191/30stair/mM/mM.php?pname=mM",
-    "tags": [
-      "반복문",
-      "최대값/최소값 찾기"
-    ],
-    "problem_id": "mM"
-  },
-  {
-    "title": "가장 부지런한 농부/sb",
-    "link": "http://59.23.132.191/30stair/sb/sb.php?pname=sb",
-    "tags": [
-      "반복문",
-      "사칙연산"
-    ],
-    "problem_id": "sb"
-  },
-  {
-    "title": "3n+1/3np1",
-    "link": "http://59.23.132.191/30stair/3np1/3np1.php?pname=3np1",
-    "tags": [
-      "반복문",
-      "배수와 나머지"
-    ],
-    "problem_id": "3np1"
-  },
-  {
-    "title": "홀 수/odd",
-    "link": "http://59.23.132.191/30stair/odd/odd.php?pname=odd",
-    "tags": [
-      "반복문",
-      "배수와 나머지"
-    ],
-    "problem_id": "odd"
-  },
-  {
-    "title": "순차 합/1ton",
-    "link": "http://59.23.132.191/30stair/1ton/1ton.php?pname=1ton",
-    "tags": [
-      "반복문",
-      "사칙연산"
-    ],
-    "problem_id": "1ton"
-  },
-  {
-    "title": "N 구하기/Nsum",
-    "link": "http://59.23.132.191/30stair/Nsum/Nsum.php?pname=Nsum",
-    "tags": [
-      "반복문",
-      "사칙연산"
-    ],
-    "problem_id": "Nsum"
-  },
-  {
-    "title": "팩토리얼 구하기/fact",
-    "link": "http://59.23.132.191/30stair/fact/fact.php?pname=fact",
-    "tags": [
-      "반복문",
-      "사칙연산"
-    ],
-    "problem_id": "fact"
-  },
-  {
-    "title": "약수 출력/factor",
-    "link": "http://59.23.132.191/30stair/factor/factor.php?pname=factor",
-    "tags": [
-      "반복문",
-      "약수 구하기"
-    ],
-    "problem_id": "factor"
-  },
-  {
-    "title": "직각 삼각형 (별)/tri1",
-    "link": "http://59.23.132.191/30stair/tri1/tri1.php?pname=tri1",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "tri1"
-  },
-  {
-    "title": "역 직각 삼각형I (별)/tri2",
-    "link": "http://59.23.132.191/30stair/tri2/tri2.php?pname=tri2",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "tri2"
-  },
-  {
-    "title": "역 직각 삼각형II (별)/tri3",
-    "link": "http://59.23.132.191/30stair/tri3/tri3.php?pname=tri3",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "tri3"
-  },
-  {
-    "title": "E 출력(별)/printe",
-    "link": "http://59.23.132.191/30stair/printe/printe.php?pname=printe",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "printe"
-  },
-  {
-    "title": "거울에 비친 E(별)/etnirp",
-    "link": "http://59.23.132.191/30stair/etnirp/etnirp.php?pname=etnirp",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "etnirp"
-  },
-  {
-    "title": "네모(별)/nemo",
-    "link": "http://59.23.132.191/30stair/nemo/nemo.php?pname=nemo",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "nemo"
-  },
-  {
-    "title": "F 출력(별)/printF",
-    "link": "http://59.23.132.191/30stair/printF/printF.php?pname=printF",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "printF"
-  },
-  {
-    "title": "T 출력(별)/printT",
-    "link": "http://59.23.132.191/30stair/printT/printT.php?pname=printT",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "printT"
-  },
-  {
-    "title": "H 출력(별)/printH",
-    "link": "http://59.23.132.191/30stair/printH/printH.php?pname=printH",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "printH"
-  },
-  {
-    "title": "쾌걸 조로 (별)/zorro",
-    "link": "http://59.23.132.191/30stair/zorro/zorro.php?pname=zorro",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "zorro"
-  },
-  {
-    "title": "삼각형 (별)/tri4",
-    "link": "http://59.23.132.191/30stair/tri4/tri4.php?pname=tri4",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "tri4"
-  },
-  {
-    "title": "다이아몬드 (별)/diamond",
-    "link": "http://59.23.132.191/30stair/diamond/diamond.php?pname=diamond",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "diamond"
-  },
-  {
-    "title": "모래 시계 (별)/sclock",
-    "link": "http://59.23.132.191/30stair/sclock/sclock.php?pname=sclock",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "sclock"
-  },
-  {
-    "title": "오실로스코프(별)/oscilloscope",
-    "link": "http://59.23.132.191/30stair/oscilloscope/oscilloscope.php?pname=oscilloscope",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "oscilloscope"
-  },
-  {
-    "title": "V 출력( 별 )/bui",
-    "link": "http://59.23.132.191/30stair/bui/bui.php?pname=bui",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "bui"
-  },
-  {
-    "title": "54321/54321",
-    "link": "http://59.23.132.191/30stair/54321/54321.php?pname=54321",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "54321"
-  },
-  {
-    "title": "b54321/b54321",
-    "link": "http://59.23.132.191/30stair/b54321/b54321.php?pname=b54321",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "b54321"
-  },
-  {
-    "title": "숫자 다이아몬드/ddiamond",
-    "link": "http://59.23.132.191/30stair/ddiamond/ddiamond.php?pname=ddiamond",
-    "tags": [
-      "반복문"
-    ],
-    "problem_id": "ddiamond"
-  },
-  {
-    "title": "멀티 탭/electrical_outlets",
-    "link": "http://59.23.132.191/30stair/electrical_outlets/electrical_outlets.php?pname=electrical_outlets",
-    "tags": [
-      "사칙연산"
-    ],
-    "problem_id": "electrical_outlets"
-  },
-  {
-    "title": "설탕 공장/sugar",
-    "link": "http://59.23.132.191/30stair/sugar/sugar.php?pname=sugar",
-    "tags": [
-      "사칙연산"
-    ],
-    "problem_id": "sugar"
-  },
-  {
-    "title": "주사위 던지기 I/dice",
-    "link": "http://59.23.132.191/30stair/dice/dice.php?pname=dice",
-    "tags": [
-      "반복문",
-      "수학 관련 문제"
-    ],
-    "problem_id": "dice"
-  },
-  {
-    "title": "주사위 던지기 II/dice1",
-    "link": "http://59.23.132.191/30stair/dice1/dice1.php?pname=dice1",
-    "tags": [
-      "반복문",
-      "수학 관련 문제"
-    ],
-    "problem_id": "dice1"
-  },
-  {
-    "title": "어떤 수/somenum",
-    "link": "http://59.23.132.191/30stair/somenum/somenum.php?pname=somenum",
-    "tags": [
-      "수학 관련 문제"
-    ],
-    "problem_id": "somenum"
-  },
-  {
-    "title": "n 의 배수/multofn",
-    "link": "http://59.23.132.191/30stair/multofn/multofn.php?pname=multofn",
-    "tags": [
-      "배수와 나머지"
-    ],
-    "problem_id": "multofn"
-  },
-  {
-    "title": "복면산/mask",
-    "link": "http://59.23.132.191/30stair/mask/mask.php?pname=mask",
-    "tags": [
       "문자열 처리"
-    ],
-    "problem_id": "mask"
+    ]
   },
   {
-    "title": "암스트롱 수/amstrong",
-    "link": "http://59.23.132.191/30stair/amstrong/amstrong.php?pname=amstrong",
+    "problem_id": "1021",
+    "title": "[기초-입출력] 단어 1개 입력받아 그대로 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1021",
     "tags": [
-      "수학 관련 문제"
-    ],
-    "problem_id": "amstrong"
+      "입출력",
+      "문자열 처리"
+    ]
   },
   {
-    "title": "거듭제곱 테이블/table",
-    "link": "http://59.23.132.191/30stair/table/table.php?pname=table",
+    "problem_id": "1022",
+    "title": "[기초-입출력] 문장 1개 입력받아 그대로 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1022",
     "tags": [
+      "입출력",
+      "문자열 처리",
+      "문자열 조작"
+    ]
+  },
+  {
+    "problem_id": "1023",
+    "title": "[기초-입출력] 실수 1개 입력받아 부분별로 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1023",
+    "tags": [
+      "입출력",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1024",
+    "title": "[기초-입출력] 단어 1개 입력받아 나누어 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1024",
+    "tags": [
+      "입출력",
+      "문자열 처리",
+      "문자열 조작",
       "반복문",
-      "수학 관련 문제"
-    ],
-    "problem_id": "table"
+      "1차원 배열"
+    ]
   },
   {
-    "title": "3*n + 1 의 최대 길이/3nplusone",
-    "link": "http://59.23.132.191/30stair/3nplusone/3nplusone.php?pname=3nplusone",
+    "problem_id": "1025",
+    "title": "[기초-입출력] 정수 1개 입력받아 나누어 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1025",
     "tags": [
-      "반복문"
-    ],
-    "problem_id": "3nplusone"
+      "입출력",
+      "형 변환"
+    ]
   },
   {
-    "title": "우울한 진진/jinjin",
-    "link": "http://59.23.132.191/30stair/jinjin/jinjin.php?pname=jinjin",
+    "problem_id": "1026",
+    "title": "[기초-입출력] 시분초 입력받아 분만 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1026",
     "tags": [
-      "반복문"
-    ],
-    "problem_id": "jinjin"
+      "입출력",
+      "형 변환"
+    ]
   },
   {
-    "title": "이벤트/ncpc_event",
-    "link": "http://59.23.132.191/30stair/ncpc_event/ncpc_event.php?pname=ncpc_event",
+    "problem_id": "1027",
+    "title": "[기초-입출력] 년월일 입력 받아 형식 바꿔 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1027",
     "tags": [
-      "반복문"
-    ],
-    "problem_id": "ncpc_event"
+      "입출력",
+      "형 변환"
+    ]
   },
   {
-    "title": "소인수의 갯수/nOf",
-    "link": "http://59.23.132.191/30stair/nOf/nOf.php?pname=nOf",
+    "problem_id": "1028",
+    "title": "[기초-데이터형] 정수 1개 입력받아 그대로 출력하기2(설명)",
+    "link": "https://codeup.kr/problem.php?id=1028",
     "tags": [
-      "약수 구하기",
-      "소수 판별",
-      "반복문"
-    ],
-    "problem_id": "nOf"
+      "입출력",
+      "형 변환"
+    ]
   },
   {
-    "title": "소인수 분해1/pfactor",
-    "link": "http://59.23.132.191/30stair/pfactor/pfactor.php?pname=pfactor",
+    "problem_id": "1029",
+    "title": "[기초-데이터형] 실수 1개 입력받아 그대로 출력하기2(설명)",
+    "link": "https://codeup.kr/problem.php?id=1029",
     "tags": [
-      "약수 구하기",
-      "소수 판별",
-      "반복문"
-    ],
-    "problem_id": "pfactor"
+      "입출력",
+      "형 변환"
+    ]
   },
   {
-    "title": "소인수 분해/decomp",
-    "link": "http://59.23.132.191/30stair/decomp/decomp.php?pname=decomp",
+    "problem_id": "1030",
+    "title": "[기초-데이터형] 정수 1개 입력받아 그대로 출력하기3(설명)",
+    "link": "https://codeup.kr/problem.php?id=1030",
     "tags": [
-      "약수 구하기",
-      "소수 판별",
-      "반복문"
-    ],
-    "problem_id": "decomp"
+      "입출력",
+      "형 변환"
+    ]
   },
   {
-    "title": "반대로 출력/rprint",
-    "link": "http://59.23.132.191/30stair/rprint/rprint.php?pname=rprint",
+    "problem_id": "1031",
+    "title": "[기초-출력변환] 10진 정수 1개 입력받아 8진수로 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1031",
     "tags": [
-      "배열",
-      "배열 뒤집기"
-    ],
-    "problem_id": "rprint"
+      "입출력",
+      "형 변환"
+    ]
   },
   {
-    "title": "genes/genes",
-    "link": "http://59.23.132.191/30stair/genes/genes.php?pname=genes",
+    "problem_id": "1032",
+    "title": "[기초-출력변환] 10진 정수 입력받아 16진수로 출력하기1(설명)",
+    "link": "https://codeup.kr/problem.php?id=1032",
     "tags": [
-      "배열",
+      "입출력",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1033",
+    "title": "[기초-출력변환] 10진 정수 입력받아 16진수로 출력하기2(설명)",
+    "link": "https://codeup.kr/problem.php?id=1033",
+    "tags": [
+      "입출력",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1034",
+    "title": "[기초-출력변환] 8진 정수 1개 입력받아 10진수로 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1034",
+    "tags": [
+      "입출력",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1035",
+    "title": "[기초-출력변환] 16진 정수 1개 입력받아 8진수로 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1035",
+    "tags": [
+      "입출력",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1036",
+    "title": "[기초-출력변환] 영문자 1개 입력받아 10진수로 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1036",
+    "tags": [
+      "입출력",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1037",
+    "title": "[기초-출력변환] 정수 입력받아 아스키 문자로 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1037",
+    "tags": [
+      "입출력",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1038",
+    "title": "[기초-산술연산] 정수 2개 입력받아 합 출력하기1(설명)",
+    "link": "https://codeup.kr/problem.php?id=1038",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1039",
+    "title": "[기초-산술연산] 정수 2개 입력받아 합 출력하기2(설명)",
+    "link": "https://codeup.kr/problem.php?id=1039",
+    "tags": [
+      "입출력",
+      "사칙연산",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1040",
+    "title": "[기초-산술연산] 정수 1개 입력받아 부호 바꿔 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1040",
+    "tags": [
+      "입출력",
+      "사칙연산",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1041",
+    "title": "[기초-산술연산] 문자 1개 입력받아 다음 문자 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1041",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1042",
+    "title": "[기초-산술연산] 정수 2개 입력받아 나눈 몫 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1042",
+    "tags": [
+      "입출력",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1043",
+    "title": "[기초-산술연산] 정수 2개 입력받아 나눈 나머지 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1043",
+    "tags": [
+      "입출력",
+      "배수와 나머지"
+    ]
+  },
+  {
+    "problem_id": "1044",
+    "title": "[기초-산술연산] 정수 1개 입력받아 1 더해 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1044",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1045",
+    "title": "[기초-산술연산] 정수 2개 입력받아 자동 계산하기",
+    "link": "https://codeup.kr/problem.php?id=1045",
+    "tags": [
+      "입출력",
+      "배수와 나머지",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1046",
+    "title": "[기초-산술연산] 정수 3개 입력받아 합과 평균 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1046",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1047",
+    "title": "[기초-비트시프트연산] 정수 1개 입력받아 2배 곱해 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1047",
+    "tags": [
+      "입출력",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1048",
+    "title": "[기초-비트시프트연산] 한 번에 2의 거듭제곱 배로 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1048",
+    "tags": [
+      "입출력",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1049",
+    "title": "[기초-비교연산] 두 정수 입력받아 비교하기1(설명)",
+    "link": "https://codeup.kr/problem.php?id=1049",
+    "tags": [
+      "입출력",
+      "사칙연산",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1050",
+    "title": "[기초-비교연산] 두 정수 입력받아 비교하기2(설명)",
+    "link": "https://codeup.kr/problem.php?id=1050",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1051",
+    "title": "[기초-비교연산] 두 정수 입력받아 비교하기3(설명)",
+    "link": "https://codeup.kr/problem.php?id=1051",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1052",
+    "title": "[기초-비교연산] 두 정수 입력받아 비교하기4(설명)",
+    "link": "https://codeup.kr/problem.php?id=1052",
+    "tags": [
+      "입출력",
+      "사칙연산",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1053",
+    "title": "[기초-논리연산] 참 거짓 바꾸기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1053",
+    "tags": [
+      "입출력",
+      "if문",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1054",
+    "title": "[기초-논리연산] 둘 다 참일 경우만 참 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1054",
+    "tags": [
+      "입출력",
+      "if문",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1055",
+    "title": "[기초-논리연산] 하나라도 참이면 참 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1055",
+    "tags": [
+      "입출력",
+      "if문",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1056",
+    "title": "[기초-논리연산] 참/거짓이 서로 다를 때에만 참 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1056",
+    "tags": [
+      "입출력",
+      "중복 제거",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1057",
+    "title": "[기초-논리연산] 참/거짓이 서로 같을 때에만 참 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1057",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1058",
+    "title": "[기초-논리연산] 둘 다 거짓일 경우만 참 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1058",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1059",
+    "title": "[기초-비트단위논리연산] 비트단위로 NOT 하여 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1059",
+    "tags": [
+      "입출력",
+      "if문",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1060",
+    "title": "[기초-비트단위논리연산] 비트단위로 AND 하여 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1060",
+    "tags": [
+      "입출력",
+      "if문",
+      "비트연산"
+    ]
+  },
+  {
+    "problem_id": "1061",
+    "title": "[기초-비트단위논리연산] 비트단위로 OR 하여 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1061",
+    "tags": [
+      "입출력",
+      "if문",
+      "비트연산"
+    ]
+  },
+  {
+    "problem_id": "1062",
+    "title": "[기초-비트단위논리연산] 비트단위로 XOR 하여 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1062",
+    "tags": [
+      "입출력",
+      "if문",
+      "비트연산"
+    ]
+  },
+  {
+    "problem_id": "1063",
+    "title": "[기초-삼항연산] 두 정수 입력받아 큰 수 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1063",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1064",
+    "title": "[기초-삼항연산] 정수 3개 입력받아 가장 작은 수 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1064",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1085",
+    "title": "[기초-종합] 소리 파일 저장용량 계산하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1085",
+    "tags": [
+      "사칙연산",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1086",
+    "title": "[기초-종합] 그림 파일 저장용량 계산하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1086",
+    "tags": [
+      "사칙연산",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1110",
+    "title": "정수 그대로 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1110",
+    "tags": [
+      "입출력"
+    ]
+  },
+  {
+    "problem_id": "1111",
+    "title": "%출력",
+    "link": "https://codeup.kr/problem.php?id=1111",
+    "tags": [
+      "입출력"
+    ]
+  },
+  {
+    "problem_id": "1112",
+    "title": "두 정수 출력",
+    "link": "https://codeup.kr/problem.php?id=1112",
+    "tags": [
+      "입출력"
+    ]
+  },
+  {
+    "problem_id": "1113",
+    "title": "바꿔서 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1113",
+    "tags": [
+      "입출력"
+    ]
+  },
+  {
+    "problem_id": "1114",
+    "title": "두 정수의 덧셈",
+    "link": "https://codeup.kr/problem.php?id=1114",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1115",
+    "title": "두 정수의 덧셈 (64비트)",
+    "link": "https://codeup.kr/problem.php?id=1115",
+    "tags": [
+      "입출력",
+      "사칙연산",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1116",
+    "title": "사칙연산 계산기",
+    "link": "https://codeup.kr/problem.php?id=1116",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1117",
+    "title": "두 실수의 곱",
+    "link": "https://codeup.kr/problem.php?id=1117",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1118",
+    "title": "삼각형의 넓이 구하기",
+    "link": "https://codeup.kr/problem.php?id=1118",
+    "tags": [
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1119",
+    "title": "일을 시간으로 변환",
+    "link": "https://codeup.kr/problem.php?id=1119",
+    "tags": [
+      "입출력"
+    ]
+  },
+  {
+    "problem_id": "1120",
+    "title": "세 수의 평균",
+    "link": "https://codeup.kr/problem.php?id=1120",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1121",
+    "title": "나머지 구하기",
+    "link": "https://codeup.kr/problem.php?id=1121",
+    "tags": [
+      "입출력",
+      "배수와 나머지"
+    ]
+  },
+  {
+    "problem_id": "1122",
+    "title": "초를 분/초로 변환",
+    "link": "https://codeup.kr/problem.php?id=1122",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1123",
+    "title": "섭씨 온도를 화씨 온도로 변환",
+    "link": "https://codeup.kr/problem.php?id=1123",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1125",
+    "title": "8진수 16진수 변환",
+    "link": "https://codeup.kr/problem.php?id=1125",
+    "tags": [
+      "입출력",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1131",
+    "title": "문자 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1131",
+    "tags": [
+      "입출력"
+    ]
+  },
+  {
+    "problem_id": "1132",
+    "title": "문자열 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1132",
+    "tags": [
+      "입출력",
+      "문자열 처리",
+      "문자열 조작"
+    ]
+  },
+  {
+    "problem_id": "1133",
+    "title": "공백이 있는 문자열 입출력",
+    "link": "https://codeup.kr/problem.php?id=1133",
+    "tags": [
+      "입출력",
+      "문자열 처리",
+      "문자열 조작"
+    ]
+  },
+  {
+    "problem_id": "1135",
+    "title": "관계연산자 1",
+    "link": "https://codeup.kr/problem.php?id=1135",
+    "tags": [
+      "입출력",
+      "사칙연산",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1136",
+    "title": "관계연산자 2",
+    "link": "https://codeup.kr/problem.php?id=1136",
+    "tags": [
+      "입출력",
+      "사칙연산",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1137",
+    "title": "관계연산자 3",
+    "link": "https://codeup.kr/problem.php?id=1137",
+    "tags": [
+      "입출력",
+      "사칙연산",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1138",
+    "title": "논리 연산자(NOT)",
+    "link": "https://codeup.kr/problem.php?id=1138",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1139",
+    "title": "논리 연산자(AND)",
+    "link": "https://codeup.kr/problem.php?id=1139",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1140",
+    "title": "논리 연산자(OR)",
+    "link": "https://codeup.kr/problem.php?id=1140",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1143",
+    "title": "비트 연산자(AND)",
+    "link": "https://codeup.kr/problem.php?id=1143",
+    "tags": [
+      "입출력",
+      "형 변환",
+      "비트연산"
+    ]
+  },
+  {
+    "problem_id": "1144",
+    "title": "비트 연산자(OR)",
+    "link": "https://codeup.kr/problem.php?id=1144",
+    "tags": [
+      "입출력",
+      "형 변환",
+      "비트연산"
+    ]
+  },
+  {
+    "problem_id": "1147",
+    "title": "비트 연산자(<<)",
+    "link": "https://codeup.kr/problem.php?id=1147",
+    "tags": [
+      "입출력"
+    ]
+  },
+  {
+    "problem_id": "1148",
+    "title": "비트 연산자(>>)",
+    "link": "https://codeup.kr/problem.php?id=1148",
+    "tags": [
+      "입출력"
+    ]
+  },
+  {
+    "problem_id": "1149",
+    "title": "두 수 중 큰 수",
+    "link": "https://codeup.kr/problem.php?id=1149",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1150",
+    "title": "세 수 중 가장 작은 수",
+    "link": "https://codeup.kr/problem.php?id=1150",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1065",
+    "title": "정수 3개 입력받아 짝수만 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1065",
+    "tags": [
+      "입출력",
+      "배수와 나머지",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1066",
+    "title": "정수 3개 입력받아 짝/홀 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1066",
+    "tags": [
+      "입출력",
+      "배수와 나머지",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1067",
+    "title": "정수 1개 입력받아 분석하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1067",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1068",
+    "title": "정수 1개 입력받아 평가 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1068",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1069",
+    "title": "평가 입력받아 다르게 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1069",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1070",
+    "title": "월 입력받아 계절 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1070",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1151",
+    "title": "10보다 작은 수",
+    "link": "https://codeup.kr/problem.php?id=1151",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1152",
+    "title": "10보다 작은 수 (else 버전)",
+    "link": "https://codeup.kr/problem.php?id=1152",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1153",
+    "title": "두 수의 대소 비교",
+    "link": "https://codeup.kr/problem.php?id=1153",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1154",
+    "title": "큰수 - 작은수",
+    "link": "https://codeup.kr/problem.php?id=1154",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1155",
+    "title": "7의 배수",
+    "link": "https://codeup.kr/problem.php?id=1155",
+    "tags": [
+      "입출력",
+      "배수와 나머지"
+    ]
+  },
+  {
+    "problem_id": "1156",
+    "title": "홀수 짝수 구별",
+    "link": "https://codeup.kr/problem.php?id=1156",
+    "tags": [
+      "입출력",
+      "배수와 나머지"
+    ]
+  },
+  {
+    "problem_id": "1157",
+    "title": "특별한 공 던지기 1",
+    "link": "https://codeup.kr/problem.php?id=1157",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1158",
+    "title": "특별한 공 던지기 2",
+    "link": "https://codeup.kr/problem.php?id=1158",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1159",
+    "title": "특별한 공 던지기 3",
+    "link": "https://codeup.kr/problem.php?id=1159",
+    "tags": [
+      "입출력",
+      "배수와 나머지",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1160",
+    "title": "아르바이트 가는 날",
+    "link": "https://codeup.kr/problem.php?id=1160",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1161",
+    "title": "홀수와 짝수 그리고 더하기",
+    "link": "https://codeup.kr/problem.php?id=1161",
+    "tags": [
+      "입출력",
+      "배수와 나머지",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1162",
+    "title": "당신의 사주를 봐 드립니다 1",
+    "link": "https://codeup.kr/problem.php?id=1162",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1163",
+    "title": "당신의 사주를 봐 드립니다 2",
+    "link": "https://codeup.kr/problem.php?id=1163",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1164",
+    "title": "터널 통과하기 1",
+    "link": "https://codeup.kr/problem.php?id=1164",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1165",
+    "title": "축구의 신 1",
+    "link": "https://codeup.kr/problem.php?id=1165",
+    "tags": [
+      "입출력",
+      "사칙연산",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1166",
+    "title": "윤년 판별",
+    "link": "https://codeup.kr/problem.php?id=1166",
+    "tags": [
+      "입출력",
+      "배수와 나머지",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1167",
+    "title": "두 번째 수",
+    "link": "https://codeup.kr/problem.php?id=1167",
+    "tags": [
+      "입출력",
       "배열 정렬"
-    ],
-    "problem_id": "genes"
+    ]
   },
   {
-    "title": "최소 자리바꿈/sort_by_swaping",
-    "link": "http://59.23.132.191/30stair/sort_by_swaping/sort_by_swaping.php?pname=sort_by_swaping",
+    "problem_id": "1168",
+    "title": "나이 계산 1",
+    "link": "https://codeup.kr/problem.php?id=1168",
     "tags": [
-      "배열",
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1169",
+    "title": "나이 계산 2",
+    "link": "https://codeup.kr/problem.php?id=1169",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1170",
+    "title": "당신의 학번은? 1",
+    "link": "https://codeup.kr/problem.php?id=1170",
+    "tags": [
+      "입출력",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1171",
+    "title": "당신의 학번은? 2",
+    "link": "https://codeup.kr/problem.php?id=1171",
+    "tags": [
+      "입출력",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1172",
+    "title": "세 수 정렬하기",
+    "link": "https://codeup.kr/problem.php?id=1172",
+    "tags": [
+      "입출력",
       "배열 정렬"
-    ],
-    "problem_id": "sort_by_swaping"
+    ]
   },
   {
-    "title": "brainman/brainman",
-    "link": "http://59.23.132.191/30stair/brainman/brainman.php?pname=brainman",
+    "problem_id": "1173",
+    "title": "30분전",
+    "link": "https://codeup.kr/problem.php?id=1173",
     "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1180",
+    "title": "만능 휴지통",
+    "link": "https://codeup.kr/problem.php?id=1180",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1201",
+    "title": "정수 판별",
+    "link": "https://codeup.kr/problem.php?id=1201",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1202",
+    "title": "등급 판정",
+    "link": "https://codeup.kr/problem.php?id=1202",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1203",
+    "title": "비만도 측정 0",
+    "link": "https://codeup.kr/problem.php?id=1203",
+    "tags": [
+      "입출력",
+      "사칙연산",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1204",
+    "title": "영어 서수로 표현하기",
+    "link": "https://codeup.kr/problem.php?id=1204",
+    "tags": [
+      "입출력",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1205",
+    "title": "최댓값",
+    "link": "https://codeup.kr/problem.php?id=1205",
+    "tags": [
+      "입출력",
+      "사칙연산",
+      "최대값/최소값 찾기"
+    ]
+  },
+  {
+    "problem_id": "1206",
+    "title": "배수",
+    "link": "https://codeup.kr/problem.php?id=1206",
+    "tags": [
+      "입출력",
+      "배수와 나머지",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1207",
+    "title": "윷놀이",
+    "link": "https://codeup.kr/problem.php?id=1207",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1210",
+    "title": "칼로리 계산하기",
+    "link": "https://codeup.kr/problem.php?id=1210",
+    "tags": [
+      "입출력",
+      "사칙연산",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1212",
+    "title": "삼각형의 성립 조건",
+    "link": "https://codeup.kr/problem.php?id=1212",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1214",
+    "title": "이 달은 며칠까지 있을까?",
+    "link": "https://codeup.kr/problem.php?id=1214",
+    "tags": [
+      "입출력",
+      "배수와 나머지",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1216",
+    "title": "컨설팅 회사",
+    "link": "https://codeup.kr/problem.php?id=1216",
+    "tags": [
+      "입출력",
+      "사칙연산",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1218",
+    "title": "삼각형 판단하기",
+    "link": "https://codeup.kr/problem.php?id=1218",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1222",
+    "title": "축구의 신 2",
+    "link": "https://codeup.kr/problem.php?id=1222",
+    "tags": [
+      "입출력",
+      "사칙연산",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1224",
+    "title": "분수 크기 비교",
+    "link": "https://codeup.kr/problem.php?id=1224",
+    "tags": [
+      "입출력",
+      "형 변환",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1226",
+    "title": "이번 주 로또",
+    "link": "https://codeup.kr/problem.php?id=1226",
+    "tags": [
+      "입출력",
       "배열",
-      "배열 정렬"
-    ],
-    "problem_id": "brainman"
+      "조건문"
+    ]
   },
   {
-    "title": "합이 10000/sacrament",
-    "link": "http://59.23.132.191/30stair/sacrament/sacrament.php?pname=sacrament",
+    "problem_id": "1228",
+    "title": "비만도 측정 1",
+    "link": "https://codeup.kr/problem.php?id=1228",
     "tags": [
-      "배열"
-    ],    "problem_id": "sacrament"
+      "입출력",
+      "사칙연산",
+      "if문"
+    ]
   },
   {
-    "title": "피보나치 수열/fibo",
-    "link": "http://59.23.132.191/30stair/fibo/fibo.php?pname=fibo",
+    "problem_id": "1229",
+    "title": "비만도 측정 2",
+    "link": "https://codeup.kr/problem.php?id=1229",
     "tags": [
+      "입출력",
+      "사칙연산",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1230",
+    "title": "터널 통과하기 2",
+    "link": "https://codeup.kr/problem.php?id=1230",
+    "tags": [
+      "입출력",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1231",
+    "title": "계산기 1",
+    "link": "https://codeup.kr/problem.php?id=1231",
+    "tags": [
+      "입출력",
+      "사칙연산",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1071",
+    "title": "[기초-반복실행구조] 0 입력될 때까지 무한 출력하기1(설명)",
+    "link": "https://codeup.kr/problem.php?id=1071",
+    "tags": [
+      "입출력",
+      "if문",
+      "while문"
+    ]
+  },
+  {
+    "problem_id": "1072",
+    "title": "[기초-반복실행구조] 정수 입력받아 계속 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1072",
+    "tags": [
+      "입출력",
+      "while문"
+    ]
+  },
+  {
+    "problem_id": "1073",
+    "title": "[기초-반복실행구조] 0 입력될 때까지 무한 출력하기2(설명)",
+    "link": "https://codeup.kr/problem.php?id=1073",
+    "tags": [
+      "입출력",
+      "while문"
+    ]
+  },
+  {
+    "problem_id": "1074",
+    "title": "[기초-반복실행구조] 정수 1개 입력받아 카운트다운 출력하기1(설명)",
+    "link": "https://codeup.kr/problem.php?id=1074",
+    "tags": [
+      "입출력",
+      "while문"
+    ]
+  },
+  {
+    "problem_id": "1075",
+    "title": "[기초-반복실행구조] 정수 1개 입력받아 카운트다운 출력하기2(설명)",
+    "link": "https://codeup.kr/problem.php?id=1075",
+    "tags": [
+      "입출력",
+      "while문"
+    ]
+  },
+  {
+    "problem_id": "1076",
+    "title": "[기초-반복실행구조] 문자 1개 입력받아 알파벳 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1076",
+    "tags": [
+      "입출력",
+      "while문"
+    ]
+  },
+  {
+    "problem_id": "1077",
+    "title": "[기초-반복실행구조] 정수 1개 입력받아 그 수까지 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1077",
+    "tags": [
+      "입출력",
+      "for문"
+    ]
+  },
+  {
+    "problem_id": "1078",
+    "title": "[기초-종합] 짝수 합 구하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1078",
+    "tags": [
+      "입출력",
+      "for문",
+      "if문"
+    ]
+  },
+  {
+    "problem_id": "1079",
+    "title": "[기초-종합] 원하는 문자가 입력될 때까지 반복 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1079",
+    "tags": [
+      "입출력",
+      "while문"
+    ]
+  },
+  {
+    "problem_id": "1080",
+    "title": "[기초-종합] 언제까지 더해야 할까?",
+    "link": "https://codeup.kr/problem.php?id=1080",
+    "tags": [
+      "입출력",
       "반복문",
-      "수학 관련 문제",
-      "피보나치"
-    ],
-    "problem_id": "fibo"
+      "사칙연산"
+    ]
   },
   {
-    "title": "에라토스테네스의 체/eratosthenes",
-    "link": "http://59.23.132.191/30stair/eratosthenes/eratosthenes.php?pname=eratosthenes",
+    "problem_id": "1083",
+    "title": "[기초-종합] 3 6 9 게임의 왕이 되자!(설명)",
+    "link": "https://codeup.kr/problem.php?id=1083",
     "tags": [
-      "반복문",
-      "소수 판별"
-    ],
-    "problem_id": "eratosthenes"
-  },
-  {
-    "title": "배수 찾기/multiple",
-    "link": "http://59.23.132.191/30stair/multiple/multiple.php?pname=multiple",
-    "tags": [
+      "입출력",
       "반복문",
       "배수와 나머지"
-    ],
-    "problem_id": "multiple"
+    ]
   },
   {
-    "title": "여러수의 최대 공약수/mgcd",
-    "link": "http://59.23.132.191/30stair/mgcd/mgcd.php?pname=mgcd",
+    "problem_id": "1087",
+    "title": "[기초-종합] 여기까지! 이제 그만~(설명)",
+    "link": "https://codeup.kr/problem.php?id=1087",
     "tags": [
-      "기본 함수",
+      "입출력",
+      "반복문",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1088",
+    "title": "[기초-종합] 3의 배수는 통과?(설명)",
+    "link": "https://codeup.kr/problem.php?id=1088",
+    "tags": [
+      "입출력",
+      "반복문",
+      "배수와 나머지"
+    ]
+  },
+  {
+    "problem_id": "1089",
+    "title": "[기초-종합] 수 나열하기1",
+    "link": "https://codeup.kr/problem.php?id=1089",
+    "tags": [
+      "입출력",
+      "반복문",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1090",
+    "title": "[기초-종합] 수 나열하기2",
+    "link": "https://codeup.kr/problem.php?id=1090",
+    "tags": [
+      "입출력",
+      "반복문",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1091",
+    "title": "[기초-종합] 수 나열하기3",
+    "link": "https://codeup.kr/problem.php?id=1091",
+    "tags": [
+      "입출력",
+      "반복문",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1092",
+    "title": "[기초-종합] 함께 문제 푸는 날(설명)",
+    "link": "https://codeup.kr/problem.php?id=1092",
+    "tags": [
+      "입출력",
+      "반복문",
       "최대공약수(GCD) / 최소공배수(LCM)"
-    ],
-    "problem_id": "mgcd"
+    ]
   },
   {
-    "title": "골드바하의 추측/goldbach",
-    "link": "http://59.23.132.191/30stair/goldbach/goldbach.php?pname=goldbach",
+    "problem_id": "1251",
+    "title": "1 부터 100까지 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1251",
     "tags": [
-      "기본 함수",
-      "소수 판별"
-    ],
-    "problem_id": "goldbach"
+      "입출력",
+      "반복문"
+    ]
   },
   {
-    "title": "십자 카드/tencard",
-    "link": "http://59.23.132.191/30stair/tencard/tencard.php?pname=tencard",
+    "problem_id": "1252",
+    "title": "1 부터 n 까지 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1252",
     "tags": [
-      "기본 함수",
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1253",
+    "title": "a 부터 b까지 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1253",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1254",
+    "title": "알파벳 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1254",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1255",
+    "title": "두 실수 사이 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1255",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1256",
+    "title": "별 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1256",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1257",
+    "title": "두 수 사이의 홀수 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1257",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1258",
+    "title": "1부터 n까지 합 구하기",
+    "link": "https://codeup.kr/problem.php?id=1258",
+    "tags": [
+      "입출력",
+      "반복문",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1259",
+    "title": "1부터 n까지 중 짝수의 합 구하기",
+    "link": "https://codeup.kr/problem.php?id=1259",
+    "tags": [
+      "입출력",
+      "반복문",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1260",
+    "title": "3의 배수의 합",
+    "link": "https://codeup.kr/problem.php?id=1260",
+    "tags": [
+      "입출력",
+      "반복문",
       "배수와 나머지"
-    ],
-    "problem_id": "tencard"
+    ]
   },
   {
-    "title": "emirps/emirps",
-    "link": "http://59.23.132.191/30stair/emirps/emirps.php?pname=emirps",
+    "problem_id": "1261",
+    "title": "First Special Judge (Test)",
+    "link": "https://codeup.kr/problem.php?id=1261",
     "tags": [
-      "기본 함수",
-      "소수 판별"
-    ],
-    "problem_id": "emirps"
-  },
-  {
-    "title": "self number/self_num",
-    "link": "http://59.23.132.191/30stair/self_num/self_num.php?pname=self_num",
-    "tags": [
-      "기본 함수"
-    ],
-    "problem_id": "self_num"
-  },
-  {
-    "title": "13 일의 금요일/friday",
-    "link": "http://59.23.132.191/30stair/friday/friday.php?pname=friday",
-    "tags": [
-      "기본 함수"
-    ],
-    "problem_id": "friday"
-  },
-  {
-    "title": "수 암호화/cryption",
-    "link": "http://59.23.132.191/30stair/cryption/cryption.php?pname=cryption",
-    "tags": [
-      "기본 함수",
-      "문자열 조작"
-    ],
-    "problem_id": "cryption"
-  },
-  {
-    "title": "중국인나머지정리/chinese",
-    "link": "http://59.23.132.191/30stair/chinese/chinese.php?pname=chinese",
-    "tags": [
-      "기본 함수",
-      "수학 관련 문제",
+      "입출력",
+      "반복문",
       "배수와 나머지"
-    ],
-    "problem_id": "chinese"
+    ]
   },
   {
-    "title": "이중 회귀수/dual_palindrome",
-    "link": "http://59.23.132.191/30stair/dual_palindrome/dual_palindrome.php?pname=dual_palindrome",
+    "problem_id": "1265",
+    "title": "구구단 출력하기 1",
+    "link": "https://codeup.kr/problem.php?id=1265",
     "tags": [
-      "기본 함수",
-      "문자열 조작"
-    ],
-    "problem_id": "dual_palindrome"
+      "입출력",
+      "반복문",
+      "사칙연산"
+    ]
   },
   {
-    "title": "이진 회귀수/bpalin",
-    "link": "http://59.23.132.191/30stair/bpalin/bpalin.php?pname=bpalin",
+    "problem_id": "1266",
+    "title": "n개의 수의 합",
+    "link": "https://codeup.kr/problem.php?id=1266",
     "tags": [
-      "기본 함수",
-      "문자열 조작"
-    ],
-    "problem_id": "bpalin"
+      "입출력",
+      "반복문",
+      "사칙연산"
+    ]
   },
   {
-    "title": "소수 회귀수/prime_palin",
-    "link": "http://59.23.132.191/30stair/prime_palin/prime_palin.php?pname=prime_palin",
+    "problem_id": "1267",
+    "title": "n개의 수 중 5의 배수의 합",
+    "link": "https://codeup.kr/problem.php?id=1267",
     "tags": [
-      "기본 함수",
+      "입출력",
+      "반복문",
+      "배수와 나머지"
+    ]
+  },
+  {
+    "problem_id": "1268",
+    "title": "n개의 수 중 홀수의 개수",
+    "link": "https://codeup.kr/problem.php?id=1268",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1269",
+    "title": "수열의 값 구하기",
+    "link": "https://codeup.kr/problem.php?id=1269",
+    "tags": [
+      "입출력",
+      "반복문",
+      "사칙연산"
+    ]
+  },
+  {
+    "problem_id": "1270",
+    "title": "1의 개수는? 1",
+    "link": "https://codeup.kr/problem.php?id=1270",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1271",
+    "title": "최댓값 구하기",
+    "link": "https://codeup.kr/problem.php?id=1271",
+    "tags": [
+      "입출력",
+      "반복문",
+      "최대값/최소값 찾기"
+    ]
+  },
+  {
+    "problem_id": "1272",
+    "title": "기부",
+    "link": "https://codeup.kr/problem.php?id=1272",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1273",
+    "title": "약수 구하기",
+    "link": "https://codeup.kr/problem.php?id=1273",
+    "tags": [
+      "입출력",
+      "약수 구하기"
+    ]
+  },
+  {
+    "problem_id": "1274",
+    "title": "소수 판별",
+    "link": "https://codeup.kr/problem.php?id=1274",
+    "tags": [
+      "입출력",
       "소수 판별",
+      "약수 구하기"
+    ]
+  },
+  {
+    "problem_id": "1279",
+    "title": "홀수는 더하고 짝수는 빼고 1",
+    "link": "https://codeup.kr/problem.php?id=1279",
+    "tags": [
+      "입출력",
+      "반복문",
+      "조건문"
+    ]
+  },
+  {
+    "problem_id": "1280",
+    "title": "홀수는 더하고 짝수는 빼고 2",
+    "link": "https://codeup.kr/problem.php?id=1280",
+    "tags": [
+      "입출력",
+      "반복문",
+      "조건문"
+    ]
+  },
+  {
+    "problem_id": "1281",
+    "title": "홀수는 더하고 짝수는 빼고 3",
+    "link": "https://codeup.kr/problem.php?id=1281",
+    "tags": [
+      "입출력",
+      "반복문",
+      "조건문"
+    ]
+  },
+  {
+    "problem_id": "1282",
+    "title": "제곱수 만들기",
+    "link": "https://codeup.kr/problem.php?id=1282",
+    "tags": [
+      "입출력",
+      "반복문",
+      "조건문"
+    ]
+  },
+  {
+    "problem_id": "1283",
+    "title": "주식 투자",
+    "link": "https://codeup.kr/problem.php?id=1283",
+    "tags": [
+      "입출력",
+      "형 변환",
+      "조건문"
+    ]
+  },
+  {
+    "problem_id": "1284",
+    "title": "암호 해독",
+    "link": "https://codeup.kr/problem.php?id=1284",
+    "tags": [
+      "입출력",
+      "소수 판별"
+    ]
+  },
+  {
+    "problem_id": "1285",
+    "title": "계산기 2",
+    "link": "https://codeup.kr/problem.php?id=1285",
+    "tags": [
+      "입출력",
+      "반복문",
+      "조건문"
+    ]
+  },
+  {
+    "problem_id": "1286",
+    "title": "최댓값, 최솟값",
+    "link": "https://codeup.kr/problem.php?id=1286",
+    "tags": [
+      "입출력",
+      "최대값/최소값 찾기"
+    ]
+  },
+  {
+    "problem_id": "1287",
+    "title": "구구단을 *로 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1287",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1294",
+    "title": "시저의 암호 2",
+    "link": "https://codeup.kr/problem.php?id=1294",
+    "tags": [
+      "입출력",
+      "문자열 처리"
+    ]
+  },
+  {
+    "problem_id": "1295",
+    "title": "알파벳 대소문자 변환",
+    "link": "https://codeup.kr/problem.php?id=1295",
+    "tags": [
+      "입출력",
+      "문자열 처리"
+    ]
+  },
+  {
+    "problem_id": "1675",
+    "title": "시저의 암호 1",
+    "link": "https://codeup.kr/problem.php?id=1675",
+    "tags": [
+      "입출력",
+      "문자열 처리"
+    ]
+  },
+  {
+    "problem_id": "1081",
+    "title": "[기초-종합] 주사위를 2개 던지면?(설명)",
+    "link": "https://codeup.kr/problem.php?id=1081",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1082",
+    "title": "[기초-종합] 16진수 구구단?",
+    "link": "https://codeup.kr/problem.php?id=1082",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1084",
+    "title": "[기초-종합] 빛 섞어 색 만들기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1084",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1351",
+    "title": "구구단 출력하기 2",
+    "link": "https://codeup.kr/problem.php?id=1351",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1352",
+    "title": "사각형 출력하기 1",
+    "link": "https://codeup.kr/problem.php?id=1352",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1353",
+    "title": "삼각형 출력하기 1",
+    "link": "https://codeup.kr/problem.php?id=1353",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1354",
+    "title": "삼각형 출력하기 2",
+    "link": "https://codeup.kr/problem.php?id=1354",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1355",
+    "title": "삼각형 출력하기 3",
+    "link": "https://codeup.kr/problem.php?id=1355",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1356",
+    "title": "사각형 출력하기 2",
+    "link": "https://codeup.kr/problem.php?id=1356",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1357",
+    "title": "삼각형 출력하기 4",
+    "link": "https://codeup.kr/problem.php?id=1357",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1358",
+    "title": "삼각형 출력하기 5",
+    "link": "https://codeup.kr/problem.php?id=1358",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1361",
+    "title": "별 계단 만들기",
+    "link": "https://codeup.kr/problem.php?id=1361",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1365",
+    "title": "사각형 출력하기 3",
+    "link": "https://codeup.kr/problem.php?id=1365",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1366",
+    "title": "사각형 출력하기 4",
+    "link": "https://codeup.kr/problem.php?id=1366",
+    "tags": [
+      "입출력",
+      "반복문",
+      "조건문"
+    ]
+  },
+  {
+    "problem_id": "1367",
+    "title": "평행사변형 출력하기 1",
+    "link": "https://codeup.kr/problem.php?id=1367",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1368",
+    "title": "평행사변형 출력하기 2",
+    "link": "https://codeup.kr/problem.php?id=1368",
+    "tags": [
+      "입출력",
+      "반복문",
+      "조건문"
+    ]
+  },
+  {
+    "problem_id": "1369",
+    "title": "빗금 친 사각형 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1369",
+    "tags": [
+      "입출력",
+      "반복문",
+      "배수와 나머지"
+    ]
+  },
+  {
+    "problem_id": "1370",
+    "title": "지그재그 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1370",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1371",
+    "title": "마름모 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1371",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1378",
+    "title": "수열의 합",
+    "link": "https://codeup.kr/problem.php?id=1378",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1380",
+    "title": "두 주사위의 합",
+    "link": "https://codeup.kr/problem.php?id=1380",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1382",
+    "title": "GuguClass",
+    "link": "https://codeup.kr/problem.php?id=1382",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1677",
+    "title": "종이 자르기",
+    "link": "https://codeup.kr/problem.php?id=1677",
+    "tags": [
+      "입출력"
+    ]
+  },
+  {
+    "problem_id": "3122",
+    "title": "마름모 출력하기 2",
+    "link": "https://codeup.kr/problem.php?id=3122",
+    "tags": [
+      "입출력",
+      "반복문"
+    ]
+  },
+  {
+    "problem_id": "1093",
+    "title": "[기초-1차원배열] 이상한 출석 번호 부르기1(설명)",
+    "link": "https://codeup.kr/problem.php?id=1093",
+    "tags": [
+      "입출력",
+      "배열"
+    ]
+  },
+  {
+    "problem_id": "1094",
+    "title": "[기초-1차원배열] 이상한 출석 번호 부르기2(설명)",
+    "link": "https://codeup.kr/problem.php?id=1094",
+    "tags": [
+      "입출력",
+      "배열"
+    ]
+  },
+  {
+    "problem_id": "1095",
+    "title": "[기초-1차원배열] 이상한 출석 번호 부르기3(설명)",
+    "link": "https://codeup.kr/problem.php?id=1095",
+    "tags": [
+      "입출력",
+      "배열",
+      "최대값/최소값 찾기"
+    ]
+  },
+  {
+    "problem_id": "1402",
+    "title": "거꾸로 출력하기 3",
+    "link": "https://codeup.kr/problem.php?id=1402",
+    "tags": [
+      "입출력",
+      "배열"
+    ]
+  },
+  {
+    "problem_id": "1403",
+    "title": "배열 두번 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1403",
+    "tags": [
+      "입출력",
+      "배열"
+    ]
+  },
+  {
+    "problem_id": "1405",
+    "title": "숫자 로테이션",
+    "link": "https://codeup.kr/problem.php?id=1405",
+    "tags": [
+      "입출력",
+      "배열"
+    ]
+  },
+  {
+    "problem_id": "1407",
+    "title": "문자열 출력하기 1",
+    "link": "https://codeup.kr/problem.php?id=1407",
+    "tags": [
+      "입출력",
+      "문자열 처리",
       "문자열 조작"
-    ],
-    "problem_id": "prime_palin"
+    ]
+  },
+  {
+    "problem_id": "1409",
+    "title": "기억력 테스트 1",
+    "link": "https://codeup.kr/problem.php?id=1409",
+    "tags": [
+      "입출력",
+      "배열"
+    ]
+  },
+  {
+    "problem_id": "1410",
+    "title": "올바른 괄호 1 (괄호 개수 세기)",
+    "link": "https://codeup.kr/problem.php?id=1410",
+    "tags": [
+      "입출력",
+      "문자열 처리",
+      "문자열 조작"
+    ]
+  },
+  {
+    "problem_id": "1411",
+    "title": "빠진 카드",
+    "link": "https://codeup.kr/problem.php?id=1411",
+    "tags": [
+      "입출력",
+      "배열"
+    ]
+  },
+  {
+    "problem_id": "1412",
+    "title": "알파벳 개수 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1412",
+    "tags": [
+      "입출력",
+      "문자열 처리",
+      "문자열 조작"
+    ]
+  },
+  {
+    "problem_id": "1416",
+    "title": "2진수 변환",
+    "link": "https://codeup.kr/problem.php?id=1416",
+    "tags": [
+      "입출력",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1420",
+    "title": "3등 찾기",
+    "link": "https://codeup.kr/problem.php?id=1420",
+    "tags": [
+      "입출력",
+      "배열",
+      "최대값/최소값 찾기"
+    ]
+  },
+  {
+    "problem_id": "1425",
+    "title": "자리 배치",
+    "link": "https://codeup.kr/problem.php?id=1425",
+    "tags": [
+      "입출력",
+      "배수와 나머지"
+    ]
+  },
+  {
+    "problem_id": "1430",
+    "title": "기억력 테스트 2",
+    "link": "https://codeup.kr/problem.php?id=1430",
+    "tags": [
+      "입출력",
+      "배열",
+      "순차 탐색"
+    ]
+  },
+  {
+    "problem_id": "1440",
+    "title": "비교",
+    "link": "https://codeup.kr/problem.php?id=1440",
+    "tags": [
+      "입출력",
+      "배수와 나머지"
+    ]
+  },
+  {
+    "problem_id": "1024",
+    "title": "[기초-입출력] 단어 1개 입력받아 나누어 출력하기(설명)",
+    "link": "https://codeup.kr/problem.php?id=1024",
+    "tags": [
+      "입출력",
+      "문자열 처리",
+      "문자열 조작"
+    ]
+  },
+  {
+    "problem_id": "1131",
+    "title": "문자 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1131",
+    "tags": [
+      "입출력"
+    ]
+  },
+  {
+    "problem_id": "1132",
+    "title": "문자열 출력하기",
+    "link": "https://codeup.kr/problem.php?id=1132",
+    "tags": [
+      "입출력",
+      "문자열 처리",
+      "문자열 조작"
+    ]
+  },
+  {
+    "problem_id": "1133",
+    "title": "공백이 있는 문자열 입출력",
+    "link": "https://codeup.kr/problem.php?id=1133",
+    "tags": [
+      "입출력",
+      "문자열 처리",
+      "문자열 조작"
+    ]
+  },
+  {
+    "problem_id": "1295",
+    "title": "알파벳 대소문자 변환",
+    "link": "https://codeup.kr/problem.php?id=1295",
+    "tags": [
+      "입출력",
+      "문자열 처리",
+      "문자열 조작"
+    ]
+  },
+  {
+    "problem_id": "1407",
+    "title": "문자열 출력하기 1",
+    "link": "https://codeup.kr/problem.php?id=1407",
+    "tags": [
+      "입출력",
+      "문자열 처리",
+      "문자열 조작"
+    ]
+  },
+  {
+    "problem_id": "1416",
+    "title": "2진수 변환",
+    "link": "https://codeup.kr/problem.php?id=1416",
+    "tags": [
+      "입출력",
+      "형 변환"
+    ]
+  },
+  {
+    "problem_id": "1420",
+    "title": "3등 찾기",
+    "link": "https://codeup.kr/problem.php?id=1420",
+    "tags": [
+      "입출력",
+      "배열",
+      "배열 정렬"
+    ]
+  },
+  {
+    "problem_id": "1425",
+    "title": "자리 배치",
+    "link": "https://codeup.kr/problem.php?id=1425",
+    "tags": [
+      "입출력",
+      "배열",
+      "배열 정렬",
+      "배수와 나머지"
+    ]
+  },
+  {
+    "problem_id": "1430",
+    "title": "기억력 테스트 2",
+    "link": "https://codeup.kr/problem.php?id=1430",
+    "tags": [
+      "입출력",
+      "배열",
+      "순차 탐색"
+    ]
   }
 ]

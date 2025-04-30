@@ -35,6 +35,91 @@
           <?php echo "<h3>".$MSG_TITLE."</h3>"?>
           <input class="input input-large" style="width:100%;" type=text name='title' > <input type=submit value='<?php echo $MSG_SAVE?>' name=submit> 
 	</p>
+  <p align="left">
+  <h4>문제 태그 선택</h4>
+  <style>
+    .accordion {
+      cursor: pointer;
+      padding: 10px;
+      width: 100%;
+      text-align: left;
+      border: none;
+      outline: none;
+      transition: 0.4s;
+      background-color: #eee;
+      margin-top: 5px;
+    }
+    .active, .accordion:hover {
+      background-color: #ccc;
+    }
+    .panel {
+      padding-left: 20px;
+      display: none;
+      overflow: hidden;
+      background-color: #f9f9f9;
+    }
+    .checkbox-group {
+      margin-left: 20px;
+    }
+  </style>
+
+  <?php
+  // 🔹 1. 태그 전체 조회
+  $tags = pdo_query("SELECT tag_id, name FROM tag");
+
+  // 🔹 2. name => id 맵핑
+  $tag_map = [];
+  foreach ($tags as $tag) {
+      $tag_map[$tag['name']] = $tag['tag_id'];
+  }
+
+  // 🔹 3. 카테고리 정의 (태그 이름 기준)
+  $categories = [
+    "C 언어 기초 문법 태그" => [
+      "입출력 및 연산" => ["입출력", "사칙연산", "형 변환"],
+      "조건문" => ["if문"],
+      "반복문 및 제어문" => ["반복문"],
+      "배열 및 문자열" => ["배열", "문자열 처리"],
+      "함수" => ["기본 함수", "포인터 함수"],
+      "포인터" => ["포인터 기본", "포인터와 배열", "포인터 연산"]
+    ],
+    "기초 알고리즘 태그" => [
+      "수학 관련 문제" => ["최대공약수(GCD) / 최소공배수(LCM)", "피보나치 수열", "소수 판별", "약수 구하기", "배수와 나머지", "수학 관련 문제"],
+      "배열과 정렬 알고리즘" => ["최대값/최소값 찾기", "배열 정렬", "중복 제거", "배열 뒤집기"],
+      "탐색 알고리즘" => ["순차 탐색"],
+      "구현 문제" => ["좌표 이동", "행렬 연산", "문자열 조작"]
+    ]
+  ];
+
+  // 🔹 4. 렌더링
+  foreach ($categories as $main_cat => $subcats) {
+      echo "<button type='button' class='accordion'>$main_cat</button><div class='panel'>";
+      foreach ($subcats as $subcat => $tag_names) {
+          echo "<button type='button' class='accordion'>$subcat</button><div class='panel checkbox-group'>";
+          foreach ($tag_names as $tag_name) {
+              if (isset($tag_map[$tag_name])) {
+                  $id = $tag_map[$tag_name];
+                  $label = htmlspecialchars($tag_name, ENT_QUOTES, 'UTF-8');
+                  echo "<label><input type='checkbox' name='tag_ids[]' value='$id'> $label</label><br>";
+              }
+          }
+          echo "</div>";
+      }
+      echo "</div>";
+  }
+  ?>
+</p>
+
+<script>
+  // 🔸 아코디언 동작 스크립트
+  document.querySelectorAll(".accordion").forEach(function(btn) {
+    btn.addEventListener("click", function () {
+      this.classList.toggle("active");
+      var panel = this.nextElementSibling;
+      panel.style.display = (panel.style.display === "block") ? "none" : "block";
+    });
+  });
+</script>
         <p align=left>
           <?php echo $MSG_Time_Limit?>
           <input class="input input-mini" type=number min="0.001" max="300" step="0.001" name=time_limit size=20 value=1> 초
