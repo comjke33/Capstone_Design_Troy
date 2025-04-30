@@ -8,17 +8,6 @@
   margin: 0 auto;
 }
 
-/* 왼쪽 패널: 문제 설명과 텍스트 입력 영역 */
-.left-panel {
-  flex: 0.4;  /* 왼쪽 패널의 크기를 40%로 조정하여 화면의 40% 차지 */
-  position: relative;  /* 이미지를 따라오게 하기 위한 고정 위치 설정 */
-  padding-right: 10px;
-  padding-left: 0px;  /* 왼쪽 패널을 왼쪽에 붙이기 위한 여백 설정 */
-  margin-left: 0;  /* 왼쪽 패널을 페이지의 왼쪽 끝에 붙이기 */
-  overflow-y: auto; /* 스크롤 가능하도록 설정 */
-}
-
-
 /* 네모난 피드백 이미지 스타일 */
 #feedback-img {
   position: sticky;
@@ -29,15 +18,13 @@
   z-index: 10;
 }
 
-/* 가운데 패널: 문제 설명 및 텍스트 입력 영역 */
-.center-panel {
+/* 왼쪽 패널: 문제 설명 및 텍스트 입력 영역 */
+.left-panel {
   flex: 2;  /* 화면 너비에 맞게 동적으로 확장 */
   padding: 60px;
   overflow-y: auto;
 }
 
-/* 오른쪽 패널: 피드백 부분 */
-/* 오른쪽 패널: 피드백 부분 */
 .right-panel {
   flex: 0.4;  /* 오른쪽 패널의 크기를 40%로 늘려줍니다 */
   padding-left: 20px;
