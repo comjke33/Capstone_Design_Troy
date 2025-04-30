@@ -28,7 +28,8 @@ if (empty($tags)) {
 
 // Python recommend.py 실행
 $escaped_tags = array_map('escapeshellarg', $tags);
-$cmd = "python3 Capstone_Design_Troy/recommender/codeup_all_problems_tagged.json " . implode(" ", $escaped_tags);
+$script_path = escapeshellcmd('/home/Capstone_Design_Troy/py/recommend.py');
+$cmd = "python3 $script_path " . implode(" ", $escaped_tags);
 exec($cmd, $output, $retval);
 
 // 출력
@@ -43,7 +44,7 @@ foreach ($output as $line) {
     $parts = explode("||", $line);
     if (count($parts) !== 5) continue;
     list($pid, $title, $score, $link, $tag_str) = $parts;
-    echo "<li><a href='$link' target='_blank'>[$pid] $title (유사도: $score)</a><br>";
+    echo "<li><a href='" . htmlspecialchars($link) . "' target='_blank'>[$pid] $title (유사도: $score)</a><br>";
     echo "📎 태그: " . htmlspecialchars($tag_str) . "</li><br>";
 }
 echo "</ul>";
