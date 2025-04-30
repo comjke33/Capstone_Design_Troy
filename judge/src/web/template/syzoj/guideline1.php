@@ -89,7 +89,6 @@
 </div>
 
 <!-- js 불러오기 -->
-<!-- <script src="/template/syzoj/js/guideline.js"></script> -->
 
 <script>
     // 잘못된 선언을 방지하고 DOMContentLoaded 후에 실행되도록 처리
