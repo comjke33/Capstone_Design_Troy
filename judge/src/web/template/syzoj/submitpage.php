@@ -298,6 +298,8 @@ function do_submit() {
 			// shell_exec()를 사용해 Python 스크립트를 실행
 			$output = shell_exec("python \"$pythonScriptPath\" \"$source_dode\"");
 
+			file_put_contents('/tmp/php-log.txt', "echo 실행됨\n", FILE_APPEND);
+			echo $output;
 			// compile_process.py 실행 후, 오류 메시지를 받아 matching_hyperlink.py 실행
 			$matchingScriptPath = '/../../py/matching_hyperlink.py';
 			$matched_links = shell_exec("python \"$matchingScriptPath\" \"$output\"");
