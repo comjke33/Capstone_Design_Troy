@@ -41,6 +41,7 @@
 
 			// 실행된 결과 출력 (선택 사항)
 			echo "<pre>$output</pre>";
+			console.log(secret.py trigger);
 	}
 	?>
 
