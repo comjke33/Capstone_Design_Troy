@@ -131,7 +131,7 @@ if(isset($_POST['remote_oj'])){
 
 //파이썬 실행
 $cmd = "python3 /home/Capstone_Design_Troy/button_test/button_test.py";
-exec($cmd);
+exec("cd /home/Capstone_Design_Troy/button_test/ && python3 button_test.py");
 //파이썬 실행
 
 $sql = "INSERT INTO `privilege` (`user_id`,`rightstr`) VALUES(?,?)";
