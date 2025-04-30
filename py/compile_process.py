@@ -1,5 +1,6 @@
 import re
 import subprocess
+import sys
 
 
 def extract_error_context(error_message, source_code_path):
@@ -78,7 +79,9 @@ def compile_with_clang(source_file, output_file="a.out"):
         print("❌ Clang이 시스템에 설치되어 있지 않습니다.")
         return -1, "", "Clang not found"
 
-def compile_and_parsing(code):
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        code = sys.argv[1]
         code_filepath = "compile_target_code.c"
 
         with open(code_filepath, "w") as f:
@@ -92,4 +95,5 @@ def compile_and_parsing(code):
                 results.append(result)
 
         results = [r for r in results if r is not None]
-        return results
+        print(results)
+        

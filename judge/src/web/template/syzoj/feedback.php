@@ -7,7 +7,7 @@
         </h2>
         <div class="ui info message">
             <div class="header">🔍 디버깅용 링크 정보</div>
-            <p><?php echo htmlspecialchars($link_result); ?></p>
+            <p><?php echo htmlspecialchars($output); ?></p>
         </div>
         <?php if ($feedback_error): ?>
             <div class="ui negative message">

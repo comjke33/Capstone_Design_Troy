@@ -1,9 +1,16 @@
 <?php
 require_once('include/db_info.inc.php');
 $solution_id = isset($_GET['solution_id']) ? intval($_GET['solution_id']) : 0;
+$code = isset($_GET['code']) ? intval($_GET['code']) : 0;
 
 $feedback_error = null;
 $link_result = null;
+
+// 인자를 공백으로 구분해 전달
+$command = escapeshellcmd("python3 ../../../py/compile_process.py $code");
+
+// 결과 받기
+$output = shell_exec($command);
 
 if ($solution_id <= 0) {
     $feedback_error = "❌ 유효하지 않은 요청입니다.";
