@@ -301,6 +301,8 @@ function do_submit() {
 			// compile_process.py 실행 후, 오류 메시지를 받아 matching_hyperlink.py 실행
 			$matchingScriptPath = '/../../py/matching_hyperlink.py';
 			$matched_links = shell_exec("python \"$matchingScriptPath\" \"$output\"");
+
+			echo "<script>console.log('Python script output: " . addslashes($matched_links) . "');</script>";
 	
 			// 쿼리 문 사용하여 데이터베이스 결과 처리
     // 예시로 PDO 또는 MySQLi를 사용하여 데이터를 쿼리하고 출력하는 부분을 추가할 수 있습니다.
