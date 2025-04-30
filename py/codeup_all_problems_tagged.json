@@ -1,0 +1,966 @@
+[
+  {
+    "title": "사각형 넓이 구하기/area",
+    "link": "http://59.23.132.191/30stair/area/area.php?pname=area",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "area"
+  },
+  {
+    "title": "분을 초로 변환/m2s",
+    "link": "http://59.23.132.191/30stair/m2s/m2s.php?pname=m2s",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "m2s"
+  },
+  {
+    "title": "두수의 교환/swap",
+    "link": "http://59.23.132.191/30stair/swap/swap.php?pname=swap",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "swap"
+  },
+  {
+    "title": "기본 연산/op",
+    "link": "http://59.23.132.191/30stair/op/op.php?pname=op",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "op"
+  },
+  {
+    "title": "삼각형 넓이 구하기/triangle",
+    "link": "http://59.23.132.191/30stair/triangle/triangle.php?pname=triangle",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "triangle"
+  },
+  {
+    "title": "네 수의 평균/average",
+    "link": "http://59.23.132.191/30stair/average/average.php?pname=average",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "average"
+  },
+  {
+    "title": "섭씨온도를 화씨온도로 변환/CtoF",
+    "link": "http://59.23.132.191/30stair/CtoF/CtoF.php?pname=CtoF",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "CtoF"
+  },
+  {
+    "title": "몫과 나머지 구하기/q_r",
+    "link": "http://59.23.132.191/30stair/q_r/q_r.php?pname=q_r",
+    "tags": [
+      "입출력",
+      "배수와 나머지"
+    ],
+    "problem_id": "q_r"
+  },
+  {
+    "title": "거스름 돈/change",
+    "link": "http://59.23.132.191/30stair/change/change.php?pname=change",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "change"
+  },
+  {
+    "title": "초 변환/sec",
+    "link": "http://59.23.132.191/30stair/sec/sec.php?pname=sec",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "sec"
+  },
+  {
+    "title": "세자리수 곱셈/three",
+    "link": "http://59.23.132.191/30stair/three/three.php?pname=three",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "three"
+  },
+  {
+    "title": "인공지능 시계/koi_watch",
+    "link": "http://59.23.132.191/30stair/koi_watch/koi_watch.php?pname=koi_watch",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "koi_watch"
+  },
+  {
+    "title": "빈병/empty_bottle",
+    "link": "http://59.23.132.191/30stair/empty_bottle/empty_bottle.php?pname=empty_bottle",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "empty_bottle"
+  },
+  {
+    "title": "손해 본 금액/business",
+    "link": "http://59.23.132.191/30stair/business/business.php?pname=business",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "business"
+  },
+  {
+    "title": "퓨 즈/fuse",
+    "link": "http://59.23.132.191/30stair/fuse/fuse.php?pname=fuse",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "fuse"
+  },
+  {
+    "title": "블럭 색칠하기/paintblock",
+    "link": "http://59.23.132.191/30stair/paintblock/paintblock.php?pname=paintblock",
+    "tags": [
+      "입출력",
+      "행렬 연산"
+    ],
+    "problem_id": "paintblock"
+  },
+  {
+    "title": "r2/r2",
+    "link": "http://59.23.132.191/30stair/r2/r2.php?pname=r2",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "r2"
+  },
+  {
+    "title": "논문인용/coci_faktor",
+    "link": "http://59.23.132.191/30stair/coci_faktor/coci_faktor.php?pname=coci_faktor",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "coci_faktor"
+  },
+  {
+    "title": "사탕/coci_slatkisi",
+    "link": "http://59.23.132.191/30stair/coci_slatkisi/coci_slatkisi.php?pname=coci_slatkisi",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "coci_slatkisi"
+  },
+  {
+    "title": "버터 먹기/butter",
+    "link": "http://59.23.132.191/30stair/butter/butter.php?pname=butter",
+    "tags": [
+      "입출력",
+      "사칙연산"
+    ],
+    "problem_id": "butter"
+  },
+  {
+    "title": "대소 판별하기/compare",
+    "link": "http://59.23.132.191/30stair/compare/compare.php?pname=compare",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "compare"
+  },
+  {
+    "title": "분수 크기 비교/comparefrac",
+    "link": "http://59.23.132.191/30stair/comparefrac/comparefrac.php?pname=comparefrac",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "comparefrac"
+  },
+  {
+    "title": "음표/coci_note",
+    "link": "http://59.23.132.191/30stair/coci_note/coci_note.php?pname=coci_note",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "coci_note"
+  },
+  {
+    "title": "수영장 가는 날/swimming",
+    "link": "http://59.23.132.191/30stair/swimming/swimming.php?pname=swimming",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "swimming"
+  },
+  {
+    "title": "해킹 회사/hack",
+    "link": "http://59.23.132.191/30stair/hack/hack.php?pname=hack",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "hack"
+  },
+  {
+    "title": "지하 차도/truck",
+    "link": "http://59.23.132.191/30stair/truck/truck.php?pname=truck",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "truck"
+  },
+  {
+    "title": "트로이 목마/troy",
+    "link": "http://59.23.132.191/30stair/troy/troy.php?pname=troy",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "troy"
+  },
+  {
+    "title": "약수 판별/div_mul",
+    "link": "http://59.23.132.191/30stair/div_mul/div_mul.php?pname=div_mul",
+    "tags": [
+      "입출력",
+      "if문",
+      "약수 구하기"
+    ],
+    "problem_id": "div_mul"
+  },
+  {
+    "title": "45 분전/coci_spa",
+    "link": "http://59.23.132.191/30stair/coci_spa/coci_spa.php?pname=coci_spa",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "coci_spa"
+  },
+  {
+    "title": "사주 팔자/saju",
+    "link": "http://59.23.132.191/30stair/saju/saju.php?pname=saju",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "saju"
+  },
+  {
+    "title": "윤 년/leap_year",
+    "link": "http://59.23.132.191/30stair/leap_year/leap_year.php?pname=leap_year",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "leap_year"
+  },
+  {
+    "title": "ATM 기/ATM",
+    "link": "http://59.23.132.191/30stair/ATM/ATM.php?pname=ATM",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "ATM"
+  },
+  {
+    "title": "칼로리 계산하기/calorie",
+    "link": "http://59.23.132.191/30stair/calorie/calorie.php?pname=calorie",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "calorie"
+  },
+  {
+    "title": "요정/fairy",
+    "link": "http://59.23.132.191/30stair/fairy/fairy.php?pname=fairy",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "fairy"
+  },
+  {
+    "title": "펀치게임/punch_game",
+    "link": "http://59.23.132.191/30stair/punch_game/punch_game.php?pname=punch_game",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "punch_game"
+  },
+  {
+    "title": "짝 홀수성/even_odd",
+    "link": "http://59.23.132.191/30stair/even_odd/even_odd.php?pname=even_odd",
+    "tags": [
+      "입출력",
+      "if문",
+      "배수와 나머지"
+    ],
+    "problem_id": "even_odd"
+  },
+  {
+    "title": "중위수/med",
+    "link": "http://59.23.132.191/30stair/med/med.php?pname=med",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "med"
+  },
+  {
+    "title": "팀 구성/fill",
+    "link": "http://59.23.132.191/30stair/fill/fill.php?pname=fill",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "fill"
+  },
+  {
+    "title": "What is n, Daddy?/whatisn",
+    "link": "http://59.23.132.191/30stair/whatisn/whatisn.php?pname=whatisn",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "whatisn"
+  },
+  {
+    "title": "캥거루/kangaroo",
+    "link": "http://59.23.132.191/30stair/kangaroo/kangaroo.php?pname=kangaroo",
+    "tags": [
+      "입출력",
+      "if문"
+    ],
+    "problem_id": "kangaroo"
+  },
+  {
+    "title": "별 출력/star",
+    "link": "http://59.23.132.191/30stair/star/star.php?pname=star",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "star"
+  },
+  {
+    "title": "순차 출력/rep",
+    "link": "http://59.23.132.191/30stair/rep/rep.php?pname=rep",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "rep"
+  },
+  {
+    "title": "두 수 사이수 출력/seq",
+    "link": "http://59.23.132.191/30stair/seq/seq.php?pname=seq",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "seq"
+  },
+  {
+    "title": "구구단/gugudan",
+    "link": "http://59.23.132.191/30stair/gugudan/gugudan.php?pname=gugudan",
+    "tags": [
+      "반복문",
+      "사칙연산"
+    ],
+    "problem_id": "gugudan"
+  },
+  {
+    "title": "7개 합/sum",
+    "link": "http://59.23.132.191/30stair/sum/sum.php?pname=sum",
+    "tags": [
+      "반복문",
+      "사칙연산"
+    ],
+    "problem_id": "sum"
+  },
+  {
+    "title": "순차합/seq2",
+    "link": "http://59.23.132.191/30stair/seq2/seq2.php?pname=seq2",
+    "tags": [
+      "반복문",
+      "사칙연산"
+    ],
+    "problem_id": "seq2"
+  },
+  {
+    "title": "끼리끼리 합/adigit",
+    "link": "http://59.23.132.191/30stair/adigit/adigit.php?pname=adigit",
+    "tags": [
+      "반복문",
+      "사칙연산"
+    ],
+    "problem_id": "adigit"
+  },
+  {
+    "title": "순차 합 II/1ton1",
+    "link": "http://59.23.132.191/30stair/1ton1/1ton1.php?pname=1ton1",
+    "tags": [
+      "반복문",
+      "사칙연산"
+    ],
+    "problem_id": "1ton1"
+  },
+  {
+    "title": "최대 값/max",
+    "link": "http://59.23.132.191/30stair/max/max.php?pname=max",
+    "tags": [
+      "반복문",
+      "최대값/최소값 찾기"
+    ],
+    "problem_id": "max"
+  },
+  {
+    "title": "최소 값/min",
+    "link": "http://59.23.132.191/30stair/min/min.php?pname=min",
+    "tags": [
+      "반복문",
+      "최대값/최소값 찾기"
+    ],
+    "problem_id": "min"
+  },
+  {
+    "title": "최대,최소값 출력/mM",
+    "link": "http://59.23.132.191/30stair/mM/mM.php?pname=mM",
+    "tags": [
+      "반복문",
+      "최대값/최소값 찾기"
+    ],
+    "problem_id": "mM"
+  },
+  {
+    "title": "가장 부지런한 농부/sb",
+    "link": "http://59.23.132.191/30stair/sb/sb.php?pname=sb",
+    "tags": [
+      "반복문",
+      "사칙연산"
+    ],
+    "problem_id": "sb"
+  },
+  {
+    "title": "3n+1/3np1",
+    "link": "http://59.23.132.191/30stair/3np1/3np1.php?pname=3np1",
+    "tags": [
+      "반복문",
+      "배수와 나머지"
+    ],
+    "problem_id": "3np1"
+  },
+  {
+    "title": "홀 수/odd",
+    "link": "http://59.23.132.191/30stair/odd/odd.php?pname=odd",
+    "tags": [
+      "반복문",
+      "배수와 나머지"
+    ],
+    "problem_id": "odd"
+  },
+  {
+    "title": "순차 합/1ton",
+    "link": "http://59.23.132.191/30stair/1ton/1ton.php?pname=1ton",
+    "tags": [
+      "반복문",
+      "사칙연산"
+    ],
+    "problem_id": "1ton"
+  },
+  {
+    "title": "N 구하기/Nsum",
+    "link": "http://59.23.132.191/30stair/Nsum/Nsum.php?pname=Nsum",
+    "tags": [
+      "반복문",
+      "사칙연산"
+    ],
+    "problem_id": "Nsum"
+  },
+  {
+    "title": "팩토리얼 구하기/fact",
+    "link": "http://59.23.132.191/30stair/fact/fact.php?pname=fact",
+    "tags": [
+      "반복문",
+      "사칙연산"
+    ],
+    "problem_id": "fact"
+  },
+  {
+    "title": "약수 출력/factor",
+    "link": "http://59.23.132.191/30stair/factor/factor.php?pname=factor",
+    "tags": [
+      "반복문",
+      "약수 구하기"
+    ],
+    "problem_id": "factor"
+  },
+  {
+    "title": "직각 삼각형 (별)/tri1",
+    "link": "http://59.23.132.191/30stair/tri1/tri1.php?pname=tri1",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "tri1"
+  },
+  {
+    "title": "역 직각 삼각형I (별)/tri2",
+    "link": "http://59.23.132.191/30stair/tri2/tri2.php?pname=tri2",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "tri2"
+  },
+  {
+    "title": "역 직각 삼각형II (별)/tri3",
+    "link": "http://59.23.132.191/30stair/tri3/tri3.php?pname=tri3",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "tri3"
+  },
+  {
+    "title": "E 출력(별)/printe",
+    "link": "http://59.23.132.191/30stair/printe/printe.php?pname=printe",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "printe"
+  },
+  {
+    "title": "거울에 비친 E(별)/etnirp",
+    "link": "http://59.23.132.191/30stair/etnirp/etnirp.php?pname=etnirp",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "etnirp"
+  },
+  {
+    "title": "네모(별)/nemo",
+    "link": "http://59.23.132.191/30stair/nemo/nemo.php?pname=nemo",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "nemo"
+  },
+  {
+    "title": "F 출력(별)/printF",
+    "link": "http://59.23.132.191/30stair/printF/printF.php?pname=printF",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "printF"
+  },
+  {
+    "title": "T 출력(별)/printT",
+    "link": "http://59.23.132.191/30stair/printT/printT.php?pname=printT",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "printT"
+  },
+  {
+    "title": "H 출력(별)/printH",
+    "link": "http://59.23.132.191/30stair/printH/printH.php?pname=printH",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "printH"
+  },
+  {
+    "title": "쾌걸 조로 (별)/zorro",
+    "link": "http://59.23.132.191/30stair/zorro/zorro.php?pname=zorro",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "zorro"
+  },
+  {
+    "title": "삼각형 (별)/tri4",
+    "link": "http://59.23.132.191/30stair/tri4/tri4.php?pname=tri4",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "tri4"
+  },
+  {
+    "title": "다이아몬드 (별)/diamond",
+    "link": "http://59.23.132.191/30stair/diamond/diamond.php?pname=diamond",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "diamond"
+  },
+  {
+    "title": "모래 시계 (별)/sclock",
+    "link": "http://59.23.132.191/30stair/sclock/sclock.php?pname=sclock",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "sclock"
+  },
+  {
+    "title": "오실로스코프(별)/oscilloscope",
+    "link": "http://59.23.132.191/30stair/oscilloscope/oscilloscope.php?pname=oscilloscope",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "oscilloscope"
+  },
+  {
+    "title": "V 출력( 별 )/bui",
+    "link": "http://59.23.132.191/30stair/bui/bui.php?pname=bui",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "bui"
+  },
+  {
+    "title": "54321/54321",
+    "link": "http://59.23.132.191/30stair/54321/54321.php?pname=54321",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "54321"
+  },
+  {
+    "title": "b54321/b54321",
+    "link": "http://59.23.132.191/30stair/b54321/b54321.php?pname=b54321",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "b54321"
+  },
+  {
+    "title": "숫자 다이아몬드/ddiamond",
+    "link": "http://59.23.132.191/30stair/ddiamond/ddiamond.php?pname=ddiamond",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "ddiamond"
+  },
+  {
+    "title": "멀티 탭/electrical_outlets",
+    "link": "http://59.23.132.191/30stair/electrical_outlets/electrical_outlets.php?pname=electrical_outlets",
+    "tags": [
+      "사칙연산"
+    ],
+    "problem_id": "electrical_outlets"
+  },
+  {
+    "title": "설탕 공장/sugar",
+    "link": "http://59.23.132.191/30stair/sugar/sugar.php?pname=sugar",
+    "tags": [
+      "사칙연산"
+    ],
+    "problem_id": "sugar"
+  },
+  {
+    "title": "주사위 던지기 I/dice",
+    "link": "http://59.23.132.191/30stair/dice/dice.php?pname=dice",
+    "tags": [
+      "반복문",
+      "수학 관련 문제"
+    ],
+    "problem_id": "dice"
+  },
+  {
+    "title": "주사위 던지기 II/dice1",
+    "link": "http://59.23.132.191/30stair/dice1/dice1.php?pname=dice1",
+    "tags": [
+      "반복문",
+      "수학 관련 문제"
+    ],
+    "problem_id": "dice1"
+  },
+  {
+    "title": "어떤 수/somenum",
+    "link": "http://59.23.132.191/30stair/somenum/somenum.php?pname=somenum",
+    "tags": [
+      "수학 관련 문제"
+    ],
+    "problem_id": "somenum"
+  },
+  {
+    "title": "n 의 배수/multofn",
+    "link": "http://59.23.132.191/30stair/multofn/multofn.php?pname=multofn",
+    "tags": [
+      "배수와 나머지"
+    ],
+    "problem_id": "multofn"
+  },
+  {
+    "title": "복면산/mask",
+    "link": "http://59.23.132.191/30stair/mask/mask.php?pname=mask",
+    "tags": [
+      "문자열 처리"
+    ],
+    "problem_id": "mask"
+  },
+  {
+    "title": "암스트롱 수/amstrong",
+    "link": "http://59.23.132.191/30stair/amstrong/amstrong.php?pname=amstrong",
+    "tags": [
+      "수학 관련 문제"
+    ],
+    "problem_id": "amstrong"
+  },
+  {
+    "title": "거듭제곱 테이블/table",
+    "link": "http://59.23.132.191/30stair/table/table.php?pname=table",
+    "tags": [
+      "반복문",
+      "수학 관련 문제"
+    ],
+    "problem_id": "table"
+  },
+  {
+    "title": "3*n + 1 의 최대 길이/3nplusone",
+    "link": "http://59.23.132.191/30stair/3nplusone/3nplusone.php?pname=3nplusone",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "3nplusone"
+  },
+  {
+    "title": "우울한 진진/jinjin",
+    "link": "http://59.23.132.191/30stair/jinjin/jinjin.php?pname=jinjin",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "jinjin"
+  },
+  {
+    "title": "이벤트/ncpc_event",
+    "link": "http://59.23.132.191/30stair/ncpc_event/ncpc_event.php?pname=ncpc_event",
+    "tags": [
+      "반복문"
+    ],
+    "problem_id": "ncpc_event"
+  },
+  {
+    "title": "소인수의 갯수/nOf",
+    "link": "http://59.23.132.191/30stair/nOf/nOf.php?pname=nOf",
+    "tags": [
+      "약수 구하기",
+      "소수 판별",
+      "반복문"
+    ],
+    "problem_id": "nOf"
+  },
+  {
+    "title": "소인수 분해1/pfactor",
+    "link": "http://59.23.132.191/30stair/pfactor/pfactor.php?pname=pfactor",
+    "tags": [
+      "약수 구하기",
+      "소수 판별",
+      "반복문"
+    ],
+    "problem_id": "pfactor"
+  },
+  {
+    "title": "소인수 분해/decomp",
+    "link": "http://59.23.132.191/30stair/decomp/decomp.php?pname=decomp",
+    "tags": [
+      "약수 구하기",
+      "소수 판별",
+      "반복문"
+    ],
+    "problem_id": "decomp"
+  },
+  {
+    "title": "반대로 출력/rprint",
+    "link": "http://59.23.132.191/30stair/rprint/rprint.php?pname=rprint",
+    "tags": [
+      "배열",
+      "배열 뒤집기"
+    ],
+    "problem_id": "rprint"
+  },
+  {
+    "title": "genes/genes",
+    "link": "http://59.23.132.191/30stair/genes/genes.php?pname=genes",
+    "tags": [
+      "배열",
+      "배열 정렬"
+    ],
+    "problem_id": "genes"
+  },
+  {
+    "title": "최소 자리바꿈/sort_by_swaping",
+    "link": "http://59.23.132.191/30stair/sort_by_swaping/sort_by_swaping.php?pname=sort_by_swaping",
+    "tags": [
+      "배열",
+      "배열 정렬"
+    ],
+    "problem_id": "sort_by_swaping"
+  },
+  {
+    "title": "brainman/brainman",
+    "link": "http://59.23.132.191/30stair/brainman/brainman.php?pname=brainman",
+    "tags": [
+      "배열",
+      "배열 정렬"
+    ],
+    "problem_id": "brainman"
+  },
+  {
+    "title": "합이 10000/sacrament",
+    "link": "http://59.23.132.191/30stair/sacrament/sacrament.php?pname=sacrament",
+    "tags": [
+      "배열"
+    ],    "problem_id": "sacrament"
+  },
+  {
+    "title": "피보나치 수열/fibo",
+    "link": "http://59.23.132.191/30stair/fibo/fibo.php?pname=fibo",
+    "tags": [
+      "반복문",
+      "수학 관련 문제",
+      "피보나치"
+    ],
+    "problem_id": "fibo"
+  },
+  {
+    "title": "에라토스테네스의 체/eratosthenes",
+    "link": "http://59.23.132.191/30stair/eratosthenes/eratosthenes.php?pname=eratosthenes",
+    "tags": [
+      "반복문",
+      "소수 판별"
+    ],
+    "problem_id": "eratosthenes"
+  },
+  {
+    "title": "배수 찾기/multiple",
+    "link": "http://59.23.132.191/30stair/multiple/multiple.php?pname=multiple",
+    "tags": [
+      "반복문",
+      "배수와 나머지"
+    ],
+    "problem_id": "multiple"
+  },
+  {
+    "title": "여러수의 최대 공약수/mgcd",
+    "link": "http://59.23.132.191/30stair/mgcd/mgcd.php?pname=mgcd",
+    "tags": [
+      "기본 함수",
+      "최대공약수(GCD) / 최소공배수(LCM)"
+    ],
+    "problem_id": "mgcd"
+  },
+  {
+    "title": "골드바하의 추측/goldbach",
+    "link": "http://59.23.132.191/30stair/goldbach/goldbach.php?pname=goldbach",
+    "tags": [
+      "기본 함수",
+      "소수 판별"
+    ],
+    "problem_id": "goldbach"
+  },
+  {
+    "title": "십자 카드/tencard",
+    "link": "http://59.23.132.191/30stair/tencard/tencard.php?pname=tencard",
+    "tags": [
+      "기본 함수",
+      "배수와 나머지"
+    ],
+    "problem_id": "tencard"
+  },
+  {
+    "title": "emirps/emirps",
+    "link": "http://59.23.132.191/30stair/emirps/emirps.php?pname=emirps",
+    "tags": [
+      "기본 함수",
+      "소수 판별"
+    ],
+    "problem_id": "emirps"
+  },
+  {
+    "title": "self number/self_num",
+    "link": "http://59.23.132.191/30stair/self_num/self_num.php?pname=self_num",
+    "tags": [
+      "기본 함수"
+    ],
+    "problem_id": "self_num"
+  },
+  {
+    "title": "13 일의 금요일/friday",
+    "link": "http://59.23.132.191/30stair/friday/friday.php?pname=friday",
+    "tags": [
+      "기본 함수"
+    ],
+    "problem_id": "friday"
+  },
+  {
+    "title": "수 암호화/cryption",
+    "link": "http://59.23.132.191/30stair/cryption/cryption.php?pname=cryption",
+    "tags": [
+      "기본 함수",
+      "문자열 조작"
+    ],
+    "problem_id": "cryption"
+  },
+  {
+    "title": "중국인나머지정리/chinese",
+    "link": "http://59.23.132.191/30stair/chinese/chinese.php?pname=chinese",
+    "tags": [
+      "기본 함수",
+      "수학 관련 문제",
+      "배수와 나머지"
+    ],
+    "problem_id": "chinese"
+  },
+  {
+    "title": "이중 회귀수/dual_palindrome",
+    "link": "http://59.23.132.191/30stair/dual_palindrome/dual_palindrome.php?pname=dual_palindrome",
+    "tags": [
+      "기본 함수",
+      "문자열 조작"
+    ],
+    "problem_id": "dual_palindrome"
+  },
+  {
+    "title": "이진 회귀수/bpalin",
+    "link": "http://59.23.132.191/30stair/bpalin/bpalin.php?pname=bpalin",
+    "tags": [
+      "기본 함수",
+      "문자열 조작"
+    ],
+    "problem_id": "bpalin"
+  },
+  {
+    "title": "소수 회귀수/prime_palin",
+    "link": "http://59.23.132.191/30stair/prime_palin/prime_palin.php?pname=prime_palin",
+    "tags": [
+      "기본 함수",
+      "소수 판별",
+      "문자열 조작"
+    ],
+    "problem_id": "prime_palin"
+  }
+]
