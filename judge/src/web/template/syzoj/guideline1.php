@@ -97,29 +97,19 @@
     document.addEventListener('DOMContentLoaded', function () {
     const feedbackImage = document.getElementById('feedback-img');
 
-    document.addEventListener('DOMContentLoaded', function () {
-    const feedbackImage = document.getElementById('feedback-img');
-    feedbackImage.style.position = 'absolute';  // 이미지의 위치를 절대값으로 설정
-    
+    // 마우스 이동 이벤트 처리
     document.addEventListener('mousemove', function(event) {
-        // 마우스의 X, Y 좌표를 얻습니다
         const mouseX = event.pageX;
         const mouseY = event.pageY;
 
-        // 이미지의 크기
-        const imageWidth = feedbackImage.offsetWidth;
-        const imageHeight = feedbackImage.offsetHeight;
+        // 포인터 끝에 이미지가 위치하도록 오프셋 조절 (아래 + 오른쪽으로 약간 이동)
+        const offsetX = 10;  // 커서보다 약간 오른쪽
+        const offsetY = 20;  // 커서보다 약간 아래쪽 (포인터 꼬리)
 
-        // 이미지의 중앙을 마우스 위치에 맞추기 위해 좌표를 계산합니다
-        const imageTop = mouseY - imageHeight / 2;
-        const imageLeft = mouseX - imageWidth / 2;
-
-        // 이미지의 Y 위치와 X 위치를 마우스 위치에 맞게 설정
-        feedbackImage.style.top = `${imageTop}px`;
-        feedbackImage.style.left = `${imageLeft}px`;
+        feedbackImage.style.position = 'absolute';
+        feedbackImage.style.left = `${mouseX + offsetX}px`;
+        feedbackImage.style.top = `${mouseY + offsetY}px`;
     });
-});
-
 
 
 
