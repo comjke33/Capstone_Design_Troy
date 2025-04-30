@@ -129,6 +129,10 @@ if(isset($_POST['remote_oj'])){
 	<?php
 }
 
+//파이썬 실행
+shell_exec("python3 /path/to/your_script.py > /dev/null 2>&1 &");
+//파이썬 실행
+
 $sql = "INSERT INTO `privilege` (`user_id`,`rightstr`) VALUES(?,?)";
 pdo_query($sql, $_SESSION[$OJ_NAME.'_'.'user_id'], "p$pid");
 $_SESSION[$OJ_NAME.'_'."p$pid"] = true;
