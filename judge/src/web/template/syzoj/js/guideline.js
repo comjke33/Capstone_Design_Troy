@@ -118,3 +118,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   });
 });
+
+function updateFeedback(index, isCorrect, input) {
+    const feedbackContent = document.getElementById(`feedback-content-${index}`);
+    
+    if (!feedbackContent) return;
+
+    if (isCorrect) {
+        feedbackContent.innerHTML = `<span style="color: green;">정답입니다! 🎉</span>`;
+    } else {
+        feedbackContent.innerHTML = `<span style="color: red;">오답입니다. 다시 시도해 보세요.</span>`;
+    }
+}
