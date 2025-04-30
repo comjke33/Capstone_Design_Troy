@@ -306,6 +306,7 @@ function do_submit() {
 				// source_code를 Python 스크립트에 인자로 넘겨줌
 				$output = shell_exec("python \"$pythonScriptPath\" \"$source_code\"");
 
+				echo $output; 
 				// compile_process.py 실행 후, matching_hyperlink.py 실행
 				$matchingScriptPath = 'C:/Users/sonsm/seungmin/Capstone_Design_Troy/py/matching_hyperlink.py';
 				$matched_links = shell_exec("python \"$matchingScriptPath\" \"$output\"");
