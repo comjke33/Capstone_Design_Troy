@@ -1,14 +1,16 @@
 <?php
+require_once('include/db_info.inc.php');
 $solution_id = isset($_GET['solution_id']) ? intval($_GET['solution_id']) : 0;
 
 $feedback_error = null;
+$link_result = null;
 
 if ($solution_id <= 0) {
     $feedback_error = "❌ 유효하지 않은 요청입니다.";
 } else {
     $sql = "SELECT link FROM hyperlink WHERE solution_id = ?";
     $stmt = $mysqli->prepare($sql);
-    
+
     if ($stmt) {
         $stmt->bind_param("i", $solution_id);
         $stmt->execute();
