@@ -223,7 +223,7 @@ else {
 
 //echo $sql;
 //exit();
-$sql = $sql.$order_str." LIMIT 50";
+$sql = $sql.$order_str." LIMIT 10";
 //echo $sql;
 
 
