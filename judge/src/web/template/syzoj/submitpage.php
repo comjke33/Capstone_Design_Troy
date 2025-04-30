@@ -302,30 +302,41 @@ function do_submit() {
 
 <?php
 
-	//폼이 POST로 제출될 때 실행됨
-	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			$source_code = $_POST['source'];
+// 폼이 POST로 제출될 때 실행됨
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // 사용자로부터 입력 받은 source 코드
+    $source_code = $_POST['source'];
 
-			// secret.py 파일의 경로
-			$pythonScriptPath = '..\..\py\matching_hyperlink.py';
+    // Python 스크립트의 경로 (경로 구분자는 '/'로 수정)
+    $pythonScriptPath = realpath(__DIR__ . '/../../py/matching_hyperlink.py');  // 절대경로 사용
 
-			// shell_exec()를 사용해 Python 스크립트를 실행
-			$output = shell_exec("python \"$pythonScriptPath\" \"$source_dode\"");
+    // 사용자 입력 값 안전하게 처리하기 (escapeshellarg로 보안 강화)
+    $escapedSourceCode = escapeshellarg($source_code);
 
-			file_put_contents('/tmp/php-log.txt', "echo 실행됨\n", FILE_APPEND);
-			echo $output;
-			// compile_process.py 실행 후, 오류 메시지를 받아 matching_hyperlink.py 실행
-			$matchingScriptPath = '/../../py/matching_hyperlink.py';
-			
-			$matched_links = shell_exec("python \"$matchingScriptPath\" \"$output\"");
+    // shell_exec()를 사용해 Python 스크립트를 실행
+    $output = shell_exec("python3 \"$pythonScriptPath\" $escapedSourceCode");
 
-			echo "<script>console.log('Python script output: " . addslashes($matched_links) . "');</script>";
-	
-			// 쿼리 문 사용하여 데이터베이스 결과 처리
-    // 예시로 PDO 또는 MySQLi를 사용하여 데이터를 쿼리하고 출력하는 부분을 추가할 수 있습니다.
-		echo "<pre>$matched_links</pre>";
-	}
-	?> 
+    // 실행이 정상적으로 되었는지 로그 기록
+    file_put_contents(__DIR__ . '/logs/php-log.txt', "Python script executed at " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
+
+    // Python 스크립트 실행 결과 출력
+    echo $output;
+
+    // 두 번째 Python 스크립트 실행
+    $matchingScriptPath = realpath(__DIR__ . '/../../py/matching_hyperlink.py');  // 경로 수정
+
+    // 첫 번째 Python 스크립트의 출력을 두 번째 스크립트에 전달
+    $escapedOutput = escapeshellarg($output);
+    $matched_links = shell_exec("python3 \"$matchingScriptPath\" $escapedOutput");
+
+    // 콘솔에 결과 출력 (JavaScript로 출력)
+    echo "<script>console.log('Python script output: " . addslashes($matched_links) . "');</script>";
+
+    // 매칭된 링크 출력 (HTML 형식으로 표시)
+    echo "<pre>$matched_links</pre>";
+}
+?>
+
 
 }
 
