@@ -1,5 +1,3 @@
-/* 📄 src/web/css/guideline.css */
-
 /* 전체 레이아웃 */
 .main-layout {
   display: flex;
@@ -7,18 +5,6 @@
   width: 100%;  /* 화면 너비에 맞게 확장 */
   margin: 0 auto;
   padding: 20px;
-}
-
-/* 네모난 피드백 이미지 스타일 */
-#feedback-img {
-  position: fixed;  /* 이미지 고정 */
-  left: 20px;  /* 왼쪽으로 위치 */
-  top: 20px;  /* 상단에 고정 */
-  width: 100px;  /* 이미지 크기 조정 */
-  height: 100px;  /* 이미지 크기 조정 */
-  object-fit: cover;  /* 이미지 크기 자동 조정 */
-  border-radius: 10px;
-  z-index: 10;  /* 이미지가 다른 요소들 위에 오도록 설정 */
 }
 
 /* 왼쪽 패널: 문제 설명 및 텍스트 입력 영역 */
@@ -33,32 +19,31 @@
   overflow-y: auto;
 }
 
-/* 가운데 패널: 문제 설명 및 코드 입력 영역 */
-/* 가운데 패널: 문제 설명 및 코드 입력 영역 */
-.center-panel {
-  flex-grow: 1;  /* 가운데 패널이 남은 공간을 차지하도록 설정 */
-  padding: 20px;  /* 내부 여백 */
-  background-color: #fff;  /* 배경 색상 */
-  box-sizing: border-box;
-  display: flex;  /* flexbox를 사용하여 내용 정렬 */
-  flex-direction: column;  /* 세로 방향으로 정렬 */
-  justify-content: flex-start;  /* 내용이 위에서부터 차례대로 정렬되도록 설정 */
-  align-items: stretch;  /* 내용들이 좌우로 균일하게 배치되도록 설정 */
-  overflow-y: auto;  /* 세로 스크롤을 활성화 */
-  height: 100%;  /* 패널의 높이를 100%로 설정 */
-}
-
-/* 코드 라인 스타일 */
+/* 문제 설명 부분 스타일 */
 .code-line {
   background-color: #f8f8fa;
   border: 1px solid #ddd;
   border-radius: 6px;
-  padding: 10px 16px;
-  margin-bottom: 10px;
-  font-size: 15px;
+  padding: 15px 16px;  /* 더 많은 패딩으로 설명 부분을 크게 보여줌 */
+  margin-bottom: 15px;  /* 코드 라인 간격 증가 */
+  font-size: 18px;  /* 설명 부분의 폰트 크기 증가 */
   color: #333;
   white-space: pre-wrap;
-  width: 100%;  /* 너비를 100%로 설정하여 균일한 배치 */
+  width: 100%;
+}
+
+/* 가운데 패널: 문제 설명 및 코드 입력 영역 */
+.center-panel {
+  flex-grow: 1;  /* 가운데 패널 크기 동적 확장 */
+  padding: 20px;
+  background-color: #fff;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow-y: auto;
+  height: 100%;
 }
 
 /* 텍스트 영역 스타일 */
@@ -71,10 +56,10 @@
   background-color: #fff;
   line-height: 1.6;
   resize: none;
-  width: 100%;  /* 텍스트 영역 너비를 100%로 설정 */
+  width: 100%;
   box-sizing: border-box;
   min-height: 40px;
-  margin-bottom: 20px;  /* 텍스트 영역 간의 간격 추가 */
+  margin-bottom: 20px;
 }
 
 /* 제출 및 보기 버튼 스타일 */
@@ -82,23 +67,24 @@
   margin-top: 6px;
   color: white !important; /* 강제로 흰색 글자 */
   border: none !important;
-  padding: 8px 12px;
+  padding: 6px 10px;  /* 버튼 크기를 줄임 */
   border-radius: 4px;
   cursor: pointer;
   display: inline-block;
   text-align: center;
-  width: 100%;  /* 버튼이 텍스트 영역과 같은 크기로 맞춰짐 */
-  box-sizing: border-box;
+  width: auto;  /* 버튼 크기를 자동으로 맞춤 */
 }
 
 /* Submit Button Specific Style */
 .submit-button {
   background-color: #4a90e2 !important; /* 파란색 배경 */
+  font-size: 14px;  /* 버튼 폰트 크기 조정 */
 }
 
 /* View Button Specific Style */
 .view-button {
   background-color: #ff8c00 !important; /* 주황색 배경 */
+  font-size: 14px;  /* 버튼 폰트 크기 조정 */
 }
 
 /* 체크 마크 스타일 (정답 표시) */
@@ -107,7 +93,6 @@
   margin-left: 6px;
   color: #2ecc71;
 }
-
 
 /* 제출된 문제 코드 스타일 */
 .submission-line {
