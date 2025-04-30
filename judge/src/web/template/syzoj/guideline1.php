@@ -104,9 +104,6 @@
         
         // 이미지의 중앙을 마우스 포인터의 위치에 맞추기 위해 계산
         const imageHeight = feedbackImage.offsetHeight;
-        
-        // 이미지의 Y 위치를 마우스 커서의 Y 위치에서 이미지 크기의 절반만큼 위로 올립니다
-        const imageTop = mouseY - imageHeight / 2;
 
         // 이미지 위치 업데이트
         feedbackImage.style.position = 'absolute';
