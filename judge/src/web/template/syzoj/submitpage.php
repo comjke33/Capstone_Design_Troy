@@ -29,8 +29,6 @@
 
 <center>
 
-
-
 	<script src="<?php echo $OJ_CDN_URL ?>include/checksource.js"></script>
 	<form id=frmSolution action="submit.php<?php if (isset($_GET['spa']))
 		echo "?spa" ?>" method="post"
@@ -257,20 +255,6 @@
 function do_submit() {
 	$("#Submit").attr("disabled", "true");   // 중복 클릭 방지용 버튼 비활성화
 
-	$cmd = 'pyton3 /home/Capstone_Design_Troy/py/compile_process.py 2>&1';
-	$outputt = []
-	$return_var = 0;
-
-	exec($cmd, $output, $return_var);
-
-	file_put_contents('/tmp/compile_exec_log.txt', implode("\n", $output), FILE_APPEND);
-
-	var source_code = $("#source").val();  // textarea에서 소스 코드 가져오기
-    console.log("Source Code: ", source_code);  // 콘솔에 출력
-
-		// 서버로 AJAX 요청 보내기 전에 source_code를 출력하려면:
-    $('#result').html("<pre>" + source_code + "</pre>");  // #result에 소스 코드 출력
-
 	if (using_blockly)
 		translate(); // Blockly 코드 변환
 
@@ -299,45 +283,6 @@ function do_submit() {
 	// 기본 모드일 경우 폼 제출
 	document.getElementById("frmSolution").submit();
 <?php } ?>
-
-<?php
-
-// 폼이 POST로 제출될 때 실행됨
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // 사용자로부터 입력 받은 source 코드
-    $source_code = $_POST['source'];
-
-    // Python 스크립트의 경로 (경로 구분자는 '/'로 수정)
-    $pythonScriptPath = realpath(__DIR__ . '/../../py/matching_hyperlink.py');  // 절대경로 사용
-
-    // 사용자 입력 값 안전하게 처리하기 (escapeshellarg로 보안 강화)
-    $escapedSourceCode = escapeshellarg($source_code);
-
-    // shell_exec()를 사용해 Python 스크립트를 실행
-    $output = shell_exec("python3 \"$pythonScriptPath\" $escapedSourceCode");
-
-    // 실행이 정상적으로 되었는지 로그 기록
-    file_put_contents(__DIR__ . '/logs/php-log.txt', "Python script executed at " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
-
-    // Python 스크립트 실행 결과 출력
-    echo $output;
-
-    // 두 번째 Python 스크립트 실행
-    $matchingScriptPath = realpath(__DIR__ . '/../../py/matching_hyperlink.py');  // 경로 수정
-
-    // 첫 번째 Python 스크립트의 출력을 두 번째 스크립트에 전달
-    $escapedOutput = escapeshellarg($output);
-    $matched_links = shell_exec("python3 \"$matchingScriptPath\" $escapedOutput");
-
-    // 콘솔에 결과 출력 (JavaScript로 출력)
-    echo "<script>console.log('Python script output: " . addslashes($matched_links) . "');</script>";
-
-    // 매칭된 링크 출력 (HTML 형식으로 표시)
-    echo "<pre>$matched_links</pre>";
-}
-?>
-
-
 }
 
 var handler_interval; // 제출 쿨다운 타이머
