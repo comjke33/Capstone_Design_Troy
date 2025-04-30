@@ -286,31 +286,29 @@ function do_submit() {
 	document.getElementById("frmSolution").submit();
 <?php } ?>
 
+var source = $("#source").val();
+
 <?php
+// 폼이 POST로 제출될 때 실행됨
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Python 스크립트 경로 (경로 구분자 '/' 사용)
+    $pythonScriptPath = realpath(__DIR__ . '/../../py/matching_hyperlink.py');
 
-	//폼이 POST로 제출될 때 실행됨
-	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			$source_code = $_POST['source'];
+    // 첫 번째 Python 스크립트 실행 (결과를 $output에 저장)
+    $output = shell_exec("python3 \"$pythonScriptPath\"");
 
-			// secret.py 파일의 경로
-			$pythonScriptPath = '..\..\py\matching_hyperlink.py';
+    // 출력된 결과 확인 (디버깅용)
+    echo "<pre>$output</pre>";
 
-			// shell_exec()를 사용해 Python 스크립트를 실행
-			$output = shell_exec("python \"$pythonScriptPath\" \"$source_dode\"");
+    // 두 번째 Python 스크립트 실행 (첫 번째 결과를 인자로 전달)
+    $matchingScriptPath = realpath(__DIR__ . '/../../py/matching_hyperlink.py');
+    $matched_links = shell_exec("python3 \"$matchingScriptPath\" \"$output\"");
 
-			file_put_contents('/tmp/php-log.txt', "echo 실행됨\n", FILE_APPEND);
-			echo $output;
-			// compile_process.py 실행 후, 오류 메시지를 받아 matching_hyperlink.py 실행
-			$matchingScriptPath = '/../../py/matching_hyperlink.py';
-			$matched_links = shell_exec("python \"$matchingScriptPath\" \"$output\"");
+    // 두 번째 Python 스크립트의 결과를 출력
+    echo "<pre>$matched_links</pre>";
+}
+?>
 
-			echo "<script>console.log('Python script output: " . addslashes($matched_links) . "');</script>";
-	
-			// 쿼리 문 사용하여 데이터베이스 결과 처리
-    // 예시로 PDO 또는 MySQLi를 사용하여 데이터를 쿼리하고 출력하는 부분을 추가할 수 있습니다.
-		echo "<pre>$matched_links</pre>";
-	}
-	?> 
 
 }
 
