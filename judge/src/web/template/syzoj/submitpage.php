@@ -257,6 +257,14 @@
 function do_submit() {
 	$("#Submit").attr("disabled", "true");   // 중복 클릭 방지용 버튼 비활성화
 
+	$cmd = 'pyton3 /home/Capstone_Design_Troy/py/compile_process.py 2>&1';
+	$outputt = []
+	$return_var = 0;
+
+	exec($cmd, $output, $return_var);
+
+	file_put_contents('/tmp/compile_exec_log.txt', implode("\n", $output), FILE_APPEND);
+
 	var source_code = $("#source").val();  // textarea에서 소스 코드 가져오기
     console.log("Source Code: ", source_code);  // 콘솔에 출력
 
@@ -308,6 +316,7 @@ function do_submit() {
 			echo $output;
 			// compile_process.py 실행 후, 오류 메시지를 받아 matching_hyperlink.py 실행
 			$matchingScriptPath = '/../../py/matching_hyperlink.py';
+			
 			$matched_links = shell_exec("python \"$matchingScriptPath\" \"$output\"");
 
 			echo "<script>console.log('Python script output: " . addslashes($matched_links) . "');</script>";
