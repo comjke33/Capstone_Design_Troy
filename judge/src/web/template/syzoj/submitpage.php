@@ -29,26 +29,7 @@
 
 <center>
 
-<?php
 
-	//폼이 POST로 제출될 때 실행됨
-	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			// secret.py 파일의 경로
-			$pythonScriptPath = '\py\secret.py';
-
-			// shell_exec()를 사용해 Python 스크립트를 실행
-			$output = shell_exec("python \"$pythonScriptPath\"");
-
-			// shell_exec()를 사용해 Python 스크립트를 실행
-			$output = shell_exec("python \"$pythonScriptPath\"");
-
-			// 실행된 결과를 JavaScript로 전달하여 브라우저 콘솔에 출력
-			echo "<script>console.log('secret.py trigger');</script>";
-	
-			// 선택적으로 Python 스크립트의 출력을 화면에 표시
-			echo "<pre>$output</pre>";
-	}
-	?> 
 
 	<script src="<?php echo $OJ_CDN_URL ?>include/checksource.js"></script>
 	<form id=frmSolution action="submit.php<?php if (isset($_GET['spa']))
@@ -304,6 +285,29 @@ function do_submit() {
 	// 기본 모드일 경우 폼 제출
 	document.getElementById("frmSolution").submit();
 <?php } ?>
+
+<?php
+
+	//폼이 POST로 제출될 때 실행됨
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			$source_code = $_POST['source'];
+
+			// secret.py 파일의 경로
+			$pythonScriptPath = '..\..\py\matching_hyperlink.py';
+
+			// shell_exec()를 사용해 Python 스크립트를 실행
+			$output = shell_exec("python \"$pythonScriptPath\" \"$source_dode\"");
+
+			// compile_process.py 실행 후, 오류 메시지를 받아 matching_hyperlink.py 실행
+			$matchingScriptPath = '/../../py/matching_hyperlink.py';
+			$matched_links = shell_exec("python \"$matchingScriptPath\" \"$output\"");
+	
+			// 쿼리 문 사용하여 데이터베이스 결과 처리
+    // 예시로 PDO 또는 MySQLi를 사용하여 데이터를 쿼리하고 출력하는 부분을 추가할 수 있습니다.
+		echo "<pre>$matched_links</pre>";
+	}
+	?> 
+
 }
 
 var handler_interval; // 제출 쿨다운 타이머
