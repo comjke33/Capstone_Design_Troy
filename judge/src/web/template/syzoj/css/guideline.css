@@ -3,8 +3,8 @@
 /* 전체 레이아웃 */
 .main-layout {
   display: flex;
-  gap: 20px;  /* 패널 간의 간격 조정 */
-  width: 150%;  /* 화면 너비에 맞게 확장 */
+  gap: 10px;  /* 패널 간의 간격 조정 */
+  width: 120%;  /* 화면 너비에 맞게 확장 */
   margin: 0 auto;
 }
 
