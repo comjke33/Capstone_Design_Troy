@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+  
 
 // 동적 기능을 처리하는 함수 (예: 텍스트 영역 크기 자동 조정)
 function initDynamicFeatures() {
