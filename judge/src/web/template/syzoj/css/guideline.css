@@ -8,20 +8,27 @@
   margin: 0 auto;
 }
 
-/* 네모난 피드백 이미지 스타일 */
+/* 피드백 이미지 스타일 */
 #feedback-img {
-  position: sticky;
-  top: 20px;
-  left: 20px;  /* 왼쪽으로 위치를 변경 */
-  width: 300px;  /* 이미지 크기를 크게 설정 */
-  height: 300px;
-  z-index: 10;
+  width: 200px;  /* 이미지 너비 조정 */
+  height: 200px;  /* 이미지 높이 조정 */
+  object-fit: cover;  /* 이미지 비율 유지하면서 꽉 채우기 */
+  border-radius: 10px;
+  position: absolute;
+  left: 10px;
+  top: 0;
+  z-index: 10;  /* 이미지가 다른 요소들 위에 오도록 설정 */
 }
 
 /* 왼쪽 패널: 문제 설명 및 텍스트 입력 영역 */
 .left-panel {
-  flex: 2;  /* 화면 너비에 맞게 동적으로 확장 */
-  padding: 60px;
+  flex: 0.3;  /* 왼쪽 패널 너비를 넓힘 */
+  padding-right: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   overflow-y: auto;
 }
 
