@@ -32,18 +32,23 @@
 <?php
 
 	//폼이 POST로 제출될 때 실행됨
-	// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	// 		// secret.py 파일의 경로
-	// 		$pythonScriptPath = 'C:\Users\sonsm\seungmin\Capstone_Design_Troy\py\secret.py';
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			// secret.py 파일의 경로
+			$pythonScriptPath = '\py\secret.py';
 
-	// 		// shell_exec()를 사용해 Python 스크립트를 실행
-	// 		$output = shell_exec("python \"$pythonScriptPath\"");
+			// shell_exec()를 사용해 Python 스크립트를 실행
+			$output = shell_exec("python \"$pythonScriptPath\"");
 
-	// 		// 실행된 결과 출력 (선택 사항)
-	// 		echo "<pre>$output</pre>";
-	// 		console.log(secret.py trigger);
-	// }
-	// ?> 
+			// shell_exec()를 사용해 Python 스크립트를 실행
+			$output = shell_exec("python \"$pythonScriptPath\"");
+
+			// 실행된 결과를 JavaScript로 전달하여 브라우저 콘솔에 출력
+			echo "<script>console.log('secret.py trigger');</script>";
+	
+			// 선택적으로 Python 스크립트의 출력을 화면에 표시
+			echo "<pre>$output</pre>";
+	}
+	?> 
 
 	<script src="<?php echo $OJ_CDN_URL ?>include/checksource.js"></script>
 	<form id=frmSolution action="submit.php<?php if (isset($_GET['spa']))
