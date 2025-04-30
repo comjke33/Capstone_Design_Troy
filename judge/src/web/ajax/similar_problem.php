@@ -35,9 +35,10 @@ exec($cmd, $output);
 
 foreach ($output as $line) {
   list($pid, $title, $score, $link, $tag_str) = explode("||", $line);
-  echo "<div style='margin-bottom:10px;'>
-          <a href='$link' target='_blank'>[$pid] $title</a><br>
-          <!-- <small>📎 $tag_str</small> -->
-        </div>";
-}
+echo "<div style='margin-bottom:5px;'>
+        <a href='$link' target='_blank' class='ui mini blue basic fluid button' style='text-align:left;'>
+          [$pid] $title
+        </a>
+      </div>";
+	}
 ?>
