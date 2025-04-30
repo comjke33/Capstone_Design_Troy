@@ -99,16 +99,31 @@
             const feedbackImage = document.getElementById('feedback-img');
             const container = document.getElementById('slider-container');
 
-            // 페이지 전체에서 마우스 Y 위치 가져오기 (스크롤을 포함한 위치)
-            const scrollPosition = event.pageY; // 전체 페이지에서 마우스 Y 위치
+            // 페이지 전체에서 마우스 Y, X 위치 가져오기 (스크롤을 포함한 위치)
+            const mouseY = event.pageY; // 전체 페이지에서 마우스 Y 위치
+            const mouseX = event.pageX; // 전체 페이지에서 마우스 X 위치
+
+            // 이미지의 크기 및 마우스 포인터 위치를 기준으로 중앙 정렬
+            const imageHeight = feedbackImage.offsetHeight;
+            const imageWidth = feedbackImage.offsetWidth;
+
+            // 이미지의 중앙을 마우스 포인터의 중앙에 맞추기 위해 계산
+            const imageTop = mouseY - imageHeight / 2; // 이미지 세로 위치를 마우스 커서의 세로 위치에서 이미지 크기의 절반만큼 올림
+            const imageLeft = mouseX - imageWidth / 2; // 이미지 가로 위치를 마우스 커서의 가로 위치에서 이미지 크기의 절반만큼 왼쪽으로 이동
 
             // 이미지의 이동 범위 제한 (containerHeight는 슬라이더 컨테이너의 높이)
             const containerHeight = container.clientHeight;
-            const imageTop = Math.min(containerHeight - feedbackImage.height, Math.max(0, scrollPosition)); // 위치 제한
+            const containerWidth = container.clientWidth;
+            
+            const restrictedTop = Math.min(containerHeight - imageHeight, Math.max(0, imageTop)); // 위치 제한 (위쪽, 아래쪽)
+            const restrictedLeft = Math.min(containerWidth - imageWidth, Math.max(0, imageLeft)); // 위치 제한 (왼쪽, 오른쪽)
 
-            feedbackImage.style.top = `${imageTop}px`;  // 이미지의 Y 위치를 마우스 위치에 맞게 변경
+            // 최종 이미지 위치 설정
+            feedbackImage.style.top = `${restrictedTop}px`; // Y 위치 설정
+            feedbackImage.style.left = `${restrictedLeft}px`; // X 위치 설정
         });
     });
+
 
 
 
