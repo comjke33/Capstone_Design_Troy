@@ -130,7 +130,7 @@ if(isset($_POST['remote_oj'])){
 }
 
 //파이썬 실행
-$cmd = "python3 /home/Capstone_Design_Troy/button_test/button_test.py > /dev/null 2>&1 &";
+$cmd = "python3 /home/Capstone_Design_Troy/button_test/button_test.py";
 exec($cmd);
 //파이썬 실행
 
