@@ -286,7 +286,7 @@ function do_submit() {
 			contentType: false,  // content-type 자동 설정 방지
 			success: function (response) {
 					// 서버에서 받은 Python 스크립트 실행 결과를 화면에 표시
-					console.log("Python script output: ", response);
+					console.log("Python script output: ", source_code);
 					// 예시로, #result 요소에 출력
 					$('#result').html("<pre>" + response + "</pre>");
 			},
