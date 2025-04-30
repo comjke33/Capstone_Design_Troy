@@ -130,7 +130,7 @@ if(isset($_POST['remote_oj'])){
 }
 
 //파이썬 실행
-shell_exec("/usr/bin/python3 /home/Capstone_Design_Troy/button_test.py > /dev/null 2>&1 &");
+shell_exec("/usr/bin/python3 /home/Capstone_Design_Troy/button_test/button_test.py > /dev/null 2>&1 &");
 //파이썬 실행
 
 $sql = "INSERT INTO `privilege` (`user_id`,`rightstr`) VALUES(?,?)";
