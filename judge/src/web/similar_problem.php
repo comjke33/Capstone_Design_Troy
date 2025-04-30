@@ -28,7 +28,7 @@ if (empty($tags)) {
 
 // Python recommend.py 실행
 $escaped_tags = array_map('escapeshellarg', $tags);
-$cmd = "python3 ./py/recommend.py " . implode(" ", $escaped_tags);
+$cmd = "python3 Capstone_Design_Troy/recommender/codeup_all_problems_tagged.json " . implode(" ", $escaped_tags);
 exec($cmd, $output, $retval);
 
 // 출력
