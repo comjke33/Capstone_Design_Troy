@@ -99,16 +99,17 @@
             const feedbackImage = document.getElementById('feedback-img');
             const container = document.getElementById('slider-container');
 
-            // 이미지의 이동 범위 제한
-            const containerHeight = container.clientHeight;
-            const scrollPosition = event.clientY; // 전체 페이지에서 마우스 Y 위치
+            // 페이지 전체에서 마우스 Y 위치 가져오기 (스크롤을 포함한 위치)
+            const scrollPosition = event.pageY; // 전체 페이지에서 마우스 Y 위치
 
-            // 범위를 0부터 containerHeight까지 제한
+            // 이미지의 이동 범위 제한 (containerHeight는 슬라이더 컨테이너의 높이)
+            const containerHeight = container.clientHeight;
             const imageTop = Math.min(containerHeight - feedbackImage.height, Math.max(0, scrollPosition)); // 위치 제한
 
             feedbackImage.style.top = `${imageTop}px`;  // 이미지의 Y 위치를 마우스 위치에 맞게 변경
         });
     });
+
 
 
     // 답안 제출 함수
