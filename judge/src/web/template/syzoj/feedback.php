@@ -11,14 +11,14 @@
                 <div class="header"><?php echo $feedback_error; ?></div>
             </div>
 
-        <?php elseif (!isset($feedback_data) || empty($feedback_data)): ?>
+        <?php elseif (!isset($link_result) || empty($link_result)): ?>
             <div class="ui warning message">
                 <div class="header">📭 피드백이 존재하지 않습니다.</div>
                 <p>이 제출에 대한 피드백이 아직 등록되지 않았습니다.</p>
             </div>
 
         <?php else: ?>
-            <?php foreach ($feedback_data as $item): ?>
+            <?php foreach ($link_result as $item): ?>
                 <div class="ui raised very padded text segment" style="margin-top: 2em;">
                     <h4 class="ui dividing header">📌 문제 ID: <?php echo htmlspecialchars($item['problem_id']); ?></h4>
                     <div class="ui message" style="background: #f9f9f9; padding: 1em; border-left: 5px solid #00b5ad;">
