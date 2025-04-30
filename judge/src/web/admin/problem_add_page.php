@@ -83,7 +83,7 @@
           <!-- 모범 코드 제목 -->
           <h4>모범코드</h4>
           <!-- 코드 입력 텍스트 영역 -->
-          <textarea class="kindeditor" rows=13 name=exemplary_code cols=80><span class='md'>
+          <textarea class="input input-large" style="width:100%;" rows=13 name=exemplary_code><span class='md'>
         </span></textarea><br>
         </p>
         <p>
