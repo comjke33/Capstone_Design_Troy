@@ -80,7 +80,7 @@ mkdir($basedir);
 
 //모범코드 DB저장
 $exemplary_code = $_POST['exemplary_code'];
-if (!empty($reference_code)) {
+if (!empty($exemplary_code)) {
   $sql = "INSERT INTO exemplary (problem_id, exemplary_code) VALUES (?, ?)";
   pdo_query($sql, $pid, $reference_code);
 }
