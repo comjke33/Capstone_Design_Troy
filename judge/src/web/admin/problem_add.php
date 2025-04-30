@@ -79,9 +79,9 @@ $basedir = "$OJ_DATA/$pid";
 mkdir($basedir);
 
 //모범코드 DB저장
-$reference_code = $_POST['reference_code'];
+$exemplary_code = $_POST['exemplary_code'];
 if (!empty($reference_code)) {
-  $sql = "INSERT INTO Exemplary (problem_id, exemplary_code) VALUES (?, ?)";
+  $sql = "INSERT INTO exemplary (problem_id, exemplary_code) VALUES (?, ?)";
   pdo_query($sql, $pid, $reference_code);
 }
 //모범코드 DB저장
