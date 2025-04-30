@@ -22,7 +22,7 @@
 
 /* 왼쪽 패널: 문제 설명 및 텍스트 입력 영역 */
 .left-panel {
-  flex: 0.5;  /* 왼쪽 패널 너비를 넓힘 */
+  flex: 0.25;  /* 왼쪽 패널의 너비를 늘림 */
   padding-right: 10px;
   position: relative;
   display: flex;
@@ -32,17 +32,27 @@
   overflow-y: auto;
 }
 
+/* 가운데 패널: 문제 설명 및 코드 입력 영역 */
+.center-panel {
+  flex-grow: 0.5;  /* 가운데 패널의 너비를 줄임 */
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+/* 오른쪽 패널: 피드백 부분 */
 .right-panel {
-  flex: 0.4;  /* 오른쪽 패널의 크기를 40%로 늘려줍니다 */
+  flex: 0.25;  /* 오른쪽 패널의 너비를 늘림 */
   padding-left: 20px;
   background-color: #fafafa;
-  border: 1px solid #eee;
-  border-radius: 8px;
+  border-left: 1px solid #ddd;
   height: 100vh;
   position: sticky;
   top: 0;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
-
 
 /* 코드 라인 스타일 */
 .code-line {
