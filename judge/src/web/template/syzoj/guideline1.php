@@ -95,24 +95,25 @@
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
 
     document.addEventListener('DOMContentLoaded', function () {
-        const feedbackImage = document.getElementById('feedback-img');
+    const feedbackImage = document.getElementById('feedback-img');
 
-        // 마우스 이동 이벤트 처리
-        document.addEventListener('mousemove', function(event) {
-            // 마우스 Y 위치를 가져오고, X 위치도 가져옵니다
-            const mouseY = event.pageY;  // 전체 페이지에서 마우스의 Y 위치
+    // 마우스 이동 이벤트 처리
+    document.addEventListener('mousemove', function(event) {
+        // 마우스 Y 위치를 가져오고, X 위치도 가져옵니다
+        const mouseY = event.pageY + window.scrollY;  // 전체 페이지에서 마우스의 Y 위치 + 현재 페이지 스크롤 위치
+        
+        // 이미지의 중앙을 마우스 포인터의 위치에 맞추기 위해 계산
+        const imageHeight = feedbackImage.offsetHeight;
+        
+        // 이미지의 Y 위치를 마우스 커서의 Y 위치에서 이미지 크기의 절반만큼 위로 올립니다
+        const imageTop = mouseY - imageHeight / 2;
 
-            // 이미지의 중앙을 마우스 포인터의 위치에 맞추기 위해 계산
-            const imageHeight = feedbackImage.offsetHeight;
-            
-            // 이미지의 Y 위치를 마우스 커서의 Y 위치에서 이미지 크기의 절반만큼 위로 올립니다
-            const imageTop = mouseY - imageHeight / 2;
-
-            // 이미지 위치 업데이트
-            feedbackImage.style.position = 'absolute';
-            feedbackImage.style.top = `${imageTop}px`; // 이미지의 Y 위치 설정
-        });
+        // 이미지 위치 업데이트
+        feedbackImage.style.position = 'absolute';
+        feedbackImage.style.top = `${imageTop}px`; // 이미지의 Y 위치 설정
     });
+});
+
 
 
 
