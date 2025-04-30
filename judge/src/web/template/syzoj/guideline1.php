@@ -94,18 +94,25 @@
 <script>
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
 
-    // 마우스 커서에 Y 위치에 따라 이미지를 실시간으로 위아래로만 움직이게 하는 기능
-    document.getElementById('slider-container').addEventListener('mousemove', function(event) {
+    // 마우스 Y 위치에 따라 이미지가 문서 전체 기준으로 따라가도록 수정
+    document.addEventListener('mousemove', function(event) {
         const feedbackImage = document.getElementById('feedback-img');
         const container = document.getElementById('slider-container');
-        
-        // 이미지의 이동 범위 제한
-        const containerHeight = container.clientHeight;
-        const scrollPosition = event.clientY; // 마우스 위치
-        const imageTop = Math.min(containerHeight - feedbackImage.height, Math.max(0, scrollPosition - 20)); // 위치 제한
 
-        feedbackImage.style.top = `${imageTop}px`;  // 이미지의 Y 위치를 마우스 위치에 맞게 변경
+        const containerRect = container.getBoundingClientRect();
+        const mouseY = event.clientY;
+
+        // 컨테이너 내부 상대 위치로 변환
+        let relativeY = mouseY - containerRect.top;
+
+        // 이동 범위 제한
+        const maxTop = container.clientHeight - feedbackImage.clientHeight;
+        const imageTop = Math.max(0, Math.min(relativeY - feedbackImage.clientHeight / 2, maxTop));
+
+        feedbackImage.style.position = 'absolute';
+        feedbackImage.style.top = `${imageTop}px`;
     });
+
 
     function submitAnswer(index) {
         const ta = document.getElementById(`ta_${index}`);
