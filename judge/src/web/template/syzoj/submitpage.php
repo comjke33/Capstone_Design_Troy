@@ -257,6 +257,12 @@
 function do_submit() {
 	$("#Submit").attr("disabled", "true");   // 중복 클릭 방지용 버튼 비활성화
 
+	var source_code = $("#source").val();  // textarea에서 소스 코드 가져오기
+    console.log("Source Code: ", source_code);  // 콘솔에 출력
+
+		// 서버로 AJAX 요청 보내기 전에 source_code를 출력하려면:
+    $('#result').html("<pre>" + source_code + "</pre>");  // #result에 소스 코드 출력
+
 	if (using_blockly)
 		translate(); // Blockly 코드 변환
 
@@ -272,65 +278,45 @@ function do_submit() {
 	else
 		problem_id.value = '<?php if (isset($cid)) echo $cid ?>';
 
-	// AJAX로 폼 데이터 전송
-	var source_code = $("#source").val();  // 에디터에서 소스 코드 가져오기
-	console.log("소스 코드: ", source_code); 
-	var formData = new FormData();
-	formData.append('source', source_code); // 소스 코드 폼 데이터에 추가
+	document.getElementById("frmSolution").target = "_self";
 
-	// 서버로 AJAX 요청하여 Python 스크립트 실행
-	$.ajax({
-			url: "submit.php",  // Python 스크립트를 실행할 PHP 파일
-			type: "POST",
-			data: formData,
-			processData: false,  // 폼 데이터 자동 처리 방지
-			contentType: false,  // content-type 자동 설정 방지
-			success: function (response) {
-					// 서버에서 받은 Python 스크립트 실행 결과를 화면에 표시
-					// testconsole.log("Python script output: ", response);
-					// 예시로, #result 요소에 출력
-					$('#result').html("<pre>" + response + "</pre>");
-			},
-			error: function (xhr, status, error) {
-					console.error("AJAX error: " + status + ", " + error);
-			}
-	});
-	<?php
-		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				// 클라이언트에서 받은 source 코드
-				$source_code = $_POST['source'];
+<?php if (isset($_GET['spa'])) { ?>
+	// SPA 모드일 경우 AJAX로 제출
+	$.post("submit.php?ajax", $("#frmSolution").serialize(), function (data) { fresh_result(data); });
+	$("#Submit").prop('disabled', true);
+	$("#TestRub").prop('disabled', true);
+	count = <?php echo $OJ_SUBMIT_COOLDOWN_TIME ?> * 2;
+	handler_interval = window.setTimeout("resume();", 1000);
+<?php } else { ?>
+	// 기본 모드일 경우 폼 제출
+	document.getElementById("frmSolution").submit();
+<?php } ?>
 
-				// compile_process.py 파일의 경로 (Windows 경로 예시)
-				$pythonScriptPath = 'C:/Users/sonsm/seungmin/Capstone_Design_Troy/py/compile_process.py';
+<?php
 
-				// shell_exec()를 사용해 Python 스크립트를 실행하고 결과 받기
-				// source_code를 Python 스크립트에 인자로 넘겨줌
-				$output = shell_exec("python \"$pythonScriptPath\" \"$source_code\"");
+	//폼이 POST로 제출될 때 실행됨
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			$source_code = $_POST['source'];
 
-				echo $output; 
-				// compile_process.py 실행 후, matching_hyperlink.py 실행
-				$matchingScriptPath = 'C:/Users/sonsm/seungmin/Capstone_Design_Troy/py/matching_hyperlink.py';
-				$matched_links = shell_exec("python \"$matchingScriptPath\" \"$output\"");
+			// secret.py 파일의 경로
+			$pythonScriptPath = '..\..\py\matching_hyperlink.py';
 
-				// 결과를 브라우저에 출력 (디버깅용)
-				echo $matched_links;  // 이 값을 AJAX success 콜백에서 받아서 화면에 출력
-		}
-		?>
-// 	document.getElementById("frmSolution").target = "_self";
+			// shell_exec()를 사용해 Python 스크립트를 실행
+			$output = shell_exec("python \"$pythonScriptPath\" \"$source_dode\"");
 
-// <?php if (isset($_GET['spa'])) { ?>
-// 	// SPA 모드일 경우 AJAX로 제출
-// 	$.post("submit.php?ajax", $("#frmSolution").serialize(), function (data) { fresh_result(data); });
-// 	$("#Submit").prop('disabled', true);
-// 	$("#TestRub").prop('disabled', true);
-// 	count = <?php echo $OJ_SUBMIT_COOLDOWN_TIME ?> * 2;
-// 	handler_interval = window.setTimeout("resume();", 1000);
-// <?php } else { ?>
-// 	// 기본 모드일 경우 폼 제출
-// 	document.getElementById("frmSolution").submit();
-// <?php } ?>
+			file_put_contents('/tmp/php-log.txt', "echo 실행됨\n", FILE_APPEND);
+			echo $output;
+			// compile_process.py 실행 후, 오류 메시지를 받아 matching_hyperlink.py 실행
+			$matchingScriptPath = '/../../py/matching_hyperlink.py';
+			$matched_links = shell_exec("python \"$matchingScriptPath\" \"$output\"");
 
-
+			echo "<script>console.log('Python script output: " . addslashes($matched_links) . "');</script>";
+	
+			// 쿼리 문 사용하여 데이터베이스 결과 처리
+    // 예시로 PDO 또는 MySQLi를 사용하여 데이터를 쿼리하고 출력하는 부분을 추가할 수 있습니다.
+		echo "<pre>$matched_links</pre>";
+	}
+	?> 
 
 }
 
