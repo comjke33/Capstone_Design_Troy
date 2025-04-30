@@ -92,23 +92,27 @@
 <script src="/template/syzoj/js/guideline.js"></script>
 
 <script>
+    // 잘못된 선언을 방지하고 DOMContentLoaded 후에 실행되도록 처리
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>; // 정답 코드 배열 (PHP에서 제공)
 
     // 마우스 커서에 Y 위치에 따라 이미지를 실시간으로 위아래로만 움직이게 하는 기능
-    document.getElementById('slider-container').addEventListener('mousemove', function(event) {
-        const feedbackImage = document.getElementById('feedback-img');
-        const container = document.getElementById('slider-container');
-        
-        // 이미지의 이동 범위 제한
-        const containerHeight = container.clientHeight;
-        const scrollPosition = event.clientY; // 마우스 위치
-        
-        // 범위를 0부터 containerHeight까지 제한
-        const imageTop = Math.min(containerHeight - feedbackImage.height, Math.max(0, scrollPosition)); // 위치 제한
-        
-        feedbackImage.style.top = `${imageTop}px`;  // 이미지의 Y 위치를 마우스 위치에 맞게 변경
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('slider-container').addEventListener('mousemove', function(event) {
+            const feedbackImage = document.getElementById('feedback-img');
+            const container = document.getElementById('slider-container');
+
+            // 이미지의 이동 범위 제한
+            const containerHeight = container.clientHeight;
+            const scrollPosition = event.clientY; // 마우스 위치
+            
+            // 범위를 0부터 containerHeight까지 제한
+            const imageTop = Math.min(containerHeight - feedbackImage.height, Math.max(0, scrollPosition)); // 위치 제한
+            
+            feedbackImage.style.top = `${imageTop}px`;  // 이미지의 Y 위치를 마우스 위치에 맞게 변경
+        });
     });
 
+    // 답안 제출 함수
     function submitAnswer(index) {
         const ta = document.getElementById(`ta_${index}`);
         const btn = document.getElementById(`btn_${index}`);
@@ -143,6 +147,7 @@
         }
     }
 
+    // 답안 확인 함수
     function showAnswer(index) {
         const correctCode = correctAnswers[index]?.content.trim();
         if (!correctCode) return; // 정답 없으면 리턴
@@ -157,11 +162,13 @@
         answerArea.style.display = 'block';
     }
 
+    // 텍스트 영역 크기 자동 조정 함수
     function autoResize(ta) {
         ta.style.height = 'auto';
         ta.style.height = ta.scrollHeight + 'px';
     }
 
+    // 텍스트 영역 크기 자동 조정 초기화
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.styled-textarea').forEach(ta => {
             if (!ta.disabled) {
