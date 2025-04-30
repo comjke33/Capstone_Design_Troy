@@ -2,19 +2,20 @@
 require_once('include/db_info.inc.php');
 
 
-// feedback 테이블에서 solution_id 가져오기
-$sql = "SELECT solution_id FROM feedback WHERE feedback_code = ?";
+// problem_id가 1051인 solution_id를 가져오기
+$sql = "SELECT solution_id FROM feedback WHERE problem_id = ?"; // problem_id 조건 추가
 $stmt = $mysqli->prepare($sql);
 
 if ($stmt) {
-    $stmt->bind_param("s", $feedback_code); // feedback_code를 바인딩
+    $problem_id = 1051; // problem_id가 1051인 경우를 조회
+    $stmt->bind_param("i", $problem_id); // problem_id를 바인딩 (정수형)
     $stmt->execute();
     $stmt->bind_result($solution_id);
 
     if ($stmt->fetch()) {
         // 정상적으로 solution_id를 가져옴
     } else {
-        $feedback_error = "❌ 해당 feedback_code에 대한 solution_id가 없습니다."; // solution_id가 없을 경우 오류 처리
+        $feedback_error = "❌ 해당 problem_id에 대한 solution_id가 없습니다."; // solution_id가 없을 경우 오류 처리
     }
 
     $stmt->close();
