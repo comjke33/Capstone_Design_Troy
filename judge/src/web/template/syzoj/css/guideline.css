@@ -22,7 +22,7 @@
 
 /* 왼쪽 패널: 문제 설명 및 텍스트 입력 영역 */
 .left-panel {
-  flex: 0.3;  /* 왼쪽 패널 너비를 넓힘 */
+  flex: 1;  /* 왼쪽 패널 너비를 넓힘 */
   padding-right: 10px;
   position: relative;
   display: flex;
