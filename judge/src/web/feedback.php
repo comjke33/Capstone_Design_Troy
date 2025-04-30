@@ -29,4 +29,5 @@ if ($solution_id <= 0) {
         $feedback_error = "❌ 데이터베이스 오류: 쿼리 준비 실패.";
     }
 }
+include("template/syzoj/feedback.php");
 ?>

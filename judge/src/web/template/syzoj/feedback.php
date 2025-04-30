@@ -5,7 +5,7 @@
         <h2 class="ui header" style="font-weight: 500; font-size: 1.5em; color: #2185d0;">
             📋 피드백 가이드
         </h2>
-        <!-- <div class="ui info message">
+        <div class="ui info message">
             <div class="header">🔍 디버깅용 링크 정보</div>
             <p><?php echo htmlspecialchars($link_result); ?></p>
         </div>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             <?php endforeach; ?>
-        <?php endif; ?> -->
+        <?php endif; ?>
     </div>
 </div>
 
