@@ -36,6 +36,7 @@ if (!$feedback_error && $solution_id > 0) {
         $stmt_2->bind_param("i", $solution_id);
         $stmt_2->execute();
         $stmt_2->bind_result($code);
+        $output = $code;
 
         if ($stmt_2->fetch()) {
             // 정상적으로 code를 가져옴
@@ -48,8 +49,7 @@ if (!$feedback_error && $solution_id > 0) {
         $feedback_error = "❌ 데이터베이스 오류: 코드 조회 쿼리 준비 실패.";
     }
 }
-$output = $code;
-$output = "hi";
+//$output = $code;
 // solution_id로 source_code 테이블에서 source 가져오기
 // if (!$feedback_error && $solution_id > 0) {
 //     $sql_3 = "SELECT source FROM source_code WHERE solution_id = ?";
