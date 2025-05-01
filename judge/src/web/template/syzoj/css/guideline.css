@@ -3,8 +3,8 @@
 .main-layout {
   display: flex;
   gap: 10px;  /* 패널 간의 간격 조정 */
-  width: 110vw;  /* 뷰포트 기준으로 너비 확장 */
-  max-width: 120%; /* 부모 요소 기준 최대 너비 */
+  width: 112vw;  /* 뷰포트 기준으로 너비 확장 */
+  max-width: 100%; /* 부모 요소 기준 최대 너비 */
   margin-left: calc((100vw - 110vw) / 2);  /* 가운데 정렬 */
 }
 
