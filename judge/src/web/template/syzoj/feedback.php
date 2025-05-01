@@ -12,7 +12,39 @@
                 <h2 class="ui header" style="font-weight: 500; font-size: 1.5em; color: #21ba45;">
                     📝 제출한 코드
                 </h2>
-                <pre style="background-color: #f9f9f9; padding: 1em; border-radius: 5px; height: 600px; overflow: auto;"><?php echo $code?></pre>
+                <?php
+                    // 코드 문자열 → 줄별 배열로 변환
+                    $code_lines = explode("\n", $code);
+
+                    // 오류 라인 번호들을 수집
+                    $error_lines = array();
+
+                    if (isset($data['stderrs']) && is_array($data['stderrs'])) {
+                        foreach ($data['stderrs'] as $stderr) {
+                            if (isset($stderr['line'])) {
+                                $error_lines[] = intval($stderr['line']);  // 오류 발생 라인 번호 저장
+                            }
+                        }
+                    }
+
+                    // 코드 출력 (오류 라인만 빨간색)
+                    echo '<pre style="background-color: #f9f9f9; padding: 1em; border-radius: 5px;">';
+
+                    foreach ($code_lines as $index => $line) {
+                        $line_number = $index + 1;
+
+                        if (in_array($line_number, $error_lines)) {
+                            // 오류 라인 → 빨간색
+                            echo '<span style="color: red; font-weight: bold;">' . htmlspecialchars($line_number) . ': ' . htmlspecialchars($line) . "</span>\n";
+                        } else {
+                            // 일반 라인
+                            echo htmlspecialchars($line_number) . ': ' . htmlspecialchars($line) . "\n";
+                        }
+                    }
+
+                    echo '</pre>';
+
+                ?>
             </div>
         </div>
         <!-- 오른쪽: 피드백 가이드 -->
