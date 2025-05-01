@@ -67,13 +67,7 @@ def compile_with_clang(source_file, output_file="a.out"):
         else:
             print("❌ 컴파일 실패!")
 
-        print("\n[STDOUT]:")
-        print(result.stdout)
-
-        print("\n[STDERR]:")
-        print(result.stderr)
-
-        return result.    returncode, result.stdout, result.stderr
+        return result.returncode, result.stdout, result.stderr
 
     except FileNotFoundError:
         print("❌ Clang이 시스템에 설치되어 있지 않습니다.")
@@ -89,11 +83,18 @@ if __name__ == "__main__":
 
         returncode, stdout, stderr = compile_with_clang(code_filepath)
 
-        results = []
+        stderrs = []
         for line in stderr.splitlines():
                 result = extract_error_context(line, code_filepath)
-                results.append(result)
+                stderrs.append(result)
 
-        results = [r for r in results if r is not None]
+        stderrs = [r for r in stderrs if r is not None]
+    
+        results = {
+            "returncode": returncode,
+            "stdout": stdout,
+            "stderrs": stderrs
+        }
+
         print(results)
         
