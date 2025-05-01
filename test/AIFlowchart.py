@@ -799,7 +799,7 @@ os.makedirs(output_dir, exist_ok=True)
 # MySQL 연결 설정
 conn = mysql.connector.connect(
     host="localhost",
-    user="root",
+    user="hustoj",
     password="troy0012",
     database="jol"
 )
