@@ -47,7 +47,7 @@ if (isset($code)) {
     // 인자를 공백으로 구분해 Python 스크립트에 전달
     $command = "cd /home/Capstone_Design_Troy/py/ && python3 compile_process.py " . escapeshellarg($code);
     $compile_result = shell_exec($command);
-    //$output = $compile_result;
+    $output = $compile_result;
 }
 
 $data = json_decode($compile_result, true);
@@ -55,7 +55,6 @@ $data = json_decode($compile_result, true);
 echo "<pre>";
 var_dump($data['stderrs']);
 echo "</pre>";
-
 // stderrs가 존재하는지 확인하고 반복
 if (isset($data['stderrs']) && is_array($data['stderrs'])) {
     foreach ($data['stderrs'] as $stderr) {
