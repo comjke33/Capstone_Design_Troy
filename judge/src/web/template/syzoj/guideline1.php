@@ -74,8 +74,6 @@
 
 </div>
 
-<script src="/template/syzoj/js/guideline.js"></script>
-
 <script>
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
