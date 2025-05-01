@@ -442,16 +442,6 @@ if (~$OJ_LANGMASK&(1<<$language)) {
   $sql = "UPDATE solution SET result=? WHERE solution_id=?";
   pdo_query($sql,$result,$insert_id);
 
-
-  ////////////////////// 테스트 중 ////////////////////
-    // Compile Process 실행 확인
-  $python_output = shell_exec("cd /home/Capstone_Design_Troy/py/ && python3 compile_process.py 2>&1");
-
-  // 콘솔 로그 (디버깅 용도)
-echo "<pre>$python_output</pre>";
-  /////////////////////////////////////////////////////
-
-
   //using redis task queue
   if ( $OJ_REDIS && $result==0 ) {
     $redis = new Redis();

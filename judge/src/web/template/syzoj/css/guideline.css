@@ -22,7 +22,7 @@
 
 /* 왼쪽 패널: 문제 설명 및 텍스트 입력 영역 */
 .left-panel {
-  flex: 0.3;  /* 왼쪽 패널의 너비를 늘림 */
+  flex: 0.4;  /* 왼쪽 패널의 너비를 늘림 */
   padding-right: 10px;
   position: relative;
   display: flex;
@@ -34,7 +34,7 @@
 
 /* 가운데 패널: 문제 설명 및 코드 입력 영역 */
 .center-panel {
-  flex-grow: 0.4;  /* 가운데 패널의 너비를 줄임 */
+  flex-grow: 0.3;  /* 가운데 패널의 너비를 줄임 */
   padding: 20px;
   overflow-y: auto;
   background-color: #fff;
