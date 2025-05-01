@@ -18,10 +18,6 @@
                 <?php endforeach; ?>
             </div>
         <?php endforeach; ?>
-        <div class="ui info message">
-            <div class="header">🔍 참고 링크 정보</div>
-            <p><?php echo htmlspecialchars($output); ?></p>
-        </div>
         <?php if ($feedback_error): ?>
             <div class="ui negative message">
                 <div class="header"><?php echo $feedback_error; ?></div>
