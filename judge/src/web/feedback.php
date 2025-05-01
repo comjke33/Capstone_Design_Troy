@@ -59,6 +59,19 @@ if (isset($data['stderrs']) && is_array($data['stderrs'])) {
             $command = "cd /home/Capstone_Design_Troy/py/ && python3 matching_hyperlink.py " . escapeshellarg($stderr['message']);
             $link = shell_exec($command);
             $output = $link;
+
+            $decoded = json_decode($link, true);
+
+            if ($decoded === null) {
+                echo "<pre>json_decode 실패! 원본:\n";
+                var_dump($link);
+                echo "에러: " . json_last_error_msg() . "</pre>";
+                exit;
+            } else {
+                echo "<pre>json_decode 성공! 배열 내용:\n";
+                var_dump($decoded);
+                echo "</pre>";
+            }
             //$feedback_error = $link;
             //$output = json_decode($link, JSON_UNESCAPED_UNICODE);
             //$link_results.append(json_decode($link, true));
