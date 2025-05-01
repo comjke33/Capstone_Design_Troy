@@ -1,4 +1,5 @@
 import subprocess
+import sys
 import re
 
 BASE_URL = "https://github.com/comjke33/Capstone_Design_Troy/blob/main/ref.md"
@@ -77,7 +78,12 @@ CONCEPT_LINKS = {
     r"incompatible type for argument|too few arguments": {
         "개념": "함수 인자 순서 오류",
         "링크": f"{BASE_URL}#함수-인자-순서-오류"
-    }
+    },
+    # 함수 반환 타입 오류
+    r"should not return a value|returning '.*' from a function with incompatible return type|initializing '.*?' with an expression of incompatible type 'void'": {
+    "개념": "함수 반환 타입 오류",
+    "링크": f"{BASE_URL}#함수-반환-타입-오류"
+    },
 }
 
 def map_to_concepts(errors: str):
@@ -108,7 +114,10 @@ def map_to_concepts(errors: str):
     return "\n\n".join(result)
 
 
-def matching_hyperlink(compile_result):
-
+if __name__ == "__main__":
+    if len(sys.argv) == 2:
+        compile_result = sys.argv[1]
         links = map_to_concepts(compile_result)
-        return links
+
+        print(links)
+        

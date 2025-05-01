@@ -62,10 +62,10 @@ def compile_with_clang(source_file, output_file="a.out"):
             text=True
         )
 
-        if result.returncode == 0:
-            print("✅ 컴파일 성공!")
-        else:
-            print("❌ 컴파일 실패!")
+        # if result.returncode == 0:
+        #     print("✅ 컴파일 성공!")
+        # else:
+        #     print("❌ 컴파일 실패!")
 
         return result.returncode, result.stdout, result.stderr
 

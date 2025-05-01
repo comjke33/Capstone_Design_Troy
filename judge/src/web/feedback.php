@@ -5,6 +5,7 @@ $feedback_error = ""; // 피드백 오류 메시지 초기화
 $code = ""; // 코드 초기화
 $output = ""; // 출력 초기화
 $compile_result = ""; // 컴파일 결과 초기화
+$link_results = ""; // 링크 결과 초기화
 
 // solution_id로 solution 테이블에서 code 가져오기
 if ($solution_id > 0) {
@@ -51,8 +52,19 @@ if (isset($code)) {
 
 // $output = $compile_result;
 // 링크 생성 python 스크립트에 전달
-$command = "cd /home/Capstone_Design_Troy/py/ && python3 matching_hyperlink.py " . escapeshellarg($compile_result);
-$link_result = shell_exec($command);
+
+$data = json_decode($compile_result, true);
+
+// stderrs가 존재하는지 확인하고 반복
+if (isset($data['stderrs']) && is_array($data['stderrs'])) {
+    foreach ($data['stderrs'] as $stderr) {
+        if (isset($stderr['message'])) {
+            $command = "cd /home/Capstone_Design_Troy/py/ && python3 matching_hyperlink.py " . escapeshellarg($stderr['message']);
+            $link_result = shell_exec($command);
+            $output = $link_result;
+        }
+    }
+}
 
 // solution_id에 해당하는 링크 가져오기
 if ($solution_id > 0) {
