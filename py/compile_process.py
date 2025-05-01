@@ -63,11 +63,6 @@ def compile_with_clang(source_file, output_file="a.out"):
             text=True
         )
 
-        # if result.returncode == 0:
-        #     print("✅ 컴파일 성공!")
-        # else:
-        #     print("❌ 컴파일 실패!")
-
         return result.returncode, result.stdout, result.stderr
 
     except FileNotFoundError:
@@ -86,8 +81,8 @@ if __name__ == "__main__":
 
         stderrs = []
         for line in stderr.splitlines():
-                result = extract_error_context(line, code_filepath)
-                stderrs.append(result)
+            result = extract_error_context(line, code_filepath)
+            stderrs.append(result)
 
         stderrs = [r for r in stderrs if r is not None]
     

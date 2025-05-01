@@ -3,6 +3,9 @@
 
 <div class="ui container" style="margin-top: 3em; max-width: 1200px;">
     <div class="ui stackable grid">
+        <div>
+            <p><?php echo $output?></p>
+        </div>    
         <!-- 왼쪽: 제출 코드 -->
         <div class="eight wide column">
             <div class="ui segment" style="height: 100%; box-shadow: 0 1px 4px rgba(0,0,0,0.1); border-radius: 10px;">
@@ -12,7 +15,6 @@
                 <pre style="background-color: #f9f9f9; padding: 1em; border-radius: 5px; height: 600px; overflow: auto;"><?php echo $code?></pre>
             </div>
         </div>
-
         <!-- 오른쪽: 피드백 가이드 -->
         <div class="eight wide column">
             <div class="ui segment" style="box-shadow: 0 1px 4px rgba(0,0,0,0.1); border-radius: 10px; height: 100%;">
@@ -36,8 +38,9 @@
                 <?php else: ?>
                     <div class="ui positive message">
                         <div class="header">🎉 문법 오류가 없습니다!</div>
-                        <p>코드에 문법 오류가 발견되지 않았습니다.</p>
-                        <p>논리적인 부분에서 잘못된 부분이 없는지 다시 한번 살펴보세요!</p>
+                        <p>코드에 문법 오류가 발견되지 않았습니다.<br> 
+                        논리적인 부분에서 잘못된 부분이 없는지 다시 한번 살펴보세요!
+                        </p>
                     </div>
                 <?php endif; ?>
             </div>
