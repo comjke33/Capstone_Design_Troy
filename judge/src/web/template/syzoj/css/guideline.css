@@ -1,11 +1,11 @@
 /* 📄 src/web/css/guideline.css */
 
-/* 전체 레이아웃 */
 .main-layout {
   display: flex;
-  gap: 10px;  /* 패널 간의 간격 조정 */
-  width: 110%;  /* 화면 너비에 맞게 확장 */
+  gap: 10px;
+  width: 120%;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 /* 피드백 이미지 스타일 */
