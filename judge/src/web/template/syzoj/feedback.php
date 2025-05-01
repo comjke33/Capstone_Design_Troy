@@ -5,17 +5,6 @@
         <h2 class="ui header" style="font-weight: 500; font-size: 1.5em; color: #2185d0;">
             📋 피드백 가이드
         </h2>
-        <?php if (isset($link_results) && is_array($link_results)): ?>
-            <?php foreach ($link_results as $item): ?>
-                <div class="ui raised segment" style="margin-bottom: 1em;">
-                    <h4 class="ui header">📝 개념: <?php echo htmlspecialchars($item['concepts']); ?></h4>
-                    <pre style="background-color: #f9f9f9; padding: 1em;"><?php echo htmlspecialchars($item['block']); ?></pre>
-                    <a href="<?php echo htmlspecialchars($item['link']); ?>" target="_blank" class="ui blue button">관련 링크 보기</a>
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <div class="ui warning message">표시할 피드백이 없습니다.</div>
-        <?php endif; ?>
         <div class="ui info message">
             <div class="header">🔍 참고 링크 정보</div>
             <p><?php echo htmlspecialchars($output); ?></p>
