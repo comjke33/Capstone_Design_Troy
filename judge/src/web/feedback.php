@@ -5,7 +5,6 @@ $feedback_error = ""; // 피드백 오류 메시지 초기화
 $code = ""; // 코드 초기화
 $output = ""; // 출력 초기화
 $compile_result = ""; // 컴파일 결과 초기화
-$link_results = ""; // 링크 결과 초기화
 
 // solution_id로 solution 테이블에서 code 가져오기
 if ($solution_id > 0) {
@@ -51,6 +50,7 @@ if (isset($code)) {
 }
 
 $data = json_decode($compile_result, true);
+$link_results = array();
 
 // stderrs가 존재하는지 확인하고 반복
 if (isset($data['stderrs']) && is_array($data['stderrs'])) {
@@ -60,18 +60,19 @@ if (isset($data['stderrs']) && is_array($data['stderrs'])) {
             $link = shell_exec($command);
             $output = $link;
 
-            $decoded = json_decode($link, true);
+            $decoded = json_decode(trim($link), true);
 
             if ($decoded === null) {
-                echo "<pre>json_decode 실패! 원본:\n";
+                echo "<pre>json_decode 실패! 에러: " . json_last_error_msg() . "</pre>";
                 var_dump($link);
-                echo "에러: " . json_last_error_msg() . "</pre>";
                 exit;
-            } else {
-                echo "<pre>json_decode 성공! 배열 내용:\n";
-                var_dump($decoded);
-                echo "</pre>";
             }
+
+            // 결과를 message별로 배열에 추가
+            $link_results[] = array(
+                "message" => $stderr['message'],
+                "matches" => $decoded  // 개념/블록/링크들이 배열로 들어감
+            );
             //$feedback_error = $link;
             //$output = json_decode($link, JSON_UNESCAPED_UNICODE);
             //$link_results.append(json_decode($link, true));

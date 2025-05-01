@@ -5,6 +5,19 @@
         <h2 class="ui header" style="font-weight: 500; font-size: 1.5em; color: #2185d0;">
             📋 피드백 가이드
         </h2>
+        <?php foreach ($link_results as $result): ?>
+            <div class="ui segment">
+                <h4>🔍 오류 메시지: <?php echo htmlspecialchars($result['message']); ?></h4>
+                <?php foreach ($result['matches'] as $match): ?>
+                    <div style="margin-left: 1em;">
+                        <p><strong>개념:</strong> <?php echo htmlspecialchars($match['concepts']); ?></p>
+                        <p><strong>블록:</strong> <?php echo htmlspecialchars($match['block']); ?></p>
+                        <a href="<?php echo htmlspecialchars($match['link']); ?>" target="_blank">관련 링크</a>
+                    </div>
+                    <hr>
+                <?php endforeach; ?>
+            </div>
+        <?php endforeach; ?>
         <div class="ui info message">
             <div class="header">🔍 참고 링크 정보</div>
             <p><?php echo htmlspecialchars($output); ?></p>
