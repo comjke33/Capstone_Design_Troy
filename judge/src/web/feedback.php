@@ -48,7 +48,7 @@ if (!$feedback_error && $solution_id > 0) {
         $feedback_error = "❌ 데이터베이스 오류: 코드 조회 쿼리 준비 실패.";
     }
 }
-
+$output = $code;
 // solution_id로 source_code 테이블에서 source 가져오기
 // if (!$feedback_error && $solution_id > 0) {
 //     $sql_3 = "SELECT source FROM source_code WHERE solution_id = ?";
