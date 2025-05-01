@@ -1,6 +1,7 @@
 import re
 import subprocess
 import sys
+import json
 
 
 def extract_error_context(error_message, source_code_path):
@@ -96,5 +97,5 @@ if __name__ == "__main__":
             "stderrs": stderrs
         }
 
-        print(results)
+        print(json.dumps(results))
         
