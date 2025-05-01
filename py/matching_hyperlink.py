@@ -130,5 +130,5 @@ if __name__ == "__main__":
         compile_result = sys.argv[1]
         links = map_to_concepts(compile_result)
 
-        print(json.dumps(links))
+        print(json.dumps(links, ensure_ascii=False))
         
