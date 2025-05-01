@@ -7,11 +7,8 @@
 
 <div class="main-layout" style="display: flex; justify-content: space-between; gap: 20px;">
 
-    <!-- 왼쪽 패널 (자유롭게 그린 슬라이드바 형식) -->
+    <!-- 왼쪽 패널 (비워둠, 이미지 옮겼으므로) -->
     <div class="left-panel">
-        <div id="slider-container" style="position: relative; height: 100%; width: 100%;">
-            <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img">
-        </div>
     </div>
 
     <!-- 가운데 패널 -->
@@ -39,6 +36,10 @@
                         $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);            
                         $disabled = $has_correct_answer ? "" : "disabled";
 
+                        $html .= "<div class='submission-block'>";  // 새 블록 추가
+                        $html .= "<div class='left-image'><img src='/image/feedback.jpg' alt='Feedback'></div>";  // 왼쪽 이미지
+                        $html .= "<div class='submission-content'>";
+
                         $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                         $html .= "<div style='flex: 1'>";
                         $html .= "<div class='code-line'>{$line}</div>";
@@ -50,7 +51,9 @@
                         $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                         $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
                         $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                        $html .= "</div></div>";
+                        $html .= "</div></div>";  // submission-line 닫기
+
+                        $html .= "</div></div>";  // submission-content, submission-block 닫기
 
                         $answer_index++;
                     }
@@ -65,7 +68,7 @@
 
     <!-- 오른쪽 패널 -->
     <div class="right-panel">
-        <h3>피드백 부분</h3>
+        <h1>피드백 부분</h1>
         <div class="feedback-content">
             <!-- 피드백 내용 -->
         </div>
@@ -128,7 +131,4 @@
         ta.style.height = 'auto';
         ta.style.height = ta.scrollHeight + 'px';
     }
-
-    
-
 </script>
