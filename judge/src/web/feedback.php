@@ -62,7 +62,7 @@ if (isset($data['stderrs']) && is_array($data['stderrs'])) {
         }
     }
 }
-$output = $link_results;
+$output = $link_results[0]['link'] ?? ""; // 첫 번째 결과의 output을 가져옴
 // solution_id에 해당하는 링크 가져오기
 // if ($solution_id > 0) {
 //     $sql_4 = "SELECT link FROM hyperlink WHERE solution_id = ?";
