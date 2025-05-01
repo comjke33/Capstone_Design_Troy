@@ -16,10 +16,10 @@
         <?php else: ?>
             <div class="ui warning message">표시할 피드백이 없습니다.</div>
         <?php endif; ?>
-        <!-- <div class="ui info message">
+        <div class="ui info message">
             <div class="header">🔍 참고 링크 정보</div>
             <p><?php echo htmlspecialchars($output); ?></p>
-        </div> -->
+        </div>
         <?php if ($feedback_error): ?>
             <div class="ui negative message">
                 <div class="header"><?php echo $feedback_error; ?></div>
