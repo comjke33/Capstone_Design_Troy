@@ -6,7 +6,7 @@
             📋 피드백 가이드
         </h2>
         <div class="ui info message">
-            <div class="header">🔍 디버깅용 링크 정보</div>
+            <div class="header">🔍 참고 링크 정보</div>
             <p><?php echo htmlspecialchars($output); ?></p>
         </div>
         <?php if ($feedback_error): ?>

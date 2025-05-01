@@ -52,9 +52,6 @@ if (isset($code)) {
 
 $data = json_decode($compile_result, true);
 
-echo "<pre>";
-var_dump($data['stderrs']);
-echo "</pre>";
 // stderrs가 존재하는지 확인하고 반복
 if (isset($data['stderrs']) && is_array($data['stderrs'])) {
     foreach ($data['stderrs'] as $stderr) {
