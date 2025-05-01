@@ -35,18 +35,19 @@
   margin-bottom: 20px;
 }
 
-.left-image {
+..left-image {
   flex: 0 0 auto;
-  width: 500px;             /* 고정 폭 */
-  height: 800px;            /* 고정 높이 */
-  display: none;            /* 기본은 숨김 */
-  margin-right: 5px;       /* textarea와 간격 */
+  width: 500px;                 /* 고정 폭 */
+  max-height: 80vh;             /* 뷰포트 높이의 80%까지만 */
+  display: none;                /* 기본 숨김 */
+  margin-right: 5px;            /* textarea와 간격 */
+  overflow: hidden;             /* 넘치는 부분 잘라냄 */
 }
 
 .left-image img {
-  width: 100%;              /* 영역에 꽉 차게 */
-  height: 100%;
-  object-fit: contain;      /* 비율 유지, 잘리지 않게 */
+  width: 100%;
+  height: auto;                 /* 높이 자동, 비율 유지 */
+  object-fit: contain;          /* 이미지 비율 유지, 잘리지 않게 */
   border-radius: 8px;
 }
 
