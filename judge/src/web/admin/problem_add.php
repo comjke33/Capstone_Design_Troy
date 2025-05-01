@@ -130,9 +130,9 @@ if(isset($_POST['remote_oj'])){
 }
 
 //파이썬 실행
-$cmd = "python3 /home/Capstone_Design_Troy/button_test/button_test.py";
 shell_exec("cd /home/Capstone_Design_Troy/button_test/ && python3 button_test.py");
-echo shell_exec("cd /home/Capstone_Design_Troy/button_test/ && python3 button_test.py 2>&1");
+shell_exec("cd /home/Capstone_Design_Troy/test/ && python3 make_question_and_code.py" . escapeshellarg($description, $exemplary_code));
+shell_exec("cd /home/Capstonen_Design_Troy/test/ && python3 AIFlowchar.py" . escapeshellarg($problem_id));
 //파이썬 실행
 
 $sql = "INSERT INTO `privilege` (`user_id`,`rightstr`) VALUES(?,?)";
