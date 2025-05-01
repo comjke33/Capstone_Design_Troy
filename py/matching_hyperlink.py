@@ -1,6 +1,7 @@
 import subprocess
 import sys
 import re
+import json
 
 BASE_URL = "https://github.com/comjke33/Capstone_Design_Troy/blob/main/ref.md"
 
@@ -102,16 +103,26 @@ def map_to_concepts(errors: str):
     if current_block:
         enriched.append("\n".join(current_block))
 
-    result = []
+    results = []
     for block in enriched:
         matched = False
         for pattern, info in CONCEPT_LINKS.items():
             if re.search(pattern, block):
-                result.append(f"❗ [{info['개념']}] 관련 오류 감지\n{block}\n➡ 참고 링크: {info['링크']}")
+                result = {
+                    "concepts": info["개념"],
+                    "block": block,
+                    "link": info["링크"]
+                }
+                results.append(result)
                 matched = True
         if not matched:
-            result.append(f"⚠️ 알 수 없는 오류\n{block}")
-    return "\n\n".join(result)
+            result = {
+                "concepts": "알 수 없는 오류",
+                "block": block,
+                "link": None
+            }
+            results.append(result)
+    return results
 
 
 if __name__ == "__main__":
@@ -119,5 +130,5 @@ if __name__ == "__main__":
         compile_result = sys.argv[1]
         links = map_to_concepts(compile_result)
 
-        print(links)
+        print(json.dumps(links))
         
