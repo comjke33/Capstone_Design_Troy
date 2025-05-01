@@ -71,7 +71,7 @@ if (!$feedback_error && $solution_id > 0) {
 
 // 인자를 공백으로 구분해 Python 스크립트에 전달
 if (!$feedback_error && isset($code)) {
-    $command = escapeshellcmd("python3 ../../../py/compile_process.py $code");
+    $command = "python3 ../../../py/compile_process.py " . escapeshellarg($code);
     $compile_result = shell_exec($command);
 }
 
