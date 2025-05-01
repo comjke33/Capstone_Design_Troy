@@ -37,10 +37,10 @@
 
 .left-image {
   flex: 0 0 auto;
-  width: 950px;             /* 고정 폭 */
-  height: 950px;            /* 고정 높이 */
+  width: 1000px;             /* 고정 폭 */
+  height: 800px;            /* 고정 높이 */
   display: none;            /* 기본은 숨김 */
-  margin-right: 20px;       /* textarea와 간격 */
+  margin-right: 5px;       /* textarea와 간격 */
 }
 
 .left-image img {
