@@ -75,33 +75,34 @@ if (!$feedback_error && isset($code)) {
     $compile_result = shell_exec($command);
 }
 
+$feedback_error = $compile_result
 // 링크 생성 python 스크립트에 전달
 $command = escapeshellcmd("python3 ../../../py/matching_hyperlink.py $compile_result");
 $link_result = shell_exec($command);
 
-// solution_id에 해당하는 링크 가져오기
-if (!$feedback_error && $solution_id > 0) {
-    $sql_4 = "SELECT link FROM hyperlink WHERE solution_id = ?";
-    $stmt_4 = $mysqli->prepare($sql_4);
+// // solution_id에 해당하는 링크 가져오기
+// if (!$feedback_error && $solution_id > 0) {
+//     $sql_4 = "SELECT link FROM hyperlink WHERE solution_id = ?";
+//     $stmt_4 = $mysqli->prepare($sql_4);
 
-    if ($stmt_4) {
-        $stmt_4->bind_param("i", $solution_id);
-        $stmt_4->execute();
-        $stmt_4->bind_result($link);
+//     if ($stmt_4) {
+//         $stmt_4->bind_param("i", $solution_id);
+//         $stmt_4->execute();
+//         $stmt_4->bind_result($link);
 
-        if ($stmt_4->fetch()) {
-            // ✅ 정상적으로 link를 가져옴
-            $link_result = $link;
-        } else {
-            // ❌ 해당 solution_id에 대한 링크 없음
-            $feedback_error = "⚠️ 해당 풀이에 연결된 피드백 링크가 없습니다.";
-        }
+//         if ($stmt_4->fetch()) {
+//             // ✅ 정상적으로 link를 가져옴
+//             $link_result = $link;
+//         } else {
+//             // ❌ 해당 solution_id에 대한 링크 없음
+//             $feedback_error = "⚠️ 해당 풀이에 연결된 피드백 링크가 없습니다.";
+//         }
 
-        $stmt_4->close();
-    } else {
-        $feedback_error = "❌ 데이터베이스 오류: 링크 조회 쿼리 준비 실패.";
-    }
-}
+//         $stmt_4->close();
+//     } else {
+//         $feedback_error = "❌ 데이터베이스 오류: 링크 조회 쿼리 준비 실패.";
+//     }
+// }
 
 include("template/syzoj/feedback.php");
 ?>
