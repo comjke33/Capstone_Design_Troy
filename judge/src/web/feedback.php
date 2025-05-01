@@ -59,10 +59,18 @@ if (isset($data['stderrs']) && is_array($data['stderrs'])) {
             $command = "cd /home/Capstone_Design_Troy/py/ && python3 matching_hyperlink.py " . escapeshellarg($stderr['message']);
             $link = shell_exec($command);
             $output = json_decode($link, JSON_UNESCAPED_UNICODE);
+            if ($output === null) {
+                echo "<pre>json_decode 실패! 원본:\n";
+                var_dump($link);
+                echo "에러: " . json_last_error_msg() . "</pre>";
+                exit;
+            }
             //$link_results.append(json_decode($link, true));
         }
     }
 }
+
+
 
 // solution_id에 해당하는 링크 가져오기
 // if ($solution_id > 0) {
