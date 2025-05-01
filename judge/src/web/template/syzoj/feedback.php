@@ -2,10 +2,7 @@
 <?php include("template/$OJ_TEMPLATE/header.php"); ?>
 
 <div class="ui container" style="margin-top: 3em; max-width: 1200px;">
-    <div class="ui stackable grid">
-        <div>
-            <p><?php echo $output?></p>
-        </div>    
+    <div class="ui stackable grid">   
         <!-- 왼쪽: 제출 코드 -->
         <div class="eight wide column">
             <div class="ui segment" style="height: 100%; box-shadow: 0 1px 4px rgba(0,0,0,0.1); border-radius: 10px;">
