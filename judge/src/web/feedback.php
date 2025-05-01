@@ -77,8 +77,8 @@ if (!$feedback_error && isset($code)) {
 
 $output = $compile_result
 // 링크 생성 python 스크립트에 전달
-$command = escapeshellcmd("python3 ../../../py/matching_hyperlink.py $compile_result");
-$link_result = shell_exec($command);
+// $command = escapeshellcmd("python3 ../../../py/matching_hyperlink.py $compile_result");
+// $link_result = shell_exec($command);
 
 // // solution_id에 해당하는 링크 가져오기
 // if (!$feedback_error && $solution_id > 0) {
