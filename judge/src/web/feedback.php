@@ -53,8 +53,8 @@ if (isset($code)) {
 // $output = $compile_result;
 // 링크 생성 python 스크립트에 전달
 
-$data = json_decode($compile_result, true);
-$output = $data['output'] ?? ""; // 기본값 설정
+// $data = json_decode($compile_result, true);
+
 // stderrs가 존재하는지 확인하고 반복
 // if (isset($data['stderrs']) && is_array($data['stderrs'])) {
 //     foreach ($data['stderrs'] as $stderr) {
