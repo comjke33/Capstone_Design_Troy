@@ -10,7 +10,7 @@ if len(sys.argv) > 1:
 
 
 # OpenAI API 클라이언트 세팅
-api_key_ = os.getenv("OPENAI_API_Key")
+api_key_ = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key_)
 
 
