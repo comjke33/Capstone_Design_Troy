@@ -4,7 +4,7 @@
   display: flex;
   gap: 10px;  /* 패널 간의 간격 조정 */
   width: 100vw;  /* 뷰포트 기준으로 너비 확장 */
-  max-width: 110%; /* 부모 요소 기준 최대 너비 */
+  max-width: 100%; /* 부모 요소 기준 최대 너비 */
   margin-left: calc((100vw - 110vw) / 2);  /* 가운데 정렬 */
 }
 
@@ -22,7 +22,7 @@
 
 /* 왼쪽 패널: 문제 설명 및 텍스트 입력 영역 */
 .left-panel {
-  flex: 0.5;  /* 왼쪽 패널의 너비를 늘림 */
+  flex: 0.4;  /* 왼쪽 패널의 너비를 늘림 */
   padding-right: 10px;
   position: relative;
   display: flex;
@@ -33,7 +33,7 @@
 }
 
 .center-panel {
-  flex: 0.2;  /* 가운데 패널의 너비를 줄임 */
+  flex: 0.3;  /* 가운데 패널의 너비를 줄임 */
   padding-top: 20px;
   padding-bottom: 20px;
   padding-left: 20px;
