@@ -13,7 +13,8 @@
                         <div style="margin-left: 1em;">
                             <p><strong>개념:</strong> <?php echo htmlspecialchars($match['concepts']); ?></p>
                             <p><strong>블록:</strong> <?php echo htmlspecialchars($match['block']); ?></p>
-                            <a href="<?php echo htmlspecialchars($match['link']); ?>" target="_blank">문법 개념 링크</a>
+                            <a href="<?php echo htmlspecialchars($match['link']); ?>" target="_blank" style="font-weight: bold; color: #2185d0;">📚 문법 개념 링크</a>
+
                         </div>
                         <hr>
                     <?php endforeach; ?>
