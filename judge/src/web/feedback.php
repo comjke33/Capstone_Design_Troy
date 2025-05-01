@@ -58,7 +58,7 @@ if (isset($data['stderrs']) && is_array($data['stderrs'])) {
         if (isset($stderr['message'])) {
             $command = "cd /home/Capstone_Design_Troy/py/ && python3 matching_hyperlink.py " . escapeshellarg($stderr['message']);
             $link = shell_exec($command);
-            $output = $link;
+            $output = json_decode($link, JSON_UNESCAPED_UNICODE);
             //$link_results.append(json_decode($link, true));
         }
     }
