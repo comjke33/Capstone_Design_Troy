@@ -3,6 +3,8 @@ require_once('include/db_info.inc.php');
 $solution_id = isset($_GET['solution_id']) ? intval($_GET['solution_id']) : 0; // solution_id를 GET 파라미터로 받음
 $feedback_error = ""; // 피드백 오류 메시지 초기화
 $code = ""; // 코드 초기화
+$output = ""; // 출력 초기화
+$compile_result = ""; // 컴파일 결과 초기화
 
 // problem_id가 1051인 solution_id를 가져오기
 // $sql = "SELECT solution_id FROM feedback WHERE problem_id = ?"; // problem_id 조건 추가
@@ -75,7 +77,7 @@ if (!$feedback_error && isset($code)) {
     $compile_result = shell_exec($command);
 }
 
-//$output = $compile_result
+$output = $compile_result;
 // 링크 생성 python 스크립트에 전달
 // $command = escapeshellcmd("python3 ../../../py/matching_hyperlink.py $compile_result");
 // $link_result = shell_exec($command);
