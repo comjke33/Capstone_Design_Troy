@@ -47,6 +47,16 @@ if (isset($code)) {
     $output = $compile_result;
 }
 
+$python_script = "../../../py/compile_process.py";
+
+// 명령어 작성 (공백·특수문자 보호)
+$command = escapeshellcmd("sudo -u www-data python3 " . escapeshellarg($python_script));
+
+// 실행하고 결과 받기
+$output = shell_exec($command);
+
+// 출력 확인
+echo "<pre>$output</pre>";
 // $output = $compile_result;
 // 링크 생성 python 스크립트에 전달
 // $command = escapeshellcmd("python3 ../../../py/matching_hyperlink.py $compile_result");

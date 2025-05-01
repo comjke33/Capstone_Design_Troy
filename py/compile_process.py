@@ -80,7 +80,7 @@ def compile_with_clang(source_file, output_file="a.out"):
         return -1, "", "Clang not found"
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
+    if len(sys.argv) == 2:
         code = sys.argv[1]
         code_filepath = "compile_target_code.c"
 
