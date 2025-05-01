@@ -39,7 +39,7 @@
   flex: 0 0 auto;
   max-width: 500px;
   width: 100%;
-  margin-right: 10px;
+  margin-right: 0px;
   display: none;                /* 처음에는 숨김 */
 }
 
