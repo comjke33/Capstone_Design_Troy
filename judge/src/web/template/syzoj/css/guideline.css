@@ -6,11 +6,6 @@
   margin-left: calc((100vw - 110vw) / 2);
 }
 
-/* 왼쪽 패널 (비워둠) */
-.left-panel {
-  flex: 0.1;
-}
-
 /* 가운데 패널 */
 .center-panel {
   flex: 0.8;
@@ -36,30 +31,25 @@
 /* 새로 추가: 문제 한 블록+이미지 */
 .submission-block {
   display: flex;
-  align-items: stretch;
-  gap: 10px;
-  margin-bottom: 28px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.left-panel {
+  width: 160px; /* 기존보다 넓힘 */
+  flex-shrink: 0;
+  margin-right: 20px; /* 오른쪽 공백 */
 }
 
 .left-image {
-  flex: 0 0 auto;
-  width: 100px;
+  width: 100%;
   display: none; /* 기본 숨김 */
 }
 
 .left-image img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-
-.left-image img {
-  height: 100%;
-  width: auto;
-  object-fit: cover;
-  border-radius: 8px;
+  height: auto;
+  object-fit: contain; /* 이미지 찌그러짐 방지 */
 }
 
 .submission-content {
