@@ -46,7 +46,7 @@
 
 /* 오른쪽 패널: 피드백 부분 */
 .right-panel {
-  flex: 0.3;  /* 오른쪽 패널의 너비를 늘림 */
+  flex: 0.4;  /* 오른쪽 패널의 너비를 늘림 */
   padding-left: 20px;
   background-color: #fafafa;
   border-left: 1px solid #ddd;
