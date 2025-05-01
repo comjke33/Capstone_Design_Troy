@@ -6,27 +6,6 @@ $code = ""; // 코드 초기화
 $output = ""; // 출력 초기화
 $compile_result = ""; // 컴파일 결과 초기화
 
-// problem_id가 1051인 solution_id를 가져오기
-// $sql = "SELECT solution_id FROM feedback WHERE problem_id = ?"; // problem_id 조건 추가
-// $stmt = $mysqli->prepare($sql);
-
-// if ($stmt) {
-//     $problem_id = 1051; // problem_id가 1051인 경우를 조회
-//     $stmt->bind_param("i", $problem_id); // problem_id를 바인딩 (정수형)
-//     $stmt->execute();
-//     $stmt->bind_result($solution_id);
-
-//     if ($stmt->fetch()) {
-//         // 정상적으로 solution_id를 가져옴
-//     } else {
-//         $feedback_error = "❌ 해당 problem_id에 대한 solution_id가 없습니다."; // solution_id가 없을 경우 오류 처리
-//     }
-
-//     $stmt->close();
-// } else {
-//     $feedback_error = "❌ 데이터베이스 오류: 쿼리 준비 실패.";
-// }
-
 // solution_id로 solution 테이블에서 code 가져오기
 if ($solution_id > 0) {
     $sql = "SELECT source FROM source_code_user WHERE solution_id = '$solution_id'";
@@ -37,29 +16,8 @@ if ($solution_id > 0) {
     } else {
         $feedback_error = "⚠️ 해당 solution_id에 대한 코드가 없습니다."; // 코드가 없을 경우 오류 처리
     }
-    // $sql="select count(contest_id) from contest where start_time<'$now' and end_time>'$now' and ( title like '%$OJ_NOIP_KEYWORD%' or private=1 )  ";
-    
-    //$sql_2 = "SELECT source FROM source_code_user WHERE solution_id = ?";
-    // $stmt_2 = $mysqli->prepare($sql_2);
-
-    // if ($stmt_2) {
-    //     $stmt_2->bind_param("i", $solution_id);
-    //     $stmt_2->execute();
-    //     $stmt_2->bind_result($code);
-    //     $output = $code;
-
-    //     if ($stmt_2->fetch()) {
-    //         // 정상적으로 code를 가져옴
-    //     } else {
-    //         $feedback_error = "⚠️ 해당 solution_id에 대한 코드가 없습니다.";
-    //     }
-
-    //     $stmt_2->close();
-    // } else {
-    //     $feedback_error = "❌ 데이터베이스 오류: 코드 조회 쿼리 준비 실패.";
-    // }
 }
-$output = $code;
+
 // solution_id로 source_code 테이블에서 source 가져오기
 // if (!$feedback_error && $solution_id > 0) {
 //     $sql_3 = "SELECT source FROM source_code WHERE solution_id = ?";
@@ -83,9 +41,10 @@ $output = $code;
 // }
 
 // 인자를 공백으로 구분해 Python 스크립트에 전달
-if (!$feedback_error && isset($code)) {
+if (isset($code)) {
     $command = "python3 ../../../py/compile_process.py " . escapeshellarg($code);
     $compile_result = shell_exec($command);
+    $output = $compile_result;
 }
 
 // $output = $compile_result;
