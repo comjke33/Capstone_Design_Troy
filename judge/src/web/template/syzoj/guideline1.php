@@ -10,8 +10,7 @@
     <!-- 왼쪽 패널 (자유롭게 그린 슬라이드바 형식) -->
     <div class="left-panel">
         <div id="slider-container" style="position: relative; height: 100%; width: 100%;">
-            <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img"
-                 style="width: 400px; height: 400px; object-fit: cover; border-radius: 10px; position: absolute; left: 10px; top: 0;">
+            <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img">
         </div>
     </div>
 
