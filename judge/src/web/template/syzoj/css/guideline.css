@@ -45,8 +45,8 @@
 }
 
 .left-image img {
-  width: 400px;            /* 최대 너비 제한 */
-  height: 400px;                /* 높이는 자동으로 비율 맞춤 */
+  width: 80%;            /* 최대 너비 제한 */
+  height: 80%;                /* 높이는 자동으로 비율 맞춤 */
   max-height: 80vh;            /* 최대 높이: 화면 높이의 80% */
   object-fit: contain;         /* 비율 유지, 잘리지 않게 */
   border-radius: 8px;
