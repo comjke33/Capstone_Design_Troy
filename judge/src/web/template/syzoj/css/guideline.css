@@ -37,7 +37,7 @@
 
 .left-image {
   flex: 0 0 auto;
-  width: 500px;                 /* 고정 폭 */
+  width: 600px;                 /* 고정 폭 */
   max-height: 80vh;             /* 뷰포트 높이의 80%까지만 */
   display: none;                /* 기본 숨김 */
   margin-right: 5px;            /* textarea와 간격 */
@@ -45,7 +45,7 @@
 }
 
 .left-image img {
-  width: 100%;
+  width: 200%;
   height: auto;                 /* 높이 자동, 비율 유지 */
   object-fit: contain;          /* 이미지 비율 유지, 잘리지 않게 */
   border-radius: 8px;
