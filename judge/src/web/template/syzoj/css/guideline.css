@@ -37,20 +37,20 @@
 
 .left-image {
   flex: 0 0 auto;
-  max-width: 500px;             /* 최대 너비 제한 */
-  width: 100%;                  /* 컨테이너 너비에 맞춤 */
-  margin-right: 10px;           /* textarea와 간격 */
+  max-width: 500px;
+  width: 100%;
+  margin-right: 10px;
+  display: none;                /* 처음에는 숨김 */
 }
 
 .left-image img {
-  width: 100%;                  /* 컨테이너 너비에 맞춤 */
-  height: auto;                 /* 비율 유지 */
-  max-height: 80vh;             /* 화면 높이의 80%까지만 */
-  object-fit: contain;          /* 잘리지 않게 */
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: contain;
   border-radius: 8px;
-  display: block;               /* inline-space 제거 */
+  display: block;
 }
-
 
 .submission-content {
   flex: 1;
