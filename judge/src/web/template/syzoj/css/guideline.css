@@ -32,14 +32,17 @@
   overflow-y: auto;
 }
 
-/* 가운데 패널: 문제 설명 및 코드 입력 영역 */
 .center-panel {
   flex: 0.2;  /* 가운데 패널의 너비를 줄임 */
-  padding: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 0;  /* 오른쪽 여백 제거 */
   overflow-y: auto;
   background-color: #fff;
   box-sizing: border-box;
 }
+
 
 /* 오른쪽 패널: 피드백 부분 */
 .right-panel {
