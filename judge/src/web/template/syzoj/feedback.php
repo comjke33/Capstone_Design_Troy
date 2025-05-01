@@ -5,31 +5,25 @@
         <h2 class="ui header" style="font-weight: 500; font-size: 1.5em; color: #2185d0;">
             📋 피드백 가이드
         </h2>
-        <?php if ($feedback_error): ?>
-            <div class="ui negative message">
-                <div class="header"><?php echo $feedback_error; ?></div>
-            </div>
-
-        <?php elseif (!isset($link_result) || empty($link_result)): ?>
-            <div class="ui warning message">
-                <div class="header">📭 피드백이 존재하지 않습니다.</div>
-                <p>이 제출에 대한 피드백이 아직 등록되지 않았습니다.</p>
-            </div>
-
-        <?php else: ?>
+        <?php if (!empty($link_results)): ?>
             <?php foreach ($link_results as $result): ?>
-            <div class="ui segment">
-                <h4>🔍 오류 메시지: <?php echo htmlspecialchars($result['message']); ?></h4>
-                <?php foreach ($result['matches'] as $match): ?>
-                    <div style="margin-left: 1em;">
-                        <p><strong>개념:</strong> <?php echo htmlspecialchars($match['concepts']); ?></p>
-                        <p><strong>블록:</strong> <?php echo htmlspecialchars($match['block']); ?></p>
-                        <a href="<?php echo htmlspecialchars($match['link']); ?>" target="_blank">관련 링크</a>
-                    </div>
-                    <hr>
-                <?php endforeach; ?>
+                <div class="ui segment">
+                    <h4>🔍 오류 메시지: <?php echo htmlspecialchars($result['message']); ?></h4>
+                    <?php foreach ($result['matches'] as $match): ?>
+                        <div style="margin-left: 1em;">
+                            <p><strong>개념:</strong> <?php echo htmlspecialchars($match['concepts']); ?></p>
+                            <p><strong>블록:</strong> <?php echo htmlspecialchars($match['block']); ?></p>
+                            <a href="<?php echo htmlspecialchars($match['link']); ?>" target="_blank">문법 개념 링크</a>
+                        </div>
+                        <hr>
+                    <?php endforeach; ?>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="ui positive message">
+                <div class="header">🎉 문법 오류가 없습니다!</div>
+                <p>코드에 문법 오류가 발견되지 않았습니다. 잘하셨습니다!</p>
             </div>
-        <?php endforeach; ?>
         <?php endif; ?>
     </div>
 </div>
