@@ -37,28 +37,20 @@
 
 .left-image {
   flex: 0 0 auto;
-  width: 400px;                 /* 고정 폭 */
-  max-height: 80vh;             /* 뷰포트 높이의 80%까지만 */
-  display: none;                /* 기본 숨김 */
-  margin-right: 5px;            /* textarea와 간격 */
-  overflow: hidden;             /* 넘치는 부분 잘라냄 */
+  max-width: 500px;             /* 최대 너비 제한 */
+  width: 100%;                  /* 컨테이너 너비에 맞춤 */
+  margin-right: 10px;           /* textarea와 간격 */
 }
 
 .left-image img {
-  width: 150%;            /* 최대 너비 제한 */
-  height: auto;                /* 높이는 자동으로 비율 맞춤 */
-  max-height: 80vh;            /* 최대 높이: 화면 높이의 80% */
-  object-fit: contain;         /* 비율 유지, 잘리지 않게 */
+  width: 100%;                  /* 컨테이너 너비에 맞춤 */
+  height: auto;                 /* 비율 유지 */
+  max-height: 80vh;             /* 화면 높이의 80%까지만 */
+  object-fit: contain;          /* 잘리지 않게 */
   border-radius: 8px;
+  display: block;               /* inline-space 제거 */
 }
 
-
-.left-image img {
-  height: 180%;
-  width: auto;
-  object-fit: cover;
-  border-radius: 8px;
-}
 
 .submission-content {
   flex: 1;
