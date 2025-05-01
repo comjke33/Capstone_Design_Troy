@@ -44,7 +44,16 @@
 .left-image {
   flex: 0 0 auto;
   width: 100px;
+  display: none; /* 기본 숨김 */
 }
+
+.left-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
 
 .left-image img {
   height: 100%;

@@ -79,6 +79,22 @@
 <script>
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
+    //현재 사용하는 texarea 위치로 이미지 이동 테스트
+    document.querySelectorAll('.styled-textarea').forEach(ta => {
+        ta.addEventListener('focus', () => {
+            document.querySelectorAll('.left-image').forEach(img => {
+                img.style.display = 'none';
+            });
+            const block = ta.closest('.submission-block');
+            const img = block.querySelector('.left-image');
+            if (img) {
+                img.style.display = 'block';
+                img.style.height = ta.offsetHeight + 'px'; // textarea 높이에 맞춤
+            }
+        });
+    });
+
+
     function submitAnswer(index) {
         const ta = document.getElementById(`ta_${index}`);
         const btn = document.getElementById(`btn_${index}`);
