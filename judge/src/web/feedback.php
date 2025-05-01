@@ -75,7 +75,7 @@ if (!$feedback_error && isset($code)) {
     $compile_result = shell_exec($command);
 }
 
-$feedback_error = $compile_result
+$output = $compile_result
 // 링크 생성 python 스크립트에 전달
 $command = escapeshellcmd("python3 ../../../py/matching_hyperlink.py $compile_result");
 $link_result = shell_exec($command);
