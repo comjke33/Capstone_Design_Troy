@@ -7,8 +7,11 @@
 
 <div class="main-layout" style="display: flex; justify-content: space-between; gap: 20px;">
 
-    <!-- 왼쪽 패널 (비워둠, 이미지 옮겼으므로) -->
+    <!-- 왼쪽 패널 (자유롭게 그린 슬라이드바 형식) -->
     <div class="left-panel">
+        <div id="slider-container" style="position: relative; height: 100%; width: 100%;">
+            <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img">
+        </div>
     </div>
 
     <!-- 가운데 패널 -->
@@ -36,10 +39,6 @@
                         $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);            
                         $disabled = $has_correct_answer ? "" : "disabled";
 
-                        $html .= "<div class='submission-block'>";  // 새 블록 추가
-                        $html .= "<div class='left-image'><img src='/image/feedback.jpg' alt='Feedback'></div>";  // 왼쪽 이미지
-                        $html .= "<div class='submission-content'>";
-
                         $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
                         $html .= "<div style='flex: 1'>";
                         $html .= "<div class='code-line'>{$line}</div>";
@@ -51,9 +50,7 @@
                         $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                         $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
                         $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                        $html .= "</div></div>";  // submission-line 닫기
-
-                        $html .= "</div></div>";  // submission-content, submission-block 닫기
+                        $html .= "</div></div>";
 
                         $answer_index++;
                     }
@@ -78,22 +75,6 @@
 
 <script>
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
-
-    //현재 사용하는 texarea 위치로 이미지 이동 테스트
-    document.querySelectorAll('.styled-textarea').forEach(ta => {
-        ta.addEventListener('focus', () => {
-            document.querySelectorAll('.left-image').forEach(img => {
-                img.style.display = 'none';
-            });
-            const block = ta.closest('.submission-block');
-            const img = block.querySelector('.left-image');
-            if (img) {
-                img.style.display = 'block';
-                img.style.height = ta.offsetHeight + 'px'; // textarea 높이에 맞춤
-            }
-        });
-    });
-
 
     function submitAnswer(index) {
         const ta = document.getElementById(`ta_${index}`);
@@ -147,4 +128,7 @@
         ta.style.height = 'auto';
         ta.style.height = ta.scrollHeight + 'px';
     }
+
+    
+
 </script>

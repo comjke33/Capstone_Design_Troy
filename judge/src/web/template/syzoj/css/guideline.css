@@ -1,23 +1,52 @@
+/* 📄 src/web/css/guideline.css */
+
 .main-layout {
   display: flex;
-  gap: 10px;
-  width: 100vw;
-  max-width: 100%;
-  margin-left: calc((100vw - 110vw) / 2);
+  gap: 10px;  /* 패널 간의 간격 조정 */
+  width: 100vw;  /* 뷰포트 기준으로 너비 확장 */
+  max-width: 100%; /* 부모 요소 기준 최대 너비 */
+  margin-left: calc((100vw - 110vw) / 2);  /* 가운데 정렬 */
 }
 
-/* 가운데 패널 */
+/* 피드백 이미지 스타일 */
+#feedback-img {
+  width: 400px;  /* 이미지 너비 조정 */
+  height: 400px;  /* 이미지 높이 조정 */
+  object-fit: cover;  /* 이미지 비율 유지하면서 꽉 채우기 */
+  border-radius: 10px;
+  position: absolute;
+  left: 10px;
+  top: 0;
+  z-index: 10;  /* 이미지가 다른 요소들 위에 오도록 설정 */
+}
+
+/* 왼쪽 패널: 문제 설명 및 텍스트 입력 영역 */
+.left-panel {
+  flex: 0.4;  /* 왼쪽 패널의 너비를 늘림 */
+  padding-right: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: auto;
+}
+
 .center-panel {
-  flex: 0.7;
-  padding: 20px;
+  flex: 0.3;  /* 가운데 패널의 너비를 줄임 */
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  width: 100%;
   overflow-y: auto;
   background-color: #fff;
   box-sizing: border-box;
 }
 
-/* 오른쪽 패널 */
+
+/* 오른쪽 패널: 피드백 부분 */
 .right-panel {
-  flex: 0.3;
+  flex: 0.4;  /* 오른쪽 패널의 너비를 늘림 */
   padding-left: 20px;
   background-color: #fafafa;
   border-left: 1px solid #ddd;
@@ -28,35 +57,8 @@
   box-sizing: border-box;
 }
 
-/* 새로 추가: 문제 한 블록+이미지 */
-.submission-block {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 20px;
-}
 
-.left-image {
-  flex: 0 0 auto;
-  max-width: 500px;
-  width: 100%;
-  margin-right: 0px;
-  display: none;                /* 처음에는 숨김 */
-}
-
-.left-image img {
-  width: 100%;
-  height: 190%;
-  max-height: 80vh;
-  object-fit: contain;
-  border-radius: 8px;
-  display: block;
-}
-
-.submission-content {
-  flex: 1;
-}
-
-/* 코드 라인 */
+/* 코드 라인 스타일 */
 .code-line {
   background-color: #f8f8fa;
   border: 1px solid #ddd;
@@ -69,11 +71,11 @@
   white-space: pre-wrap;
 }
 
-/* 제출 및 보기 버튼 */
+/* 제출 및 보기 버튼 스타일 */
 .submit-button, .view-button {
   margin-top: 10px;
-  color: white !important;
-  border: none !important;
+  color: white !important; /* Add !important to force the style */
+  border: none !important; 
   padding: 12px 16px;
   border-radius: 4px;
   font-size: 20px;
@@ -82,55 +84,67 @@
   text-align: center;
 }
 
+/* Submit Button Specific Style */
 .submit-button {
-  background-color: #4a90e2 !important;
+  background-color: #4a90e2 !important; /* Blue background */
 }
 
+/* View Button Specific Style */
 .view-button {
-  background-color: #ff8c00 !important;
+  background-color: #ff8c00 !important; /* Orange background */
 }
 
-/* 텍스트 영역 */
+.parent-container {
+  display: flex;
+  flex-direction: column;  /* 세로 정렬 */
+  align-items: center;     /* 가운데 정렬 (선택) */
+}
+
+
+/* 텍스트 영역 스타일 */
 .styled-textarea {
   border: 1px solid #ccc;
   border-radius: 6px;
-  padding: 70px 14px;
+  padding: 50px 14px;
   font-family: monospace;
-  font-size: 20px;
+  font-size: 40px;
   background-color: #fff;
   line-height: 1.6;
   resize: none;
-  width: 100%;
+  width: 100%;  
   box-sizing: border-box;
   min-height: 40px;
-  margin-bottom: 10px;
+  margin-bottom: 10px;  /* 버튼과 약간 간격 */
 }
 
-/* 체크 마크 */
+/* 체크 마크 스타일 (정답 표시) */
 .checkmark {
   font-size: 18px;
   margin-left: 6px;
   color: #2ecc71;
 }
 
-/* 기존 submission-line */
+/* 제출된 문제 코드 스타일 */
 .submission-line {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
+  margin-bottom: 28px;
 }
 
-/* 피드백 스타일 */
+/* 정답 및 오답 피드백 스타일 */
 .feedback-line {
   margin-bottom: 12px;
   font-size: 15px;
 }
 
+/* 정답 피드백 스타일 */
 .feedback-correct {
   color: #2ecc71;
 }
 
+/* 오답 피드백 스타일 */
 .feedback-wrong {
   color: #e74c3c;
 }
