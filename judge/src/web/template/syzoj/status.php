@@ -109,7 +109,7 @@ if (!isset($cid) && isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
   echo "</th>";
 
   if (!isset($cid)) {
-    echo "<td>" . $row[10] . "</td>";
+   // echo "<td>" . $row[10] . "</td>";
   }
 }
 ?>
