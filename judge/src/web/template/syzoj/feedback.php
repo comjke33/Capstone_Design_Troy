@@ -9,18 +9,7 @@
                 <h2 class="ui header" style="font-weight: 500; font-size: 1.5em; color: #21ba45;">
                     📝 제출한 코드
                 </h2>
-                <pre style="background-color: #f9f9f9; padding: 1em; border-radius: 5px; height: 600px; overflow: auto;">
-#include <stdio.h>
-
-void a() {
-    return 10;
-}
-
-int main() {
-    int b = a();
-    printf("Hello World");
-}
-                </pre>
+                <pre style="background-color: #f9f9f9; padding: 1em; border-radius: 5px; height: 600px; overflow: auto;"><?php $code?></pre>
             </div>
         </div>
 
