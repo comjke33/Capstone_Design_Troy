@@ -37,7 +37,7 @@
 
 .left-image {
   flex: 0 0 auto;
-  width: 1000px;             /* 고정 폭 */
+  width: 500px;             /* 고정 폭 */
   height: 800px;            /* 고정 높이 */
   display: none;            /* 기본은 숨김 */
   margin-right: 5px;       /* textarea와 간격 */
