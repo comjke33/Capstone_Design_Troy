@@ -800,7 +800,7 @@ os.makedirs(output_dir, exist_ok=True)
 conn = mysql.connector.connect(
     host="localhost",
     user="hustoj",
-    password="troy0012",
+    password="root",
     database="jol"
 )
 cursor = conn.cursor()
