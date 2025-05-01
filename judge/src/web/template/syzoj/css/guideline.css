@@ -93,9 +93,9 @@
 .styled-textarea {
   border: 1px solid #ccc;
   border-radius: 6px;
-  padding: 10px 14px;
+  padding: 20px 14px;
   font-family: monospace;
-  font-size: 15px;
+  font-size: 40px;
   background-color: #fff;
   line-height: 1.6;
   resize: none;
