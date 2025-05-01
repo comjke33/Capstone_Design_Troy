@@ -47,10 +47,13 @@
 }
 
 .left-image img {
-  width: 100%;
-  height: auto;
-  object-fit: contain; /* 이미지 찌그러짐 방지 */
+  width: 100%;              /* left-panel 너비에 맞춤 */
+  max-width: 120px;         /* 최대 가로폭 제한 */
+  max-height: 100px;        /* 최대 세로폭 제한 */
+  height: auto;             /* 비율 유지 */
+  object-fit: contain;      /* 비율 깨지지 않게 */
 }
+
 
 .submission-content {
   flex: 1;
