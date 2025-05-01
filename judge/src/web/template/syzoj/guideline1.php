@@ -8,7 +8,7 @@
 <div class="main-layout" style="display: flex; justify-content: space-between; gap: 20px;">
 
     <!-- 왼쪽 패널 (자유롭게 그린 슬라이드바 형식) -->
-    <div class="left-panel" style="flex: 0.2; padding-right: 10px; position: relative;">
+    <div class="left-panel">
         <div id="slider-container" style="position: relative; height: 100%; width: 100%;">
             <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img"
                  style="width: 400px; height: 400px; object-fit: cover; border-radius: 10px; position: absolute; left: 10px; top: 0;">
