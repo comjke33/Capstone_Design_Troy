@@ -29,25 +29,35 @@ $compile_result = ""; // 컴파일 결과 초기화
 
 // solution_id로 solution 테이블에서 code 가져오기
 if (!$feedback_error && $solution_id > 0) {
-    $sql_2 = "SELECT source FROM source_code_user WHERE solution_id = ?";
-    $stmt_2 = $mysqli->prepare($sql_2);
+    $sql = "SELECT source FROM source_code_user WHERE solution_id = '$solution_id'";
+    $row=pdo_query($sql);
 
-    if ($stmt_2) {
-        $stmt_2->bind_param("i", $solution_id);
-        $stmt_2->execute();
-        $stmt_2->bind_result($code);
-        $output = $code;
-
-        if ($stmt_2->fetch()) {
-            // 정상적으로 code를 가져옴
-        } else {
-            $feedback_error = "⚠️ 해당 solution_id에 대한 코드가 없습니다.";
-        }
-
-        $stmt_2->close();
+    if(!empty($row)) {
+        $code = $row[0][0]; // source_code_user 테이블에서 code 가져오기
     } else {
-        $feedback_error = "❌ 데이터베이스 오류: 코드 조회 쿼리 준비 실패.";
+        $feedback_error = "⚠️ 해당 solution_id에 대한 코드가 없습니다."; // 코드가 없을 경우 오류 처리
     }
+    // $sql="select count(contest_id) from contest where start_time<'$now' and end_time>'$now' and ( title like '%$OJ_NOIP_KEYWORD%' or private=1 )  ";
+    
+    //$sql_2 = "SELECT source FROM source_code_user WHERE solution_id = ?";
+    // $stmt_2 = $mysqli->prepare($sql_2);
+
+    // if ($stmt_2) {
+    //     $stmt_2->bind_param("i", $solution_id);
+    //     $stmt_2->execute();
+    //     $stmt_2->bind_result($code);
+    //     $output = $code;
+
+    //     if ($stmt_2->fetch()) {
+    //         // 정상적으로 code를 가져옴
+    //     } else {
+    //         $feedback_error = "⚠️ 해당 solution_id에 대한 코드가 없습니다.";
+    //     }
+
+    //     $stmt_2->close();
+    // } else {
+    //     $feedback_error = "❌ 데이터베이스 오류: 코드 조회 쿼리 준비 실패.";
+    // }
 }
 //$output = $code;
 // solution_id로 source_code 테이블에서 source 가져오기
