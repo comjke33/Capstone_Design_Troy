@@ -89,6 +89,13 @@
   background-color: #ff8c00 !important; /* Orange background */
 }
 
+.parent-container {
+  display: flex;
+  flex-direction: column;  /* 세로 정렬 */
+  align-items: center;     /* 가운데 정렬 (선택) */
+}
+
+
 /* 텍스트 영역 스타일 */
 .styled-textarea {
   border: 1px solid #ccc;
@@ -99,9 +106,10 @@
   background-color: #fff;
   line-height: 1.6;
   resize: none;
-  width: 100%;
+  width: 70%;  /* 너비 줄임 */
   box-sizing: border-box;
   min-height: 40px;
+  margin-bottom: 10px;  /* 버튼과 약간 간격 */
 }
 
 /* 체크 마크 스타일 (정답 표시) */
