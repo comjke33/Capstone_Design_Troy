@@ -7,12 +7,14 @@
 
 <div class="main-layout" style="display: flex; justify-content: space-between; gap: 20px;">
 
-    <!-- 왼쪽 패널 -->
+    <!-- 왼쪽 패널 (자유롭게 그린 슬라이드바 형식) -->
+    <!-- 왼쪽 이미지 패널 -->
     <div class="left-panel">
         <div id="slider-container" style="position: relative; height: 100%; width: 100%;">
-            <img id="feedback-img" alt="Feedback Image" style="width:100%;">
+            <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img" style="width:100%;">
         </div>
     </div>
+
 
     <!-- 가운데 패널 -->
     <div class="center-panel" style="flex-grow: 1; padding: 20px; overflow-y: auto;">
@@ -74,9 +76,7 @@
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
-    const problemId = <?= json_encode($OJ_SID) ?>;
 
     function submitAnswer(index) {
         const ta = document.getElementById(`ta_${index}`);
@@ -132,23 +132,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function updateImageForTextarea(index) {
-        const img = document.getElementById("feedback-img");
-        if (!img) return;
+    const img = document.getElementById("feedback-img");
 
-        fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.success && data.url) {
-                    img.src = data.url + "?t=" + new Date().getTime(); // 캐시 방지
-                } else {
-                    img.src = "../../image/default.jpg"; // fallback
-                }
-            })
-            .catch(err => console.error("이미지 로딩 실패:", err));
+    // 문제 번호 또는 인덱스에 따른 이미지 매핑 (서버에 미리 저장된 이미지 경로 또는 base64)
+    const imageMap = {
+        0: "/image/main_function.png",
+        1: "/image/declare_integer_n.png", // 예: 사용자가 업로드한 이미지 파일
+        // 계속 추가 가능
+        };
+
+        if (imageMap.hasOwnProperty(index)) {
+        img.src = imageMap[index] + "?t=" + new Date().getTime(); // 캐시 방지
+        }
     }
 
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
         ta.addEventListener("focus", () => updateImageForTextarea(idx));
     });
-});
+        
+
 </script>
