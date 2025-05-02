@@ -856,7 +856,8 @@ for index, highlight_node in enumerate(all_nodes):
             m.edge(prev, "end")
 
     # (선택) func 마지막 노드 → start 에 invisible edge 추가로 더 명확히 수직 정렬
-    dot.edge(f"func{len(func_tags)-1}", "start", style="invis", weight="100")
+    if func_tags:
+        dot.edge(f"func{len(func_tags)-1}", "start", style="invis", weight="100")
 
     filename = os.path.join(output_dir, f"{problem_id}_{index + 1}")
     output_path = dot.render(filename, cleanup=True)
