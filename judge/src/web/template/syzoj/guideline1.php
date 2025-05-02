@@ -151,18 +151,32 @@ function handleScroll() {
 }
 
 function positionImageRelativeToTextarea() {
-    if (!currentTextarea) return;
-
     const img = document.getElementById("floating-img");
-    if (!img) return;
+    if (!img || !currentTextarea) return;
 
-    const centerPanel = currentTextarea.closest(".center-panel");
-    const scrollTop = centerPanel.scrollTop;
-    const offsetTop = currentTextarea.offsetTop;
+    const taRect = currentTextarea.getBoundingClientRect();
+    const container = currentTextarea.closest(".center-panel");
+    const panelRect = container.getBoundingClientRect();
 
-    const relativeTop = offsetTop + scrollTop/5;
+    // 이미지가 화면에 보일 때만 처리
+    const isVisible =
+        taRect.top >= panelRect.top &&
+        taRect.bottom <= panelRect.bottom;
+
+    if (!isVisible) {
+        img.style.opacity = "0";
+        return;
+    }
+
+    // 💡 원하는 만큼 위로 보정 (예: 20px)
+    const offsetAdjustment = 20;
+
+    const relativeTop = taRect.top - panelRect.top + container.scrollTop - offsetAdjustment;
+
     img.style.top = `${relativeTop}px`;
+    img.style.opacity = "1";
 }
+
 
 
 
