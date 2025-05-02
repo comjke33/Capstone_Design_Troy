@@ -30,4 +30,5 @@ if (count($res) > 0 && !empty($res['png_address'])) {
     $url = $default_img;
 }
 
+$url = $default_img;
 echo json_encode(['success' => true, 'url' => $url]);

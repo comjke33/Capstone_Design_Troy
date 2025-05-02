@@ -120,6 +120,7 @@ function updateImageForTextarea(index, ta) {
             const img = document.createElement("img");
             //img.src = "/home/Capstone_Design_Troy/test/flowcharts/1234_1.png";
             img.src = "feedback.jpg";
+            img.src = data.url;
             console.log("일단 함수 들어옴")
 
             const taRect = ta.getBoundingClientRect();
