@@ -219,9 +219,10 @@ html, body {
                     <i class="fa fa-bell"></i>
                     <span class="desktop-only"></span>
                     <?php if(isset($new_notification_count) && $new_notification_count>0){ ?>
-                        <span class="badge"><?php echo $new_notification_count; ?></span>
+                        <span class="notification-dot"></span>
                     <?php } ?>
                 </a>
+
                 <!-- 로그인한 사용자에 대한 정보를 표시합니다. 사용자 정보를 클릭하면 프로필 수정, 할 일 목록 등을 확인할 수 있는 메뉴를 제공합니다. -->
                 <?php if(isset($_SESSION[$OJ_NAME.'_'.'user_id'])) { ?>
                 <a href="<?php echo $path_fix?>/userinfo.php?user=<?php echo $_SESSION[$OJ_NAME.'_'.'user_id']?>"
