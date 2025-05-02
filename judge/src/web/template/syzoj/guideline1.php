@@ -155,15 +155,14 @@ function positionImageRelativeToTextarea() {
     const img = document.getElementById("floating-img");
     if (!img) return;
 
-    const taRect = currentTextarea.getBoundingClientRect();
     const centerPanel = currentTextarea.closest(".center-panel");
-    const panelRect = centerPanel.getBoundingClientRect();
+    const scrollTop = centerPanel.scrollTop;
+    const offsetTop = currentTextarea.offsetTop;
 
-    // textarea가 center-panel 내부에서 얼마나 떨어졌는지 계산
-    const relativeTop = taRect.top - panelRect.top + centerPanel.scrollTop;
-
+    const relativeTop = offsetTop + scrollTop;
     img.style.top = `${relativeTop}px`;
 }
+
 
 
 document.addEventListener("DOMContentLoaded", function () {
