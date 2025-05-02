@@ -158,7 +158,7 @@ function phpfm(pid){
 <script>
 $.ajax({
     type: "POST",
-    url: "../ajax/run_python_script.php",
+    url: "../ajax/save_problem_run_python.php",
     data: {
         description: <?php echo json_encode($description); ?>,
         exemplary_code: <?php echo json_encode($exemplary_code); ?>,
