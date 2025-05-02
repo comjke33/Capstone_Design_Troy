@@ -11,6 +11,8 @@ if ($problem_id <= 0 || $index < 0) {
     exit;
 }
 
+
+//DB에서 링크를 가져와서 링크를 구현
 $sql = "SELECT png_address FROM flowchart 
         WHERE problem_id = ? 
         AND start_num <= ? 
@@ -21,7 +23,7 @@ $res = pdo_query($sql, $problem_id, $index, $index);
 $default_img = "../../image/default.jpg";
 
 if (count($res) > 0 && !empty($res[0]['png_address'])) {
-    $url = $res[0]['png_address'];
+    $url = basename($res[0]['png_address'] . ".png";
 } else {
     $url = $default_img;
 }

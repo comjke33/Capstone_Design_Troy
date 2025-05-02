@@ -140,4 +140,5 @@ document.addEventListener("DOMContentLoaded", function () {
         ta.addEventListener("focus", () => updateImageForTextarea(idx, ta));
     });
 });
+
 </script>
