@@ -47,12 +47,13 @@
 
 /* 가운데 패널 (입력 영역) */
 .center-panel {
-  flex-grow: 1;
+  flex: 0 0 60%;  /* grow, shrink, basis */
   padding: 20px;
   overflow-y: auto;
   background-color: #ffffff;
   box-sizing: border-box;
   height: 100vh;
+  min-width: 300px; /* 너무 작아지는 것을 방지 */
 }
 
 /* 코드 라인 출력 영역 */
