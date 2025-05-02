@@ -138,13 +138,14 @@ html, body {
 
 .notification-dot {
     position: absolute;
-    top: 0px;
-    right: 0px;
-    width: 10px;
-    height: 10px;
+    top: -7px;
+    right: -7px;
+    width: 12px;
+    height: 12px;
     background-color: red;
     border-radius: 50%;
 }
+
 
 </style>
     <script src="<?php echo "$OJ_CDN_URL/include/"?>jquery-latest.js"></script>
