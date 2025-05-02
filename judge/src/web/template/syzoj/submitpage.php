@@ -262,6 +262,8 @@ function do_submit() {
 		$("#hide_source").val(editor.getValue()); // 에디터 내용 저장
 	}
 
+	
+
 	var mark = "<?php echo isset($id) ? 'problem_id' : 'cid'; ?>";
 	var problem_id = document.getElementById(mark);
 
@@ -271,24 +273,6 @@ function do_submit() {
 		problem_id.value = '<?php if (isset($cid)) echo $cid ?>';
 
 	document.getElementById("frmSolution").target = "_self";
-
-	// 1. 컴파일 후 데이터를 가져옴
-    $command = "cd /home/Capstone_Design_Troy/py/ && python3 compile_process.py " . escapeshellarg($source);
-    $compile_result = shell_exec($command);
-
-	// // 2. 결과를 classify_error 함수에 보냄
-	// $error_data = json_decode($compile_result, true);
-	// foreach ($data['stderrs'] as $stderr) {
-    //     if (isset($stderr['message'])) {
-	// 		$command = "cd /home/Capstone_Design_Troy/py/ && python3 classify_error.py " . escapeshellarg($stderr['message']);
-	// 	    $error_type = shell_exec($command);
-
-	// 		// 3. 함수 리턴값을 받아서 +1 수행
-	// 		$sql = "UPDATE user_weakness SET mistake_count = mistake_count + 1 WHERE user_id = ? AND mistake_type = ?;"
-	// 		$sql_result = pdo_query($sql, $_SESSION[$OJ_NAME . '_user_id'], $error_type);
-	// 	}
-	// }	
-
 
 <?php if (isset($_GET['spa'])) { ?>
 	// SPA 모드일 경우 AJAX로 제출

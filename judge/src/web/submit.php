@@ -20,6 +20,7 @@ if (!isset($_SESSION[$OJ_NAME . '_' . 'user_id'])) {
 require_once "include/memcache.php";
 require_once "include/const.inc.php";
 
+
 $now = strftime("%Y-%m-%d %H:%M", time());
 $user_id = $_SESSION[$OJ_NAME.'_'.'user_id'];
 
@@ -275,7 +276,6 @@ if ($len > 65536) {
   exit(0);
 }
 
-
 setcookie('lastlang', $language, time()+360000);
 
 $ip = $_SERVER['REMOTE_ADDR'];
@@ -354,6 +354,26 @@ if (~$OJ_LANGMASK&(1<<$language)) {
 
     $insert_id = pdo_query($sql, $id, $user_id, $nick, $language, $ip, $len, $cid, $pid);
   }
+
+  $source = $_POST['source'];
+  // 1. 컴파일 후 데이터를 가져옴
+  $command = "cd /home/Capstone_Design_Troy/py/ && python3 compile_process.py " . escapeshellarg($source);
+  $compile_result = shell_exec($command);
+
+  // 2. 결과를 classify_error 함수에 보냄
+  $error_data = json_decode($compile_result, true);
+  foreach ($data['stderrs'] as $stderr) {
+    if (isset($stderr['message'])) {
+      $command = "cd /home/Capstone_Design_Troy/py/ && python3 classify_error.py " . escapeshellarg($stderr['message']);
+      $error_type = shell_exec($command);
+      
+       // 3. 함수 리턴값을 받아서 +1 수행
+      $sql = "UPDATE user_weakness SET mistake_count = mistake_count + 1 WHERE user_id = ? AND mistake_type = ?;";
+      $sql_result = pdo_query($sql, $_SESSION[$OJ_NAME . '_user_id'], $error_type);
+    }
+  }	
+
+
   if($language==23){
   	mkdir($OJ_DATA."/$id/sb3");
 	copy($tempfile,$OJ_DATA."/$id/sb3/$insert_id.sb3");
@@ -377,6 +397,7 @@ if (~$OJ_LANGMASK&(1<<$language)) {
       pdo_query($sql,$cid,$pid);
     }
   }
+
 
 
  ////remote oj
