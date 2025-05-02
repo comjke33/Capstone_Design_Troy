@@ -131,7 +131,7 @@ html, body {
 <?php
         if(!isset($_GET['spa'])){
 ?>
-   
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    <!-- 워터마크 제거 후 배경화면 추가가  -->
    <body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay; background: url('../../image/bg.jpg') no-repeat center center fixed; background-size: cover !important;">
     
@@ -198,8 +198,10 @@ html, body {
                     <?php }  ?>
             <?php }  ?>
             <?php echo $sql_news_menu_result_html; ?>
+            <a href="notifications.php">
+                <i class="fa fa-bell"></i> <!-- 종 모양 -->
+            </a>
             <div class="right menu">
-
                 <!-- 로그인한 사용자에 대한 정보를 표시합니다. 사용자 정보를 클릭하면 프로필 수정, 할 일 목록 등을 확인할 수 있는 메뉴를 제공합니다. -->
                 <?php if(isset($_SESSION[$OJ_NAME.'_'.'user_id'])) { ?>
                 <a href="<?php echo $path_fix?>/userinfo.php?user=<?php echo $_SESSION[$OJ_NAME.'_'.'user_id']?>"
