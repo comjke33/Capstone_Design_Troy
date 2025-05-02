@@ -230,13 +230,14 @@ html, body {
             <div class="right menu">
                 <a id="" class="item active" href="notifications.php">
                     <span class="bell-wrapper">
-                        <i class="fa fa-bell"></i>
+                        <i class="fa fa-bell fa-lg"></i>  <!-- 크기 키움 -->
                         <?php if(isset($new_notification_count) && $new_notification_count>0){ ?>
                             <span class="notification-dot"></span>
                         <?php } ?>
                     </span>
                     <span class="desktop-only"></span>
                 </a>
+
 
                 <!-- 로그인한 사용자에 대한 정보를 표시합니다. 사용자 정보를 클릭하면 프로필 수정, 할 일 목록 등을 확인할 수 있는 메뉴를 제공합니다. -->
                 <?php if(isset($_SESSION[$OJ_NAME.'_'.'user_id'])) { ?>
