@@ -53,7 +53,7 @@ def extract_error_context(error_message, source_code_path):
     return result
 
 def compile_with_clang(source_file, output_file="a.out"):
-    cmd = ["clang", source_file, "-fsyntax-only"]
+    cmd = ["clang", source_file, "-Wall", "-Werror"]
 
     try:
         result = subprocess.run(
