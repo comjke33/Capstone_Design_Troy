@@ -355,13 +355,12 @@ if (~$OJ_LANGMASK&(1<<$language)) {
     $insert_id = pdo_query($sql, $id, $user_id, $nick, $language, $ip, $len, $cid, $pid);
   }
 
+  // 수정 영역====================================================
   $source = $_POST['source'];
   // 1. 컴파일 후 데이터를 가져옴
   $command = "cd /home/Capstone_Design_Troy/py/ && python3 compile_process.py " . escapeshellarg($source);
   $compile_result = shell_exec($command);
   
-  echo $compile_result;
-
   // 2. 결과를 classify_error 함수에 보냄
   $error_data = json_decode($compile_result, true);
   foreach ($data['stderrs'] as $stderr) {
@@ -374,7 +373,10 @@ if (~$OJ_LANGMASK&(1<<$language)) {
       $sql_result = pdo_query($sql, $_SESSION[$OJ_NAME . '_user_id'], $error_type);
     }
   }	
-
+  file_put_contents("/tmp/debug_log.txt", "source: ".$source."\n", FILE_APPEND);
+  file_put_contents("/tmp/debug_log.txt", "compile_result: ".$compile_result."\n", FILE_APPEND);
+  file_put_contents("/tmp/debug_log.txt", "error_data: ".json_encode($error_data)."\n", FILE_APPEND);
+  // 수정 영역====================================================
 
   if($language==23){
   	mkdir($OJ_DATA."/$id/sb3");
