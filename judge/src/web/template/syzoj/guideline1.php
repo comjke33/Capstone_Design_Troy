@@ -131,16 +131,17 @@
     }
 
     function updateImageForTextarea(index) {
-        fetch(`get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
+        fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
             .then(res => res.json())
             .then(data => {
                 const img = document.getElementById("feedback-img");
                 if (data.success && data.url) {
                     img.src = data.url + "?t=" + new Date().getTime(); // 캐시 방지
                 } else {
-                    img.src = "/image/default.jpg";
+                    img.src = "https://yourdomain.com/images/default.jpg"; // fallback 이미지
                 }
-            });
+            })
+            .catch(err => console.error("이미지 로딩 실패:", err));
     }
 
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
