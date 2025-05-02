@@ -151,29 +151,19 @@ function handleScroll() {
 }
 
 function positionImageRelativeToTextarea() {
+    if (!currentTextarea) return;
+
     const img = document.getElementById("floating-img");
-    if (!img || !currentTextarea) return;
+    if (!img) return;
 
-    const taRect = currentTextarea.getBoundingClientRect();
-    const container = currentTextarea.closest(".center-panel");
-    const panelRect = container.getBoundingClientRect();
+    const centerPanel = currentTextarea.closest(".center-panel");
+    const scrollTop = centerPanel.scrollTop;
+    const offsetTop = currentTextarea.offsetTop;
 
-    // 이미지가 패널 안에 보이는 textarea일 때만 보여줌
-    const isVisible =
-        taRect.top >= panelRect.top &&
-        taRect.bottom <= panelRect.bottom;
-
-    if (!isVisible) {
-        img.style.opacity = "0"; // 안 보이게
-        return;
-    }
-
-    // 위치 보정
-    const relativeTop = taRect.top - panelRect.top + container.scrollTop;
-
+    const relativeTop = offsetTop + scrollTop/5;
     img.style.top = `${relativeTop}px`;
-    img.style.opacity = "1"; // 보이게
 }
+
 
 
 document.addEventListener("DOMContentLoaded", function () {
