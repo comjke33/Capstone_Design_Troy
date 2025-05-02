@@ -115,15 +115,11 @@ function updateImageForTextarea(index, ta) {
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
-            console.log("서버에서 받은 URL:", data.url);
             const container = document.getElementById("flowchart-images");
             container.innerHTML = "";
             const img = document.createElement("img");
             //img.src = "/home/Capstone_Design_Troy/test/flowcharts/1234_1.png";
-            img.src = "feedback.jpg";
             img.src = data.url;
-            console.log("일단 함수 들어옴");
-            console.log(data.url);
 
             const taRect = ta.getBoundingClientRect();
             const centerPanel = ta.closest(".center-panel");
