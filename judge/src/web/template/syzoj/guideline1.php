@@ -1,8 +1,4 @@
-<?php // guideline1.php
-$OJ_SID = $_GET['problem_id'];
-require_once "../../include/db_info.inc.php";
-?>
-
+<!-- HTML 상단 -->
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
     <h1>한줄씩 풀기</h1>
     <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
@@ -13,7 +9,9 @@ require_once "../../include/db_info.inc.php";
 <div class="main-layout" style="display: flex; justify-content: space-between; gap: 20px;">
     <!-- 왼쪽 패널 -->
     <div class="left-panel">
-        <div id="slider-container" style="position: relative; height: 100%; width: 100%;"></div>
+        <div id="slider-container" style="position: relative; height: 100%; width: 100%;">
+            <img id="feedback-img" alt="Feedback Image" style="width:100%; display: none;">
+        </div>
     </div>
 
     <!-- 가운데 패널 -->
@@ -30,20 +28,19 @@ require_once "../../include/db_info.inc.php";
                     $html .= "</div>";
                 } elseif ($block['type'] === 'text') {
                     $raw = trim($block['content']);
-                    if ($raw === '' || preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", $raw)) continue;
+                    if ($raw === '' || preg_match("/^\[(func_def|rep|cond|self|struct|construct)_(start|end)\(\d+\)\]$/", $raw)) continue;
 
                     $line = htmlspecialchars($block['content']);
                     if (strpos($line, '[start]') !== false && strpos($line, '[end]') !== false) {
-                        $line = preg_replace('/\\[(.*?)\\]/', '', $line);
+                        $line = preg_replace('/\[(.*?)\]/', '', $line);
                         $line = trim($line);
                     }
 
                     $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);            
                     $disabled = $has_correct_answer ? "" : "disabled";
 
-                    $html .= "<div class='submission-line' style='display: flex; align-items: flex-start; padding-left: {$indent_px}px;'>";
-                    $html .= "<div class='left-image-container' id='img_box_{$answer_index}'></div>";
-                    $html .= "<div style='flex: 1;'>";
+                    $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
+                    $html .= "<div style='flex: 1'>";
                     $html .= "<div class='code-line'>{$line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
                     if ($has_correct_answer) {
@@ -75,17 +72,7 @@ require_once "../../include/db_info.inc.php";
     </div>
 </div>
 
-<style>
-.left-image-container {
-    width: 100px;
-    margin-right: 10px;
-}
-.left-image-container img {
-    width: 100%;
-    display: none;
-}
-</style>
-
+<!-- ✅ 자바스크립트 전역 함수 -->
 <script>
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($OJ_SID) ?>;
@@ -127,8 +114,14 @@ function submitAnswer(index) {
 function showAnswer(index) {
     const correctCode = correctAnswers[index]?.content.trim();
     if (!correctCode) return;
+
     const answerArea = document.getElementById(`answer_area_${index}`);
-    answerArea.innerHTML = `<strong>정답:</strong><br><pre class='code-line'>${correctCode}</pre>`;
+    const answerHtml = `
+        <strong>정답:</strong><br>
+        <pre class='code-line'>${correctCode}</pre>
+    `;
+
+    answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }
 
@@ -138,24 +131,23 @@ function autoResize(ta) {
 }
 
 function updateImageForTextarea(index) {
-    const container = document.getElementById(`img_box_${index}`);
-    if (!container) return;
-
-    let img = container.querySelector("img");
-    if (!img) {
-        img = document.createElement("img");
-        container.appendChild(img);
-    }
+    const img = document.getElementById("feedback-img");
+    if (!img) return;
 
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
-            img.src = (data.success && data.url ? data.url : "../../image/default.jpg") + "?t=" + new Date().getTime();
+            if (data.success && data.url) {
+                img.src = data.url + "?t=" + new Date().getTime();
+            } else {
+                img.src = "../../image/default.jpg";
+            }
             img.style.display = "block";
         })
         .catch(err => console.error("이미지 로딩 실패:", err));
 }
 
+// textarea가 로드되면 이벤트 바인딩
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
         ta.addEventListener("focus", () => updateImageForTextarea(idx));
