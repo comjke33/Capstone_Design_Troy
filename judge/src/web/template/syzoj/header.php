@@ -138,14 +138,13 @@ html, body {
 
 .notification-dot {
     position: absolute;
-    top: 0px;
-    right: 0px;
-    width: 10px;
-    height: 10px;
+    top: -5px;     /* 위로 5px 이동 */
+    right: -5px;   /* 오른쪽으로 5px 이동 */
+    width: 6px;    /* 크기 작게 */
+    height: 6px;
     background-color: red;
     border-radius: 50%;
 }
-
 
 </style>
     <script src="<?php echo "$OJ_CDN_URL/include/"?>jquery-latest.js"></script>
