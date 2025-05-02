@@ -73,10 +73,10 @@
 
 /* 제출 및 보기 버튼 스타일 */
 .submit-button, .view-button {
-  margin-top: 10px;
+  margin-top: 0px;
   color: white !important; /* Add !important to force the style */
   border: none !important; 
-  padding: 12px 16px;
+  padding: 8px 12px;
   border-radius: 4px;
   font-size: 20px;
   cursor: pointer;
