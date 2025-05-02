@@ -173,11 +173,11 @@ $.ajax({
             console.log("Return Code:", result.return_code);
             console.log("Output:", result.output.join("\n"));
         });
-        alert("Python 스크립트 실행 완료 (결과는 콘솔에서 확인하세요)");
+        //alert("Python 스크립트 실행 완료 (결과는 콘솔에서 확인하세요)");
     },
     error: function(xhr, status, error) {
         console.error("❌ Error running Python script:", error);
-        alert("Python 실행 중 오류 발생");
+        //alert("Python 실행 중 오류 발생");
     }
 });
 </script>
