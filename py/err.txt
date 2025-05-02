@@ -1,0 +1,20 @@
+compile_target_code.c:4:5: error: void function 'a' should not return a value [-Wreturn-type]
+    return 10;
+    ^      ~~
+compile_target_code.c:3:6: error: no previous prototype for function 'a' [-Werror,-Wmissing-prototypes]
+void a() {
+     ^
+compile_target_code.c:3:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+void a() {
+^
+static 
+compile_target_code.c:3:7: error: this old-style function definition is not preceded by a prototype [-Werror,-Wstrict-prototypes]
+void a() {
+      ^
+compile_target_code.c:8:9: error: initializing 'int' with an expression of incompatible type 'void'
+    int b = a();
+        ^   ~~~
+compile_target_code.c:10:7: error: no newline at end of file [-Werror,-Wnewline-eof]
+}     
+      ^
+5 errors generated.

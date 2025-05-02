@@ -7,7 +7,7 @@ BASE_URL = "https://github.com/comjke33/Capstone_Design_Troy/blob/main/ref.md"
 
 CONCEPT_LINKS = {
     # 변수 선언 관련
-    r"use of undeclared identifier|unused variable": {
+    r"use of undeclared identifier|unused variable|'[^']+' undeclared": {
         "개념": "변수 선언",
         "링크": f"{BASE_URL}#변수-선언"
     },
@@ -27,7 +27,7 @@ CONCEPT_LINKS = {
         "링크": f"{BASE_URL}#세미콜론-누락"
     },
     # 괄호 오류
-    r"expected '\)'|expected '\]'|expected '\}'": {
+    r"expected '\)'|expected '\]'|expected '\}'|expected '\(' after": {
         "개념": "괄호 닫힘 오류",
         "링크": f"{BASE_URL}#괄호-닫힘-오류"
     },
@@ -61,12 +61,12 @@ CONCEPT_LINKS = {
         "링크": f"{BASE_URL}#연산자-사용-오류"
     },
     # 비교 연산자
-    r"invalid operands to binary expression .* == .*|assignment makes integer": {
+    r"invalid operands to binary expression .* == .*|assignment makes integer|using the result of an assignment as a condition without parentheses": {
         "개념": "비교 연산자",
         "링크": f"{BASE_URL}#비교-연산자"
     },
     # 정수/실수 리터럴 오류
-    r"invalid suffix": {
+    r"invalid suffix|invalid digit .* in decimal constant": {
         "개념": "정수/실수 리터럴 오류",
         "링크": f"{BASE_URL}#정수실수-리터럴-오류"
     },
