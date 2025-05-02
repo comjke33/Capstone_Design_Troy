@@ -10,6 +10,7 @@
     <!-- 왼쪽 패널 -->
     <div class="left-panel">
         <div id="slider-container" style="position: relative; height: 100%; width: 100%;">
+            <img id="feedback-img" alt="Feedback Image" style="width:100%;">
         </div>
     </div>
 
@@ -73,6 +74,7 @@
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", function () {
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
     const problemId = <?= json_encode($OJ_SID) ?>;
 
@@ -130,14 +132,16 @@
     }
 
     function updateImageForTextarea(index) {
+        const img = document.getElementById("feedback-img");
+        if (!img) return;
+
         fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
             .then(res => res.json())
             .then(data => {
-                const img = document.getElementById("feedback-img");
                 if (data.success && data.url) {
                     img.src = data.url + "?t=" + new Date().getTime(); // 캐시 방지
                 } else {
-                    img.src = "../../image/default.jpg"; // fallback 이미지 (서버 루트 기준)
+                    img.src = "../../image/default.jpg"; // fallback
                 }
             })
             .catch(err => console.error("이미지 로딩 실패:", err));
@@ -146,4 +150,5 @@
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
         ta.addEventListener("focus", () => updateImageForTextarea(idx));
     });
+});
 </script>
