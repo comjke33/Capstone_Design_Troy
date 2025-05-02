@@ -118,7 +118,7 @@ function updateImageForTextarea(index, ta) {
             const container = document.getElementById("flowchart-images");
             container.innerHTML = "";
             const img = document.createElement("img");
-            img.src = data.success && data.url ? "../../../test/flowcharts/1234_1.png" : "../../image/default.jpg";
+            img.src = "../../../../../test/flowcharts/1234_1.png";
 
             const taRect = ta.getBoundingClientRect();
             const centerPanel = ta.closest(".center-panel");
