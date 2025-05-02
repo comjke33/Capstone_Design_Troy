@@ -33,7 +33,7 @@
                     $disabled = $has_correct_answer ? "" : "disabled";
 
                     $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                    $html .= "<div style='flex: 1'>";
+                    // $html .= "<div style='flex: 1'>";
                     $html .= "<div class='code-line'>{$line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
                     if ($has_correct_answer) {
