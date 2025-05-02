@@ -131,16 +131,6 @@ html, body {
   border: none !important;
 }
 
-.notification-dot {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    background-color: red;
-    border-radius: 50%;
-    margin-left: 5px;
-    vertical-align: middle;
-}
-
 .bell-wrapper {
     position: relative;
     display: inline-block;
