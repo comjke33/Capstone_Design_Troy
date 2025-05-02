@@ -2,7 +2,7 @@
 require_once "include/db_info.inc.php";
 
 // $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
-$problem_id=9944;
+$problem_id=9999;
 $index = isset($_GET['index']) ? intval($_GET['index']) : -1;
 
 header("Content-Type: application/json");
@@ -21,7 +21,7 @@ $sql = "SELECT png_address FROM flowchart
         LIMIT 1";
 
 $res = pdo_query($sql, $problem_id, $index, $index);
-$default_img = "../../../test/flowcharts/9944_1.png";
+$default_img = "../../../test/flowcharts/1234_1.png";
 
 if (count($res) > 0 && !empty($res[0]['png_address'])) {
     $filename =($res['png_address'] . ".png");
