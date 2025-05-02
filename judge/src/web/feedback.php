@@ -27,7 +27,7 @@ if (isset($code)) {
     $compile_result = shell_exec($command);
 }
 
-file_put_contents("/tmp/compile_output.txt", $code);
+
 
 $data = json_decode($compile_result, true);
 $link_results = array();
@@ -56,5 +56,6 @@ if (isset($data['stderrs']) && is_array($data['stderrs'])) {
     }
 }
 
+file_put_contents("/tmp/compile_output.txt", $link_results[0]);
 include("template/syzoj/feedback.php");
 ?>
