@@ -1,3 +1,3 @@
 <?php
-require("template/".$OJ_TEMPLATE."/notifications.php");
+include("template/syzoj/notifications.php");
 ?>
