@@ -56,7 +56,7 @@
         ?>
     </div>
 
-    <div class="left-panel" style="position: relative; width: 30%; min-width: 200px;">
+    <div class="right-panel" style="position: relative; width: 30%; min-width: 200px;">
         <h2>피드백 창</h2>
     </div>
 
