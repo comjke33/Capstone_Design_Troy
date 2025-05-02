@@ -67,27 +67,6 @@
   border-left: 1px solid #ddd;
 }
 
-.submission-line {
-  display: block;
-  margin-bottom: 20px;
-  box-sizing: border-box;
-}
-
-/* depth별 들여쓰기: margin-left 사용 */
-.submission-line.depth-0 { margin-left: 0px; }
-.submission-line.depth-1 { margin-left: 20px; }
-.submission-line.depth-2 { margin-left: 40px; }
-.submission-line.depth-3 { margin-left: 60px; }
-.submission-line.depth-4 { margin-left: 80px; }
-.submission-line.depth-5 { margin-left: 100px; }
-
-.code-line,
-.styled-textarea {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-
 /* 코드 설명 라인 */
 .code-line {
   background-color: #f8f8fa;
@@ -130,6 +109,12 @@
   cursor: pointer;
   display: inline-block;
   text-align: center;
+}
+
+.submission-line {
+  display: block;
+  margin-bottom: 20px;
+  box-sizing: border-box;
 }
 
 .submit-button {
