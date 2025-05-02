@@ -864,7 +864,7 @@ for index, highlight_node in enumerate(all_nodes):
         VALUES (%s, %s, %s, %s, %s)
         ON DUPLICATE KEY UPDATE png_address = VALUES(png_address)
     """, (problem_id, f"/home/Capstone_Design_Troy/test/flowcharts/{problem_id}_{index+1}", index+1, start_numbers[index], end_numbers[index]))
-    print("SQL finished")
+    conn.commit()
 
 # # 마무리
 cursor.close()
