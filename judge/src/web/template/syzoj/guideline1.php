@@ -115,6 +115,7 @@ function updateImageForTextarea(index, ta) {
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
+            console.log("서버에서 받은 URL:", data.url);
             const container = document.getElementById("flowchart-images");
             container.innerHTML = "";
             const img = document.createElement("img");
