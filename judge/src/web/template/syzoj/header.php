@@ -198,8 +198,9 @@ html, body {
                     <?php }  ?>
             <?php }  ?>
             <?php echo $sql_news_menu_result_html; ?>
-            <a href="notifications.php">
-                <i class="fa fa-bell"></i> <!-- 종 모양 -->
+            <a id="" class="item active" href="notifications.php">
+                <i class="fa fa-bell"></i>
+                <span class="desktop-only">알림</span>
             </a>
             <div class="right menu">
                 <!-- 로그인한 사용자에 대한 정보를 표시합니다. 사용자 정보를 클릭하면 프로필 수정, 할 일 목록 등을 확인할 수 있는 메뉴를 제공합니다. -->
