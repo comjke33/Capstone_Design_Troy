@@ -74,7 +74,7 @@
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
     const problemId = <?= json_encode($OJ_SID) ?>;
 
