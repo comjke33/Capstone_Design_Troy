@@ -363,6 +363,7 @@ if (~$OJ_LANGMASK&(1<<$language)) {
   
   // 2. 결과를 classify_error 함수에 보냄
   $error_data = json_decode($compile_result, true);
+  file_put_contents("/tmp/debug_log.txt", "error_type: ".json_encode($error_data)."\n", FILE_APPEND); 
   foreach ($error_data['stderrs'] as $stderr) {
     if (isset($stderr['message'])) {
       $command = "cd /home/Capstone_Design_Troy/py/ && python3 classify_error.py " . escapeshellarg($stderr['message']);
