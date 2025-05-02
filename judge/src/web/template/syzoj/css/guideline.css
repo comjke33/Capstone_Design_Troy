@@ -10,8 +10,8 @@
 
 /* 피드백 이미지 스타일 */
 #feedback-img {
-  width: 400px;  /* 이미지 너비 조정 */
-  height: 400px;  /* 이미지 높이 조정 */
+  width: 300px;  /* 이미지 너비 조정 */
+  height: 250px;  /* 이미지 높이 조정 */
   object-fit: cover;  /* 이미지 비율 유지하면서 꽉 채우기 */
   border-radius: 10px;
   position: absolute;
