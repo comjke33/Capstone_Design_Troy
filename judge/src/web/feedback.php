@@ -44,7 +44,8 @@ if (isset($data['stderrs']) && is_array($data['stderrs'])) {
                 var_dump($link);
                 exit;
             }
-
+            
+            file_put_contents("/tmp/compile_output.txt", $decoded);
             // 결과를 message별로 배열에 추가
             $link_results[] = array(
                 "message" => $stderr['message'],
@@ -54,6 +55,5 @@ if (isset($data['stderrs']) && is_array($data['stderrs'])) {
     }
 }
 
-file_put_contents("/tmp/compile_output.txt", $link_results);
 include("template/syzoj/feedback.php");
 ?>
