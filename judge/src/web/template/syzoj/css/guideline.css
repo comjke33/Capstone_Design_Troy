@@ -31,6 +31,28 @@
   z-index: 10;
 }
 
+.guide-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;               /* or 100vw if full-viewport 필요 */
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;          /* 혹시 넘칠 경우 스크롤 */
+}
+
+.flowchart-image-area {
+  flex: 0 0 40%;           /* 또는 300px 고정 */
+  max-width: 40%;
+  min-width: 200px;
+  position: relative;
+}
+
+.code-area {
+  flex: 1;
+  min-width: 400px;       /* 코드가 너무 좁게 나오는 것 방지 */
+}
+
 
 /* 좌측 패널 */
 .left-panel {
@@ -47,14 +69,14 @@
 /* 가운데 패널 */
 .center-panel {
   position: relative; /* 이게 중요! */
-  overflow-y: auto;
   flex: 0 0 45%;
   padding: 20px;
   overflow-y: auto;
   background-color: #ffffff;
   box-sizing: border-box;
   height: 100vh;
-  min-width: 280px;
+  min-width: 0;        
+  overflow-x: auto;
 }
 
 /* 오른쪽 패널 */
