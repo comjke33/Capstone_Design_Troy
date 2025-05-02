@@ -67,20 +67,20 @@
   border-left: 1px solid #ddd;
 }
 
-/* depth별 들여쓰기 */
-.submission-line.depth-0 { padding-left: 0px; }
-.submission-line.depth-1 { padding-left: 20px; }
-.submission-line.depth-2 { padding-left: 40px; }
-.submission-line.depth-3 { padding-left: 60px; }
-.submission-line.depth-4 { padding-left: 80px; }
-.submission-line.depth-5 { padding-left: 100px; }
-
-/* 각 줄 묶음 */
 .submission-line {
   display: block;
   margin-bottom: 20px;
   box-sizing: border-box;
 }
+
+.code-line,
+.code-line,
+.styled-textarea {
+  width: calc(100% - 20px);  /* 들여쓰기 영역을 감안해 폭 줄이기 */
+  box-sizing: border-box;
+}
+
+
 
 /* 코드 설명 라인 */
 .code-line {
