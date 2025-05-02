@@ -138,10 +138,10 @@ html, body {
 
 .notification-dot {
     position: absolute;
-    top: -7px;
-    right: -7px;
-    width: 12px;
-    height: 12px;
+    top: 0px;
+    right: 0px;
+    width: 10px;
+    height: 10px;
     background-color: red;
     border-radius: 50%;
 }
@@ -231,7 +231,7 @@ html, body {
             <div class="right menu">
                 <a id="" class="item active" href="notifications.php">
                     <span class="bell-wrapper">
-                        <i class="fa fa-bell fa-lg"></i>  <!-- 크기 키움 -->
+                        <i class="fa fa-bell"></i>  <!-- 크기 키움 -->
                         <?php if(isset($new_notification_count) && $new_notification_count>0){ ?>
                             <span class="notification-dot"></span>
                         <?php } ?>
