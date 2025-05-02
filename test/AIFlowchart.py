@@ -524,10 +524,13 @@ def tag_c_code(code_lines):
             tagged_lines.append(line)
             continue
         #전처리기,주석
-        elif stripped.startswith("#") or stripped.startswith("//"):
+        elif stripped.startswith("#"):
             flush_multiline_self()
             tagged_lines.append(line)
             continue
+        elif stripped.startswith("//"):
+            continue
+
         # 실행문 감지
         elif stripped and not stripped.startswith("#") and not stripped.startswith("//") and not stripped.endswith("{") and not stripped == "}" and not stripped.endswith(":"):
             if not stripped.endswith(';') and '(' in stripped and not ')' in stripped:
