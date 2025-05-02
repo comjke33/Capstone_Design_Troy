@@ -57,14 +57,17 @@
 
 /* 피드백 창 부분 */
 .right-panel {
-  flex: 0 0 45%;  /* grow:0, shrink:0, basis:45% */
+  flex: 0 0 25%;             /* 전체 폭의 25%만 사용 */
+  min-width: 200px;          /* 좁아질 때 깨지지 않도록 */
+  max-width: 300px;          /* 너무 넓어지지 않게 제한 */
   padding: 20px;
   overflow-y: auto;
-  background-color: #ffffff;
+  background-color: #ffffff; /* 흰 배경 */
   box-sizing: border-box;
   height: 100vh;
-  min-width: 280px; /* 모바일 대응 및 최소 입력창 확보 */
+  border-left: 1px solid #ddd;
 }
+
 
 /* 코드 라인 출력 영역 */
 .code-line {
