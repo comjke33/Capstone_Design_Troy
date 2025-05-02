@@ -6,13 +6,14 @@
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
 <div class="main-layout">
-    <!-- 좌측 패널 -->
-    <div class="left-panel">
-        <div id="flowchart-images"></div>
-    </div>
+    
 
     <!-- 가운데 패널 -->
     <div class="center-panel">
+        <!-- 좌측 패널 -->
+        <div class="left-panel">
+            <div id="flowchart-images"></div>
+        </div>
         <?php
         function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
