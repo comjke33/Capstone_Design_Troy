@@ -14,7 +14,7 @@ if ($problem_id <= 0 || $index < 0) {
 
 //DB에서 링크를 가져와서 링크를 구현
 $sql = "SELECT png_address FROM flowchart 
-        WHERE problem_id = ? 
+        WHERE problem_id = 2222 
         AND start_num <= ? 
         AND end_num >= ? 
         LIMIT 1";
