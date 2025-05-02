@@ -1,16 +1,24 @@
 #include <stdio.h>
 
 int main() {
-    int A, B;
-    scanf("%d %d", &A, &B);
+    int n;
+    scanf("%d", &n);
 
-    if (A > B) {
-        printf(">\n");
-    } else if (A < B) {
-        printf("<\n");
-    } else {
-        printf("==\n");
+    double scores[1000];
+    double max = 0.0;
+
+    for (int i = 0; i < n; i++) {
+        scanf("%1f", &scores[i]);
+        if (scores[i] > max) {
+            max = scores[i];
+        }
     }
 
+    double sum = 0.0;
+    for (int i = 0; i < n; i++) {
+        sum += (scores[i] / max) * 100;
+    }
+
+    printf("%.2f\n", sum / n);
     return 0;
 }
