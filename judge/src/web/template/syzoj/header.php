@@ -131,7 +131,20 @@ html, body {
   border: none !important;
 }
 
+.bell-wrapper {
+    position: relative;
+    display: inline-block;
+}
 
+.notification-dot {
+    position: absolute;
+    top: -5px;     /* 위로 5px 이동 */
+    right: -5px;   /* 오른쪽으로 5px 이동 */
+    width: 6px;    /* 크기 작게 */
+    height: 6px;
+    background-color: red;
+    border-radius: 50%;
+}
 
 </style>
     <script src="<?php echo "$OJ_CDN_URL/include/"?>jquery-latest.js"></script>
@@ -216,12 +229,16 @@ html, body {
             <?php echo $sql_news_menu_result_html; ?>
             <div class="right menu">
                 <a id="" class="item active" href="notifications.php">
-                    <i class="fa fa-bell"></i>
+                    <span class="bell-wrapper">
+                        <i class="fa fa-bell"></i>  <!-- 크기 키움 -->
+                        <?php if(isset($new_notification_count) && $new_notification_count>0){ ?>
+                            <span class="notification-dot"></span>
+                        <?php } ?>
+                    </span>
                     <span class="desktop-only"></span>
-                    <?php if(isset($new_notification_count) && $new_notification_count>0){ ?>
-                        <span class="badge"><?php echo $new_notification_count; ?></span>
-                    <?php } ?>
                 </a>
+
+
                 <!-- 로그인한 사용자에 대한 정보를 표시합니다. 사용자 정보를 클릭하면 프로필 수정, 할 일 목록 등을 확인할 수 있는 메뉴를 제공합니다. -->
                 <?php if(isset($_SESSION[$OJ_NAME.'_'.'user_id'])) { ?>
                 <a href="<?php echo $path_fix?>/userinfo.php?user=<?php echo $_SESSION[$OJ_NAME.'_'.'user_id']?>"
