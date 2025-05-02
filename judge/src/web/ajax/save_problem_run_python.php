@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
+if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'contest_creator']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor']))) {
     http_response_code(403);
     echo "Unauthorized";
     exit();
