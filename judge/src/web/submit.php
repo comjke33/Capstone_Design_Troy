@@ -377,8 +377,22 @@ if (~$OJ_LANGMASK&(1<<$language)) {
       file_put_contents("/tmp/debug_log.txt", "error_type: ".json_encode($error_type)."\n", FILE_APPEND); 
       file_put_contents("/tmp/debug_log.txt", $user_id, FILE_APPEND); 
        // 3. 함수 리턴값을 받아서 +1 수행
-      $sql = "UPDATE user_weakness SET mistake_count = mistake_count + 1 WHERE user_id = ? AND mistake_type = ?;";
+      // 먼저 UPDATE
+      $sql = "
+      UPDATE user_weakness
+      SET mistake_count = mistake_count + 1
+      WHERE user_id = ? AND mistake_type = ?;
+      ";
       $sql_result = pdo_query($sql, $user_id, $error_type);
+
+      // 변경된 행 수 확인 (0이면 해당 레코드 없음 → INSERT)
+      if ($sql_result == 0) {
+          $sql_insert = "
+          INSERT INTO user_weakness (user_id, mistake_type, mistake_count)
+          VALUES (?, ?, 1);
+          ";
+          pdo_query($sql_insert, $user_id, $error_type);
+      }
     }
   }	
   // file_put_contents("/tmp/debug_log.txt", "source: ".$source."\n", FILE_APPEND);
