@@ -162,7 +162,8 @@ $.ajax({
     data: {
         description: <?php echo json_encode($description); ?>,
         exemplary_code: <?php echo json_encode($exemplary_code); ?>,
-        problem_id: <?php echo json_encode($pid); ?>
+        problem_id: <?php echo json_encode($pid); ?>,
+        post_key: "<?php echo $_SESSION[$OJ_NAME . '_post_key']; ?>"
     },
     success: function(response) {
         console.log("📜 Python Script Results:");
