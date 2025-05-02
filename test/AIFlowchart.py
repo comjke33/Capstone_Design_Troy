@@ -524,10 +524,13 @@ def tag_c_code(code_lines):
             tagged_lines.append(line)
             continue
         #전처리기,주석
-        elif stripped.startswith("#") or stripped.startswith("//"):
+        elif stripped.startswith("#"):
             flush_multiline_self()
             tagged_lines.append(line)
             continue
+        elif stripped.startswith("//"):
+            continue
+
         # 실행문 감지
         elif stripped and not stripped.startswith("#") and not stripped.startswith("//") and not stripped.endswith("{") and not stripped == "}" and not stripped.endswith(":"):
             if not stripped.endswith(';') and '(' in stripped and not ')' in stripped:
@@ -572,6 +575,7 @@ prompt = """
 4. 함수 정의 역시 main문위에 있어도 하면 돼.
 5. main함수를 제외한 나머지 함수들은 각각 ==="함수 이름" 함수 정의=== <- 이렇게 출력하면 돼.
 6. 함수 정의 마다 각각의 과정으로 생각해.
+7. #include <stdio.h>같은 헤더파일은 포함하지 말 것.
 
 포맷은 다음을 따라주세요:
 
@@ -590,7 +594,7 @@ prompt = """
 예시:
 
 코드:
-
+#include<stdio.h>
 
 int print(int arr[][],int N) {
 
@@ -823,6 +827,9 @@ for index, highlight_node in enumerate(all_nodes):
             previous_func = None
             for i, tag in enumerate(func_tags):
                 node_id = f"func{i}"
+                print(tag)
+                print(node_id)
+                print(i)
                 style = 'bold' if node_id == highlight_node else ''
                 color = 'red' if node_id == highlight_node else 'black'
                 f.node(node_id, f"{tag}", shape="box", fontname="Malgun Gothic",
@@ -860,6 +867,7 @@ for index, highlight_node in enumerate(all_nodes):
         VALUES (%s, %s, %s, %s, %s)
         ON DUPLICATE KEY UPDATE png_address = VALUES(png_address)
     """, (problem_id, f"/home/Capstone_Design_Troy/test/flowcharts/{problem_id}_{index+1}", index+1, start_numbers[index], end_numbers[index]))
+    conn.commit()
 
 # # 마무리
 cursor.close()
