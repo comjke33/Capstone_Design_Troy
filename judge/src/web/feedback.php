@@ -1,10 +1,12 @@
 <?php
 require_once('include/db_info.inc.php');
+
 $solution_id = isset($_GET['solution_id']) ? intval($_GET['solution_id']) : 0; // solution_id를 GET 파라미터로 받음
 $feedback_error = ""; // 피드백 오류 메시지 초기화
 $code = ""; // 코드 초기화
 $output = ""; // 출력 초기화
 $compile_result = ""; // 컴파일 결과 초기화
+
 
 // solution_id로 solution 테이블에서 code 가져오기
 if ($solution_id > 0) {
@@ -18,11 +20,13 @@ if ($solution_id > 0) {
     }
 }
 
+
 if (isset($code)) {
     // 인자를 공백으로 구분해 Python 스크립트에 전달
     $command = "cd /home/Capstone_Design_Troy/py/ && python3 compile_process.py " . escapeshellarg($code);
     $compile_result = shell_exec($command);
 }
+
 
 $data = json_decode($compile_result, true);
 $link_results = array();
@@ -47,9 +51,6 @@ if (isset($data['stderrs']) && is_array($data['stderrs'])) {
                 "message" => $stderr['message'],
                 "matches" => $decoded  // 개념/블록/링크들이 배열로 들어감
             );
-            //$feedback_error = $link;
-            //$output = json_decode($link, JSON_UNESCAPED_UNICODE);
-            //$link_results.append(json_decode($link, true));
         }
     }
 }
