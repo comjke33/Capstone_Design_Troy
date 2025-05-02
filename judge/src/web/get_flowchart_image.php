@@ -11,7 +11,7 @@ if ($problem_id <= 0 || $index < 0) {
     exit;
 }
 
-// DB에서 이미지 주소 가져오기
+// DB에서 png_address 조회
 $sql = "SELECT png_address FROM flowchart 
         WHERE problem_id = ? 
         AND start_num <= ? 
@@ -20,13 +20,14 @@ $sql = "SELECT png_address FROM flowchart
 
 $res = pdo_query($sql, $problem_id, $index, $index);
 
-// 기본 이미지 (웹에서 접근 가능한 경로)
+// 브라우저에서 접근 가능한 기본 이미지 경로
 $default_img = "/image/default.jpg";
 
-// 주소가 있으면 변환
+// 변환 처리
 if (count($res) > 0 && !empty($res[0]['png_address'])) {
-    $filename = basename($res[0]['png_address']);  // 내부 경로에서 파일명만 추출
-    $url = "/flowcharts/" . $filename . ".png";     // 웹 경로로 조립
+    $raw_path = $res[0]['png_address'];  // 예: /home/.../flowcharts/9944_1
+    $filename = basename($raw_path) . ".png";  // 9944_1.png
+    $url = "/flowcharts/" . $filename;         // 웹 접근 경로
 } else {
     $url = $default_img;
 }
