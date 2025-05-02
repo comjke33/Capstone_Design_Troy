@@ -1,7 +1,8 @@
 <?php
 session_start();
+require_once("../include/db_info.inc.php");
 
-if (!isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
+if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'contest_creator']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor']))) {
     http_response_code(403);
     echo "Unauthorized";
     exit();
@@ -9,6 +10,7 @@ if (!isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
 
 // 파라미터 받기
 $description = $_POST['description'] ?? '';
+$description = str_replace(",", "&#44;", $description);
 $exemplary_code = $_POST['exemplary_code'] ?? '';
 $problem_id = $_POST['problem_id'] ?? '';
 
