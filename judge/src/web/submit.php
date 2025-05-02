@@ -375,9 +375,10 @@ if (~$OJ_LANGMASK&(1<<$language)) {
         $error_type = "Unknown Error";
       }
       file_put_contents("/tmp/debug_log.txt", "error_type: ".json_encode($error_type)."\n", FILE_APPEND); 
+      file_put_contents("/tmp/debug_log.txt", $user_id, FILE_APPEND); 
        // 3. 함수 리턴값을 받아서 +1 수행
       $sql = "UPDATE user_weakness SET mistake_count = mistake_count + 1 WHERE user_id = ? AND mistake_type = ?;";
-      $sql_result = pdo_query($sql, $_SESSION[$OJ_NAME . '_user_id'], $error_type);
+      $sql_result = pdo_query($sql, $user_id, $error_type);
     }
   }	
   // file_put_contents("/tmp/debug_log.txt", "source: ".$source."\n", FILE_APPEND);
