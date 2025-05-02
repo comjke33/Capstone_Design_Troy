@@ -10,9 +10,10 @@
     <!-- 왼쪽 패널 -->
     <div class="left-panel">
         <div id="slider-container" style="position: relative; height: 100%; width: 100%;">
-            <img id="feedback-img" alt="Feedback Image" style="width:100%; display:none;">
+            <img id="feedback-img" alt="Feedback Image" style="width: 100%; display: none;">
         </div>
     </div>
+
 
     <!-- 가운데 패널 -->
     <div class="center-panel" style="flex-grow: 1; padding: 20px; overflow-y: auto;">
