@@ -117,6 +117,13 @@
   box-sizing: border-box;
 }
 
+.submission-line.depth-0 { margin-left: 0px; }
+.submission-line.depth-1 { margin-left: 20px; }
+.submission-line.depth-2 { margin-left: 40px; }
+.submission-line.depth-3 { margin-left: 60px; }
+.submission-line.depth-4 { margin-left: 80px; }
+.submission-line.depth-5 { margin-left: 100px; }
+
 .submit-button {
   background-color: #4a90e2 !important;
 }
