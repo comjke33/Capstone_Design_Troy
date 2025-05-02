@@ -11,9 +11,7 @@
     <!-- 가운데 패널 -->
     <div class="center-panel">
         <!-- 좌측 패널 -->
-        <div class="left-panel">
-            <div id="flowchart-images"></div>
-        </div>
+        <div id="flowchart-images"></div>
         <?php
         function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
