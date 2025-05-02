@@ -201,7 +201,7 @@ html, body {
             <div class="right menu">
                 <a id="" class="item active" href="notifications.php">
                     <i class="fa fa-bell"></i>
-                    <span class="desktop-only">알림</span>
+                    <span class="desktop-only"></span>
                     <?php if(isset($new_notification_count) && $new_notification_count>0){ ?>
                         <span class="badge"><?php echo $new_notification_count; ?></span>
                     <?php } ?>
