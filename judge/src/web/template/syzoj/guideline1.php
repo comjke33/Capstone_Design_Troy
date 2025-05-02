@@ -160,7 +160,7 @@ function positionImageRelativeToTextarea() {
     const scrollTop = centerPanel.scrollTop;
     const offsetTop = currentTextarea.offsetTop;
 
-    const relativeTop = offsetTop + scrollTop/10;
+    const relativeTop = offsetTop + scrollTop/6;
     img.style.top = `${relativeTop}px`;
 }
 
