@@ -10,6 +10,22 @@
           return $retmsg;
         }
 
+        function checknoti(){
+            global $OJ_NAME;
+            $sql = "SELECT EXISTS (
+                SELECT 1 
+                FROM user_weakness 
+                WHERE user_id = ? 
+                  AND mistake_count >= 15
+            ) AS has_high_mistake;";
+            $result=pdo_query($sql, $_SESSION[$OJ_NAME.'_'.'user_id']);
+            $new_notification_count = $result[0]['has_high_mistake'];
+            if(empty($result)) return false;
+            return $new_notification_count;
+        }
+
+        $new_notification_count = checknoti();
+
         // 사이트 표시될 최신 뉴스 표시
         function get_menu_news() {
             $result = "";
