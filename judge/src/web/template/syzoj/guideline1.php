@@ -147,36 +147,22 @@ function updateImageForTextarea(index, ta) {
 
 function handleScroll() {
     // 현재 포커스된 textarea 기준 위치 갱신
-    positionImageRelativeToTextarea();
+    positionImageRelativeToTextarea()+20;
 }
 
 function positionImageRelativeToTextarea() {
+    if (!currentTextarea) return;
+
     const img = document.getElementById("floating-img");
-    if (!img || !currentTextarea) return;
+    if (!img) return;
 
-    const taRect = currentTextarea.getBoundingClientRect();
-    const container = currentTextarea.closest(".center-panel");
-    const panelRect = container.getBoundingClientRect();
+    const centerPanel = currentTextarea.closest(".center-panel");
+    const scrollTop = centerPanel.scrollTop;
+    const offsetTop = currentTextarea.offsetTop;
 
-    // 이미지가 화면에 보일 때만 처리
-    const isVisible =
-        taRect.top >= panelRect.top &&
-        taRect.bottom <= panelRect.bottom;
-
-    if (!isVisible) {
-        img.style.opacity = "0";
-        return;
-    }
-
-    // 💡 원하는 만큼 위로 보정 (예: 20px)
-    const offsetAdjustment = 20;
-
-    const relativeTop = taRect.top - panelRect.top + container.scrollTop - offsetAdjustment;
-
+    const relativeTop = offsetTop + scrollTop/10;
     img.style.top = `${relativeTop}px`;
-    img.style.opacity = "1";
 }
-
 
 
 
