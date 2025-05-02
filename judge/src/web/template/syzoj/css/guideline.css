@@ -1,12 +1,13 @@
-/* 📄 src/web/css/guideline.css */
+/* 파일: src/web/css/guideline.css */
 
 .main-layout {
   display: flex;
-  gap: 10px;  /* 패널 간의 간격 조정 */
+  gap: 10px; /* 패널 간 거리 조정 */
   width: 100vw;
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
+  overflow-x: hidden; /* 복잡 자리의 표시에서 움츠림 마르기 */
 }
 
 /* 피드백 이미지 스타일 */
@@ -20,6 +21,7 @@
   top: 0;
   display: none;
   z-index: 10;
+  max-height: 100vh; /* 위에 너무 긴 것 조정 */
 }
 
 /* 왼쪽 패널 */
