@@ -593,7 +593,7 @@ prompt = """
 예시:
 
 코드:
-
+#include<stdio.h>
 
 int print(int arr[][],int N) {
 
