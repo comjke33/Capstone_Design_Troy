@@ -21,6 +21,7 @@ $sql = "SELECT png_address FROM flowchart
         LIMIT 1";
 
 $res = pdo_query($sql, $problem_id, $index, $index);
+$res = pdo_query($sql, $problem_id);
 $default_img = "../../../test/flowcharts/1234_1.png";
 
 if (count($res) > 0 && !empty($res['png_address'])) {
