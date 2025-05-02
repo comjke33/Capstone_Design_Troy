@@ -1,4 +1,3 @@
-<!-- guideline1.php 전체 구조 -->
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
     <h1>한줄씩 풀기</h1>
     <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
@@ -66,6 +65,7 @@
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($OJ_SID) ?>;
 
+//제출버튼을 처리하는 함수
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
@@ -96,6 +96,7 @@ function submitAnswer(index) {
     }
 }
 
+//답안 문제를 볼 수 있는 문제
 function showAnswer(index) {
     const correctCode = correctAnswers[index]?.content.trim();
     if (!correctCode) return;
@@ -110,6 +111,7 @@ function autoResize(ta) {
     ta.style.height = ta.scrollHeight + 'px';
 }
 
+//텍스트 창에 맞춰서 이미지 추가
 function updateImageForTextarea(index, ta) {
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())

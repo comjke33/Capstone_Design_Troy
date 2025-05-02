@@ -1,7 +1,7 @@
-
+/* 전체 레이아웃 */
 .main-layout {
   display: flex;
-  gap: 20px; /* 패널 간 거리 */
+  gap: 20px;
   width: 100vw;
   max-width: 100%;
   margin-left: auto;
@@ -11,7 +11,7 @@
   box-sizing: border-box;
 }
 
-/* 피드백 이미지 영역 포함한 flowchart */
+/* flowchart 이미지 영역 */
 #flowchart-images {
   position: relative;
   width: 100%;
@@ -31,7 +31,7 @@
   z-index: 10;
 }
 
-/* 좌측 패널 (flowchart) */
+/* 좌측 패널 */
 .left-panel {
   width: 20%;
   min-width: 120px;
@@ -43,32 +43,46 @@
   border-right: 1px solid #ccc;
 }
 
-/* 가운데 패널 (입력 영역) */
+/* 가운데 패널 */
 .center-panel {
-  flex: 0 0 45%;  /* grow:0, shrink:0, basis:45% */
+  flex: 0 0 45%;
   padding: 20px;
   overflow-y: auto;
   background-color: #ffffff;
   box-sizing: border-box;
   height: 100vh;
-  min-width: 280px; /* 모바일 대응 및 최소 입력창 확보 */
+  min-width: 280px;
 }
 
-/* 피드백 창 부분 */
+/* 오른쪽 패널 */
 .right-panel {
-  flex: 0 0 25%;             /* 전체 폭의 25%만 사용 */
-  min-width: 200px;          /* 좁아질 때 깨지지 않도록 */
-  max-width: 300px;          /* 너무 넓어지지 않게 제한 */
+  flex: 0 0 25%;
+  min-width: 200px;
+  max-width: 300px;
   padding: 20px;
   overflow-y: auto;
-  background-color: #ffffff; /* 흰 배경 */
+  background-color: #ffffff;
   box-sizing: border-box;
   height: 100vh;
   border-left: 1px solid #ddd;
 }
 
+/* depth별 들여쓰기 */
+.submission-line.depth-0 { padding-left: 0px; }
+.submission-line.depth-1 { padding-left: 20px; }
+.submission-line.depth-2 { padding-left: 40px; }
+.submission-line.depth-3 { padding-left: 60px; }
+.submission-line.depth-4 { padding-left: 80px; }
+.submission-line.depth-5 { padding-left: 100px; }
 
-/* 코드 라인 출력 영역 */
+/* 각 줄 묶음 */
+.submission-line {
+  display: block;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+/* 코드 설명 라인 */
 .code-line {
   background-color: #f8f8fa;
   border: 1px solid #ddd;
@@ -83,7 +97,7 @@
   box-sizing: border-box;
 }
 
-/* 입력창 */
+/* 코드 입력창 */
 .styled-textarea {
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -97,16 +111,6 @@
   box-sizing: border-box;
   min-height: 40px;
   margin-bottom: 10px;
-}
-
-/* 제출 영역 묶음 */
-.submission-line {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
-  position: relative;
-  gap: 10px;
 }
 
 /* 제출 버튼, 보기 버튼 */
@@ -130,14 +134,14 @@
   background-color: #ff8c00 !important;
 }
 
-/* 정답 체크 아이콘 */
+/* 체크 아이콘 */
 .checkmark {
   font-size: 20px;
   color: #2ecc71;
   margin-top: 8px;
 }
 
-/* 정답 보여주는 영역 */
+/* 정답 표시 영역 */
 .answer-area {
   font-size: 16px;
   color: #333;
