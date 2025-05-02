@@ -26,7 +26,7 @@ if (isset($code)) {
     $command = "cd /home/Capstone_Design_Troy/py/ && python3 compile_process.py " . escapeshellarg($code);
     $compile_result = shell_exec($command);
 }
-
+file_put_contents("/tmp/compile_output.txt", $compile_result);
 $data = json_decode($compile_result, true);
 $link_results = array();
 
@@ -45,7 +45,7 @@ if (isset($data['stderrs']) && is_array($data['stderrs'])) {
                 exit;
             }
             
-            file_put_contents("/tmp/compile_output.txt", $decoded);
+            
             // 결과를 message별로 배열에 추가
             $link_results[] = array(
                 "message" => $stderr['message'],
