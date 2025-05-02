@@ -22,7 +22,7 @@ $sql = "SELECT png_address FROM flowchart
 
 //$res = pdo_query($sql, $problem_id, $index, $index);
 $res = pdo_query($sql, $problem_id);
-$default_img = "/home/Capstone_Design_Troy/judge/src/web/flowcharts/9944_1.png";
+$default_img = "/flowcharts/9944_1.png";
 
 if (count($res) > 0 && !empty($res['png_address'])) {
     $filename =($res['png_address'] . ".png");
