@@ -144,6 +144,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else {
                     img.src = "../../image/default.jpg"; // fallback
                 }
+
+                // ✅ 이미지 보이게 설정
+                img.style.display = "block";
             })
             .catch(err => console.error("이미지 로딩 실패:", err));
     }
