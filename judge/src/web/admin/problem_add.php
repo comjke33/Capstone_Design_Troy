@@ -129,11 +129,11 @@ if(isset($_POST['remote_oj'])){
 	<?php
 }
 
-//파이썬 실행
-shell_exec("cd /home/Capstone_Design_Troy/button_test/ && python3 button_test.py");
-shell_exec("cd /home/Capstone_Design_Troy/test/ && python3 make_question_and_code.py" . escapeshellarg($description) . ' ' . escapeshellarg($exemplary_code));
-shell_exec("cd /home/Capstone_Design_Troy/test/ && python3 AIFlowchart.py" . escapeshellarg($problem_id));
-//파이썬 실행
+// //파이썬 실행
+// shell_exec("cd /home/Capstone_Design_Troy/button_test/ && python3 button_test.py");
+// shell_exec("cd /home/Capstone_Design_Troy/test/ && python3 make_question_and_code.py" . escapeshellarg($description) . ' ' . escapeshellarg($exemplary_code));
+// shell_exec("cd /home/Capstone_Design_Troy/test/ && python3 AIFlowchart.py" . escapeshellarg($problem_id));
+// //파이썬 실행
 
 $sql = "INSERT INTO `privilege` (`user_id`,`rightstr`) VALUES(?,?)";
 pdo_query($sql, $_SESSION[$OJ_NAME.'_'.'user_id'], "p$pid");
@@ -155,3 +155,28 @@ function phpfm(pid){
 }
 </script>
 
+<script>
+$.ajax({
+    type: "POST",
+    url: "url: "../ajax/run_python_script.php"run_python_script.php",
+    data: {
+        description: <?php echo json_encode($description); ?>,
+        exemplary_code: <?php echo json_encode($exemplary_code); ?>,
+        problem_id: <?php echo json_encode($pid); ?>
+    },
+    success: function(response) {
+        console.log("📜 Python Script Results:");
+        response.forEach((result, idx) => {
+            console.log(`▶️ Script ${idx + 1}`);
+            console.log("Command:", result.command);
+            console.log("Return Code:", result.return_code);
+            console.log("Output:", result.output.join("\n"));
+        });
+        alert("Python 스크립트 실행 완료 (결과는 콘솔에서 확인하세요)");
+    },
+    error: function(xhr, status, error) {
+        console.error("❌ Error running Python script:", error);
+        alert("Python 실행 중 오류 발생");
+    }
+});
+</script>

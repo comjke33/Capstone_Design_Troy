@@ -808,33 +808,48 @@ cursor = conn.cursor()
 # 흐름도 생성 및 DB 저장
 for index, highlight_node in enumerate(all_nodes):
     dot = Digraph(comment=f"Highlight: {highlight_node}", format="png")
-    dot.attr(fontname="Malgun Gothic")
+    dot.attr(fontname="Malgun Gothic", rankdir="TB")  # 위에서 아래
+
     print(start_numbers[index])
     print(end_numbers[index])
 
-    with dot.subgraph(name="cluster_func") as f:
-        f.attr(label="Function Definition", style="dashed,filled", color="blue", fontname="Malgun Gothic", fillcolor="lightyellow", rankdir="TB")
-        for i, tag in enumerate(func_tags):
-            node_id = f"func{i}"
-            style = 'bold' if node_id == highlight_node else ''
-            color = 'red' if node_id == highlight_node else 'black'
-            f.node(node_id, f"{tag}", shape="box", fontname="Malgun Gothic", color=color, penwidth='3' if node_id == highlight_node else '1', style=style)
+    with dot.subgraph(name="cluster_all") as g:
+        g.attr(label="", color="white", fontname="Malgun Gothic", rankdir="TB")  # 큰 클러스터
 
-    with dot.subgraph(name="cluster_main") as m:
-        m.attr(label="Main Flow", style="dashed,filled", color="black", fontname="Malgun Gothic", fillcolor="white", rankdir="TB")
+        with g.subgraph(name="cluster_func") as f:
+            f.attr(label="Function Definition", style="dashed,filled", color="blue",
+                fontname="Malgun Gothic", fillcolor="lightyellow")
+            
+            previous_func = None
+            for i, tag in enumerate(func_tags):
+                node_id = f"func{i}"
+                style = 'bold' if node_id == highlight_node else ''
+                color = 'red' if node_id == highlight_node else 'black'
+                f.node(node_id, f"{tag}", shape="box", fontname="Malgun Gothic",
+                    color=color, penwidth='3' if node_id == highlight_node else '1', style=style)
+                if previous_func:
+                    f.edge(previous_func, node_id, style="invis")
+                previous_func = node_id
 
-        m.node("start", "Start", shape="ellipse", fillcolor="lightblue", fontname="Malgun Gothic")
-        prev = "start"
-        for i, tag in enumerate(main_tags):
-            node_id = f"main{i}"
-            style = 'bold' if node_id == highlight_node else ''
-            color = 'red' if node_id == highlight_node else 'black'
-            m.node(node_id, f"[{tag}]", shape="box", fontname="Malgun Gothic", color=color, penwidth='3' if node_id == highlight_node else '1', style=style)
-            m.edge(prev, node_id)
-            prev = node_id
+        with g.subgraph(name="cluster_main") as m:
+            m.attr(label="Main Flow", style="dashed,filled", color="black", fontname="Malgun Gothic", fillcolor="white")
 
-        m.node("end", "End", shape="ellipse", fillcolor="lightblue", fontname="Malgun Gothic")
-        m.edge(prev, "end")
+            m.node("start", "Start", shape="ellipse", fillcolor="lightblue", fontname="Malgun Gothic")
+            prev = "start"
+            for i, tag in enumerate(main_tags):
+                node_id = f"main{i}"
+                style = 'bold' if node_id == highlight_node else ''
+                color = 'red' if node_id == highlight_node else 'black'
+                m.node(node_id, f"{tag}", shape="box", fontname="Malgun Gothic",
+                    color=color, penwidth='3' if node_id == highlight_node else '1', style=style)
+                m.edge(prev, node_id)
+                prev = node_id
+
+            m.node("end", "End", shape="ellipse", fillcolor="lightblue", fontname="Malgun Gothic")
+            m.edge(prev, "end")
+
+    # (선택) func 마지막 노드 → start 에 invisible edge 추가로 더 명확히 수직 정렬
+    dot.edge(f"func{len(func_tags)-1}", "start", style="invis", weight="100")
 
     filename = os.path.join(output_dir, f"{problem_id}_{index + 1}")
     output_path = dot.render(filename, cleanup=True)
