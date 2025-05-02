@@ -367,7 +367,13 @@ if (~$OJ_LANGMASK&(1<<$language)) {
     if (isset($stderr['message'])) {
       $command = "cd /home/Capstone_Design_Troy/py/ && python3 classify_error.py " . escapeshellarg($stderr['message']);
       $error_type = shell_exec($command);
-      file_put_contents("/tmp/debug_log.txt", "error_type: ".json_encode($error_type)."\n", FILE_APPEND); 
+      if(isempty($error_type)){
+        $error_type = "Unknown Error";
+      }
+      else{
+        file_put_contents("/tmp/debug_log.txt", "error_type: ".json_encode($error_type)."\n", FILE_APPEND); 
+      }
+      
        // 3. 함수 리턴값을 받아서 +1 수행
       $sql = "UPDATE user_weakness SET mistake_count = mistake_count + 1 WHERE user_id = ? AND mistake_type = ?;";
       $sql_result = pdo_query($sql, $_SESSION[$OJ_NAME . '_user_id'], $error_type);
