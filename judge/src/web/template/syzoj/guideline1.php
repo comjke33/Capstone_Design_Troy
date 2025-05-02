@@ -135,6 +135,7 @@ function updateImageForTextarea(index, ta) {
 
             container.appendChild(img);
 
+            //최초 위치 설정
             positionImageRelativeToTextarea();
 
             // 스크롤 이벤트 중복 등록 방지
@@ -146,23 +147,33 @@ function updateImageForTextarea(index, ta) {
 
 function handleScroll() {
     // 현재 포커스된 textarea 기준 위치 갱신
-    positionImageRelativeToTextarea();
+    positionImageRelativeToTextarea() * 1.5 ;
 }
 
 function positionImageRelativeToTextarea() {
-    if (!currentTextarea) return;
-
     const img = document.getElementById("floating-img");
-    if (!img) return;
+    if (!img || !currentTextarea) return;
 
-    const centerPanel = currentTextarea.closest(".center-panel");
-    const scrollTop = centerPanel.scrollTop;
-    const offsetTop = currentTextarea.offsetTop;
+    const taRect = currentTextarea.getBoundingClientRect();
+    const container = currentTextarea.closest(".center-panel");
+    const panelRect = container.getBoundingClientRect();
 
-    const relativeTop = offsetTop + scrollTop/5;
+    // 이미지가 패널 안에 보이는 textarea일 때만 보여줌
+    const isVisible =
+        taRect.top >= panelRect.top &&
+        taRect.bottom <= panelRect.bottom;
+
+    if (!isVisible) {
+        img.style.opacity = "0"; // 안 보이게
+        return;
+    }
+
+    // 위치 보정
+    const relativeTop = taRect.top - panelRect.top + container.scrollTop;
+
     img.style.top = `${relativeTop}px`;
+    img.style.opacity = "1"; // 보이게
 }
-
 
 
 document.addEventListener("DOMContentLoaded", function () {
