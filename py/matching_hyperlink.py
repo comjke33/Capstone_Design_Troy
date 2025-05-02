@@ -17,7 +17,7 @@ CONCEPT_LINKS = {
         "링크": f"{BASE_URL}#함수-선언-누락"
     },
     # 함수 반환
-    r"control reaches end of non-void function|non-void function.*should return|void function.*return|return with a value": {
+    r"control reaches end of non-void function|non-void function.*should return|void function.*return|return with a value|should not return a value|returning '.*' from a function with incompatible return type|initializing '.*?' with an expression of incompatible type 'void'": {
         "개념": "함수 반환",
         "링크": f"{BASE_URL}#함수반환"
     },
@@ -79,11 +79,6 @@ CONCEPT_LINKS = {
     r"incompatible type for argument|too few arguments": {
         "개념": "함수 인자 순서 오류",
         "링크": f"{BASE_URL}#함수-인자-순서-오류"
-    },
-    # 함수 반환 타입 오류
-    r"should not return a value|returning '.*' from a function with incompatible return type|initializing '.*?' with an expression of incompatible type 'void'": {
-    "개념": "함수 반환 타입 오류",
-    "링크": f"{BASE_URL}#함수-반환-타입-오류"
     },
 }
 
