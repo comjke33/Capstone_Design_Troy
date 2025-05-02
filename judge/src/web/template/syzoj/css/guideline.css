@@ -45,6 +45,8 @@
 
 /* 가운데 패널 */
 .center-panel {
+  position: relative; /* 이게 중요! */
+  overflow-y: auto;
   flex: 0 0 45%;
   padding: 20px;
   overflow-y: auto;

@@ -117,20 +117,25 @@ function updateImageForTextarea(index, ta) {
         .then(data => {
             const container = document.getElementById("flowchart-images");
             container.innerHTML = "";
+
             const img = document.createElement("img");
-            //img.src = "/home/Capstone_Design_Troy/test/flowcharts/1234_1.png";
             img.src = data.url;
 
             const taRect = ta.getBoundingClientRect();
             const centerPanel = ta.closest(".center-panel");
             const centerRect = centerPanel.getBoundingClientRect();
-            const topOffset = taRect.top - centerRect.top;
+            const scrollTop = centerPanel.scrollTop;
+
+            // textarea 내부 좌표 기준 오프셋 계산
+            const topOffset = ta.offsetTop - scrollTop;
 
             img.style.position = "absolute";
             img.style.top = `${topOffset}px`;
-            img.style.width = "200%";
+            img.style.left = "0";
+            img.style.width = "100%";
             img.style.maxHeight = "500px";
             img.style.border = "2px solid #ccc";
+            img.style.zIndex = "5";
 
             container.appendChild(img);
         });
