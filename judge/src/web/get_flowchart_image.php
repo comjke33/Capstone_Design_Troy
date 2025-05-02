@@ -23,7 +23,8 @@ $res = pdo_query($sql, $problem_id, $index, $index);
 $default_img = "../../image/default.jpg";
 
 if (count($res) > 0 && !empty($res[0]['png_address'])) {
-    $url = basename($res[0]['png_address'] . ".png";
+    $filename = basename($res[0]['png_address']);
+    $url = "/flowcharts/{$filename}.png";         // 웹 접근 가능하게 변환
 } else {
     $url = $default_img;
 }
