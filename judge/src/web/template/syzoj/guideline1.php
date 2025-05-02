@@ -7,12 +7,15 @@
 
 <div class="main-layout" style="display: flex; justify-content: space-between; gap: 20px;">
 
-    <!-- 왼쪽 패널 (자유롭게 그린 슬라이드바 형식) -->
-    <div class="left-panel">
-        <div id="slider-container" style="position: relative; height: 100%; width: 100%;">
-            <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img">
-        </div>
+    <!-- 왼쪽 패널 예시 -->
+    <div id="slider-container" style="position: relative; height: 100%; width: 100%;">
+    <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img" style="width:100%; display:block;">
+    <div class="anchor" id="anchor_0" style="position: absolute; top: 100px;"></div>
+    <div class="anchor" id="anchor_1" style="position: absolute; top: 300px;"></div>
+    <div class="anchor" id="anchor_2" style="position: absolute; top: 500px;"></div>
+    <!-- 추가 anchor는 실제 이미지의 영역별 좌표에 맞게 설정 -->
     </div>
+
 
     <!-- 가운데 패널 -->
     <div class="center-panel" style="flex-grow: 1; padding: 20px; overflow-y: auto;">
