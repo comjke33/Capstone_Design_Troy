@@ -118,8 +118,8 @@ function updateImageForTextarea(index, ta) {
             const container = document.getElementById("flowchart-images");
             container.innerHTML = "";
             const img = document.createElement("img");
-            img.src = "../../../../test/flowcharts/1234_1.png";
-
+            //img.src = "/home/Capstone_Design_Troy/test/flowcharts/1234_1.png";
+            img.src = "feedback.jpg";
             const taRect = ta.getBoundingClientRect();
             const centerPanel = ta.closest(".center-panel");
             const centerRect = centerPanel.getBoundingClientRect();
