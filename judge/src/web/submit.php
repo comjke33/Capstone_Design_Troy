@@ -369,10 +369,10 @@ if (~$OJ_LANGMASK&(1<<$language)) {
       $error_type = shell_exec($command);
       if(isempty($error_type)){
         $error_type = "Unknown Error";
-        file_put_contents("/home/judge/tmp/debug_log.txt", "error_type: ".json_encode($error_type)."\n", FILE_APPEND); 
+        file_put_contents("/tmp/debug_log.txt", "error_type: ".json_encode($error_type)."\n", FILE_APPEND); 
       }
       else{
-        file_put_contents("/home/judge/tmp/debug_log.txt", "error_type: ".json_encode($error_type)."\n", FILE_APPEND); 
+        file_put_contents("/tmp/debug_log.txt", "error_type: ".json_encode($error_type)."\n", FILE_APPEND); 
       }
       
        // 3. 함수 리턴값을 받아서 +1 수행
