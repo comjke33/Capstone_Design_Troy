@@ -113,6 +113,8 @@ function autoResize(ta) {
 
 let currentTextarea = null;
 
+//현재 이미지가 따라오지만 정확히 잘 따라오지 못하고
+//밑에 textarea는 클릭해도 이미지가 렌더링 되지 않는 문제
 function updateImageForTextarea(index, ta) {
     currentTextarea = ta; // 현재 클릭된 textarea 기억
 
