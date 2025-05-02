@@ -11,7 +11,7 @@ if ($problem_id <= 0 || $index < 0) {
     exit;
 }
 
-$sql = "SELECT png_address FROM Flowchart 
+$sql = "SELECT png_address FROM flowchart 
         WHERE problem_id = ? 
         AND start_num <= ? 
         AND end_num >= ? 
