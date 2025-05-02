@@ -8,10 +8,8 @@
 
 <div class="main-layout" style="display: flex; justify-content: space-between; gap: 20px;">
     <!-- 왼쪽 패널 -->
-    <div class="left-panel">
-        <div id="slider-container" style="position: relative; height: 100%; width: 100%;">
-            <img id="feedback-img" alt="Feedback Image" style="width:100%; display: none;">
-        </div>
+    <div class="left-panel" style="position: relative; width: 100%; height: 100%;">
+        <div id="flowchart-images" style="position: relative; width: 100%; height: 100%;"></div>
     </div>
 
     <!-- 가운데 패널 -->
@@ -130,27 +128,35 @@ function autoResize(ta) {
     ta.style.height = ta.scrollHeight + 'px';
 }
 
-function updateImageForTextarea(index) {
-    const img = document.getElementById("feedback-img");
-    if (!img) return;
-
+function updateImageForTextarea(index, ta) {
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
-            if (data.success && data.url) {
-                img.src = data.url + "?t=" + new Date().getTime();
-            } else {
-                img.src = "../../image/default.jpg";
-            }
-            img.style.display = "block";
+            const container = document.getElementById("flowchart-images");
+            container.innerHTML = ""; // 이전 이미지 모두 제거
+
+            const img = document.createElement("img");
+            img.src = (data.success && data.url) ? data.url + "?t=" + new Date().getTime() : "../../image/default.jpg";
+            img.style.position = "absolute";
+            img.style.width = "100px"; // 원하는 너비
+            img.style.left = "0";
+
+            // 위치 계산
+            const taRect = ta.getBoundingClientRect();
+            const centerRect = document.querySelector(".center-panel").getBoundingClientRect();
+            const offsetY = taRect.top - centerRect.top;
+
+            img.style.top = offsetY + "px";
+
+            container.appendChild(img);
         })
         .catch(err => console.error("이미지 로딩 실패:", err));
 }
 
-// textarea가 로드되면 이벤트 바인딩
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
-        ta.addEventListener("focus", () => updateImageForTextarea(idx));
+        ta.addEventListener("focus", () => updateImageForTextarea(idx, ta));
     });
 });
+
 </script>
