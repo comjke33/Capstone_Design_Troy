@@ -147,7 +147,7 @@ function updateImageForTextarea(index, ta) {
 
 function handleScroll() {
     // 현재 포커스된 textarea 기준 위치 갱신
-    positionImageRelativeToTextarea() * 1.5 ;
+    positionImageRelativeToTextarea() + 400px ;
 }
 
 function positionImageRelativeToTextarea() {
