@@ -138,7 +138,7 @@
                 if (data.success && data.url) {
                     img.src = data.url + "?t=" + new Date().getTime(); // 캐시 방지
                 } else {
-                    img.src = "https://yourdomain.com/images/default.jpg"; // fallback 이미지
+                    img.src = "../../image/default.jpg"; // fallback 이미지 (서버 루트 기준)
                 }
             })
             .catch(err => console.error("이미지 로딩 실패:", err));
