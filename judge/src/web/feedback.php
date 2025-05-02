@@ -19,8 +19,6 @@ if ($solution_id > 0) {
         $feedback_error = "⚠️ 해당 solution_id에 대한 코드가 없습니다."; // 코드가 없을 경우 오류 처리
     }
 }
-file_put_contents("/tmp/compile_output.txt", $code);
-//file_put_contents("/tmp/compile_output.txt", $compile_result);
 
 if (isset($code)) {
     // 인자를 공백으로 구분해 Python 스크립트에 전달
