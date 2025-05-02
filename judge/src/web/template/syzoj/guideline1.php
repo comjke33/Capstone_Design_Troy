@@ -128,8 +128,8 @@ function updateImageForTextarea(index, ta) {
 
             img.style.position = "absolute";
             img.style.top = `${topOffset}px`;
-            img.style.width = "100%";
-            img.style.maxHeight = "300px";
+            img.style.width = "200%";
+            img.style.maxHeight = "500px";
             img.style.border = "2px solid #ccc";
 
             container.appendChild(img);
