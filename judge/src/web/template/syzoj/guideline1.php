@@ -135,7 +135,6 @@ function updateImageForTextarea(index, ta) {
         });
 }
 
-
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
         ta.addEventListener("focus", () => updateImageForTextarea(idx, ta));
