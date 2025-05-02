@@ -10,10 +10,9 @@
     <!-- 왼쪽 패널 -->
     <div class="left-panel">
         <div id="slider-container" style="position: relative; height: 100%; width: 100%;">
-            <img id="feedback-img" alt="Feedback Image" style="width: 100%; display: none;">
+            <img id="feedback-img" alt="Feedback Image" style="width:100%;">
         </div>
     </div>
-
 
     <!-- 가운데 패널 -->
     <div class="center-panel" style="flex-grow: 1; padding: 20px; overflow-y: auto;">
@@ -144,9 +143,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else {
                     img.src = "../../image/default.jpg"; // fallback
                 }
-
-                // ✅ 이미지 보이게 설정
-                img.style.display = "block";
             })
             .catch(err => console.error("이미지 로딩 실패:", err));
     }
