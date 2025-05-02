@@ -827,6 +827,9 @@ for index, highlight_node in enumerate(all_nodes):
             previous_func = None
             for i, tag in enumerate(func_tags):
                 node_id = f"func{i}"
+                print(tag)
+                print(node_id)
+                print(i)
                 style = 'bold' if node_id == highlight_node else ''
                 color = 'red' if node_id == highlight_node else 'black'
                 f.node(node_id, f"{tag}", shape="box", fontname="Malgun Gothic",
