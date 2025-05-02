@@ -1,6 +1,6 @@
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
     <h1>한줄씩 풀기</h1>
-    <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
+    <span>문제 번호: <?= htmlspecialchars($OJ_PID) ?></span>
 </div>
 
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
@@ -65,7 +65,7 @@
 
 <script>
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
-const problemId = <?= json_encode($OJ_SID) ?>;
+const problemId = <?= json_encode($OJ_PID) ?>;
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
