@@ -27,6 +27,7 @@ if (isset($code)) {
     $compile_result = shell_exec($command);
 }
 
+file_put_contents("/tmp/compile_output.txt", $code);
 
 $data = json_decode($compile_result, true);
 $link_results = array();
