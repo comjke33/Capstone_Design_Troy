@@ -111,7 +111,11 @@ function autoResize(ta) {
     ta.style.height = ta.scrollHeight + 'px';
 }
 
+let currentTextarea = null;
+
 function updateImageForTextarea(index, ta) {
+    currentTextarea = ta; // 현재 클릭된 textarea 기억
+
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
@@ -120,7 +124,7 @@ function updateImageForTextarea(index, ta) {
 
             const img = document.createElement("img");
             img.src = data.url;
-            img.id = "floating-img"; // 이미지 식별용
+            img.id = "floating-img";
 
             img.style.position = "absolute";
             img.style.left = "0";
@@ -131,30 +135,34 @@ function updateImageForTextarea(index, ta) {
 
             container.appendChild(img);
 
-            // 초기 위치 설정
-            positionImageRelativeToTextarea(ta);
+            positionImageRelativeToTextarea();
 
-            // 스크롤할 때 위치 재조정
-            const scrollTarget = ta.closest(".center-panel");
-            scrollTarget.addEventListener("scroll", () => {
-                positionImageRelativeToTextarea(ta);
-            });
+            // 스크롤 이벤트 중복 등록 방지
+            const scrollContainer = ta.closest(".center-panel");
+            scrollContainer.removeEventListener("scroll", handleScroll); // 혹시 중복 방지
+            scrollContainer.addEventListener("scroll", handleScroll);
         });
 }
 
-function positionImageRelativeToTextarea(ta) {
+function handleScroll() {
+    // 현재 포커스된 textarea 기준 위치 갱신
+    positionImageRelativeToTextarea();
+}
+
+function positionImageRelativeToTextarea() {
+    if (!currentTextarea) return;
+
     const img = document.getElementById("floating-img");
     if (!img) return;
 
-    const centerPanel = ta.closest(".center-panel");
-    const taRect = ta.getBoundingClientRect();
-    const panelRect = centerPanel.getBoundingClientRect();
+    const centerPanel = currentTextarea.closest(".center-panel");
     const scrollTop = centerPanel.scrollTop;
+    const offsetTop = currentTextarea.offsetTop;
 
-    const topOffset = ta.offsetTop - scrollTop;
-
-    img.style.top = `${topOffset}px`;
+    const relativeTop = offsetTop - scrollTop;
+    img.style.top = `${relativeTop}px`;
 }
+
 
 
 document.addEventListener("DOMContentLoaded", function () {
