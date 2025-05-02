@@ -131,7 +131,15 @@ html, body {
   border: none !important;
 }
 
-
+.notification-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    margin-left: 5px;
+    vertical-align: middle;
+}
 
 </style>
     <script src="<?php echo "$OJ_CDN_URL/include/"?>jquery-latest.js"></script>
