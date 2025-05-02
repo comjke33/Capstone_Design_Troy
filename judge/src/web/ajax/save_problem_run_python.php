@@ -10,6 +10,7 @@ if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME
 
 // 파라미터 받기
 $description = $_POST['description'] ?? '';
+$description = str_replace(",", "&#44;", $description);
 $exemplary_code = $_POST['exemplary_code'] ?? '';
 $problem_id = $_POST['problem_id'] ?? '';
 
