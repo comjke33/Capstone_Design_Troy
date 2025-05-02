@@ -273,7 +273,7 @@ function do_submit() {
 	document.getElementById("frmSolution").target = "_self";
 
 	// 1. 컴파일 후 데이터를 가져옴
-    $command = "cd /home/Capstone_Design_Troy/py/ && python3 compile_process.py " . escapeshellarg($code);
+    $command = "cd /home/Capstone_Design_Troy/py/ && python3 compile_process.py " . escapeshellarg($source);
     $compile_result = shell_exec($command);
 
 	// // 2. 결과를 classify_error 함수에 보냄
