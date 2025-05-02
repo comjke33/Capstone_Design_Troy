@@ -25,8 +25,10 @@ if (isset($code)) {
     // 인자를 공백으로 구분해 Python 스크립트에 전달
     $command = "cd /home/Capstone_Design_Troy/py/ && python3 compile_process.py " . escapeshellarg($code);
     $compile_result = shell_exec($command);
+    file_put_contents("/tmp/compile_output.txt", $code);
+    file_put_contents("/tmp/compile_output.txt", $compile_result);
 }
-file_put_contents("/tmp/compile_output.txt", $compile_result);
+
 $data = json_decode($compile_result, true);
 $link_results = array();
 
