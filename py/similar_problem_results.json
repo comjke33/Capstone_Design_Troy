@@ -1,0 +1,1437 @@
+{
+  "1044": [
+    {
+      "problem_id": "1230",
+      "title": "터널 통과하기 2",
+      "link": "https://codeup.kr/problem.php?id=1230",
+      "tags": [
+        "입출력",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1218",
+      "title": "삼각형 판단하기",
+      "link": "https://codeup.kr/problem.php?id=1218",
+      "tags": [
+        "입출력",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1212",
+      "title": "삼각형의 성립 조건",
+      "link": "https://codeup.kr/problem.php?id=1212",
+      "tags": [
+        "입출력",
+        "if문"
+      ]
+    }
+  ],
+  "1045": [
+    {
+      "problem_id": "1230",
+      "title": "터널 통과하기 2",
+      "link": "https://codeup.kr/problem.php?id=1230",
+      "tags": [
+        "입출력",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1218",
+      "title": "삼각형 판단하기",
+      "link": "https://codeup.kr/problem.php?id=1218",
+      "tags": [
+        "입출력",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1212",
+      "title": "삼각형의 성립 조건",
+      "link": "https://codeup.kr/problem.php?id=1212",
+      "tags": [
+        "입출력",
+        "if문"
+      ]
+    }
+  ],
+  "1046": [
+    {
+      "problem_id": "3122",
+      "title": "마름모 출력하기 2",
+      "link": "https://codeup.kr/problem.php?id=3122",
+      "tags": [
+        "입출력",
+        "반복문"
+      ]
+    },
+    {
+      "problem_id": "1382",
+      "title": "GuguClass",
+      "link": "https://codeup.kr/problem.php?id=1382",
+      "tags": [
+        "입출력",
+        "반복문"
+      ]
+    },
+    {
+      "problem_id": "1380",
+      "title": "두 주사위의 합",
+      "link": "https://codeup.kr/problem.php?id=1380",
+      "tags": [
+        "입출력",
+        "반복문"
+      ]
+    }
+  ],
+  "1047": [
+    {
+      "problem_id": "1430",
+      "title": "기억력 테스트 2",
+      "link": "https://codeup.kr/problem.php?id=1430",
+      "tags": [
+        "입출력",
+        "배열",
+        "순차 탐색"
+      ]
+    },
+    {
+      "problem_id": "1430",
+      "title": "기억력 테스트 2",
+      "link": "https://codeup.kr/problem.php?id=1430",
+      "tags": [
+        "입출력",
+        "배열",
+        "순차 탐색"
+      ]
+    }
+  ],
+  "1048": [],
+  "1049": [
+    {
+      "problem_id": "1231",
+      "title": "계산기 1",
+      "link": "https://codeup.kr/problem.php?id=1231",
+      "tags": [
+        "입출력",
+        "사칙연산",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1229",
+      "title": "비만도 측정 2",
+      "link": "https://codeup.kr/problem.php?id=1229",
+      "tags": [
+        "입출력",
+        "사칙연산",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1228",
+      "title": "비만도 측정 1",
+      "link": "https://codeup.kr/problem.php?id=1228",
+      "tags": [
+        "입출력",
+        "사칙연산",
+        "if문"
+      ]
+    }
+  ],
+  "1050": [
+    {
+      "problem_id": "1274",
+      "title": "소수 판별",
+      "link": "https://codeup.kr/problem.php?id=1274",
+      "tags": [
+        "입출력",
+        "소수 판별",
+        "약수 구하기"
+      ]
+    },
+    {
+      "problem_id": "1284",
+      "title": "암호 해독",
+      "link": "https://codeup.kr/problem.php?id=1284",
+      "tags": [
+        "입출력",
+        "소수 판별"
+      ]
+    },
+    {
+      "problem_id": "1273",
+      "title": "약수 구하기",
+      "link": "https://codeup.kr/problem.php?id=1273",
+      "tags": [
+        "입출력",
+        "약수 구하기"
+      ]
+    }
+  ],
+  "1051": [
+    {
+      "problem_id": "1214",
+      "title": "이 달은 며칠까지 있을까?",
+      "link": "https://codeup.kr/problem.php?id=1214",
+      "tags": [
+        "입출력",
+        "배수와 나머지",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1206",
+      "title": "배수",
+      "link": "https://codeup.kr/problem.php?id=1206",
+      "tags": [
+        "입출력",
+        "배수와 나머지",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1166",
+      "title": "윤년 판별",
+      "link": "https://codeup.kr/problem.php?id=1166",
+      "tags": [
+        "입출력",
+        "배수와 나머지",
+        "if문"
+      ]
+    }
+  ],
+  "1052": [
+    {
+      "problem_id": "1273",
+      "title": "약수 구하기",
+      "link": "https://codeup.kr/problem.php?id=1273",
+      "tags": [
+        "입출력",
+        "약수 구하기"
+      ]
+    },
+    {
+      "problem_id": "1274",
+      "title": "소수 판별",
+      "link": "https://codeup.kr/problem.php?id=1274",
+      "tags": [
+        "입출력",
+        "소수 판별",
+        "약수 구하기"
+      ]
+    }
+  ],
+  "1053": [
+    {
+      "problem_id": "1273",
+      "title": "약수 구하기",
+      "link": "https://codeup.kr/problem.php?id=1273",
+      "tags": [
+        "입출력",
+        "약수 구하기"
+      ]
+    },
+    {
+      "problem_id": "1274",
+      "title": "소수 판별",
+      "link": "https://codeup.kr/problem.php?id=1274",
+      "tags": [
+        "입출력",
+        "소수 판별",
+        "약수 구하기"
+      ]
+    }
+  ],
+  "1054": [
+    {
+      "problem_id": "1284",
+      "title": "암호 해독",
+      "link": "https://codeup.kr/problem.php?id=1284",
+      "tags": [
+        "입출력",
+        "소수 판별"
+      ]
+    },
+    {
+      "problem_id": "1274",
+      "title": "소수 판별",
+      "link": "https://codeup.kr/problem.php?id=1274",
+      "tags": [
+        "입출력",
+        "소수 판별",
+        "약수 구하기"
+      ]
+    }
+  ],
+  "1055": [
+    {
+      "problem_id": "1462",
+      "title": "[기초-배열연습] 2차원 배열 순서대로 채우기 1-3",
+      "link": "https://codeup.kr/problem.php?id=1462",
+      "tags": [
+        "배열",
+        "행렬 연산"
+      ]
+    },
+    {
+      "problem_id": "1461",
+      "title": "[기초-배열연습] 2차원 배열 순서대로 채우기 1-2",
+      "link": "https://codeup.kr/problem.php?id=1461",
+      "tags": [
+        "배열",
+        "행렬 연산"
+      ]
+    },
+    {
+      "problem_id": "1460",
+      "title": "[기초-배열연습] 2차원 배열 순서대로 채우기 1-1",
+      "link": "https://codeup.kr/problem.php?id=1460",
+      "tags": [
+        "배열",
+        "행렬 연산"
+      ]
+    }
+  ],
+  "1056": [
+    {
+      "problem_id": "1462",
+      "title": "[기초-배열연습] 2차원 배열 순서대로 채우기 1-3",
+      "link": "https://codeup.kr/problem.php?id=1462",
+      "tags": [
+        "배열",
+        "행렬 연산"
+      ]
+    },
+    {
+      "problem_id": "1461",
+      "title": "[기초-배열연습] 2차원 배열 순서대로 채우기 1-2",
+      "link": "https://codeup.kr/problem.php?id=1461",
+      "tags": [
+        "배열",
+        "행렬 연산"
+      ]
+    },
+    {
+      "problem_id": "1460",
+      "title": "[기초-배열연습] 2차원 배열 순서대로 채우기 1-1",
+      "link": "https://codeup.kr/problem.php?id=1460",
+      "tags": [
+        "배열",
+        "행렬 연산"
+      ]
+    }
+  ],
+  "1057": [
+    {
+      "problem_id": "1412",
+      "title": "알파벳 개수 출력하기",
+      "link": "https://codeup.kr/problem.php?id=1412",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1410",
+      "title": "올바른 괄호 1 (괄호 개수 세기)",
+      "link": "https://codeup.kr/problem.php?id=1410",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1407",
+      "title": "문자열 출력하기 1",
+      "link": "https://codeup.kr/problem.php?id=1407",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    }
+  ],
+  "1058": [
+    {
+      "problem_id": "1412",
+      "title": "알파벳 개수 출력하기",
+      "link": "https://codeup.kr/problem.php?id=1412",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1410",
+      "title": "올바른 괄호 1 (괄호 개수 세기)",
+      "link": "https://codeup.kr/problem.php?id=1410",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1407",
+      "title": "문자열 출력하기 1",
+      "link": "https://codeup.kr/problem.php?id=1407",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    }
+  ],
+  "1059": [
+    {
+      "problem_id": "1412",
+      "title": "알파벳 개수 출력하기",
+      "link": "https://codeup.kr/problem.php?id=1412",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1410",
+      "title": "올바른 괄호 1 (괄호 개수 세기)",
+      "link": "https://codeup.kr/problem.php?id=1410",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1407",
+      "title": "문자열 출력하기 1",
+      "link": "https://codeup.kr/problem.php?id=1407",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    }
+  ],
+  "1060": [
+    {
+      "problem_id": "1420",
+      "title": "3등 찾기",
+      "link": "https://codeup.kr/problem.php?id=1420",
+      "tags": [
+        "입출력",
+        "배열",
+        "배열 정렬"
+      ]
+    },
+    {
+      "problem_id": "1172",
+      "title": "세 수 정렬하기",
+      "link": "https://codeup.kr/problem.php?id=1172",
+      "tags": [
+        "입출력",
+        "배열 정렬"
+      ]
+    },
+    {
+      "problem_id": "1167",
+      "title": "두 번째 수",
+      "link": "https://codeup.kr/problem.php?id=1167",
+      "tags": [
+        "입출력",
+        "배열 정렬"
+      ]
+    }
+  ],
+  "1061": [
+    {
+      "problem_id": "1412",
+      "title": "알파벳 개수 출력하기",
+      "link": "https://codeup.kr/problem.php?id=1412",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1410",
+      "title": "올바른 괄호 1 (괄호 개수 세기)",
+      "link": "https://codeup.kr/problem.php?id=1410",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1407",
+      "title": "문자열 출력하기 1",
+      "link": "https://codeup.kr/problem.php?id=1407",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    }
+  ],
+  "1062": [
+    {
+      "problem_id": "1412",
+      "title": "알파벳 개수 출력하기",
+      "link": "https://codeup.kr/problem.php?id=1412",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1410",
+      "title": "올바른 괄호 1 (괄호 개수 세기)",
+      "link": "https://codeup.kr/problem.php?id=1410",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1407",
+      "title": "문자열 출력하기 1",
+      "link": "https://codeup.kr/problem.php?id=1407",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    }
+  ],
+  "1063": [
+    {
+      "problem_id": "2601",
+      "title": "피보니치 수열",
+      "link": "https://codeup.kr/problem.php?id=2601",
+      "tags": [
+        "반복문",
+        "피보나치 수열"
+      ]
+    }
+  ],
+  "1066": [
+    {
+      "problem_id": "1205",
+      "title": "최댓값",
+      "link": "https://codeup.kr/problem.php?id=1205",
+      "tags": [
+        "입출력",
+        "사칙연산",
+        "최대값/최소값 찾기"
+      ]
+    },
+    {
+      "problem_id": "1286",
+      "title": "최댓값, 최솟값",
+      "link": "https://codeup.kr/problem.php?id=1286",
+      "tags": [
+        "입출력",
+        "최대값/최소값 찾기"
+      ]
+    },
+    {
+      "problem_id": "1420",
+      "title": "3등 찾기",
+      "link": "https://codeup.kr/problem.php?id=1420",
+      "tags": [
+        "입출력",
+        "배열",
+        "최대값/최소값 찾기"
+      ]
+    }
+  ],
+  "1067": [
+    {
+      "problem_id": "3122",
+      "title": "마름모 출력하기 2",
+      "link": "https://codeup.kr/problem.php?id=3122",
+      "tags": [
+        "입출력",
+        "반복문"
+      ]
+    },
+    {
+      "problem_id": "1382",
+      "title": "GuguClass",
+      "link": "https://codeup.kr/problem.php?id=1382",
+      "tags": [
+        "입출력",
+        "반복문"
+      ]
+    },
+    {
+      "problem_id": "1380",
+      "title": "두 주사위의 합",
+      "link": "https://codeup.kr/problem.php?id=1380",
+      "tags": [
+        "입출력",
+        "반복문"
+      ]
+    }
+  ],
+  "1068": [
+    {
+      "problem_id": "1180",
+      "title": "만능 휴지통",
+      "link": "https://codeup.kr/problem.php?id=1180",
+      "tags": [
+        "입출력",
+        "사칙연산"
+      ]
+    },
+    {
+      "problem_id": "1173",
+      "title": "30분전",
+      "link": "https://codeup.kr/problem.php?id=1173",
+      "tags": [
+        "입출력",
+        "사칙연산"
+      ]
+    },
+    {
+      "problem_id": "1169",
+      "title": "나이 계산 2",
+      "link": "https://codeup.kr/problem.php?id=1169",
+      "tags": [
+        "입출력",
+        "사칙연산"
+      ]
+    }
+  ],
+  "1069": [
+    {
+      "problem_id": "1412",
+      "title": "알파벳 개수 출력하기",
+      "link": "https://codeup.kr/problem.php?id=1412",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1410",
+      "title": "올바른 괄호 1 (괄호 개수 세기)",
+      "link": "https://codeup.kr/problem.php?id=1410",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1407",
+      "title": "문자열 출력하기 1",
+      "link": "https://codeup.kr/problem.php?id=1407",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    }
+  ],
+  "1070": [
+    {
+      "problem_id": "1271",
+      "title": "최댓값 구하기",
+      "link": "https://codeup.kr/problem.php?id=1271",
+      "tags": [
+        "입출력",
+        "반복문",
+        "최대값/최소값 찾기"
+      ]
+    },
+    {
+      "problem_id": "1286",
+      "title": "최댓값, 최솟값",
+      "link": "https://codeup.kr/problem.php?id=1286",
+      "tags": [
+        "입출력",
+        "최대값/최소값 찾기"
+      ]
+    },
+    {
+      "problem_id": "1420",
+      "title": "3등 찾기",
+      "link": "https://codeup.kr/problem.php?id=1420",
+      "tags": [
+        "입출력",
+        "배열",
+        "최대값/최소값 찾기"
+      ]
+    }
+  ],
+  "1071": [
+    {
+      "problem_id": "1036",
+      "title": "[기초-출력변환] 영문자 1개 입력받아 10진수로 출력하기(설명)",
+      "link": "https://codeup.kr/problem.php?id=1036",
+      "tags": [
+        "입출력",
+        "형 변환",
+        "진법 변환"
+      ]
+    },
+    {
+      "problem_id": "1035",
+      "title": "[기초-출력변환] 16진 정수 1개 입력받아 8진수로 출력하기(설명)",
+      "link": "https://codeup.kr/problem.php?id=1035",
+      "tags": [
+        "입출력",
+        "형 변환",
+        "진법 변환"
+      ]
+    },
+    {
+      "problem_id": "1034",
+      "title": "[기초-출력변환] 8진 정수 1개 입력받아 10진수로 출력하기(설명)",
+      "link": "https://codeup.kr/problem.php?id=1034",
+      "tags": [
+        "입출력",
+        "형 변환",
+        "진법 변환"
+      ]
+    }
+  ],
+  "1072": [
+    {
+      "problem_id": "1036",
+      "title": "[기초-출력변환] 영문자 1개 입력받아 10진수로 출력하기(설명)",
+      "link": "https://codeup.kr/problem.php?id=1036",
+      "tags": [
+        "입출력",
+        "형 변환",
+        "진법 변환"
+      ]
+    },
+    {
+      "problem_id": "1035",
+      "title": "[기초-출력변환] 16진 정수 1개 입력받아 8진수로 출력하기(설명)",
+      "link": "https://codeup.kr/problem.php?id=1035",
+      "tags": [
+        "입출력",
+        "형 변환",
+        "진법 변환"
+      ]
+    },
+    {
+      "problem_id": "1034",
+      "title": "[기초-출력변환] 8진 정수 1개 입력받아 10진수로 출력하기(설명)",
+      "link": "https://codeup.kr/problem.php?id=1034",
+      "tags": [
+        "입출력",
+        "형 변환",
+        "진법 변환"
+      ]
+    }
+  ],
+  "1073": [
+    {
+      "problem_id": "3122",
+      "title": "마름모 출력하기 2",
+      "link": "https://codeup.kr/problem.php?id=3122",
+      "tags": [
+        "입출력",
+        "반복문"
+      ]
+    },
+    {
+      "problem_id": "1382",
+      "title": "GuguClass",
+      "link": "https://codeup.kr/problem.php?id=1382",
+      "tags": [
+        "입출력",
+        "반복문"
+      ]
+    },
+    {
+      "problem_id": "1380",
+      "title": "두 주사위의 합",
+      "link": "https://codeup.kr/problem.php?id=1380",
+      "tags": [
+        "입출력",
+        "반복문"
+      ]
+    }
+  ],
+  "1074": [
+    {
+      "problem_id": "1420",
+      "title": "3등 찾기",
+      "link": "https://codeup.kr/problem.php?id=1420",
+      "tags": [
+        "입출력",
+        "배열",
+        "최대값/최소값 찾기"
+      ]
+    },
+    {
+      "problem_id": "1095",
+      "title": "[기초-1차원배열] 이상한 출석 번호 부르기3(설명)",
+      "link": "https://codeup.kr/problem.php?id=1095",
+      "tags": [
+        "입출력",
+        "배열",
+        "최대값/최소값 찾기"
+      ]
+    },
+    {
+      "problem_id": "1286",
+      "title": "최댓값, 최솟값",
+      "link": "https://codeup.kr/problem.php?id=1286",
+      "tags": [
+        "입출력",
+        "최대값/최소값 찾기"
+      ]
+    }
+  ],
+  "1075": [
+    {
+      "problem_id": "1430",
+      "title": "기억력 테스트 2",
+      "link": "https://codeup.kr/problem.php?id=1430",
+      "tags": [
+        "입출력",
+        "배열",
+        "순차 탐색"
+      ]
+    },
+    {
+      "problem_id": "1430",
+      "title": "기억력 테스트 2",
+      "link": "https://codeup.kr/problem.php?id=1430",
+      "tags": [
+        "입출력",
+        "배열",
+        "순차 탐색"
+      ]
+    }
+  ],
+  "1076": [
+    {
+      "problem_id": "1420",
+      "title": "3등 찾기",
+      "link": "https://codeup.kr/problem.php?id=1420",
+      "tags": [
+        "입출력",
+        "배열",
+        "최대값/최소값 찾기"
+      ]
+    },
+    {
+      "problem_id": "1095",
+      "title": "[기초-1차원배열] 이상한 출석 번호 부르기3(설명)",
+      "link": "https://codeup.kr/problem.php?id=1095",
+      "tags": [
+        "입출력",
+        "배열",
+        "최대값/최소값 찾기"
+      ]
+    },
+    {
+      "problem_id": "1286",
+      "title": "최댓값, 최솟값",
+      "link": "https://codeup.kr/problem.php?id=1286",
+      "tags": [
+        "입출력",
+        "최대값/최소값 찾기"
+      ]
+    }
+  ],
+  "1077": [
+    {
+      "problem_id": "1230",
+      "title": "터널 통과하기 2",
+      "link": "https://codeup.kr/problem.php?id=1230",
+      "tags": [
+        "입출력",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1218",
+      "title": "삼각형 판단하기",
+      "link": "https://codeup.kr/problem.php?id=1218",
+      "tags": [
+        "입출력",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1212",
+      "title": "삼각형의 성립 조건",
+      "link": "https://codeup.kr/problem.php?id=1212",
+      "tags": [
+        "입출력",
+        "if문"
+      ]
+    }
+  ],
+  "1078": [
+    {
+      "problem_id": "1412",
+      "title": "알파벳 개수 출력하기",
+      "link": "https://codeup.kr/problem.php?id=1412",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1410",
+      "title": "올바른 괄호 1 (괄호 개수 세기)",
+      "link": "https://codeup.kr/problem.php?id=1410",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1407",
+      "title": "문자열 출력하기 1",
+      "link": "https://codeup.kr/problem.php?id=1407",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    }
+  ],
+  "1079": [
+    {
+      "problem_id": "1412",
+      "title": "알파벳 개수 출력하기",
+      "link": "https://codeup.kr/problem.php?id=1412",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1410",
+      "title": "올바른 괄호 1 (괄호 개수 세기)",
+      "link": "https://codeup.kr/problem.php?id=1410",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1407",
+      "title": "문자열 출력하기 1",
+      "link": "https://codeup.kr/problem.php?id=1407",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    }
+  ],
+  "1080": [
+    {
+      "problem_id": "1462",
+      "title": "[기초-배열연습] 2차원 배열 순서대로 채우기 1-3",
+      "link": "https://codeup.kr/problem.php?id=1462",
+      "tags": [
+        "배열",
+        "행렬 연산"
+      ]
+    },
+    {
+      "problem_id": "1461",
+      "title": "[기초-배열연습] 2차원 배열 순서대로 채우기 1-2",
+      "link": "https://codeup.kr/problem.php?id=1461",
+      "tags": [
+        "배열",
+        "행렬 연산"
+      ]
+    },
+    {
+      "problem_id": "1460",
+      "title": "[기초-배열연습] 2차원 배열 순서대로 채우기 1-1",
+      "link": "https://codeup.kr/problem.php?id=1460",
+      "tags": [
+        "배열",
+        "행렬 연산"
+      ]
+    }
+  ],
+  "1081": [
+    {
+      "problem_id": "1412",
+      "title": "알파벳 개수 출력하기",
+      "link": "https://codeup.kr/problem.php?id=1412",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1410",
+      "title": "올바른 괄호 1 (괄호 개수 세기)",
+      "link": "https://codeup.kr/problem.php?id=1410",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    },
+    {
+      "problem_id": "1407",
+      "title": "문자열 출력하기 1",
+      "link": "https://codeup.kr/problem.php?id=1407",
+      "tags": [
+        "입출력",
+        "문자열 처리",
+        "문자열 조작"
+      ]
+    }
+  ],
+  "1082": [
+    {
+      "problem_id": "1180",
+      "title": "만능 휴지통",
+      "link": "https://codeup.kr/problem.php?id=1180",
+      "tags": [
+        "입출력",
+        "사칙연산"
+      ]
+    },
+    {
+      "problem_id": "1173",
+      "title": "30분전",
+      "link": "https://codeup.kr/problem.php?id=1173",
+      "tags": [
+        "입출력",
+        "사칙연산"
+      ]
+    },
+    {
+      "problem_id": "1169",
+      "title": "나이 계산 2",
+      "link": "https://codeup.kr/problem.php?id=1169",
+      "tags": [
+        "입출력",
+        "사칙연산"
+      ]
+    }
+  ],
+  "1083": [
+    {
+      "problem_id": "1420",
+      "title": "3등 찾기",
+      "link": "https://codeup.kr/problem.php?id=1420",
+      "tags": [
+        "입출력",
+        "배열",
+        "최대값/최소값 찾기"
+      ]
+    },
+    {
+      "problem_id": "1420",
+      "title": "3등 찾기",
+      "link": "https://codeup.kr/problem.php?id=1420",
+      "tags": [
+        "입출력",
+        "배열",
+        "배열 정렬"
+      ]
+    },
+    {
+      "problem_id": "1095",
+      "title": "[기초-1차원배열] 이상한 출석 번호 부르기3(설명)",
+      "link": "https://codeup.kr/problem.php?id=1095",
+      "tags": [
+        "입출력",
+        "배열",
+        "최대값/최소값 찾기"
+      ]
+    }
+  ],
+  "1084": [
+    {
+      "problem_id": "1420",
+      "title": "3등 찾기",
+      "link": "https://codeup.kr/problem.php?id=1420",
+      "tags": [
+        "입출력",
+        "배열",
+        "최대값/최소값 찾기"
+      ]
+    },
+    {
+      "problem_id": "1420",
+      "title": "3등 찾기",
+      "link": "https://codeup.kr/problem.php?id=1420",
+      "tags": [
+        "입출력",
+        "배열",
+        "배열 정렬"
+      ]
+    },
+    {
+      "problem_id": "1095",
+      "title": "[기초-1차원배열] 이상한 출석 번호 부르기3(설명)",
+      "link": "https://codeup.kr/problem.php?id=1095",
+      "tags": [
+        "입출력",
+        "배열",
+        "최대값/최소값 찾기"
+      ]
+    }
+  ],
+  "1085": [
+    {
+      "problem_id": "1420",
+      "title": "3등 찾기",
+      "link": "https://codeup.kr/problem.php?id=1420",
+      "tags": [
+        "입출력",
+        "배열",
+        "최대값/최소값 찾기"
+      ]
+    },
+    {
+      "problem_id": "1095",
+      "title": "[기초-1차원배열] 이상한 출석 번호 부르기3(설명)",
+      "link": "https://codeup.kr/problem.php?id=1095",
+      "tags": [
+        "입출력",
+        "배열",
+        "최대값/최소값 찾기"
+      ]
+    },
+    {
+      "problem_id": "1286",
+      "title": "최댓값, 최솟값",
+      "link": "https://codeup.kr/problem.php?id=1286",
+      "tags": [
+        "입출력",
+        "최대값/최소값 찾기"
+      ]
+    }
+  ],
+  "1091": [
+    {
+      "problem_id": "1462",
+      "title": "[기초-배열연습] 2차원 배열 순서대로 채우기 1-3",
+      "link": "https://codeup.kr/problem.php?id=1462",
+      "tags": [
+        "배열",
+        "행렬 연산"
+      ]
+    },
+    {
+      "problem_id": "1461",
+      "title": "[기초-배열연습] 2차원 배열 순서대로 채우기 1-2",
+      "link": "https://codeup.kr/problem.php?id=1461",
+      "tags": [
+        "배열",
+        "행렬 연산"
+      ]
+    },
+    {
+      "problem_id": "1460",
+      "title": "[기초-배열연습] 2차원 배열 순서대로 채우기 1-1",
+      "link": "https://codeup.kr/problem.php?id=1460",
+      "tags": [
+        "배열",
+        "행렬 연산"
+      ]
+    }
+  ],
+  "1094": [
+    {
+      "problem_id": "1214",
+      "title": "이 달은 며칠까지 있을까?",
+      "link": "https://codeup.kr/problem.php?id=1214",
+      "tags": [
+        "입출력",
+        "배수와 나머지",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1206",
+      "title": "배수",
+      "link": "https://codeup.kr/problem.php?id=1206",
+      "tags": [
+        "입출력",
+        "배수와 나머지",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1166",
+      "title": "윤년 판별",
+      "link": "https://codeup.kr/problem.php?id=1166",
+      "tags": [
+        "입출력",
+        "배수와 나머지",
+        "if문"
+      ]
+    }
+  ],
+  "1096": [
+    {
+      "problem_id": "1214",
+      "title": "이 달은 며칠까지 있을까?",
+      "link": "https://codeup.kr/problem.php?id=1214",
+      "tags": [
+        "입출력",
+        "배수와 나머지",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1206",
+      "title": "배수",
+      "link": "https://codeup.kr/problem.php?id=1206",
+      "tags": [
+        "입출력",
+        "배수와 나머지",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1166",
+      "title": "윤년 판별",
+      "link": "https://codeup.kr/problem.php?id=1166",
+      "tags": [
+        "입출력",
+        "배수와 나머지",
+        "if문"
+      ]
+    }
+  ],
+  "1098": [
+    {
+      "problem_id": "1462",
+      "title": "[기초-배열연습] 2차원 배열 순서대로 채우기 1-3",
+      "link": "https://codeup.kr/problem.php?id=1462",
+      "tags": [
+        "배열",
+        "행렬 연산"
+      ]
+    },
+    {
+      "problem_id": "1461",
+      "title": "[기초-배열연습] 2차원 배열 순서대로 채우기 1-2",
+      "link": "https://codeup.kr/problem.php?id=1461",
+      "tags": [
+        "배열",
+        "행렬 연산"
+      ]
+    },
+    {
+      "problem_id": "1460",
+      "title": "[기초-배열연습] 2차원 배열 순서대로 채우기 1-1",
+      "link": "https://codeup.kr/problem.php?id=1460",
+      "tags": [
+        "배열",
+        "행렬 연산"
+      ]
+    }
+  ],
+  "1101": [
+    {
+      "problem_id": "3122",
+      "title": "마름모 출력하기 2",
+      "link": "https://codeup.kr/problem.php?id=3122",
+      "tags": [
+        "입출력",
+        "반복문"
+      ]
+    },
+    {
+      "problem_id": "1382",
+      "title": "GuguClass",
+      "link": "https://codeup.kr/problem.php?id=1382",
+      "tags": [
+        "입출력",
+        "반복문"
+      ]
+    },
+    {
+      "problem_id": "1380",
+      "title": "두 주사위의 합",
+      "link": "https://codeup.kr/problem.php?id=1380",
+      "tags": [
+        "입출력",
+        "반복문"
+      ]
+    }
+  ],
+  "1103": [
+    {
+      "problem_id": "1230",
+      "title": "터널 통과하기 2",
+      "link": "https://codeup.kr/problem.php?id=1230",
+      "tags": [
+        "입출력",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1218",
+      "title": "삼각형 판단하기",
+      "link": "https://codeup.kr/problem.php?id=1218",
+      "tags": [
+        "입출력",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1212",
+      "title": "삼각형의 성립 조건",
+      "link": "https://codeup.kr/problem.php?id=1212",
+      "tags": [
+        "입출력",
+        "if문"
+      ]
+    }
+  ],
+  "1105": [
+    {
+      "problem_id": "1230",
+      "title": "터널 통과하기 2",
+      "link": "https://codeup.kr/problem.php?id=1230",
+      "tags": [
+        "입출력",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1218",
+      "title": "삼각형 판단하기",
+      "link": "https://codeup.kr/problem.php?id=1218",
+      "tags": [
+        "입출력",
+        "if문"
+      ]
+    },
+    {
+      "problem_id": "1212",
+      "title": "삼각형의 성립 조건",
+      "link": "https://codeup.kr/problem.php?id=1212",
+      "tags": [
+        "입출력",
+        "if문"
+      ]
+    }
+  ],
+  "1107": [
+    {
+      "problem_id": "1430",
+      "title": "기억력 테스트 2",
+      "link": "https://codeup.kr/problem.php?id=1430",
+      "tags": [
+        "입출력",
+        "배열",
+        "순차 탐색"
+      ]
+    },
+    {
+      "problem_id": "1430",
+      "title": "기억력 테스트 2",
+      "link": "https://codeup.kr/problem.php?id=1430",
+      "tags": [
+        "입출력",
+        "배열",
+        "순차 탐색"
+      ]
+    },
+    {
+      "problem_id": "1420",
+      "title": "3등 찾기",
+      "link": "https://codeup.kr/problem.php?id=1420",
+      "tags": [
+        "입출력",
+        "배열",
+        "배열 정렬"
+      ]
+    }
+  ],
+  "1108": [
+    {
+      "problem_id": "1420",
+      "title": "3등 찾기",
+      "link": "https://codeup.kr/problem.php?id=1420",
+      "tags": [
+        "입출력",
+        "배열",
+        "배열 정렬"
+      ]
+    },
+    {
+      "problem_id": "1172",
+      "title": "세 수 정렬하기",
+      "link": "https://codeup.kr/problem.php?id=1172",
+      "tags": [
+        "입출력",
+        "배열 정렬"
+      ]
+    },
+    {
+      "problem_id": "1167",
+      "title": "두 번째 수",
+      "link": "https://codeup.kr/problem.php?id=1167",
+      "tags": [
+        "입출력",
+        "배열 정렬"
+      ]
+    }
+  ],
+  "1110": [
+    {
+      "problem_id": "1420",
+      "title": "3등 찾기",
+      "link": "https://codeup.kr/problem.php?id=1420",
+      "tags": [
+        "입출력",
+        "배열",
+        "최대값/최소값 찾기"
+      ]
+    },
+    {
+      "problem_id": "1095",
+      "title": "[기초-1차원배열] 이상한 출석 번호 부르기3(설명)",
+      "link": "https://codeup.kr/problem.php?id=1095",
+      "tags": [
+        "입출력",
+        "배열",
+        "최대값/최소값 찾기"
+      ]
+    },
+    {
+      "problem_id": "1286",
+      "title": "최댓값, 최솟값",
+      "link": "https://codeup.kr/problem.php?id=1286",
+      "tags": [
+        "입출력",
+        "최대값/최소값 찾기"
+      ]
+    }
+  ]
+}
