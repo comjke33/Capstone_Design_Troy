@@ -1,4 +1,5 @@
 import re
+import sys
 
 ERROR_PATTERN_MAP = {
     r"use of undeclared identifier|unused variable": "변수 선언",
@@ -16,3 +17,9 @@ def classify_error(error_msg):
         if re.search(pattern, error_msg):
             return concept
     return "기타"
+
+if __name__ == "__main__":
+    if len(sys.argv) == 2:
+        error_msg = sys.argv[1]
+        concept = classify_error(error_msg)
+        print(concept)
