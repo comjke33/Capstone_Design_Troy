@@ -7,7 +7,7 @@ BASE_URL = "https://github.com/comjke33/Capstone_Design_Troy/blob/main/ref.md"
 
 CONCEPT_LINKS = {
     # 변수 선언 관련
-    r"use of undeclared identifier|unused variable|'[^']+' undeclared": {
+    r"use of undeclared identifier|unused variable|'[^']+' undeclared|mixing declarations and code is incompatible": {
         "개념": "변수 선언",
         "링크": f"{BASE_URL}#변수-선언"
     },
@@ -87,7 +87,7 @@ def map_to_concepts(errors: str):
     current_block = []
 
     for line in errors.splitlines():
-        if re.match(r"^.*(error|warning):.*", line):
+        if re.match(r"^.*(error|warning|AddressSanitizer):.*", line):
             if current_block:
                 enriched.append("\n".join(current_block))
                 current_block = []
@@ -101,24 +101,34 @@ def map_to_concepts(errors: str):
     results = []
     for block in enriched:
         matched = False
+
+        # AddressSanitizer 런타임 오류 우선 처리
+        if "AddressSanitizer" in block:
+            results.append({
+                "concepts": "런타임 오류 (배열인덱스 초과 등)",
+                "block": block,
+                "link": f"{BASE_URL}#배열-인덱스-초과"
+            })
+            continue
+
         for pattern, info in CONCEPT_LINKS.items():
             if re.search(pattern, block):
-                result = {
+                results.append({
                     "concepts": info["개념"],
                     "block": block,
                     "link": info["링크"]
-                }
-                results.append(result)
+                })
                 matched = True
-        if not matched:
-            result = {
+                break
+
+        if not matched and "AddressSanitizer" not in block:
+            results.append({
                 "concepts": "알 수 없는 오류",
                 "block": block,
                 "link": None
-            }
-            results.append(result)
-    return results
+            })
 
+    return results
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
