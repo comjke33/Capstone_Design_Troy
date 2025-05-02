@@ -27,7 +27,6 @@ function run_script($cmd) {
 }
 
 $results = [];
-$results[] = run_script("cd /home/Capstone_Design_Troy/button_test/ && python3 button_test.py");
 $results[] = run_script("cd /home/Capstone_Design_Troy/test/ && python3 make_question_and_code.py " . escapeshellarg($description) . ' ' . escapeshellarg($exemplary_code));
 $results[] = run_script("cd /home/Capstone_Design_Troy/test/ && python3 AIFlowchart.py " . escapeshellarg($problem_id));
 
