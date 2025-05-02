@@ -19,8 +19,14 @@ $sql = "SELECT png_address FROM Flowchart
 
 $res = pdo_query($sql, $problem_id, $index, $index);
 
+// fallback 이미지 경로
+$default_img = "../../image/default.jpg";
+
+// 결과가 존재하고 png_address가 있으면 해당 URL 반환, 없으면 fallback
 if (count($res) > 0 && !empty($res[0]['png_address'])) {
-    echo json_encode(['success' => true, 'url' => $res[0]['png_address']]);
+    $url = $res[0]['png_address'];
 } else {
-    echo json_encode(['success' => false, 'message' => 'no match']);
+    $url = $default_img;
 }
+
+echo json_encode(['success' => true, 'url' => $url]);
