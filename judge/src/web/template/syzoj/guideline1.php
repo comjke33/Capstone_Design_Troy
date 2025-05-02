@@ -43,7 +43,7 @@
                     }
                     $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                     $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                    $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
+                    $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span>";
                     $html .= "</div></div>";
                     $answer_index++;
                 }
