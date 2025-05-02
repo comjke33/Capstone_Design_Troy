@@ -82,6 +82,11 @@
   box-sizing: border-box;
 }
 
+.code-line,
+.styled-textarea {
+  max-width: calc(100% - 20px); /* 또는 90%, 들여쓰기 고려해서 줄이기 */
+}
+
 /* 코드 입력창 */
 .styled-textarea {
   border: 1px solid #ccc;
