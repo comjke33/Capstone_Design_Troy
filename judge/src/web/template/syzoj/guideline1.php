@@ -10,7 +10,6 @@
     <!-- 왼쪽 패널 -->
     <div class="left-panel">
         <div id="slider-container" style="position: relative; height: 100%; width: 100%;">
-            <img src="/image/feedback.jpg" alt="Feedback" id="feedback-img" style="width:100%;">
         </div>
     </div>
 
