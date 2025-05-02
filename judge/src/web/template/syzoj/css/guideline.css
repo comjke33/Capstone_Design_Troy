@@ -73,13 +73,19 @@
   box-sizing: border-box;
 }
 
-.code-line,
+/* depth별 들여쓰기: margin-left 사용 */
+.submission-line.depth-0 { margin-left: 0px; }
+.submission-line.depth-1 { margin-left: 20px; }
+.submission-line.depth-2 { margin-left: 40px; }
+.submission-line.depth-3 { margin-left: 60px; }
+.submission-line.depth-4 { margin-left: 80px; }
+.submission-line.depth-5 { margin-left: 100px; }
+
 .code-line,
 .styled-textarea {
-  width: calc(100% - 20px);  /* 들여쓰기 영역을 감안해 폭 줄이기 */
+  width: 100%;
   box-sizing: border-box;
 }
-
 
 
 /* 코드 설명 라인 */
