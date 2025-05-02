@@ -2,7 +2,7 @@
 require_once "include/db_info.inc.php";
 
 // $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
-$problem_id=9999;
+$problem_id=9944;
 $index = isset($_GET['index']) ? intval($_GET['index']) : -1;
 
 header("Content-Type: application/json");
@@ -16,8 +16,8 @@ if ($problem_id <= 0 || $index < 0) {
 //DB에서 링크를 가져와서 링크를 구현
 $sql = "SELECT png_address FROM flowchart 
         WHERE problem_id = ? 
-        AND start_num <= ? 
-        AND end_num >= ? 
+        AND start_num <= 7 
+        AND end_num >= 7
         LIMIT 1";
 
 $res = pdo_query($sql, $problem_id, $index, $index);
