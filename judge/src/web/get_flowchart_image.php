@@ -23,7 +23,7 @@ $sql = "SELECT png_address FROM flowchart
 $res = pdo_query($sql, $problem_id, $index, $index);
 $default_img = "../../../test/flowcharts/1234_1.png";
 
-if (count($res) > 0 && !empty($res[0]['png_address'])) {
+if (count($res) > 0 && !empty($res['png_address'])) {
     $filename =($res['png_address'] . ".png");
     $url = ($res['png_address'] . ".png");
 } else {
