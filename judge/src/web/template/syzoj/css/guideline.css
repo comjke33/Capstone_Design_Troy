@@ -1,66 +1,26 @@
+/* 전체 문서 스크롤 허용 */
+html, body {
+  height: auto;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #86b3c0; /* 기존 배경 유지 */
+}
+
 /* 전체 레이아웃 */
 .main-layout {
   display: flex;
   align-items: flex-start;
   gap: 20px;
-  width: 100vw;
+  width: 100%;
   max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-
+  margin: 0 auto;
   overflow-x: hidden;
-
   box-sizing: border-box;
 }
 
-/* flowchart 이미지 영역 */
-#flowchart-images {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-#flowchart-images img {
-  transition: top 0.1s ease; /* 부드러운 이동 (선택사항) */
-}
-
-#feedback-img {
-  width: 100%;
-  max-height: 100vh;
-  object-fit: contain;
-  border-radius: 10px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: none;
-  z-index: 10;
-}
-
-.guide-layout {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  width: 100%;               /* or 100vw if full-viewport 필요 */
-  max-width: 100%;
-  box-sizing: border-box;
-  overflow-x: auto;          /* 혹시 넘칠 경우 스크롤 */
-}
-
-.flowchart-image-area {
-  flex: 0 0 40%;           /* 또는 300px 고정 */
-  max-width: 40%;
-  min-width: 200px;
-  position: relative;
-}
-
-.code-area {
-  flex: 1;
-  min-width: 400px;       /* 코드가 너무 좁게 나오는 것 방지 */
-}
-
-
-/* 좌측 패널 */
+/* 좌측 flowchart 이미지 영역 */
 .left-panel {
   position: relative;
   width: 20%;
@@ -68,23 +28,34 @@
   max-width: 220px;
   padding: 10px;
   box-sizing: border-box;
-  overflow-y: auto;
   border-right: 1px solid #ccc;
 }
 
-/* 가운데 패널 */
+/* flowchart 이미지 컨테이너 */
+#flowchart-images {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* 이미지에 부드러운 이동 효과 */
+#flowchart-images img {
+  transition: top 0.1s ease;
+}
+
+/* 가운데 코드 입력 영역 */
 .center-panel {
-  position: relative; /* 이게 중요! */
-  flex: 0 0 45%;
+  position: relative;
+  flex-grow: 1;
   padding: 20px;
   overflow: visible;
   background-color: #ffffff;
   box-sizing: border-box;
-  height: 100vh;
-  min-width: 0;       
+  min-width: 0;
 }
 
-/* 오른쪽 패널 */
+/* 오른쪽 피드백 패널 */
 .right-panel {
   flex: 0 0 25%;
   min-width: 200px;
@@ -93,7 +64,6 @@
   overflow-y: auto;
   background-color: #ffffff;
   box-sizing: border-box;
-  height: 100vh;
   border-left: 1px solid #ddd;
 }
 
@@ -112,11 +82,6 @@
   box-sizing: border-box;
 }
 
-.code-line,
-.styled-textarea {
-  max-width: calc(100% - 20px); /* 또는 90%, 들여쓰기 고려해서 줄이기 */
-}
-
 /* 코드 입력창 */
 .styled-textarea {
   border: 1px solid #ccc;
@@ -133,7 +98,7 @@
   margin-bottom: 10px;
 }
 
-/* 제출 버튼, 보기 버튼 */
+/* 제출 버튼 및 보기 버튼 */
 .submit-button, .view-button {
   margin-top: 0;
   color: white !important;
@@ -146,32 +111,12 @@
   text-align: center;
 }
 
-.submission-line {
-  display: block;
-  margin-bottom: 20px;
-  box-sizing: border-box;
-}
-
-.submission-line.depth-0 { margin-left: 0px; }
-.submission-line.depth-1 { margin-left: 20px; }
-.submission-line.depth-2 { margin-left: 40px; }
-.submission-line.depth-3 { margin-left: 60px; }
-.submission-line.depth-4 { margin-left: 80px; }
-.submission-line.depth-5 { margin-left: 100px; }
-
 .submit-button {
   background-color: #4a90e2 !important;
 }
 
 .view-button {
   background-color: #ff8c00 !important;
-}
-
-/* 체크 아이콘 */
-.checkmark {
-  font-size: 20px;
-  color: #2ecc71;
-  margin-top: 8px;
 }
 
 /* 정답 표시 영역 */
@@ -184,3 +129,11 @@
   margin-top: 8px;
   word-break: break-word;
 }
+
+/* 체크 아이콘 */
+.checkmark {
+  font-size: 20px;
+  color: #2ecc71;
+  margin-top: 8px;
+}
+
