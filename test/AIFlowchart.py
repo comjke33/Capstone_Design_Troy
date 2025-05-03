@@ -838,6 +838,12 @@ for index, highlight_node in enumerate(all_nodes):
                     f.edge(previous_func, node_id, style="invis")
                 previous_func = node_id
 
+                # func_tags를 flowchart_node 테이블에 삽입
+                cursor.execute("""
+                    INSERT INTO flowchart_node (problem_id, num, tag)
+                    VALUES (%s, %s, %s)
+                """, (problem_id, i + 1, tag))
+
         with g.subgraph(name="cluster_main") as m:
             m.attr(label="Main Flow", style="dashed,filled", color="black", fontname="Malgun Gothic", fillcolor="white")
 
@@ -852,8 +858,15 @@ for index, highlight_node in enumerate(all_nodes):
                 m.edge(prev, node_id)
                 prev = node_id
 
+                # main_tags를 flowchart_node 테이블에 삽입
+                cursor.execute("""
+                    INSERT INTO flowchart_node (problem_id, num, tag)
+                    VALUES (%s, %s, %s)
+                """, (problem_id, i + 1, tag))
+
             m.node("end", "End", shape="ellipse", fillcolor="lightblue", fontname="Malgun Gothic")
             m.edge(prev, "end")
+
 
     # (선택) func 마지막 노드 → start 에 invisible edge 추가로 더 명확히 수직 정렬
     if func_tags:
@@ -868,6 +881,8 @@ for index, highlight_node in enumerate(all_nodes):
         VALUES (%s, %s, %s, %s, %s)
         ON DUPLICATE KEY UPDATE png_address = VALUES(png_address)
     """, (problem_id, f"/home/Capstone_Design_Troy/test/flowcharts/{problem_id}_{index+1}", index+1, start_numbers[index], end_numbers[index]))
+    
+    
     conn.commit()
 
 # # 마무리
