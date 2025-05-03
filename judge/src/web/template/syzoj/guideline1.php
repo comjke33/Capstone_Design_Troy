@@ -114,73 +114,51 @@ function autoResize(ta) {
 let currentTextarea = null;
 let animationRunning = false;
 
+// 이미지 렌더링 및 초기 위치 설정
 function updateImageForTextarea(index, ta) {
     currentTextarea = ta;
 
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
-            const container = document.getElementById("flowchart-images");
-            container.innerHTML = "";
-
-            const img = document.createElement("img");
+            let img = document.getElementById("floating-img");
+            if (!img) {
+                img = document.createElement("img");
+                img.id = "floating-img";
+                img.style.position = "fixed";
+                img.style.right = "20px";
+                img.style.top = "100px";
+                img.style.width = "250px";
+                img.style.maxHeight = "300px";
+                img.style.border = "2px solid #ccc";
+                img.style.zIndex = "9999";
+                document.body.appendChild(img);
+            }
             img.src = data.url;
-            img.id = "floating-img";
 
-            // `center-panel` 내부 스크롤 따라가기 위한 스타일
-            img.style.position = "absolute";
-            img.style.width = "100%";
-            img.style.maxHeight = "300px";
-            img.style.border = "2px solid #ccc";
-            img.style.zIndex = "999";
-
-            container.appendChild(img);
-
-            // 최초 위치 설정
-            positionImageRelativeToTextarea();
-
-            // scroll 이벤트 중복 등록 방지 후 추가
-            const centerPanel = document.querySelector(".center-panel");
-            centerPanel.removeEventListener("scroll", handleScroll);
-            centerPanel.addEventListener("scroll", handleScroll);
+            if (!animationRunning) {
+                animationRunning = true;
+                smoothFollowImage();
+            }
         });
 }
 
-function handleScroll() {
-    positionImageRelativeToTextarea();
-}
-
-function positionImageRelativeToTextarea() {
-    if (!currentTextarea) return;
-
+// 부드러운 이미지 따라오기 애니메이션
+function smoothFollowImage() {
     const img = document.getElementById("floating-img");
-    if (!img) return;
+    if (!img) {
+        animationRunning = false;
+        return;
+    }
 
-    const centerPanel = document.querySelector(".center-panel");
-    const leftPanel = document.querySelector(".left-panel");
+    const currentTop = parseFloat(img.style.top) || 0;
+    const desiredTop = window.scrollY + 100;
+    const diff = desiredTop - currentTop;
 
-    // 기준이 되는 각 DOM 요소의 위치 정보
-    const taRect = currentTextarea.getBoundingClientRect();
-    const centerRect = centerPanel.getBoundingClientRect();
-    const leftRect = leftPanel.getBoundingClientRect();
+    img.style.top = `${currentTop + diff * 0.1}px`;
 
-    // center-panel 내부 스크롤 보정
-    const scrollTop = centerPanel.scrollTop;
-    const scrollLeft = centerPanel.scrollLeft;
-
-    // 좌측 패널 내부에서의 상대 좌표 계산
-    const relativeTop = taRect.top - centerRect.top + scrollTop;
-    const relativeLeft = taRect.left - leftRect.left + scrollLeft;
-
-    const imageHeight = img.offsetHeight || 250;
-    const offset = 10;
-    const finalTop = Math.max(0, relativeTop - imageHeight - offset);
-
-    img.style.top = `${finalTop}px`;
-    img.style.left = `${relativeLeft}px`;
+    requestAnimationFrame(smoothFollowImage);
 }
-
-
 
 // textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
