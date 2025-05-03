@@ -1,8 +1,5 @@
 <?php include("template/$OJ_TEMPLATE/header.php");?>
-<?php
-include_once("../../guideline_common.php"); // ../ 위치 맞춰 조정
-
-?>
+<?php include("../../guideline_common.php");?>
 
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
 </div>
