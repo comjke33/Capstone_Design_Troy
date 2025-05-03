@@ -101,11 +101,11 @@ if __name__ == "__main__":
         runtime_stderr = ""
 
         # ✅ 컴파일 성공 or 에러 메시지 없을 때 런타임 검사
-        if returncode == 0 or (returncode != 0 and not stderrs):
-            run_returncode, runtime_stdout, runtime_stderr = run_binary()
-            asan_error = extract_asan_runtime_error(runtime_stderr)
-            if asan_error:
-                stderrs.append(asan_error)
+        # if returncode == 0 or (returncode != 0 and not stderrs):
+        run_returncode, runtime_stdout, runtime_stderr = run_binary()
+        asan_error = extract_asan_runtime_error(runtime_stderr)
+        if asan_error:
+            stderrs.append(asan_error)
 
         results = {
             "returncode": returncode,
