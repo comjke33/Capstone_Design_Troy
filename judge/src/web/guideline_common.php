@@ -2,60 +2,50 @@
 // 📦 공통 파싱 함수 모음
 
 function parse_blocks($text, $depth = 0) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\](.*?)(?=\[.*_\3\(\d+\)\])/s";
+    $lines = explode("\n", $text);
     $blocks = [];
-    $offset = 0;
+    $stack = [];
+    
+    foreach ($lines as $line) {
+        $trimmed = trim($line);
+        if ($trimmed === '') continue;
 
-    while (preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE, $offset)) {
-        $start_pos = $matches[0][1];
-        $full_len = strlen($matches[0][0]);
-        $end_pos = $start_pos + $full_len;
-
-        $before_text = substr($text, $offset, $start_pos - $offset);
-        if (trim($before_text) !== '') {
-            foreach (explode("\n", $before_text) as $line) {
-                if (trim($line) !== '') {
-                    $blocks[] = [
-                        'type' => 'text',
-                        'content' => rtrim($line),
-                        'depth' => $depth
-                    ];
-                }
+        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $trimmed, $start_match)) {
+            // 새 블록 시작
+            $stack[] = [
+                'type' => $start_match[1],
+                'index' => $start_match[2],
+                'depth' => $depth,
+                'children' => [],
+                'open_tag' => $trimmed
+            ];
+        } elseif (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $trimmed, $end_match)) {
+            // 블록 종료
+            $completed = array_pop($stack);
+            if (!empty($stack)) {
+                // 부모가 있으면 부모의 children에 추가
+                $stack[count($stack) - 1]['children'][] = $completed;
+            } else {
+                $blocks[] = $completed;
             }
-        }
-
-        $tag_type = $matches[1][0];
-        $tag_index = $matches[3][0];
-        $content = $matches[4][0];
-
-        $children = parse_blocks($content, $depth + 1);
-
-        $blocks[] = [
-            'type' => $tag_type,
-            'index' => $tag_index,
-            'content' => $content,
-            'children' => $children,
-            'depth' => $depth
-        ];
-
-        $offset = $end_pos;
-    }
-
-    $tail = substr($text, $offset);
-    if (trim($tail) !== '') {
-        foreach (explode("\n", $tail) as $line) {
-            if (trim($line) !== '') {
-                $blocks[] = [
-                    'type' => 'text',
-                    'content' => rtrim($line),
-                    'depth' => $depth
-                ];
+        } else {
+            // 일반 텍스트
+            $text_block = [
+                'type' => 'text',
+                'content' => $trimmed,
+                'depth' => $depth + count($stack)
+            ];
+            if (!empty($stack)) {
+                $stack[count($stack) - 1]['children'][] = $text_block;
+            } else {
+                $blocks[] = $text_block;
             }
         }
     }
 
     return $blocks;
 }
+
 
 
 function extract_tagged_blocks($text) {
