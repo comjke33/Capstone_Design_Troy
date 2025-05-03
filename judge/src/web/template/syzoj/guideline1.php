@@ -63,7 +63,7 @@
     </div>
 </div>
 <script>
-const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
+    const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($OJ_SID) ?>;
 
 function submitAnswer(index) {
@@ -111,6 +111,7 @@ function autoResize(ta) {
 }
 
 let currentTextarea = null;
+let animationRunning = false;
 
 function updateImageForTextarea(index, ta) {
     currentTextarea = ta;
@@ -127,36 +128,40 @@ function updateImageForTextarea(index, ta) {
                 img.style.maxHeight = "300px";
                 img.style.border = "2px solid #ccc";
                 img.style.zIndex = "9999";
+                img.style.left = "20px"; // 좌측에 고정
                 document.body.appendChild(img);
             }
 
             img.src = data.url;
 
-            positionImageAboveTextarea(); // 즉시 위치 갱신
+            if (!animationRunning) {
+                animationRunning = true;
+                smoothFollowImage();
+            }
         });
 }
 
-function positionImageAboveTextarea() {
+function smoothFollowImage() {
     const img = document.getElementById("floating-img");
-    if (!img || !currentTextarea) return;
+    if (!img || !currentTextarea) {
+        animationRunning = false;
+        return;
+    }
 
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
-    const scrollX = window.scrollX || document.documentElement.scrollLeft;
 
-    const offset = 10;
-    const top = taRect.top + scrollY - img.offsetHeight - offset;
+    const desiredTop = taRect.top + scrollY - img.offsetHeight - 10;
+    const currentTop = parseFloat(img.style.top) || 0;
+    const nextTop = currentTop + (desiredTop - currentTop) * 0.1;
 
-    img.style.top = `${Math.max(0, top)}px`;
+    img.style.top = `${nextTop}px`;
+
+    requestAnimationFrame(smoothFollowImage);
 }
 
-// textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
         ta.addEventListener("focus", () => updateImageForTextarea(idx, ta));
     });
-
-    window.addEventListener("scroll", positionImageAboveTextarea);
-    window.addEventListener("resize", positionImageAboveTextarea);
 });
-</script>
