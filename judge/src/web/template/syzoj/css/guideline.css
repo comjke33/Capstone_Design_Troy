@@ -29,8 +29,7 @@
 }
 
 #floating-img {
-  position: fixed;
-  left: 20px;              /* 왼쪽에 붙임 */
+  position: fixed;            
   top: 100px;
   width: 250px;
   max-height: 300px;
