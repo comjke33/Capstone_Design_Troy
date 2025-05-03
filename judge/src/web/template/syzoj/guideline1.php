@@ -128,49 +128,35 @@ function updateImageForTextarea(index, ta) {
             img.src = data.url;
             img.id = "floating-img";
 
-            img.style.position = "absolute";
-            img.style.left = "0";
-            img.style.width = "100%";
+            img.style.position = "fixed";
+            img.style.right = "20px";
+            img.style.top = "100px";
+            img.style.width = "250px";
             img.style.maxHeight = "300px";
             img.style.border = "2px solid #ccc";
             img.style.zIndex = "9999";
-            img.style.display = "block";
 
             img.onload = function () {
-                const rect = currentTextarea.getBoundingClientRect();
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-
-                img.style.top = `${rect.top + scrollTop - img.height - 10}px`;
-                img.style.left = `${rect.left + scrollLeft}px`;
+                smoothFollowImage();
             };
 
             container.appendChild(img);
-
-            window.removeEventListener("scroll", handleScroll);
-            window.addEventListener("scroll", handleScroll);
         });
 }
 
-
-function handleScroll() {
-    // 현재 포커스된 textarea 기준 위치 갱신
-    positionImageRelativeToTextarea()+20;
-}
-
-function positionImageRelativeToTextarea() {
-    if (!currentTextarea) return;
-
-    const rect = currentTextarea.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-
+function smoothFollowImage() {
     const img = document.getElementById("floating-img");
-    if (img) {
-        img.style.top = `${rect.top + scrollTop - img.offsetHeight - 10}px`; // 위에 띄우기
-        img.style.left = `${rect.left + scrollLeft}px`;
-    }
+    if (!img) return;
+
+    const currentTop = parseInt(img.style.top || 0, 10);
+    const desiredTop = window.scrollY + 100; // 화면 최상단 기준 100px 아래
+    const diff = desiredTop - currentTop;
+
+    img.style.top = `${currentTop + diff * 0.1}px`; // 부드럽게 이동
+
+    requestAnimationFrame(smoothFollowImage);
 }
+
 
 
 document.addEventListener("DOMContentLoaded", function () {
