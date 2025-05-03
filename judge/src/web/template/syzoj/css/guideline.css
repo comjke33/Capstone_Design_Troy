@@ -131,16 +131,3 @@
   margin-top: 8px;
 }
 
-/* 들여쓰기 기반 depth 시각화 */
-.submission-line {
-  display: block;
-  margin-bottom: 20px;
-  box-sizing: border-box;
-}
-
-.submission-line.depth-0 { margin-left: 0px; }
-.submission-line.depth-1 { margin-left: 20px; }
-.submission-line.depth-2 { margin-left: 40px; }
-.submission-line.depth-3 { margin-left: 60px; }
-.submission-line.depth-4 { margin-left: 80px; }
-.submission-line.depth-5 { margin-left: 100px; }
