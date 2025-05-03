@@ -124,14 +124,6 @@ function updateImageForTextarea(index, ta) {
             if (!img) {
                 img = document.createElement("img");
                 img.id = "floating-img";
-                img.style.position = "fixed";
-                img.style.width = "250px";
-                img.style.maxHeight = "300px";
-                img.style.border = "2px solid #ccc";
-                img.style.zIndex = "9999";
-                img.style.left = "20px"; // 왼쪽 위치 고정
-                img.style.display = "block";
-                img.style.top = "100px";  // ✅ ✅ ✅ 이게 최초 top 위치입니다
                 document.body.appendChild(img);
             }
 
