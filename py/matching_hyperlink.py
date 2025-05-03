@@ -105,11 +105,12 @@ def map_to_concepts(errors: str):
         # AddressSanitizer 런타임 오류 우선 처리
         if "AddressSanitizer" in block:
             results.append({
-                "concepts": "런타임 오류 (배열인덱스 초과 등)",
+                "concepts": "런타임 오류 - 배열 인덱스 초과 등",
                 "block": block,
                 "link": f"{BASE_URL}#배열-인덱스-초과"
             })
-            continue
+            matched = True
+            
 
         for pattern, info in CONCEPT_LINKS.items():
             if re.search(pattern, block):
@@ -119,9 +120,8 @@ def map_to_concepts(errors: str):
                     "link": info["링크"]
                 })
                 matched = True
-                break
 
-        if not matched and "AddressSanitizer" not in block:
+        if not matched:
             results.append({
                 "concepts": "알 수 없는 오류",
                 "block": block,
