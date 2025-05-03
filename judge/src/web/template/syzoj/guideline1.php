@@ -2,21 +2,6 @@
 require_once "include/db_info.inc.php";
 require_once "src/web/common.php";
 
-$problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
-$raw_code = ""; // 문제 텍스트 또는 가이드라인이 저장된 위치에서 불러오기
-
-// 예시: 파일에서 로드 (실제 환경에 맞게 수정 필요)
-$code_path = __DIR__ . "/../../test/guideline_texts/{$problem_id}.txt";
-if (file_exists($code_path)) {
-    $raw_code = file_get_contents($code_path);
-}
-
-// 트리 파싱
-$OJ_BLOCK_TREE = parse_blocks($raw_code);
-
-// 정답 로딩 (예시)
-$OJ_CORRECT_ANSWERS = []; // 이 부분은 시스템에서 불러온 정답 배열로 채워야 함
-
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
 </div>
 
