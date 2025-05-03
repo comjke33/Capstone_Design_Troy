@@ -1,15 +1,10 @@
 <?php
 require_once "include/db_info.inc.php";
-require_once "src/web/common.php"; // 이 안에 parse_blocks 정의되어 있어야 함
 
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
-$code_path = __DIR__ . "/../../test/guideline_texts/{$problem_id}.txt";
-
-$raw_code = file_exists($code_path) ? file_get_contents($code_path) : "";
 
 // ✅ 여기가 중요!
 $OJ_BLOCK_TREE = parse_blocks($raw_code); // depth 포함한 구조 생성
-
 $OJ_CORRECT_ANSWERS = []; // 필요 시 여기에 정답 넣기
 ?>
 
