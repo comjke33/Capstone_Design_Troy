@@ -146,10 +146,8 @@ function positionImageAboveTextarea() {
 
     const offset = 10;
     const top = taRect.top + scrollY - img.offsetHeight - offset;
-    const left = taRect.left + scrollX;
 
     img.style.top = `${Math.max(0, top)}px`;
-    img.style.left = `${left}px`;
 }
 
 // textarea 클릭 시 이미지 로드
