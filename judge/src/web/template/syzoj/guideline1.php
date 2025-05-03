@@ -116,7 +116,7 @@ let currentTextarea = null;
 //현재 이미지가 따라오지만 정확히 잘 따라오지 못하고
 //밑에 textarea는 클릭해도 이미지가 렌더링 되지 않는 문제
 function updateImageForTextarea(index, ta) {
-    currentTextarea = ta; // 현재 클릭된 textarea 기억
+    currentTextarea = ta;
 
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
@@ -133,19 +133,25 @@ function updateImageForTextarea(index, ta) {
             img.style.width = "100%";
             img.style.maxHeight = "300px";
             img.style.border = "2px solid #ccc";
-            img.style.zIndex = "5";
+            img.style.zIndex = "9999";
+            img.style.display = "block";
+
+            img.onload = function () {
+                const rect = currentTextarea.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+                img.style.top = `${rect.top + scrollTop - img.height - 10}px`;
+                img.style.left = `${rect.left + scrollLeft}px`;
+            };
 
             container.appendChild(img);
 
-            //최초 위치 설정
-            positionImageRelativeToTextarea();
-
-            // 스크롤 이벤트 중복 등록 방지
-            const scrollContainer = ta.closest(".center-panel");
-            scrollContainer.removeEventListener("scroll", handleScroll); // 혹시 중복 방지
-            scrollContainer.addEventListener("scroll", handleScroll);
+            window.removeEventListener("scroll", handleScroll);
+            window.addEventListener("scroll", handleScroll);
         });
 }
+
 
 function handleScroll() {
     // 현재 포커스된 textarea 기준 위치 갱신
