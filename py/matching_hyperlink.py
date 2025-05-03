@@ -99,6 +99,7 @@ def map_to_concepts(errors: str):
         enriched.append("\n".join(current_block))
 
     results = []
+    results.append({"concepts": "ha", "block": errors, "link": None})  # 첫 번째 블록은 None으로 초기화
     for block in enriched:
         # AddressSanitizer 런타임 오류 우선 처리
         if "AddressSanitizer" in block:
