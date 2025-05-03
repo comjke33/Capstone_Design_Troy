@@ -1,3 +1,22 @@
+<?php
+require_once "include/db_info.inc.php";
+require_once "src/web/common.php";
+
+$problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
+$raw_code = ""; // 문제 텍스트 또는 가이드라인이 저장된 위치에서 불러오기
+
+// 예시: 파일에서 로드 (실제 환경에 맞게 수정 필요)
+$code_path = __DIR__ . "/../../test/guideline_texts/{$problem_id}.txt";
+if (file_exists($code_path)) {
+    $raw_code = file_get_contents($code_path);
+}
+
+// 트리 파싱
+$OJ_BLOCK_TREE = parse_blocks($raw_code);
+
+// 정답 로딩 (예시)
+$OJ_CORRECT_ANSWERS = []; // 이 부분은 시스템에서 불러온 정답 배열로 채워야 함
+
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
 </div>
 
@@ -11,62 +30,62 @@
 
     <!-- 가운데 패널 -->
     <div class="center-panel">
-    <h1>한줄씩 풀기</h1>
-    <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
-    <?php
-    function render_tree_plain($blocks, &$answer_index = 0, $indent = 0) {
-        $html = "";
-        $pad = str_repeat("  ", $indent);
+        <h1>한줄씩 풀기</h1>
+        <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
+        <?php
+        function render_tree_plain($blocks, &$answer_index = 0, $indent = 0) {
+            $html = "";
+            $pad = str_repeat("  ", $indent); // 들여쓰기 가시화
 
-        foreach ($blocks as $block) {
-            $depth = $block['depth'] ?? 0;
+            foreach ($blocks as $block) {
+                $depth = $block['depth'] ?? $indent;
 
-            if (isset($block['children'])) {
-                $html .= "{$pad}<div class='block-wrap block-{$block['type']} depth-{$depth}'>\n";
-                $html .= render_tree_plain($block['children'], $answer_index, $indent + 1);
-                $html .= "{$pad}</div>\n";
-                continue;
-            }
-
-            if ($block['type'] === 'text') {
-                $raw = trim($block['content']);
-                if ($raw === '' || preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", $raw)) {
+                if (isset($block['children'])) {
+                    $html .= "{$pad}<div class='block-wrap block-{$block['type']} depth-{$depth}'>\n";
+                    $html .= render_tree_plain($block['children'], $answer_index, $depth + 1);
+                    $html .= "{$pad}</div>\n";
                     continue;
                 }
 
-                $line = htmlspecialchars($block['content']);
-                $line = preg_replace('/\\[(.*?)\\]/', '', $line);
-                $line = trim($line);
+                if ($block['type'] === 'text') {
+                    $raw = trim($block['content']);
+                    if ($raw === '' || preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", $raw)) {
+                        continue;
+                    }
 
-                $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
-                $disabled = $has_correct_answer ? "" : "disabled";
+                    $line = htmlspecialchars($block['content']);
+                    $line = preg_replace('/\\[(.*?)\\]/', '', $line);
+                    $line = trim($line);
 
-                $html .= "{$pad}<div class='submission-line depth-{$depth}' style='--depth: {$depth};'>\n";
-                $html .= "{$pad}  <div class='code-line'>{$line}</div>\n";
-                $html .= "{$pad}  <textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>\n";
+                    $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
+                    $disabled = $has_correct_answer ? "" : "disabled";
 
-                if ($has_correct_answer) {
-                    $html .= "{$pad}  <button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>\n";
-                    $html .= "{$pad}  <button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>\n";
+                    $html .= "{$pad}<div class='submission-line depth-{$depth}'>\n";
+                    $html .= "{$pad}  <div class='code-line'>{$line}</div>\n";
+                    $html .= "{$pad}  <textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>\n";
+
+                    if ($has_correct_answer) {
+                        $html .= "{$pad}  <button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>\n";
+                        $html .= "{$pad}  <button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>\n";
+                    }
+
+                    $html .= "{$pad}  <div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>\n";
+                    $html .= "{$pad}  <div style='width: 50px; text-align: center; margin-top: 10px;'>\n";
+                    $html .= "{$pad}    <span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span>\n";
+                    $html .= "{$pad}  </div>\n";
+                    $html .= "{$pad}</div>\n";
+
+                    $answer_index++;
                 }
-
-                $html .= "{$pad}  <div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>\n";
-                $html .= "{$pad}  <div style='width: 50px; text-align: center; margin-top: 10px;'>\n";
-                $html .= "{$pad}    <span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span>\n";
-                $html .= "{$pad}  </div>\n";
-                $html .= "{$pad}</div>\n";
-
-                $answer_index++;
             }
+
+            return $html;
         }
 
-        return $html;
-    }
-
-    $answer_index = 0;
-    echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
-    ?>
-</div>
+        $answer_index = 0;
+        echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
+        ?>
+    </div>
 
 
     <!-- 오른쪽 패널 -->
