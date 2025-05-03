@@ -155,19 +155,24 @@ function positionImageRelativeToTextarea() {
 
     const img = document.getElementById("floating-img");
     const centerPanel = document.querySelector(".center-panel");
+    const leftPanel = document.querySelector(".left-panel");
 
     const taRect = currentTextarea.getBoundingClientRect();
-    const panelRect = centerPanel.getBoundingClientRect();
+    const centerRect = centerPanel.getBoundingClientRect();
+    const leftRect = leftPanel.getBoundingClientRect();
 
     const scrollTop = centerPanel.scrollTop;
-    const relativeTop = taRect.top - panelRect.top + scrollTop;
+    const scrollLeft = centerPanel.scrollLeft;
+
+    const relativeTop = taRect.top - centerRect.top + scrollTop;
+    const relativeLeft = taRect.left - leftRect.left + scrollLeft;
 
     const imageHeight = img.offsetHeight || 250;
     const offset = 10;
     const finalTop = Math.max(0, relativeTop - imageHeight - offset);
 
     img.style.top = `${finalTop}px`;
-    img.style.left = `0`; // 전체 넓이 기준이므로 left 고정
+    img.style.left = `${relativeLeft}px`;
 }
 
 
