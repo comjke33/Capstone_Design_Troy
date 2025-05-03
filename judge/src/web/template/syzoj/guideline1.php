@@ -131,6 +131,7 @@ function updateImageForTextarea(index, ta) {
                 img.style.zIndex = "9999";
                 img.style.left = "20px"; // 왼쪽 위치 고정
                 img.style.display = "block";
+                img.style.top = "100px";  // ✅ ✅ ✅ 이게 최초 top 위치입니다
                 document.body.appendChild(img);
             }
 
