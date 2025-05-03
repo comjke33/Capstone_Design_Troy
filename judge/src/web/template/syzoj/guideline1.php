@@ -155,17 +155,16 @@ function handleScroll() {
 function positionImageRelativeToTextarea() {
     if (!currentTextarea) return;
 
+    const rect = currentTextarea.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
     const img = document.getElementById("floating-img");
-    if (!img) return;
-
-    const centerPanel = currentTextarea.closest(".center-panel");
-    const scrollTop = centerPanel.scrollTop;
-    const offsetTop = currentTextarea.offsetTop;
-
-    const relativeTop = offsetTop + scrollTop/10;
-    img.style.top = `${relativeTop}px`;
+    if (img) {
+        img.style.top = `${rect.top + scrollTop - img.offsetHeight - 10}px`; // 위에 띄우기
+        img.style.left = `${rect.left + scrollLeft}px`;
+    }
 }
-
 
 
 document.addEventListener("DOMContentLoaded", function () {
