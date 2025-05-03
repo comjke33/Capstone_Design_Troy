@@ -4,8 +4,8 @@
   width: 100%;
   box-sizing: border-box;
   height: auto;
-  min-height: 100vh;  /* ✅ 콘텐츠 많을 때 아래로 내려감 */
-  align-items:flex-start;
+  min-height: 100vh;
+  align-items: flex-start;
   align-self: stretch;
 }
 
@@ -29,14 +29,14 @@
 }
 
 #floating-img {
-  position: fixed;            
+  position: fixed;
   top: 100px;
+  left: 20px; /* 💡 명시적으로 왼쪽 여백 설정하여 center-panel 침범 방지 */
   width: 250px;
   max-height: 300px;
   border: 2px solid #ccc;
   z-index: 9999;
 }
-
 
 /* 가운데 코드 입력 영역 */
 .center-panel {
