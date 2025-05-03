@@ -1,4 +1,4 @@
-<?php include("template/syzoj/header.php"); ?>
+<?php include("/header.php"); ?>
 
 <div class="ui container" style="margin-top: 3em;">
     <div class="step-buttons">
@@ -146,4 +146,4 @@ function initDynamicFeatures() {
 }
 </script>
 
-<?php include("template/syzoj/footer.php"); ?>
+<?php include("/footer.php"); ?>
