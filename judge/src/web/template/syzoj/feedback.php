@@ -47,11 +47,11 @@
                 <?php if (!empty($link_results)): ?>
                     <?php foreach ($link_results as $result): ?>
                         <div class="ui segment">
-                            <h4>🔍 오류 메시지: <?php echo htmlspecialchars($result['message']); ?></h4>
+                            <h3>🔍 오류 메시지: <?php echo htmlspecialchars($result['message']); ?></h4>
                             <?php foreach ($result['matches'] as $match): ?>
                                 <div style="margin-left: 1em;">
                                     <p><strong>개념:</strong> <?php echo htmlspecialchars($match['concepts']); ?></p>
-                                    <p><strong>블록:</strong> <?php echo htmlspecialchars($match['block']); ?></p>
+                                    <p><strong>코멘트:</strong> <?php echo htmlspecialchars($match['block']); ?></p>
                                     <a href="<?php echo htmlspecialchars($match['link']); ?>" target="_blank" style="font-weight: bold; color: #2185d0;">📚 문법 개념 링크</a>
                                 </div>
                                 <hr>
