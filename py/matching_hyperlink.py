@@ -100,8 +100,6 @@ def map_to_concepts(errors: str):
 
     results = []
     for block in enriched:
-        matched = False
-
         # AddressSanitizer 런타임 오류 우선 처리
         if "AddressSanitizer" in block:
             results.append({
@@ -109,9 +107,9 @@ def map_to_concepts(errors: str):
                 "block": block,
                 "link": f"{BASE_URL}#배열-인덱스-초과"
             })
-            matched = True
-            
+            continue  # 다른 매칭 안 함
 
+        matched = False
         for pattern, info in CONCEPT_LINKS.items():
             if re.search(pattern, block):
                 results.append({
@@ -120,6 +118,7 @@ def map_to_concepts(errors: str):
                     "link": info["링크"]
                 })
                 matched = True
+                break   # 첫 번째 매칭만 사용
 
         if not matched:
             results.append({
@@ -127,6 +126,7 @@ def map_to_concepts(errors: str):
                 "block": block,
                 "link": None
             })
+
 
     return results
 
