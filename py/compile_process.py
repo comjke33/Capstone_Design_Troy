@@ -64,7 +64,14 @@ def extract_asan_runtime_error(stderr):
     }
 
 def compile_with_clang(source_file, output_file="a.out"):
-    cmd = ["clang", source_file, "-Wall", "-Werror=incompatible-pointer-types", "-fsanitize=address", "-g", "-ftrapv"]
+    cmd = [
+        "clang", source_file,
+        "-Wall",
+        "-Werror",
+        "-Werror=pointer-compare",  # 포인터 비교를 에러로 간주
+        "-Werror=incompatible-pointer-types",
+        "-fsanitize=address", "-g", "-ftrapv"
+    ]
     try:
         result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         return result.returncode, result.stdout, result.stderr
@@ -92,10 +99,8 @@ if __name__ == "__main__":
         stderrs = []
         for line in stderr.splitlines():
             result = extract_error_context(line, code_filepath)
-            # 🧠 'WARNING' 무시하되, 중요한 메시지는 포함
-            if result:
-                if result["level"] == "ERROR" or "incompatible" in result["message"].lower():
-                    stderrs.append(result)
+            if result and (result["level"] in ["ERROR", "WARNING"] or "incompatible" in result["message"].lower()):
+                stderrs.append(result)
 
         runtime_stdout = ""
         runtime_stderr = ""
