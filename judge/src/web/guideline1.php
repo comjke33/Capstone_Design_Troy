@@ -13,7 +13,6 @@ $OJ_BLOCK_TREE = parse_blocks($guideline_contents);
 $OJ_CORRECT_ANSWERS = extract_tagged_blocks($tagged_contents);
 $OJ_SID = "STEP 1";
 
-require("template/syzoj/guideline1.php");
 
 include("template/syzoj/guideline1.php");
 ?>
