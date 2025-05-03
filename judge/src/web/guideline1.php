@@ -15,5 +15,5 @@ $OJ_SID = "STEP 1";
 
 require("template/syzoj/guideline1.php");
 
-// include("template/syzoj/guideline1.php");
+include("template/syzoj/guideline1.php");
 ?>
