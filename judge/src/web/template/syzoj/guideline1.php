@@ -41,7 +41,7 @@
                 $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
                 $disabled = $has_correct_answer ? "" : "disabled";
 
-                $html .= "{$pad}<div class='submission-line depth-{$depth}'>\n";
+                $html .= "{$pad}<div class='submission-line depth-{$depth}' style='--depth: {$depth};'>\n";
                 $html .= "{$pad}  <div class='code-line'>{$line}</div>\n";
                 $html .= "{$pad}  <textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>\n";
 

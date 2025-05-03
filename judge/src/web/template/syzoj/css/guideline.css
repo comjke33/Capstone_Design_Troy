@@ -95,8 +95,8 @@
 /* 제출 버튼 및 보기 버튼 */
 .submit-button, .view-button {
   margin-top: 0;
-  color: white !important;
-  border: none !important;
+  color: white ;
+  border: none ;
   padding: 6px 12px;
   border-radius: 4px;
   font-size: 12px;
@@ -106,11 +106,11 @@
 }
 
 .submit-button {
-  background-color: #4a90e2 !important;
+  background-color: #4a90e2;
 }
 
 .view-button {
-  background-color: #ff8c00 !important;
+  background-color: #ff8c00 ;
 }
 
 /* 정답 표시 영역 */
@@ -130,6 +130,14 @@
   color: #2ecc71;
   margin-top: 8px;
 }
+
+.submission-line {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: calc(20px * var(--depth, 0));
+}
+
 
 /* 들여쓰기 시각화 */
 .submission-line.depth-0 { margin-left: 0px; }
