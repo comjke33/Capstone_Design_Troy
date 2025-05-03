@@ -152,16 +152,20 @@ function smoothFollowImage() {
 
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
+    const scrollX = window.scrollX || document.documentElement.scrollLeft;
 
-    const targetTop = taRect.top + scrollY - img.offsetHeight - 10;
+    // 원래 목표 위치: textarea 위
+    let targetTop = taRect.top + scrollY - img.offsetHeight - 10;
 
-    // 화면 상단과 하단 제한
-    const minTop = 10; // 너무 위로 안 가게
-    const maxTop = window.scrollY + window.innerHeight - img.offsetHeight - 10;
-    const boundedTop = Math.max(minTop, Math.min(targetTop, maxTop));
+    // 화면 기준 제한
+    const minTop = scrollY + 10; // 화면 상단 + 여백
+    const maxTop = scrollY + window.innerHeight - img.offsetHeight - 10; // 화면 하단 - 이미지 높이
+
+    // 제한된 위치로 보정
+    targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
 
     const currentTop = parseFloat(img.style.top) || 0;
-    const nextTop = currentTop + (boundedTop - currentTop) * 0.1;
+    const nextTop = currentTop + (targetTop - currentTop) * 0.1;
 
     img.style.top = `${nextTop}px`;
 
