@@ -41,13 +41,13 @@
 
 /* 가운데 코드 입력 영역 */
 .center-panel {
-  flex: 0 0 45%;  /* grow:0, shrink:0, basis:45% */
+  position: relative;
+  flex-grow: 1;
   padding: 20px;
   overflow-y: auto;
   background-color: #ffffff;
   box-sizing: border-box;
-  height: 100vh;
-  min-width: 280px; /* 모바일 대응 및 최소 입력창 확보 */
+  min-width: 0;
 }
 
 /* 오른쪽 피드백 패널 */
