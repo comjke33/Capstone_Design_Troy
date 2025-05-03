@@ -135,7 +135,8 @@
   display: block;
   width: 100%;
   box-sizing: border-box;
-  padding-left: calc(20px * var(--depth, 0));
+  background-color: rgba(0, 255, 0, 0.05); /* 들여쓰기 시각화용 배경 */
+  border-left: 2px dashed #ccc; /* 깊이에 따라 시각적 구분 */
 }
 
 
