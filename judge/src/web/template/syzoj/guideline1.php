@@ -154,16 +154,21 @@ function positionImageRelativeToTextarea() {
     if (!currentTextarea) return;
 
     const img = document.getElementById("floating-img");
+    if (!img) return;
+
     const centerPanel = document.querySelector(".center-panel");
     const leftPanel = document.querySelector(".left-panel");
 
+    // 기준이 되는 각 DOM 요소의 위치 정보
     const taRect = currentTextarea.getBoundingClientRect();
     const centerRect = centerPanel.getBoundingClientRect();
     const leftRect = leftPanel.getBoundingClientRect();
 
+    // center-panel 내부 스크롤 보정
     const scrollTop = centerPanel.scrollTop;
     const scrollLeft = centerPanel.scrollLeft;
 
+    // 좌측 패널 내부에서의 상대 좌표 계산
     const relativeTop = taRect.top - centerRect.top + scrollTop;
     const relativeLeft = taRect.left - leftRect.left + scrollLeft;
 
@@ -174,6 +179,7 @@ function positionImageRelativeToTextarea() {
     img.style.top = `${finalTop}px`;
     img.style.left = `${relativeLeft}px`;
 }
+
 
 
 // textarea 클릭 시 이미지 로드
