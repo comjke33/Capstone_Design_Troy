@@ -20,6 +20,11 @@
                 $depth = $block['depth'] ?? 0;
                 $margin_left = $depth * 20; // depth당 20px 들여쓰기
         
+                //test
+                $depth = $block['depth'] ?? 0; 
+                echo "<!-- depth={$depth} -->";
+
+
                 if (isset($block['children'])) {
                     $html .= "<div class='block-wrap block-{$block['type']}'>"; // ✅ 들여쓰기
                     $html .= render_tree_plain($block['children'], $answer_index);
@@ -37,7 +42,7 @@
                     $disabled = $has_correct_answer ? "" : "disabled";
                     
                     //들여쓰기에 따라 적용
-                    $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>"; 
+                    $html .= "<div class='submission-line' style='margin-left: 40px'>"; 
                     
                     $html .= "<div class='code-line'>{$line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
