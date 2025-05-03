@@ -3,9 +3,9 @@ require_once "include/db_info.inc.php";
 
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
 
-// $OJ_BLOCK_TREE = parse_blocks($raw_code); // depth 포함한 구조 생성
-// $OJ_CORRECT_ANSWERS = []; // 필요 시 여기에 정답 넣기
-// ?>
+$OJ_BLOCK_TREE = parse_blocks($raw_code); // depth 포함한 구조 생성
+$OJ_CORRECT_ANSWERS = []; // 필요 시 여기에 정답 넣기
+?>
 
 
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
@@ -45,8 +45,9 @@ $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
                     //정답있는 경우 사용자 입력 허용
                     $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);            
                     $disabled = $has_correct_answer ? "" : "disabled";
-                    
-                    //들여쓰기에 따라 적용
+                    ////////////////////////
+                    //들여쓰기에 따라 적용 //
+                    ////////////////////////
                     $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>"; 
                     
                     $html .= "<div class='code-line'>{$line}</div>";
