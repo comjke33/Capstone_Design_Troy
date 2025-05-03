@@ -20,7 +20,7 @@
         function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
             foreach ($blocks as $block) {
-                $depth = $block['depth'] ?? 0;
+                $depth = $block['depth'];
                 $margin_left = $depth * 20; // depth당 20px 들여쓰기
 
                 if (isset($block['children'])) {
