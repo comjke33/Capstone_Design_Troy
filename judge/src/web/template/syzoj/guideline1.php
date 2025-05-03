@@ -1,154 +1,98 @@
-<?php
-/** @var string $OJ_SID */
-/** @var array $OJ_BLOCK_TREE */
-/** @var array $OJ_CORRECT_ANSWERS */
-?>
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
-    문제 번호: <?= htmlspecialchars($OJ_SID) ?>
 </div>
 
-<style>
-    .main-layout { display: flex; gap: 40px; max-width: 1200px; margin: 0 auto; }
-    .left-panel { flex: 2; }
-    .right-panel {
-        flex: 1;
-        padding: 16px;
-        background-color: #fafafa;
-        border: 1px solid #eee;
-        border-radius: 8px;
-        font-family: monospace;
-    }
-    .code-line {
-        background-color: #f8f8fa;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        padding: 10px 16px;
-        margin-bottom: 10px;
-        font-size: 15px;
-        color: #333;
-        white-space: pre-wrap;
-    }
-    .styled-textarea {
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        padding: 10px 14px;
-        font-family: monospace;
-        font-size: 15px;
-        background-color: #fff;
-        line-height: 1.6;
-        resize: none;
-        width: 100%;
-        box-sizing: border-box;
-        min-height: 40px;
-    }
-    .submit-button {
-        margin-top: 6px;
-        background-color: #4a90e2;
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-    .checkmark {
-        font-size: 18px;
-        margin-left: 6px;
-        color: #2ecc71;
-    }
-    .submission-line {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 20px;
-        margin-bottom: 28px;
-    }
-    .feedback-line { margin-bottom: 12px; font-size: 15px; }
-    .feedback-correct { color: #2ecc71; }
-    .feedback-wrong { color: #e74c3c; }
-</style>
+<link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
 <div class="main-layout">
+    <!-- 좌측 패널 -->
     <div class="left-panel">
+        <div id="flowchart-images"></div>
+    </div>
+
+    <!-- 가운데 패널 -->
+    <div class="center-panel">
+    <h1>한줄씩 풀기</h1>
+    <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
     <?php
-    function render_tree_plain($blocks, &$answer_index = 0) {
+    function render_tree_plain($blocks, &$answer_index = 0, $indent = 0) {
         $html = "";
-    
+        $pad = str_repeat("  ", $indent);
+
         foreach ($blocks as $block) {
-            $indent_px = 10 * ($block['depth'] ?? 0);
-    
+            $depth = $block['depth'] ?? 0;
+
             if (isset($block['children'])) {
-                // 설명만 출력할 수 있는 블록 추출
-                $desc_lines = [];
-                foreach ($block['children'] as $child) {
-                    if ($child['type'] === 'text') {
-                        $raw = trim($child['content']);
-                        if (
-                            $raw !== '' &&
-                            $raw !== '}' &&
-                            !preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", $raw)
-                        ) {
-                            $desc_lines[] = htmlspecialchars($raw);
-                        }
-                    }
+                $html .= "{$pad}<div class='block-wrap block-{$block['type']} depth-{$depth}'>\n";
+                $html .= render_tree_plain($block['children'], $answer_index, $indent + 1);
+                $html .= "{$pad}</div>\n";
+                continue;
+            }
+
+            if ($block['type'] === 'text') {
+                $raw = trim($block['content']);
+                if ($raw === '' || preg_match("/^\\[(func_def|rep|cond|self|struct|construct)_(start|end)\\(\\d+\\)\\]$/", $raw)) {
+                    continue;
                 }
-    
-                if (!empty($desc_lines)) {
-                    $desc_html = implode("<br>", $desc_lines);
-                    $html .= "<div class='code-line' style='margin-left: {$indent_px}px;'>{$desc_html}</div>";
+
+                $line = htmlspecialchars($block['content']);
+                $line = preg_replace('/\\[(.*?)\\]/', '', $line);
+                $line = trim($line);
+
+                $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
+                $disabled = $has_correct_answer ? "" : "disabled";
+
+                $html .= "{$pad}<div class='submission-line depth-{$depth}' style='--depth: {$depth};'>\n";
+                $html .= "{$pad}  <div class='code-line'>{$line}</div>\n";
+                $html .= "{$pad}  <textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>\n";
+
+                if ($has_correct_answer) {
+                    $html .= "{$pad}  <button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>\n";
+                    $html .= "{$pad}  <button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>\n";
                 }
-    
-                // 입력창 렌더링
-                $code_line = $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] ?? '';
-                $escaped_code = htmlspecialchars(trim($code_line));
-                $disabled = ($answer_index !== 0) ? "disabled" : "";
-    
-                $html .= "<div class='submission-line' style='padding-left: {$indent_px}px;'>";
-                $html .= "<div style='flex: 1'>";
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$escaped_code}</textarea>";
-                $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button' {$disabled}>제출</button>";
-                $html .= "</div><div style='width: 50px; text-align: center; margin-top: 20px;'>";
-                $html .= "<span id='check_{$answer_index}' class='checkmark' style='display:none;'>✔️</span>";
-                $html .= "</div></div>";
-    
+
+                $html .= "{$pad}  <div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>\n";
+                $html .= "{$pad}  <div style='width: 50px; text-align: center; margin-top: 10px;'>\n";
+                $html .= "{$pad}    <span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span>\n";
+                $html .= "{$pad}  </div>\n";
+                $html .= "{$pad}</div>\n";
+
                 $answer_index++;
-    
-                // 하위 children 재귀 렌더링
-                $html .= render_tree_plain($block['children'], $answer_index);
             }
         }
-    
+
         return $html;
     }
-    
 
     $answer_index = 0;
     echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
     ?>
-    </div>
-
-    <div class="right-panel" id="feedback-panel">
-        <h4>📝 피드백</h4>
-    </div>
 </div>
 
+
+    <!-- 오른쪽 패널 -->
+    <div class="right-panel">
+        <h2>📋 피드백 창</h2>
+    </div>
+</div>
 <script>
+    
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
+const problemId = <?= json_encode($OJ_SID) ?>;
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
     const check = document.getElementById(`check_${index}`);
-
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
 
     if (input === correct) {
         ta.readOnly = true;
-        ta.style.backgroundColor = "#eef1f4";
+        ta.style.backgroundColor = "#d4edda";
+        ta.style.border = "1px solid #d4edda";
+        ta.style.color = "#155724";
         btn.style.display = "none";
         check.style.display = "inline";
-        updateFeedback(index, true);
-
         const nextIndex = index + 1;
         const nextTa = document.getElementById(`ta_${nextIndex}`);
         const nextBtn = document.getElementById(`btn_${nextIndex}`);
@@ -162,17 +106,16 @@ function submitAnswer(index) {
         ta.style.backgroundColor = "#ffecec";
         ta.style.border = "1px solid #e06060";
         ta.style.color = "#c00";
-        updateFeedback(index, false);
     }
 }
 
-function updateFeedback(index, isCorrect) {
-    const panel = document.getElementById('feedback-panel');
-    const existing = document.getElementById(`feedback_${index}`);
-    const result = isCorrect ? "✔️ 정답" : "❌ 오답";
-    const line = `<div id="feedback_${index}" class="feedback-line ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}">Line ${index + 1}: ${result}</div>`;
-    if (existing) existing.outerHTML = line;
-    else panel.insertAdjacentHTML('beforeend', line);
+function showAnswer(index) {
+    const correctCode = correctAnswers[index]?.content.trim();
+    if (!correctCode) return;
+    const answerArea = document.getElementById(`answer_area_${index}`);
+    const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${correctCode}</pre>`;
+    answerArea.innerHTML = answerHtml;
+    answerArea.style.display = 'block';
 }
 
 function autoResize(ta) {
@@ -180,11 +123,64 @@ function autoResize(ta) {
     ta.style.height = ta.scrollHeight + 'px';
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.styled-textarea').forEach(ta => {
-        if (!ta.disabled) {
-            ta.addEventListener('input', () => autoResize(ta));
-        }
+let currentTextarea = null;
+let animationRunning = false;
+
+function updateImageForTextarea(index, ta) {
+    currentTextarea = ta;
+
+    fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
+        .then(res => res.json())
+        .then(data => {
+            let img = document.getElementById("floating-img");
+            if (!img) {
+                img = document.createElement("img");
+                img.id = "floating-img";
+                document.body.appendChild(img);
+            }
+
+            img.src = data.url;
+
+            if (!animationRunning) {
+                animationRunning = true;
+                smoothFollowImage(); // 따라오기 시작
+            }
+        });
+}
+
+function smoothFollowImage() {
+    const img = document.getElementById("floating-img");
+    if (!img || !currentTextarea) {
+        animationRunning = false;
+        return;
+    }
+
+    const taRect = currentTextarea.getBoundingClientRect();
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+    let targetTop = taRect.top + scrollY - img.offsetHeight + 200;
+
+    // 화면 기준 제한
+    const minTop = scrollY + 10; // 화면 상단 + 여백
+    const maxTop = scrollY + window.innerHeight - img.offsetHeight - 10; // 화면 하단 - 이미지 높이
+
+    // 제한된 위치로 보정
+    targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
+
+    const currentTop = parseFloat(img.style.top) || 0;
+    const nextTop = currentTop + (targetTop - currentTop) * 0.1;
+
+    img.style.top = `${nextTop}px`;
+
+    requestAnimationFrame(smoothFollowImage);
+}
+
+
+// textarea 클릭 시 이미지 로드
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
+        ta.addEventListener("focus", () => updateImageForTextarea(idx, ta));
     });
+
 });
 </script>
