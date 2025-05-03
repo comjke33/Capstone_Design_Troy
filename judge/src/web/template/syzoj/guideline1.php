@@ -62,7 +62,6 @@
         <h2>📋 피드백 창</h2>
     </div>
 </div>
-
 <script>
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($OJ_SID) ?>;
@@ -112,9 +111,7 @@ function autoResize(ta) {
 }
 
 let currentTextarea = null;
-let animationRunning = false;
 
-// 이미지 렌더링 및 초기 위치 설정
 function updateImageForTextarea(index, ta) {
     currentTextarea = ta;
 
@@ -126,38 +123,33 @@ function updateImageForTextarea(index, ta) {
                 img = document.createElement("img");
                 img.id = "floating-img";
                 img.style.position = "fixed";
-                img.style.right = "20px";
-                img.style.top = "100px";
                 img.style.width = "250px";
                 img.style.maxHeight = "300px";
                 img.style.border = "2px solid #ccc";
                 img.style.zIndex = "9999";
                 document.body.appendChild(img);
             }
+
             img.src = data.url;
 
-            if (!animationRunning) {
-                animationRunning = true;
-                smoothFollowImage();
-            }
+            positionImageAboveTextarea(); // 즉시 위치 갱신
         });
 }
 
-// 부드러운 이미지 따라오기 애니메이션
-function smoothFollowImage() {
+function positionImageAboveTextarea() {
     const img = document.getElementById("floating-img");
-    if (!img) {
-        animationRunning = false;
-        return;
-    }
+    if (!img || !currentTextarea) return;
 
-    const currentTop = parseFloat(img.style.top) || 0;
-    const desiredTop = window.scrollY + 100;
-    const diff = desiredTop - currentTop;
+    const taRect = currentTextarea.getBoundingClientRect();
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
+    const scrollX = window.scrollX || document.documentElement.scrollLeft;
 
-    img.style.top = `${currentTop + diff * 0.1}px`;
+    const offset = 10;
+    const top = taRect.top + scrollY - img.offsetHeight - offset;
+    const left = taRect.left + scrollX;
 
-    requestAnimationFrame(smoothFollowImage);
+    img.style.top = `${Math.max(0, top)}px`;
+    img.style.left = `${left}px`;
 }
 
 // textarea 클릭 시 이미지 로드
@@ -165,5 +157,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
         ta.addEventListener("focus", () => updateImageForTextarea(idx, ta));
     });
+
+    window.addEventListener("scroll", positionImageAboveTextarea);
+    window.addEventListener("resize", positionImageAboveTextarea);
 });
 </script>
