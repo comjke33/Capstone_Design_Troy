@@ -1,5 +1,8 @@
 <?php
-global $OJ_BLOCK_TREE, $OJ_CORRECT_ANSWERS, $OJ_SID;
+include_once("../../guideline_common.php"); // ../ 위치 맞춰 조정
+
+// $raw_code = file_get_contents("/your/code/path/step1_guideline.txt");
+// $OJ_BLOCK_TREE = parse_blocks($raw_code); // ✅ 이 줄이 핵심
 ?>
 
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
