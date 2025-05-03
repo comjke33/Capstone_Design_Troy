@@ -145,10 +145,8 @@ function smoothFollowImage() {
 
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
-    const scrollX = window.scrollX || document.documentElement.scrollLeft;
 
-    // 원래 목표 위치: textarea 위
-    let targetTop = taRect.top + scrollY - img.offsetHeight - 10;
+    let targetTop = taRect.top + scrollY - img.offsetHeight -5;
 
     // 화면 기준 제한
     const minTop = scrollY + 10; // 화면 상단 + 여백
