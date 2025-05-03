@@ -1,3 +1,4 @@
+<?php include("template/$OJ_TEMPLATE/header.php");?>
 <?php
 include_once("../../guideline_common.php"); // ../ 위치 맞춰 조정
 
@@ -188,3 +189,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+
+<?php include("template/$OJ_TEMPLATE/footer.php");?>
