@@ -1,78 +1,55 @@
-from clang import cindex
 import sys
+from transformers import AutoTokenizer, AutoModel
+import torch
+from sklearn.metrics.pairwise import cosine_similarity
 
-# libclang 경로 수동 지정 필요 시 (필요한 경우만)
-cindex.Config.set_library_file('/usr/lib/llvm-17/lib/libclang-17.so.17')
+# CodeBERT 모델 로딩
+tokenizer = AutoTokenizer.from_pretrained("microsoft/codebert-base")
+model = AutoModel.from_pretrained("microsoft/codebert-base")
 
-def extract_code_block(extent):
-    """extent 범위를 기준으로 코드 블록 문자열 추출"""
-    with open(extent.start.file.name, 'r') as f:
-        lines = f.readlines()
-    return ''.join(lines[extent.start.line - 1:extent.end.line]).strip()
+# 의미 태그 후보 정의
+semantic_tags = {
+    "입력 처리": "Read input from user using scanf.",
+    "출력 처리": "Print results using printf.",
+    "조건 처리": "Use if statements for conditional logic.",
+    "계산 처리": "Perform arithmetic operations or updates.",
+    "종료 처리": "Return from the main function.",
+    "변수 선언": "Declare and initialize variables.",
+    "기타": "Other uncategorized logic."
+}
 
+def embed_text(text):
+    tokens = tokenizer(text, return_tensors="pt", truncation=True, max_length=512)
+    with torch.no_grad():
+        output = model(**tokens)
+    return output.last_hidden_state.mean(dim=1).numpy()  # 전체 시퀀스 평균값
 
-def classify_block(nodes):
-    """노드 리스트를 받아 의미 태그 및 코드 블록을 리턴"""
-    if all(n.kind == cindex.CursorKind.CALL_EXPR and n.spelling == 'scanf' for n in nodes):
-        return "===입력 블록===", extract_code_block(nodes[0].extent)
-    elif all(n.kind == cindex.CursorKind.CALL_EXPR and n.spelling == 'printf' for n in nodes):
-        return "===출력 블록===", extract_code_block(nodes[0].extent)
-    elif any(n.kind == cindex.CursorKind.IF_STMT for n in nodes):
-        return "===조건 기반 계산 블록===", extract_code_block(nodes[0].extent)
-    elif any(n.kind == cindex.CursorKind.BINARY_OPERATOR for n in nodes):
-        return "===계산 블록===", extract_code_block(nodes[0].extent)
-    elif any(n.kind == cindex.CursorKind.RETURN_STMT for n in nodes):
-        return "===종료 블록===", extract_code_block(nodes[0].extent)
-    elif any(n.kind == cindex.CursorKind.DECL_STMT for n in nodes):
-        return "===변수 선언 블록===", extract_code_block(nodes[0].extent)
-    else:
-        return "===기타 블록===", extract_code_block(nodes[0].extent)
+def classify_block_with_bert(block_code):
+    block_vec = embed_text(block_code)
+    best_tag = "기타"
+    best_score = -1
 
+    for tag, desc in semantic_tags.items():
+        desc_vec = embed_text(desc)
+        score = cosine_similarity(block_vec, desc_vec)[0][0]
+        if score > best_score:
+            best_score = score
+            best_tag = tag
 
-def analyze_semantic_blocks(filename):
-    """C 파일을 의미 블록으로 분석"""
-    index = cindex.Index.create()
-    tu = index.parse(filename)
+    return f"==={best_tag}===", block_code
 
-    semantic_blocks = []
+# 예제 코드 블록들
+example_blocks = [
+    "scanf(\"%d %d\", &h, &m);",
+    "printf(\"%d %d\\n\", h, m);",
+    "if (m >= 60) { h += m / 60; m = m % 60; }",
+    "int h, m;",
+    "return 0;"
+]
 
-    for node in tu.cursor.get_children():
-        if node.kind == cindex.CursorKind.FUNCTION_DECL and node.spelling == "main":
-            for c in node.get_children():
-                if c.kind == cindex.CursorKind.COMPOUND_STMT:
-                    buffer = []
-                    for stmt in c.get_children():
-                        if stmt.kind in [
-                            cindex.CursorKind.CALL_EXPR,
-                            cindex.CursorKind.BINARY_OPERATOR,
-                            cindex.CursorKind.IF_STMT,
-                            cindex.CursorKind.DECL_STMT,
-                            cindex.CursorKind.RETURN_STMT
-                        ]:
-                            buffer.append(stmt)
-                        else:
-                            if buffer:
-                                tag, code = classify_block(buffer)
-                                semantic_blocks.append((tag, code))
-                                buffer = []
-                    if buffer:
-                        tag, code = classify_block(buffer)
-                        semantic_blocks.append((tag, code))
-    return semantic_blocks
-
-print("시작됨됨")
-
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("사용법: python analyze_semantic_blocks.py example.c")
-        sys.exit(1)
-
-    print("여기까진 됨됨")
-
-    filename = sys.argv[1]
-    results = analyze_semantic_blocks(filename)
-
-    for tag, code in results:
-        print(tag)
-        print(code)
-        print()
+# 처리
+for block in example_blocks:
+    tag, code = classify_block_with_bert(block)
+    print(tag)
+    print(code)
+    print()
