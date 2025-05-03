@@ -140,13 +140,14 @@
 }
 
 
-.submission-line.depth-0 { margin-left: 0px !important; }
-.submission-line.depth-1 { margin-left: 20px !important; }
-.submission-line.depth-2 { margin-left: 40px !important; }
-.submission-line.depth-3 { margin-left: 60px !important; }
-.submission-line.depth-4 { margin-left: 80px !important; }
-.submission-line.depth-5 { margin-left: 100px !important; }
-.submission-line.depth-6 { margin-left: 120px !important; }
-.submission-line.depth-7 { margin-left: 140px !important; }
+.submission-line.depth-0 { margin-left: 0px; }
+.submission-line.depth-1 { margin-left: 20px; }
+.submission-line.depth-2 { margin-left: 40px; }
+.submission-line.depth-3 { margin-left: 60px; }
+.submission-line.depth-4 { margin-left: 80px; }
+.submission-line.depth-5 { margin-left: 100px; }
+.submission-line.depth-6 { margin-left: 120px; }
+.submission-line.depth-7 { margin-left: 140px; }
+
 
 
