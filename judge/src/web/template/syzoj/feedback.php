@@ -13,12 +13,13 @@
 
                     // 코드 문자열 → 줄별 배열로 변환
                     $code_lines = explode("\n", $code);
-                    $error_lines = array();
 
-                    if (isset($data['compile_result']['stderrs']) && is_array($data['compile_result']['stderrs'])) {
-                        foreach ($data['compile_result']['stderrs'] as $stderr) {
+                    // 오류 라인 번호들을 수집
+                    $error_lines = array();
+                    if (isset($data['stderrs']) && is_array($data['stderrs'])) {
+                        foreach ($data['stderrs'] as $stderr) {
                             if (isset($stderr['line'])) {
-                                $error_lines[] = intval($stderr['line']);
+                                $error_lines[] = intval($stderr['line']);  // 오류 발생 라인 번호 저장
                             }
                         }
                     }
@@ -37,7 +38,7 @@
             </div>
         </div>
 
-        <!-- 오른쪽: 피드베크 가이드 -->
+        <!-- 오른쪽: 피드백 가이드 -->
         <div class="eight wide column">
             <div class="ui segment" style="box-shadow: 0 1px 4px rgba(0,0,0,0.1); border-radius: 10px; height: 100%;">
                 <h2 class="ui header" style="font-weight: 500; font-size: 1.5em; color: #2185d0;">
@@ -47,16 +48,10 @@
                     <?php foreach ($link_results as $result): ?>
                         <div class="ui segment">
                             <h4>🔍 오류 메시지: <?php echo htmlspecialchars($result['message']); ?></h4>
-                            <p><strong>개념 ID:</strong> <?php echo htmlspecialchars($result['concept_id']); ?></p>
                             <?php foreach ($result['matches'] as $match): ?>
                                 <div style="margin-left: 1em;">
                                     <p><strong>개념:</strong> <?php echo htmlspecialchars($match['concepts']); ?></p>
-                                    <?php if (!empty($match['highlighted_code'])): ?>
-                                        <p><strong>오류 코드:</strong></p>
-                                        <pre style="background-color: #f4f4f4; padding: 1em; border-radius: 5px; color: #c7254e;"><?php echo htmlspecialchars($match['highlighted_code']); ?></pre>
-                                    <?php else: ?>
-                                        <p><strong>블록:</strong> <?php echo htmlspecialchars($match['block']); ?></p>
-                                    <?php endif; ?>
+                                    <p><strong>블록:</strong> <?php echo htmlspecialchars($match['block']); ?></p>
                                     <a href="<?php echo htmlspecialchars($match['link']); ?>" target="_blank" style="font-weight: bold; color: #2185d0;">📚 문법 개념 링크</a>
                                 </div>
                                 <hr>
