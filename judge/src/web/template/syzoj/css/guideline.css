@@ -1,3 +1,4 @@
+/* 전체 레이아웃 */
 .main-layout {
   display: flex;
   width: 100%;
@@ -30,9 +31,9 @@
 #floating-img {
   position: fixed;
   top: 100px;
-  left: 80px; /* 💡 명시적으로 왼쪽 여백 설정하여 center-panel 침범 방지 */
-  width: 300px;
-  max-height: 350px;
+  left: 20px; /* 💡 명시적으로 왼쪽 여백 설정하여 center-panel 침범 방지 */
+  width: 250px;
+  max-height: 300px;
   border: 2px solid #ccc;
   z-index: 9999;
 }
@@ -129,3 +130,17 @@
   color: #2ecc71;
   margin-top: 8px;
 }
+
+/* 들여쓰기 기반 depth 시각화 */
+.submission-line {
+  display: block;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.submission-line.depth-0 { margin-left: 0px; }
+.submission-line.depth-1 { margin-left: 20px; }
+.submission-line.depth-2 { margin-left: 40px; }
+.submission-line.depth-3 { margin-left: 60px; }
+.submission-line.depth-4 { margin-left: 80px; }
+.submission-line.depth-5 { margin-left: 100px; }
