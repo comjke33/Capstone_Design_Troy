@@ -17,11 +17,8 @@ html, body {
   align-items: flex-start;
   gap: 20px;
   width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
   box-sizing: border-box;
   height: auto;
-  min-height: 100vh;
 }
 
 /* 좌측 flowchart 이미지 영역 */
