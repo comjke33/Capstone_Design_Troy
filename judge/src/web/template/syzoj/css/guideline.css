@@ -1,24 +1,17 @@
-/* 전체 문서 스크롤 허용 */
 html, body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
-  background-color: #86b3c0; /* 기존 배경 유지 */
   height: auto;
   min-height: 100vh;
-  overflow-x: hidden;
   overflow-y: auto;
 }
-
 /* 전체 레이아웃 */
 .main-layout {
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 20px;
   width: 100%;
   box-sizing: border-box;
   height: auto;
+  min-height: 100vh;  /* ✅ 콘텐츠 많을 때 아래로 내려감 */
 }
 
 /* 좌측 flowchart 이미지 영역 */
