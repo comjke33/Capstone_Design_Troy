@@ -28,16 +28,16 @@
   overflow: visible;
 }
 
-/* 이미지 이동 애니메이션 */
-#flowchart-images img,
 #floating-img {
-  transition: top 0.1s ease, left 0.1s ease;
-  z-index: 9999;
-  border: 2px solid #ccc;
-  max-height: 300px;
-  width: 250px;
   position: fixed;
+  left: 20px;              /* 왼쪽에 붙임 */
+  top: 100px;
+  width: 250px;
+  max-height: 300px;
+  border: 2px solid #ccc;
+  z-index: 9999;
 }
+
 
 /* 가운데 코드 입력 영역 */
 .center-panel {
