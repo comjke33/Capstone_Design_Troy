@@ -112,57 +112,58 @@ function autoResize(ta) {
 }
 
 let currentTextarea = null;
+let animationRunning = false;
 
-//현재 이미지가 따라오지만 정확히 잘 따라오지 못하고
-//밑에 textarea는 클릭해도 이미지가 렌더링 되지 않는 문제
+// 이미지 렌더링 및 초기 위치 설정
 function updateImageForTextarea(index, ta) {
     currentTextarea = ta;
 
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
-            const container = document.getElementById("flowchart-images");
-            container.innerHTML = "";
-
-            const img = document.createElement("img");
+            let img = document.getElementById("floating-img");
+            if (!img) {
+                img = document.createElement("img");
+                img.id = "floating-img";
+                img.style.position = "fixed";
+                img.style.right = "20px";
+                img.style.top = "100px";
+                img.style.width = "250px";
+                img.style.maxHeight = "300px";
+                img.style.border = "2px solid #ccc";
+                img.style.zIndex = "9999";
+                document.body.appendChild(img);
+            }
             img.src = data.url;
-            img.id = "floating-img";
 
-            img.style.position = "fixed";
-            img.style.right = "20px";
-            img.style.top = "100px";
-            img.style.width = "250px";
-            img.style.maxHeight = "300px";
-            img.style.border = "2px solid #ccc";
-            img.style.zIndex = "9999";
-
-            img.onload = function () {
+            if (!animationRunning) {
+                animationRunning = true;
                 smoothFollowImage();
-            };
-
-            container.appendChild(img);
+            }
         });
 }
 
+// 부드러운 이미지 따라오기 애니메이션
 function smoothFollowImage() {
     const img = document.getElementById("floating-img");
-    if (!img) return;
+    if (!img) {
+        animationRunning = false;
+        return;
+    }
 
-    const currentTop = parseInt(img.style.top || 0, 10);
-    const desiredTop = window.scrollY + 100; // 화면 최상단 기준 100px 아래
+    const currentTop = parseFloat(img.style.top) || 0;
+    const desiredTop = window.scrollY + 100;
     const diff = desiredTop - currentTop;
 
-    img.style.top = `${currentTop + diff * 0.1}px`; // 부드럽게 이동
+    img.style.top = `${currentTop + diff * 0.1}px`;
 
     requestAnimationFrame(smoothFollowImage);
 }
 
-
-
+// textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
         ta.addEventListener("focus", () => updateImageForTextarea(idx, ta));
     });
 });
-
 </script>
