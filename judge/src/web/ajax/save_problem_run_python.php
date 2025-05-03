@@ -26,11 +26,12 @@ function run_script($cmd) {
     ];
 }
 $results = [];
+$results[] = run_script("cd /home/Capstone_Design_Troy/test/ && python3 make_question_and_code.py " . escapeshellarg($description) . ' ' . escapeshellarg($exemplary_code));
 $env_vars = parse_ini_file("/home/Capstone_Design_Troy/test/env");
 $api_key = escapeshellarg($env_vars["OPENAI_API_KEY"]);
-$command = "cd /home/Capstone_Design_Troy/test/ && OPENAI_API_KEY=$api_key python3 AIFlowchart.py " . escapeshellarg($problem_id);
+$command = "cd /home/Capstone_Design_Troy/test/ && OPENAI_API_KEY=$api_key python3 AIFlowchart.py $problem_id_arg";
 $results[] = run_script($command);
-$results[] = run_script("cd /home/Capstone_Design_Troy/test/ && python3 make_question_and_code.py " . escapeshellarg($description) . ' ' . escapeshellarg($exemplary_code));
+
 #$results[] = run_script("cd /home/Capstone_Design_Troy/test/ && python3 AIFlowchart.py " . escapeshellarg($problem_id));
 
 header("Content-Type: application/json");
