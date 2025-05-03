@@ -51,7 +51,7 @@ function parse_blocks($text, $depth = 0) {
                 $blocks[] = [
                     'type' => 'text',
                     'content' => rtrim($line),
-                    'depth' => $depth  // ✅ depth 정보 추가
+                    'depth' => $depth 
                 ];
             }
         }

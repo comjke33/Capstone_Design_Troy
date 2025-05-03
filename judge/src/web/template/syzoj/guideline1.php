@@ -1,3 +1,19 @@
+<?php
+require_once "include/db_info.inc.php";
+require_once "src/web/common.php"; // 이 안에 parse_blocks 정의되어 있어야 함
+
+$problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
+$code_path = __DIR__ . "/../../test/guideline_texts/{$problem_id}.txt";
+
+$raw_code = file_exists($code_path) ? file_get_contents($code_path) : "";
+
+// ✅ 여기가 중요!
+$OJ_BLOCK_TREE = parse_blocks($raw_code); // depth 포함한 구조 생성
+
+$OJ_CORRECT_ANSWERS = []; // 필요 시 여기에 정답 넣기
+?>
+
+
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
 </div>
 
@@ -19,11 +35,6 @@
             foreach ($blocks as $block) {
                 $depth = $block['depth'] ?? 0;
                 $margin_left = $depth * 20; // depth당 20px 들여쓰기
-        
-                //test
-                $depth = $block['depth'] ?? 0; 
-                echo "<!-- depth={$depth} -->";
-
 
                 if (isset($block['children'])) {
                     $html .= "<div class='block-wrap block-{$block['type']}'>"; // ✅ 들여쓰기
@@ -42,7 +53,7 @@
                     $disabled = $has_correct_answer ? "" : "disabled";
                     
                     //들여쓰기에 따라 적용
-                    $html .= "<div class='submission-line' style='margin-left: 40px'>"; 
+                    $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>"; 
                     
                     $html .= "<div class='code-line'>{$line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
@@ -76,6 +87,7 @@
         <h2>📋 피드백 창</h2>
     </div>
 </div>
+
 <script>
     
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
