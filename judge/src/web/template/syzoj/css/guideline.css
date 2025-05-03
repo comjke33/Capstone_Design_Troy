@@ -12,6 +12,8 @@ html, body {
   box-sizing: border-box;
   height: auto;
   min-height: 100vh;  /* ✅ 콘텐츠 많을 때 아래로 내려감 */
+  align-items:flex-start;
+  align-self: stretch;
 }
 
 /* 좌측 flowchart 이미지 영역 */
