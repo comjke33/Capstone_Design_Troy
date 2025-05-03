@@ -1,23 +1,27 @@
 /* 전체 문서 스크롤 허용 */
 html, body {
-  height: auto;
-  overflow-y: auto;
   margin: 0;
   padding: 0;
   font-family: sans-serif;
   background-color: #86b3c0; /* 기존 배경 유지 */
+  height: auto;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* 전체 레이아웃 */
 .main-layout {
   display: flex;
+  flex-direction: row;
   align-items: flex-start;
   gap: 20px;
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
-  overflow-x: hidden;
   box-sizing: border-box;
+  height: auto;
+  min-height: 100vh;
 }
 
 /* 좌측 flowchart 이미지 영역 */
@@ -39,9 +43,15 @@ html, body {
   overflow: visible;
 }
 
-/* 이미지에 부드러운 이동 효과 */
-#flowchart-images img {
-  transition: top 0.1s ease;
+/* 이미지 이동 애니메이션 */
+#flowchart-images img,
+#floating-img {
+  transition: top 0.1s ease, left 0.1s ease;
+  z-index: 9999;
+  border: 2px solid #ccc;
+  max-height: 300px;
+  width: 250px;
+  position: fixed;
 }
 
 /* 가운데 코드 입력 영역 */
@@ -137,3 +147,16 @@ html, body {
   margin-top: 8px;
 }
 
+/* 들여쓰기 기반 depth 시각화 */
+.submission-line {
+  display: block;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.submission-line.depth-0 { margin-left: 0px; }
+.submission-line.depth-1 { margin-left: 20px; }
+.submission-line.depth-2 { margin-left: 40px; }
+.submission-line.depth-3 { margin-left: 60px; }
+.submission-line.depth-4 { margin-left: 80px; }
+.submission-line.depth-5 { margin-left: 100px; }
