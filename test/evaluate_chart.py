@@ -2,7 +2,7 @@ from clang import cindex
 import sys
 
 # libclang 경로 수동 지정 필요 시 (필요한 경우만)
-# cindex.Config.set_library_file('/usr/lib/llvm-14/lib/libclang-14.so')
+cindex.Config.set_library_file('/usr/lib/llvm-17/lib/libclang-17.so.17')
 
 def extract_code_block(extent):
     """extent 범위를 기준으로 코드 블록 문자열 추출"""
