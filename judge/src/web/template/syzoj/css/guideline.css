@@ -1,10 +1,3 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  height: auto;
-  min-height: 100vh;
-  overflow-y: auto;
-}
 /* 전체 레이아웃 */
 .main-layout {
   display: flex;
@@ -12,6 +5,8 @@ html, body {
   box-sizing: border-box;
   height: auto;
   min-height: 100vh;  /* ✅ 콘텐츠 많을 때 아래로 내려감 */
+  align-items:flex-start;
+  align-self: stretch;
 }
 
 /* 좌측 flowchart 이미지 영역 */
@@ -33,23 +28,22 @@ html, body {
   overflow: visible;
 }
 
-/* 이미지 이동 애니메이션 */
-#flowchart-images img,
 #floating-img {
-  transition: top 0.1s ease, left 0.1s ease;
-  z-index: 9999;
-  border: 2px solid #ccc;
-  max-height: 300px;
+  position: fixed;            
+  top: 100px;
   width: 250px;
-  position: fixed;
+  max-height: 300px;
+  border: 2px solid #ccc;
+  z-index: 9999;
 }
+
 
 /* 가운데 코드 입력 영역 */
 .center-panel {
   position: relative;
   flex-grow: 1;
   padding: 20px;
-  overflow: visible;
+  overflow-y: auto;
   background-color: #ffffff;
   box-sizing: border-box;
   min-width: 0;
