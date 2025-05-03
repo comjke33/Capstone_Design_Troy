@@ -1,7 +1,8 @@
 <?php
+// 📦 공통 파싱 함수 모음
 
 function parse_blocks($text, $depth = 0) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\](.*?)(?=\[.*_(start|end)\(\3\)\])/s";
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\](.*?)(?=\[.*_\3\(\d+\)\])/s";
     $blocks = [];
     $offset = 0;
 
@@ -11,13 +12,15 @@ function parse_blocks($text, $depth = 0) {
         $end_pos = $start_pos + $full_len;
 
         $before_text = substr($text, $offset, $start_pos - $offset);
-        foreach (explode("\n", $before_text) as $line) {
-            if (trim($line) !== '' && trim($line) !== '}') {
-                $blocks[] = [
-                    'type' => 'text',
-                    'content' => trim($line),
-                    'depth' => $depth
-                ];
+        if (trim($before_text) !== '') {
+            foreach (explode("\n", $before_text) as $line) {
+                if (trim($line) !== '') {
+                    $blocks[] = [
+                        'type' => 'text',
+                        'content' => rtrim($line),
+                        'depth' => $depth
+                    ];
+                }
             }
         }
 
@@ -39,19 +42,20 @@ function parse_blocks($text, $depth = 0) {
     }
 
     $tail = substr($text, $offset);
-    foreach (explode("\n", $tail) as $line) {
-        if (trim($line) !== '' && trim($line) !== '}') {
-            $blocks[] = [
-                'type' => 'text',
-                'content' => trim($line),
-                'depth' => $depth
-            ];
+    if (trim($tail) !== '') {
+        foreach (explode("\n", $tail) as $line) {
+            if (trim($line) !== '') {
+                $blocks[] = [
+                    'type' => 'text',
+                    'content' => rtrim($line),
+                    'depth' => $depth
+                ];
+            }
         }
     }
 
     return $blocks;
 }
-
 
 
 function extract_tagged_blocks($text) {
