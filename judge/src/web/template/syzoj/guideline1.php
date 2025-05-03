@@ -63,7 +63,56 @@
     </div>
 </div>
 
-<script>let currentTextarea = null;
+<script>
+const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
+const problemId = <?= json_encode($OJ_SID) ?>;
+
+function submitAnswer(index) {
+    const ta = document.getElementById(`ta_${index}`);
+    const btn = document.getElementById(`btn_${index}`);
+    const check = document.getElementById(`check_${index}`);
+    const input = ta.value.trim();
+    const correct = (correctAnswers[index]?.content || "").trim();
+
+    if (input === correct) {
+        ta.readOnly = true;
+        ta.style.backgroundColor = "#d4edda";
+        ta.style.border = "1px solid #d4edda";
+        ta.style.color = "#155724";
+        btn.style.display = "none";
+        check.style.display = "inline";
+        const nextIndex = index + 1;
+        const nextTa = document.getElementById(`ta_${nextIndex}`);
+        const nextBtn = document.getElementById(`btn_${nextIndex}`);
+        if (nextTa && nextBtn) {
+            nextTa.disabled = false;
+            nextBtn.disabled = false;
+            nextTa.focus();
+            nextTa.addEventListener('input', () => autoResize(nextTa));
+        }
+    } else {
+        ta.style.backgroundColor = "#ffecec";
+        ta.style.border = "1px solid #e06060";
+        ta.style.color = "#c00";
+    }
+}
+
+function showAnswer(index) {
+    const correctCode = correctAnswers[index]?.content.trim();
+    if (!correctCode) return;
+    const answerArea = document.getElementById(`answer_area_${index}`);
+    const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${correctCode}</pre>`;
+    answerArea.innerHTML = answerHtml;
+    answerArea.style.display = 'block';
+}
+
+function autoResize(ta) {
+    ta.style.height = 'auto';
+    ta.style.height = ta.scrollHeight + 'px';
+}
+
+let currentTextarea = null;
+let animationRunning = false;
 
 function updateImageForTextarea(index, ta) {
     currentTextarea = ta;
@@ -78,7 +127,7 @@ function updateImageForTextarea(index, ta) {
             img.src = data.url;
             img.id = "floating-img";
 
-            // 이미지 스타일
+            // `center-panel` 내부 스크롤 따라가기 위한 스타일
             img.style.position = "absolute";
             img.style.width = "100%";
             img.style.maxHeight = "300px";
@@ -87,10 +136,10 @@ function updateImageForTextarea(index, ta) {
 
             container.appendChild(img);
 
-            // 위치 설정
+            // 최초 위치 설정
             positionImageRelativeToTextarea();
 
-            // 스크롤 이벤트 중복 제거 + 재등록
+            // scroll 이벤트 중복 등록 방지 후 추가
             const centerPanel = document.querySelector(".center-panel");
             centerPanel.removeEventListener("scroll", handleScroll);
             centerPanel.addEventListener("scroll", handleScroll);
@@ -110,28 +159,22 @@ function positionImageRelativeToTextarea() {
     const taRect = currentTextarea.getBoundingClientRect();
     const panelRect = centerPanel.getBoundingClientRect();
 
-    const relativeTop = taRect.top - panelRect.top + centerPanel.scrollTop;
-    const relativeLeft = taRect.left - panelRect.left + centerPanel.scrollLeft;
+    const scrollTop = centerPanel.scrollTop;
+    const relativeTop = taRect.top - panelRect.top + scrollTop;
 
-    if (img) {
-        // 위에서 띄우되, 너무 위로는 가지 않게 (짤림 방지)
-        const imageHeight = img.offsetHeight || 250;
-        const offset = 10;
+    const imageHeight = img.offsetHeight || 250;
+    const offset = 10;
+    const finalTop = Math.max(0, relativeTop - imageHeight - offset);
 
-        let finalTop = relativeTop - imageHeight - offset;
-
-        // 이미지가 너무 위로 올라가지 않게 제한
-        finalTop = Math.max(0, finalTop);
-
-        img.style.top = `${finalTop}px`;
-        img.style.left = `${relativeLeft}px`;
-    }
+    img.style.top = `${finalTop}px`;
+    img.style.left = `0`; // 전체 넓이 기준이므로 left 고정
 }
 
+
+// textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
         ta.addEventListener("focus", () => updateImageForTextarea(idx, ta));
     });
 });
-
 </script>
