@@ -19,7 +19,7 @@ CONCEPT_LINKS = {
     # 함수 반환
     r"control reaches end of non-void function|non-void function.*should return|void function.*return|return with a value|should not return a value|returning '.*' from a function with incompatible return type|initializing '.*?' with an expression of incompatible type 'void'": {
         "개념": "함수 반환",
-        "링크": f"{BASE_URL}#함수반환"
+        "링크": f"{BASE_URL}#함수-반환"
     },
     # 세미콜론 누락
     r"expected ';'": {
