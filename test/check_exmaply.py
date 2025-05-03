@@ -4,7 +4,7 @@ import sys
 if len(sys.argv) > 1:
     problem_id = sys.argv[1]
 
-import mysql.connector
+
 
 def print_problem_info(problem_id):
     # MySQL 연결 설정
