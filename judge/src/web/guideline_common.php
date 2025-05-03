@@ -104,4 +104,4 @@ function extract_tagged_blocks($text) {
     }
 
     return $blocks;
-}
+}  
