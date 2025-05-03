@@ -103,7 +103,7 @@ def map_to_concepts(errors: str):
         # AddressSanitizer 런타임 오류 우선 처리
         if "AddressSanitizer" in block:
             results.append({
-                "concepts": "런타임 오류 - 배열 인덱스 초과 등",
+                "concepts": "런타임 오류 - 배열 인덱스 초과 등등",
                 "block": block,
                 "link": f"{BASE_URL}#배열-인덱스-초과"
             })
