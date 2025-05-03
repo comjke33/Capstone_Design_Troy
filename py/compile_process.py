@@ -3,6 +3,17 @@ import subprocess
 import sys
 import json
 
+# ⚠️ 실행 시 문제 유발 가능성이 높은 경고 메시지 패턴 목록
+DANGEROUS_WARNINGS = [
+    r"incompatible pointer",
+    r"comparison between pointer and integer",
+    r"makes pointer from integer",
+    r"cast to pointer from integer",
+    r"array subscript is above array bounds",
+    r"function returns address of local variable",
+    r"format specifies type .* but the argument has type"
+]
+
 def extract_error_context(error_message, source_code_path):
     pattern = r"^([^:\s]+):(\d+):(\d+): (warning|error): (.+?)(?: (\[[-\w]+\]))?$"
     match = re.match(pattern, error_message)
@@ -92,20 +103,22 @@ if __name__ == "__main__":
         stderrs = []
         for line in stderr.splitlines():
             result = extract_error_context(line, code_filepath)
-            # 🧠 'WARNING' 무시하되, 중요한 메시지는 포함
             if result:
-                if result["level"] == "ERROR" or "incompatible" in result["message"].lower():
+                msg = result["message"].lower()
+                # ERROR거나, 위험한 경고 패턴이면 에러로 승격
+                if result["level"] == "ERROR" or any(re.search(pat, msg) for pat in DANGEROUS_WARNINGS):
+                    result["level"] = "ERROR"
                     stderrs.append(result)
 
         runtime_stdout = ""
         runtime_stderr = ""
 
-        # ✅ 컴파일 성공 or 에러 메시지 없을 때 런타임 검사
-        if returncode == 0 or (returncode != 0 and not stderrs):
+        # ❗ 위험 경고가 없을 때만 런타임 실행
+        if returncode == 0 and not stderrs:
             run_returncode, runtime_stdout, runtime_stderr = run_binary()
-        asan_error = extract_asan_runtime_error(runtime_stderr)
-        if asan_error:
-            stderrs.append(asan_error)
+            asan_error = extract_asan_runtime_error(runtime_stderr)
+            if asan_error:
+                stderrs.append(asan_error)
 
         results = {
             "returncode": returncode,
