@@ -180,7 +180,5 @@ document.addEventListener("DOMContentLoaded", function () {
         ta.addEventListener("focus", () => updateImageForTextarea(idx, ta));
     });
 
-    window.addEventListener("scroll", positionImageAboveTextarea);
-    window.addEventListener("resize", positionImageAboveTextarea);
 });
 </script>

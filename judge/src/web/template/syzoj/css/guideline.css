@@ -32,8 +32,8 @@
   position: fixed;
   top: 100px;
   left: 20px; /* 💡 명시적으로 왼쪽 여백 설정하여 center-panel 침범 방지 */
-  width: 250px;
-  max-height: 300px;
+  width: 300px;
+  max-height: 350px;
   border: 2px solid #ccc;
   z-index: 9999;
 }
