@@ -3,10 +3,9 @@ require_once "include/db_info.inc.php";
 
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
 
-// ✅ 여기가 중요!
-$OJ_BLOCK_TREE = parse_blocks($raw_code); // depth 포함한 구조 생성
-$OJ_CORRECT_ANSWERS = []; // 필요 시 여기에 정답 넣기
-?>
+// $OJ_BLOCK_TREE = parse_blocks($raw_code); // depth 포함한 구조 생성
+// $OJ_CORRECT_ANSWERS = []; // 필요 시 여기에 정답 넣기
+// ?>
 
 
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
