@@ -1,6 +1,4 @@
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
-    <h1>한줄씩 풀기</h1>
-    <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
 </div>
 
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
@@ -13,6 +11,8 @@
 
     <!-- 가운데 패널 -->
     <div class="center-panel">
+        <h1>한줄씩 풀기</h1>
+        <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
         <?php
         function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
