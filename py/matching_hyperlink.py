@@ -27,7 +27,7 @@ CONCEPT_LINKS = {
         "링크": f"{BASE_URL}#세미콜론-누락"
     },
     # 괄호 오류
-    r"expected '\)'|expected '\]'|expected '\}'|expected '\(' after": {
+    r"expected '\)'|expected '\]'|expected '\}'|expected '\(' after|expected identifier": {
         "개념": "괄호 닫힘 오류",
         "링크": f"{BASE_URL}#괄호-닫힘-오류"
     },
