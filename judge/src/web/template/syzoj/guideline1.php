@@ -63,7 +63,8 @@
     </div>
 </div>
 <script>
-    const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
+    
+const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($OJ_SID) ?>;
 
 function submitAnswer(index) {
@@ -123,12 +124,6 @@ function updateImageForTextarea(index, ta) {
             if (!img) {
                 img = document.createElement("img");
                 img.id = "floating-img";
-                img.style.position = "fixed";
-                img.style.width = "250px";
-                img.style.maxHeight = "300px";
-                img.style.border = "2px solid #ccc";
-                img.style.zIndex = "9999";
-                img.style.left = "20px"; // 좌측에 고정
                 document.body.appendChild(img);
             }
 
@@ -136,7 +131,7 @@ function updateImageForTextarea(index, ta) {
 
             if (!animationRunning) {
                 animationRunning = true;
-                smoothFollowImage();
+                smoothFollowImage(); // 따라오기 시작
             }
         });
 }
@@ -150,18 +145,32 @@ function smoothFollowImage() {
 
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
+    const scrollX = window.scrollX || document.documentElement.scrollLeft;
 
-    const desiredTop = taRect.top + scrollY - img.offsetHeight - 10;
+    // 원래 목표 위치: textarea 위
+    let targetTop = taRect.top + scrollY - img.offsetHeight - 10;
+
+    // 화면 기준 제한
+    const minTop = scrollY + 10; // 화면 상단 + 여백
+    const maxTop = scrollY + window.innerHeight - img.offsetHeight - 10; // 화면 하단 - 이미지 높이
+
+    // 제한된 위치로 보정
+    targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
+
     const currentTop = parseFloat(img.style.top) || 0;
-    const nextTop = currentTop + (desiredTop - currentTop) * 0.1;
+    const nextTop = currentTop + (targetTop - currentTop) * 0.1;
 
     img.style.top = `${nextTop}px`;
 
     requestAnimationFrame(smoothFollowImage);
 }
 
+
+// textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
         ta.addEventListener("focus", () => updateImageForTextarea(idx, ta));
     });
+
 });
+</script>
