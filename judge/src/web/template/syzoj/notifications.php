@@ -30,8 +30,20 @@ $mistake_comments = [
 ];
 
 // 15개 이상 틀린 영역 조회
-$sql = "SELECT mistake_type, mistake_count FROM user_weakness WHERE user_id = ? AND mistake_count >= 15";
+$sql = "SELECT mistake_type, mistake_count FROM user_weakness WHERE user_id = ? AND mistake_count >= 3";
 $result = pdo_query($sql, $user_id);
+?>
+
+// Chart.js용 데이터 구성
+$labels = [];
+$data = [];
+foreach ($result as $row) {
+    $labels[] = $mistake_names[$row['mistake_type']];
+    $data[] = $row['mistake_count'];
+}
+
+// LLM 코멘트 (직접 입력)
+$ai_comment = "최근 반복된 실수들을 보면 포인터와 배열 관련 오류가 빈번합니다. 해당 개념을 집중적으로 복습해보세요!";
 ?>
 
 <!DOCTYPE html>
@@ -40,39 +52,74 @@ $result = pdo_query($sql, $user_id);
     <meta charset="UTF-8">
     <title>취약 유형 리포트</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="ui container" style="margin-top: 30px;">
-        <h2 class="ui header">📊 나의 취약 유형 리포트</h2>
+<div class="ui container" style="margin-top: 30px;">
+    <h2 class="ui header">📊 나의 취약 유형 리포트</h2>
 
-        <?php if(count($result) > 0){ ?>
-            <table class="ui celled table">
-                <thead>
-                    <tr>
-                        <th>취약 유형</th>
-                        <th>실수 횟수</th>
-                        <th>코멘트</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach($result as $row){ 
-                        $type = $row['mistake_type'];
-                        ?>
-                        <tr>
-                            <td><?php echo $mistake_names[$type]; ?></td>
-                            <td><?php echo $row['mistake_count']; ?></td>
-                            <td><?php echo $mistake_comments[$type]; ?></td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        <?php } else { ?>
-            <div class="ui positive message">
-                현재 15회 이상 반복된 취약 유형이 없습니다. 잘하고 계십니다!
-            </div>
-        <?php } ?>
+    <div class="ui segment">
+        <h4 class="ui header">💬 AI 코멘트</h4>
+        <div class="ui message"><?php echo $ai_comment; ?></div>
     </div>
+
+    <?php if (count($result) > 0) { ?>
+        <div class="ui segment">
+            <canvas id="mistakeChart"></canvas>
+        </div>
+
+        <table class="ui celled table">
+            <thead>
+            <tr>
+                <th>취약 유형</th>
+                <th>실수 횟수</th>
+                <th>코멘트</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($result as $row) {
+                $type = $row['mistake_type']; ?>
+                <tr>
+                    <td><?php echo $mistake_names[$type]; ?></td>
+                    <td><?php echo $row['mistake_count']; ?></td>
+                    <td><?php echo $mistake_comments[$type]; ?></td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    <?php } else { ?>
+        <div class="ui positive message">
+            현재 15회 이상 반복된 취약 유형이 없습니다. 잘하고 계십니다!
+        </div>
+    <?php } ?>
+</div>
+
+<script>
+    const ctx = document.getElementById('mistakeChart');
+    const mistakeChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: <?php echo json_encode($labels); ?>,
+            datasets: [{
+                label: '실수 횟수',
+                data: <?php echo json_encode($data); ?>,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: { y: { beginAtZero: true } },
+            plugins: {
+                legend: { display: false },
+                tooltip: { callbacks: { label: ctx => `${ctx.raw}회` } }
+            }
+        }
+    });
+</script>
+
 </body>
 </html>
+
 
 <?php include("template/$OJ_TEMPLATE/footer.php");?>
