@@ -268,10 +268,10 @@ function do_submit() {
 	}
 
 	
-	setTimeout(() => {
-		var mark = "<?php echo isset($id) ? 'problem_id' : 'cid'; ?>";
-		var problem_id = document.getElementById(mark);	
-	}, 20000);
+
+	var mark = "<?php echo isset($id) ? 'problem_id' : 'cid'; ?>";
+	var problem_id = document.getElementById(mark);	
+
 	// var mark = "<?php echo isset($id) ? 'problem_id' : 'cid'; ?>";
 	// var problem_id = document.getElementById(mark);
 
