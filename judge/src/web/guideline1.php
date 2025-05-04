@@ -1,5 +1,4 @@
 <?php
-include("template/syzoj/header.php");
 include("include/db_info.inc.php");
 include("guideline_common.php"); // ✨ 공통 파일 사용
 
@@ -14,5 +13,4 @@ $OJ_CORRECT_ANSWERS = extract_tagged_blocks($tagged_contents);
 $OJ_SID = "STEP 1";
 
 include("template/syzoj/guideline1.php");
-include("template/syzoj/footer.php");
 ?>
