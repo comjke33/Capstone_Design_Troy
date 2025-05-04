@@ -69,6 +69,16 @@ function parse_blocks($text, $depth = 0) {
         }
     }
 
+    foreach ($blocks as &$block) {
+        if (isset($block['children'])) {
+            foreach ($block['children'] as &$child) {
+                if (is_string($child) && strpos($child, '__BLOCK__') === 0) {
+                    $child = json_decode(substr($child, 9), true);
+                }
+            }
+        }
+    }
+
     return $blocks;
 }
 
