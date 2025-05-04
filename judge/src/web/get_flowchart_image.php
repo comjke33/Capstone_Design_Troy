@@ -11,7 +11,7 @@ $default_img = "/flowcharts/default.png";
 
 header("Content-Type: application/json");
 
-if ($problem_id <= 0 || $index < 0) {
+if ($problem_id <= 0) {
     echo json_encode([
         'success' => true,
         'url' => $url,
@@ -21,7 +21,6 @@ if ($problem_id <= 0 || $index < 0) {
             'res' => $res
         ]
     ]);
-    
     exit;
 }
 
