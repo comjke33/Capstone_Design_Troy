@@ -18,6 +18,7 @@
         <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
         <?php
         function render_tree_plain($blocks, &$answer_index = 0) {
+            echo "<pre>"; print_r($OJ_BLOCK_TREE);
             $html = "";
             foreach ($blocks as $block) {
                 $depth = $block['depth'];
