@@ -4,11 +4,15 @@ require_once "include/db_info.inc.php";
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
 //$problem_id=9944;
 $index = isset($_GET['index']) ? intval($_GET['index']) : -1;
+// 디버깅 용 default 이미지 설정
+// $res = pdo_query($sql, $problem_id);
+$default_img = "/flowcharts/default.png";
+
 
 header("Content-Type: application/json");
 
 if ($problem_id <= 0 || $index < 0) {
-    echo json_encode(['success' => false, 'message' => 'invalid input']);
+    echo json_encode(['success' => false, 'url' => $default_img, 'debug' => 'Invalid problem ID or index']);
     exit;
 }
 
@@ -24,9 +28,6 @@ $index_start = 2;
 $index_end = 4;
 $res = pdo_query($sql, $problem_id, $index_start, $index_end);
 
-// 디버깅 용 default 이미지 설정
-// $res = pdo_query($sql, $problem_id);
-$default_img = "/flowcharts/default.png";
 
 if (count($res) > 0 && !empty($res['png_address'])) {
     $filename =($res['png_address'] . ".png");
