@@ -159,9 +159,12 @@ if __name__ == "__main__":
         dot.edge(prev, "end")
 
         # 파일로 출력
+
+        ## TODO filename에 규칙맞춰서 넣기
         filename = os.path.join(output_dir, "flowchart_simple")
         dot.render(filename, cleanup=True)
 
         print(f"순서도 생성 완료: {filename}.png")
 
 
+        ## TODO problem_id, filename, start_line, end_line SQL에 저장하기
