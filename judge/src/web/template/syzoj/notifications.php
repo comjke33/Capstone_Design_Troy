@@ -43,7 +43,7 @@ $data = [];
 foreach ($result as $row) {
     $labels[] = $mistake_names[$row['mistake_type']];
     $data[] = $row['mistake_count'];
-
+}
 
 // LLM 코멘트 (직접 입력)
 $ai_comment = "최근 반복된 실수들을 보면 포인터와 배열 관련 오류가 빈번합니다. 해당 개념을 집중적으로 복습해보세요!";
