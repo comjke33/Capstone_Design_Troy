@@ -15,6 +15,7 @@
     <!-- 가운데 패널 -->
     <div class="center-panel">
         <h1>한줄씩 풀기</h1>
+        <?php echo $debug; ?>
         <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
         <?php
         function render_tree_plain($blocks, &$answer_index = 0) {
