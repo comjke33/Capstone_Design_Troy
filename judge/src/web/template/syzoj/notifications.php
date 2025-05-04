@@ -37,7 +37,12 @@ $result_now = pdo_query($sql_now, $user_id);
 $sql_prev = "SELECT mistake_type, mistake_count FROM user_weakness_prev WHERE user_id = ? AND mistake_count >= 15";
 $result_prev = pdo_query($sql_prev, $user_id);
 
-
+// Chart.js용 데이터 구성
+$labels = [];
+$data = [];
+foreach ($result as $row) {
+    $labels[] = $mistake_names[$row['mistake_type']];
+    $data[] = $row['mistake_count'];
 
 
 // LLM 코멘트 (직접 입력)
