@@ -12,7 +12,16 @@ $default_img = "/flowcharts/default.png";
 header("Content-Type: application/json");
 
 if ($problem_id <= 0 || $index < 0) {
-    echo json_encode(['success' => false, 'url' => $default_img, 'debug' => 'Invalid problem ID or index']);
+    echo json_encode([
+        'success' => true,
+        'url' => $url,
+        'debug' => [
+            'problem_id' => $problem_id,
+            'index' => $index,
+            'res' => $res
+        ]
+    ]);
+    
     exit;
 }
 
