@@ -1,5 +1,4 @@
 <?php
-include("template/syzoj/header.php");
 include("include/db_info.inc.php");
 include("guideline_common.php"); // ✨ 공통 파일 사용
 
@@ -13,5 +12,5 @@ $OJ_BLOCK_TREE = parse_blocks($guideline_contents);
 $OJ_CORRECT_ANSWERS = extract_tagged_blocks($tagged_contents);
 $OJ_SID = "STEP 1";
 
-include("template/syzoj/guideline1.php");
+include("template/syzoj/guideline1.php");//렌더링 파일 불러오기
 ?>
