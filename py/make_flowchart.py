@@ -129,6 +129,7 @@ if __name__ == "__main__":
         "end_line": end_num
     })
 
+    print("순서도 생성 완료")
     # for flow in flowcharts:
     #     print(flow.get("category"), flow.get("summary"), flow.get("start_line"), flow.get("end_line"))
     #     print("--------------------------------------------------") 
