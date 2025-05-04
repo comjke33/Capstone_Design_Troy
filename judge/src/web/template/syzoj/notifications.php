@@ -76,54 +76,18 @@ $ai_comment = "최근 반복된 실수들을 보면 포인터와 배열 관련 �
 
     <?php if (count($result_now) > 0) { ?>
         <div class="ui segment">
-            <div style="display: flex; gap: 30px; justify-content: space-between; flex-wrap: wrap;">
-                <div style="flex: 1; min-width: 300px;">
+            <div style="display: flex; gap: 30px; justify-content: space-between; flex-wrap: nowrap;">
+                <div style="width: 50%;">
                     <h4 class="ui header">📁 저번 제출</h4>
-                    <table class="ui celled table">
-                        <thead>
-                        <tr>
-                            <th>취약 유형</th>
-                            <th>실수 횟수</th>
-                            <th>코멘트</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($result_prev as $row) {
-                            $type = $row['mistake_type']; ?>
-                            <tr>
-                                <td><?php echo $mistake_names[$type]; ?></td>
-                                <td><?php echo $row['mistake_count']; ?></td>
-                                <td><?php echo $mistake_comments[$type]; ?></td>
-                            </tr>
-                        <?php } ?>
-                        </tbody>
-                    </table>
+                    <canvas id="mistakeChartPrev"></canvas>
                 </div>
-
-                <div style="flex: 1; min-width: 300px;">
+                <div style="width: 50%;">
                     <h4 class="ui header">📌 이번 제출</h4>
-                    <table class="ui celled table">
-                        <thead>
-                        <tr>
-                            <th>취약 유형</th>
-                            <th>실수 횟수</th>
-                            <th>코멘트</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($result_now as $row) {
-                            $type = $row['mistake_type']; ?>
-                            <tr>
-                                <td><?php echo $mistake_names[$type]; ?></td>
-                                <td><?php echo $row['mistake_count']; ?></td>
-                                <td><?php echo $mistake_comments[$type]; ?></td>
-                            </tr>
-                        <?php } ?>
-                        </tbody>
-                    </table>
+                    <canvas id="mistakeChartNow"></canvas>
                 </div>
             </div>
         </div>
+
 
         <table class="ui celled table">
             <thead>
