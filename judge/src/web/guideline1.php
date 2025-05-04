@@ -12,5 +12,5 @@ $OJ_BLOCK_TREE = parse_blocks($guideline_contents);
 $OJ_CORRECT_ANSWERS = extract_tagged_blocks($tagged_contents);
 $OJ_SID = "STEP 1";
 
-include("template/syzoj/guideline1.php");//렌더링 파일 불러오기
+include("/template/syzoj/guideline1.php");//렌더링 파일 불러오기
 ?>
