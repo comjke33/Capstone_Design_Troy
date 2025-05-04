@@ -15,6 +15,5 @@ $sql = "UPDATE submit SET count = count + 1 WHERE user_id = ?";
 // $stmt->execute([$user_id]);
 $plus = pdo_query($sql, $user_id);
 
-
 echo "OK";
 ?>
