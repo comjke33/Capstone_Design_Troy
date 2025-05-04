@@ -306,28 +306,35 @@ function do_submit(){
 	if(typeof(editor) != "undefined"){ 
 		$("#hide_source").val(editor.getValue());
 	}
+
+    //제출 횟수 증가
     $.post("update_submit_count.php", function(response){
         console.log("Submit count updated:", response);
     });
-	var mark="<?php echo isset($id)?'problem_id':'cid';?>";
-	var problem_id=document.getElementById(mark);
-	if(mark=='problem_id')
-	problem_id.value='<?php if (isset($id))echo $id?>';
-	else
-	problem_id.value='<?php if (isset($cid))echo $cid?>';
-	document.getElementById("frmSolution").target="_self";
-	
-<?php if(isset($_GET['spa'])){?>
-	<?php if($solution_name) { ?>document.getElementById("frmSolution").submit(); <?php } ?>  //如果是指定文件名，则强制用文件post方式提交。
-        $.post("submit.php?ajax",$("#frmSolution").serialize(),function(data){fresh_result(data);});
-        $("#Submit").prop('disabled', true);
-        $("#TestRun").prop('disabled', true);
-        count=<?php echo $OJ_SUBMIT_COOLDOWN_TIME?> * 2 ;
-        handler_interval= window.setTimeout("resume();",1000);
-	 <?php if(isset($OJ_REMOTE_JUDGE)&&$OJ_REMOTE_JUDGE) {?>$("#sk").attr("src","remote.php"); <?php } ?>
-<?php }else{?>
-        document.getElementById("frmSolution").submit();
-<?php }?>
+    //
+
+    // 20초(20000ms) 후에 제출 실행
+    setTimeout(function() {
+        var mark = "<?php echo isset($id)?'problem_id':'cid';?>";
+        var problem_id = document.getElementById(mark);
+        if(mark == 'problem_id')
+            problem_id.value = '<?php if (isset($id)) echo $id; ?>';
+        else
+            problem_id.value = '<?php if (isset($cid)) echo $cid; ?>';
+        document.getElementById("frmSolution").target = "_self";
+
+        <?php if(isset($_GET['spa'])){?>
+            <?php if($solution_name) { ?>document.getElementById("frmSolution").submit();<?php } ?>
+            $.post("submit.php?ajax", $("#frmSolution").serialize(), function(data){ fresh_result(data); });
+            $("#Submit").prop('disabled', true);
+            $("#TestRun").prop('disabled', true);
+            count = <?php echo $OJ_SUBMIT_COOLDOWN_TIME ?> * 2;
+            handler_interval = window.setTimeout("resume();", 1000);
+            <?php if(isset($OJ_REMOTE_JUDGE)&&$OJ_REMOTE_JUDGE) {?>$("#sk").attr("src","remote.php");<?php } ?>
+        <?php } else { ?>
+            document.getElementById("frmSolution").submit();
+        <?php } ?>
+    }, 20000); // 20초 대기 후 제출
 
 }
 var handler_interval;
