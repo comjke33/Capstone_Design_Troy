@@ -1,64 +1,63 @@
-
-
 <?php
 
-if (!function_exists('str_starts_with')) {
-    function str_starts_with($haystack, $needle) {
-        return substr($haystack, 0, strlen($needle)) === $needle;
-    }
-}     
-
 function parse_blocks($text, $depth = 0) {
-    $lines = explode("\n", $text);
-    $stack = [];
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\](.*?)(?=\[.*_\3\(\d+\)\])/s";
     $blocks = [];
+    $offset = 0;
 
-    foreach ($lines as $line) {
-        $line = rtrim($line);
-        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_(start)\((\d+)\)\]/', $line, $start_matches)) {
-            // 시작 태그면 스택에 push
-            $stack[] = [
-                'type' => $start_matches[1],
-                'index' => $start_matches[3],
-                'depth' => $depth,
-                'start_line' => $line,
-                'content_lines' => []
-            ];
-        } elseif (preg_match('/\[(func_def|rep|cond|self|struct|construct)_(end)\((\d+)\)\]/', $line, $end_matches)) {
-            // 종료 태그면 스택 pop 및 자식 파싱
-            $last = array_pop($stack);
-            if ($last['type'] === $end_matches[1] && $last['index'] === $end_matches[3]) {
-                $children = parse_blocks(implode("\n", $last['content_lines']), $depth + 1);
-                $blocks[] = [
-                    'type' => $last['type'],
-                    'index' => $last['index'],
-                    'depth' => $last['depth'],
-                    'start_tag' => $last['start_line'],
-                    'end_tag' => $line,
-                    'children' => $children
-                ];
-            } else {
-                throw new Exception("Unmatched tag: " . $line);
-            }
-        } else {
-            // 텍스트는 가장 최근 시작 태그에 쌓기
-            if (!empty($stack)) {
-                $stack[count($stack) - 1]['content_lines'][] = $line;
-            } else {
+    while (preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+        $start_pos = $matches[0][1];
+        $full_len = strlen($matches[0][0]);
+        $end_pos = $start_pos + $full_len;
+
+        // 앞의 텍스트
+        $before_text = substr($text, $offset, $start_pos - $offset);
+        if (trim($before_text) !== '') {
+            foreach (explode("\n", $before_text) as $line) {
                 if (trim($line) !== '') {
                     $blocks[] = [
                         'type' => 'text',
-                        'content' => $line,
-                        'depth' => $depth
+                        'content' => rtrim($line),
+                        'depth' => $depth  // ✅ 들여쓰기 정보 추가
                     ];
                 }
+            }
+        }
+
+        $tag_type = $matches[1][0];
+        $tag_index = $matches[3][0];
+        $content = $matches[4][0];
+
+        // ✅ 자식은 depth + 1
+        $children = parse_blocks($content, $depth + 1);
+
+        $blocks[] = [
+            'type' => $tag_type,
+            'index' => $tag_index,
+            'content' => $content,
+            'children' => $children,
+            'depth' => $depth  // ✅ 자기 depth도 기록
+        ];
+
+        $offset = $end_pos;
+    }
+
+    // 나머지
+    $tail = substr($text, $offset);
+    if (trim($tail) !== '') {
+        foreach (explode("\n", $tail) as $line) {
+            if (trim($line) !== '') {
+                $blocks[] = [
+                    'type' => 'text',
+                    'content' => rtrim($line),
+                    'depth' => $depth 
+                ];
             }
         }
     }
 
     return $blocks;
 }
-
 
 function extract_tagged_blocks($text) {
     $tag_pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
