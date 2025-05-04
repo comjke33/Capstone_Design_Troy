@@ -131,7 +131,7 @@ let animationRunning = false;
 
 function updateImageForTextarea(index, ta) {
     currentTextarea = ta;
-
+    console.log(problemId, index);
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
