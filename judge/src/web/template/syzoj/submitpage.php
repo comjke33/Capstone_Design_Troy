@@ -266,8 +266,12 @@ function do_submit() {
 
 	
 
-	var mark = "<?php echo isset($id) ? 'problem_id' : 'cid'; ?>";
-	var problem_id = document.getElementById(mark);
+	setTimeout(() => {
+		
+	}, (function() {	var mark = "<?php echo isset($id) ? 'problem_id' : 'cid'; ?>";
+		var problem_id = document.getElementById(mark);},20000));
+	// var mark = "<?php echo isset($id) ? 'problem_id' : 'cid'; ?>";
+	// var problem_id = document.getElementById(mark);
 
 	if (mark == 'problem_id')
 		problem_id.value = '<?php if (isset($id)) echo $id ?>';
