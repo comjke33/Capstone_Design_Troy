@@ -1,26 +1,29 @@
 <?php
-session_start();
-$user_id = $_SESSION['user_id'];
+@session_start();
+require_once "include/db_info.inc.php"; // DB 연결
 
-// DB 연결
-$conn = new mysqli("localhost", "username", "password", "database");
-if ($conn->connect_error) {
-    http_response_code(500);
-    exit("DB connection failed");
-}
+$user_id = $_SESSION[$OJ_NAME . '_user_id'];
 
-$sql = "SELECT alert FROM user_alert WHERE user_id = ?";
+// SQL 쿼리 실행: is_checked가 0인지를 확인
+$sql = "SELECT is_checked FROM comment_check WHERE user_id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
+$stmt->bind_param("s", $user_id);
 $stmt->execute();
-$stmt->bind_result($alert);
-$stmt->fetch();
-$stmt->close();
+$result = $stmt->get_result();
 
-if ($alert == 0) {
-    exec("python3 /절대경로/a.py > /dev/null 2>&1 &"); // 백그라운드 실행
+if ($row = $result->fetch_assoc()) {
+    if ($row['is_checked'] == 0) { // is_checked가 0인 경우 (false)
+        // Python 스크립트 실행
+        $command = escapeshellcmd("cd /home/Capstone_Design_Troy/test && python3 a.py");
+        $output = shell_exec($command);
+        echo "Python script executed.";
+    } else {
+        echo "is_checked is not false.";
+    }
+} else {
+    echo "No record found for user_id.";
 }
 
+$stmt->close();
 $conn->close();
-http_response_code(200);
 ?>
