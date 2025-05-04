@@ -76,7 +76,7 @@ CONCEPT_LINKS = {
         "링크": f"{BASE_URL}#함수-정의-중복"
     },
     # 함수 인자 오류
-    r"incompatible type for argument|too few arguments|incompatible integer to pointer conversion": {
+    r"incompatible type for argument|too few arguments|incompatible .* to .* conversion": {
         "개념": "함수 인자 순서 오류",
         "링크": f"{BASE_URL}#함수-인자-순서-오류"
     },
