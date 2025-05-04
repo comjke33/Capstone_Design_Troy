@@ -10,9 +10,10 @@ require_once("include/db_info.inc.php");
 
 $user_id = $_SESSION['user_id'];
 
-$sql = "UPDATE submit SET count = count + 1 WHERE user_id = ?";
+// $sql = "UPDATE submit SET count = count + 1 WHERE user_id = ?";
 // $stmt = $pdo->prepare($sql);
 // $stmt->execute([$user_id]);
+$sql = "UPDATE submit SET `count` = `count` + 1 WHERE user_id = ?";
 $plus = pdo_query($sql, $user_id);
 
 echo "OK";
