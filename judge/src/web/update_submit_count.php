@@ -1,5 +1,5 @@
 <?php
-require_once("oj-header.php"); // 로그인 확인용
+// require_once("oj-header.php"); // 로그인 확인용
 require_once("include/db_info.inc.php");
 
 if (!isset($_SESSION['user_id'])) {
