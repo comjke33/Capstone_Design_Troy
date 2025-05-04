@@ -14,4 +14,5 @@ $OJ_CORRECT_ANSWERS = extract_tagged_blocks($tagged_contents);
 $OJ_SID = "STEP 1";
 
 include("template/syzoj/guideline1.php");
+include("template/syzoj/footer.php");
 ?>
