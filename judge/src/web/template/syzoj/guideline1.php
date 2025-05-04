@@ -19,6 +19,8 @@
 
         <?php
         function render_tree_plain($blocks, &$answer_index = 0) {
+            echo "<div style='color: red;'>🔍 BLOCK COUNT: " . count($OJ_BLOCK_TREE) . "</div>";
+
             $html = "";
 
             foreach ($blocks as $block) {
