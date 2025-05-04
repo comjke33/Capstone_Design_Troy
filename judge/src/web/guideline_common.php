@@ -24,7 +24,23 @@ function parse_blocks($text, $depth = 0) {
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $line, $end_matches)) {
             $last = array_pop($stack);
             if ($last['type'] === $end_matches[1] && $last['index'] === $end_matches[2]) {
-                $children = parse_blocks(implode("\n", $last['content_lines']), $depth + 1);
+                // 하위 블록 처리
+                $child_lines = $last['content_lines'];
+                $children = [];
+
+                foreach ($child_lines as $cl) {
+                    // __BLOCK__ 문자열인 경우 → json 디코드
+                    if (strpos($cl, "__BLOCK__") === 0) {
+                        $children[] = json_decode(substr($cl, 9), true);
+                    } else {
+                        $children[] = [
+                            'type' => 'text',
+                            'content' => $cl,
+                            'depth' => $depth + 1
+                        ];
+                    }
+                }
+
                 $block = [
                     'type' => $last['type'],
                     'index' => $last['index'],
@@ -50,17 +66,6 @@ function parse_blocks($text, $depth = 0) {
                 'content' => $line,
                 'depth' => $depth
             ];
-        }
-    }
-
-    // __BLOCK__ 문자열 복원
-    foreach ($blocks as &$block) {
-        if (isset($block['children'])) {
-            foreach ($block['children'] as &$child) {
-                if (is_string($child) && strpos($child, "__BLOCK__") === 0) {
-                    $child = json_decode(substr($child, 9), true);
-                }
-            }
         }
     }
 
