@@ -1,49 +1,71 @@
 <?php
 // 📦 공통 파싱 함수 모음
 
-function parse_blocks($text, $depth = 0) {
+function parse_blocks_v2($text, $depth = 0) {
     $lines = explode("\n", $text);
-    $stack = [];
     $blocks = [];
+    $stack = [];
 
     foreach ($lines as $line) {
         $line = rtrim($line);
-        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_(start)\((\d+)\)\]/', $line, $start_matches)) {
-            // 시작 태그면 스택에 push
+
+        // [xxx_start(n)] 감지
+        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $start_matches)) {
             $stack[] = [
                 'type' => $start_matches[1],
-                'index' => $start_matches[3],
+                'index' => $start_matches[2],
                 'depth' => $depth,
                 'start_line' => $line,
                 'content_lines' => []
             ];
-        } elseif (preg_match('/\[(func_def|rep|cond|self|struct|construct)_(end)\((\d+)\)\]/', $line, $end_matches)) {
-            // 종료 태그면 스택 pop 및 자식 파싱
+            continue;
+        }
+
+        // [xxx_end(n)] 감지
+        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $line, $end_matches)) {
             $last = array_pop($stack);
-            if ($last['type'] === $end_matches[1] && $last['index'] === $end_matches[3]) {
-                $children = parse_blocks(implode("\n", $last['content_lines']), $depth + 1);
-                $blocks[] = [
+            if ($last['type'] === $end_matches[1] && $last['index'] === $end_matches[2]) {
+                // 자식 파싱
+                $children = parse_blocks_v2(implode("\n", $last['content_lines']), $depth + 1);
+
+                // 완료된 블록 추가
+                $block = [
                     'type' => $last['type'],
                     'index' => $last['index'],
                     'depth' => $last['depth'],
-                    'start_tag' => $last['start_line'],
-                    'end_tag' => $line,
                     'children' => $children
                 ];
+
+                if (!empty($stack)) {
+                    // 상위 블록이 있으면 content로 추가
+                    $stack[count($stack) - 1]['content_lines'][] = json_encode($block);
+                } else {
+                    $blocks[] = $block;
+                }
             } else {
-                throw new Exception("Unmatched tag: " . $line);
+                throw new Exception("Unmatched tag at line: $line");
             }
-        } else {
-            // 텍스트는 가장 최근 시작 태그에 쌓기
-            if (!empty($stack)) {
-                $stack[count($stack) - 1]['content_lines'][] = $line;
-            } else {
-                if (trim($line) !== '') {
-                    $blocks[] = [
-                        'type' => 'text',
-                        'content' => $line,
-                        'depth' => $depth
-                    ];
+            continue;
+        }
+
+        // 일반 텍스트
+        if (!empty($stack)) {
+            $stack[count($stack) - 1]['content_lines'][] = $line;
+        } else if (trim($line) !== '') {
+            $blocks[] = [
+                'type' => 'text',
+                'content' => $line,
+                'depth' => $depth
+            ];
+        }
+    }
+
+    // JSON으로 감싼 children을 다시 복원
+    foreach ($blocks as &$block) {
+        if (isset($block['children']) && is_array($block['children'])) {
+            foreach ($block['children'] as &$child) {
+                if (is_string($child) && substr(trim($child), 0, 1) === '{') {
+                    $child = json_decode($child, true);
                 }
             }
         }
