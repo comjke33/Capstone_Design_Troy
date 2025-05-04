@@ -10,5 +10,6 @@ if ($result === null) {
     echo "<pre>Python 스크립트 실행 실패!</pre>";
     exit;
 }
+echo $result;
 
 ?>
