@@ -23,15 +23,15 @@ function parse_blocks($text, $depth = 0) {
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $line, $end_matches)) {
             $last = array_pop($stack);
             if ($last['type'] === $end_matches[1] && $last['index'] === $end_matches[2]) {
-                // 하위 블록 처리
                 $child_lines = $last['content_lines'];
                 $children = [];
 
                 foreach ($child_lines as $cl) {
-                    // __BLOCK__ 문자열인 경우 → json 디코드
                     if (strpos($cl, "__BLOCK__") === 0) {
                         $children[] = json_decode(substr($cl, 9), true);
                     } else {
+                        $trimmed = trim($cl);
+                        if ($trimmed === '' || $trimmed === '}') continue;
                         $children[] = [
                             'type' => 'text',
                             'content' => $cl,
@@ -57,9 +57,12 @@ function parse_blocks($text, $depth = 0) {
         }
 
         // 일반 텍스트 처리
+        $trimmed = trim($line);
+        if ($trimmed === '' || $trimmed === '}') continue;
+
         if (!empty($stack)) {
             $stack[count($stack) - 1]['content_lines'][] = $line;
-        } elseif (trim($line) !== '') {
+        } else {
             $blocks[] = [
                 'type' => 'text',
                 'content' => $line,
@@ -68,8 +71,20 @@ function parse_blocks($text, $depth = 0) {
         }
     }
 
+    // __BLOCK__ 복원
+    foreach ($blocks as &$block) {
+        if (isset($block['children'])) {
+            foreach ($block['children'] as &$child) {
+                if (is_string($child) && strpos($child, "__BLOCK__") === 0) {
+                    $child = json_decode(substr($child, 9), true);
+                }
+            }
+        }
+    }
+
     return $blocks;
 }
+
 
 
 function extract_tagged_blocks($text) {
