@@ -17,6 +17,12 @@
         <h1>한줄씩 풀기</h1>
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
         <?php
+        if (!function_exists('str_starts_with')) {
+            function str_starts_with($haystack, $needle) {
+                return substr($haystack, 0, strlen($needle)) === $needle;
+            }
+        }        
+
         function parse_blocks_v2($text, $depth = 0) {
             $lines = explode("\n", $text);
             $blocks = [];
