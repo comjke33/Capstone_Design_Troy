@@ -58,7 +58,6 @@ function parse_blocks($text, $depth = 0) {
     }
 
     return $blocks;
-}urn $blocks;
 }
 
 
