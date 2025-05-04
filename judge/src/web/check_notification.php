@@ -14,7 +14,7 @@ $result = $stmt->get_result();
 if ($row = $result->fetch_assoc()) {
     if ($row['is_checked'] == 0) { // is_checked가 0인 경우 (false)
         // Python 스크립트 실행
-        $command = escapeshellcmd("cd /home/Capstone_Design_Troy/test && python3 baba.py");
+        $command = escapeshellcmd("cd /home/Capstone_Design_Troy/test && python3 make_comment.py");
         $output = shell_exec($command);
         echo "Python script executed.";
     } else {

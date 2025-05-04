@@ -306,6 +306,9 @@ function do_submit(){
 	if(typeof(editor) != "undefined"){ 
 		$("#hide_source").val(editor.getValue());
 	}
+    $.post("update_submit_count.php", function(response){
+        console.log("Submit count updated:", response);
+    });
 	var mark="<?php echo isset($id)?'problem_id':'cid';?>";
 	var problem_id=document.getElementById(mark);
 	if(mark=='problem_id')
