@@ -254,9 +254,12 @@
 
 function do_submit() {
 	$("#Submit").attr("disabled", "true");   // 중복 클릭 방지용 버튼 비활성화
-    $.post("update_submit_count.php", function(response){
-        console.log("Submit count updated:", response);
-    });
+	$.post("update_submit_count.php", function(response) {
+		console.log("✅ update_submit_count.php 실행됨!");
+		console.log("서버 응답:", response);
+	}).fail(function(jqXHR) {
+		console.error("❌ 실행 실패:", jqXHR.status, jqXHR.responseText);
+	});
 	if (using_blockly)
 		translate(); // Blockly 코드 변환
 
@@ -265,11 +268,10 @@ function do_submit() {
 	}
 
 	
-
 	setTimeout(() => {
-		
-	}, (function() {	var mark = "<?php echo isset($id) ? 'problem_id' : 'cid'; ?>";
-		var problem_id = document.getElementById(mark);},20000));
+		var mark = "<?php echo isset($id) ? 'problem_id' : 'cid'; ?>";
+		var problem_id = document.getElementById(mark);	
+	}, 20000);
 	// var mark = "<?php echo isset($id) ? 'problem_id' : 'cid'; ?>";
 	// var problem_id = document.getElementById(mark);
 
