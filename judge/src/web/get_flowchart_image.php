@@ -36,5 +36,5 @@ if (count($res) > 0 && !empty($res['png_address'])) {
 
 // 디버깅 용 default 이미지 설정
 // $url = $default_img;
-$url = "/flowcharts/1000_1.png";
+$url = $res;
 echo json_encode(['success' => true, 'url' => $url]);
