@@ -84,7 +84,7 @@ if __name__ == "__main__":
             
             
             category = classify_line(line)
-            print(line_number, "    ", line, "   ", category)
+            # print(line_number, "    ", line, "   ", category)
             if category == -1:
                 continue
 
@@ -129,9 +129,9 @@ if __name__ == "__main__":
         "end_line": end_num
     })
 
-    for flow in flowcharts:
-        print(flow.get("category"), flow.get("summary"), flow.get("start_line"), flow.get("end_line"))
-        print("--------------------------------------------------") 
+    # for flow in flowcharts:
+    #     print(flow.get("category"), flow.get("summary"), flow.get("start_line"), flow.get("end_line"))
+    #     print("--------------------------------------------------") 
 
     for flow in flowcharts:
         # 디렉토리 생성
