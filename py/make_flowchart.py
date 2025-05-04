@@ -135,7 +135,7 @@ if __name__ == "__main__":
 
     for flow in flowcharts:
         # 디렉토리 생성
-        output_dir = "./flowcharts/"
+        output_dir = "/home/Capstone_Design_Troy/src/web/flowcharts/"
         os.makedirs(output_dir, exist_ok=True)
 
         # 그래프 생성
