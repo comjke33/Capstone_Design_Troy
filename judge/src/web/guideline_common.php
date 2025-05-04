@@ -69,19 +69,9 @@ function parse_blocks($text, $depth = 0) {
         }
     }
 
-        // __BLOCK__ 문자열을 진짜 children 배열로 복원
-    foreach ($blocks as &$block) {
-        if (isset($block['children'])) {
-            foreach ($block['children'] as &$child) {
-                if (is_string($child) && strpos($child, '__BLOCK__') === 0) {
-                    $child = json_decode(substr($child, 9), true);
-                }
-            }
-        }
-    }
-
     return $blocks;
 }
+
 
 function extract_tagged_blocks($text) {
     $tag_pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
