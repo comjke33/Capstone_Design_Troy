@@ -32,7 +32,7 @@ $mistake_comments = [
 // 15개 이상 틀린 영역 조회
 $sql = "SELECT mistake_type, mistake_count FROM user_weakness WHERE user_id = ? AND mistake_count >= 3";
 $result = pdo_query($sql, $user_id);
-?>
+
 
 // Chart.js용 데이터 구성
 $labels = [];
@@ -45,6 +45,9 @@ foreach ($result as $row) {
 // LLM 코멘트 (직접 입력)
 $ai_comment = "최근 반복된 실수들을 보면 포인터와 배열 관련 오류가 빈번합니다. 해당 개념을 집중적으로 복습해보세요!";
 ?>
+?>
+
+
 
 <!DOCTYPE html>
 <html lang="ko">
