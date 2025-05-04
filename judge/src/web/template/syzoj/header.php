@@ -247,10 +247,11 @@ html, body {
                     .then(response => response.text())
                     .then(data => {
                         console.log("데이터:", data)
+                        window.location.href = "notifications.php";
                         // Python 실행이 끝나면 이동
-                        setTimeout(function() {
-                             window.location.href = "notifications.php";
-                         }, 20000);  // 0.5초 정도의 딜레이를 추가 (필요에 따라 조정)
+                        // setTimeout(function() {
+                        //      window.location.href = "notifications.php";
+                        //  }, 20000);  // 0.5초 정도의 딜레이를 추가 (필요에 따라 조정)
                     })
                     .catch(error => {
                         alert("오류 발생: " + error);
