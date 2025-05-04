@@ -143,6 +143,7 @@ function updateImageForTextarea(index, ta) {
             }
 
             img.src = data.url;
+            console.log("받은 이미지 URL:", data.url);
 
             if (!animationRunning) {
                 animationRunning = true;

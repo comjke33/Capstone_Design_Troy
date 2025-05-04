@@ -34,7 +34,6 @@ if (count($res) > 0 && !empty($res['png_address'])) {
     $url = $default_img;
 }
 
-$debug = $url;
 // 디버깅 용 default 이미지 설정
 // $url = $default_img;
 
