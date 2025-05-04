@@ -41,5 +41,5 @@ if (count($res) > 0 && !empty($res['png_address'])) {
 echo json_encode([
     'success' => true,
     'url' => $url,
-    'debug' => $res
+    'debug' => $problem_id
 ]);
