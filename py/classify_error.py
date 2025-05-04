@@ -9,7 +9,8 @@ ERROR_PATTERN_MAP = {
     r"format specifies type .* but the argument has type": 5,  # 입출력 형식 지정자
     r"invalid operands to binary expression|comparison between": 6,  # 연산자 사용 오류
     r"invalid suffix": 7,  # 정수/실수 리터럴 오류
-    r"expected expression": 8  # 표현식 누락
+    r"expected expression": 8,  # 표현식 누락
+    r"implicit conversion from .* to .*": 9  # 형 변환 오류
 }
 
 def classify_error(error_msg):

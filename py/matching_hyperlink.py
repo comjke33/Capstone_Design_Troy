@@ -80,6 +80,10 @@ CONCEPT_LINKS = {
         "개념": "함수 인자 순서 오류",
         "링크": f"{BASE_URL}#함수-인자-순서-오류"
     },
+    r"implicit conversion from .* to .*": {
+    "개념": "형 변환 오류",
+    "링크": f"{BASE_URL}#형-변환-오류"
+}
 }
 
 def map_to_concepts(errors: str):
