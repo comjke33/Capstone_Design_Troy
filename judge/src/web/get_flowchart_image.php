@@ -37,10 +37,10 @@ $index_end = 4;
 $res = pdo_query($sql, $problem_id, $index_start, $index_end);
 
 
-if (count($res) > 0 && !empty($res['png_address'])) {
+if (count($res) > 0) {
     $filename =($res['png_address'] . ".png");
     $url = ($res['png_address'] . ".png");
-    $url = "/flowcharts/1000_1.png";
+    // $url = "/flowcharts/1000_1.png";
 } else {
     $url = $default_img;
 }
