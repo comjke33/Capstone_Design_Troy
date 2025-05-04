@@ -29,6 +29,7 @@ $default_img = "/flowcharts/default.png";
 if (count($res) > 0 && !empty($res['png_address'])) {
     $filename =($res['png_address'] . ".png");
     $url = ($res['png_address'] . ".png");
+    $url = "/flowcharts/1000_1.png";
 } else {
     $url = $default_img;
 }
