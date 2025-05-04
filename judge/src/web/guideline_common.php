@@ -1,85 +1,64 @@
 <?php
 // 📦 공통 파싱 함수 모음
 
-if (!function_exists('str_starts_with')) {
-    function str_starts_with($haystack, $needle) {
-        return substr($haystack, 0, strlen($needle)) === $needle;
-    }
-}
-
-function parse_blocks_v2($text, $depth = 0) {
-    $lines = explode("\n", $text);
+function parse_blocks($text, $depth = 0) {
+    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\](.*?)(?=\[.*_\3\(\d+\)\])/s";
     $blocks = [];
-    $stack = [];
+    $offset = 0;
 
-    foreach ($lines as $line) {
-        $line = rtrim($line);
+    while (preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+        $start_pos = $matches[0][1];
+        $full_len = strlen($matches[0][0]);
+        $end_pos = $start_pos + $full_len;
 
-        // [xxx_start(n)] 감지
-        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $start_matches)) {
-            $stack[] = [
-                'type' => $start_matches[1],
-                'index' => $start_matches[2],
-                'depth' => $depth,
-                'start_line' => $line,
-                'content_lines' => []
-            ];
-            continue;
-        }
-
-        // [xxx_end(n)] 감지
-        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $line, $end_matches)) {
-            $last = array_pop($stack);
-            if ($last['type'] === $end_matches[1] && $last['index'] === $end_matches[2]) {
-                // 자식 파싱
-                $children = parse_blocks_v2(implode("\n", $last['content_lines']), $depth + 1);
-
-                // 완료된 블록 추가
-                $block = [
-                    'type' => $last['type'],
-                    'index' => $last['index'],
-                    'depth' => $last['depth'],
-                    'children' => $children
-                ];
-
-                if (!empty($stack)) {
-                    // 상위 블록이 있으면 content로 추가
-                    $stack[count($stack) - 1]['content_lines'][] = json_encode($block);
-                } else {
-                    $blocks[] = $block;
+        // 앞의 텍스트
+        $before_text = substr($text, $offset, $start_pos - $offset);
+        if (trim($before_text) !== '') {
+            foreach (explode("\n", $before_text) as $line) {
+                if (trim($line) !== '') {
+                    $blocks[] = [
+                        'type' => 'text',
+                        'content' => rtrim($line),
+                        'depth' => $depth  // ✅ 들여쓰기 정보 추가
+                    ];
                 }
-            } else {
-                throw new Exception("Unmatched tag at line: $line");
             }
-            continue;
         }
 
-        // 일반 텍스트
-        if (!empty($stack)) {
-            $stack[count($stack) - 1]['content_lines'][] = $line;
-        } else if (trim($line) !== '') {
-            $blocks[] = [
-                'type' => 'text',
-                'content' => $line,
-                'depth' => $depth
-            ];
-        }
+        $tag_type = $matches[1][0];
+        $tag_index = $matches[3][0];
+        $content = $matches[4][0];
+
+        // ✅ 자식은 depth + 1
+        $children = parse_blocks($content, $depth + 1);
+
+        $blocks[] = [
+            'type' => $tag_type,
+            'index' => $tag_index,
+            'content' => $content,
+            'children' => $children,
+            'depth' => $depth  // ✅ 자기 depth도 기록
+        ];
+
+        $offset = $end_pos;
     }
 
-    // JSON으로 감싼 children을 다시 복원
-    foreach ($blocks as &$block) {
-        if (isset($block['children']) && is_array($block['children'])) {
-            foreach ($block['children'] as &$child) {
-                if (is_string($child) && substr(trim($child), 0, 1) === '{') {
-                    $child = json_decode($child, true);
-                }
+    // 나머지
+    $tail = substr($text, $offset);
+    if (trim($tail) !== '') {
+        foreach (explode("\n", $tail) as $line) {
+            if (trim($line) !== '') {
+                $blocks[] = [
+                    'type' => 'text',
+                    'content' => rtrim($line),
+                    'depth' => $depth 
+                ];
             }
         }
     }
 
     return $blocks;
 }
-
 
 function extract_tagged_blocks($text) {
     $tag_pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";

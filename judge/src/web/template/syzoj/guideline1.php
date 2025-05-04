@@ -15,80 +15,55 @@
     <!-- 가운데 패널 -->
     <div class="center-panel">
         <h1>한줄씩 풀기</h1>
-        <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
+        <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
         <?php
-        if (!function_exists('str_starts_with')) {
-            function str_starts_with($haystack, $needle) {
-                return substr($haystack, 0, strlen($needle)) === $needle;
-            }
-        }        
+        function render_tree_plain($blocks, &$answer_index = 0) {
+            $html = "";
+            foreach ($blocks as $block) {
+                $depth = $block['depth'];
+                $margin_left = $depth * 20; // depth당 20px 들여쓰기
 
-        function parse_blocks_v2($text, $depth = 0) {
-            $lines = explode("\n", $text);
-            $blocks = [];
-            $stack = [];
-        
-            foreach ($lines as $line) {
-                $line = rtrim($line);
-        
-                // [xxx_start(n)] 감지
-                if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $start_matches)) {
-                    $stack[] = [
-                        'type' => $start_matches[1],
-                        'index' => $start_matches[2],
-                        'depth' => $depth,
-                        'content_lines' => []
-                    ];
-                    continue;
-                }
-        
-                // [xxx_end(n)] 감지
-                if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $line, $end_matches)) {
-                    $last = array_pop($stack);
-                    if ($last['type'] === $end_matches[1] && $last['index'] === $end_matches[2]) {
-                        // 자식 파싱 (재귀)
-                        $children = parse_blocks_v2(implode("\n", $last['content_lines']), $depth + 1);
-                        $block = [
-                            'type' => $last['type'],
-                            'index' => $last['index'],
-                            'depth' => $last['depth'],
-                            'children' => $children
-                        ];
-        
-                        if (!empty($stack)) {
-                            $stack[count($stack) - 1]['content_lines'][] = "__BLOCK__" . json_encode($block);
-                        } else {
-                            $blocks[] = $block;
-                        }
-                    }
-                    continue;
-                }
-        
-                // 일반 텍스트
-                if (!empty($stack)) {
-                    $stack[count($stack) - 1]['content_lines'][] = $line;
-                } elseif (trim($line) !== '') {
-                    $blocks[] = [
-                        'type' => 'text',
-                        'content' => $line,
-                        'depth' => $depth
-                    ];
-                }
-            }
-        
-            // 내부 BLOCK을 다시 children 배열로 디코딩
-            foreach ($blocks as &$block) {
                 if (isset($block['children'])) {
-                    foreach ($block['children'] as &$child) {
-                        if (is_string($child) && str_starts_with($child, "__BLOCK__")) {
-                            $child = json_decode(substr($child, 9), true);
-                        }
+                    $html .= "<div class='block-wrap block-{$block['type']}'>"; // ✅ 들여쓰기
+                    $html .= render_tree_plain($block['children'], $answer_index);
+                    $html .= "</div>";
+                } elseif ($block['type'] === 'text') {
+                    //공백이면 건너뜀(빈줄은 렌더링 X)
+                    $raw = trim($block['content']);
+                    if ($raw === '') continue;
+                    
+                    $line = htmlspecialchars($block['content']);
+                    $line = trim($line);
+                    
+                    //정답있는 경우 사용자 입력 허용
+                    $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);            
+                    $disabled = $has_correct_answer ? "" : "disabled";
+                    ////////////////////////
+                    //들여쓰기에 따라 적용 //
+                    ////////////////////////
+                    $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>"; 
+                    
+                    $html .= "<div class='code-line'>{$line}</div>";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                    
+                    //문제 제출 및 답안 처리로직
+                    if ($has_correct_answer) {
+                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
+                        $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
                     }
+                    
+                    $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
+
+                    //문제 맞은 경우 처리
+                    $html .= "<div style='width: 50px; 
+                    text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
+                    $html .= "</div>"; // 
+        
+                    $answer_index++;
                 }
             }
-        
-            return $blocks;
-        }        
+            return $html;
+        }
         
         $answer_index = 0;
         echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
@@ -104,7 +79,7 @@
 <script>
     
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
-const problemId = <?= json_encode($problem_id) ?>
+const problemId = <?= json_encode($OJ_SID) ?>;
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
@@ -155,6 +130,7 @@ let animationRunning = false;
 
 function updateImageForTextarea(index, ta) {
     currentTextarea = ta;
+
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
@@ -166,7 +142,6 @@ function updateImageForTextarea(index, ta) {
             }
 
             img.src = data.url;
-            console.log("서버 디버그 데이터:", data.debug);
 
             if (!animationRunning) {
                 animationRunning = true;
@@ -185,7 +160,7 @@ function smoothFollowImage() {
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-    let targetTop = taRect.top + scrollY - img.offsetHeight + 100;
+    let targetTop = taRect.top + scrollY - img.offsetHeight + 200;
 
     // 화면 기준 제한
     const minTop = scrollY + 10; // 화면 상단 + 여백
