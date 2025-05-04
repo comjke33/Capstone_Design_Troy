@@ -15,13 +15,13 @@
     <!-- 가운데 패널 -->
     <div class="center-panel">
         <h1>한줄씩 풀기</h1>
-        <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
+        <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
         <?php
         function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
             foreach ($blocks as $block) {
                 $depth = $block['depth'];
-                $margin_left = $depth * 20; // depth당 20px 들여쓰기
+                $margin_left = 2 * 20; // depth당 20px 들여쓰기
 
                 if (isset($block['children'])) {
                     $html .= "<div class='block-wrap block-{$block['type']}'>"; // ✅ 들여쓰기
@@ -79,7 +79,7 @@
 <script>
     
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
-const problemId = <?= json_encode($OJ_SID) ?>;
+const problemId = <?= json_encode($problem_id) ?>
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
@@ -130,7 +130,6 @@ let animationRunning = false;
 
 function updateImageForTextarea(index, ta) {
     currentTextarea = ta;
-
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
@@ -142,6 +141,7 @@ function updateImageForTextarea(index, ta) {
             }
 
             img.src = data.url;
+            console.log("서버 디버그 데이터:", data.debug);
 
             if (!animationRunning) {
                 animationRunning = true;
