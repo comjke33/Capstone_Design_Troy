@@ -4,7 +4,7 @@ import sys
 ERROR_PATTERN_MAP = {
     r"use of undeclared identifier|unused variable": 1,  # 변수 선언
     r"control reaches end of non-void function|non-void function.*should return|void function.*return|return with a value": 2,  # 함수 반환
-    r"incompatible pointer type|incompatible integer to pointer conversion": 3,  # 포인터
+    r"incompatible pointer type|incompatible integer to pointer conversion|incompatible integer to pointer conversion": 3,  # 포인터
     r"array index .* is past the end|subscripted value is not an array|AddressSanitizer: stack-buffer-overflow": 4,
     r"format specifies type .* but the argument has type": 5,  # 입출력 형식 지정자
     r"invalid operands to binary expression|comparison between": 6,  # 연산자 사용 오류
