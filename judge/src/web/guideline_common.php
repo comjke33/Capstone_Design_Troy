@@ -1,6 +1,12 @@
 <?php
 // 📦 공통 파싱 함수 모음
 
+if (!function_exists('str_starts_with')) {
+    function str_starts_with($haystack, $needle) {
+        return substr($haystack, 0, strlen($needle)) === $needle;
+    }
+}
+
 function parse_blocks_v2($text, $depth = 0) {
     $lines = explode("\n", $text);
     $blocks = [];
