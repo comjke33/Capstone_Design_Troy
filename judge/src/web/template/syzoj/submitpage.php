@@ -254,7 +254,9 @@
 
 function do_submit() {
 	$("#Submit").attr("disabled", "true");   // 중복 클릭 방지용 버튼 비활성화
-
+    $.post("update_submit_count.php", function(response){
+        console.log("Submit count updated:", response);
+    });
 	if (using_blockly)
 		translate(); // Blockly 코드 변환
 
