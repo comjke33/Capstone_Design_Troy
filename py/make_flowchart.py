@@ -49,7 +49,7 @@ def generate_summary(input):
     start_line = min(item["line_number"] for item in input)
     end_line = max(item["line_number"] for item in input)
 
-    model_path = "./kot5-small-finetuned-model"
+    model_path = "../kot5-small-finetuned-model"
 
     tokenizer = AutoTokenizer.from_pretrained(model_path)
     model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
@@ -129,7 +129,6 @@ if __name__ == "__main__":
         "end_line": end_num
     })
 
-    print("순서도 생성 완료")
     # for flow in flowcharts:
     #     print(flow.get("category"), flow.get("summary"), flow.get("start_line"), flow.get("end_line"))
     #     print("--------------------------------------------------") 
