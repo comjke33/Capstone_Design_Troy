@@ -24,12 +24,13 @@ function parse_blocks($text, $depth = 0) {
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $line, $end_matches)) {
             $last = array_pop($stack);
             if ($last['type'] === $end_matches[1] && $last['index'] === $end_matches[2]) {
-                // 하위 블록 처리
                 $child_lines = $last['content_lines'];
                 $children = [];
 
                 foreach ($child_lines as $cl) {
-                    // __BLOCK__ 문자열인 경우 → json 디코드
+                    $trimmed = trim($cl);
+                    if ($trimmed === '' || $trimmed === '}') continue;
+
                     if (strpos($cl, "__BLOCK__") === 0) {
                         $children[] = json_decode(substr($cl, 9), true);
                     } else {
@@ -60,7 +61,7 @@ function parse_blocks($text, $depth = 0) {
         // 일반 텍스트 처리
         if (!empty($stack)) {
             $stack[count($stack) - 1]['content_lines'][] = $line;
-        } elseif (trim($line) !== '') {
+        } elseif (trim($line) !== '' && trim($line) !== '}') {
             $blocks[] = [
                 'type' => 'text',
                 'content' => $line,
