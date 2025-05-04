@@ -24,7 +24,7 @@
                 $margin_left = $depth * 20; // depth당 20px 들여쓰기
 
                 if (isset($block['children'])) {
-                    $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
+                    $html .= "<div class='block-wrap block-{$block['type']}'>"; // ✅ 들여쓰기
                     $html .= render_tree_plain($block['children'], $answer_index);
                     $html .= "</div>";
                 } elseif ($block['type'] === 'text') {
