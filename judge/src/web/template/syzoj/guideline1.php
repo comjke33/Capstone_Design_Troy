@@ -19,7 +19,11 @@
         <?php
         
         function render_tree_plain($blocks, &$answer_index = 0) {
-            echo "<pre>"; print_r($OJ_BLOCK_TREE);
+
+            echo "<pre style='color:blue;'>DEBUG BLOCKS\n";
+            print_r($blocks);
+            echo "</pre>";
+            
             $html = "";
             foreach ($blocks as $block) {
                 $depth = $block['depth'];
