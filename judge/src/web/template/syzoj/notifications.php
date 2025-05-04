@@ -40,104 +40,126 @@ $result_prev = pdo_query($sql_prev, $user_id);
 // Chart.js용 데이터 구성
 $labels = [];
 $data = [];
+$data_prev = [];
+
 foreach ($result as $row) {
     $labels[] = $mistake_names[$row['mistake_type']];
     $data[] = $row['mistake_count'];
+}
+
+foreach ($result_prev as $row) {
+    $data_prev[] = $row['mistake_count'];
 }
 
 // LLM 코멘트 (직접 입력)
 $ai_comment = "최근 반복된 실수들을 보면 포인터와 배열 관련 오류가 빈번합니다. 해당 개념을 집중적으로 복습해보세요!";
 ?>
 
-
-
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>취약 유형 비교 리포트</title>
+    <title>취약 유형 리포트</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
-    <style>
-        .comparison-table {
-            display: flex;
-            gap: 20px;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        .comparison-table > div {
-            flex: 1;
-            min-width: 300px;
-        }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <div class="ui container" style="margin-top: 30px;">
-    <h2 class="ui header">📊 나의 취약 유형 비교 리포트</h2>
+    <h2 class="ui header">📊 나의 취약 유형 리포트</h2>
 
     <div class="ui segment">
         <h4 class="ui header">💬 AI 코멘트</h4>
         <div class="ui message"><?php echo $ai_comment; ?></div>
     </div>
 
-    <div class="ui segment comparison-table">
-        <!-- 이전 기록 -->
-        <div>
-            <h4 class="ui header">📁 저번 기록</h4>
-            <?php if (count($result_prev) > 0) { ?>
-                <table class="ui celled table">
-                    <thead>
-                    <tr>
-                        <th>취약 유형</th>
-                        <th>실수 횟수</th>
-                        <th>코멘트</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($result_prev as $row) {
-                        $type = $row['mistake_type']; ?>
-                        <tr>
-                            <td><?php echo $mistake_names[$type]; ?></td>
-                            <td><?php echo $row['mistake_count']; ?></td>
-                            <td><?php echo $mistake_comments[$type]; ?></td>
-                        </tr>
-                    <?php } ?>
-                    </tbody>
-                </table>
-            <?php } else { ?>
-                <div class="ui info message">이전 기록이 없습니다.</div>
-            <?php } ?>
+    <?php if (count($result) > 0) { ?>
+        <div class="ui segment">
+            <div style="display: flex; gap: 30px; justify-content: space-between; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 300px;">
+                    <h4 class="ui header">📁 저번 제출</h4>
+                    <canvas id="mistakeChartPrev"></canvas>
+                </div>
+                <div style="flex: 1; min-width: 300px;">
+                    <h4 class="ui header">📌 이번 제출</h4>
+                    <canvas id="mistakeChartNow"></canvas>
+                </div>
+            </div>
         </div>
 
-        <!-- 현재 기록 -->
-        <div>
-            <h4 class="ui header">📌 이번 기록</h4>
-            <?php if (count($result_now) > 0) { ?>
-                <table class="ui celled table">
-                    <thead>
-                    <tr>
-                        <th>취약 유형</th>
-                        <th>실수 횟수</th>
-                        <th>코멘트</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($result_now as $row) {
-                        $type = $row['mistake_type']; ?>
-                        <tr>
-                            <td><?php echo $mistake_names[$type]; ?></td>
-                            <td><?php echo $row['mistake_count']; ?></td>
-                            <td><?php echo $mistake_comments[$type]; ?></td>
-                        </tr>
-                    <?php } ?>
-                    </tbody>
-                </table>
-            <?php } else { ?>
-                <div class="ui positive message">현재 반복된 취약 유형이 없습니다. 잘하고 계십니다!</div>
+        <table class="ui celled table">
+            <thead>
+            <tr>
+                <th>취약 유형</th>
+                <th>실수 횟수</th>
+                <th>코멘트</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($result as $row) {
+                $type = $row['mistake_type']; ?>
+                <tr>
+                    <td><?php echo $mistake_names[$type]; ?></td>
+                    <td><?php echo $row['mistake_count']; ?></td>
+                    <td><?php echo $mistake_comments[$type]; ?></td>
+                </tr>
             <?php } ?>
+            </tbody>
+        </table>
+    <?php } else { ?>
+        <div class="ui positive message">
+            현재 15회 이상 반복된 취약 유형이 없습니다. 잘하고 계십니다!
         </div>
-    </div>
+    <?php } ?>
 </div>
+
+<script>
+    const labels = <?php echo json_encode($labels); ?>;
+    const dataNow = <?php echo json_encode($data_now); ?>;
+    const dataPrev = <?php echo json_encode($data_prev); ?>;
+
+    new Chart(document.getElementById('mistakeChartPrev'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '이전 실수 횟수',
+                data: dataPrev,
+                backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: { y: { beginAtZero: true } },
+            plugins: {
+                legend: { display: false },
+                tooltip: { callbacks: { label: ctx => `${ctx.raw}회` } }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('mistakeChartNow'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '현재 실수 횟수',
+                data: dataNow,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: { y: { beginAtZero: true } },
+            plugins: {
+                legend: { display: false },
+                tooltip: { callbacks: { label: ctx => `${ctx.raw}회` } }
+            }
+        }
+    });
+</script>
+
 </body>
 </html>
 
