@@ -34,19 +34,21 @@ $sql_now = "SELECT mistake_type, mistake_count FROM user_weakness WHERE user_id 
 $result_now = pdo_query($sql_now, $user_id);
 
 // 이전 기록(수정예정정)
-$sql_prev = "SELECT mistake_type, mistake_count FROM user_weakness_prev WHERE user_id = ? AND mistake_count >= 15";
+$sql_prev = "SELECT mistake_type, mistake_count FROM user_weakness WHERE user_id = ? AND mistake_count >= 15";
 $result_prev = pdo_query($sql_prev, $user_id);
 
 // Chart.js용 데이터 구성
 $labels = [];
-$data = [];
+$data_now = [];
 $data_prev = [];
 
-foreach ($result as $row) {
+// 현재 제출 데이터
+foreach ($result_now as $row) {
     $labels[] = $mistake_names[$row['mistake_type']];
-    $data[] = $row['mistake_count'];
+    $data_now[] = $row['mistake_count'];
 }
 
+// 이전 제출 데이터
 foreach ($result_prev as $row) {
     $data_prev[] = $row['mistake_count'];
 }
@@ -72,7 +74,7 @@ $ai_comment = "최근 반복된 실수들을 보면 포인터와 배열 관련 �
         <div class="ui message"><?php echo $ai_comment; ?></div>
     </div>
 
-    <?php if (count($result) > 0) { ?>
+    <?php if (count($result_now) > 0) { ?>
         <div class="ui segment">
             <div style="display: flex; gap: 30px; justify-content: space-between; flex-wrap: wrap;">
                 <div style="flex: 1; min-width: 300px;">
@@ -95,7 +97,7 @@ $ai_comment = "최근 반복된 실수들을 보면 포인터와 배열 관련 �
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($result as $row) {
+            <?php foreach ($result_now as $row) {
                 $type = $row['mistake_type']; ?>
                 <tr>
                     <td><?php echo $mistake_names[$type]; ?></td>
