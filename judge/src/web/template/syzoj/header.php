@@ -241,6 +241,7 @@ html, body {
                 <script>
                 document.getElementById("notification-link").addEventListener("click", function(e) {
                     e.preventDefault();  // 기본 이동 방지
+                    console.log("클릭됨");
 
                     fetch("check_notification.php")  // Python 실행 요청
                     .then(response => response.text())
