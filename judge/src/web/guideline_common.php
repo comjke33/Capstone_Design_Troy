@@ -1,46 +1,57 @@
 <?php
 // 📦 공통 파싱 함수 모음
 
-function parse_blocks_v2($text) {
+function parse_blocks($text, $depth = 0) {
     $lines = explode("\n", $text);
     $stack = [];
-    $root = [];
-    $current = &$root;
-    $depth = 0;
+    $blocks = [];
 
     foreach ($lines as $line) {
-        $trimmed = trim($line);
-        if ($trimmed === '') continue;
-
-        if (preg_match("/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/", $trimmed, $start_match)) {
-            $block = [
-                'type' => $start_match[1],
-                'index' => $start_match[2],
-                'content' => '',
-                'children' => [],
-                'depth' => $depth
+        $line = rtrim($line);
+        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_(start)\((\d+)\)\]/', $line, $start_matches)) {
+            // 시작 태그면 스택에 push
+            $stack[] = [
+                'type' => $start_matches[1],
+                'index' => $start_matches[3],
+                'depth' => $depth,
+                'start_line' => $line,
+                'content_lines' => []
             ];
-            $depth++;
-            $stack[] = [&$current, $depth - 1]; // 현재 작업중인 블록과 그 depth 저장
-            $current[] = $block;
-            $current = &$current[array_key_last($current)]['children'];
-        } elseif (preg_match("/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/", $trimmed)) {
-            if (!empty($stack)) {
-                list($parent, $prev_depth) = array_pop($stack);
-                $current = &$parent;
-                $depth = $prev_depth;
+        } elseif (preg_match('/\[(func_def|rep|cond|self|struct|construct)_(end)\((\d+)\)\]/', $line, $end_matches)) {
+            // 종료 태그면 스택 pop 및 자식 파싱
+            $last = array_pop($stack);
+            if ($last['type'] === $end_matches[1] && $last['index'] === $end_matches[3]) {
+                $children = parse_blocks(implode("\n", $last['content_lines']), $depth + 1);
+                $blocks[] = [
+                    'type' => $last['type'],
+                    'index' => $last['index'],
+                    'depth' => $last['depth'],
+                    'start_tag' => $last['start_line'],
+                    'end_tag' => $line,
+                    'children' => $children
+                ];
+            } else {
+                throw new Exception("Unmatched tag: " . $line);
             }
         } else {
-            $current[] = [
-                'type' => 'text',
-                'content' => rtrim($line),
-                'depth' => $depth
-            ];
+            // 텍스트는 가장 최근 시작 태그에 쌓기
+            if (!empty($stack)) {
+                $stack[count($stack) - 1]['content_lines'][] = $line;
+            } else {
+                if (trim($line) !== '') {
+                    $blocks[] = [
+                        'type' => 'text',
+                        'content' => $line,
+                        'depth' => $depth
+                    ];
+                }
+            }
         }
     }
 
-    return $root;
+    return $blocks;
 }
+
 
 function extract_tagged_blocks($text) {
     $tag_pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
