@@ -26,7 +26,7 @@ FUNCTION_KEYWORDS = [
 def classify_line(line):
     line_lower = line.lower()  # 소문자로 비교 (대소문자 무시)
 
-    if line.startswith("#") or line.startswith("[]"):  # 주석 처리된 줄은 -1
+    if line.startswith("#") or line.startswith("["):  # 주석 처리된 줄은 -1
         return -1
 
     if any(keyword in line_lower for keyword in INPUT_KEYWORDS):
@@ -67,6 +67,9 @@ def generate_summary(input):
 
 
 if __name__ == "__main__":
+    # if len(sys.argv) == 2:
+    #     guideline_filename = sys.argv[1]
+
     # 초기화
     current_category = None
     buffer_lines = []
