@@ -22,7 +22,8 @@
             foreach ($blocks as $block) {
                 $depth = $block['depth'];
                 $margin_left = $depth * 20; // depth당 20px 들여쓰기
-
+                
+                //블록 구조
                 if (isset($block['children'])) {
                     $html .= "<div class='block-wrap block-{$block['type']}'>"; // ✅ 들여쓰기
                     $html .= render_tree_plain($block['children'], $answer_index);
@@ -160,7 +161,7 @@ function smoothFollowImage() {
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-    let targetTop = taRect.top + scrollY - img.offsetHeight + 200;
+    let targetTop = taRect.top + scrollY - img.offsetHeight + 100;
 
     // 화면 기준 제한
     const minTop = scrollY + 10; // 화면 상단 + 여백
