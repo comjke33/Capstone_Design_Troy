@@ -243,7 +243,7 @@ html, body {
                     e.preventDefault();  // 기본 이동 방지
                     console.log("클릭됨");
 
-                    fetch("./template/syzoj/check_notification.php")  // Python 실행 요청
+                    fetch("check_notification.php")  // Python 실행 요청
                     .then(response => response.text())
                     .then(data => {
                         console.log("데이터:", data)
