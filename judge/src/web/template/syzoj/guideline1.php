@@ -17,55 +17,57 @@
         <h1>한줄씩 풀기</h1>
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
         <?php
-        <?php
         function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
             foreach ($blocks as $block) {
                 $depth = $block['depth'];
-                $margin_left = $depth * 20; // 깊이에 따른 들여쓰기 적용
-        
-                // 블록이 하위 노드를 가지는 경우: 중첩 블록 렌더링
+                $margin_left = $depth * 20; // depth당 20px 들여쓰기
+
                 if (isset($block['children'])) {
-                    $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$margin_left}px;'>";
+                    $html .= "<div class='block-wrap block-{$block['type']}'>"; // ✅ 들여쓰기
                     $html .= render_tree_plain($block['children'], $answer_index);
                     $html .= "</div>";
-                }
-        
-                // 일반 텍스트 블록 (한 줄 코드 또는 설명)
-                if ($block['type'] === 'text') {
-                    $line = trim($block['content']);
-                    if ($line === '') continue; // 빈 줄은 건너뜀
-        
-                    $escaped_line = htmlspecialchars($line);
-                    $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
+                } elseif ($block['type'] === 'text') {
+                    //공백이면 건너뜀(빈줄은 렌더링 X)
+                    $raw = trim($block['content']);
+                    if ($raw === '') continue;
+                    
+                    $line = htmlspecialchars($block['content']);
+                    $line = trim($line);
+                    
+                    //정답있는 경우 사용자 입력 허용
+                    $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);            
                     $disabled = $has_correct_answer ? "" : "disabled";
-        
-                    $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
-        
-                    // 코드 줄 출력
-                    $html .= "<div class='code-line'>{$escaped_line}</div>";
-        
-                    // 입력창 + 제출 버튼
+                    ////////////////////////
+                    //들여쓰기에 따라 적용 //
+                    ////////////////////////
+                    $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>"; 
+                    
+                    $html .= "<div class='code-line'>{$line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
-        
+                    
+                    //문제 제출 및 답안 처리로직
                     if ($has_correct_answer) {
                         $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
                         $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
                     }
-        
-                    // 정답 영역 및 체크 마크
+                    
                     $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
-                    $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
+
+                    //문제 맞은 경우 처리
+                    $html .= "<div style='width: 50px; 
+                    text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
+                    $html .= "</div>"; // 
         
-                    $html .= "</div>"; // .submission-line 종료
                     $answer_index++;
                 }
             }
-        
             return $html;
         }
-        ?>
         
+        $answer_index = 0;
+        echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
+        ?>
     </div>
 
     <!-- 오른쪽 패널 -->
