@@ -1,5 +1,4 @@
 <?php
-// 📦 공통 파싱 함수 모음
 
 function parse_blocks_v2($text) {
     $lines = explode("\n", $text);
@@ -13,21 +12,25 @@ function parse_blocks_v2($text) {
         if ($trimmed === '') continue;
 
         if (preg_match("/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/", $trimmed, $start_match)) {
-            $block = [
-                'type' => $start_match[1],
-                'index' => $start_match[2],
-                'content' => '',
+            $type = $start_match[1];
+            $index = $start_match[2];
+
+            $new_block = [
+                'type' => $type,
+                'index' => $index,
                 'children' => [],
                 'depth' => $depth
             ];
+
             $depth++;
-            $stack[] = [&$current, $depth - 1]; // 현재 작업중인 블록과 그 depth 저장
-            $current[] = $block;
+            $stack[] = [&$current, $depth - 1];
+            $current[] = $new_block;
             $current = &$current[array_key_last($current)]['children'];
+
         } elseif (preg_match("/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/", $trimmed)) {
             if (!empty($stack)) {
-                list($parent, $prev_depth) = array_pop($stack);
-                $current = &$parent;
+                list($parent_ref, $prev_depth) = array_pop($stack);
+                $current = &$parent_ref;
                 $depth = $prev_depth;
             }
         } else {
