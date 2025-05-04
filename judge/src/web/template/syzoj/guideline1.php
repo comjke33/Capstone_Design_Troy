@@ -17,6 +17,7 @@
         <h1>한줄씩 풀기</h1>
         <span>문제 번호: <?= htmlspecialchars($OJ_SID) ?></span>
         <?php
+        
         function render_tree_plain($blocks, &$answer_index = 0) {
             echo "<pre>"; print_r($OJ_BLOCK_TREE);
             $html = "";
@@ -62,7 +63,12 @@
         }
         
         $answer_index = 0;
+
+
+        echo "<div style='color:red;'>렌더링 시작</div>";
         echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
+        echo "<div style='color:red;'>렌더링 끝</div>";
+
         ?>
     </div>
 
