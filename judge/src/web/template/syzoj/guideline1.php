@@ -30,12 +30,12 @@
                 }
             
                 if ($block['type'] === 'text') {
+                    // 공백 제거 후 건너뛰기
                     $raw = trim($block['content']);
                     if ($raw === '') continue;
             
                     $line = htmlspecialchars($block['content']);
                     $line = trim($line);
-            
                     $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);            
                     $disabled = $has_correct_answer ? "" : "disabled";
             
@@ -56,6 +56,7 @@
                     $answer_index++;
                 }
             }
+            
             return $html;
         }
         
