@@ -9,8 +9,8 @@ require_once("include/db_info.inc.php");
 // }
 
 $user_id = $_SESSION['user_id'];
-// $sql = "INSERT INTO submit (user_id, submit_count) VALUES (?, 3);"
-// $add = pdo_query($sql, $user_id);
+$sql1 = "INSERT INTO submit (user_id, submit_count) VALUES (?, 3);"
+$add = pdo_query($sql1, $user_id);
 // $sql = "UPDATE submit SET count = count + 1 WHERE user_id = ?";
 // $stmt = $pdo->prepare($sql);
 // $stmt->execute([$user_id]);
