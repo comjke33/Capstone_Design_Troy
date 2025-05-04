@@ -50,5 +50,9 @@ if (count($res) > 0) {
 echo json_encode([
     'success' => true,
     'url' => $url,
-    'debug' => $problem_id
+    'debug' => [
+        'problem_id' => $problem_id,
+        'index' => $index,
+        'res' => $res
+    ]
 ]);
