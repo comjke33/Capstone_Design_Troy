@@ -61,13 +61,15 @@ $html = $Parsedown->text($md);
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/tocbot@4.17.1/dist/tocbot.min.js"></script>
-    <script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
         tocbot.init({
             tocSelector: '#toc',
             contentSelector: '#content',
             headingSelector: 'h2, h3',
             collapseDepth: 6
         });
-    </script>
+    });
+</script>
 </body>
 </html>
