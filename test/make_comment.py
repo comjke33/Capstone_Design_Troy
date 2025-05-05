@@ -105,6 +105,7 @@ for user in active_users:
         input=prompt + "\n\n" + mistakes + "\n\n" + dec_mistakes
     )
     comment = response.output_text
+    print(comment)
 
     #print(response.output_text)
 
