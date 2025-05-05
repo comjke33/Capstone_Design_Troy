@@ -2,15 +2,22 @@
 class ParsedownWithAnchor extends ParsedownExtra
 {
     protected function blockHeader($Line)
-    {
-        $block = parent::blockHeader($Line);
-        if (isset($block['element']) && isset($block['element']['text'])) {
-            $text = $block['element']['text'];
-            $id = $this->slugify(strip_tags($text));
-            $block['element']['attributes']['id'] = $id;
+{
+    $block = parent::blockHeader($Line);
+
+    if (isset($block['element']['name']) && preg_match('/^h[1-6]$/', $block['element']['name'])) {
+        $text = $block['element']['text'] ?? '';
+        $id = $this->slugify(strip_tags($text));
+
+        if (!isset($block['element']['attributes'])) {
+            $block['element']['attributes'] = [];
         }
-        return $block;
+
+        $block['element']['attributes']['id'] = $id;
     }
+
+    return $block;
+}
 
     private function slugify($text)
     {
