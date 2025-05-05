@@ -66,7 +66,7 @@ $html = $Parsedown->text($md);
         tocbot.init({
             tocSelector: '#toc',
             contentSelector: '#content',
-            headingSelector: 'h2, h3',
+            headingSelector: 'h2',
             collapseDepth: 6
         });
     });
