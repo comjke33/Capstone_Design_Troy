@@ -1,10 +1,13 @@
 <?php
-require_once(__DIR__ . '/Parsedown.php');
+<?php
+require_once(__DIR__ . '/ParsedownExtra.php');  
 
 $md = file_get_contents(__DIR__ . '/ref.md');
-$Parsedown = new Parsedown();
+$Parsedown = new ParsedownExtra();             
+$Parsedown->setSafeMode(true);               
 $html = $Parsedown->text($md);
 ?>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
