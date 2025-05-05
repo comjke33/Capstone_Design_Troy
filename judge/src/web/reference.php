@@ -53,6 +53,7 @@ $html = $Parsedown->text($md);
         }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tocbot@4.17.1/dist/tocbot.css">
+    <link rel="stylesheet" href="/template/syzoj/css/style.css">
 </head>
 <body>
     <nav id="toc"></nav>
