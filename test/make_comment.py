@@ -120,13 +120,13 @@ for user in active_users:
         # 이미 존재하면 업데이트
         cursor.execute(
             "UPDATE comment SET comment = %s WHERE user_id = %s",
-            (response.output_text, user_id)
+            (html_comment, user_id)
         )
     else:
         # 존재하지 않으면 새로 삽입
         cursor.execute(
             "INSERT INTO comment (user_id, comment) VALUES (%s, %s)",
-            (user_id, response.output_text)
+            (html_comment, response.output_text)
         )
 
     #user_weakness_now -> user_weakness_dec
