@@ -5,7 +5,11 @@ class ParsedownWithAnchor extends ParsedownExtra {
         if (isset($block['element']['text'])) {
             $text = $block['element']['text'];
             $id = $this->slugify(strip_tags($text));
-            $block['element']['attributes'] = ['id' => $id];
+            // 기존 속성이 있으면 병합
+            if (!isset($block['element']['attributes'])) {
+                $block['element']['attributes'] = [];
+            }
+            $block['element']['attributes']['id'] = $id;
         }
         return $block;
     }
