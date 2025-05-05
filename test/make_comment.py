@@ -3,6 +3,7 @@ import os
 import json
 import mysql.connector
 import sys
+import markdown
 
 
 
@@ -103,6 +104,13 @@ for user in active_users:
         model="gpt-4o-mini-2024-07-18",
         input=prompt + "\n\n" + mistakes + "\n\n" + dec_mistakes
     )
+
+    # GPT 응답 예시
+    raw_markdown = response.output_text
+
+    # 마크다운을 HTML로 변환
+    html_comment = markdown.markdown(raw_markdown)
+
 
     #print(response.output_text)
 
