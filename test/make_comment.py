@@ -25,8 +25,6 @@ cursor = conn.cursor(dictionary=True)
 cursor.execute("SELECT user_id FROM submit WHERE submit_count >= 15")
 active_users = cursor.fetchall()
 
-OpenAI(api_key=)
-
 # mistake_type 이름 매핑
 mistake_names = {
     1: "변수 선언 오류",
