@@ -68,7 +68,12 @@ foreach ($result_prev as $row) {
 }
 
 // LLM 코멘트 (직접 입력)
-$ai_comment = "최근 반복된 실수들을 보면 포인터와 배열 관련 오류가 빈번합니다. 해당 개념을 집중적으로 복습해보세요!";
+$sql_comment = "SELECT comment FROM comment WHERE user_id = ?";
+$result_comment = pdo_query($sql_now, $user_id);
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +90,7 @@ $ai_comment = "최근 반복된 실수들을 보면 포인터와 배열 관련 �
 
     <div class="ui segment">
         <h4 class="ui header">💬 AI 코멘트</h4>
-        <div class="ui message"><?php echo $ai_comment; ?></div>
+        <div class="ui message"><?php echo $result_comment; ?></div>
     </div>
 
     <?php if (count($result_now) > 0) { ?>
