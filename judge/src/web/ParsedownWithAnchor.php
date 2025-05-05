@@ -16,8 +16,8 @@ class ParsedownWithAnchor extends ParsedownExtra {
 
     private function slugify($text) {
         $text = strtolower(trim($text));
-        $text = preg_replace('/[^a-z0-9가-힣\s]/u', '', $text);
-        $text = preg_replace('/\s+/', '-', $text);
+        $text = preg_replace('/[^\p{L}\p{N}\s-]+/u', '', $text); // 한글, 영문, 숫자, 공백, 하이픈만
+        $text = preg_replace('/[\s]+/', '-', $text);             // 공백을 하이픈으로
         return $text;
     }
 }
