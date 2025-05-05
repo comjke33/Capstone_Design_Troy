@@ -146,6 +146,12 @@ if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
     const labelsPrev = <?php echo json_encode($labels_prev); ?>;
     const labelsNow = <?php echo json_encode($labels_now); ?>;
 
+
+    // 최대값 계산
+    const maxValue = Math.max(
+    Math.max(...dataPrev),
+    Math.max(...dataNow)
+    );
     new Chart(document.getElementById('mistakeChartPrev'), {
         type: 'bar',
         data: {
@@ -159,7 +165,7 @@ if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
             }]
         },
         options: {
-            scales: { y: { beginAtZero: true } },
+            scales: { y: { beginAtZero: true, max: maxValue } },
             plugins: {
                 legend: { display: false },
                 tooltip: { callbacks: { label: ctx => `${ctx.raw}회` } }
@@ -180,7 +186,7 @@ if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
             }]
         },
         options: {
-            scales: { y: { beginAtZero: true } },
+            scales: { y: { beginAtZero: true, max: maxValue } },
             plugins: {
                 legend: { display: false },
                 tooltip: { callbacks: { label: ctx => `${ctx.raw}회` } }
