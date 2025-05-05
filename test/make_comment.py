@@ -5,8 +5,6 @@ import mysql.connector
 import sys
 
 
-if len(sys.argv) > 1:
-    mistakes = sys.argv[1]
 
 
 # MySQL 연결 설정
@@ -17,12 +15,17 @@ conn = mysql.connector.connect(
     database="jol"
 )
 
+# OpenAI API 클라이언트 세팅
+api_key_ = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=api_key_)
 
 cursor = conn.cursor(dictionary=True)
 
 # 1. 제출 횟수가 15 이상인 사용자 조회
 cursor.execute("SELECT user_id FROM submit WHERE submit_count >= 15")
 active_users = cursor.fetchall()
+
+OpenAI(api_key=)
 
 # mistake_type 이름 매핑
 mistake_names = {
@@ -47,9 +50,6 @@ mistake_names = {
 # OpenAI API 클라이언트 세팅
 # api_key_ = os.getenv("OPENAI_API_KEY")
 # client = OpenAI(api_key=api_key_)
-mistakes = """
-변수 선언 오류 6, 괄호 닫힘 오류 5, 비교 연산자 오류 5, 함수 선언 누락 6, 포인터 오류 6, 배열 인덱스 오류 5, 입출력 형식 지정자 오류 5, 표현식 누락 4
-"""
 
 
 
@@ -77,9 +77,29 @@ for user in active_users:
         result_lines.append(f"- {name} (오류 횟수: {count})")
 
     if result_lines:
-        prompt = f"아래는 '{user_id}' 사용자의 지난 5일간 주요 코드 오류 항목입니다:\n\n" + "\n".join(result_lines)
-        print(prompt)
-        print("\n" + "="*40 + "\n")
+        mistakes = f"아래는 '{user_id}' 사용자의 지난 5일간 주요 코드 오류 항목입니다:\n\n" + "\n".join(result_lines)
+        #print(mistakes)
+        #print("\n" + "="*40 + "\n")
+
+    #프롬프트 실행
+    response = client.responses.create(
+        model="gpt-4o-mini-2024-07-18",
+        input=prompt + "\n\n" + mistakes
+    )
+
+    print(response.output_text)
+
+    #commit 테이블에 저장
+
+    #user_weakness_now -> user_weakness_dec
+
+    #user_weakness -> user_weakness_now
+
+    #user_weakness 값들 0으로 초기화
+
+    #submit 제출횟수 0으로 초기화
+
+
 
 
 conn.commit()
@@ -87,9 +107,6 @@ conn.commit()
 # 정리
 cursor.close()
 conn.close()
-# response = client.responses.create(
-#     model="gpt-4o-mini-2024-07-18",
-#     input=prompt + "\n\n" + mistakes
-# )
+
 
 # print(response.output_text)

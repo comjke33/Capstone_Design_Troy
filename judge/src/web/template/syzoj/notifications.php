@@ -44,7 +44,7 @@ $mistake_comments = [
 ];
 
 // 현재 기록
-$sql_now = "SELECT mistake_type, mistake_count FROM user_weakness WHERE user_id = ? AND mistake_count >= 3";
+$sql_now = "SELECT mistake_type, mistake_count FROM user_weakness_now WHERE user_id = ? AND mistake_count >= 3";
 $result_now = pdo_query($sql_now, $user_id);
 
 // 이전 기록(수정예정정)
