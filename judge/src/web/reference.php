@@ -1,5 +1,4 @@
 <?php
-<?php
 require_once(__DIR__ . '/ParsedownExtra.php');  
 
 $md = file_get_contents(__DIR__ . '/ref.md');
