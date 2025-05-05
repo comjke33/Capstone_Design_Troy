@@ -104,7 +104,7 @@ for user in active_users:
         input=prompt + "\n\n" + mistakes
     )
 
-    print(response.output_text)
+    #print(response.output_text)
 
     # comment 테이블에 데이터 삽입 또는 업데이트
     cursor.execute("SELECT 1 FROM comment WHERE user_id = %s", (user_id,))
@@ -128,6 +128,7 @@ for user in active_users:
 
     for row in rows:
         user_id = row['user_id']  # 딕셔너리 키로 접근
+        print(user_id)
         mistake_type = row['mistake_type']  # 딕셔너리 키로 접근
         mistake_count = row['mistake_count']  # 딕셔너리 키로 접근
         #mistake_count = int(mistake_count)  # mistake_count를 정수로 변환
