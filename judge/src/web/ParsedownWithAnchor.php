@@ -1,30 +1,23 @@
 <?php
-class ParsedownWithAnchor extends ParsedownExtra {
-    function blockHeader($Line) {
+class ParsedownWithAnchor extends ParsedownExtra
+{
+    protected function blockHeader($Line)
+    {
         $block = parent::blockHeader($Line);
-    
-        if (isset($block['element']['text'])) {
+        if (isset($block['element']) && isset($block['element']['text'])) {
             $text = $block['element']['text'];
             $id = $this->slugify(strip_tags($text));
-            error_log("### Heading: " . $text . " => id: " . $id); // 로그 찍기
-    
-            if (!isset($block['element']['attributes'])) {
-                $block['element']['attributes'] = [];
-            }
-    
             $block['element']['attributes']['id'] = $id;
-        } else {
-            error_log("### blockHeader: 'element[text]' 없음");
         }
-    
         return $block;
     }
 
-    private function slugify($text) {
-        $text = strip_tags($text);
-        $text = mb_strtolower(trim($text));
-        $text = preg_replace('/[^\p{L}\p{N}\s-]+/u', '', $text);  // 한글 포함
-        $text = preg_replace('/[\s]+/u', '-', $text);             // 공백 → 하이픈
-        return $text;
+    private function slugify($text)
+    {
+        // 한글 slug 허용 가능 — id는 그대로 생성되나 tocbot이 무시할 수도 있음
+        $text = trim($text);
+        $text = preg_replace('/[^\p{L}\p{N}\s]/u', '', $text); // 문자/숫자/공백만
+        $text = preg_replace('/\s+/', '-', $text);             // 공백을 하이픈으로
+        return strtolower($text);
     }
 }
