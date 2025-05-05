@@ -41,7 +41,7 @@ CONCEPT_LINKS = {
     },
 
     # 표현식 누락
-    r"expected expression": {
+    r"expected expression.*": {
         "개념": "표현식 누락",
         "링크": f"{BASE_URL}#표현식-누락"
     },
@@ -115,6 +115,12 @@ CONCEPT_LINKS = {
     r"#include expects .*|file not found|include.*error": {
         "개념": "전처리기 오류",
         "링크": f"{BASE_URL}#전처리기-오류"
+    },
+    
+    # 표준 함수 오용
+    r"implicitly declaring library function|implicit declaration of library function": {
+    "개념": "표준 함수 오용",
+    "링크": f"{BASE_URL}#표준-함수-오용"
     }
 }
 
@@ -139,9 +145,9 @@ def map_to_concepts(errors: str):
         # AddressSanitizer 런타임 오류 우선 처리
         if "AddressSanitizer" in block:
             results.append({
-                "concepts": "런타임 오류 - 배열 접근 오류 등",
+                "concepts": "런타임 오류",
                 "block": block,
-                "link": f"{BASE_URL}#배열-접근-오류"
+                "link": f"{BASE_URL}#런타임-오류"
             })
             continue  # 다른 매칭 안 함
 
