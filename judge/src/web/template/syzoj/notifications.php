@@ -136,7 +136,7 @@ if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
                     <td><?php echo $mistake_names[$type]; ?></td>
                     <td><?php echo $row['mistake_count']; ?></td>
                     <td>
-                        <a href="<?php echo $mistake_commentss; ?>" target="_blank">문법 개념 링크크</a>
+                        <a href="<?php echo $mistake_comments[$type]; ?>" target="_blank">문법 개념 링크</a>
                     </td>
                 </tr>
             <?php } ?>
