@@ -157,47 +157,54 @@ if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
     Math.max(...dataPrev),
     Math.max(...dataNow)
     );
-    new Chart(document.getElementById('mistakeChartPrev'), {
-        type: 'bar',
-        data: {
-            labels: labelsPrev,
-            datasets: [{
-                label: '이전 실수 횟수',
-                data: dataPrev,
-                backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: { y: { beginAtZero: true, max: maxValue } },
-            plugins: {
-                legend: { display: false },
-                tooltip: { callbacks: { label: ctx => `${ctx.raw}회` } }
+    
+    // 첫 번째 차트: 이전 실수 횟수
+    if (dataPrev.length > 0) {
+        new Chart(document.getElementById('mistakeChartPrev'), {
+            type: 'bar',
+            data: {
+                labels: labelsPrev,
+                datasets: [{
+                    label: '이전 실수 횟수',
+                    data: dataPrev,
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: { y: { beginAtZero: true, max: maxValue } },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: ctx => `${ctx.raw}회` } }
+                }
             }
-        }
-    });
+        });
+    }
 
-    new Chart(document.getElementById('mistakeChartNow'), {
-        type: 'bar',
-        data: {
-            labels: labelsNow,
-            datasets: [{
-                label: '현재 실수 횟수',
-                data: dataNow,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: { y: { beginAtZero: true, max: maxValue } },
-            plugins: {
-                legend: { display: false },
-                tooltip: { callbacks: { label: ctx => `${ctx.raw}회` } }
+    // 두 번째 차트: 현재 실수 횟수
+    if (dataNow.length > 0) {
+        new Chart(document.getElementById('mistakeChartNow'), {
+            type: 'bar',
+            data: {
+                labels: labelsNow,
+                datasets: [{
+                    label: '현재 실수 횟수',
+                    data: dataNow,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: { y: { beginAtZero: true, max: maxValue } },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: ctx => `${ctx.raw}회` } }
+                }
             }
-        }
-    });
+        });
+    }
 </script>
 
 </body>
