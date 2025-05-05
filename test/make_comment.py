@@ -193,7 +193,7 @@ for user in active_users:
     #submit 제출횟수 0으로 초기화
     cursor.execute(
         "UPDATE submit SET submit_count = 0 WHERE user_id = %s",
-        (user_id)
+        (user_id,)
     )
 
 
