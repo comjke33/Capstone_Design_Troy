@@ -71,7 +71,10 @@ foreach ($result_prev as $row) {
 $sql_comment = "SELECT comment FROM comment WHERE user_id = ?";
 $result_comment = pdo_query($sql_comment, $user_id);
 
-
+$comment_text = '';
+if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
+    $comment_text = $result_comment[0]['comment'];
+}
 
 
 ?>
@@ -90,7 +93,7 @@ $result_comment = pdo_query($sql_comment, $user_id);
 
     <div class="ui segment">
         <h4 class="ui header">💬 AI 코멘트</h4>
-        <div class="ui message"><?php echo $result_comment; ?></div>
+        <div class="ui message"><?php echo htmlspecialchars($comment_text); ?></div>
     </div>
 
     <?php if (count($result_now) > 0) { ?>
