@@ -135,7 +135,7 @@ if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
                 <tr>
                     <td><?php echo $mistake_names[$type]; ?></td>
                     <td><?php echo $row['mistake_count']; ?></td>
-                    <td><?php echo $mistake_comments[$type]; ?></td>
+                    <td><a href="<?php echo $link; ?>" target="_blank"><?php echo $comment; ?></a></td>
                 </tr>
             <?php } ?>
             </tbody>
