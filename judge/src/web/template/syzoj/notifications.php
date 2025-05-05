@@ -101,7 +101,9 @@ if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
 
     <div class="ui segment">
         <h4 class="ui header">💬 AI 코멘트</h4>
-        <div class="ui message"><?php echo htmlspecialchars($comment_text); ?></div>
+        <div class="ui message">
+            <?php echo nl2br(htmlspecialchars($comment_text)); ?>
+        </div>
     </div>
 
     <?php if (count($result_now) > 0) { ?>
