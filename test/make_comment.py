@@ -108,11 +108,10 @@ for user in active_users:
     rows = cursor.fetchall()
 
     for row in rows:
-        print(row)
-        user_id, mistake_type, mistake_count = row
-        print(mistake_count)
-        mistake_count = int(mistake_count)
-        print(mistake_count)
+        user_id = row['user_id']  # 딕셔너리 키로 접근
+        mistake_type = row['mistake_type']  # 딕셔너리 키로 접근
+        mistake_count = row['mistake_count']  # 딕셔너리 키로 접근
+        #mistake_count = int(mistake_count)  # mistake_count를 정수로 변환
 
         # user_weakness_dec 테이블에 같은 데이터가 있는지 확인
         cursor.execute(
@@ -139,8 +138,9 @@ for user in active_users:
     rows = cursor.fetchall()
 
     for row in rows:
-        user_id, mistake_type, mistake_count = row
-        mistake_count = int(mistake_count)
+        user_id = row['user_id']  # 딕셔너리 키로 접근
+        mistake_type = row['mistake_type']  # 딕셔너리 키로 접근
+        mistake_count = row['mistake_count']  # 딕셔너리 키로 접근
 
         # user_weakness_dec 테이블에 같은 데이터가 있는지 확인
         cursor.execute(
@@ -167,7 +167,8 @@ for user in active_users:
     rows = cursor.fetchall()
 
     for row in rows:
-        user_id, mistake_type = row
+        user_id = row['user_id']  # 딕셔너리 키로 접근
+        mistake_type = row['mistake_type']  # 딕셔너리 키로 접근
         mistake_count = 0  # 항상 0으로 설정
 
         # user_weakness 테이블에 같은 데이터가 있는지 확인
