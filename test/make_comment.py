@@ -71,7 +71,7 @@ for user in active_users:
     cursor.execute("SELECT * FROM user_weakness WHERE user_id = %s", (user_id,))
     weaknesses = cursor.fetchall()
 
-    cursor.execute("SELECT * FROM user_weakness_dec WHERE user_id = %s", (user_id,))
+    cursor.execute("SELECT * FROM user_weakness_now WHERE user_id = %s", (user_id,))
     weaknesses_dec = cursor.fetchall()
 
     result_lines = []
@@ -125,10 +125,10 @@ for user in active_users:
     # user_weakness_now 테이블의 모든 데이터 가져오기
     cursor.execute("SELECT user_id, mistake_type, mistake_count FROM user_weakness_now where user_id = %s", (user_id,))
     rows = cursor.fetchall()
+    print(user_id)
 
     for row in rows:
-        user_id = row['user_id']  # 딕셔너리 키로 접근
-        print(user_id)
+        #user_id = row['user_id']  # 딕셔너리 키로 접근
         mistake_type = row['mistake_type']  # 딕셔너리 키로 접근
         mistake_count = row['mistake_count']  # 딕셔너리 키로 접근
         #mistake_count = int(mistake_count)  # mistake_count를 정수로 변환
@@ -158,7 +158,7 @@ for user in active_users:
     rows = cursor.fetchall()
 
     for row in rows:
-        user_id = row['user_id']  # 딕셔너리 키로 접근
+        #user_id = row['user_id']  # 딕셔너리 키로 접근
         mistake_type = row['mistake_type']  # 딕셔너리 키로 접근
         mistake_count = row['mistake_count']  # 딕셔너리 키로 접근
 
@@ -187,7 +187,7 @@ for user in active_users:
     rows = cursor.fetchall()
 
     for row in rows:
-        user_id = row['user_id']  # 딕셔너리 키로 접근
+        #user_id = row['user_id']  # 딕셔너리 키로 접근
         mistake_type = row['mistake_type']  # 딕셔너리 키로 접근
         mistake_count = 0  # 항상 0으로 설정
 
