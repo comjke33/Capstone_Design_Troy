@@ -103,12 +103,92 @@ for user in active_users:
         )
 
     #user_weakness_now -> user_weakness_dec
+    # user_weakness_now 테이블의 모든 데이터 가져오기
+    cursor.execute("SELECT user_id, mistake_type, mistake_count FROM user_weakness_now")
+    rows = cursor.fetchall()
+
+    for row in rows:
+        user_id, mistake_type, mistake_count = row
+
+        # user_weakness_dec 테이블에 같은 데이터가 있는지 확인
+        cursor.execute(
+            "SELECT 1 FROM user_weakness_dec WHERE user_id = %s AND mistake_type = %s",
+            (user_id, mistake_type)
+        )
+
+        if cursor.fetchone():
+            # 이미 존재하면 업데이트
+            cursor.execute(
+                "UPDATE user_weakness_dec SET mistake_count = %s WHERE user_id = %s AND mistake_type = %s",
+                (mistake_count, user_id, mistake_type)
+            )
+        else:
+            # 존재하지 않으면 삽입
+            cursor.execute(
+                "INSERT INTO user_weakness_dec (user_id, mistake_type, mistake_count) VALUES (%s, %s, %s)",
+                (user_id, mistake_type, mistake_count)
+            )
 
     #user_weakness -> user_weakness_now
+    # user_weakness 테이블의 모든 데이터 가져오기
+    cursor.execute("SELECT user_id, mistake_type, mistake_count FROM user_weakness")
+    rows = cursor.fetchall()
 
-    #user_weakness 값들 0으로 초기화
+    for row in rows:
+        user_id, mistake_type, mistake_count = row
+
+        # user_weakness_dec 테이블에 같은 데이터가 있는지 확인
+        cursor.execute(
+            "SELECT 1 FROM user_weakness_now WHERE user_id = %s AND mistake_type = %s",
+            (user_id, mistake_type)
+        )
+
+        if cursor.fetchone():
+            # 이미 존재하면 업데이트
+            cursor.execute(
+                "UPDATE user_weakness_now SET mistake_count = %s WHERE user_id = %s AND mistake_type = %s",
+                (mistake_count, user_id, mistake_type)
+            )
+        else:
+            # 존재하지 않으면 삽입
+            cursor.execute(
+                "INSERT INTO user_weakness_now (user_id, mistake_type, mistake_count) VALUES (%s, %s, %s)",
+                (user_id, mistake_type, mistake_count)
+            )
+
+    #user_weakness count값들 0으로 초기화
+    # user_weakness 테이블에서 user_id, mistake_type만 가져오기
+    cursor.execute("SELECT user_id, mistake_type FROM user_weakness")
+    rows = cursor.fetchall()
+
+    for row in rows:
+        user_id, mistake_type = row
+        mistake_count = 0  # 항상 0으로 설정
+
+        # user_weakness 테이블에 같은 데이터가 있는지 확인
+        cursor.execute(
+            "SELECT 1 FROM user_weakness WHERE user_id = %s AND mistake_type = %s",
+            (user_id, mistake_type)
+        )
+
+        if cursor.fetchone():
+            # 이미 존재하면 mistake_count를 0으로 업데이트
+            cursor.execute(
+                "UPDATE user_weakness SET mistake_count = %s WHERE user_id = %s AND mistake_type = %s",
+                (mistake_count, user_id, mistake_type)
+            )
+        else:
+            # 존재하지 않으면 삽입 (mistake_count는 0)
+            cursor.execute(
+                "INSERT INTO user_weakness (user_id, mistake_type, mistake_count) VALUES (%s, %s, %s)",
+                (user_id, mistake_type, mistake_count)
+            )
 
     #submit 제출횟수 0으로 초기화
+    cursor.execute(
+        "UPDATE submit SET submit_count = 0 WHERE user_id = %s",
+        (user_id)
+    )
 
 
 
