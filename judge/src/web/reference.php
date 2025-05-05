@@ -1,10 +1,15 @@
+
 <?php
-require_once(__DIR__ . '/ParsedownExtra.php');  
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+require_once(__DIR__ . '/ParsedownExtension.php');
 
 $md = file_get_contents(__DIR__ . '/ref.md');
-$Parsedown = new ParsedownExtra();             
-$Parsedown->setSafeMode(true);               
-//$html = $Parsedown->text($md);
+$Parsedown = new ParsedownExtension();
+$Parsedown->setSafeMode(true);
+$html = $Parsedown->text($md);
 ?>
 
 <!DOCTYPE html>
