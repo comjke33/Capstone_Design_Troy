@@ -94,14 +94,14 @@ for user in active_users:
         #print("\n" + "="*40 + "\n")
 
     if dec_result_lines:
-        mistakes = f"아래는 '{user_id}' 사용자의 저번 5일간 주요 코드 오류 항목입니다:\n\n" + "\n".join(dec_result_lines)
+        dec_mistakes = f"아래는 '{user_id}' 사용자의 저번 5일간 주요 코드 오류 항목입니다:\n\n" + "\n".join(dec_result_lines)
         #print(mistakes)
         #print("\n" + "="*40 + "\n")
 
     #프롬프트 실행
     response = client.responses.create(
         model="gpt-4o-mini-2024-07-18",
-        input=prompt + "\n\n" + mistakes
+        input=prompt + "\n\n" + mistakes + "\n\n" + dec_mistakes
     )
 
     #print(response.output_text)
@@ -183,7 +183,7 @@ for user in active_users:
 
     #user_weakness count값들 0으로 초기화
     # user_weakness 테이블에서 user_id, mistake_type만 가져오기
-    cursor.execute("SELECT user_id, mistake_type FROM user_weakness, where user_id = %s", (user_id,))
+    cursor.execute("SELECT user_id, mistake_type FROM user_weakness where user_id = %s", (user_id,))
     rows = cursor.fetchall()
 
     for row in rows:
