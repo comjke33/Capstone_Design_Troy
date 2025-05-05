@@ -28,25 +28,25 @@ $mistake_names = [
 ];
 
 $mistake_comments = [
-    1 => "http://192.168.0.85/reference.php#세미콜론-누락",
-    2 => "http://192.168.0.85/reference.php#세미콜론-누락",
-    3 => "http://192.168.0.85/reference.php#세미콜론-누락",
-    4 => "http://192.168.0.85/reference.php#세미콜론-누락",
-    5 => "http://192.168.0.85/reference.php#세미콜론-누락",
-    6 => "http://192.168.0.85/reference.php#세미콜론-누락",
-    7 => "http://192.168.0.85/reference.php#세미콜론-누락",
-    8 => "http://192.168.0.85/reference.php#세미콜론-누락",
-    9 => "http://192.168.0.85/reference.php#세미콜론-누락",
-    10 => "http://192.168.0.85/reference.php#세미콜론-누락",
+    1 => "http://192.168.0.85/reference.php##변수-선언",
+    2 => "http://192.168.0.85/reference.php#함수-선언-누락",
+    3 => "http://192.168.0.85/reference.php#함수-반환",
+    4 => "http://192.168.0.85/reference.php#포인터",
+    5 => "http://192.168.0.85/reference.php#배열-접근-오류",
+    6 => "http://192.168.0.85/reference.php#입출력-형식-지정자",
+    7 => "http://192.168.0.85/reference.php#연산자-사용-오류",
+    8 => "http://192.168.0.85/reference.php#정수실수-리터럴-오류",
+    9 => "http://192.168.0.85/reference.php#표현식-누락",
+    10 => "http://192.168.0.85/reference.php#형-변환-오류",
     11 => "http://192.168.0.85/reference.php#세미콜론-누락",
-    12 => "http://192.168.0.85/reference.php#세미콜론-누락",
-    13 => "http://192.168.0.85/reference.php#세미콜론-누락",
-    14 => "http://192.168.0.85/reference.php#세미콜론-누락",
-    15 => "http://192.168.0.85/reference.php#세미콜론-누락",
-    16 => "http://192.168.0.85/reference.php#세미콜론-누락",        // 이태우추가
-    17 => "http://192.168.0.85/reference.php#세미콜론-누락",        // 추가
-    18 => "http://192.168.0.85/reference.php#세미콜론-누락",         // 추가
-    -1 => "http://192.168.0.85/reference.php#세미콜론-누락"
+    12 => "http://192.168.0.85/reference.php#괄호-닫힘-오류",
+    13 => "http://192.168.0.85/reference.php#함수-인자-순서-오류",
+    14 => "http://192.168.0.85/reference.php##함수-정의-중복",
+    15 => "http://192.168.0.85/reference.php#비교-연산자",
+    16 => "http://192.168.0.85/reference.php#표준-함수-오용",        // 이태우추가
+    17 => "http://192.168.0.85/reference.php#전처리기-오류",        // 추가
+    18 => "http://192.168.0.85/reference.php#런타임-오류",         // 추가
+    -1 => "http://192.168.0.85/reference.php#알-수-없는-오류"
 ];
 
 // 현재 기록
