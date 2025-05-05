@@ -147,10 +147,9 @@ if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
     const labelsNow = <?php echo json_encode($labels_now); ?>;
 
     // 최대값 계산 (비어있는 데이터가 있을 경우 0으로 처리)
-    const maxValue = Math.max(
-        dataPrev.length > 0 ? Math.max(...dataPrev) : 0,
-        dataNow.length > 0 ? Math.max(...dataNow) : 0
-    );
+    const maxValuePrev = dataPrev.length > 0 ? Math.max(...dataPrev) : 0;
+    const maxValueNow = dataNow.length > 0 ? Math.max(...dataNow) : 0;
+    const maxValue = Math.max(maxValuePrev, maxValueNow);
 
     // 첫 번째 차트: 이전 실수 횟수
     if (dataPrev.length > 0) {
