@@ -126,7 +126,7 @@ for user in active_users:
         # 존재하지 않으면 새로 삽입
         cursor.execute(
             "INSERT INTO comment (user_id, comment) VALUES (%s, %s)",
-            (html_comment, response.output_text)
+            (user_id, html_comment)
         )
 
     #user_weakness_now -> user_weakness_dec
