@@ -152,12 +152,6 @@ if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
         dataNow.length > 0 ? Math.max(...dataNow) : 0
     );
 
-    // 최대값 계산
-    const maxValue = Math.max(
-    Math.max(...dataPrev),
-    Math.max(...dataNow)
-    );
-    
     // 첫 번째 차트: 이전 실수 횟수
     if (dataPrev.length > 0) {
         new Chart(document.getElementById('mistakeChartPrev'), {
