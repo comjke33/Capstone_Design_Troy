@@ -59,6 +59,8 @@ prompt = """
 앞으로 어떤 개념을 더 공부해야 할지에 대해 친절하고 구체적인 종합 피드백을 작성해주세요.
 
 개선 방향을 제시하는 방식으로 해주세요.
+
+지난 
 """
 
 # 2. 각 사용자에 대해 오류 정보 조회 및 출력
@@ -67,15 +69,30 @@ for user in active_users:
     cursor.execute("SELECT * FROM user_weakness WHERE user_id = %s", (user_id,))
     weaknesses = cursor.fetchall()
 
+    cursor.execute("SELECT * FROM user_weakness_dec WHERE user_id = %s", (user_id,))
+    weaknesses_dec = cursor.fetchall()
+
     result_lines = []
+    dec_result_lines = []
     for row in weaknesses:
         type_code = int(row['mistake_type'])
         name = mistake_names.get(type_code, "알 수 없는 오류")
         count = row['mistake_count']
         result_lines.append(f"- {name} (오류 횟수: {count})")
 
+    for row in weaknesses_dec:
+        type_code = int(row['mistake_type'])
+        name = mistake_names.get(type_code, "알 수 없는 오류")
+        count = row['mistake_count']
+        dec_result_lines.append(f"- {name} (오류 횟수: {count})")
+
     if result_lines:
-        mistakes = f"아래는 '{user_id}' 사용자의 지난 5일간 주요 코드 오류 항목입니다:\n\n" + "\n".join(result_lines)
+        mistakes = f"아래는 '{user_id}' 사용자의 5일간 주요 코드 오류 항목입니다:\n\n" + "\n".join(result_lines)
+        #print(mistakes)
+        #print("\n" + "="*40 + "\n")
+
+    if dec_result_lines:
+        mistakes = f"아래는 '{user_id}' 사용자의 저번 5일간 주요 코드 오류 항목입니다:\n\n" + "\n".join(dec_result_lines)
         #print(mistakes)
         #print("\n" + "="*40 + "\n")
 
@@ -191,9 +208,10 @@ for user in active_users:
             )
 
     #submit 제출횟수 0으로 초기화
+    submit_count = 0
     cursor.execute(
-        "UPDATE submit SET submit_count = 0 WHERE user_id = %s",
-        (user_id,)
+        "UPDATE submit SET submit_count = %s WHERE user_id = %s",
+        (submit_count, user_id)
     )
 
 
