@@ -52,19 +52,21 @@ $sql_prev = "SELECT mistake_type, mistake_count FROM user_weakness_dec WHERE use
 $result_prev = pdo_query($sql_prev, $user_id);
 
 // Chart.js용 데이터 구성
-$labels = [];
+$labels_prev = [];
+$labels_now = [];
 $data_now = [];
 $data_prev = [];
 
 // 현재 제출 데이터
 foreach ($result_now as $row) {
-    $labels[] = $mistake_names[$row['mistake_type']];
+    $labels_now[] = $mistake_names[$row['mistake_type']];
     $data_now[] = $row['mistake_count'];
 }
 
 // 이전 제출 데이터
 foreach ($result_prev as $row) {
     $data_prev[] = $row['mistake_count'];
+    $labels_prev[] = $mistake_names[$row['mistake_type']];
 }
 
 // LLM 코멘트 (직접 입력)
@@ -138,14 +140,16 @@ if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
 </div>
 
 <script>
-    const labels = <?php echo json_encode($labels); ?>;
     const dataNow = <?php echo json_encode($data_now); ?>;
     const dataPrev = <?php echo json_encode($data_prev); ?>;
+
+    const labelsPrev = <?php echo json_encode($labels_prev); ?>;
+    const labelsNow = <?php echo json_encode($labels_now); ?>;
 
     new Chart(document.getElementById('mistakeChartPrev'), {
         type: 'bar',
         data: {
-            labels: labels,
+            labels: labelsPrev,
             datasets: [{
                 label: '이전 실수 횟수',
                 data: dataPrev,
@@ -166,7 +170,7 @@ if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
     new Chart(document.getElementById('mistakeChartNow'), {
         type: 'bar',
         data: {
-            labels: labels,
+            labels: labelsNow,
             datasets: [{
                 label: '현재 실수 횟수',
                 data: dataNow,
