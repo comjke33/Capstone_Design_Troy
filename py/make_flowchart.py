@@ -26,7 +26,7 @@ FUNCTION_KEYWORDS = [
 def classify_line(line):
     line_lower = line.lower()  # 소문자로 비교 (대소문자 무시)
 
-    if line.startswith("#") or line.startswith("[]"):  # 주석 처리된 줄은 -1
+    if line.startswith("#") or line.startswith("["):  # 주석 처리된 줄은 -1
         return -1
 
     if any(keyword in line_lower for keyword in INPUT_KEYWORDS):
@@ -49,7 +49,7 @@ def generate_summary(input):
     start_line = min(item["line_number"] for item in input)
     end_line = max(item["line_number"] for item in input)
 
-    model_path = "./kot5-small-finetuned-model"
+    model_path = "../kot5-small-finetuned-model"
 
     tokenizer = AutoTokenizer.from_pretrained(model_path)
     model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
@@ -67,6 +67,9 @@ def generate_summary(input):
 
 
 if __name__ == "__main__":
+    # if len(sys.argv) == 2:
+    #     guideline_filename = sys.argv[1]
+
     # 초기화
     current_category = None
     buffer_lines = []
@@ -81,7 +84,7 @@ if __name__ == "__main__":
             
             
             category = classify_line(line)
-            print(line_number, "    ", line, "   ", category)
+            # print(line_number, "    ", line, "   ", category)
             if category == -1:
                 continue
 
@@ -126,13 +129,13 @@ if __name__ == "__main__":
         "end_line": end_num
     })
 
-    for flow in flowcharts:
-        print(flow.get("category"), flow.get("summary"), flow.get("start_line"), flow.get("end_line"))
-        print("--------------------------------------------------") 
+    # for flow in flowcharts:
+    #     print(flow.get("category"), flow.get("summary"), flow.get("start_line"), flow.get("end_line"))
+    #     print("--------------------------------------------------") 
 
     for flow in flowcharts:
         # 디렉토리 생성
-        output_dir = "./flowcharts/"
+        output_dir = "/home/Capstone_Design_Troy/judge/src/web/flowcharts/"
         os.makedirs(output_dir, exist_ok=True)
 
         # 그래프 생성
@@ -156,9 +159,12 @@ if __name__ == "__main__":
         dot.edge(prev, "end")
 
         # 파일로 출력
+
+        ## TODO filename에 규칙맞춰서 넣기
         filename = os.path.join(output_dir, "flowchart_simple")
         dot.render(filename, cleanup=True)
 
         print(f"순서도 생성 완료: {filename}.png")
 
 
+        ## TODO problem_id, filename, start_line, end_line SQL에 저장하기

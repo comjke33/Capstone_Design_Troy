@@ -3,7 +3,7 @@ import sys
 import re
 import json
 
-BASE_URL = "https://github.com/comjke33/Capstone_Design_Troy/blob/main/ref.md"
+BASE_URL = "http://192.168.0.85/reference.php"
 
 CONCEPT_LINKS = {
     # 변수 선언 관련

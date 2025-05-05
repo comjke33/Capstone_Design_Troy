@@ -1,14 +1,15 @@
 #include <stdio.h>
 
-void fill_array(int *arr, int size) {
-    for (int i = 0; i <= size; i++) {  // ❌ 오류: i <= size는 배열 범위 초과 가능
-        arr[i] = i * 2;
-    }
+void set_value(char *str) {
+    *str = 'A';
 }
 
 int main() {
-    float data[5];
-    int *ptr = data;  // ❌ 오류: float*을 int*에 대입 (포인터 타입 불일치)
-    fill_array(ptr, 5);
+    int arr[5];
+    arr[5] = 100;  // 배열 인덱스 초과
+    int num;
+    scanf("%lf", &num);  // 형식 지정자 오류 (int에 %lf)
+    int id = 42;
+    set_value(&id);  // 포인터 타입 불일치 (int* → char*)
     return 0;
 }
