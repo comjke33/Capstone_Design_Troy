@@ -1,13 +1,13 @@
-
 <?php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once(__DIR__ . '/ParsedownExtension.php');
+require_once(__DIR__ . '/ParsedownExtra.php');
+require_once(__DIR__ . '/ParsedownWithAnchor.php');  
 
 $md = file_get_contents(__DIR__ . '/ref.md');
-$Parsedown = new ParsedownExtension();
+$Parsedown = new ParsedownWithAnchor();              
 $Parsedown->setSafeMode(true);
 $html = $Parsedown->text($md);
 ?>
