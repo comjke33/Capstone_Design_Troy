@@ -3,11 +3,12 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once(__DIR__ . '/ParsedownExtra.php');
-require_once(__DIR__ . '/ParsedownWithAnchor.php');  
+require_once(__DIR__ . '/Parsedown.php');           // ✅ 먼저 불러오기
+require_once(__DIR__ . '/ParsedownExtra.php');      // ✅ 그 다음 불러오기
+require_once(__DIR__ . '/ParsedownWithAnchor.php'); // ✅ 마지막 확장 버전
 
 $md = file_get_contents(__DIR__ . '/ref.md');
-$Parsedown = new ParsedownWithAnchor();              
+$Parsedown = new ParsedownWithAnchor();
 $Parsedown->setSafeMode(true);
 $html = $Parsedown->text($md);
 ?>
