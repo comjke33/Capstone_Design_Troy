@@ -109,6 +109,7 @@ for user in active_users:
 
     for row in rows:
         user_id, mistake_type, mistake_count = row
+        mistake_count = int(mistake_count)
 
         # user_weakness_dec 테이블에 같은 데이터가 있는지 확인
         cursor.execute(
@@ -136,6 +137,7 @@ for user in active_users:
 
     for row in rows:
         user_id, mistake_type, mistake_count = row
+        mistake_count = int(mistake_count)
 
         # user_weakness_dec 테이블에 같은 데이터가 있는지 확인
         cursor.execute(
