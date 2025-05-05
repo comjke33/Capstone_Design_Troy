@@ -40,7 +40,7 @@ main#content {
     margin: 2rem 0;
   }
   
-  main#content th,
+  main#content table th,
   main#content td {
     padding: 12px 16px;           /* 넉넉한 패딩 */
     font-size: 1em;
