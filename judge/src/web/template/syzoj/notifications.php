@@ -69,7 +69,7 @@ foreach ($result_prev as $row) {
 
 // LLM 코멘트 (직접 입력)
 $sql_comment = "SELECT comment FROM comment WHERE user_id = ?";
-$result_comment = pdo_query($sql_now, $user_id);
+$result_comment = pdo_query($sql_comment, $user_id);
 
 
 
