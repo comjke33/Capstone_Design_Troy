@@ -943,9 +943,7 @@ int main() {
 
 - C 언어에서 제공하는 표준 함수(`printf`, `scanf`, `strlen`, `malloc` 등)는 정해진 형태로만 사용 가능합니다.
 - C에는 `print()` 같은 함수는 존재하지 않으며, 이를 호출하려 하면 “implicit declaration” 또는 “undefined reference” 오류가 발생합니다.
-- 또한 표준 함수를 사용하려면 해당 함수를 선언한 헤더 파일을 반드시 포함해야 하며,
-
-이를 생략할 경우 `"implicit declaration of function"` 또는 `"undefined reference"` 오류가 발생합니다.
+- 또한 표준 함수를 사용하려면 해당 함수를 선언한 헤더 파일을 반드시 포함해야 하며, 이를 생략할 경우 `"implicit declaration of function"` 또는 `"undefined reference"` 오류가 발생합니다.
 
 - 반환값이 있는 함수(`printf`, `strlen`, `scanf`, `malloc` 등)의 결과를 무시하거나 잘못 처리하면 논리적 오류도 발생할 수 있습니다.
 
