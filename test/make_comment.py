@@ -108,6 +108,7 @@ for user in active_users:
     rows = cursor.fetchall()
 
     for row in rows:
+        print(row)
         user_id, mistake_type, mistake_count = row
         print(mistake_count)
         mistake_count = int(mistake_count)
