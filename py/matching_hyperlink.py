@@ -56,15 +56,12 @@ CONCEPT_LINKS = {
         "링크": f"{BASE_URL}#포인터"
     },
 
-    # 배열
-    r"array index .* is past the end": {
-        "개념": "배열 인덱스 초과",
-        "링크": f"{BASE_URL}#배열-인덱스-초과"
+    # 배열 접근 오류
+    r"array index .* is past the end|subscripted value is not an array": {
+        "개념": "배열 접근 오류",
+        "링크": f"{BASE_URL}#배열-접근-오류"
     },
-    r"subscripted value is not an array": {
-        "개념": "배열 인덱싱 오류",
-        "링크": f"{BASE_URL}#배열-인덱싱-오류"
-    },
+    
 
     # 입출력 형식
     r"format specifies type .* but the argument has type": {
@@ -142,9 +139,9 @@ def map_to_concepts(errors: str):
         # AddressSanitizer 런타임 오류 우선 처리
         if "AddressSanitizer" in block:
             results.append({
-                "concepts": "런타임 오류 - 배열 인덱스 초과 등",
+                "concepts": "런타임 오류 - 배열 접근 오류 등",
                 "block": block,
-                "link": f"{BASE_URL}#배열-인덱스-초과"
+                "link": f"{BASE_URL}#배열-접근-오류"
             })
             continue  # 다른 매칭 안 함
 
