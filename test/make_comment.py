@@ -123,7 +123,7 @@ for user in active_users:
 
     #user_weakness_now -> user_weakness_dec
     # user_weakness_now 테이블의 모든 데이터 가져오기
-    cursor.execute("SELECT user_id, mistake_type, mistake_count FROM user_weakness_now")
+    cursor.execute("SELECT user_id, mistake_type, mistake_count FROM user_weakness_now where user_id = %s", (user_id,))
     rows = cursor.fetchall()
 
     for row in rows:
@@ -132,10 +132,28 @@ for user in active_users:
         mistake_count = row['mistake_count']  # 딕셔너리 키로 접근
         #mistake_count = int(mistake_count)  # mistake_count를 정수로 변환
 
+        # user_weakness_dec 테이블에 같은 데이터가 있는지 확인
+        cursor.execute(
+            "SELECT 1 FROM user_weakness_dec WHERE user_id = %s AND mistake_type = %s",
+            (user_id, mistake_type)
+        )
+
+        if cursor.fetchone():
+            # 이미 존재하면 업데이트
+            cursor.execute(
+                "UPDATE user_weakness_dec SET mistake_count = %s WHERE user_id = %s AND mistake_type = %s",
+                (mistake_count, user_id, mistake_type)
+            )
+        else:
+            # 존재하지 않으면 삽입
+            cursor.execute(
+                "INSERT INTO user_weakness_dec (user_id, mistake_type, mistake_count) VALUES (%s, %s, %s)",
+                (user_id, mistake_type, mistake_count)
+            )
 
     #user_weakness -> user_weakness_now
     # user_weakness 테이블의 모든 데이터 가져오기
-    cursor.execute("SELECT user_id, mistake_type, mistake_count FROM user_weakness")
+    cursor.execute("SELECT user_id, mistake_type, mistake_count FROM user_weakness where user_id = %s", (user_id,))
     rows = cursor.fetchall()
 
     for row in rows:
@@ -143,7 +161,7 @@ for user in active_users:
         mistake_type = row['mistake_type']  # 딕셔너리 키로 접근
         mistake_count = row['mistake_count']  # 딕셔너리 키로 접근
 
-        # user_weakness_dec 테이블에 같은 데이터가 있는지 확인
+        # user_weakness_now 테이블에 같은 데이터가 있는지 확인
         cursor.execute(
             "SELECT 1 FROM user_weakness_now WHERE user_id = %s AND mistake_type = %s",
             (user_id, mistake_type)
@@ -164,7 +182,7 @@ for user in active_users:
 
     #user_weakness count값들 0으로 초기화
     # user_weakness 테이블에서 user_id, mistake_type만 가져오기
-    cursor.execute("SELECT user_id, mistake_type FROM user_weakness")
+    cursor.execute("SELECT user_id, mistake_type FROM user_weakness, where user_id = %s", (user_id,))
     rows = cursor.fetchall()
 
     for row in rows:
