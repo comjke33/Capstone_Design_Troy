@@ -2,24 +2,21 @@
 class ParsedownWithAnchor extends ParsedownExtra {
     function blockHeader($Line) {
         $block = parent::blockHeader($Line);
-
-        if (isset($block['element']['name']) && isset($block['element']['text'])) {
+    
+        if (isset($block['element']['text'])) {
             $text = $block['element']['text'];
-
-            // 'text'가 어레이인 경우 내부 'text'만 추출
-            if (is_array($text) && isset($text['text'])) {
-                $text = $text['text'];
-            }
-
             $id = $this->slugify(strip_tags($text));
-
+            error_log("### Heading: " . $text . " => id: " . $id); // 로그 찍기
+    
             if (!isset($block['element']['attributes'])) {
                 $block['element']['attributes'] = [];
             }
-
+    
             $block['element']['attributes']['id'] = $id;
+        } else {
+            error_log("### blockHeader: 'element[text]' 없음");
         }
-
+    
         return $block;
     }
 

@@ -10,7 +10,6 @@ require_once(__DIR__ . '/ParsedownWithAnchor.php');
 $md = file_get_contents(__DIR__ . '/ref.md');
 $Parsedown = new ParsedownWithAnchor();
 $Parsedown->setSafeMode(true);
-var_dump(get_class($Parsedown)); exit;
 $html = $Parsedown->text($md);
 ?>
 <!DOCTYPE html>
