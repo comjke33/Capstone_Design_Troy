@@ -63,7 +63,7 @@ prompt = """
 
 데이터는 5일간의 문법 오류들과 지난 5일간의 문법 오류들 2개입니다.
 
-지난 
+5줄 이내로 피드백을 작성해주세요.
 """
 
 # 2. 각 사용자에 대해 오류 정보 조회 및 출력
@@ -104,13 +104,7 @@ for user in active_users:
         model="gpt-4o-mini-2024-07-18",
         input=prompt + "\n\n" + mistakes + "\n\n" + dec_mistakes
     )
-
-    # GPT 응답 예시
-    raw_markdown = response.output_text
-
-    # 마크다운을 HTML로 변환
-    html_comment = markdown.markdown(raw_markdown)
-
+    comment = response.output_text
 
     #print(response.output_text)
 
@@ -120,13 +114,13 @@ for user in active_users:
         # 이미 존재하면 업데이트
         cursor.execute(
             "UPDATE comment SET comment = %s WHERE user_id = %s",
-            (html_comment, user_id)
+            (comment, user_id)
         )
     else:
         # 존재하지 않으면 새로 삽입
         cursor.execute(
             "INSERT INTO comment (user_id, comment) VALUES (%s, %s)",
-            (user_id, html_comment)
+            (user_id, comment)
         )
 
     #user_weakness_now -> user_weakness_dec
