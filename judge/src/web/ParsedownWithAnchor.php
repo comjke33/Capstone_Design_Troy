@@ -14,10 +14,10 @@ class ParsedownWithAnchor extends ParsedownExtra
 
     private function slugify($text)
     {
-        // 한글 slug 허용 가능 — id는 그대로 생성되나 tocbot이 무시할 수도 있음
+        error_log("slugify 대상: " . $text);  // 로그 확인
         $text = trim($text);
-        $text = preg_replace('/[^\p{L}\p{N}\s]/u', '', $text); // 문자/숫자/공백만
-        $text = preg_replace('/\s+/', '-', $text);             // 공백을 하이픈으로
+        $text = preg_replace('/[^\p{L}\p{N}\s]/u', '', $text);
+        $text = preg_replace('/\s+/', '-', $text);
         return strtolower($text);
     }
 }
