@@ -87,7 +87,20 @@ for user in active_users:
 
     print(response.output_text)
 
-    #commit 테이블에 저장
+    # comment 테이블에 데이터 삽입 또는 업데이트
+    cursor.execute("SELECT 1 FROM comment WHERE user_id = %s", (user_id,))
+    if cursor.fetchone():
+        # 이미 존재하면 업데이트
+        cursor.execute(
+            "UPDATE comment SET comment = %s WHERE user_id = %s",
+            (response.output_text, user_id)
+        )
+    else:
+        # 존재하지 않으면 새로 삽입
+        cursor.execute(
+            "INSERT INTO comment (user_id, comment) VALUES (%s, %s)",
+            (user_id, response.output_text)
+        )
 
     #user_weakness_now -> user_weakness_dec
 
