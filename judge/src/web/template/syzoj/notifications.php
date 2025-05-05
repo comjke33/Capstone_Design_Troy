@@ -126,7 +126,7 @@ if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
             <tr>
                 <th>취약 유형</th>
                 <th>실수 횟수</th>
-                <th>코멘트</th>
+                <th>문법 개념 링크크</th>
             </tr>
             </thead>
             <tbody>
@@ -136,7 +136,7 @@ if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
                     <td><?php echo $mistake_names[$type]; ?></td>
                     <td><?php echo $row['mistake_count']; ?></td>
                     <td>
-                        <a href="<?php echo $mistake_comments[$type]; ?>" target="_blank">문법 개념 링크</a>
+                        <a href="<?php echo $mistake_comments[$type]; ?>" target="_blank">이동하기</a>
                     </td>
                 </tr>
             <?php } ?>
