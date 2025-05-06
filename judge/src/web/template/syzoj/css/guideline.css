@@ -22,6 +22,44 @@
   background-color: #0d71bb !important; /* ✅ 더 진한 파란색 (활성 상태) */
 }
 
+.back-button,
+.reset-button {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+/* 문제 가기 버튼 스타일 */
+.ui.button.back {
+  background-color: #2185d0; /* 밝은 파랑 */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: background-color 0.2s ease;
+}
+
+.ui.button.back:hover {
+  background-color: #1678c2; /* hover 효과 */
+}
+
+/* 다시 풀기 버튼 스타일 */
+.ui.button.again {
+  background-color: #db2828; /* 붉은색 */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: background-color 0.2s ease;
+}
+
+.ui.button.again:hover {
+  background-color: #c21818; /* hover 효과 */
+}
+
 
 /* 전체 레이아웃 */
 .main-layout {

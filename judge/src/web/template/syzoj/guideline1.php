@@ -16,6 +16,15 @@ include("../../guideline_common.php");
     <button class="ui button" data-step="2" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 2</button>
     <button class="ui button" data-step="3" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 3</button>
   </div>
+  
+  <div class="back-button">
+    <button class="ui button back" id="view-problem-button">문제 가기</button>
+  </div>
+  <div class="reset-button">
+    <button class="ui button again" id="reset-button">다시 풀기</button>
+  </div>
+</div>
+
 </div>
 
 
@@ -90,34 +99,56 @@ include("../../guideline_common.php");
 </div>
 
 <script>
-(function handleGuidelineAnswerClear() {
-    const path = window.location.pathname;
-    const isGuidelinePage = path.includes("guideline");
 
-    const wasOnGuideline = sessionStorage.getItem("wasOnGuideline");
+//뒤로가기 & 다시 풀기 버튼
+document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentStep = urlParams.get("step") || "1";
+    const problemId = urlParams.get("problem_id") || "0";
 
-    if (isGuidelinePage) {
-        // guideline에 들어왔고, 이전에는 아니었을 경우 초기화
-        if (wasOnGuideline === "false") {
-            const keysToRemove = [];
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key.startsWith("answer_step") || key.startsWith("answer_status")) {
-                    keysToRemove.push(key);
+    // 문제 가기 버튼
+    document.getElementById("view-problem-button")?.addEventListener("click", () => {
+        window.location.href = `/problem.php?id=${problemId}`;
+    });
+
+    // 다시 풀기 버튼
+    document.getElementById("reset-button")?.addEventListener("click", () => {
+        if (confirm("모든 입력을 초기화하고 다시 푸시겠습니까?")) {
+            document.querySelectorAll("textarea").forEach((textarea, index) => {
+                // localStorage에서 삭제
+                const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
+                const statusKey = `answer_status_step${currentStep}_q${index}_pid${problemId}`;
+                localStorage.removeItem(key);
+                localStorage.removeItem(statusKey);
+
+                // 시각적 스타일 리셋
+                textarea.value = "";
+                textarea.readOnly = false;
+                textarea.disabled = false;
+                textarea.style.backgroundColor = "white";
+                textarea.style.border = "1px solid #ccc";
+                textarea.style.color = "black";
+
+                // 버튼/체크 아이콘 리셋
+                const check = document.getElementById(`check_${index}`);
+                const btn = document.getElementById(`btn_${index}`);
+                const viewBtn = document.getElementById(`view_btn_${index}`);
+                const answerArea = document.getElementById(`answer_area_${index}`);
+
+                if (check) check.style.display = "none";
+                if (btn) {
+                    btn.style.display = "inline-block";
+                    btn.disabled = false;
                 }
-            }
-            keysToRemove.forEach(key => localStorage.removeItem(key));
-            console.log("🧹 guideline 외부에서 진입 → 로컬 저장 답안 초기화됨");
+                if (viewBtn) viewBtn.disabled = false;
+                if (answerArea) answerArea.style.display = "none";
+            });
         }
-        sessionStorage.setItem("wasOnGuideline", "true");
-    } else {
-        // guideline이 아닌 페이지일 때 '떠남'을 기록
-        sessionStorage.setItem("wasOnGuideline", "false");
-    }
-})();
+    });
+});
 
 
-//버튼 부분
+//Step1, 2, 3버튼 부분
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
     const urlParams = new URLSearchParams(window.location.search);
@@ -168,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-
+document.addEventListener()
 
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
