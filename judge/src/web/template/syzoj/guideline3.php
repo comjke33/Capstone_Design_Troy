@@ -8,12 +8,13 @@
 
 <!-- 상단 툴바 -->
 <div class="top-toolbar">
-    <div class="step-buttons">
-        <button class="ui button" data-step="1" data-problem-id="<?= $problem_id ?>">Step 1</button>
-        <button class="ui button" data-step="2" data-problem-id="<?= $problem_id ?>">Step 2</button>
-        <button class="ui button" data-step="3" data-problem-id="<?= $problem_id ?>">Step 3</button>
-    </div>
+  <div class="step-buttons">
+    <button class="ui button" data-step="1" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 1</button>
+    <button class="ui button" data-step="2" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 2</button>
+    <button class="ui button" data-step="3" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 3</button>
+  </div>
 </div>
+
 
 <div class="main-layout">
     <!-- 좌측 패널 -->
@@ -91,19 +92,44 @@
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
 
+    // 현재 step 및 problem_id 정보 추출
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentStep = urlParams.get("step") || "1";
+    const problemId = urlParams.get("problem_id") || "0";
+
+    // 각 textarea에 대해 localStorage 값 복원
+    document.querySelectorAll("textarea").forEach((textarea, index) => {
+        const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
+        const savedValue = localStorage.getItem(key);
+        if (savedValue !== null) {
+            textarea.value = savedValue;
+        }
+
+        // 입력이 바뀌면 저장
+        textarea.addEventListener("input", () => {
+            localStorage.setItem(key, textarea.value);
+        });
+    });
+
+    // 버튼 클릭 시 입력값 저장 후 이동
     buttons.forEach(btn => {
         btn.addEventListener("click", () => {
-            const step = btn.getAttribute("data-step");
-            const problemId = btn.getAttribute("data-problem-id");
+            const nextStep = btn.getAttribute("data-step");
+            const nextProblemId = btn.getAttribute("data-problem-id") || problemId;
 
-            // 현재 guideline1.php 안이라면, 자기 자신으로 이동
-            const baseUrl = window.location.pathname;  // 현재 경로 유지 (/guideline1.php)
+            // 현재 textarea 값들 저장
+            document.querySelectorAll("textarea").forEach((textarea, index) => {
+                const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
+                localStorage.setItem(key, textarea.value);
+            });
 
-            // 주소 이동
-            window.location.href = `${baseUrl}?step=${step}&problem_id=${problemId}`;
+            // 페이지 이동
+            const baseUrl = window.location.pathname;
+            window.location.href = `${baseUrl}?step=${nextStep}&problem_id=${nextProblemId}`;
         });
     });
 });
+
     
 
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
