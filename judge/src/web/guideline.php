@@ -1,52 +1,41 @@
-<?php include("template/syzoj/header.php");//렌더링 파일 불러오기 ?>
+<?php include("template/syzoj/header.php"); ?>
 
-<div class="ui container" style="margin-top: 3em; display: flex; align-items: flex-start;">
+<!-- ✅ 상단 고정 툴바 (버튼 영역) -->
+<div class="top-toolbar">
     <div class="step-buttons">
         <button class="ui button active" data-step="1">Step 1</button>
         <button class="ui button" data-step="2">Step 2</button>
         <button class="ui button" data-step="3">Step 3</button>
-    </div>
-
-    <div id="guideline-content" style="margin-left: 2em; flex-grow: 1;">
-        <!-- 이곳에 동적으로 내용이 삽입됩니다 -->
     </div>
 </div>
 
+<!-- ✅ 본문 가이드라인 출력 영역 -->
 <div class="layout-container">
-    <!-- 좌측 상단 버튼 -->
-    <div class="step-buttons">
-        <button class="ui button active" data-step="1">Step 1</button>
-        <button class="ui button" data-step="2">Step 2</button>
-        <button class="ui button" data-step="3">Step 3</button>
-    </div>
-
-    <!-- 가운데 가이드라인 출력 영역 -->
     <div id="guideline-content">
-        <!-- 여기에 동적으로 PHP 출력 내용이 삽입됨 -->
+        <!-- 여기에 동적으로 내용이 삽입됩니다 -->
     </div>
 </div>
 
 <style>
-/* 전체 레이아웃을 가로로 구성 */
-.layout-container {
-    display: flex;
-    align-items: flex-start;
-    padding: 20px;
-    gap: 30px;
+/* ✅ 상단 툴바 스타일 */
+.top-toolbar {
+    width: 100%;
+    padding: 15px 30px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: relative;
+    z-index: 10;
 }
 
-/* 버튼 가로 정렬 + 왼쪽 상단 고정 */
 .step-buttons {
     display: flex;
     flex-direction: row;
     gap: 10px;
-    margin-top: 0;
-    margin-left: 0;
 }
 
-/* 버튼 스타일 강화 */
 .step-buttons .ui.button {
-    border-radius: 0 !important;
+    border-radius: 4px !important;
     background-color: #2185d0 !important;
     color: white !important;
     min-width: 100px;
@@ -56,27 +45,34 @@
     background-color: #0d71bb !important;
 }
 
-/* 가이드라인 내용 출력 영역을 넓게 */
+/* ✅ 메인 콘텐츠 레이아웃 */
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 60px;
+    max-width: 1600px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
 #guideline-content {
     flex-grow: 1;
-    max-width: 100%;
-    min-width: 700px;
+    min-height: 500px;
+    min-width: 800px;
 }
 </style>
-
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
     const content = document.getElementById("guideline-content");
 
-    // loadStep 함수는 step 번호에 맞는 PHP 파일을 동적으로 불러옵니다.
     function loadStep(step) {
-        fetch(`guideline${step}.php`) // guideline1.php, guideline2.php, guideline3.php를 동적으로 불러옴
+        fetch(`guideline${step}.php`)
             .then(res => res.text())
             .then(html => {
-                content.innerHTML = html;  // 가이드라인 내용 삽입
-                window.history.replaceState(null, "", `?step=${step}`); // URL에 step 파라미터 갱신
+                content.innerHTML = html;
+                window.history.replaceState(null, "", `?step=${step}`);
             })
             .catch(error => {
                 content.innerHTML = "<div class='ui red message'>⚠️ 가이드라인을 불러올 수 없습니다.</div>";
@@ -84,23 +80,19 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-    // 버튼 클릭 이벤트
     buttons.forEach(btn => {
         btn.addEventListener("click", () => {
-            buttons.forEach(b => b.classList.remove("active")); // 기존 활성화된 버튼 비활성화
-            btn.classList.add("active"); // 클릭된 버튼을 활성화
-
-            const step = btn.dataset.step; // 클릭된 버튼의 data-step 값
-            loadStep(step); // 해당 step에 맞는 가이드라인 로드
+            buttons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            const step = btn.dataset.step;
+            loadStep(step);
         });
     });
 
-    // URL에 step이 이미 있으면 그 값을 사용하여 초기화, 없으면 기본 1로 설정
     const urlParams = new URLSearchParams(window.location.search);
     const initialStep = urlParams.get('step') || 1;
-    loadStep(initialStep); // 초기 step 로드
+    loadStep(initialStep);
 
-    // 버튼 활성화도 초기 상태 반영
     buttons.forEach(btn => {
         if (btn.dataset.step == initialStep) {
             btn.classList.add('active');
@@ -111,4 +103,4 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-<?php include("template/syzoj/footer.php");//렌더링 파일 불러오기 ?>
+<?php include("template/syzoj/footer.php"); ?>
