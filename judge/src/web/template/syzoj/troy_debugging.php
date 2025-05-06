@@ -2,6 +2,7 @@
 include("include/db_info.inc.php");
 
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
+$problem_id = "1000";
 
 // 인자를 공백으로 구분해 Python 스크립트에 전달
 $tagged_guideline = "./tagged_guideline/" . $problem_id . ".txt";

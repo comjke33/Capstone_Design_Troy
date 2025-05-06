@@ -1,0 +1,56 @@
+[func_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+정수 변수 n을 선언하세요.
+[self_end(1)]
+[self_start(1)]
+scanf("%d", &n);
+[self_end(1)]
+[rep_start(1)]
+변수 i가 1부터 n까지 증가하며 반복하는 for문을 작성하세요.
+[self_start(2)]
+정수 변수 num을 선언하고 현재 i의 값으로 초기화하세요.
+[self_end(2)]
+[self_start(2)]
+정수 변수 count를 선언하고 0으로 초기화하세요.
+[self_end(2)]
+[rep_start(2)]
+num이 0보다 클 때 동작하는 while문을 작성하세요.
+[self_start(3)]
+정수 변수 digit을 선언하고 num의 1의자리수 값으로 초기화하세요.
+[self_end(3)]
+[cond_start(3)]
+digit이 3, 6, 9 이면 동작하는 if문을 작성하세요.
+[self_start(4)]
+count 변수를 1 증가시키세요.
+[self_end(4)]
+[cond_end(3)]
+[self_start(3)]
+num을 10으로 나눠 자리수를 줄이세요.
+[self_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+count가 0보다 클 때 동작하는 if문을 작성하세요.
+[rep_start(3)]
+변수 j가 0부터 count-1까지 증가하며 반복하는 for문을 작성하세요.
+[self_start(4)]
+x를 출력하세요.
+[rep_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+else문을 작성하세요.
+[self_start(3)]
+printf를 사용하여 i의 값을 출력하세요.
+[self_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+i != n이면 동작하는 if문을 작성하세요.
+[self_start(3)]
+공백을 출력하세요.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[func_def_end(0)]
