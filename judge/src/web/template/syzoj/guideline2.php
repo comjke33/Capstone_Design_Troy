@@ -9,9 +9,9 @@
 <!-- 상단 툴바 -->
 <div class="top-toolbar">
     <div class="step-buttons">
-        <button class="ui button active" data-step="1">Step 1</button>
-        <button class="ui button" data-step="2">Step 2</button>
-        <button class="ui button" data-step="3">Step 3</button>
+        <button class="ui button" data-step="1" data-problem-id="123">Step 1</button>
+        <button class="ui button" data-step="2" data-problem-id="123">Step 2</button>
+        <button class="ui button" data-step="3" data-problem-id="123">Step 3</button>
     </div>
 </div>
 
@@ -25,8 +25,9 @@
     <div class="center-panel">
         <h1>한 문단씩 풀기</h1>
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
-        
+
         <?php
+        
         function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
         
@@ -92,18 +93,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     buttons.forEach(btn => {
         btn.addEventListener("click", () => {
-            buttons.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-
             const step = btn.getAttribute("data-step");
+            const problemId = btn.getAttribute("data-problem-id");
 
-            // 현재 폴더 기준으로 guideline1.php, guideline2.php, guideline3.php로 이동
-            window.location.href = `guideline${step}.php`;
+            // 현재 guideline1.php 안이라면, 자기 자신으로 이동
+            const baseUrl = window.location.pathname;  // 현재 경로 유지 (/guideline1.php)
+
+            // 주소 이동
+            window.location.href = `${baseUrl}?step=${step}&problem_id=${problemId}`;
         });
     });
 });
-
-
     
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
