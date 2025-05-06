@@ -51,8 +51,28 @@ function codeFilter($text) {
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
 
+    // 제외할 헤더 파일 패턴
+    $header_patterns = [
+        '/^\s*#include\s*<stdio\.h>\s*$/',
+        '/^\s*#include\s*<string\.h>\s*$/',
+        '/^\s*#include\s*<stdlib\.h>\s*$/',
+        '/^\s*#include\s*<math\.h>\s*$/'
+    ];
+
     foreach ($lines as $line) {
         $line = rtrim($line);
+
+        // 헤더 파일이면 건너뛰기
+        $is_header = false;
+        foreach ($header_patterns as $pattern) {
+            if (preg_match($pattern, $line)) {
+                $is_header = true;
+                break;
+            }
+        }
+        if ($is_header) {
+            continue;
+        }
 
         // 시작 태그 처리
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $m)) {
