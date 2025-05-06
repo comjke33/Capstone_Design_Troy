@@ -90,33 +90,31 @@ include("../../guideline_common.php");
 </div>
 
 <script>
-    
-(function clearIfComingBackToGuideline() {
+(function handleGuidelineAnswerClear() {
     const path = window.location.pathname;
     const isGuidelinePage = path.includes("guideline");
 
-    const lastWasGuideline = sessionStorage.getItem("wasOnGuideline") === "true";
+    const wasOnGuideline = sessionStorage.getItem("wasOnGuideline");
 
-    if (isGuidelinePage && !lastWasGuideline) {
-        // 이전 페이지가 guideline이 아니었고, 지금 guideline으로 진입한 경우 → 초기화
-        const keysToRemove = [];
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key.startsWith("answer_step") || key.startsWith("answer_status")) {
-                keysToRemove.push(key);
-            }
-        }
-        keysToRemove.forEach(key => localStorage.removeItem(key));
-    }
-
-    // 현재 guideline 페이지에 있다는 상태를 sessionStorage에 저장
     if (isGuidelinePage) {
+        // guideline에 들어왔고, 이전에는 아니었을 경우 초기화
+        if (wasOnGuideline === "false") {
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith("answer_step") || key.startsWith("answer_status")) {
+                    keysToRemove.push(key);
+                }
+            }
+            keysToRemove.forEach(key => localStorage.removeItem(key));
+            console.log("🧹 guideline 외부에서 진입 → 로컬 저장 답안 초기화됨");
+        }
         sessionStorage.setItem("wasOnGuideline", "true");
     } else {
-        sessionStorage.removeItem("wasOnGuideline");
+        // guideline이 아닌 페이지일 때 '떠남'을 기록
+        sessionStorage.setItem("wasOnGuideline", "false");
     }
 })();
-
 
 
 //버튼 부분
