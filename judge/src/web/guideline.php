@@ -1,4 +1,4 @@
-<?php include("template/$OJ_TEMPLATE/header.php"); ?>
+<?php include("/template/syzoj/header.php"); ?>
 
 <style>
 .step-buttons {
@@ -74,4 +74,4 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-<?php include("template/$OJ_TEMPLATE/footer.php"); ?>
+<?php include("/template/syzoj/footer.php"); ?>
