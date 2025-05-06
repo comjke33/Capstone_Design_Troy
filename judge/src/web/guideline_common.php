@@ -89,6 +89,19 @@ function codeFilter($text) {
         }
     }
 
-    // 최종 트리 반환
-    return $root['children'];
+    // 내부에서 재귀적으로 태그 없는 코드 추출
+    $extract_code = function($blocks) use (&$extract_code) {
+        $code = '';
+        foreach ($blocks as $block) {
+            if ($block['type'] === 'text') {
+                $code .= $block['content'] . "\n";
+            } elseif (!empty($block['children'])) {
+                $code .= $extract_code($block['children']);
+            }
+        }
+        return $code;
+    };
+
+    // 최종 코드 출력
+    return $extract_code($root['children']);
 }
