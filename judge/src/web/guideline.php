@@ -18,11 +18,6 @@
       <!-- JS로 문제 동적 삽입 -->
     </div>
 
-    <!-- 오른쪽 피드백 영역 -->
-    <div id="feedback-panel">
-      <div class="feedback-title">📋 피드백 창</div>
-      <img src="/images/totoro.png" alt="Totoro" class="feedback-image">
-    </div>
   </div>
 </div>
 
