@@ -1,17 +1,5 @@
 <?php include("template/syzoj/header.php");//렌더링 파일 불러오기 ?>
 
-<div class="ui container" style="margin-top: 3em;">
-    <div class="step-buttons">
-        <button class="ui button active" data-step="1">Step 1</button>
-        <button class="ui button" data-step="2">Step 2</button>
-        <button class="ui button" data-step="3">Step 3</button>
-    </div>
-
-    <div id="guideline-content">
-        <!-- 여기에 PHP가 출력하는 내용이 삽입됩니다 -->
-    </div>
-</div>
-
 <style>
 .step-buttons {
     display: flex;
@@ -27,6 +15,18 @@
     background-color: #0d71bb;
 }
 </style>
+
+<div class="ui container" style="margin-top: 3em;">
+    <div class="step-buttons">
+        <button class="ui button active" data-step="1">Step 1</button>
+        <button class="ui button" data-step="2">Step 2</button>
+        <button class="ui button" data-step="3">Step 3</button>
+    </div>
+
+    <div id="guideline-content">
+        <!-- 여기에 동적으로 guideline1/2/3.php의 결과가 삽입됩니다 -->
+    </div>
+</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -74,8 +74,4 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-
-<?php //렌더링 파일 불러오기 
-include("template/syzoj/guideline.php")
-include("template/syzoj/footer.php");
-?>
+<?php include("template/syzoj/footer.php");//렌더링 파일 불러오기 ?>
