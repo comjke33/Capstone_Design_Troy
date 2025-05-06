@@ -9,9 +9,9 @@ from graphviz import Digraph
 api_key_ = os.getenv("OPENAI_API_KEY")
 
 # --- 모델 준비 ---
-model_path = "./kot5-small-finetuned-model"
-tokenizer = AutoTokenizer.from_pretrained(model_path)
-model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
+# model_path = "./kot5-small-finetuned-model"
+# tokenizer = AutoTokenizer.from_pretrained(model_path)
+# model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
 
 def parse_guideline_blocks(text):
     lines = text.split('\n')
@@ -107,17 +107,17 @@ def analyze_line_type(line):
     else:
         return "처리"
 
-def generate_summary_hf(buffer_lines):
-    if not buffer_lines:
-        return "(내용 없음)"
+# def generate_summary_hf(buffer_lines):
+#     if not buffer_lines:
+#         return "(내용 없음)"
 
-    merged_data = ", ".join([line['내용'] for line in buffer_lines])
+#     merged_data = ", ".join([line['내용'] for line in buffer_lines])
 
-    # 방법 1️⃣ HuggingFace 모델 사용
-    input_ids = tokenizer("요약: " + merged_data, return_tensors="pt", truncation=True, padding=True, max_length=128).input_ids
-    output_ids = model.generate(input_ids, max_length=128, num_beams=4)
-    summary = tokenizer.decode(output_ids[0], skip_special_tokens=True)
-    return summary.strip()
+#     # 방법 1️⃣ HuggingFace 모델 사용
+#     input_ids = tokenizer("요약: " + merged_data, return_tensors="pt", truncation=True, padding=True, max_length=128).input_ids
+#     output_ids = model.generate(input_ids, max_length=128, num_beams=4)
+#     summary = tokenizer.decode(output_ids[0], skip_special_tokens=True)
+#     return summary.strip()
 
 def generate_summary_gpt(buffer_lines, problem_path):
     # line_number 중 최소, 최대 구하기
@@ -188,6 +188,11 @@ def has_output_in_deeper_blocks(current_index, current_depth, results):
 
 
 if __name__ == "__main__":
+    guideline_path = ""
+    problem_path = ""
+    output_dir = ""
+    problem_id = ""
+    
     if len(sys.argv) == 5:
         guideline_path = sys.argv[1]
         problem_path = sys.argv[2]
@@ -337,5 +342,5 @@ if __name__ == "__main__":
         dot.render(filename, cleanup=True)
 
         # print(f"파일 저장됨: {filename}.png")
-    # print(flowcharts)
+    print(flowcharts)
     
