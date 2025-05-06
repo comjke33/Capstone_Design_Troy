@@ -23,23 +23,37 @@
 
             foreach ($blocks as $block) {
                 $depth = $block['depth'];
-                $margin_left = $depth * 20; // 들여쓰기 계산
+                $margin_left = $depth * 20; // depth당 20px 들여쓰기
 
-                // wrapper div 시작
                 $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$margin_left}px;'>";
 
-                // 상위 블록 표시 (설명은 숨김, 단지 구조 파악용)
-                if ($block['type'] !== 'text') {
-                    $html .= "<div class='block-header'><strong>[{$block['type']}_{$block['index']}]</strong></div>";
-                }
+                // ✅ 상위 블록의 content도 표시 (text 타입 아니어도)
+                // if ($block['type'] !== 'text') {
+                //     $block_content = trim($block['content']);
+                //     if ($block_content !== '') {
+                //         $escaped_content = htmlspecialchars($block_content);
+                //         $html .= "<div class='block-header'><strong>[{$block['type']}_{$block['index']}]</strong>: {$escaped_content}</div>";
+                //     } else {
+                //         $html .= "<div class='block-header'><strong>[{$block['type']}_{$block['index']}]</strong></div>";
+                //     }
+                // }
 
-                // 텍스트 블록은 코드 없이 textarea만 출력
+                // ✅ text 블록 처리 (textarea 및 정답 체크 UI 유지)
                 if ($block['type'] === 'text') {
+                    $raw = trim($block['content']);
+                    if ($raw === '') {
+                        $html .= "</div>"; // block-wrap 닫기
+                        continue;
+                    }
+
+                    $line = htmlspecialchars($block['content']);
+                    $line = trim($line);
+
                     $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
                     $disabled = $has_correct_answer ? "" : "disabled";
 
                     $html .= "<div class='submission-line'>";
-                    // 설명 숨김: $html .= "<div class='code-line'>{$line}</div>";
+                    $html .= "<div class='code-line'>{$line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
                     if ($has_correct_answer) {
@@ -48,20 +62,18 @@
                     }
 
                     $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
-                    $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'>
-                                <span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span>
-                            </div>";
-                    $html .= "</div>"; // .submission-line 종료
+                    $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
+                    $html .= "</div>"; // submission-line 닫기
 
                     $answer_index++;
                 }
 
-                // 자식 블록 재귀 처리
+                // ✅ children이 있으면 재귀 호출 (항상 마지막에)
                 if (isset($block['children']) && count($block['children']) > 0) {
                     $html .= render_tree_plain($block['children'], $answer_index);
                 }
 
-                $html .= "</div>"; // .block-wrap 종료
+                $html .= "</div>"; // block-wrap 닫기
             }
 
             return $html;
@@ -71,7 +83,6 @@
         echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
         ?>
     </div>
-
 
     <!-- 오른쪽 패널 -->
     <div class="right-panel">
