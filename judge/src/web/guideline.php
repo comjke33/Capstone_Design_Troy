@@ -1,4 +1,4 @@
-<?php include("/template/syzoj/header.php"); ?>
+<?php include("template/syzoj/header.php");//렌더링 파일 불러오기 ?>
 
 <style>
 .step-buttons {
@@ -74,4 +74,4 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-<?php include("/template/syzoj/footer.php"); ?>
+<?php include("template/syzoj/footer.php");//렌더링 파일 불러오기 ?>
