@@ -24,7 +24,7 @@
         
             foreach ($blocks as $block) {
                 $depth = $block['depth'];
-                $margin_left = $depth * 20;
+                $margin_left = $depth * 30;
         
                 // text 블록은 직접 렌더링
                 if ($block['type'] === 'text') {
