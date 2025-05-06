@@ -30,7 +30,7 @@
 
 /* 문제 가기 버튼 스타일 */
 .ui.button.back {
-  background-color: #2185d0; /* 밝은 파랑 */
+  background-color: #db2828; 
   color: white;
   border: none;
   border-radius: 6px;
@@ -41,12 +41,12 @@
 }
 
 .ui.button.back:hover {
-  background-color: #1678c2; /* hover 효과 */
+  background-color: #c21818; /* hover 효과 */
 }
 
 /* 다시 풀기 버튼 스타일 */
 .ui.button.again {
-  background-color: #db2828; /* 붉은색 */
+  background-color: #32CD32; 
   color: white;
   border: none;
   border-radius: 6px;
@@ -57,7 +57,7 @@
 }
 
 .ui.button.again:hover {
-  background-color: #c21818; /* hover 효과 */
+  background-color: #228B22; /* hover 효과 */
 }
 
 
