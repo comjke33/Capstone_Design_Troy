@@ -1,32 +1,36 @@
 <?php include("template/syzoj/header.php");//렌더링 파일 불러오기 ?>
 
-<style>
-.step-buttons {
-    display: flex;
-    gap: 0;
-    margin-bottom: 2em;
-}
-.step-buttons .ui.button {
-    border-radius: 0;
-    background-color: #2185d0;
-    color: white;
-}
-.step-buttons .ui.button.active {
-    background-color: #0d71bb;
-}
-</style>
-
-<div class="ui container" style="margin-top: 3em;">
+<div class="ui container" style="margin-top: 3em; display: flex; align-items: flex-start;">
     <div class="step-buttons">
         <button class="ui button active" data-step="1">Step 1</button>
         <button class="ui button" data-step="2">Step 2</button>
         <button class="ui button" data-step="3">Step 3</button>
     </div>
 
-    <div id="guideline-content">
-        <!-- 여기에 동적으로 guideline1/2/3.php의 결과가 삽입됩니다 -->
+    <div id="guideline-content" style="margin-left: 2em; flex-grow: 1;">
+        <!-- 이곳에 동적으로 내용이 삽입됩니다 -->
     </div>
 </div>
+
+<style>
+.step-buttons {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.step-buttons .ui.button {
+    width: 120px;
+    border-radius: 0 !important;
+    background-color: #2185d0 !important;
+    color: white !important;
+}
+
+.step-buttons .ui.button.active {
+    background-color: #0d71bb !important;
+}
+</style>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
