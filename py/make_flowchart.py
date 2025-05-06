@@ -107,17 +107,17 @@ def analyze_line_type(line):
     else:
         return "처리"
 
-def generate_summary_hf(buffer_lines):
-    if not buffer_lines:
-        return "(내용 없음)"
+# def generate_summary_hf(buffer_lines):
+#     if not buffer_lines:
+#         return "(내용 없음)"
 
-    merged_data = ", ".join([line['내용'] for line in buffer_lines])
+#     merged_data = ", ".join([line['내용'] for line in buffer_lines])
 
-    # 방법 1️⃣ HuggingFace 모델 사용
-    input_ids = tokenizer("요약: " + merged_data, return_tensors="pt", truncation=True, padding=True, max_length=128).input_ids
-    output_ids = model.generate(input_ids, max_length=128, num_beams=4)
-    summary = tokenizer.decode(output_ids[0], skip_special_tokens=True)
-    return summary.strip()
+#     # 방법 1️⃣ HuggingFace 모델 사용
+#     input_ids = tokenizer("요약: " + merged_data, return_tensors="pt", truncation=True, padding=True, max_length=128).input_ids
+#     output_ids = model.generate(input_ids, max_length=128, num_beams=4)
+#     summary = tokenizer.decode(output_ids[0], skip_special_tokens=True)
+#     return summary.strip()
 
 def generate_summary_gpt(buffer_lines, problem_path):
     # line_number 중 최소, 최대 구하기
@@ -188,6 +188,11 @@ def has_output_in_deeper_blocks(current_index, current_depth, results):
 
 
 if __name__ == "__main__":
+    guideline_path = ""
+    problem_path = ""
+    output_dir = ""
+    problem_id = ""
+    
     if len(sys.argv) == 5:
         guideline_path = sys.argv[1]
         problem_path = sys.argv[2]
