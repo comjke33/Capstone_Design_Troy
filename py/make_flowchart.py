@@ -9,9 +9,9 @@ from graphviz import Digraph
 api_key_ = os.getenv("OPENAI_API_KEY")
 
 # --- 모델 준비 ---
-model_path = "./kot5-small-finetuned-model"
-tokenizer = AutoTokenizer.from_pretrained(model_path)
-model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
+# model_path = "./kot5-small-finetuned-model"
+# tokenizer = AutoTokenizer.from_pretrained(model_path)
+# model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
 
 def parse_guideline_blocks(text):
     lines = text.split('\n')
