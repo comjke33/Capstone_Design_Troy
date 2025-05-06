@@ -10,6 +10,7 @@ $tagged_guideline = "./tagged_guideline/" . $problem_id . ".txt";
 // problem을 가져오는 SQL 쿼리
 $sql = "SELECT description FROM problem WHERE problem_id = ?";
 $problem = pdo_query($sql, $problem_id);
+$desc = $problem[0][0];
 
 echo "<pre>문제: $problem</pre>";
 // $problem = "problem.txt";
@@ -19,7 +20,7 @@ echo "<pre>Python 스크립트 실행 중...</pre>";
 
 $command = "cd /home/Capstone_Design_Troy/py/ && python3 make_flowchart.py "
     . escapeshellarg($tagged_guideline) . " "
-    . escapeshellarg($problem) . " "
+    . escapeshellarg($desc) . " "
     . escapeshellarg($output_dir) . " "
     . escapeshellarg($problem_id);
 

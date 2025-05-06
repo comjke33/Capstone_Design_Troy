@@ -337,5 +337,5 @@ if __name__ == "__main__":
         dot.render(filename, cleanup=True)
 
         # print(f"파일 저장됨: {filename}.png")
-    print(flowcharts)
+    # print(flowcharts)
     
