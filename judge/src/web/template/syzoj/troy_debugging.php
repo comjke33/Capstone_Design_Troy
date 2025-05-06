@@ -13,7 +13,7 @@ $problem = pdo_query($sql, $problem_id);
 
 echo "<pre>문제: $problem</pre>";
 // $problem = "problem.txt";
-$output_dir = "/output/";
+$output_dir = "./flowcharts/";
 
 echo "<pre>Python 스크립트 실행 중...</pre>";
 
