@@ -14,7 +14,7 @@
 
     <!-- 가운데 패널 -->
     <div class="center-panel">
-        <h1>한줄씩 풀기</h1>
+        <h1>한 줄씩 풀기</h1>
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
 
         <?php
