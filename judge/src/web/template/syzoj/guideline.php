@@ -29,6 +29,7 @@
 </div>
 
 <!-- 기능 스크립트는 분리된 guideline.php가 담당 -->
-<?php include("../../guideline.php"); ?>
-
-<?php include("template/syzoj/footer.php"); ?>
+<?php 
+include("../../guideline.php");
+include("template/syzoj/footer.php"); 
+?>
