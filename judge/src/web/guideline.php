@@ -8,7 +8,7 @@ if (!isset($_GET['step'])) {
 }
 
 $step = intval($_GET['step']);
-$file = __DIR__ . "/guideline{$step}.php"; // 예: guideline1.php 등
+$file = "guideline{$step}.php"; 
 
 if (file_exists($file)) {
     include($file); // 실질적으로 문제 출력을 담당하는 개별 PHP 포함
