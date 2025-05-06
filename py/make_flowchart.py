@@ -119,17 +119,13 @@ def analyze_line_type(line):
 #     summary = tokenizer.decode(output_ids[0], skip_special_tokens=True)
 #     return summary.strip()
 
-def generate_summary_gpt(buffer_lines, problem_path):
+def generate_summary_gpt(buffer_lines, problem):
     # line_number 중 최소, 최대 구하기
     start_line = min(item["index"] for item in buffer_lines)
     end_line = max(item["index"] for item in buffer_lines)
 
     from openai import OpenAI
     client = OpenAI(api_key=api_key_)
-
-    # 문제 설명 읽기
-    with open(problem_path, "r", encoding="utf-8") as f:
-        problem_description = " ".join(line.strip() for line in f.readlines())
 
     # 블록 데이터 준비
     block_texts = []
@@ -148,7 +144,7 @@ def generate_summary_gpt(buffer_lines, problem_path):
                 "role": "system",
                 "content": (
                     "너는 프로그래밍 언어 전문가이자 흐름도 분석가야. "
-                    "다음은 문제 설명이야: " + problem_description + 
+                    "다음은 문제 설명이야: " + problem + 
                     "\n각 블록들의 코드 설명을 제공할 테니, 이들의 관계를 고려해서 의미가 반영된 요약을 15글자 이내로 큰따옴표 없이 생성해줘."
                     "\n특히 반복, 조건, 출력 흐름의 관계를 무시하지 마."
                 )
@@ -189,13 +185,13 @@ def has_output_in_deeper_blocks(current_index, current_depth, results):
 
 if __name__ == "__main__":
     guideline_path = ""
-    problem_path = ""
+    problem = ""
     output_dir = ""
     problem_id = ""
-    
+
     if len(sys.argv) == 5:
         guideline_path = sys.argv[1]
-        problem_path = sys.argv[2]
+        problem = sys.argv[2]
         output_dir = sys.argv[3]
         problem_id = sys.argv[4]
     
@@ -275,7 +271,7 @@ if __name__ == "__main__":
 
 
     for i, text in enumerate(save_text):
-        result = generate_summary_gpt(text, problem_path)
+        result = generate_summary_gpt(text, problem)
         summary = result["data"]
         start_line = result["start_line"]
         end_line = result["end_line"]
