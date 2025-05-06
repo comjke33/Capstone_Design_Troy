@@ -1,6 +1,6 @@
 <?php
 
-function parse_blocks($text, $depth = 0) {
+function parse_blocks($text) {
     $lines = explode("\n", $text);
     $blocks = [];
     $stack = [];
@@ -8,18 +8,18 @@ function parse_blocks($text, $depth = 0) {
     foreach ($lines as $line) {
         $line = rtrim($line);
 
-        // 블록 시작
+        // 시작 태그 감지
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $start_matches)) {
             $stack[] = [
                 'type' => $start_matches[1],
                 'index' => $start_matches[2],
-                'depth' => $depth,
-                'content_lines' => []
+                'content_lines' => [],
+                'depth' => count($stack)  // 현재 스택 깊이로 depth 설정
             ];
             continue;
         }
 
-        // 블록 종료
+        // 종료 태그 감지
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $line, $end_matches)) {
             $end_type = $end_matches[1];
             $end_index = $end_matches[2];
@@ -57,20 +57,17 @@ function parse_blocks($text, $depth = 0) {
                     continue 2;
                 }
             }
-
-            // 매치되지 않는 end는 무시
             continue;
         }
 
-        // 일반 줄 처리
+        // 일반 텍스트
         if (!empty($stack)) {
             $stack[count($stack) - 1]['content_lines'][] = $line;
         } elseif (trim($line) !== '') {
-            // 📌 start/end 사이 독립 줄도 포함
             $blocks[] = [
                 'type' => 'text',
                 'content' => $line,
-                'depth' => $depth
+                'depth' => 0
             ];
         }
     }
@@ -101,7 +98,6 @@ function parse_blocks($text, $depth = 0) {
 
     return $blocks;
 }
-
 
 
 function extract_tagged_blocks($text) {
