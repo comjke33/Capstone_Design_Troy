@@ -1,3 +1,28 @@
+/* step1 ,2 ,3 툴바 */
+.top-toolbar {
+  width: auto; 
+  padding: 15px 30px;
+  display: flex;
+  justify-content: center; /* ✅ 가운데 정렬 */
+}
+
+.step-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.step-buttons .ui.button {
+  background-color: #2185d0 !important; /* ✅ 파란 배경 */
+  color: #ffffff !important;           /* ✅ 흰 글씨 */
+  border-radius: 4px !important;
+  min-width: 100px;
+}
+
+.step-buttons .ui.button.active {
+  background-color: #0d71bb !important; /* ✅ 더 진한 파란색 (활성 상태) */
+}
+
+
 /* 전체 레이아웃 */
 .main-layout {
   display: flex;
