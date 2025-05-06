@@ -46,7 +46,7 @@ function guidelineFilter($text) {
 }
 
 //코드에서 태그 필터링
-function parsing_code($text) {
+function codeFilter($text) {
     $lines = explode("\n", $text);
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
