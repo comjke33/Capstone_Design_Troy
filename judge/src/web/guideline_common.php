@@ -8,7 +8,7 @@ function parse_blocks($text, $depth = 0) {
     foreach ($lines as $line) {
         $line = rtrim($line);
 
-        // 시작 태그 감지
+        // 블록 시작
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $start_matches)) {
             $stack[] = [
                 'type' => $start_matches[1],
@@ -19,7 +19,7 @@ function parse_blocks($text, $depth = 0) {
             continue;
         }
 
-        // 종료 태그 감지
+        // 블록 종료
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $line, $end_matches)) {
             $end_type = $end_matches[1];
             $end_index = $end_matches[2];
@@ -58,14 +58,15 @@ function parse_blocks($text, $depth = 0) {
                 }
             }
 
-            // 매치되는 시작 태그 없음 (무시)
+            // 매치되지 않는 end는 무시
             continue;
         }
 
-        // 일반 텍스트 처리
+        // 일반 줄 처리
         if (!empty($stack)) {
             $stack[count($stack) - 1]['content_lines'][] = $line;
         } elseif (trim($line) !== '') {
+            // 📌 start/end 사이 독립 줄도 포함
             $blocks[] = [
                 'type' => 'text',
                 'content' => $line,
