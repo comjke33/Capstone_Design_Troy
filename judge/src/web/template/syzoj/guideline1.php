@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
             buttons.forEach(b => b.classList.remove("active"));
             btn.classList.add("active");
 
-            const step = btn.getAttribute("data-step");
+            const step = btn.getAttribute("step");
             loadStep(step);
         });
     });
