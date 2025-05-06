@@ -23,46 +23,39 @@
             $html = "";
         
             foreach ($blocks as $block) {
-                $depth = $block['depth'] ?? 0;
+                $depth = $block['depth'];
                 $margin_left = $depth * 20;
-        
                 $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$margin_left}px;'>";
         
-                // ✅ 1. 먼저 content 출력
-                if (isset($block['content'])) {
-                    $raw = trim($block['content']);
-                    if ($raw !== '') {
-                        $line = htmlspecialchars($block['content']);
-                        $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
-                        $disabled = $has_correct_answer ? "" : "disabled";
+                // 🔽 1. content 먼저 출력
+                if (isset($block['content']) && trim($block['content']) !== '') {
+                    $line = htmlspecialchars(trim($block['content']));
+                    $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
+                    $disabled = $has_correct_answer ? "" : "disabled";
         
-                        $html .= "<div class='submission-line'>";
-                        $html .= "<div class='code-line'>{$line}</div>";
-                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                    $html .= "<div class='submission-line'>";
+                    $html .= "<div class='code-line'>{$line}</div>";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
         
-                        if ($has_correct_answer) {
-                            $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
-                            $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
-                        }
-        
-                        $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
-                        $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'>
-                                    <span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span>
-                                  </div>";
-                        $html .= "</div>"; // .submission-line
-        
-                        $answer_index++;
+                    if ($has_correct_answer) {
+                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
+                        $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
                     }
+        
+                    $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
+                    $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'>
+                                <span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span>
+                              </div>";
+                    $html .= "</div>"; // .submission-line 닫기
+                    $answer_index++;
                 }
         
-                // ✅ 2. 그리고 나서 children 출력 (원래 있던 위치로 옮김)
-                if (isset($block['children']) && is_array($block['children'])) {
-                    foreach ($block['children'] as $child) {
-                        $html .= render_tree_plain([$child], $answer_index);
-                    }
+                // 🔽 2. 자식 블록은 나중에 출력
+                if (isset($block['children']) && count($block['children']) > 0) {
+                    $html .= render_tree_plain($block['children'], $answer_index);
                 }
         
-                $html .= "</div>"; // .block-wrap
+                $html .= "</div>"; // .block-wrap 닫기
             }
         
             return $html;
