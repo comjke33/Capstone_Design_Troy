@@ -6,6 +6,15 @@
 
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
+<!-- 상단 툴바 -->
+<div class="top-toolbar">
+    <div class="step-buttons">
+        <button class="ui button active" step="1">Step 1</button>
+        <button class="ui button" step="2">Step 2</button>
+        <button class="ui button" step="3">Step 3</button>
+    </div>
+</div>
+
 <div class="main-layout">
     <!-- 좌측 패널 -->
     <div class="left-panel">
@@ -77,6 +86,40 @@
 </div>
 
 <script>
+    
+//버튼 부분
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".step-buttons .ui.button");
+    const content = document.getElementById("guideline-content");
+
+    function loadStep(step) {
+        fetch(`/guideline.php?step=${step}`)
+            .then(res => res.text())
+            .then(html => {
+                content.innerHTML = html;
+                window.history.replaceState(null, "", `?step=${step}`);
+            })
+            .catch(err => {
+                content.innerHTML = "<div class='ui red message'>⚠️ 가이드라인을 불러올 수 없습니다.</div>";
+                console.error("가이드라인 로딩 오류:", err);
+            });
+    }
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            buttons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            const step = btn.getAttribute("data-step");
+            loadStep(step);
+        });
+    });
+
+    // 페이지 로드시 step 파라미터가 있으면 로드
+    const initStep = new URLSearchParams(window.location.search).get("step") || 1;
+    loadStep(initStep);
+});
+
     
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
