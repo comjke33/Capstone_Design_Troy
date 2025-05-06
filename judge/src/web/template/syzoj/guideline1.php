@@ -90,6 +90,29 @@ include("../../guideline_common.php");
 </div>
 
 <script>
+(function clearGuidelineAnswersOutsidePage() {
+    const isGuidelinePage = window.location.pathname.includes("guideline");
+
+    if (!isGuidelinePage) {
+        const keysToRemove = [];
+
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key.startsWith("answer_step") || key.startsWith("answer_status")) {
+                keysToRemove.push(key);
+            }
+        }
+
+        keysToRemove.forEach(key => {
+            localStorage.removeItem(key);
+        });
+
+        console.log("✅ guideline 이외의 페이지 → 답안 초기화 완료");
+    } else {
+        console.log("✅ guideline 페이지 → 답안 유지");
+    }
+})();
+
 
 //버튼 부분
 document.addEventListener("DOMContentLoaded", function () {
