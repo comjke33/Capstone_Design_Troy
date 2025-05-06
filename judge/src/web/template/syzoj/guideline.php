@@ -28,8 +28,10 @@
     </div>
 </div>
 
-<!-- 기능 스크립트는 분리된 guideline.php가 담당 -->
-<?php 
-include("../../guideline.php");
-include("template/syzoj/footer.php"); 
-?>
+<script>
+<?php include("../../guideline.php"); ?>  // 반드시 <script> 내부에서 불러와야 함!
+</script>
+
+
+<?php include("template/syzoj/footer.php"); ?>
+
