@@ -1,11 +1,13 @@
 <?php
-// ✅ step 또는 problem_id가 없으면 기본값으로 리디렉션
+// step 또는 problem_id가 없으면 알림 후 이전 페이지로 이동
 if (!isset($_GET['step']) || !isset($_GET['problem_id'])) {
-    $default_step = 1;
-    $default_problem_id = 1000;
-    header("Location: ?step={$default_step}&problem_id={$default_problem_id}");
+    echo "<script>
+        alert('⚠️ 잘못된 접근입니다. 단계(step)와 문제 번호(problem_id)가 필요합니다.');
+        history.back(); // 이전 페이지로 돌아감
+    </script>";
     exit;
 }
+
 include("template/$OJ_TEMPLATE/header.php");
 include("../../guideline_common.php");
 ?>
