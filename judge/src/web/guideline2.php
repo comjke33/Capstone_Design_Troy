@@ -8,8 +8,8 @@ $tagged_path = "/home/Capstone_Design_Troy/test/total_test/step2_tagged_code.txt
 $guideline_contents = file_get_contents($file_path);
 $tagged_contents = file_get_contents($tagged_path);
 
-$OJ_BLOCK_TREE = parse_blocks($guideline_contents);
-$OJ_CORRECT_ANSWERS = extract_tagged_blocks($tagged_contents);
+$OJ_BLOCK_TREE = parsing_guideline($guideline_contents);
+$OJ_CORRECT_ANSWERS = parsing_code($tagged_contents);
 $OJ_SID = "STEP 1";
 
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
