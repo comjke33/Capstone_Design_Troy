@@ -51,28 +51,8 @@ function codeFilter($text) {
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
 
-    // 제외할 헤더 파일 패턴
-    $header_patterns = [
-        '/^\s*#include\s*<stdio\.h>\s*$/',
-        '/^\s*#include\s*<string\.h>\s*$/',
-        '/^\s*#include\s*<stdlib\.h>\s*$/',
-        '/^\s*#include\s*<math\.h>\s*$/'
-    ];
-
     foreach ($lines as $line) {
         $line = rtrim($line);
-
-        // 헤더 파일이면 건너뛰기
-        $is_header = false;
-        foreach ($header_patterns as $pattern) {
-            if (preg_match($pattern, $line)) {
-                $is_header = true;
-                break;
-            }
-        }
-        if ($is_header) {
-            continue;
-        }
 
         // 시작 태그 처리
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $m)) {
@@ -99,9 +79,8 @@ function codeFilter($text) {
             continue;
         }
 
-        // 일반 코드 줄 추가 (빈 줄 또는 } 한 줄만 있는 경우 제외)
-        $trimmed = trim($line);
-        if ($trimmed !== '' && $trimmed !== '}') {
+        // 일반 코드 줄 추가
+        if (trim($line) !== '') {
             $stack[count($stack) - 1]['children'][] = [
                 'type' => 'text',
                 'content' => $line,
@@ -110,6 +89,19 @@ function codeFilter($text) {
         }
     }
 
-    // 트리 그대로 반환
-    return $root['children'];
+    // 재귀적으로 태그 없는 코드만 추출
+    $extract_code = function($blocks) use (&$extract_code) {
+        $code = '';
+        foreach ($blocks as $block) {
+            if ($block['type'] === 'text') {
+                $code .= $block['content'] . "\n";
+            } elseif (!empty($block['children'])) {
+                $code .= $extract_code($block['children']);
+            }
+        }
+        return $code;
+    };
+
+    return $extract_code($root['children']);
 }
+
