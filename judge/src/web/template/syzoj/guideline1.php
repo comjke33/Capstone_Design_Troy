@@ -92,53 +92,30 @@ include("../../guideline_common.php");
 <script>
 
 //버튼 부분
-document.addEventListener("DOMContentLoaded", function () {
-    const buttons = document.querySelectorAll(".step-buttons .ui.button");
-    const urlParams = new URLSearchParams(window.location.search);
-    const currentStep = urlParams.get("step") || "1";
-    const problemId = urlParams.get("problem_id") || "0";
+document.querySelectorAll("textarea").forEach((textarea, index) => {
+    const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
+    const savedValue = localStorage.getItem(key);
 
-    const correctAnswers = window.correctAnswers || {}; // PHP에서 json_encode로 주입되어야 함
+    // ✅ 먼저 값을 복원
+    if (savedValue !== null) {
+        textarea.value = savedValue.trim(); // 값 복원 먼저
+    }
 
-    document.querySelectorAll("textarea").forEach((textarea, index) => {
-        const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
-        const savedValue = localStorage.getItem(key);
+    // ✅ 정답인지 확인
+    const correct = (correctAnswers[index]?.content || "").trim();
+    if (savedValue && savedValue.trim() === correct) {
+        textarea.readOnly = true;
+        textarea.style.backgroundColor = "#d4edda";
+        textarea.style.border = "1px solid #d4edda";
+        textarea.style.color = "#155724";
 
-        if (savedValue !== null) {
-            textarea.value = savedValue;
+        const check = document.getElementById(`check_${index}`);
+        if (check) check.style.display = "inline";
+    }
 
-            // ✅ 정답이 맞는 경우: 체크 마크 및 스타일 표시
-            const correct = (correctAnswers[index]?.content || "").trim();
-            if (savedValue.trim() === correct) {
-                textarea.readOnly = true;
-                textarea.style.backgroundColor = "#d4edda";
-                textarea.style.border = "1px solid #d4edda";
-                textarea.style.color = "#155724";
-                const check = document.getElementById(`check_${index}`);
-                if (check) check.style.display = "inline";
-            }
-        }
-
-        // 입력 시 저장
-        textarea.addEventListener("input", () => {
-            localStorage.setItem(key, textarea.value);
-        });
-    });
-
-    // 버튼 클릭 시 다음 단계로 이동
-    buttons.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const nextStep = btn.getAttribute("data-step");
-            const nextProblemId = btn.getAttribute("data-problem-id") || problemId;
-
-            document.querySelectorAll("textarea").forEach((textarea, index) => {
-                const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
-                localStorage.setItem(key, textarea.value);
-            });
-
-            const baseUrl = window.location.pathname;
-            window.location.href = `${baseUrl}?step=${nextStep}&problem_id=${nextProblemId}`;
-        });
+    // ✅ 입력 변경 시 저장
+    textarea.addEventListener("input", () => {
+        localStorage.setItem(key, textarea.value);
     });
 });
 
