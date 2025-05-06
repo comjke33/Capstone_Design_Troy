@@ -57,8 +57,8 @@
 
 #guideline-content {
     flex-grow: 1;
-    width: 200%;
-    min-width: 1600px;         /* ✅ 충분히 넓은 문제 영역 확보 */
+    width: 100%;
+    min-width: 1600px;         
 }
 
 
