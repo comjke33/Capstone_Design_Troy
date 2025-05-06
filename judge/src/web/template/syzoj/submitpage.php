@@ -254,12 +254,15 @@
 
 function do_submit() {
 	$("#Submit").attr("disabled", "true");   // 중복 클릭 방지용 버튼 비활성화
+
+	//제출 시 제출 카운트 + 1
 	$.post("update_submit_count.php", function(response) {
 		console.log("✅ update_submit_count.php 실행됨!");
 		console.log("서버 응답:", response);
 	}).fail(function(jqXHR) {
 		console.error("❌ 실행 실패:", jqXHR.status, jqXHR.responseText);
 	});
+	
 	if (using_blockly)
 		translate(); // Blockly 코드 변환
 

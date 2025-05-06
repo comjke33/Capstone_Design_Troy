@@ -1,63 +1,51 @@
 <?php
 
-function parse_blocks($text, $depth = 0) {
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\](.*?)(?=\[.*_\3\(\d+\)\])/s";
-    $blocks = [];
-    $offset = 0;
+function parse_blocks($text) {
+    $lines = explode("\n", $text);
+    $root = ['children' => [], 'depth' => -1];
+    $stack = [ &$root ];
 
-    while (preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE, $offset)) {
-        $start_pos = $matches[0][1];
-        $full_len = strlen($matches[0][0]);
-        $end_pos = $start_pos + $full_len;
+    foreach ($lines as $line) {
+        $line = rtrim($line);
 
-        // 앞의 텍스트
-        $before_text = substr($text, $offset, $start_pos - $offset);
-        if (trim($before_text) !== '') {
-            foreach (explode("\n", $before_text) as $line) {
-                if (trim($line) !== '') {
-                    $blocks[] = [
-                        'type' => 'text',
-                        'content' => rtrim($line),
-                        'depth' => $depth  // ✅ 들여쓰기 정보 추가
-                    ];
+        // 시작 태그일 경우 새 블록 생성 및 스택에 추가
+        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $m)) {
+            $block = [
+                'type' => $m[1],
+                'index' => $m[2],
+                'depth' => count($stack) - 1,
+                'children' => []
+            ];
+            $stack[count($stack) - 1]['children'][] = &$block;
+            $stack[] = &$block;
+            unset($block);
+            continue;
+        }
+
+        // 종료 태그일 경우 해당 블록을 스택에서 제거
+        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $line, $m)) {
+            for ($i = count($stack) - 1; $i >= 1; $i--) {
+                if ($stack[$i]['type'] === $m[1] && $stack[$i]['index'] == $m[2]) {
+                    array_pop($stack);
+                    break;
                 }
             }
+            continue;
         }
 
-        $tag_type = $matches[1][0];
-        $tag_index = $matches[3][0];
-        $content = $matches[4][0];
-
-        // ✅ 자식은 depth + 1
-        $children = parse_blocks($content, $depth + 1);
-
-        $blocks[] = [
-            'type' => $tag_type,
-            'index' => $tag_index,
-            'content' => $content,
-            'children' => $children,
-            'depth' => $depth  // ✅ 자기 depth도 기록
-        ];
-
-        $offset = $end_pos;
-    }
-
-    // 나머지
-    $tail = substr($text, $offset);
-    if (trim($tail) !== '') {
-        foreach (explode("\n", $tail) as $line) {
-            if (trim($line) !== '') {
-                $blocks[] = [
-                    'type' => 'text',
-                    'content' => rtrim($line),
-                    'depth' => $depth 
-                ];
-            }
+        // 일반 텍스트는 현재 블록에 추가
+        if (trim($line) !== '') {
+            $stack[count($stack) - 1]['children'][] = [
+                'type' => 'text',
+                'content' => $line,
+                'depth' => count($stack) - 1
+            ];
         }
     }
 
-    return $blocks;
+    return $root['children'];
 }
+
 
 function extract_tagged_blocks($text) {
     $tag_pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";

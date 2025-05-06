@@ -21,54 +21,70 @@ $mistake_names = [
     13 => "함수 인자 개수/타입 오류",
     14 => "함수 정의 중복",
     15 => "비교 연산자 오류",
+    16 => "표준 함수 오용",        // 추가
+    17 => "전처리기 오류",        // 추가
+    18 => "런타임 오류",         // 추가
     -1 => "기타 오류"
 ];
 
 $mistake_comments = [
-    1 => "변수를 선언할 때 오타나 누락이 없었는지 다시 확인하세요.",
-    2 => "함수가 값을 제대로 반환하는지 점검해보세요.",
-    3 => "포인터 사용 전에 초기화했는지 꼭 확인하세요.",
-    4 => "배열의 인덱스 범위를 초과하지 않았는지 체크하세요.",
-    5 => "scanf/printf의 형식 지정자를 다시 점검하세요.",
-    6 => "비교 및 산술 연산자 사용을 주의하세요.",
-    7 => "숫자 리터럴 표기법에 오류가 없는지 확인하세요.",
-    8 => "표현식을 빠뜨리지 않았는지 확인하세요.",
-    9 => "표현식 누락",
-    10 => "형 변환 오류",
-    11 => "세미콜론 누락",
-    12 => "괄호 닫힘 오류",
-    13 => "함수 인자 개수/타입 오류",
-    14 => "함수 정의 중복",
-    15 => "비교 연산자 오류",
-    -1 => "기타 오류입니다. 코드 리뷰를 권장합니다."
+    1 => "http://192.168.0.85/reference.php##변수-선언",
+    2 => "http://192.168.0.85/reference.php#함수-선언-누락",
+    3 => "http://192.168.0.85/reference.php#함수-반환",
+    4 => "http://192.168.0.85/reference.php#포인터",
+    5 => "http://192.168.0.85/reference.php#배열-접근-오류",
+    6 => "http://192.168.0.85/reference.php#입출력-형식-지정자",
+    7 => "http://192.168.0.85/reference.php#연산자-사용-오류",
+    8 => "http://192.168.0.85/reference.php#정수실수-리터럴-오류",
+    9 => "http://192.168.0.85/reference.php#표현식-누락",
+    10 => "http://192.168.0.85/reference.php#형-변환-오류",
+    11 => "http://192.168.0.85/reference.php#세미콜론-누락",
+    12 => "http://192.168.0.85/reference.php#괄호-닫힘-오류",
+    13 => "http://192.168.0.85/reference.php#함수-인자-순서-오류",
+    14 => "http://192.168.0.85/reference.php##함수-정의-중복",
+    15 => "http://192.168.0.85/reference.php#비교-연산자",
+    16 => "http://192.168.0.85/reference.php#표준-함수-오용",        // 이태우추가
+    17 => "http://192.168.0.85/reference.php#전처리기-오류",        // 추가
+    18 => "http://192.168.0.85/reference.php#런타임-오류",         // 추가
+    -1 => "http://192.168.0.85/reference.php#알-수-없는-오류"
 ];
 
 // 현재 기록
-$sql_now = "SELECT mistake_type, mistake_count FROM user_weakness WHERE user_id = ? AND mistake_count >= 3";
+$sql_now = "SELECT mistake_type, mistake_count FROM user_weakness_now WHERE user_id = ? AND mistake_count >= 3";
 $result_now = pdo_query($sql_now, $user_id);
 
 // 이전 기록(수정예정정)
-$sql_prev = "SELECT mistake_type, mistake_count FROM user_weakness WHERE user_id = ? AND mistake_count >= 3";
+$sql_prev = "SELECT mistake_type, mistake_count FROM user_weakness_dec WHERE user_id = ? AND mistake_count >= 3";
 $result_prev = pdo_query($sql_prev, $user_id);
 
 // Chart.js용 데이터 구성
-$labels = [];
+$labels_prev = [];
+$labels_now = [];
 $data_now = [];
 $data_prev = [];
 
 // 현재 제출 데이터
 foreach ($result_now as $row) {
-    $labels[] = $mistake_names[$row['mistake_type']];
+    $labels_now[] = $mistake_names[$row['mistake_type']];
     $data_now[] = $row['mistake_count'];
 }
 
 // 이전 제출 데이터
 foreach ($result_prev as $row) {
     $data_prev[] = $row['mistake_count'];
+    $labels_prev[] = $mistake_names[$row['mistake_type']];
 }
 
 // LLM 코멘트 (직접 입력)
-$ai_comment = "최근 반복된 실수들을 보면 포인터와 배열 관련 오류가 빈번합니다. 해당 개념을 집중적으로 복습해보세요!";
+$sql_comment = "SELECT comment FROM comment WHERE user_id = ?";
+$result_comment = pdo_query($sql_comment, $user_id);
+
+$comment_text = '';
+if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
+    $comment_text = $result_comment[0]['comment'];
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +101,9 @@ $ai_comment = "최근 반복된 실수들을 보면 포인터와 배열 관련 �
 
     <div class="ui segment">
         <h4 class="ui header">💬 AI 코멘트</h4>
-        <div class="ui message"><?php echo $ai_comment; ?></div>
+        <div class="ui message">
+            <?php echo nl2br(htmlspecialchars($comment_text)); ?>
+        </div>
     </div>
 
     <?php if (count($result_now) > 0) { ?>
@@ -108,7 +126,7 @@ $ai_comment = "최근 반복된 실수들을 보면 포인터와 배열 관련 �
             <tr>
                 <th>취약 유형</th>
                 <th>실수 횟수</th>
-                <th>코멘트</th>
+                <th>문법 개념 링크</th>
             </tr>
             </thead>
             <tbody>
@@ -117,7 +135,9 @@ $ai_comment = "최근 반복된 실수들을 보면 포인터와 배열 관련 �
                 <tr>
                     <td><?php echo $mistake_names[$type]; ?></td>
                     <td><?php echo $row['mistake_count']; ?></td>
-                    <td><?php echo $mistake_comments[$type]; ?></td>
+                    <td>
+                        <a href="<?php echo $mistake_comments[$type]; ?>" target="_blank">이동하기</a>
+                    </td>
                 </tr>
             <?php } ?>
             </tbody>
@@ -130,51 +150,64 @@ $ai_comment = "최근 반복된 실수들을 보면 포인터와 배열 관련 �
 </div>
 
 <script>
-    const labels = <?php echo json_encode($labels); ?>;
     const dataNow = <?php echo json_encode($data_now); ?>;
     const dataPrev = <?php echo json_encode($data_prev); ?>;
 
-    new Chart(document.getElementById('mistakeChartPrev'), {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: '이전 실수 횟수',
-                data: dataPrev,
-                backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: { y: { beginAtZero: true } },
-            plugins: {
-                legend: { display: false },
-                tooltip: { callbacks: { label: ctx => `${ctx.raw}회` } }
-            }
-        }
-    });
+    const labelsPrev = <?php echo json_encode($labels_prev); ?>;
+    const labelsNow = <?php echo json_encode($labels_now); ?>;
 
-    new Chart(document.getElementById('mistakeChartNow'), {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: '현재 실수 횟수',
-                data: dataNow,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: { y: { beginAtZero: true } },
-            plugins: {
-                legend: { display: false },
-                tooltip: { callbacks: { label: ctx => `${ctx.raw}회` } }
+    // 최대값 계산 (비어있는 데이터가 있을 경우 0으로 처리)
+    const maxValuePrev = dataPrev.length > 0 ? Math.max(...dataPrev) : 0;
+    const maxValueNow = dataNow.length > 0 ? Math.max(...dataNow) : 0;
+    const maxValue = Math.max(maxValuePrev, maxValueNow);
+
+    // 첫 번째 차트: 이전 실수 횟수
+    if (dataPrev.length > 0) {
+        new Chart(document.getElementById('mistakeChartPrev'), {
+            type: 'bar',
+            data: {
+                labels: labelsPrev,
+                datasets: [{
+                    label: '이전 실수 횟수',
+                    data: dataPrev,
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: { y: { beginAtZero: true, max: maxValue } },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: ctx => `${ctx.raw}회` } }
+                }
             }
-        }
-    });
+        });
+    }
+
+    // 두 번째 차트: 현재 실수 횟수
+    if (dataNow.length > 0) {
+        new Chart(document.getElementById('mistakeChartNow'), {
+            type: 'bar',
+            data: {
+                labels: labelsNow,
+                datasets: [{
+                    label: '현재 실수 횟수',
+                    data: dataNow,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: { y: { beginAtZero: true, max: maxValue } },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: ctx => `${ctx.raw}회` } }
+                }
+            }
+        });
+    }
 </script>
 
 </body>

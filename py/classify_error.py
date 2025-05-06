@@ -15,7 +15,7 @@ ERROR_PATTERN_MAP = {
     r"incompatible pointer type|incompatible integer to pointer conversion|assignment makes pointer from integer|passing .* to parameter of incompatible type": 4,
 
     # 5. 배열 인덱스 오류
-    r"array index .* is past the end|subscripted value is not an array|AddressSanitizer: stack-buffer-overflow": 5,
+    r"array index .* is past the end|subscripted value is not an array": 5,
 
     # 6. 입출력 형식 지정자 오류
     r"format specifies type .* but the argument has type|format string is not a string literal|more '%' conversions than data arguments": 6,
@@ -27,7 +27,7 @@ ERROR_PATTERN_MAP = {
     r"invalid suffix|invalid digit .* in decimal constant|literal is too large": 8,
 
     # 9. 표현식 누락
-    r"expected expression|expected primary-expression": 9,
+    r"expected expression|expected primary-expression|expected statement": 9,
 
     # 10. 형 변환 오류
     r"implicit conversion from .* to .*|cannot initialize a variable of type .* with an .* of type .*|assignment makes .* without a cast": 10,
@@ -45,7 +45,16 @@ ERROR_PATTERN_MAP = {
     r"redefinition of .*": 14,
 
     # 15. 비교 연산자 오류
-    r"invalid operands to binary expression .*==.*|assignment makes integer from pointer|using the result of an assignment as a condition without parentheses": 15
+    r"invalid operands to binary expression .*==.*|assignment makes integer from pointer|using the result of an assignment as a condition without parentheses": 15,
+    
+    # 16. 표준 함수 오용
+    r"implicitly declaring library function": 16,
+
+    # 17. 전처리기 오류
+    r"header file not found|#include expects": 17,
+
+    # 18. 런타임 오류
+    r"AddressSanitizer:.*": 18,
 }
 
 def classify_error(error_msg):
