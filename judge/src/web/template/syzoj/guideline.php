@@ -12,6 +12,22 @@
     </div>
 </div>
 
+<style>
+.step-buttons {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2em;
+}
+.step-buttons .ui.button {
+    border-radius: 0;
+    background-color: #2185d0;
+    color: white;
+}
+.step-buttons .ui.button.active {
+    background-color: #0d71bb;
+}
+</style>
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
