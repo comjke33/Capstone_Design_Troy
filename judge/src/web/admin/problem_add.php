@@ -135,6 +135,37 @@ if(isset($_POST['remote_oj'])){
 // shell_exec("cd /home/Capstone_Design_Troy/test/ && python3 AIFlowchart.py" . escapeshellarg($problem_id));
 // //파이썬 실행
 
+
+// =================순서도 생성 트리거=======================
+
+// $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
+$problem_id = "1000"; // 디버깅용
+$problem_id = $pid;
+
+// 인자를 공백으로 구분해 Python 스크립트에 전달
+$tagged_guideline = "/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/" . $problem_id . ".txt";
+
+// $tagged_guideline = "../src/web/tagged_guideline/";
+// problem을 가져오는 SQL 쿼리
+// $sql = "SELECT description FROM problem WHERE problem_id = ?";
+// $problem = pdo_query($sql, $problem_id);
+// $desc = $problem[0][0];
+$desc = $description;
+
+$output_dir = "/home/Capstone_Design_Troy/judge/src/web/flowcharts/";
+
+echo "<pre>Python 스크립트 실행 중...</pre>";
+
+$command = "cd /home/Capstone_Design_Troy/py/ && python3 make_flowchart.py "
+    . escapeshellarg($tagged_guideline) . " "
+    . escapeshellarg($desc) . " "
+    . escapeshellarg($output_dir) . " "
+    . escapeshellarg($problem_id);
+
+$result = shell_exec($command);
+
+// ========================================================
+
 $sql = "INSERT INTO `privilege` (`user_id`,`rightstr`) VALUES(?,?)";
 pdo_query($sql, $_SESSION[$OJ_NAME.'_'.'user_id'], "p$pid");
 $_SESSION[$OJ_NAME.'_'."p$pid"] = true;
