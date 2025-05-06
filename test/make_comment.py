@@ -251,7 +251,7 @@ for user in active_users:
             VALUES (%s, %s)
             ON DUPLICATE KEY UPDATE submit_count = VALUES(submit_count)
             """,
-            (row[0], row[1])
+            (row['user_id'], row['submit_count'])  # 딕셔너리 키로 접근
         )
 
     #submit 제출횟수 0으로 초기화
