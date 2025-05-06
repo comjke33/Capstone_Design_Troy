@@ -19,11 +19,11 @@ include("../../guideline_common.php");
   
   <div class="action-buttons">
     <div class="back-button">
-        <button class="ui button back" id="view-problem-button">문제 가기</button>
+        <button class="ui button back" id="view-problem-button">↩</button>
     </div>
     
     <div class="reset-button">
-        <button class="ui button again" id="reset-button">다시 풀기</button>
+        <button class="ui button again" id="reset-button">↻</button>
     </div>
 </div>
 
