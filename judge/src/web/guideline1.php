@@ -9,7 +9,7 @@ $guideline_contents = file_get_contents($file_path);
 $tagged_contents = file_get_contents($tagged_path);
 
 $OJ_BLOCK_TREE = guidelineFilter($guideline_contents);
-$OJ_CORRECT_ANSWERS = extract_tagged_blocks($tagged_contents);
+$OJ_CORRECT_ANSWERS = codeFilter($tagged_contents);
 $OJ_SID = "STEP 1";
 
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;

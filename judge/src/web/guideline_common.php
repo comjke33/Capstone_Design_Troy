@@ -46,7 +46,7 @@ function guidelineFilter($text) {
 }
 
 
-function extract_tagged_blocks($text) {
+function codeFilter($text) {
     $tag_pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
 
     $blocks = [];
