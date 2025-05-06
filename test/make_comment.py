@@ -99,6 +99,9 @@ for user in active_users:
         dec_mistakes = f"아래는 '{user_id}' 사용자의 저번 5일간 주요 코드 오류 항목입니다:\n\n" + "\n".join(dec_result_lines)
         #print(mistakes)
         #print("\n" + "="*40 + "\n")
+    else:
+        dec_mistakes = "저번 5일간 데이터가 없습니다."
+    
 
     #프롬프트 실행
     response = client.responses.create(
