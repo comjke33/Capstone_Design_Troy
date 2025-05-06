@@ -45,21 +45,22 @@
     background-color: #0d71bb !important;
 }
 
-/* ✅ 메인 콘텐츠 레이아웃 */
 .layout-container {
     display: flex;
     flex-direction: column;
-    padding: 30px 60px;
-    max-width: 1600px;
-    margin: 0 auto;
+    padding: 30px 80px;  /* 좌우 여백 확대 */
+    width: 100%;
+    max-width: 100%;     /* 전체 너비 사용 */
     box-sizing: border-box;
 }
 
+
 #guideline-content {
     flex-grow: 1;
-    min-height: 500px;
-    min-width: 800px;
+    min-width: 1200px;   /* 최소 너비 확대 */
+    width: 100%;
 }
+
 </style>
 
 <script>
