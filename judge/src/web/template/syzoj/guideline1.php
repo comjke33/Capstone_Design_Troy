@@ -9,15 +9,8 @@ include("../../guideline_common.php");
 
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
-<!-- 상단 툴바 -->
-<div class="top-toolbar">
-  <div class="step-buttons">
-    <button class="ui button" data-step="1" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 1</button>
-    <button class="ui button" data-step="2" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 2</button>
-    <button class="ui button" data-step="3" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 3</button>
-  </div>
-  
-  <div class="action-buttons">
+<!-- 뒤로가기 및 리셋 버튼 -->
+<div class="action-buttons">
     <div class="back-button">
         <button class="ui button back" id="view-problem-button">↩</button>
     </div>
@@ -25,10 +18,15 @@ include("../../guideline_common.php");
     <div class="reset-button">
         <button class="ui button again" id="reset-button">↻</button>
     </div>
-</div>
+  </div>
 
-</div>
-
+<!-- 상단 툴바 -->
+<div class="top-toolbar">
+  <div class="step-buttons">
+    <button class="ui button" data-step="1" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 1</button>
+    <button class="ui button" data-step="2" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 2</button>
+    <button class="ui button" data-step="3" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 3</button>
+  </div>
 </div>
 
 
