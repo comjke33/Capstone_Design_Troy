@@ -16,7 +16,7 @@ $output_dir = "/output/";
 
 echo "<pre>Python 스크립트 실행 중...</pre>";
 
-$command = "cd /home/Capstone_Design_Troy/py/ && python3 make_flowcharts.py "
+$command = "cd /home/Capstone_Design_Troy/py/ && python3 make_flowchart.py "
     . escapeshellarg($tagged_guideline) . " "
     . escapeshellarg($problem) . " "
     . escapeshellarg($output_dir) . " "
