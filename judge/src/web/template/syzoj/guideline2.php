@@ -9,11 +9,12 @@
 <!-- 상단 툴바 -->
 <div class="top-toolbar">
     <div class="step-buttons">
-        <button class="ui button" data-step="1" data-problem-id="123">Step 1</button>
-        <button class="ui button" data-step="2" data-problem-id="123">Step 2</button>
-        <button class="ui button" data-step="3" data-problem-id="123">Step 3</button>
+        <button class="ui button" data-step="1" data-problem-id="<?= $problem_id ?>">Step 1</button>
+        <button class="ui button" data-step="2" data-problem-id="<?= $problem_id ?>">Step 2</button>
+        <button class="ui button" data-step="3" data-problem-id="<?= $problem_id ?>">Step 3</button>
     </div>
 </div>
+
 
 <div class="main-layout">
     <!-- 좌측 패널 -->
