@@ -91,6 +91,21 @@ include("../../guideline_common.php");
 
 <script>
 
+// ✅ 사용자가 guideline.php에 새로 진입했을 때 이전 답안 초기화(즉시 실행 함수)
+(function clearOldAnswers() {
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        // answer_step 또는 answer_status로 시작하면 삭제 대상
+        if (key.startsWith("answer_step") || key.startsWith("answer_status")) {
+            keysToRemove.push(key);
+        }
+    }
+
+    keysToRemove.forEach(key => localStorage.removeItem(key));
+})();
+
+
 //버튼 부분
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
