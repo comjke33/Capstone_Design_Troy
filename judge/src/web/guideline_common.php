@@ -1,5 +1,6 @@
 <?php
-function parsing_guideline($text) {
+
+function parse_blocks($text) {
     $lines = explode("\n", $text);
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
