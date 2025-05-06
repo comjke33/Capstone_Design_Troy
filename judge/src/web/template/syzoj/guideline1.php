@@ -27,9 +27,10 @@
                 $margin_left = $depth * 20;
                 $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$margin_left}px;'>";
         
-                // 🔽 1. content 먼저 출력
+                // ✅ 먼저 현재 블록의 content 출력 (전위 순회)
                 if (isset($block['content']) && trim($block['content']) !== '') {
-                    $line = htmlspecialchars(trim($block['content']));
+                    $raw = trim($block['content']);
+                    $line = htmlspecialchars($raw);
                     $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
                     $disabled = $has_correct_answer ? "" : "disabled";
         
@@ -47,11 +48,12 @@
                                 <span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span>
                               </div>";
                     $html .= "</div>"; // .submission-line 닫기
+        
                     $answer_index++;
                 }
         
-                // 🔽 2. 자식 블록은 나중에 출력
-                if (isset($block['children']) && count($block['children']) > 0) {
+                // ✅ 그리고 나서 자식들 재귀적으로 출력
+                if (isset($block['children']) && is_array($block['children']) && count($block['children']) > 0) {
                     $html .= render_tree_plain($block['children'], $answer_index);
                 }
         
@@ -60,6 +62,7 @@
         
             return $html;
         }
+        
         
 
         $answer_index = 0;
