@@ -2,101 +2,48 @@
 
 function parse_blocks($text) {
     $lines = explode("\n", $text);
-    $blocks = [];
-    $stack = [];
+    $root = ['children' => [], 'depth' => -1];  // 루트 노드 (depth -1로 시작)
+    $stack = [ &$root ];  // 참조 스택
 
     foreach ($lines as $line) {
         $line = rtrim($line);
 
         // 시작 태그 감지
-        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $start_matches)) {
-            $stack[] = [
-                'type' => $start_matches[1],
-                'index' => $start_matches[2],
-                'content_lines' => [],
-                'depth' => count($stack)  // 현재 스택 깊이로 depth 설정
+        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $m)) {
+            $block = [
+                'type' => $m[1],
+                'index' => $m[2],
+                'depth' => count($stack) - 1,
+                'children' => []
             ];
+            $stack[count($stack) - 1]['children'][] = &$block;  // 현재 부모에 자식 추가
+            $stack[] = &$block;  // 스택에 쌓음
+            unset($block);  // 참조 해제
             continue;
         }
 
         // 종료 태그 감지
-        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $line, $end_matches)) {
-            $end_type = $end_matches[1];
-            $end_index = $end_matches[2];
-
-            for ($i = count($stack) - 1; $i >= 0; $i--) {
-                if ($stack[$i]['type'] === $end_type && $stack[$i]['index'] === $end_index) {
-                    $matched = array_splice($stack, $i, 1)[0];
-                    $children = [];
-
-                    foreach ($matched['content_lines'] as $cl) {
-                        if (is_array($cl)) {
-                            $children[] = $cl;
-                        } else {
-                            $children[] = [
-                                'type' => 'text',
-                                'content' => $cl,
-                                'depth' => $matched['depth'] + 1
-                            ];
-                        }
-                    }
-
-                    $block = [
-                        'type' => $matched['type'],
-                        'index' => $matched['index'],
-                        'depth' => $matched['depth'],
-                        'children' => $children
-                    ];
-
-                    if (!empty($stack)) {
-                        $stack[count($stack) - 1]['content_lines'][] = $block;
-                    } else {
-                        $blocks[] = $block;
-                    }
-
-                    continue 2;
+        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $line, $m)) {
+            for ($i = count($stack) - 1; $i >= 1; $i--) {
+                if ($stack[$i]['type'] === $m[1] && $stack[$i]['index'] == $m[2]) {
+                    array_pop($stack);
+                    break;
                 }
             }
             continue;
         }
 
-        // 일반 텍스트
-        if (!empty($stack)) {
-            $stack[count($stack) - 1]['content_lines'][] = $line;
-        } elseif (trim($line) !== '') {
-            $blocks[] = [
+        // 일반 텍스트 처리
+        if (trim($line) !== '') {
+            $stack[count($stack) - 1]['children'][] = [
                 'type' => 'text',
                 'content' => $line,
-                'depth' => 0
+                'depth' => count($stack) - 1
             ];
         }
     }
 
-    // 닫히지 않은 블록 처리
-    foreach ($stack as $unmatched) {
-        $children = [];
-        foreach ($unmatched['content_lines'] as $cl) {
-            if (is_array($cl)) {
-                $children[] = $cl;
-            } else {
-                $children[] = [
-                    'type' => 'text',
-                    'content' => $cl,
-                    'depth' => $unmatched['depth'] + 1
-                ];
-            }
-        }
-
-        $blocks[] = [
-            'type' => $unmatched['type'],
-            'index' => $unmatched['index'],
-            'depth' => $unmatched['depth'],
-            'children' => $children,
-            'unmatched' => true
-        ];
-    }
-
-    return $blocks;
+    return $root['children'];
 }
 
 
