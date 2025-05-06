@@ -12,25 +12,58 @@
     </div>
 </div>
 
+<div class="layout-container">
+    <!-- 좌측 상단 버튼 -->
+    <div class="step-buttons">
+        <button class="ui button active" data-step="1">Step 1</button>
+        <button class="ui button" data-step="2">Step 2</button>
+        <button class="ui button" data-step="3">Step 3</button>
+    </div>
+
+    <!-- 가운데 가이드라인 출력 영역 -->
+    <div id="guideline-content">
+        <!-- 여기에 동적으로 PHP 출력 내용이 삽입됨 -->
+    </div>
+</div>
+
 <style>
-.step-buttons {
-    display: flex !important;
-    flex-direction: column;
+/* 전체 레이아웃을 가로로 구성 */
+.layout-container {
+    display: flex;
     align-items: flex-start;
-    gap: 10px;
+    padding: 20px;
+    gap: 30px;
 }
 
+/* 버튼 가로 정렬 + 왼쪽 상단 고정 */
+.step-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 0;
+    margin-left: 0;
+}
+
+/* 버튼 스타일 강화 */
 .step-buttons .ui.button {
-    width: 120px;
     border-radius: 0 !important;
     background-color: #2185d0 !important;
     color: white !important;
+    min-width: 100px;
 }
 
 .step-buttons .ui.button.active {
     background-color: #0d71bb !important;
 }
+
+/* 가이드라인 내용 출력 영역을 넓게 */
+#guideline-content {
+    flex-grow: 1;
+    max-width: 100%;
+    min-width: 700px;
+}
 </style>
+
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
