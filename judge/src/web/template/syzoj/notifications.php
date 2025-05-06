@@ -126,7 +126,7 @@ if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
             <tr>
                 <th>취약 유형</th>
                 <th>실수 횟수</th>
-                <th>문법 개념 링크크</th>
+                <th>문법 개념 링크</th>
             </tr>
             </thead>
             <tbody>
