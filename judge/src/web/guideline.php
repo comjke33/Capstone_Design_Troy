@@ -49,7 +49,7 @@
     display: flex;
     flex-direction: column;
     padding: 30px 40px;
-    max-width: 1600px;         /* ✅ 넓은 화면에서 최대폭 제한 */
+    max-width: 160px;         /* ✅ 넓은 화면에서 최대폭 제한 */
     width: 100%;               /* ✅ 화면 가득 채움 */
     margin: 0 auto;            /* ✅ 가운데 정렬 */
     box-sizing: border-box;
@@ -57,8 +57,8 @@
 
 #guideline-content {
     flex-grow: 1;
-    width: 100%;
-    min-width: 1000px;         /* ✅ 충분히 넓은 문제 영역 확보 */
+    width: 200%;
+    min-width: 1600px;         /* ✅ 충분히 넓은 문제 영역 확보 */
 }
 
 
