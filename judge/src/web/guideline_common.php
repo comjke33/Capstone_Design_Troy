@@ -79,8 +79,9 @@ function codeFilter($text) {
             continue;
         }
 
-        // 일반 코드 줄 추가
-        if (trim($line) !== '') {
+        // 일반 코드 줄 추가 (빈 줄 또는 } 한 줄만 있는 경우 제외)
+        $trimmed = trim($line);
+        if ($trimmed !== '' && $trimmed !== '}') {
             $stack[count($stack) - 1]['children'][] = [
                 'type' => 'text',
                 'content' => $line,
@@ -89,19 +90,6 @@ function codeFilter($text) {
         }
     }
 
-    // 재귀적으로 태그 없는 코드만 추출
-    $extract_code = function($blocks) use (&$extract_code) {
-        $code = '';
-        foreach ($blocks as $block) {
-            if ($block['type'] === 'text') {
-                $code .= $block['content'] . "\n";
-            } elseif (!empty($block['children'])) {
-                $code .= $extract_code($block['children']);
-            }
-        }
-        return $code;
-    };
-
-    return $extract_code($root['children']);
+    // 트리 그대로 반환
+    return $root['children'];
 }
-
