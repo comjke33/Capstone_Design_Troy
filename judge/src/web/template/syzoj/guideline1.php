@@ -90,19 +90,6 @@
 //버튼 부분
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
-    const content = document.getElementById("guideline-content");
-
-    function loadStep(step) {
-        fetch(`/guideline.php?step=${step}`)
-            .then(res => res.text())
-            .then(html => {
-                content.innerHTML = html;
-                window.history.replaceState(null, "", `?step=${step}`);
-            })
-            .catch(err => {
-                console.error("가이드라인 로딩 오류:", err);
-            });
-    }
 
     buttons.forEach(btn => {
         btn.addEventListener("click", () => {
@@ -110,14 +97,13 @@ document.addEventListener("DOMContentLoaded", function () {
             btn.classList.add("active");
 
             const step = btn.getAttribute("data-step");
-            loadStep(step);
+
+            // 현재 폴더 기준으로 guideline1.php, guideline2.php, guideline3.php로 이동
+            window.location.href = `guideline${step}.php`;
         });
     });
-
-    // 페이지 로드시 step 파라미터가 있으면 로드
-    const initStep = new URLSearchParams(window.location.search).get("step") || 1;
-    loadStep(initStep);
 });
+
 
     
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
