@@ -1,12 +1,9 @@
 <?php
-
 include("template/$OJ_TEMPLATE/header.php");
 include("../../guideline_common.php");
 ?>
 
-<div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
-</div>
-
+<div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'></div>
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
 <!-- 뒤로가기 및 리셋 버튼 -->
@@ -18,7 +15,7 @@ include("../../guideline_common.php");
     <div class="reset-button">
         <button class="ui button again" id="reset-button">↻</button>
     </div>
-  </div>
+</div>
 
 <!-- 상단 툴바 -->
 <div class="top-toolbar">
@@ -201,8 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-document.addEventListener()
-
+//문제 맞았는지 여부 확인
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
 
@@ -242,7 +238,7 @@ function submitAnswer(index) {
     }
 }
 
-
+//답안 보여주기
 function showAnswer(index) {
     const correctCode = correctAnswers[index]?.content.trim();
     if (!correctCode) return;
@@ -252,6 +248,7 @@ function showAnswer(index) {
     answerArea.style.display = 'block';
 }
 
+//화면 크기 재조절
 function autoResize(ta) {
     ta.style.height = 'auto';
     ta.style.height = ta.scrollHeight + 'px';
@@ -260,6 +257,7 @@ function autoResize(ta) {
 let currentTextarea = null;
 let animationRunning = false;
 
+//flowchart렌더링 및 매끄러운 이동
 function updateImageForTextarea(index, ta) {
     currentTextarea = ta;
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
@@ -282,6 +280,7 @@ function updateImageForTextarea(index, ta) {
         });
 }
 
+//이미지 매끄러운 이동
 function smoothFollowImage() {
     const img = document.getElementById("floating-img");
     if (!img || !currentTextarea) {
@@ -308,7 +307,6 @@ function smoothFollowImage() {
 
     requestAnimationFrame(smoothFollowImage);
 }
-
 
 // textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {

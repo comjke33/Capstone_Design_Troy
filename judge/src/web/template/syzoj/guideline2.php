@@ -1,13 +1,21 @@
 <?php
-
 include("template/$OJ_TEMPLATE/header.php");
 include("../../guideline_common.php");
 ?>
 
-<div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
-</div>
-
+<div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'></div>
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
+
+<!-- 뒤로가기 및 리셋 버튼 -->
+<div class="action-buttons">
+    <div class="back-button">
+        <button class="ui button back" id="view-problem-button">↩</button>
+    </div>
+    
+    <div class="reset-button">
+        <button class="ui button again" id="reset-button">↻</button>
+    </div>
+</div>
 
 <!-- 상단 툴바 -->
 <div class="top-toolbar">
@@ -17,7 +25,6 @@ include("../../guideline_common.php");
     <button class="ui button" data-step="3" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 3</button>
   </div>
 </div>
-
 
 <div class="main-layout">
     <!-- 좌측 패널 -->
@@ -91,7 +98,54 @@ include("../../guideline_common.php");
 
 <script>
 
-//버튼 부분
+//뒤로가기 & 다시 풀기 버튼
+document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentStep = urlParams.get("step") || "1";
+    const problemId = urlParams.get("problem_id") || "0";
+
+    // 문제 가기 버튼
+    document.getElementById("view-problem-button")?.addEventListener("click", () => {
+        window.location.href = `/problem.php?id=${problemId}`;
+    });
+
+    // 다시 풀기 버튼
+    document.getElementById("reset-button")?.addEventListener("click", () => {
+        if (confirm("모든 입력을 초기화하고 다시 푸시겠습니까?")) {
+            document.querySelectorAll("textarea").forEach((textarea, index) => {
+                // localStorage에서 삭제
+                const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
+                const statusKey = `answer_status_step${currentStep}_q${index}_pid${problemId}`;
+                localStorage.removeItem(key);
+                localStorage.removeItem(statusKey);
+
+                // 시각적 스타일 리셋
+                textarea.value = "";
+                textarea.readOnly = false;
+                textarea.disabled = false;
+                textarea.style.backgroundColor = "white";
+                textarea.style.border = "1px solid #ccc";
+                textarea.style.color = "black";
+
+                // 버튼/체크 아이콘 리셋
+                const check = document.getElementById(`check_${index}`);
+                const btn = document.getElementById(`btn_${index}`);
+                const viewBtn = document.getElementById(`view_btn_${index}`);
+                const answerArea = document.getElementById(`answer_area_${index}`);
+
+                if (check) check.style.display = "none";
+                if (btn) {
+                    btn.style.display = "inline-block";
+                    btn.disabled = false;
+                }
+                if (viewBtn) viewBtn.disabled = false;
+                if (answerArea) answerArea.style.display = "none";
+            });
+        }
+    });
+});
+
+//Step1, 2, 3버튼 부분
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
     const urlParams = new URLSearchParams(window.location.search);
