@@ -21,44 +21,57 @@
         
         function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
-            $flat_blocks = flatten_blocks($blocks); // 순서대로 펼친 트리
+        
+            // ✅ 트리 순서를 보존하며 flatten하는 내부 함수
+            $flatten_blocks = function($nodes) use (&$flatten_blocks) {
+                $flat = [];
+                foreach ($nodes as $node) {
+                    $flat[] = $node; // 현재 노드 먼저
+                    if (isset($node['children']) && is_array($node['children'])) {
+                        $flat = array_merge($flat, $flatten_blocks($node['children']));
+                    }
+                }
+                return $flat;
+            };
+        
+            // ✅ 순서를 보존한 일차원 배열로 변환
+            $flat_blocks = $flatten_blocks($blocks);
         
             foreach ($flat_blocks as $block) {
                 $depth = isset($block['depth']) ? $block['depth'] : 0;
                 $margin_left = $depth * 20;
         
-                // text 또는 content가 있는 블록은 textarea 렌더링
+                // ✅ content가 존재하는 블록만 렌더링
                 if (isset($block['content'])) {
                     $raw = trim($block['content']);
-                    if ($raw !== '') {
-                        $line = htmlspecialchars($block['content']);
-                        $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
-                        $disabled = $has_correct_answer ? "" : "disabled";
+                    if ($raw === '') continue;
         
-                        $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$margin_left}px;'>";
-                        $html .= "<div class='submission-line'>";
-                        $html .= "<div class='code-line'>{$line}</div>";
-                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                    $line = htmlspecialchars($block['content']);
+                    $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
+                    $disabled = $has_correct_answer ? "" : "disabled";
         
-                        if ($has_correct_answer) {
-                            $html .= "<button onclick='submitAnswer({$answer_index})' class='submit-button'>제출</button>";
-                            $html .= "<button onclick='showAnswer({$answer_index})' class='view-button'>답안 확인</button>";
-                        }
+                    $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$margin_left}px;'>";
+                    $html .= "<div class='submission-line'>";
+                    $html .= "<div class='code-line'>{$line}</div>";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
         
-                        $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
-                        $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'>
-                                    <span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span>
-                                  </div>";
-                        $html .= "</div></div>"; // 닫기
-        
-                        $answer_index++;
+                    if ($has_correct_answer) {
+                        $html .= "<button onclick='submitAnswer({$answer_index})' class='submit-button'>제출</button>";
+                        $html .= "<button onclick='showAnswer({$answer_index})' class='view-button'>답안 확인</button>";
                     }
+        
+                    $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
+                    $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'>
+                                <span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span>
+                              </div>";
+                    $html .= "</div></div>"; // submission-line, block-wrap 닫기
+        
+                    $answer_index++;
                 }
             }
         
             return $html;
-        }
-        
+        }   
         
         
 
