@@ -92,31 +92,41 @@ include("../../guideline_common.php");
 <script>
 
 //버튼 부분
-document.querySelectorAll("textarea").forEach((textarea, index) => {
-    const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
-    const savedValue = localStorage.getItem(key);
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".step-buttons .ui.button");
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentStep = urlParams.get("step") || "1";
+    const problemId = urlParams.get("problem_id") || "0";
 
-    // ✅ 먼저 값을 복원
-    if (savedValue !== null) {
-        textarea.value = savedValue.trim(); // 값 복원 먼저
-    }
+    const correctAnswers = window.correctAnswers || {}; // PHP에서 json_encode로 주입되어야 함
 
-    // ✅ 정답인지 확인
-    const correct = (correctAnswers[index]?.content || "").trim();
-    if (savedValue && savedValue.trim() === correct) {
-        textarea.readOnly = true;
-        textarea.style.backgroundColor = "#d4edda";
-        textarea.style.border = "1px solid #d4edda";
-        textarea.style.color = "#155724";
+        document.querySelectorAll("textarea").forEach((textarea, index) => {
+        const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
+        const savedValue = localStorage.getItem(key);
 
-        const check = document.getElementById(`check_${index}`);
-        if (check) check.style.display = "inline";
-    }
+        // ✅ 먼저 값을 복원
+        if (savedValue !== null) {
+            textarea.value = savedValue.trim(); // 값 복원 먼저
+        }
 
-    // ✅ 입력 변경 시 저장
-    textarea.addEventListener("input", () => {
-        localStorage.setItem(key, textarea.value);
+        // ✅ 정답인지 확인
+        const correct = (correctAnswers[index]?.content || "").trim();
+        if (savedValue && savedValue.trim() === correct) {
+            textarea.readOnly = true;
+            textarea.style.backgroundColor = "#d4edda";
+            textarea.style.border = "1px solid #d4edda";
+            textarea.style.color = "#155724";
+
+            const check = document.getElementById(`check_${index}`);
+            if (check) check.style.display = "inline";
+        }
+
+        // ✅ 입력 변경 시 저장
+        textarea.addEventListener("input", () => {
+            localStorage.setItem(key, textarea.value);
+        });
     });
+
 });
 
 
