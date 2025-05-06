@@ -93,7 +93,8 @@ include("../../guideline_common.php");
 
 // ✅ 사용자가 guideline.php에 새로 진입했을 때 이전 답안 초기화(즉시 실행 함수)
 (function clearOldAnswers() {
-    const isGuidelinePage = window.location.pathname.includes("guideline");
+    const path = window.location.pathname;
+    const isGuidelinePage = /(guideline[1-3]?\.php)$/.test(path);
 
     if (!isGuidelinePage) {
         const keysToRemove = [];
@@ -112,7 +113,9 @@ include("../../guideline_common.php");
 
 
 
+
 //버튼 부분
+<script>
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
     const urlParams = new URLSearchParams(window.location.search);
@@ -124,6 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea").forEach((textarea, index) => {
         const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
         const statusKey = `answer_status_step${currentStep}_q${index}_pid${problemId}`;
+
         const savedValue = localStorage.getItem(key);
         const savedStatus = localStorage.getItem(statusKey);
 
@@ -132,7 +136,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (savedStatus === "correct") {
-            // ✅ 이전에 정답 제출한 경우 스타일 복원
             textarea.readOnly = true;
             textarea.style.backgroundColor = "#d4edda";
             textarea.style.border = "1px solid #d4edda";
@@ -141,27 +144,66 @@ document.addEventListener("DOMContentLoaded", function () {
             if (checkMark) checkMark.style.display = "inline";
         }
 
+        // 실시간 입력 저장
         textarea.addEventListener("input", () => {
             localStorage.setItem(key, textarea.value);
         });
     });
 
-    // 버튼 클릭 시 저장 후 이동
+    // 정답 제출 시 status 저장 함수 연결
+    window.submitAnswer = function(index) {
+        const ta = document.getElementById(`ta_${index}`);
+        const btn = document.getElementById(`btn_${index}`);
+        const check = document.getElementById(`check_${index}`);
+        const input = ta.value.trim();
+        const correct = (correctAnswers[index]?.content || "").trim();
+
+        const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
+        const statusKey = `answer_status_step${currentStep}_q${index}_pid${problemId}`;
+
+        if (input === correct) {
+            ta.readOnly = true;
+            ta.style.backgroundColor = "#d4edda";
+            ta.style.border = "1px solid #d4edda";
+            ta.style.color = "#155724";
+            btn.style.display = "none";
+            if (check) check.style.display = "inline";
+            localStorage.setItem(statusKey, "correct");
+
+            const nextIndex = index + 1;
+            const nextTa = document.getElementById(`ta_${nextIndex}`);
+            const nextBtn = document.getElementById(`btn_${nextIndex}`);
+            if (nextTa && nextBtn) {
+                nextTa.disabled = false;
+                nextBtn.disabled = false;
+                nextTa.focus();
+            }
+        } else {
+            ta.style.backgroundColor = "#ffecec";
+            ta.style.border = "1px solid #e06060";
+            ta.style.color = "#c00";
+        }
+    };
+
+    // Step 버튼 클릭 시 답안 저장 후 이동
     buttons.forEach(btn => {
         btn.addEventListener("click", () => {
             const nextStep = btn.getAttribute("data-step");
             const nextProblemId = btn.getAttribute("data-problem-id") || problemId;
 
+            // 현재 textarea 저장
             document.querySelectorAll("textarea").forEach((textarea, index) => {
                 const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
                 localStorage.setItem(key, textarea.value);
             });
 
+            // 페이지 이동
             const baseUrl = window.location.pathname;
             window.location.href = `${baseUrl}?step=${nextStep}&problem_id=${nextProblemId}`;
         });
     });
 });
+</script>
 
 
 
