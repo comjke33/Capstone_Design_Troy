@@ -22,56 +22,57 @@
         function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
         
-            // ✅ 트리 순서를 보존하며 flatten하는 내부 함수
+            // 내부 함수: 트리를 순서대로 flatten
             $flatten_blocks = function($nodes) use (&$flatten_blocks) {
-                $flat = [];
+                $result = [];
                 foreach ($nodes as $node) {
-                    $flat[] = $node; // 현재 노드 먼저
-                    if (isset($node['children']) && is_array($node['children'])) {
-                        $flat = array_merge($flat, $flatten_blocks($node['children']));
+                    if ($node['type'] === 'text') {
+                        $result[] = $node;
+                    } else {
+                        // 상위 block의 content를 출력할 필요 없으므로 제외
+                        if (isset($node['children'])) {
+                            $result = array_merge($result, $flatten_blocks($node['children']));
+                        }
                     }
                 }
-                return $flat;
+                return $result;
             };
         
-            // ✅ 순서를 보존한 일차원 배열로 변환
-            $flat_blocks = $flatten_blocks($blocks);
+            $flat = $flatten_blocks($blocks);
         
-            foreach ($flat_blocks as $block) {
-                $depth = isset($block['depth']) ? $block['depth'] : 0;
+            foreach ($flat as $block) {
+                $depth = $block['depth'];
                 $margin_left = $depth * 20;
         
-                // ✅ content가 존재하는 블록만 렌더링
-                if (isset($block['content'])) {
-                    $raw = trim($block['content']);
-                    if ($raw === '') continue;
+                $raw = trim($block['content']);
+                if ($raw === '') continue;
         
-                    $line = htmlspecialchars($block['content']);
-                    $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
-                    $disabled = $has_correct_answer ? "" : "disabled";
+                $line = htmlspecialchars($block['content']);
+                $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
+                $disabled = $has_correct_answer ? "" : "disabled";
         
-                    $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$margin_left}px;'>";
-                    $html .= "<div class='submission-line'>";
-                    $html .= "<div class='code-line'>{$line}</div>";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                $html .= "<div class='block-wrap block-text' style='margin-left: {$margin_left}px;'>";
+                $html .= "<div class='submission-line'>";
+                $html .= "<div class='code-line'>{$line}</div>";
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
         
-                    if ($has_correct_answer) {
-                        $html .= "<button onclick='submitAnswer({$answer_index})' class='submit-button'>제출</button>";
-                        $html .= "<button onclick='showAnswer({$answer_index})' class='view-button'>답안 확인</button>";
-                    }
-        
-                    $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
-                    $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'>
-                                <span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span>
-                              </div>";
-                    $html .= "</div></div>"; // submission-line, block-wrap 닫기
-        
-                    $answer_index++;
+                if ($has_correct_answer) {
+                    $html .= "<button onclick='submitAnswer({$answer_index})' class='submit-button'>제출</button>";
+                    $html .= "<button onclick='showAnswer({$answer_index})' class='view-button'>답안 확인</button>";
                 }
+        
+                $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
+                $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'>
+                            <span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span>
+                          </div>";
+                $html .= "</div></div>"; // .submission-line, .block-wrap
+        
+                $answer_index++;
             }
         
             return $html;
-        }   
+        }
+        
         
         
 
