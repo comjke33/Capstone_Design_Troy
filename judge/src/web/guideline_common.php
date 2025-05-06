@@ -1,48 +1,52 @@
 <?php
 
 function parse_blocks($text, $depth = 0) {
+    // ✅ 파싱할 패턴 정의
     $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\](.*?)(?=\[.*_\3\(\d+\)\])/s";
-    $blocks = [];
-    $offset = 0;
+    
+    $blocks = [];  // 결과를 담을 배열
+    $offset = 0;   // 현재 읽기 위치
 
     while (preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+        // ✅ 현재 매치된 태그의 위치와 길이
         $start_pos = $matches[0][1];
         $full_len = strlen($matches[0][0]);
         $end_pos = $start_pos + $full_len;
 
-        // 앞의 텍스트
+        // ✅ 현재 매치된 태그 앞의 일반 텍스트 처리
         $before_text = substr($text, $offset, $start_pos - $offset);
         if (trim($before_text) !== '') {
             foreach (explode("\n", $before_text) as $line) {
                 if (trim($line) !== '') {
                     $blocks[] = [
-                        'type' => 'text',
-                        'content' => rtrim($line),
-                        'depth' => $depth  // ✅ 들여쓰기 정보 추가
+                        'type' => 'text',          // 일반 텍스트로 분류
+                        'content' => rtrim($line), // 줄 끝 공백 제거
+                        'depth' => $depth          // 현재 깊이 기록
                     ];
                 }
             }
         }
 
-        $tag_type = $matches[1][0];
-        $tag_index = $matches[3][0];
-        $content = $matches[4][0];
+        // ✅ 태그 정보 추출
+        $tag_type = $matches[1][0]; // func_def, rep, cond, ...
+        $tag_index = $matches[3][0]; // (1), (2), 같은 숫자
+        $content = $matches[4][0];   // 태그 안의 내용
 
-        // ✅ 자식은 depth + 1
+        // ✅ 재귀적으로 안쪽 블록 파싱 (들여쓰기 깊이 +1)
         $children = parse_blocks($content, $depth + 1);
 
         $blocks[] = [
-            'type' => $tag_type,
-            'index' => $tag_index,
-            'content' => $content,
-            'children' => $children,
-            'depth' => $depth  // ✅ 자기 depth도 기록
+            'type' => $tag_type,     // 블록 종류
+            'index' => $tag_index,   // 태그 번호
+            'content' => $content,   // 내용
+            'children' => $children, // 안쪽 블록들
+            'depth' => $depth        // 현재 깊이
         ];
 
-        $offset = $end_pos;
+        $offset = $end_pos; // 다음 위치로 이동
     }
 
-    // 나머지
+    // ✅ 남은 텍스트 (마지막 부분) 처리
     $tail = substr($text, $offset);
     if (trim($tail) !== '') {
         foreach (explode("\n", $tail) as $line) {
@@ -50,14 +54,15 @@ function parse_blocks($text, $depth = 0) {
                 $blocks[] = [
                     'type' => 'text',
                     'content' => rtrim($line),
-                    'depth' => $depth 
+                    'depth' => $depth
                 ];
             }
         }
     }
 
-    return $blocks;
+    return $blocks; // 최종 블록 리스트 반환
 }
+
 
 function extract_tagged_blocks($text) {
     $tag_pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
