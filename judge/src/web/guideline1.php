@@ -1,6 +1,6 @@
 <?php
-include("/judge/src/web/include/db_info.inc.php");
-include("/judge/src/web/src/guideline_common.php"); // ✨ 공통 파일 사용
+include("include/db_info.inc.php");
+include("guideline_common.php"); // ✨ 공통 파일 사용
 
 $file_path = "/home/Capstone_Design_Troy/test/total_test/step1_guideline.txt";
 $tagged_path = "/home/Capstone_Design_Troy/test/total_test/step1_tagged_code.txt";
