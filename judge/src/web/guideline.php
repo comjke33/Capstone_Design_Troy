@@ -9,19 +9,10 @@
     </div>
 </div>
 
-<!-- ✅ 본문 콘텐츠 영역 (문제 + 피드백 나란히 배치) -->
+<!-- ✅ 본문 가이드라인 출력 영역 -->
 <div class="layout-container">
-    <div class="content-area">
-        <!-- 왼쪽 문제 영역 -->
-        <div id="guideline-content">
-            <!-- JS로 동적 삽입 -->
-        </div>
-
-        <!-- 오른쪽 피드백 영역 -->
-        <div id="feedback-panel">
-            <div class="feedback-title">📋 피드백 창</div>
-            <img src="/images/totoro.png" alt="Totoro" class="feedback-image">
-        </div>
+    <div id="guideline-content">
+        <!-- 여기에 동적으로 내용이 삽입됩니다 -->
     </div>
 </div>
 
@@ -54,50 +45,23 @@
     background-color: #0d71bb !important;
 }
 
-/* ✅ 전체 콘텐츠 레이아웃 */
 .layout-container {
-    max-width: 1600px;
-    width: 95%;
-    margin: 0 auto;
-    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 40px;
+    max-width: 1600px;         /* ✅ 넓은 화면에서 최대폭 제한 */
+    width: 100%;               /* ✅ 화면 가득 채움 */
+    margin: 0 auto;            /* ✅ 가운데 정렬 */
     box-sizing: border-box;
 }
 
-/* ✅ 문제 + 피드백 영역 나란히 배치 */
-.content-area {
-    display: flex;
-    flex-direction: row;
-    gap: 40px;
-    align-items: flex-start;
-}
-
-/* ✅ 왼쪽 문제 출력 */
 #guideline-content {
     flex-grow: 1;
-    min-width: 1000px;
+    width: 100%;
+    min-width: 1000px;         /* ✅ 충분히 넓은 문제 영역 확보 */
 }
 
-/* ✅ 오른쪽 피드백 박스 */
-#feedback-panel {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-    min-width: 250px;
-    max-width: 300px;
-    text-align: center;
-}
 
-.feedback-title {
-    font-weight: bold;
-    font-size: 1.2em;
-    margin-bottom: 10px;
-}
-
-.feedback-image {
-    max-width: 100%;
-    height: auto;
-}
 </style>
 
 <script>
