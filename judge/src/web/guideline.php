@@ -1,79 +1,77 @@
-<?php
-include("include/db_info.inc.php");  // DB 및 전역변수 (e.g. $OJ_CORRECT_ANSWERS)
+<?php include("template/syzoj/header.php");//렌더링 파일 불러오기 ?>
 
-// 정답 데이터를 JS에 넘기기 위해 json_encode
-$correctAnswersJS = json_encode($OJ_CORRECT_ANSWERS);
-?>
+<style>
+.step-buttons {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2em;
+}
+.step-buttons .ui.button {
+    border-radius: 0;
+    background-color: #2185d0;
+    color: white;
+}
+.step-buttons .ui.button.active {
+    background-color: #0d71bb;
+}
+</style>
+
+<div class="ui container" style="margin-top: 3em;">
+    <div class="step-buttons">
+        <button class="ui button active" data-step="1">Step 1</button>
+        <button class="ui button" data-step="2">Step 2</button>
+        <button class="ui button" data-step="3">Step 3</button>
+    </div>
+
+    <div id="guideline-content">
+        <!-- 여기에 동적으로 guideline1/2/3.php의 결과가 삽입됩니다 -->
+    </div>
+</div>
 
 <script>
-const correctAnswers = <?= $correctAnswersJS ?>;
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".step-buttons .ui.button");
+    const content = document.getElementById("guideline-content");
 
-function initDynamicFeatures() {
-    document.querySelectorAll('.submit-button').forEach((btn, index) => {
-        btn.addEventListener("click", function () {
-            submitAnswer(index);
+    // loadStep 함수는 step 번호에 맞는 PHP 파일을 동적으로 불러옵니다.
+    function loadStep(step) {
+        fetch(`guideline${step}.php`) // guideline1.php, guideline2.php, guideline3.php를 동적으로 불러옴
+            .then(res => res.text())
+            .then(html => {
+                content.innerHTML = html;  // 가이드라인 내용 삽입
+                window.history.replaceState(null, "", `?step=${step}`); // URL에 step 파라미터 갱신
+            })
+            .catch(error => {
+                content.innerHTML = "<div class='ui red message'>⚠️ 가이드라인을 불러올 수 없습니다.</div>";
+                console.error("가이드라인 로딩 오류:", error);
+            });
+    }
+
+    // 버튼 클릭 이벤트
+    buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            buttons.forEach(b => b.classList.remove("active")); // 기존 활성화된 버튼 비활성화
+            btn.classList.add("active"); // 클릭된 버튼을 활성화
+
+            const step = btn.dataset.step; // 클릭된 버튼의 data-step 값
+            loadStep(step); // 해당 step에 맞는 가이드라인 로드
         });
     });
 
-    document.querySelectorAll('.view-button').forEach((btn, index) => {
-        btn.addEventListener("click", function () {
-            showAnswer(index);
-        });
-    });
+    // URL에 step이 이미 있으면 그 값을 사용하여 초기화, 없으면 기본 1로 설정
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialStep = urlParams.get('step') || 1;
+    loadStep(initialStep); // 초기 step 로드
 
-    function submitAnswer(index) {
-        const ta = document.getElementById(`ta_${index}`);
-        const btn = document.getElementById(`btn_${index}`);
-        const check = document.getElementById(`check_${index}`);
-
-        const input = ta.value.trim();
-        const correct = (correctAnswers[index]?.content || "").trim();
-
-        if (input === correct) {
-            ta.readOnly = true;
-            ta.style.backgroundColor = "#d4edda";
-            ta.style.border = "1px solid #d4edda";
-            ta.style.color = "#155724";
-            btn.style.display = "none";
-            check.style.display = "inline";
-            updateFeedback(index, true, input);
-
-            const nextIndex = index + 1;
-            const nextTa = document.getElementById(`ta_${nextIndex}`);
-            const nextBtn = document.getElementById(`btn_${nextIndex}`);
-            if (nextTa && nextBtn) {
-                nextTa.disabled = false;
-                nextBtn.disabled = false;
-                nextTa.focus();
-                nextTa.addEventListener('input', () => autoResize(nextTa));
-            }
+    // 버튼 활성화도 초기 상태 반영
+    buttons.forEach(btn => {
+        if (btn.dataset.step == initialStep) {
+            btn.classList.add('active');
         } else {
-            ta.style.backgroundColor = "#ffecec";
-            ta.style.border = "1px solid #e06060";
-            ta.style.color = "#c00";
-            updateFeedback(index, false, input);
-        }
-    }
-
-    function showAnswer(index) {
-        const correctCode = correctAnswers[index]?.content.trim();
-        if (!correctCode) return;
-
-        const answerArea = document.getElementById(`answer_area_${index}`);
-        const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${correctCode}</pre>`;
-        answerArea.innerHTML = answerHtml;
-        answerArea.style.display = 'block';
-    }
-
-    function autoResize(ta) {
-        ta.style.height = 'auto';
-        ta.style.height = ta.scrollHeight + 'px';
-    }
-
-    document.querySelectorAll('.styled-textarea').forEach(ta => {
-        if (!ta.disabled) {
-            ta.addEventListener('input', () => autoResize(ta));
+            btn.classList.remove('active');
         }
     });
-}
+});
 </script>
+
+<?php include("template/syzoj/footer.php");//렌더링 파일 불러오기 ?>
