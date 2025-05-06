@@ -1,6 +1,5 @@
 <?php
-
-function parse_guideline($text) {
+function guidelineFilter($text) {
     $lines = explode("\n", $text);
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
