@@ -128,7 +128,6 @@ if __name__ == "__main__":
         "start_line": start_num,
         "end_line": end_num
     })
-
     # for flow in flowcharts:
     #     print(flow.get("category"), flow.get("summary"), flow.get("start_line"), flow.get("end_line"))
     #     print("--------------------------------------------------") 
