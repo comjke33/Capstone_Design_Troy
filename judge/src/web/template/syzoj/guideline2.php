@@ -26,6 +26,7 @@ include("../../guideline_common.php");
   </div>
 </div>
 
+
 <div class="main-layout">
     <!-- 좌측 패널 -->
     <div class="left-panel">
@@ -145,6 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+
 //Step1, 2, 3버튼 부분
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
@@ -152,31 +154,50 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentStep = urlParams.get("step") || "1";
     const problemId = urlParams.get("problem_id") || "0";
 
+    const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
+
     document.querySelectorAll("textarea").forEach((textarea, index) => {
         const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
+        const statusKey = `answer_status_step${currentStep}_q${index}_pid${problemId}`;
         const savedValue = localStorage.getItem(key);
+        const savedStatus = localStorage.getItem(statusKey);
+
         if (savedValue !== null) {
             textarea.value = savedValue;
         }
+
+        if (savedStatus === "correct") {
+            // ✅ 이전에 정답 제출한 경우 스타일 복원
+            textarea.readOnly = true;
+            textarea.style.backgroundColor = "#d4edda";
+            textarea.style.border = "1px solid #d4edda";
+            textarea.style.color = "#155724";
+            const checkMark = document.getElementById(`check_${index}`);
+            if (checkMark) checkMark.style.display = "inline";
+        }
+
         textarea.addEventListener("input", () => {
             localStorage.setItem(key, textarea.value);
         });
     });
 
+    // 버튼 클릭 시 저장 후 이동
     buttons.forEach(btn => {
         btn.addEventListener("click", () => {
             const nextStep = btn.getAttribute("data-step");
             const nextProblemId = btn.getAttribute("data-problem-id") || problemId;
+
             document.querySelectorAll("textarea").forEach((textarea, index) => {
                 const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
                 localStorage.setItem(key, textarea.value);
             });
+
             const baseUrl = window.location.pathname;
             window.location.href = `${baseUrl}?step=${nextStep}&problem_id=${nextProblemId}`;
         });
     });
 });
-    
+
 //문제 맞았는지 여부 확인
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
@@ -187,14 +208,21 @@ function submitAnswer(index) {
     const check = document.getElementById(`check_${index}`);
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
+    const step = new URLSearchParams(window.location.search).get("step") || "1";
+    const problemId = new URLSearchParams(window.location.search).get("problem_id") || "0";
+    const key = `answer_status_step${step}_q${index}_pid${problemId}`;
 
     if (input === correct) {
+        // ✅ 저장
+        localStorage.setItem(key, "correct");
+
         ta.readOnly = true;
         ta.style.backgroundColor = "#d4edda";
         ta.style.border = "1px solid #d4edda";
         ta.style.color = "#155724";
         btn.style.display = "none";
         check.style.display = "inline";
+
         const nextIndex = index + 1;
         const nextTa = document.getElementById(`ta_${nextIndex}`);
         const nextBtn = document.getElementById(`btn_${nextIndex}`);
@@ -202,7 +230,6 @@ function submitAnswer(index) {
             nextTa.disabled = false;
             nextBtn.disabled = false;
             nextTa.focus();
-            nextTa.addEventListener('input', () => autoResize(nextTa));
         }
     } else {
         ta.style.backgroundColor = "#ffecec";
@@ -211,6 +238,7 @@ function submitAnswer(index) {
     }
 }
 
+//답안 보여주기
 function showAnswer(index) {
     const correctCode = correctAnswers[index]?.content.trim();
     if (!correctCode) return;
@@ -220,6 +248,7 @@ function showAnswer(index) {
     answerArea.style.display = 'block';
 }
 
+//화면 크기 재조절
 function autoResize(ta) {
     ta.style.height = 'auto';
     ta.style.height = ta.scrollHeight + 'px';
@@ -228,6 +257,7 @@ function autoResize(ta) {
 let currentTextarea = null;
 let animationRunning = false;
 
+//flowchart렌더링 및 매끄러운 이동
 function updateImageForTextarea(index, ta) {
     currentTextarea = ta;
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
@@ -250,6 +280,7 @@ function updateImageForTextarea(index, ta) {
         });
 }
 
+//이미지 매끄러운 이동
 function smoothFollowImage() {
     const img = document.getElementById("floating-img");
     if (!img || !currentTextarea) {
@@ -276,7 +307,6 @@ function smoothFollowImage() {
 
     requestAnimationFrame(smoothFollowImage);
 }
-
 
 // textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
