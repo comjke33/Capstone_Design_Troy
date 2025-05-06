@@ -90,23 +90,19 @@ for user in active_users:
         count = row['mistake_count']
         dec_result_lines.append(f"- {name} (오류 횟수: {count})")
 
-    if result_lines:
-        mistakes = f"아래는 '{user_id}' 사용자의 5일간 주요 코드 오류 항목입니다:\n\n" + "\n".join(result_lines)
-        #print(mistakes)
-        #print("\n" + "="*40 + "\n")
+    if submit:
+        submit_data = f"아래는 '{user_id}' 사용자의 5일간 코드 제출 횟수 입니다:\n\n" + f"제출 횟수: {submit[0]['submit_count']}"
 
-    if dec_result_lines:
-        dec_mistakes = f"아래는 '{user_id}' 사용자의 저번 5일간 주요 코드 오류 항목입니다:\n\n" + "\n".join(dec_result_lines)
-        #print(mistakes)
-        #print("\n" + "="*40 + "\n")
+    if submit_dec:
+        submit_data_dec = f"아래는 '{user_id}' 사용자의 저번 5일간 코드 제출 횟수 입니다:\n\n" + f"제출 횟수: {submit_dec[0]['submit_count']}"
     else:
-        dec_mistakes = "저번 5일간 문법 오류 데이터가 없습니다."
+        submit_data_dec = "저번 5일간 제출 횟수 데이터가 없습니다."
 
     #이번 제출 횟수
     cursor.execute("SELECT * FROM submit WHERE user_id = %s", (user_id,))
     submit = cursor.fetchall()
 
-    #저번 제출 횟수수
+    #저번 제출 횟수
     cursor.execute("SELECT * FROM submit_dec WHERE user_id = %s", (user_id,))
     submit_dec = cursor.fetchall()    
 
