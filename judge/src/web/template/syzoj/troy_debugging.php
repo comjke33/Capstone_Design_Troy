@@ -11,6 +11,7 @@ $tagged_guideline = "./tagged_guideline/" . $problem_id . ".txt";
 $sql = "SELECT description FROM problem WHERE problem_id = ?";
 $problem = pdo_query($sql, $problem_id);
 
+echo "<pre>문제: $problem</pre>";
 // $problem = "problem.txt";
 $output_dir = "/output/";
 
