@@ -1,5 +1,8 @@
-<?php include("template/$OJ_TEMPLATE/header.php");?>
-<?php include("../../guideline_common.php");?>
+<?php
+
+include("template/$OJ_TEMPLATE/header.php");
+include("../../guideline_common.php");
+?>
 
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
 </div>
@@ -7,13 +10,12 @@
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
 <!-- 상단 툴바 -->
-<!-- 상단 툴바 -->
 <div class="top-toolbar">
-    <div class="step-buttons">
-        <button class="ui button" data-step="1" data-problem-id="<?= $problem_id ?>">Step 1</button>
-        <button class="ui button" data-step="2" data-problem-id="<?= $problem_id ?>">Step 2</button>
-        <button class="ui button" data-step="3" data-problem-id="<?= $problem_id ?>">Step 3</button>
-    </div>
+  <div class="step-buttons">
+    <button class="ui button" data-step="1" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 1</button>
+    <button class="ui button" data-step="2" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 2</button>
+    <button class="ui button" data-step="3" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 3</button>
+  </div>
 </div>
 
 
@@ -90,23 +92,34 @@
 <script>
 
 //버튼 부분
-document.addEventListener("DOMContentLoaded", function () {
-    const buttons = document.querySelectorAll(".step-buttons .ui.button");
+document.querySelectorAll("textarea").forEach((textarea, index) => {
+    const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
+    const savedValue = localStorage.getItem(key);
 
-    buttons.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const step = btn.getAttribute("data-step");
-            const problemId = btn.getAttribute("data-problem-id");
+    // ✅ 먼저 값을 복원
+    if (savedValue !== null) {
+        textarea.value = savedValue.trim(); // 값 복원 먼저
+    }
 
-            // 현재 guideline1.php 안이라면, 자기 자신으로 이동
-            const baseUrl = window.location.pathname;  // 현재 경로 유지 (/guideline1.php)
+    // ✅ 정답인지 확인
+    const correct = (correctAnswers[index]?.content || "").trim();
+    if (savedValue && savedValue.trim() === correct) {
+        textarea.readOnly = true;
+        textarea.style.backgroundColor = "#d4edda";
+        textarea.style.border = "1px solid #d4edda";
+        textarea.style.color = "#155724";
 
-            // 주소 이동
-            window.location.href = `${baseUrl}?step=${step}&problem_id=${problemId}`;
-        });
+        const check = document.getElementById(`check_${index}`);
+        if (check) check.style.display = "inline";
+    }
+
+    // ✅ 입력 변경 시 저장
+    textarea.addEventListener("input", () => {
+        localStorage.setItem(key, textarea.value);
     });
 });
-    
+
+
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
 
