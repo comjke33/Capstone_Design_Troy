@@ -56,52 +56,22 @@
     background-color: #0d71bb !important;
 }
 
-/* ✅ 전체 영역: 좌우 꽉 채우되 최대 너비 제한 */
 .layout-container {
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 40px;
+    max-width: 160px;         /* ✅ 넓은 화면에서 최대폭 제한 */
+    width: 100%;               /* ✅ 화면 가득 채움 */
+    margin: 0 auto;            /* ✅ 가운데 정렬 */
     box-sizing: border-box;
 }
 
-/* ✅ 내용 나란히 정렬 (왼: 문제, 오른: 피드백) */
-.content-area {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 30px;
-}
-
-/* ✅ 문제 풀이 공간 왼쪽으로 밀착, 너비 넓힘 */
 #guideline-content {
     flex-grow: 1;
     width: 100%;
-    min-width: 900px;
+    min-width: 1600px;         
 }
 
-/* ✅ 피드백 영역 고정 폭 */
-#feedback-panel {
-    width: 280px;
-    background: white;
-    padding: 20px;
-    box-shadow: 0 0 4px rgba(0,0,0,0.1);
-    border-radius: 10px;
-    text-align: center;
-}
-
-/* ✅ 피드백 제목 */
-.feedback-title {
-    font-weight: bold;
-    font-size: 1.2em;
-    margin-bottom: 10px;
-}
-
-/* ✅ 피드백 이미지 반응형 */
-.feedback-image {
-    max-width: 100%;
-    height: auto;
-}
 
 </style>
 
