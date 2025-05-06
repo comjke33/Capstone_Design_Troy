@@ -1,67 +1,106 @@
 <?php
 
 function parse_blocks($text, $depth = 0) {
-    // ✅ 파싱할 패턴 정의
-    $pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\](.*?)(?=\[.*_\3\(\d+\)\])/s";
-    
-    $blocks = [];  // 결과를 담을 배열
-    $offset = 0;   // 현재 읽기 위치
+    $lines = explode("\n", $text);
+    $blocks = [];
+    $stack = [];
 
-    while (preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE, $offset)) {
-        // ✅ 현재 매치된 태그의 위치와 길이
-        $start_pos = $matches[0][1];
-        $full_len = strlen($matches[0][0]);
-        $end_pos = $start_pos + $full_len;
+    foreach ($lines as $line) {
+        $line = rtrim($line);
 
-        // ✅ 현재 매치된 태그 앞의 일반 텍스트 처리
-        $before_text = substr($text, $offset, $start_pos - $offset);
-        if (trim($before_text) !== '') {
-            foreach (explode("\n", $before_text) as $line) {
-                if (trim($line) !== '') {
-                    $blocks[] = [
-                        'type' => 'text',          // 일반 텍스트로 분류
-                        'content' => rtrim($line), // 줄 끝 공백 제거
-                        'depth' => $depth          // 현재 깊이 기록
-                    ];
-                }
-            }
+        // 시작 태그 감지
+        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $start_matches)) {
+            $stack[] = [
+                'type' => $start_matches[1],
+                'index' => $start_matches[2],
+                'depth' => $depth,
+                'content_lines' => []
+            ];
+            continue;
         }
 
-        // ✅ 태그 정보 추출
-        $tag_type = $matches[1][0]; // func_def, rep, cond, ...
-        $tag_index = $matches[3][0]; // (1), (2), 같은 숫자
-        $content = $matches[4][0];   // 태그 안의 내용
+        // 종료 태그 감지
+        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $line, $end_matches)) {
+            $end_type = $end_matches[1];
+            $end_index = $end_matches[2];
 
-        // ✅ 재귀적으로 안쪽 블록 파싱 (들여쓰기 깊이 +1)
-        $children = parse_blocks($content, $depth + 1);
+            for ($i = count($stack) - 1; $i >= 0; $i--) {
+                if ($stack[$i]['type'] === $end_type && $stack[$i]['index'] === $end_index) {
+                    $matched = array_splice($stack, $i, 1)[0];
+                    $children = [];
 
-        $blocks[] = [
-            'type' => $tag_type,     // 블록 종류
-            'index' => $tag_index,   // 태그 번호
-            'content' => $content,   // 내용
-            'children' => $children, // 안쪽 블록들
-            'depth' => $depth        // 현재 깊이
-        ];
+                    foreach ($matched['content_lines'] as $cl) {
+                        if (is_array($cl)) {
+                            $children[] = $cl;
+                        } else {
+                            $children[] = [
+                                'type' => 'text',
+                                'content' => $cl,
+                                'depth' => $matched['depth'] + 1
+                            ];
+                        }
+                    }
 
-        $offset = $end_pos; // 다음 위치로 이동
+                    $block = [
+                        'type' => $matched['type'],
+                        'index' => $matched['index'],
+                        'depth' => $matched['depth'],
+                        'children' => $children
+                    ];
+
+                    if (!empty($stack)) {
+                        $stack[count($stack) - 1]['content_lines'][] = $block;
+                    } else {
+                        $blocks[] = $block;
+                    }
+
+                    continue 2;
+                }
+            }
+
+            // 매치되는 시작 태그 없음 (무시)
+            continue;
+        }
+
+        // 일반 텍스트 처리
+        if (!empty($stack)) {
+            $stack[count($stack) - 1]['content_lines'][] = $line;
+        } elseif (trim($line) !== '') {
+            $blocks[] = [
+                'type' => 'text',
+                'content' => $line,
+                'depth' => $depth
+            ];
+        }
     }
 
-    // ✅ 남은 텍스트 (마지막 부분) 처리
-    $tail = substr($text, $offset);
-    if (trim($tail) !== '') {
-        foreach (explode("\n", $tail) as $line) {
-            if (trim($line) !== '') {
-                $blocks[] = [
+    // 닫히지 않은 블록 처리
+    foreach ($stack as $unmatched) {
+        $children = [];
+        foreach ($unmatched['content_lines'] as $cl) {
+            if (is_array($cl)) {
+                $children[] = $cl;
+            } else {
+                $children[] = [
                     'type' => 'text',
-                    'content' => rtrim($line),
-                    'depth' => $depth
+                    'content' => $cl,
+                    'depth' => $unmatched['depth'] + 1
                 ];
             }
         }
+
+        $blocks[] = [
+            'type' => $unmatched['type'],
+            'index' => $unmatched['index'],
+            'depth' => $unmatched['depth'],
+            'children' => $children,
+            'unmatched' => true
+        ];
     }
 
-    return $blocks; // 최종 블록 리스트 반환
+    return $blocks;
 }
+
 
 
 function extract_tagged_blocks($text) {
