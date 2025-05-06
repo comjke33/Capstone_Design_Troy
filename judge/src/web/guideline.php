@@ -1,6 +1,32 @@
 <?php include("template/syzoj/header.php");//렌더링 파일 불러오기 ?>
 
+<div class="ui container" style="margin-top: 3em;">
+    <div class="step-buttons">
+        <button class="ui button active" data-step="1">Step 1</button>
+        <button class="ui button" data-step="2">Step 2</button>
+        <button class="ui button" data-step="3">Step 3</button>
+    </div>
 
+    <div id="guideline-content">
+        <!-- 여기에 PHP가 출력하는 내용이 삽입됩니다 -->
+    </div>
+</div>
+
+<style>
+.step-buttons {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2em;
+}
+.step-buttons .ui.button {
+    border-radius: 0;
+    background-color: #2185d0;
+    color: white;
+}
+.step-buttons .ui.button.active {
+    background-color: #0d71bb;
+}
+</style>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
