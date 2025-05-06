@@ -105,6 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
     
+
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
 
