@@ -61,7 +61,7 @@ prompt = """
 
 개선 방향을 제시하는 방식으로 해주세요.
 
-데이터는 5일간의 문법 오류들과 지난 5일간의 문법 오류들 2개입니다.
+데이터는 5일간의 문법 오류들과 제출 횟수 지난 5일간의 문법 오류들과 제출 회수 총4개입니다.
 
 5줄 이내로 피드백을 작성해주세요.
 1줄이 끝날 때마다 보기 쉽게 줄바꿈을 처리해주세요.
@@ -100,13 +100,30 @@ for user in active_users:
         #print(mistakes)
         #print("\n" + "="*40 + "\n")
     else:
-        dec_mistakes = "저번 5일간 데이터가 없습니다."
+        dec_mistakes = "저번 5일간 문법 오류 데이터가 없습니다."
+
+    #이번 제출 횟수
+    cursor.execute("SELECT * FROM submit WHERE user_id = %s", (user_id,))
+    submit = cursor.fetchall()
+
+    #저번 제출 횟수수
+    cursor.execute("SELECT * FROM submit_dec WHERE user_id = %s", (user_id,))
+    submit_dec = cursor.fetchall()    
+
+    if submit:
+        submit_data = f"아래는 '{user_id}' 사용자의 5일간 코드 제출 횟수 입니다:\n\n" + f"제출 횟수: {submit[0]['submit_count']}"
+
+    if submit_dec:
+        submit_data_dec = f"아래는 '{user_id}' 사용자의 저번 5일간 코드 제출 횟수 입니다:\n\n" + f"제출 횟수: {submit_dec[0]['submit_count']}"
+    else:
+        submit_data_dec = "저번 5일간 제출 횟수 데이터가 없습니다."
+
     
 
     #프롬프트 실행
     response = client.responses.create(
         model="gpt-4o-mini-2024-07-18",
-        input=prompt + "\n\n" + mistakes + "\n\n" + dec_mistakes
+        input=prompt + "\n\n" + mistakes + "\n\n" + submit_data + "\n\n" + dec_mistakes + "\n\n" + submit_data_dec
     )
     comment = response.output_text
     print(comment)
@@ -217,12 +234,34 @@ for user in active_users:
                 (user_id, mistake_type, mistake_count)
             )
 
+
+    #submit -> submit_dec
+    # submit 테이블에서 해당 user_id 데이터 조회
+    cursor.execute(
+        "SELECT user_id, submit_count FROM submit WHERE user_id = %s",
+        (user_id,)
+    )
+    row = cursor.fetchone()
+
+    # 결과가 있을 경우 submit_dec에 삽입 또는 업데이트
+    if row:
+        cursor.execute(
+            """
+            INSERT INTO submit_dec (user_id, submit_count)
+            VALUES (%s, %s)
+            ON DUPLICATE KEY UPDATE submit_count = VALUES(submit_count)
+            """,
+            (row['user_id'], row['submit_count'])  # 딕셔너리 키로 접근
+        )
+
     #submit 제출횟수 0으로 초기화
     submit_count = 0
     cursor.execute(
         "UPDATE submit SET submit_count = %s WHERE user_id = %s",
         (submit_count, user_id)
     )
+
+    
 
 
 
