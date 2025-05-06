@@ -14,7 +14,7 @@ function parse_blocks($text, $depth = 0) {
                 'type' => $start_matches[1],
                 'index' => $start_matches[2],
                 'depth' => $depth,
-                'content_lines' => []
+                'buffer' => []
             ];
             continue;
         }
@@ -27,19 +27,8 @@ function parse_blocks($text, $depth = 0) {
             for ($i = count($stack) - 1; $i >= 0; $i--) {
                 if ($stack[$i]['type'] === $end_type && $stack[$i]['index'] === $end_index) {
                     $matched = array_splice($stack, $i, 1)[0];
-                    $children = [];
-
-                    foreach ($matched['content_lines'] as $cl) {
-                        if (is_array($cl)) {
-                            $children[] = $cl;
-                        } else {
-                            $children[] = [
-                                'type' => 'text',
-                                'content' => $cl,
-                                'depth' => $matched['depth'] + 1
-                            ];
-                        }
-                    }
+                    $buffer_text = implode("\n", $matched['buffer']);
+                    $children = parse_blocks($buffer_text, $matched['depth'] + 1);
 
                     $block = [
                         'type' => $matched['type'],
@@ -49,7 +38,7 @@ function parse_blocks($text, $depth = 0) {
                     ];
 
                     if (!empty($stack)) {
-                        $stack[count($stack) - 1]['content_lines'][] = $block;
+                        $stack[count($stack) - 1]['buffer'][] = "__BLOCK__" . json_encode($block);
                     } else {
                         $blocks[] = $block;
                     }
@@ -58,13 +47,13 @@ function parse_blocks($text, $depth = 0) {
                 }
             }
 
-            // 매치되는 시작 태그 없음 (무시)
+            // 매치되지 않는 종료 태그는 무시
             continue;
         }
 
         // 일반 텍스트 처리
         if (!empty($stack)) {
-            $stack[count($stack) - 1]['content_lines'][] = $line;
+            $stack[count($stack) - 1]['buffer'][] = $line;
         } elseif (trim($line) !== '') {
             $blocks[] = [
                 'type' => 'text',
@@ -76,18 +65,8 @@ function parse_blocks($text, $depth = 0) {
 
     // 닫히지 않은 블록 처리
     foreach ($stack as $unmatched) {
-        $children = [];
-        foreach ($unmatched['content_lines'] as $cl) {
-            if (is_array($cl)) {
-                $children[] = $cl;
-            } else {
-                $children[] = [
-                    'type' => 'text',
-                    'content' => $cl,
-                    'depth' => $unmatched['depth'] + 1
-                ];
-            }
-        }
+        $buffer_text = implode("\n", $unmatched['buffer']);
+        $children = parse_blocks($buffer_text, $unmatched['depth'] + 1);
 
         $blocks[] = [
             'type' => $unmatched['type'],
@@ -98,10 +77,19 @@ function parse_blocks($text, $depth = 0) {
         ];
     }
 
+    // __BLOCK__ 문자열을 복원
+    foreach ($blocks as &$block) {
+        if (isset($block['children'])) {
+            foreach ($block['children'] as &$child) {
+                if (is_string($child) && strpos($child, "__BLOCK__") === 0) {
+                    $child = json_decode(substr($child, 9), true);
+                }
+            }
+        }
+    }
+
     return $blocks;
 }
-
-
 
 function extract_tagged_blocks($text) {
     $tag_pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
