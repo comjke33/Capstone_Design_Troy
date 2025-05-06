@@ -6,6 +6,15 @@
 
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
+<!-- 상단 툴바 -->
+<div class="top-toolbar">
+    <div class="step-buttons">
+        <button class="ui button active" data-step="1">Step 1</button>
+        <button class="ui button" data-step="2">Step 2</button>
+        <button class="ui button" data-step="3">Step 3</button>
+    </div>
+</div>
+
 <div class="main-layout">
     <!-- 좌측 패널 -->
     <div class="left-panel">
@@ -14,7 +23,7 @@
 
     <!-- 가운데 패널 -->
     <div class="center-panel">
-        <h1>기능별 풀기</h1>
+        <h1>한 기능씩 풀기</h1>
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
 
         <?php
@@ -77,6 +86,25 @@
 </div>
 
 <script>
+
+//버튼 부분
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".step-buttons .ui.button");
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            buttons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            const step = btn.getAttribute("data-step");
+
+            // 현재 폴더 기준으로 guideline1.php, guideline2.php, guideline3.php로 이동
+            window.location.href = `guideline${step}.php`;
+        });
+    });
+});
+
+
     
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
