@@ -5,7 +5,7 @@ $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
 $problem_id = "1000";
 
 // 인자를 공백으로 구분해 Python 스크립트에 전달
-$tagged_guideline = "../../tagged_guideline/" . $problem_id . ".txt";
+$tagged_guideline = "/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/" . $problem_id . ".txt";
 
 
 // problem을 가져오는 SQL 쿼리
@@ -13,7 +13,7 @@ $sql = "SELECT description FROM problem WHERE problem_id = ?";
 $problem = pdo_query($sql, $problem_id);
 $desc = $problem[0][0];
 
-$output_dir = "../../flowcharts/";
+$output_dir = "/home/Capstone_Design_Troy/judge/src/web/flowcharts/";
 
 echo "<pre>$problem_id $tagged_guideline $desc $output_dir </pre>";
 // $problem = "problem.txt";
