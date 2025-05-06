@@ -13,9 +13,21 @@ $sql = "SELECT description FROM problem WHERE problem_id = ?";
 $problem = pdo_query($sql, $problem_id);
 $desc = $problem[0][0];
 
-echo "<pre>$problem_id $tagged_guideline $desc $output </pre>";
-// $problem = "problem.txt";
 $output_dir = "../../flowcharts/";
+
+echo "<pre>$problem_id $tagged_guideline $desc $output_dir </pre>";
+// $problem = "problem.txt";
+$files = scandir($tagged_guideline);
+
+echo "<h3>폴더 내 파일 목록:</h3>";
+echo "<ul>";
+foreach ($files as $file) {
+    // . 과 .. 은 현재 폴더와 상위 폴더니까 제외
+    if ($file != "." && $file != "..") {
+        echo "<li>$file</li>";
+    }
+}
+echo "</ul>";
 
 echo "<pre>Python 스크립트 실행 중...</pre>";
 
