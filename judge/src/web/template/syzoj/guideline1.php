@@ -9,9 +9,9 @@
 <!-- 상단 툴바 -->
 <div class="top-toolbar">
     <div class="step-buttons">
-        <button class="ui button active" step="1">Step 1</button>
-        <button class="ui button" step="2">Step 2</button>
-        <button class="ui button" step="3">Step 3</button>
+        <button class="ui button active" data-step="1">Step 1</button>
+        <button class="ui button" data-step="2">Step 2</button>
+        <button class="ui button" data-step="3">Step 3</button>
     </div>
 </div>
 
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
             buttons.forEach(b => b.classList.remove("active"));
             btn.classList.add("active");
 
-            const step = btn.getAttribute("step");
+            const step = btn.getAttribute("data-step");
             loadStep(step);
         });
     });
