@@ -90,24 +90,35 @@ include("../../guideline_common.php");
 </div>
 
 <script>
-(function clearOldAnswersIfOutsideGuidelines() {
+(function handleGuidelinePersistence() {
     const path = window.location.pathname;
-    const isGuidelinePage = path.includes("guideline");
+    const isGuidelinePage = path.includes("guideline");  // 🔁 keyword 포함 여부만 검사
+    const storageFlagKey = "lastGuidelineVisit";
 
-    if (!isGuidelinePage) {
-        const keysToRemove = [];
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key.startsWith("answer_step") || key.startsWith("answer_status")) {
-                keysToRemove.push(key);
-            }
-        }
-        keysToRemove.forEach(key => localStorage.removeItem(key));
-        console.log("✅ guideline 외부 → 답안 초기화됨");
-    } else {
-        console.log("✅ guideline 내부 → 답안 유지됨");
+    // ✅ guideline이 포함된 페이지라면 플래그 유지
+    if (isGuidelinePage) {
+        localStorage.setItem(storageFlagKey, "true");
     }
+
+    // ✅ 페이지를 벗어날 때 (다른 페이지로 이동 등) → 이전에 guideline에 있었으면 초기화
+    window.addEventListener("beforeunload", function () {
+        const wasOnGuideline = localStorage.getItem(storageFlagKey) === "true";
+
+        // 현재 페이지가 guideline이 아니고, 이전이 guideline이었다면 삭제
+        if (!isGuidelinePage && wasOnGuideline) {
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith("answer_step") || key.startsWith("answer_status")) {
+                    keysToRemove.push(key);
+                }
+            }
+            keysToRemove.forEach(key => localStorage.removeItem(key));
+            localStorage.removeItem(storageFlagKey); // 플래그 제거
+        }
+    });
 })();
+
 
 
 //버튼 부분
