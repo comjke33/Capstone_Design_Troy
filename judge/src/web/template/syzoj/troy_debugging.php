@@ -12,7 +12,7 @@ $sql = "SELECT description FROM problem WHERE problem_id = ?";
 $problem = pdo_query($sql, $problem_id);
 $desc = $problem[0][0];
 
-echo "<pre>문제: $problem</pre>";
+echo "<pre>$problem_id $tagged_guideline $desc $output </pre>";
 // $problem = "problem.txt";
 $output_dir = "./flowcharts/";
 
