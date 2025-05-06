@@ -22,10 +22,34 @@
   background-color: #0d71bb !important; /* ✅ 더 진한 파란색 (활성 상태) */
 }
 
-.back-button,
+/* 버튼 전체 wrapper 정렬 */
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* 문제 가기 버튼 (왼쪽 끝) */
+.back-button {
+  margin-left: 0;
+}
+
+/* 다시 풀기 버튼 (오른쪽으로 약간 띄우기) */
 .reset-button {
-  display: inline-block;
-  margin-right: 10px;
+  margin-right: 20px;
+}
+
+/* 공통 버튼 스타일 */
+.ui.button.back,
+.ui.button.again {
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: background-color 0.2s ease;
 }
 
 /* 문제 가기 버튼 스타일 */

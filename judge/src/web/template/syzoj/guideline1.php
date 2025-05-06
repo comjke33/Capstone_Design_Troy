@@ -17,12 +17,16 @@ include("../../guideline_common.php");
     <button class="ui button" data-step="3" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 3</button>
   </div>
   
-  <div class="back-button">
-    <button class="ui button back" id="view-problem-button">문제 가기</button>
-  </div>
-  <div class="reset-button">
-    <button class="ui button again" id="reset-button">다시 풀기</button>
-  </div>
+  <div class="action-buttons">
+    <div class="back-button">
+        <button class="ui button back" id="view-problem-button">문제 가기</button>
+    </div>
+    
+    <div class="reset-button">
+        <button class="ui button again" id="reset-button">다시 풀기</button>
+    </div>
+</div>
+
 </div>
 
 </div>
