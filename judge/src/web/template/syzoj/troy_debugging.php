@@ -14,6 +14,7 @@ $problem = pdo_query($sql, $problem_id);
 // $problem = "problem.txt";
 $output_dir = "/output/";
 
+echo "<pre>Python 스크립트 실행 중...</pre>";
 
 $command = "cd /home/Capstone_Design_Troy/py/ && python3 make_flowcharts.py "
     . escapeshellarg($tagged_guideline) . " "
