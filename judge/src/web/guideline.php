@@ -1,23 +1,45 @@
 <?php include("template/syzoj/header.php");//렌더링 파일 불러오기 ?>
 
-<?php
-include("include/db_info.inc.php"); // DB나 정답 배열 등을 가져오는 경우
+<style>
+.step-buttons {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2em;
+}
+.step-buttons .ui.button {
+    border-radius: 0;
+    background-color: #2185d0;
+    color: white;
+}
+.step-buttons .ui.button.active {
+    background-color: #0d71bb;
+}
+</style>
 
-// 기능만 포함 (HTML 구조 없음)
-?>
+<div class="ui container" style="margin-top: 3em;">
+    <div class="step-buttons">
+        <button class="ui button active" data-step="1">Step 1</button>
+        <button class="ui button" data-step="2">Step 2</button>
+        <button class="ui button" data-step="3">Step 3</button>
+    </div>
+
+    <div id="guideline-content">
+        <!-- 여기에 동적으로 guideline1/2/3.php의 결과가 삽입됩니다 -->
+    </div>
+</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
     const content = document.getElementById("guideline-content");
 
-    // 해당 step에 맞는 가이드라인 내용을 불러옴
+    // loadStep 함수는 step 번호에 맞는 PHP 파일을 동적으로 불러옵니다.
     function loadStep(step) {
-        fetch(`guideline${step}.php`)
+        fetch(`guideline${step}.php`) // guideline1.php, guideline2.php, guideline3.php를 동적으로 불러옴
             .then(res => res.text())
             .then(html => {
-                content.innerHTML = html;
-                window.history.replaceState(null, "", `?step=${step}`);
+                content.innerHTML = html;  // 가이드라인 내용 삽입
+                window.history.replaceState(null, "", `?step=${step}`); // URL에 step 파라미터 갱신
             })
             .catch(error => {
                 content.innerHTML = "<div class='ui red message'>⚠️ 가이드라인을 불러올 수 없습니다.</div>";
@@ -25,22 +47,23 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-    // 버튼 클릭 이벤트 등록
+    // 버튼 클릭 이벤트
     buttons.forEach(btn => {
         btn.addEventListener("click", () => {
-            buttons.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
+            buttons.forEach(b => b.classList.remove("active")); // 기존 활성화된 버튼 비활성화
+            btn.classList.add("active"); // 클릭된 버튼을 활성화
 
-            const step = btn.dataset.step;
-            loadStep(step);
+            const step = btn.dataset.step; // 클릭된 버튼의 data-step 값
+            loadStep(step); // 해당 step에 맞는 가이드라인 로드
         });
     });
 
-    // 초기 로딩: URL 파라미터에 따라 Step 결정
+    // URL에 step이 이미 있으면 그 값을 사용하여 초기화, 없으면 기본 1로 설정
     const urlParams = new URLSearchParams(window.location.search);
     const initialStep = urlParams.get('step') || 1;
-    loadStep(initialStep);
+    loadStep(initialStep); // 초기 step 로드
 
+    // 버튼 활성화도 초기 상태 반영
     buttons.forEach(btn => {
         if (btn.dataset.step == initialStep) {
             btn.classList.add('active');
@@ -50,6 +73,5 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
-
 
 <?php include("template/syzoj/footer.php");//렌더링 파일 불러오기 ?>
