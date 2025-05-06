@@ -90,19 +90,27 @@ include("../../guideline_common.php");
 </div>
 
 <script>
+(function clearGuidelineAnswersOutsidePage() {
+    const isGuidelinePage = window.location.pathname.includes("guideline");
 
-// ✅ 사용자가 guideline.php에 새로 진입했을 때 이전 답안 초기화(즉시 실행 함수)
-(function clearOldAnswers() {
-    const keysToRemove = [];
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        // answer_step 또는 answer_status로 시작하면 삭제 대상
-        if (key.startsWith("answer_step") || key.startsWith("answer_status")) {
-            keysToRemove.push(key);
+    if (!isGuidelinePage) {
+        const keysToRemove = [];
+
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key.startsWith("answer_step") || key.startsWith("answer_status")) {
+                keysToRemove.push(key);
+            }
         }
-    }
 
-    keysToRemove.forEach(key => localStorage.removeItem(key));
+        keysToRemove.forEach(key => {
+            localStorage.removeItem(key);
+        });
+
+        console.log("✅ guideline 이외의 페이지 → 답안 초기화 완료");
+    } else {
+        console.log("✅ guideline 페이지 → 답안 유지");
+    }
 })();
 
 
