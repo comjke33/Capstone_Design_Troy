@@ -1,6 +1,6 @@
 /* step1 ,2 ,3 툴바 */
 .top-toolbar {
-  width: 100%;
+  width: auto; 
   padding: 15px 30px;
   background-color: #f9f9f9;
   border-bottom: 1px solid #ddd;

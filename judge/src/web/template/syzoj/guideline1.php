@@ -86,7 +86,7 @@
 </div>
 
 <script>
-    
+
 //버튼 부분
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
@@ -100,7 +100,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 window.history.replaceState(null, "", `?step=${step}`);
             })
             .catch(err => {
-                content.innerHTML = "<div class='ui red message'>⚠️ 가이드라인을 불러올 수 없습니다.</div>";
                 console.error("가이드라인 로딩 오류:", err);
             });
     }
