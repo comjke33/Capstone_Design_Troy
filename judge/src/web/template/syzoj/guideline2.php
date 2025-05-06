@@ -25,9 +25,8 @@
     <div class="center-panel">
         <h1>한 문단씩 풀기</h1>
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
-
-        <?php
         
+        <?php
         function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
         
