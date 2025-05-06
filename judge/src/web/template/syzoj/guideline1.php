@@ -16,6 +16,7 @@
     <div class="center-panel">
         <h1>한줄씩 풀기</h1>
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
+
         <?php
         function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
@@ -31,15 +32,10 @@
                     $block_content = trim($block['content']);
                     if ($block_content !== '') {
                         $escaped_content = htmlspecialchars($block_content);
-                        $html .= "<div class='block-header'><strong>{$block['type']}</strong>: {$escaped_content}</div>";
+                        $html .= "<div class='block-header'><strong>[{$block['type']}_{$block['index']}]</strong>: {$escaped_content}</div>";
                     } else {
-                        $html .= "<div class='block-header'><strong>{$block['type']}</strong></div>";
+                        $html .= "<div class='block-header'><strong>[{$block['type']}_{$block['index']}]</strong></div>";
                     }
-                }
-
-                // ✅ children이 있으면 재귀 호출
-                if (isset($block['children']) && count($block['children']) > 0) {
-                    $html .= render_tree_plain($block['children'], $answer_index);
                 }
 
                 // ✅ text 블록 처리 (textarea 및 정답 체크 UI 유지)
@@ -72,6 +68,11 @@
                     $answer_index++;
                 }
 
+                // ✅ children이 있으면 재귀 호출 (항상 마지막에)
+                if (isset($block['children']) && count($block['children']) > 0) {
+                    $html .= render_tree_plain($block['children'], $answer_index);
+                }
+
                 $html .= "</div>"; // block-wrap 닫기
             }
 
@@ -81,6 +82,7 @@
         $answer_index = 0;
         echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
         ?>
+
 
     </div>
 
