@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const correctAnswers = window.correctAnswers || {}; // PHP에서 json_encode로 주입되어야 함
 
-        document.querySelectorAll("textarea").forEach((textarea, index) => {
+    document.querySelectorAll("textarea").forEach((textarea, index) => {
         const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
         const savedValue = localStorage.getItem(key);
 
@@ -127,6 +127,22 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+
+    // 버튼 클릭 시 다음 단계로 이동
+    buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const nextStep = btn.getAttribute("data-step");
+            const nextProblemId = btn.getAttribute("data-problem-id") || problemId;
+
+            document.querySelectorAll("textarea").forEach((textarea, index) => {
+                const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
+                localStorage.setItem(key, textarea.value);
+            });
+
+            const baseUrl = window.location.pathname;
+            window.location.href = `${baseUrl}?step=${nextStep}&problem_id=${nextProblemId}`;
+        });
+    });
 });
 
 
