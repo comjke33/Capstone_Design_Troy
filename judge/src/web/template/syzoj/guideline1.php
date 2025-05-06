@@ -18,16 +18,17 @@
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
 
         <?php
+        
         function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
         
             foreach ($blocks as $block) {
-                $depth = $block['depth'];
+                $depth = $block['depth'] ?? 0;
                 $margin_left = $depth * 20;
         
                 $html .= "<div class='block-wrap block-{$block['type']}' style='margin-left: {$margin_left}px;'>";
         
-                // ✅ 모든 블록 타입에서 'content'가 있는 경우 textarea로 처리
+                // ✅ 1. 먼저 content 출력
                 if (isset($block['content'])) {
                     $raw = trim($block['content']);
                     if ($raw !== '') {
@@ -48,18 +49,20 @@
                         $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'>
                                     <span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span>
                                   </div>";
-                        $html .= "</div>"; // submission-line 닫기
+                        $html .= "</div>"; // .submission-line
         
                         $answer_index++;
                     }
                 }
         
-                // ✅ 자식 블록 재귀 렌더링
-                if (isset($block['children']) && count($block['children']) > 0) {
-                    $html .= render_tree_plain($block['children'], $answer_index);
+                // ✅ 2. 그리고 나서 children 출력 (원래 있던 위치로 옮김)
+                if (isset($block['children']) && is_array($block['children'])) {
+                    foreach ($block['children'] as $child) {
+                        $html .= render_tree_plain([$child], $answer_index);
+                    }
                 }
         
-                $html .= "</div>"; // block-wrap 닫기
+                $html .= "</div>"; // .block-wrap
             }
         
             return $html;
