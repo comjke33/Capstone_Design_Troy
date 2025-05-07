@@ -6,17 +6,26 @@ require_once ("../include/db_info.inc.php");
 
 
 
-// 문제 태그를 가져오는 함수 추가
 function getProblemTags($problem_id) {
   $sql = "SELECT t.name FROM problem_tag pt 
           JOIN tag t ON pt.tag_id = t.tag_id 
           WHERE pt.problem_id = ?";
   $result = pdo_query($sql, $problem_id);
 
+  // 디버깅 코드 추가
+  if (!$result) {
+      echo "태그를 가져오지 못했습니다. 문제 ID: " . $problem_id;
+      return [];
+  }
+
   $tags = [];
   foreach ($result as $row) {
       $tags[] = $row['name'];
   }
+
+  // 태그 확인
+  echo "가져온 태그: ";
+  print_r($tags);
   return $tags;
 }
 
@@ -378,13 +387,18 @@ else {
 ?>
  <!-- 🆕 태그 정보 추가 -->
  <tags>
-        <?php 
-            $tags = getProblemTags($row['problem_id']);
-            foreach ($tags as $tag) {
-                echo "<tag><![CDATA[" . $tag . "]]></tag>";
-            }
-        ?>
-    </tags>
+    <?php 
+        $tags = getProblemTags($row['problem_id']);
+        // 가져온 태그를 출력하여 확인
+        echo "<!-- 태그 디버깅: ";
+        print_r($tags);
+        echo " -->";
+
+        foreach ($tags as $tag) {
+            echo "<tag><![CDATA[" . $tag . "]]></tag>";
+        }
+    ?>
+</tags>
 </item>
 
 <?php }
