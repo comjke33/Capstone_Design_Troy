@@ -45,51 +45,58 @@ function guidelineFilter($text) {
     return $root['children'];
 }
 
-
 function codeFilter($text) {
     $tag_pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
 
     $blocks = [];
     $pos = 0;
     $length = strlen($text);
+    $depth = -1; // root 이전부터 시작
 
     while (preg_match($tag_pattern, $text, $match, PREG_OFFSET_CAPTURE, $pos)) {
-        $current_tag = $match[0][0];
-        $current_pos = $match[0][1];
+        $tag = $match[1][0];           // func_def, rep, cond, ...
+        $tag_type = $match[2][0];      // start or end
+        $index = (int)$match[3][0];
+        $full_match = $match[0][0];
+        $match_pos = $match[0][1];
 
-        // 현재 태그 이후부터 다음 태그까지 읽는다
-        $next_pos = $current_pos + strlen($current_tag);
-        if (preg_match($tag_pattern, $text, $next_match, PREG_OFFSET_CAPTURE, $next_pos)) {
-            $next_tag_pos = $next_match[0][1];
-            $between_text = substr($text, $next_pos, $next_tag_pos - $next_pos);
-        } else {
-            // 마지막 태그이면 끝까지
-            $between_text = substr($text, $next_pos);
-        }
+        $next_pos = $match_pos + strlen($full_match);
 
-        // 태그 내 내용만 추출하고, 태그는 제거
-        $between_text = preg_replace($tag_pattern, '', $between_text);
-        $lines = explode("\n", $between_text);
+        if ($tag_type === "start") {
+            $depth++;
 
-        // 코드가 비어 있거나 } 하나만 있는 경우 건너뛰기
-        $block_content = "";
-        foreach ($lines as $line) {
-            $trimmed = trim($line);
-            if ($trimmed === '' || $trimmed === '}') {
-                continue;  // 빈 줄이나 }만 있는 경우 건너뜀
+            // 다음 태그까지의 내용을 추출
+            if (preg_match($tag_pattern, $text, $next_match, PREG_OFFSET_CAPTURE, $next_pos)) {
+                $next_tag_pos = $next_match[0][1];
+                $between = substr($text, $next_pos, $next_tag_pos - $next_pos);
+            } else {
+                $between = substr($text, $next_pos);
             }
-            $block_content .= $trimmed . "\n";  // 코드 내용 추가
+
+            // 내부 태그 제거
+            $between = preg_replace($tag_pattern, '', $between);
+            $lines = explode("\n", $between);
+
+            $content = "";
+            foreach ($lines as $line) {
+                $trimmed = trim($line);
+                if ($trimmed === '' || $trimmed === '}') continue;
+                $content .= $line . "\n";
+            }
+
+            if (trim($content) !== '') {
+                $blocks[] = [
+                    'type' => 'text',
+                    'content' => rtrim($content),
+                    'depth' => $depth,
+                    'children' => []
+                ];
+            }
+
+        } else if ($tag_type === "end") {
+            $depth--;
         }
 
-        // 코드 내용이 비어 있지 않으면 블록에 추가
-        if (!empty($block_content)) {
-            $blocks[] = [
-                'type' => 'text',
-                'content' => $block_content
-            ];
-        }
-
-        // 다음 검색 위치 갱신
         $pos = $next_pos;
     }
 
