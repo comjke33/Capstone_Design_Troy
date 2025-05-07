@@ -53,7 +53,9 @@ function run_script($cmd) {
 }
 
 run_script($cmd);
-echo json_encode(["status" => "started"]);
+echo json_encode([
+    "status" => "started"
+]);
 
 // $results = [];
 // $results[] = run_script("cd /home/Capstone_Design_Troy/judge/src/web/add_problem && python3 make_question_and_code.py " . escapeshellarg($description) . ' ' . escapeshellarg($exemplary_code));
