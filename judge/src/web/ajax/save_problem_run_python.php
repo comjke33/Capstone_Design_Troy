@@ -22,7 +22,7 @@ if (preg_match("/<span\s+class=['\"]md auto_select['\"]>(.*?)<\/span>/is", $desc
 
     $description = $innerText;
 }
-$description = str_replace(",", "&#44;", $description);
+#$description = str_replace(",", "&#44;", $description);
 $exemplary_code = $_POST['exemplary_code'] ?? '';
 $problem_id = $_POST['problem_id'] ?? '';
 
