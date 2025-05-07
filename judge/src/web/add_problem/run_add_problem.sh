@@ -8,6 +8,8 @@ EXEMPLARY_CODE=$3
 
 # 1. 문제 생성
 touch here0
+echo $DESCRIPTION >> here0
+echo $EXEMPLARY_CODE >> here0
 python3 make_question_and_code.py "$DESCRIPTION" "$EXEMPLARY_CODE" >> /home/user/pipeline.log 2>&1
 if [ $? -ne 0 ]; then
     echo "문제 생성 실패" >> /home/user/pipeline.log
