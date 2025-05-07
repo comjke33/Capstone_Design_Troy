@@ -28,7 +28,11 @@ $problem_id = $_POST['problem_id'] ?? '';
 
 
 
-$cmd = "nohup bash -c 'cd /home/Capstone_Design_Troy/judge/src/web/add_problem && bash /home/user/run_add_problem.sh $problem_id $description $exemplary_code' > /home/user/pipeline.log 2>&1 &";
+$cmd = "nohup bash -c 'cd /home/... && bash /home/user/run_add_problem.sh " 
+       . escapeshellarg($problem_id) . " " 
+       . escapeshellarg($description) . " " 
+       . escapeshellarg($exemplary_code) . "' > /home/user/pipeline.log 2>&1 &";
+       
 // 로그 저장용
 function run_script($cmd) {
     $output = [];
