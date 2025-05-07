@@ -33,12 +33,12 @@
 
 /* 문제 가기 버튼 (왼쪽 끝) */
 .back-button {
-  margin-left: 50px;
+  margin-left: 200px;
 }
 
 /* 다시 풀기 버튼 (오른쪽으로 약간 띄우기) */
 .reset-button {
-  margin-right: 50px;
+  margin-right: 200px;
 }
 
 /* 공통 버튼 스타일 */
