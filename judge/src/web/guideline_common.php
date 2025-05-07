@@ -75,10 +75,14 @@ function codeFilter($text) {
         $block_content = "";
         foreach ($lines as $line) {
             $trimmed = trim($line);
-            if ($trimmed === '' || $trimmed === '}') {
-                continue;  // 빈 줄이나 }만 있는 경우 건너뜀
+            if ($trimmed === '' || $trimmed === '}' || str_starts_with($trimmed, '#')) {
+                continue;
             }
-            $block_content .= $trimmed . "\n";  // 코드 내용 추가
+        
+            $blocks[] = [
+                'type' => 'text',
+                'content' => $trimmed
+            ];
         }
 
         // 코드 내용이 비어 있지 않으면 블록에 추가
