@@ -2,7 +2,7 @@ import json
 import os
 import sys
 
-if len(sys.argv) > 1:
+if len(sys.argv) > 2:
     new_question = sys.argv[1]
     new_code = sys.argv[2]
 
