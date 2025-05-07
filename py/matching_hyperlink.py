@@ -11,7 +11,7 @@ CONCEPT_LINKS = {
         "개념": "변수 선언",
         "링크": f"{BASE_URL}#변수-선언"
     },
-    r"variable '.*' is used uninitialized": {
+    r"variable '.*' is used uninitialized|is uninitialized when used here": {
         "개념": "변수 초기화 누락",
         "링크": f"{BASE_URL}#변수-선언"
     },

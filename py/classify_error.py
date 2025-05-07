@@ -3,7 +3,7 @@ import sys
 
 ERROR_PATTERN_MAP = {
     # 1. 변수 선언 오류
-    r"use of undeclared identifier|undeclared variable": 1,
+    r"use of undeclared identifier|undeclared variable|is uninitialized when used here": 1,
 
     # 2. 함수 선언 누락
     r"implicit declaration of function|call to undeclared function": 2,
