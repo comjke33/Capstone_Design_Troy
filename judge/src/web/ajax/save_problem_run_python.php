@@ -33,7 +33,7 @@ $problem_id_b64 = base64_encode($problem_id);
 $cmd = "nohup bash -c 'cd /home/Capstone_Design_Troy/judge/src/web/add_problem && bash run_add_problem.sh " 
        . escapeshellarg($problem_id_b64) . " " 
        . escapeshellarg($description_b64) . " " 
-       . escapeshellarg($exemplary_code_b64) . "' > /home/user/pipeline.log 2>&1 &";
+       . escapeshellarg($exemplary_code_b64) . "' > /home/debug.log 2>&1 &";
 
 // $cmd = "nohup bash -c 'cd /home/Capstone_Design_Troy/judge/src/web/add_problem && bash run_add_problem.sh " 
 //        . escapeshellarg($problem_id) . " " 
