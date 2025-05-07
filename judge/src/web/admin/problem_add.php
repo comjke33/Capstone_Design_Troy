@@ -195,6 +195,7 @@ function phpfm(pid){
 $.ajax({
     type: "POST",
     url: "../ajax/save_problem_run_python.php",
+    dataType: "json",  // 👈 이것 추가
     data: {
         description: <?php echo json_encode($description); ?>,
         exemplary_code: <?php echo json_encode($exemplary_code); ?>,
@@ -203,12 +204,17 @@ $.ajax({
     },
     success: function(response) {
         console.log("📜 Python Script Results:");
-        response.forEach((result, idx) => {
-            console.log(`▶️ Script ${idx + 1}`);
-            console.log("Command:", result.command);
-            console.log("Return Code:", result.return_code);
-            console.log("Output:", result.output.join("\n"));
-        });
+        console.log(response);
+        if (Array.isArray(response)) {
+          response.forEach((result, idx) => {
+              console.log(`▶️ Script ${idx + 1}`);
+              console.log("Command:", result.command);
+              console.log("Return Code:", result.return_code);
+              console.log("Output:", result.output.join("\n"));
+          });
+        } else {
+          console.error("⚠️ 응답이 배열이 아님:", response);
+        }
         //alert("Python 스크립트 실행 완료 (결과는 콘솔에서 확인하세요)");
     },
     error: function(xhr, status, error) {
