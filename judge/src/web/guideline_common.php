@@ -54,19 +54,13 @@ function codeFilter($text) {
     foreach ($lines as $line) {
         $line = rtrim($line);
 
-        // 헤더파일 제거 (e.g. #include <stdio.h>)
-        if (preg_match('/^\s*#include\s+[<"].*[>"]\s*$/', $line)) {
-            continue;
-        }
-
         // 태그 시작 처리
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $m)) {
             $block = [
-                'type' => 'text',
+                'type' => 'block',
                 'tag' => $m[1],
                 'index' => (int)$m[2],
                 'depth' => count($stack) - 1,
-                'content' => '',
                 'children' => []
             ];
             $stack[count($stack) - 1]['children'][] = &$block;
@@ -86,16 +80,31 @@ function codeFilter($text) {
             continue;
         }
 
-        // 일반 코드 줄 처리
-        $trimmed = trim($line);
-        if ($trimmed === '' || $trimmed === '}') continue;
-
-        $stack[count($stack) - 1]['children'][] = [
-            'type' => 'text',
-            'content' => $line,
-            'depth' => count($stack) - 1
-        ];
+        // 일반 코드 줄 처리 (비어있거나 } 한 줄인 경우 제외)
+        if (trim($line) !== '' && trim($line) !== '}') {
+            $stack[count($stack) - 1]['children'][] = [
+                'type' => 'text',
+                'content' => $line,
+                'depth' => count($stack) - 1
+            ];
+        }
     }
 
-    return $root['children'];
+    // ✨ content 필드만 추출
+    return extractContentsFlat($root['children']);
+}
+
+// ✨ 내부에서 호출되는 유틸리티 함수
+function extractContentsFlat($blocks) {
+    $results = [];
+
+    foreach ($blocks as $block) {
+        if ($block['type'] === 'text' && trim($block['content']) !== '') {
+            $results[] = ['content' => $block['content']];
+        } else if (isset($block['children']) && is_array($block['children'])) {
+            $results = array_merge($results, extractContentsFlat($block['children']));
+        }
+    }
+
+    return $results;
 }
