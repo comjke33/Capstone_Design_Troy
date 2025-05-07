@@ -50,11 +50,14 @@ function codeFilter($text) {
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
 
+    $start_pattern = '/^\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]$/';
+    $end_pattern = '/^\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]$/';
+
     foreach ($lines as $line) {
         $line = rtrim($line);
 
-        // 시작 태그: 새로운 블록 시작
-        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $m)) {
+        // 시작 태그
+        if (preg_match($start_pattern, $line, $m)) {
             $block = [
                 'type' => $m[1],
                 'index' => $m[2],
@@ -67,8 +70,8 @@ function codeFilter($text) {
             continue;
         }
 
-        // 종료 태그: 해당 블록 종료
-        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $line, $m)) {
+        // 종료 태그
+        if (preg_match($end_pattern, $line, $m)) {
             for ($i = count($stack) - 1; $i >= 1; $i--) {
                 if ($stack[$i]['type'] === $m[1] && $stack[$i]['index'] == $m[2]) {
                     array_pop($stack);
@@ -78,20 +81,20 @@ function codeFilter($text) {
             continue;
         }
 
-        // 의미 없는 줄 제외: 빈 줄, } 만 있는 줄, 헤더 줄
+        // 의미 없는 줄 건너뛰기
         $trimmed = trim($line);
         if (
-            $trimmed === '' ||
-            $trimmed === '}' ||
-            str_starts_with($trimmed, '#')
+            $trimmed === '' ||           // 빈 줄
+            $trimmed === '}' ||          // 단독 중괄호
+            str_starts_with($trimmed, '#') // 헤더 줄
         ) {
             continue;
         }
 
-        // 정상 코드 줄
+        // 유효한 코드 줄 저장
         $stack[count($stack) - 1]['children'][] = [
             'type' => 'text',
-            'content' => $trimmed,
+            'content' => $line, // 들여쓰기 보존
             'depth' => count($stack) - 1
         ];
     }
