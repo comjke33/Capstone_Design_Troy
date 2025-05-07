@@ -10,9 +10,15 @@ if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME
 
 // 파라미터 받기
 $description = $_POST['description'] ?? '';
-// <span class='md auto_select'> 내부 텍스트만 추출
+// <span class='md auto_select'> 내부 텍스트 추출
 if (preg_match("/<span\s+class=['\"]md auto_select['\"]>(.*?)<\/span>/is", $description, $matches)) {
-    $description = trim($matches[1]);  // 앞뒤 공백 제거
+    $innerText = $matches[1];
+
+    // 공백 문자 제거 (일반 공백 + non-breaking space 포함)
+    $innerText = str_replace("\xc2\xa0", ' ', $innerText); // &nbsp; (U+00A0)
+    $innerText = preg_replace('/\s+/', '', $innerText);    // 모든 공백 문자 제거
+
+    $description = $innerText;
 }
 $description = str_replace(",", "&#44;", $description);
 $exemplary_code = $_POST['exemplary_code'] ?? '';
