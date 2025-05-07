@@ -8,18 +8,17 @@ require_once ("../include/db_info.inc.php");
 
 // 문제 태그를 가져오는 함수 추가
 function getProblemTags($problem_id) {
-  $sql = "SELECT t.tag_name FROM problem_tag pt 
+  $sql = "SELECT t.name FROM problem_tag pt 
           JOIN tag t ON pt.tag_id = t.tag_id 
           WHERE pt.problem_id = ?";
   $result = pdo_query($sql, $problem_id);
 
   $tags = [];
   foreach ($result as $row) {
-      $tags[] = $row['tag_name'];
+      $tags[] = $row['name'];
   }
   return $tags;
 }
-
 
 
 
