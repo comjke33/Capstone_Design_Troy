@@ -45,7 +45,6 @@ function guidelineFilter($text) {
     return $root['children'];
 }
 
-
 function codeFilter($text) {
     $lines = explode("\n", $text);
     $root = ['children' => [], 'depth' => -1];
@@ -54,7 +53,7 @@ function codeFilter($text) {
     foreach ($lines as $line) {
         $line = rtrim($line);
 
-        // 시작 태그 처리
+        // 시작 태그: 새로운 블록 시작
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $m)) {
             $block = [
                 'type' => $m[1],
@@ -68,7 +67,7 @@ function codeFilter($text) {
             continue;
         }
 
-        // 종료 태그 처리
+        // 종료 태그: 해당 블록 종료
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $line, $m)) {
             for ($i = count($stack) - 1; $i >= 1; $i--) {
                 if ($stack[$i]['type'] === $m[1] && $stack[$i]['index'] == $m[2]) {
@@ -79,7 +78,7 @@ function codeFilter($text) {
             continue;
         }
 
-        // 의미 없는 줄 건너뛰기: 공백, 단독 '}', 헤더 지시문
+        // 의미 없는 줄 제외: 빈 줄, } 만 있는 줄, 헤더 줄
         $trimmed = trim($line);
         if (
             $trimmed === '' ||
@@ -89,7 +88,7 @@ function codeFilter($text) {
             continue;
         }
 
-        // 코드 줄 추가
+        // 정상 코드 줄
         $stack[count($stack) - 1]['children'][] = [
             'type' => 'text',
             'content' => $trimmed,
