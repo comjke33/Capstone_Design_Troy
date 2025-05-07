@@ -240,25 +240,46 @@ function submitAnswer(index) {
 
 //답안 보여주기
 function showAnswer(index) {
-    const correctCode = correctAnswers?.[index]?.content;
-    if (!correctCode || typeof correctCode !== 'string') return;
+    const answerData = correctAnswers?.[index];
+    if (!answerData) return;
 
     const answerArea = document.getElementById(`answer_area_${index}`);
     if (!answerArea) return;
 
-    // 줄 단위로 분해
-    const lines = correctCode.trim().split('\n');
+    // 블록을 HTML로 렌더링하는 재귀 함수
+    function renderBlock(block) {
+        const indent = block.depth * 30;
+        let html = "";
 
-    // HTML 구성
-    let answerHtml = "<strong>정답:</strong><br>";
-    for (const line of lines) {
-        const escapedLine = document.createElement('div');
-        escapedLine.className = 'code-line';
-        escapedLine.innerText = line; // HTML escape 포함
-        answerHtml += escapedLine.outerHTML;
+        if (block.type === 'text') {
+            html += `<div class='code-line' style='margin-left:${indent}px;'>${escapeHtml(block.content)}</div>`;
+        } else if (Array.isArray(block.children)) {
+            // 설명 블록의 첫 줄을 설명으로 렌더링
+            const desc = block.children.find(child => child.type === 'text');
+            if (desc) {
+                html += `<div class='guideline-description' style='margin-left:${indent}px; font-weight:bold; margin-bottom:4px;'>${escapeHtml(desc.content)}</div>`;
+            }
+
+            // 나머지 자식 렌더링
+            for (const child of block.children) {
+                if (child !== desc) {
+                    html += renderBlock(child);
+                }
+            }
+        }
+
+        return html;
     }
 
-    answerArea.innerHTML = answerHtml;
+    // HTML escape
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.innerText = text;
+        return div.innerHTML;
+    }
+
+    const html = "<strong>정답:</strong><br>" + renderBlock(answerData);
+    answerArea.innerHTML = html;
     answerArea.style.display = 'block';
 }
 
