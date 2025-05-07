@@ -17,9 +17,11 @@ $time_limit = $_POST['time_limit'];
 $memory_limit = $_POST['memory_limit'];
 
 $description = $_POST['description'];
+
 //$description = str_replace("<p>", "", $description); 
 //$description = str_replace("</p>", "<br />", $description);
 $description = str_replace(",", "&#44;", $description); 
+
 
 $input = $_POST['input'];
 //$input = str_replace("<p>", "", $input); 
@@ -131,8 +133,11 @@ if(isset($_POST['remote_oj'])){
 
 // //파이썬 실행
 // shell_exec("cd /home/Capstone_Design_Troy/button_test/ && python3 button_test.py");
+// echo "button_test 성공공";
 // shell_exec("cd /home/Capstone_Design_Troy/test/ && python3 make_question_and_code.py" . escapeshellarg($description) . ' ' . escapeshellarg($exemplary_code));
-// shell_exec("cd /home/Capstone_Design_Troy/test/ && python3 AIFlowchart.py" . escapeshellarg($problem_id));
+// echo "문제, 코드 JSON 생성 성공";
+// echo $description;
+// echo $exemplary_code;
 // //파이썬 실행
 
 
@@ -163,7 +168,17 @@ $command = "cd /home/Capstone_Design_Troy/py/ && python3 make_flowchart.py "
     . escapeshellarg($problem_id);
 
 $result = shell_exec($command);
+$json_data = json_decode($result, true);
 
+foreach ($json_data as $index => $row) {
+  $idx = intval($index);
+  $start_line = intval($row['start_line']);
+  $end_line = intval($row['end_line']);
+
+  // SQL 준비
+  $sql = "INSERT INTO flowchart (problem_id, png_address, png_number, start_num,  end_num) VALUES (?, ?, ?, ?, ?)";
+  $result = pdo_query($sql, $problem_id, $output_dir, $idx, $start_line, $end_line);
+}
 // ========================================================
 
 $sql = "INSERT INTO `privilege` (`user_id`,`rightstr`) VALUES(?,?)";
@@ -190,6 +205,7 @@ function phpfm(pid){
 $.ajax({
     type: "POST",
     url: "../ajax/save_problem_run_python.php",
+    dataType: "json",  // JSON으로 응답 받기
     data: {
         description: <?php echo json_encode($description); ?>,
         exemplary_code: <?php echo json_encode($exemplary_code); ?>,
@@ -197,18 +213,29 @@ $.ajax({
         post_key: "<?php echo $_SESSION[$OJ_NAME . '_post_key']; ?>"
     },
     success: function(response) {
-        console.log("📜 Python Script Results:");
-        response.forEach((result, idx) => {
-            console.log(`▶️ Script ${idx + 1}`);
-            console.log("Command:", result.command);
-            console.log("Return Code:", result.return_code);
-            console.log("Output:", result.output.join("\n"));
-        });
-        //alert("Python 스크립트 실행 완료 (결과는 콘솔에서 확인하세요)");
+        console.log("📜 Python Script Response:");
+        console.log(response);
+
+        if (Array.isArray(response)) {
+            response.forEach((result, idx) => {
+                console.log(`▶️ Script ${idx + 1}`);
+                console.log("Command:", result.command);
+                console.log("Return Code:", result.return_code);
+                console.log("Output:", result.output.join("\n"));
+            });
+        } else if (typeof response === "object" && response !== null) {
+            // 객체인 경우 status 등 출력
+            if (response.status) {
+                console.log(`🟡 상태: ${response.status}`);
+            } else {
+                console.warn("⚠️ 응답 객체에 예상된 키가 없음:", response);
+            }
+        } else {
+            console.error("⚠️ 알 수 없는 형식의 응답:", response);
+        }
     },
     error: function(xhr, status, error) {
-        console.error("❌ Error running Python script:", error);
-        //alert("Python 실행 중 오류 발생");
+        console.error("❌ Python 실행 중 오류 발생:", error);
     }
 });
 </script>

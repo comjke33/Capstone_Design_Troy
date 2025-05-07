@@ -25,7 +25,7 @@ if (isset($code)) {
 }
 
 $data = json_decode($compile_result, true);
- $link_results = array();
+$link_results = array();
  
  // stderrs가 존재하는지 확인하고 반복
  if (isset($data['stderrs']) && is_array($data['stderrs'])) {

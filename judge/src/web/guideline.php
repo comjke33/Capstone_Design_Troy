@@ -1,6 +1,5 @@
 <?php
-// ✅ src/web/guideline.php
-// 기능 담당: 각 step에 맞는 PHP 파일을 불러와 HTML을 반환
+//각 step에 맞는 PHP 파일을 불러와 HTML을 반환
 
 $step = isset($_GET['step']) ? intval($_GET['step']) : 1;
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;

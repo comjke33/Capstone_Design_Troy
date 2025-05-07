@@ -1,6 +1,5 @@
 <?php
-
-function parse_blocks($text) {
+function guidelineFilter($text) {
     $lines = explode("\n", $text);
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
@@ -47,52 +46,105 @@ function parse_blocks($text) {
 }
 
 
-function extract_tagged_blocks($text) {
-    $tag_pattern = "/\[(func_def|rep|cond|self|struct|construct)_(start|end)\((\d+)\)\]/";
+function codeFilter($text) {
+    $lines = explode("\n", $text);
+    $root = ['children' => [], 'depth' => -1];
+    $stack = [ &$root ];
 
-    $blocks = [];
-    $pos = 0;
-    $length = strlen($text);
+    $collectingSelf = false;
+    $selfBuffer = "";
+    $selfTagIndex = null;
 
-    while (preg_match($tag_pattern, $text, $match, PREG_OFFSET_CAPTURE, $pos)) {
-        $current_tag = $match[0][0];
-        $current_pos = $match[0][1];
+    foreach ($lines as $line) {
+        $line = rtrim($line);
 
-        // 현재 태그 이후부터 다음 태그까지 읽는다
-        $next_pos = $current_pos + strlen($current_tag);
-        if (preg_match($tag_pattern, $text, $next_match, PREG_OFFSET_CAPTURE, $next_pos)) {
-            $next_tag_pos = $next_match[0][1];
-            $between_text = substr($text, $next_pos, $next_tag_pos - $next_pos);
-        } else {
-            // 마지막 태그이면 끝까지
-            $between_text = substr($text, $next_pos);
+        //self 블록만 별도로 처리하는 이뉴는
+        //사용자 입력 유도 혹은 하나의 코드조각을 하나의 줄로 인식하기 위해 사용하기 때문에
+        
+        // 🔹 self_start감지
+        if (preg_match('/\[self_start\((\d+)\)\]/', $line, $m)) {
+            $collectingSelf = true;
+            $selfBuffer = "";
+            $selfTagIndex = $m[1];
+            continue;
         }
 
-        // 태그 내 내용만 추출하고, 태그는 제거
-        $between_text = preg_replace($tag_pattern, '', $between_text);
-        $lines = explode("\n", $between_text);
-
-        // 코드가 비어 있거나 } 하나만 있는 경우 건너뛰기
-        $block_content = "";
-        foreach ($lines as $line) {
-            $trimmed = trim($line);
-            if ($trimmed === '' || $trimmed === '}') {
-                continue;  // 빈 줄이나 }만 있는 경우 건너뜀
+        // 🔹 self_end 도달 시 buffer 처리
+        if (preg_match('/\[self_end\((\d+)\)\]/', $line, $m)) {
+            if ($collectingSelf && $m[1] == $selfTagIndex) {
+                $stack[count($stack) - 1]['children'][] = [
+                    'type' => 'text',
+                    'content' => rtrim($selfBuffer),
+                    'depth' => count($stack) - 1
+                ];
             }
-            $block_content .= $trimmed . "\n";  // 코드 내용 추가
+            $collectingSelf = false;
+            $selfBuffer = "";
+            $selfTagIndex = null;
+            continue;
         }
 
-        // 코드 내용이 비어 있지 않으면 블록에 추가
-        if (!empty($block_content)) {
-            $blocks[] = [
+        // 🔹 self 내부 내용 누적
+        if ($collectingSelf) {
+            $selfBuffer .= $line . "\n";
+            continue;
+        }
+
+        // 이외의 일반구조 블록 시작
+        if (preg_match('/\[(func_def|rep|cond|struct|construct)_start\((\d+)\)\]/', $line, $m)) {
+            $block = [
+                'type' => 'block',
+                'tag' => $m[1],
+                'index' => (int)$m[2],
+                'depth' => count($stack) - 1,
+                'children' => []
+            ];
+            $stack[count($stack) - 1]['children'][] = &$block;
+            $stack[] = &$block;
+            unset($block);
+            continue;
+        }
+
+        // 🔹 일반구조 블록 종료
+        if (preg_match('/\[(func_def|rep|cond|struct|construct)_end\((\d+)\)\]/', $line, $m)) {
+            for ($i = count($stack) - 1; $i >= 1; $i--) {
+                if (isset($stack[$i]['tag']) && $stack[$i]['tag'] === $m[1] && $stack[$i]['index'] == $m[2]) {
+                    array_pop($stack);
+                    break;
+                }
+            }
+            continue;
+        }
+
+        // 🔹 일반 코드 줄 처리 (예외 필터링)
+        if (
+            trim($line) !== '' &&
+            trim($line) !== '}' &&
+            !preg_match('/^#include\s+<.*>$/', trim($line))
+        ) {
+            $stack[count($stack) - 1]['children'][] = [
                 'type' => 'text',
-                'content' => $block_content
+                'content' => $line,
+                'depth' => count($stack) - 1
             ];
         }
-
-        // 다음 검색 위치 갱신
-        $pos = $next_pos;
     }
 
-    return $blocks;
+    // 🔸 최종적으로 flat 배열로 변환
+    return extractContentsFlat($root['children']);
+}
+
+// 트리 형태로 저장된 코드 블록 구조를 1차원(flat) 배열로 변환하는 기능
+function extractContentsFlat($blocks) {
+    $results = [];
+
+    foreach ($blocks as $block) {
+        if (isset($block['type']) && $block['type'] === 'text' && isset($block['content'])) {
+            $results[] = ['content' => $block['content']];
+        } elseif (isset($block['children']) && is_array($block['children'])) {
+            $results = array_merge($results, extractContentsFlat($block['children']));
+        }
+    }
+
+    return $results;
 }

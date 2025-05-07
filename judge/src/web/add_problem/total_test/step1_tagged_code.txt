@@ -1,0 +1,66 @@
+#include <stdio.h>
+[func_def_start(0)]
+int main () {
+[self_start(1)]
+    int n;
+[self_end(1)]
+[self_start(1)]
+    scanf ("%d", &n );
+[self_end(1)]
+[rep_start(1)]
+    for (int i =1; i <=n; i++) {
+[self_start(2)]
+        int num =i;
+[self_end(2)]
+[self_start(2)]
+        int count =0;
+[self_end(2)]
+[rep_start(2)]
+        while (num >0 ) {
+[self_start(3)]
+            int digit =num %10;
+[self_end(3)]
+[cond_start(3)]
+            if (digit ==3 ||digit ==6 ||digit ==9 ) {
+[self_start(4)]
+                count++;
+[self_end(4)]
+[cond_end(3)]
+            }
+[self_start(3)]
+            num /=10;
+[self_end(3)]
+[rep_end(2)]
+        }
+[cond_start(2)]
+        if (count >0 ) {
+[rep_start(3)]
+            for (int j =0; j <count; j++) {
+[self_start(4)]
+                printf ("x" );
+[self_end(4)]
+[rep_end(3)]
+            }
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else {
+[self_start(3)]
+            printf ("%d", i );
+[self_end(3)]
+[cond_end(2)]
+        }
+[cond_start(2)]
+        if (i !=n ) {
+[self_start(3)]
+            printf (" " );
+[self_end(3)]
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[func_def_end(0)]
+}

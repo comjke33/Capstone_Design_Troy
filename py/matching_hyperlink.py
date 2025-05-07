@@ -11,7 +11,7 @@ CONCEPT_LINKS = {
         "개념": "변수 선언",
         "링크": f"{BASE_URL}#변수-선언"
     },
-    r"variable '.*' is used uninitialized": {
+    r"variable '.*' is used uninitialized|is uninitialized when used here": {
         "개념": "변수 초기화 누락",
         "링크": f"{BASE_URL}#변수-선언"
     },
@@ -164,9 +164,9 @@ def map_to_concepts(errors: str):
 
         if not matched:
             results.append({
-                "concepts": "알 수 없는 오류",
+                "concepts": "기타 오류",
                 "block": block,
-                "link": f"{BASE_URL}#알-수-없는-오류"
+                "link": f"{BASE_URL}#기타-오류"
             })
 
 

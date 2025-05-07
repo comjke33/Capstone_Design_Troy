@@ -2,14 +2,14 @@
 include("include/db_info.inc.php");
 include("guideline_common.php"); // ✨ 공통 파일 사용
 
-$file_path = "/home/Capstone_Design_Troy/test/total_test/step2_guideline.txt";
-$tagged_path = "/home/Capstone_Design_Troy/test/total_test/step2_tagged_code.txt";
+$file_path = "/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/1237.txt";
+$tagged_path = "/home/Capstone_Design_Troy/judge/src/web/tagged_code/1237.txt";
 
 $guideline_contents = file_get_contents($file_path);
 $tagged_contents = file_get_contents($tagged_path);
 
-$OJ_BLOCK_TREE = parse_blocks($guideline_contents);
-$OJ_CORRECT_ANSWERS = extract_tagged_blocks($tagged_contents);
+$OJ_BLOCK_TREE = guidelineFilter($guideline_contents);
+$OJ_CORRECT_ANSWERS = codeFilter($tagged_contents);
 $OJ_SID = "STEP 1";
 
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;

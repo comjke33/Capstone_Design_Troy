@@ -1,13 +1,21 @@
 <?php
-
 include("template/$OJ_TEMPLATE/header.php");
 include("../../guideline_common.php");
 ?>
 
-<div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'>
-</div>
-
+<div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'></div>
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
+
+<!-- 뒤로가기 및 리셋 버튼 -->
+<div class="action-buttons">
+    <div class="back-button">
+        <button class="ui button back" id="view-problem-button">↩</button>
+    </div>
+    
+    <div class="reset-button">
+        <button class="ui button again" id="reset-button">↻</button>
+    </div>
+</div>
 
 <!-- 상단 툴바 -->
 <div class="top-toolbar">
@@ -30,8 +38,7 @@ include("../../guideline_common.php");
         <h1>한 줄씩 풀기</h1>
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
 
-        <?php
-        
+        <?php      
         function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
         
@@ -39,44 +46,34 @@ include("../../guideline_common.php");
                 $depth = $block['depth'];
                 $margin_left = $depth * 30;
         
-                // text 블록은 직접 렌더링
                 if ($block['type'] === 'text') {
                     $raw = trim($block['content']);
                     if ($raw === '') continue;
         
-                    //특수문자 처리
                     $line = htmlspecialchars($block['content']);
-                    //현재 줄에 정답 여부 확인하여 정답 여부 처리 정답이면 입력가능, 아니라면 입력창 비활성화
                     $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
                     $disabled = $has_correct_answer ? "" : "disabled";
         
-                    //들여쓰기 적용 부분 & 가이드라인, 코드 영역
                     $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
                     $html .= "<div class='code-line'>{$line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
         
-                    //답이 맞은 경우 
-                    if ($has_correct_answer) {
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
-                        $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
-                    }
+                    // 🔥 버튼 항상 표시
+                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
+                    $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
         
-                    //체크 마크 표시
                     $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                     $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
                     $html .= "</div>";
         
                     $answer_index++;
-                }
-        
-                // block 블록: 자식만 출력 (자신은 출력 X)
-                else if (isset($block['children']) && is_array($block['children'])) {
+                } else if (isset($block['children']) && is_array($block['children'])) {
                     $html .= render_tree_plain($block['children'], $answer_index);
                 }
             }
         
             return $html;
-        }
+        }     
 
         $answer_index = 0;
         echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
@@ -90,31 +87,56 @@ include("../../guideline_common.php");
 </div>
 
 <script>
-(function clearGuidelineAnswersOutsidePage() {
-    const isGuidelinePage = window.location.pathname.includes("guideline");
 
-    if (!isGuidelinePage) {
-        const keysToRemove = [];
+//뒤로가기 & 다시 풀기 버튼
+document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentStep = urlParams.get("step") || "1";
+    const problemId = urlParams.get("problem_id") || "0";
 
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key.startsWith("answer_step") || key.startsWith("answer_status")) {
-                keysToRemove.push(key);
-            }
+    // 문제 가기 버튼
+    document.getElementById("view-problem-button")?.addEventListener("click", () => {
+        window.location.href = `/problem.php?id=${problemId}`;
+    });
+
+    // 다시 풀기 버튼
+    document.getElementById("reset-button")?.addEventListener("click", () => {
+        if (confirm("모든 입력을 초기화하고 다시 푸시겠습니까?")) {
+            document.querySelectorAll("textarea").forEach((textarea, index) => {
+                // localStorage에서 삭제
+                const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
+                const statusKey = `answer_status_step${currentStep}_q${index}_pid${problemId}`;
+                localStorage.removeItem(key);
+                localStorage.removeItem(statusKey);
+
+                // 시각적 스타일 리셋
+                textarea.value = "";
+                textarea.readOnly = false;
+                textarea.disabled = false;
+                textarea.style.backgroundColor = "white";
+                textarea.style.border = "1px solid #ccc";
+                textarea.style.color = "black";
+
+                // 버튼/체크 아이콘 리셋
+                const check = document.getElementById(`check_${index}`);
+                const btn = document.getElementById(`btn_${index}`);
+                const viewBtn = document.getElementById(`view_btn_${index}`);
+                const answerArea = document.getElementById(`answer_area_${index}`);
+
+                if (check) check.style.display = "none";
+                if (btn) {
+                    btn.style.display = "inline-block";
+                    btn.disabled = false;
+                }
+                if (viewBtn) viewBtn.disabled = false;
+                if (answerArea) answerArea.style.display = "none";
+            });
         }
-
-        keysToRemove.forEach(key => {
-            localStorage.removeItem(key);
-        });
-
-        console.log("✅ guideline 이외의 페이지 → 답안 초기화 완료");
-    } else {
-        console.log("✅ guideline 페이지 → 답안 유지");
-    }
-})();
+    });
+});
 
 
-//버튼 부분
+//Step1, 2, 3버튼 부분
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
     const urlParams = new URLSearchParams(window.location.search);
@@ -165,8 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-
-
+//문제 맞았는지 여부 확인
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
 
@@ -206,16 +227,19 @@ function submitAnswer(index) {
     }
 }
 
-
+//답안 보여주기
 function showAnswer(index) {
-    const correctCode = correctAnswers[index]?.content.trim();
+    const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
     if (!correctCode) return;
+
     const answerArea = document.getElementById(`answer_area_${index}`);
     const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${correctCode}</pre>`;
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }
 
+
+//화면 크기 재조절
 function autoResize(ta) {
     ta.style.height = 'auto';
     ta.style.height = ta.scrollHeight + 'px';
@@ -224,6 +248,7 @@ function autoResize(ta) {
 let currentTextarea = null;
 let animationRunning = false;
 
+//flowchart렌더링 및 매끄러운 이동
 function updateImageForTextarea(index, ta) {
     currentTextarea = ta;
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
@@ -246,6 +271,7 @@ function updateImageForTextarea(index, ta) {
         });
 }
 
+//이미지 매끄러운 이동
 function smoothFollowImage() {
     const img = document.getElementById("floating-img");
     if (!img || !currentTextarea) {
@@ -272,7 +298,6 @@ function smoothFollowImage() {
 
     requestAnimationFrame(smoothFollowImage);
 }
-
 
 // textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
