@@ -58,7 +58,10 @@ function codeFilter($text) {
     foreach ($lines as $line) {
         $line = rtrim($line);
 
-        // 🔹 self_start 블록 감지
+        //self 블록만 별도로 처리하는 이뉴는
+        //사용자 입력 유도 혹은 하나의 코드조각을 하나의 줄로 인식하기 위해 사용하기 때문에
+        
+        // 🔹 self_start감지
         if (preg_match('/\[self_start\((\d+)\)\]/', $line, $m)) {
             $collectingSelf = true;
             $selfBuffer = "";
@@ -87,7 +90,7 @@ function codeFilter($text) {
             continue;
         }
 
-        // 🔹 일반 구조 블록 시작
+        // 이외의 일반구조 블록 시작
         if (preg_match('/\[(func_def|rep|cond|struct|construct)_start\((\d+)\)\]/', $line, $m)) {
             $block = [
                 'type' => 'block',
@@ -102,7 +105,7 @@ function codeFilter($text) {
             continue;
         }
 
-        // 🔹 구조 블록 종료
+        // 🔹 일반구조 블록 종료
         if (preg_match('/\[(func_def|rep|cond|struct|construct)_end\((\d+)\)\]/', $line, $m)) {
             for ($i = count($stack) - 1; $i >= 1; $i--) {
                 if (isset($stack[$i]['tag']) && $stack[$i]['tag'] === $m[1] && $stack[$i]['index'] == $m[2]) {
@@ -131,7 +134,7 @@ function codeFilter($text) {
     return extractContentsFlat($root['children']);
 }
 
-
+// 트리 형태로 저장된 코드 블록 구조를 1차원(flat) 배열로 변환하는 기능
 function extractContentsFlat($blocks) {
     $results = [];
 
