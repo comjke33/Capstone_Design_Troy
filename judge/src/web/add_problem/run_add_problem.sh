@@ -1,5 +1,7 @@
 #!/bin/bash
 
+touch fuck
+
 # PROBLEM_ID=$(echo "$1" | base64 -d)
 # DESCRIPTION=$(echo "$2" | base64 -d)
 # EXEMPLARY_CODE=$(echo "$3" | base64 -d)
