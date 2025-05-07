@@ -44,14 +44,20 @@ function guidelineFilter($text) {
 
     return $root['children'];
 }
+
+
 function codeFilter($text) {
-    $lines = explode("
-", $text);
+    $lines = explode("\n", $text);
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
 
     foreach ($lines as $line) {
         $line = rtrim($line);
+
+        // 헤더파일 제거 (e.g. #include <stdio.h>)
+        if (preg_match('/^\s*#include\s+[<"].*[>"]\s*$/', $line)) {
+            continue;
+        }
 
         // 태그 시작 처리
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $m)) {
@@ -80,14 +86,15 @@ function codeFilter($text) {
             continue;
         }
 
-        // 일반 코드 줄 처리 (비어있거나 } 한 줄인 경우 제외)
-        if (trim($line) !== '' && trim($line) !== '}') {
-            $stack[count($stack) - 1]['children'][] = [
-                'type' => 'text',
-                'content' => $line,
-                'depth' => count($stack) - 1
-            ];
-        }
+        // 일반 코드 줄 처리
+        $trimmed = trim($line);
+        if ($trimmed === '' || $trimmed === '}') continue;
+
+        $stack[count($stack) - 1]['children'][] = [
+            'type' => 'text',
+            'content' => $line,
+            'depth' => count($stack) - 1
+        ];
     }
 
     return $root['children'];
