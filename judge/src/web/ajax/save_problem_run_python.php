@@ -10,7 +10,7 @@ if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME
 
 // 파라미터 받기
 $description = $_POST['description'] ?? '';
-$description = preg_replace('/<span\s+class=[\'"]md auto_select[\'"]>.*?<\/span>/is', '', $description);
+//$description = preg_replace('/<span\s+class=[\'"]md auto_select[\'"]>.*?<\/span>/is', '', $description);
 $description = str_replace(",", "&#44;", $description);
 $exemplary_code = $_POST['exemplary_code'] ?? '';
 $problem_id = $_POST['problem_id'] ?? '';
@@ -28,9 +28,9 @@ function run_script($cmd) {
 }
 $results = [];
 $results[] = run_script("cd /home/Capstone_Design_Troy/test/ && python3 make_question_and_code.py " . escapeshellarg($description) . ' ' . escapeshellarg($exemplary_code));
-$env_vars = parse_ini_file("/home/Capstone_Design_Troy/test/env");
-$api_key = escapeshellarg($env_vars["OPENAI_API_KEY"]);
-$command = "cd /home/Capstone_Design_Troy/test/ && OPENAI_API_KEY=$api_key python3 AIFlowchart.py $problem_id_arg";
+// $env_vars = parse_ini_file("/home/Capstone_Design_Troy/test/env");
+// $api_key = escapeshellarg($env_vars["OPENAI_API_KEY"]);
+// $command = "cd /home/Capstone_Design_Troy/test/ && OPENAI_API_KEY=$api_key python3 AIFlowchart.py $problem_id_arg";
 $results[] = run_script($command);
 
 #$results[] = run_script("cd /home/Capstone_Design_Troy/test/ && python3 AIFlowchart.py " . escapeshellarg($problem_id));

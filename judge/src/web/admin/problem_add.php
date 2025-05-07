@@ -134,11 +134,10 @@ if(isset($_POST['remote_oj'])){
 // //파이썬 실행
 shell_exec("cd /home/Capstone_Design_Troy/button_test/ && python3 button_test.py");
 echo "button_test 성공공";
-shell_exec("cd /home/Capstone_Design_Troy/test/ && python3 make_question_and_code.py" . escapeshellarg($description) . ' ' . escapeshellarg($exemplary_code));
-echo "문제, 코드 JSON 생성 성공";
+// shell_exec("cd /home/Capstone_Design_Troy/test/ && python3 make_question_and_code.py" . escapeshellarg($description) . ' ' . escapeshellarg($exemplary_code));
+// echo "문제, 코드 JSON 생성 성공";
 echo $description;
 echo $exemplary_code;
-// shell_exec("cd /home/Capstone_Design_Troy/test/ && python3 AIFlowchart.py" . escapeshellarg($problem_id));
 // //파이썬 실행
 
 
