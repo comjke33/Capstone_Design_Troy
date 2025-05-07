@@ -47,29 +47,22 @@ include("../../guideline_common.php");
                 $depth = $block['depth'];
                 $margin_left = $depth * 30;
         
-                // text 블록은 직접 렌더링
                 if ($block['type'] === 'text') {
                     $raw = trim($block['content']);
                     if ($raw === '') continue;
         
-                    //특수문자 처리
                     $line = htmlspecialchars($block['content']);
-                    //현재 줄에 정답 여부 확인하여 정답 여부 처리 정답이면 입력가능, 아니라면 입력창 비활성화
                     $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
                     $disabled = $has_correct_answer ? "" : "disabled";
         
-                    //들여쓰기 적용 부분 & 가이드라인, 코드 영역
                     $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
                     $html .= "<div class='code-line'>{$line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
         
-                    //답이 맞은 경우 
-                    if ($has_correct_answer) {
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
-                        $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
-                    }
+                    // ✅ 버튼 항상 표시
+                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
+                    $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
         
-                    //체크 마크 표시
                     $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                     $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
                     $html .= "</div>";
@@ -77,7 +70,7 @@ include("../../guideline_common.php");
                     $answer_index++;
                 }
         
-                // block 블록: 자식만 출력 (자신은 출력 X)
+                // 자식 블록 재귀 처리
                 else if (isset($block['children']) && is_array($block['children'])) {
                     $html .= render_tree_plain($block['children'], $answer_index);
                 }
@@ -85,6 +78,7 @@ include("../../guideline_common.php");
         
             return $html;
         }
+        
 
         $answer_index = 0;
         echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
