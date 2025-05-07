@@ -240,46 +240,19 @@ function submitAnswer(index) {
 
 //답안 보여주기
 function showAnswer(index) {
-    const answerData = correctAnswers?.[index];
-    if (!answerData) return;
+    const correctCode = correctAnswers?.[index]?.content;
+    if (!correctCode || typeof correctCode !== 'string') return;
 
     const answerArea = document.getElementById(`answer_area_${index}`);
     if (!answerArea) return;
 
-    // 블록을 HTML로 렌더링하는 재귀 함수
-    function renderBlock(block) {
-        const indent = block.depth * 30;
-        let html = "";
+    // 단일 코드 라인 출력 (escape 적용)
+    const pre = document.createElement('pre');
+    pre.className = 'code-line';
+    pre.innerText = correctCode.trim();
 
-        if (block.type === 'text') {
-            html += `<div class='code-line' style='margin-left:${indent}px;'>${escapeHtml(block.content)}</div>`;
-        } else if (Array.isArray(block.children)) {
-            // 설명 블록의 첫 줄을 설명으로 렌더링
-            const desc = block.children.find(child => child.type === 'text');
-            if (desc) {
-                html += `<div class='guideline-description' style='margin-left:${indent}px; font-weight:bold; margin-bottom:4px;'>${escapeHtml(desc.content)}</div>`;
-            }
-
-            // 나머지 자식 렌더링
-            for (const child of block.children) {
-                if (child !== desc) {
-                    html += renderBlock(child);
-                }
-            }
-        }
-
-        return html;
-    }
-
-    // HTML escape
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.innerText = text;
-        return div.innerHTML;
-    }
-
-    const html = "<strong>정답:</strong><br>" + renderBlock(answerData);
-    answerArea.innerHTML = html;
+    answerArea.innerHTML = "<strong>정답:</strong><br>";
+    answerArea.appendChild(pre);
     answerArea.style.display = 'block';
 }
 
