@@ -240,62 +240,13 @@ function submitAnswer(index) {
 
 //답안 보여주기
 function showAnswer(index) {
-    const block = correctAnswers[index];
-    if (!block) return;
-
+    const correctCode = correctAnswers[index]?.content.trim();
+    if (!correctCode) return;
     const answerArea = document.getElementById(`answer_area_${index}`);
-    if (!answerArea) return;
-
-    // 모든 블록에서 현재 index를 포함하는 상위 block 찾기
-    function findParentBlock(blocks, targetIndex, currentIndex = { i: 0 }) {
-        for (const blk of blocks) {
-            if (blk.type === 'text') {
-                if (currentIndex.i === targetIndex) return null;
-                currentIndex.i++;
-            } else if (blk.children) {
-                const before = currentIndex.i;
-                const found = findParentBlock(blk.children, targetIndex, currentIndex);
-                if (found) return found;
-                if (currentIndex.i > before) return blk; // 포함하는 부모 블록
-            }
-        }
-        return null;
-    }
-
-    // 해당 블록 찾기
-    const parentBlock = findParentBlock(correctAnswers, index);
-    const lines = [];
-
-    function extractTextLines(block) {
-        if (block.type === 'text') {
-            lines.push(block.content);
-        } else if (Array.isArray(block.children)) {
-            for (const child of block.children) {
-                extractTextLines(child);
-            }
-        }
-    }
-
-    if (parentBlock) {
-        extractTextLines(parentBlock);
-    } else {
-        // 루트에 있는 text 블록일 경우
-        extractTextLines(correctAnswers[index]);
-    }
-
-    // HTML 렌더링
-    let answerHtml = "<strong>정답:</strong><br>";
-    for (const line of lines) {
-        const div = document.createElement("div");
-        div.className = "code-line";
-        div.innerText = line;
-        answerHtml += div.outerHTML;
-    }
-
+    const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${correctCode}</pre>`;
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }
-
 
 //화면 크기 재조절
 function autoResize(ta) {
