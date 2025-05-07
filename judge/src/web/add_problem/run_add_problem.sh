@@ -4,9 +4,10 @@ PROBLEM_ID=$1
 DESCRIPTION=$2
 EXEMPLARY_CODE=$3
 
-cd /home/Capstone_Design_Troy/judge/src/web/add_problem
+#cd /home/Capstone_Design_Troy/judge/src/web/add_problem
 
 # 1. 문제 생성
+touch here0
 python3 make_question_and_code.py "$DESCRIPTION" "$EXEMPLARY_CODE" >> /home/user/pipeline.log 2>&1
 if [ $? -ne 0 ]; then
     echo "문제 생성 실패" >> /home/user/pipeline.log
