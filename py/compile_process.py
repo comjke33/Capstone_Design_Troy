@@ -49,8 +49,20 @@ def extract_asan_runtime_error(stderr):
     if "ERROR: AddressSanitizer:" not in stderr:
         return None
 
-    match = re.search(r"ERROR: AddressSanitizer: ([^\n]+)", stderr)
-    if not match:
+    # AddressSanitizer 에러 블록 전체를 잡기 위해 여러 줄 파싱
+    error_lines = []
+    capturing = False
+
+    for line in stderr.splitlines():
+        if "ERROR: AddressSanitizer:" in line:
+            capturing = True
+        if capturing:
+            error_lines.append(line)
+        # 다음 오류가 나오기 전까지 수집
+        if capturing and line == "":
+            break
+
+    if not error_lines:
         return None
 
     return {
@@ -58,9 +70,9 @@ def extract_asan_runtime_error(stderr):
         "level": "RUNTIME_ERROR",
         "line": None,
         "column": None,
-        "message": f"AddressSanitizer: {match.group(1)}",
+        "message": "AddressSanitizer: " + error_lines[0],
         "flag": None,
-        "highlighted_code": stderr.splitlines()[0] if stderr else ""
+        "highlighted_code": "\n".join(error_lines)
     }
 
 def compile_with_clang(source_file, output_file="a.out"):
@@ -68,7 +80,7 @@ def compile_with_clang(source_file, output_file="a.out"):
         "clang", source_file,
         "-Wall",
         "-Werror",
-        "-Werror=pointer-compare",  # 포인터 비교를 에러로 간주
+        "-Werror=pointer-compare", 
         "-Werror=incompatible-pointer-types",
         "-fsanitize=address", "-g", "-ftrapv"
     ]
@@ -105,7 +117,7 @@ if __name__ == "__main__":
         runtime_stdout = ""
         runtime_stderr = ""
 
-        # ✅ 컴파일 성공 or 에러 메시지 없을 때 런타임 검사
+        # ✅ 컴파일 성공 또는 에러 메시지 없을 때 런타임 검사
         if returncode == 0 or (returncode != 0 and not stderrs):
             run_returncode, runtime_stdout, runtime_stderr = run_binary()
             asan_error = extract_asan_runtime_error(runtime_stderr)
