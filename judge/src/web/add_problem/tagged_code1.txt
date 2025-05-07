@@ -1,0 +1,78 @@
+
+#include <stdio.h>
+
+[func_def_start(0)]
+int main() {
+    int T;
+    scanf("%d", &T);
+
+[rep_start(1)]
+    while(T > 0) {
+        int K;
+        scanf("%d", &K);
+
+        int students[100];
+        int i, j;
+[rep_start(2)]
+        for(i = 0; i < K; i = i + 1) {
+            scanf("%d", &students[i]);
+[rep_end(2)]
+        }
+
+        int N;
+        scanf("%d", &N);
+
+        int cert_count = 0;
+        int best_time = 24 * 60 + 1;
+        int best_number = 0;
+
+[rep_start(2)]
+        for(i = 0; i < N; i = i + 1) {
+            int num, h, m;
+            scanf("%d %d %d", &num, &h, &m);
+
+[cond_start(3)]
+            if(h == -1 && m == -1) {
+                continue;
+[cond_end(3)]
+            }
+
+            int is_student = 0;
+[rep_start(3)]
+            for(j = 0; j < K; j = j + 1) {
+[cond_start(4)]
+                if(num == students[j]) {
+                    is_student = 1;
+[cond_end(4)]
+                }
+[rep_end(3)]
+            }
+
+[cond_start(3)]
+            if(is_student == 1) {
+                int time = h * 60 + m;
+[cond_start(4)]
+                if(time <= 360) {
+                    cert_count = cert_count + 1;
+[cond_start(5)]
+                    if(time < best_time) {
+                        best_time = time;
+                        best_number = num;
+[cond_end(5)]
+                    }
+[cond_end(4)]
+                }
+[cond_end(3)]
+            }
+[rep_end(2)]
+        }
+
+        printf("%d %d", best_number, cert_count);
+
+        T = T - 1;
+[rep_end(1)]
+    }
+
+    return 0;
+[func_def_end(0)]
+}

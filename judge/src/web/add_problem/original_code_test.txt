@@ -1,0 +1,34 @@
+
+#include <stdio.h>
+
+int main() {
+    int n;
+    scanf("%d", &n);
+
+    for (int i = 1; i <= n; i++) {
+        int num = i;
+        int count = 0;
+
+        while (num > 0) {
+            int digit = num % 10;
+            if (digit == 3 || digit == 6 || digit == 9) {
+                count++;
+            }
+            num /= 10;
+        }
+
+        if (count > 0) {
+            for (int j = 0; j < count; j++) {
+                printf("x");
+            }
+        } else {
+            printf("%d", i);
+        }
+
+        if (i != n) {
+            printf(" ");
+        }
+    }
+
+    return 0;
+}

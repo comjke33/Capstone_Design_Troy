@@ -1,0 +1,61 @@
+
+#include <stdio.h>
+
+[func_def_start(0)]
+int main() {
+    int n;
+
+[rep_start(1)]
+    while(1) {
+        scanf("%d", &n);
+
+[cond_start(2)]
+        if(n == -1) {
+            break;
+[cond_end(2)]
+        }
+
+        int sum = 0;
+        int i;
+        int divisors[100000];
+        int count = 0;
+
+[rep_start(2)]
+        for(i = 1; i < n; i = i + 1) {
+[cond_start(3)]
+            if(n % i == 0) {
+                sum = sum + i;
+                divisors[count] = i;
+                count = count + 1;
+[cond_end(3)]
+            }
+[rep_end(2)]
+        }
+
+[cond_start(2)]
+        if(sum == n) {
+            printf("%d = ", n);
+[rep_start(3)]
+            for(i = 0; i < count; i = i + 1) {
+                printf("%d", divisors[i]);
+[cond_start(4)]
+                if(i < count - 1) {
+                    printf(" + ");
+[cond_end(4)]
+                }
+[rep_end(3)]
+            }
+            printf("");
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else {
+            printf("%d is NOT perfect.", n);
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+
+    return 0;
+[func_def_end(0)]
+}

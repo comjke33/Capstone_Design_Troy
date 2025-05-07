@@ -1,0 +1,42 @@
+[func_def_start(0)]
+이 함수는 main 함수로, 프로그램의 시작 포인트이다.
+[self_start(1)]
+단어를 저장할 두 개의 배열 word1과 word2를 선언하고, 케이스 번호를 저장할 변수 case_num을 초기화한다.
+[self_end(1)]
+[rep_start(1)]
+무한 루프를 시작하여 단어의 입력을 받고 처리하는 구조이다.
+[self_start(2)]
+단어의 각 알파벳 빈도수를 기록하기 위한 두 개의 배열 count1과 count2를 초기화하고, 반복 제어용 변수 i를 선언한다.
+[self_end(2)]
+scanf를 이용해 첫 번째 단어인 word1과 두 번째 단어인 word2를 입력받는다.
+[cond_start(2)]
+입력된 두 단어가 'END'인지 확인하여, 만약 그렇다면 루프를 종료하고 프로그램을 끝낸다.
+[cond_end(2)]
+[i 변수를 0으로 초기화하고, word1의 각 알파벳의 빈도를 count1 배열에 기록한다.]
+[rep_start(2)]
+word1의 끝에 도달할 때까지 반복하여 해당 알파벳의 인덱스를 계산하여 카운트를 증가시킨다.
+[rep_end(2)]
+[i 변수를 0으로 초기화하고, word2의 각 알파벳의 빈도를 count2 배열에 기록한다.]
+[rep_start(2)]
+word2의 끝에 도달할 때까지 반복하여 해당 알파벳의 인덱스를 계산하여 카운트를 증가시킨다.
+[rep_end(2)]
+[int same 변수를 1로 초기화하여 두 단어가 동일한지 여부를 저장할 준비를 한다.]
+[rep_start(2)]
+26개의 알파벳에 대해 반복문을 수행하여 count1과 count2의 값을 비교한다.
+[cond_start(3)]
+만약 count1의 값과 count2의 값이 다르면, same 변수를 0으로 설정하여 알파벳의 차이가 있다는 것을 표시한다.
+[cond_end(3)]
+[rep_end(2)]
+printf를 이용해 케이스 번호를 출력한다.
+[cond_start(2)]
+same 변수가 1이면 동일한 경우이므로 "same"을 출력한다.
+[cond_end(2)]
+[cond_start(2)]
+그렇지 않으면 "different"를 출력한다.
+[cond_end(2)]
+케이스 번호를 증가시켜 다음 케이스에 대비한다.
+[rep_end(1)]
+[self_start(1)]
+프로그램이 정상적으로 종료되면서 return 0을 호출하여 끝난다.
+[self_end(1)]
+[func_def_end(0)]
