@@ -38,8 +38,7 @@ include("../../guideline_common.php");
         <h1>한 줄씩 풀기</h1>
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
 
-        <?php
-        
+        <?php      
         function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
         
@@ -74,9 +73,7 @@ include("../../guideline_common.php");
             }
         
             return $html;
-        }
-        
-        
+        }     
 
         $answer_index = 0;
         echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
