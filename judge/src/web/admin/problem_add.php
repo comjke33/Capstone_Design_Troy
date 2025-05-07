@@ -195,7 +195,7 @@ function phpfm(pid){
 $.ajax({
     type: "POST",
     url: "../ajax/save_problem_run_python.php",
-    dataType: "json",  // 👈 이것 추가
+    dataType: "json",  // JSON으로 응답 받기
     data: {
         description: <?php echo json_encode($description); ?>,
         exemplary_code: <?php echo json_encode($exemplary_code); ?>,
@@ -203,23 +203,29 @@ $.ajax({
         post_key: "<?php echo $_SESSION[$OJ_NAME . '_post_key']; ?>"
     },
     success: function(response) {
-        console.log("📜 Python Script Results:");
+        console.log("📜 Python Script Response:");
         console.log(response);
+
         if (Array.isArray(response)) {
-          response.forEach((result, idx) => {
-              console.log(`▶️ Script ${idx + 1}`);
-              console.log("Command:", result.command);
-              console.log("Return Code:", result.return_code);
-              console.log("Output:", result.output.join("\n"));
-          });
+            response.forEach((result, idx) => {
+                console.log(`▶️ Script ${idx + 1}`);
+                console.log("Command:", result.command);
+                console.log("Return Code:", result.return_code);
+                console.log("Output:", result.output.join("\n"));
+            });
+        } else if (typeof response === "object" && response !== null) {
+            // 객체인 경우 status 등 출력
+            if (response.status) {
+                console.log(`🟡 상태: ${response.status}`);
+            } else {
+                console.warn("⚠️ 응답 객체에 예상된 키가 없음:", response);
+            }
         } else {
-          console.error("⚠️ 응답이 배열이 아님:", response);
+            console.error("⚠️ 알 수 없는 형식의 응답:", response);
         }
-        //alert("Python 스크립트 실행 완료 (결과는 콘솔에서 확인하세요)");
     },
     error: function(xhr, status, error) {
-        console.error("❌ Error running Python script:", error);
-        //alert("Python 실행 중 오류 발생");
+        console.error("❌ Python 실행 중 오류 발생:", error);
     }
 });
 </script>
