@@ -115,7 +115,7 @@ $comment_html = convertMarkdownToHtml($comment_text);
     <div class="ui raised very padded text container segment" style="background-color: #f9f9fb;">
         <h3 class="ui teal ribbon label"><i class="comments icon"></i>AI 코멘트</h3>
         <div class="ui info message" style="font-size: 1.1em; line-height: 1.6;">
-            <p><?php echo nl2br(htmlspecialchars($comment_html)); ?></p>
+            <p><?php echo $comment_html; ?></p>
         </div>
     </div>
 
