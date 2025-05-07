@@ -8,7 +8,6 @@ $index = isset($_GET['index']) ? intval($_GET['index']) : -1;
 // $res = pdo_query($sql, $problem_id);
 $default_img = "/flowcharts/default.png";
 
-
 header("Content-Type: application/json");
 
 if ($problem_id <= 0) {
@@ -23,7 +22,6 @@ if ($problem_id <= 0) {
     ]);
     exit;
 }
-
 
 //DB에서 링크를 가져와서 링크를 구현
 $sql = "SELECT png_address FROM flowchart 
