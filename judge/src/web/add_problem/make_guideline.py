@@ -20,9 +20,9 @@ problem_data = [{
 	"code": first_item["code"]
 }]
 
-tagged_code_filename = f"./../tagged_code/{pid}_step1_tagged_code.txt"
-with open(tagged_code_filename, "w", encoding="utf-8") as f:
-    f.write("success")
+# tagged_code_filename = f"./../tagged_code/{pid}_step1_tagged_code.txt"
+# with open(tagged_code_filename, "w", encoding="utf-8") as f:
+#     f.write("success")
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))

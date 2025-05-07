@@ -15,6 +15,7 @@ EXEMPLARY_CODE=$(echo "$3" | base64 -d)
 
 # 1. 문제 생성
 touch here0
+echo $ PROBLEM_ID >> here0
 echo $DESCRIPTION >> here0
 echo $EXEMPLARY_CODE >> here0
 python3 make_question_and_code.py "$DESCRIPTION" "$EXEMPLARY_CODE"
