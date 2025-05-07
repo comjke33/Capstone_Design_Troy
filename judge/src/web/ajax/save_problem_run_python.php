@@ -37,19 +37,26 @@ function run_script($cmd) {
         'return_code' => $return_var
     ];
 }
-$results = [];
-$results[] = run_script("cd /home/Capstone_Design_Troy/judge/src/web/add_problem && python3 make_question_and_code.py " . escapeshellarg($description) . ' ' . escapeshellarg($exemplary_code));
-$results[] = run_script($command);
+
+$cmd = "nohup bash -c 'cd /home/Capstone_Design_Troy/judge/src/web/add_problem && bash /home/user/run_add_problem.sh $problem_id $description $exemplary_code' > /home/user/pipeline.log 2>&1 &";
 
 
-header("Content-Type: application/json");
-echo json_encode($results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+exec($cmd);
+echo json_encode(["status" => "started"]);
 
-//////////////////////make_question_and_code.py//////////////////////////////
+// $results = [];
+// $results[] = run_script("cd /home/Capstone_Design_Troy/judge/src/web/add_problem && python3 make_question_and_code.py " . escapeshellarg($description) . ' ' . escapeshellarg($exemplary_code));
+// $results[] = run_script($command);
 
-//////////////////////make_guideline.py//////////////////////////////
-$result_guideline = [];
-$result_guideline = run_script("cd /home/Capstone_Design_Troy/judge/src/web/add_problem && python3 make_guideline.py " . escapeshellarg($problem_id));
-echo json_encode($result_guideline, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-//////////////////////make_guideline.py//////////////////////////////
+
+// header("Content-Type: application/json");
+// echo json_encode($results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+// //////////////////////make_question_and_code.py//////////////////////////////
+
+// //////////////////////make_guideline.py//////////////////////////////
+// $result_guideline = [];
+// $result_guideline = run_script("cd /home/Capstone_Design_Troy/judge/src/web/add_problem && python3 make_guideline.py " . escapeshellarg($problem_id));
+// echo json_encode($result_guideline, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+// //////////////////////make_guideline.py//////////////////////////////
 ?>

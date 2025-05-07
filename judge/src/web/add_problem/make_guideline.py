@@ -20,6 +20,10 @@ problem_data = [{
 	"code": first_item["code"]
 }]
 
+tagged_code_filename = f"./../tagged_code/{pid}_step1_tagged_code.txt"
+with open(tagged_code_filename, "w", encoding="utf-8") as f:
+    f.write("success")
+
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
     s.sendall(json.dumps(problem_data, ensure_ascii=False).encode())
@@ -55,8 +59,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     step_names = ['step1', 'step2', 'step3']
     for i, step in enumerate(step_names, 1):
         # step1_tagged_code.txt, step1_guideline.txt와 같은 파일로 저장
-        tagged_code_filename = f"./../tagged_code/{pid}_{step}_tagged_code.txt"
-        guideline_filename = f"./../tagged_guideline/{pid}_{step}_guideline.txt"
+        tagged_code_filename = f"./../tagged_code/{pid}.txt"
+        guideline_filename = f"./../tagged_guideline/{pid}.txt"
         
         with open(tagged_code_filename, "w", encoding="utf-8") as f:
             f.write(guide_data.get(f"{step}_tagged_code", ""))
