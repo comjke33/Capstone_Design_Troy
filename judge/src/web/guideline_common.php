@@ -45,6 +45,7 @@ function guidelineFilter($text) {
     return $root['children'];
 }
 
+
 function codeFilter($text) {
     $lines = explode("\n", $text);
     $root = ['children' => [], 'depth' => -1];

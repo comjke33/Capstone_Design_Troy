@@ -240,20 +240,25 @@ function submitAnswer(index) {
 
 //답안 보여주기
 function showAnswer(index) {
-    const correct = correctAnswers?.[index]?.content;
-    if (!correct || typeof correct !== 'string') return;
+    const correctCode = correctAnswers?.[index]?.content;
+    if (!correctCode || typeof correctCode !== 'string') return;
 
     const answerArea = document.getElementById(`answer_area_${index}`);
     if (!answerArea) return;
 
-    // <pre> 요소 생성 및 안전한 코드 삽입
-    const pre = document.createElement('pre');
-    pre.className = 'code-line';
-    pre.innerText = correct.trim(); // HTML 특수문자 자동 escape
+    // 줄 단위로 분해
+    const lines = correctCode.trim().split('\n');
 
-    // 출력 구성
-    answerArea.innerHTML = "<strong>정답:</strong><br>";
-    answerArea.appendChild(pre);
+    // HTML 구성
+    let answerHtml = "<strong>정답:</strong><br>";
+    for (const line of lines) {
+        const escapedLine = document.createElement('div');
+        escapedLine.className = 'code-line';
+        escapedLine.innerText = line; // HTML escape 포함
+        answerHtml += escapedLine.outerHTML;
+    }
+
+    answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }
 
