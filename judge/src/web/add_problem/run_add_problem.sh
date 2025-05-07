@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# PROBLEM_ID=$(echo "$1" | base64 -d)
-# DESCRIPTION=$(echo "$2" | base64 -d)
-# EXEMPLARY_CODE=$(echo "$3" | base64 -d)
+PROBLEM_ID=$(echo "$1" | base64 -d)
+DESCRIPTION=$(echo "$2" | base64 -d)
+EXEMPLARY_CODE=$(echo "$3" | base64 -d)
 
 
-PROBLEM_ID=$1
-DESCRIPTION=$2
-EXEMPLARY_CODE=$3
+# PROBLEM_ID=$1
+# DESCRIPTION=$2
+# EXEMPLARY_CODE=$3
 
 #cd /home/Capstone_Design_Troy/judge/src/web/add_problem
 
