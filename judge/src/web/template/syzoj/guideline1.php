@@ -240,41 +240,13 @@ function submitAnswer(index) {
 
 //답안 보여주기
 function showAnswer(index) {
-    const block = correctAnswers?.[index]; // 이제 block 전체를 가져옴
-    if (!block || typeof block !== 'object') return;
-
+    const correctCode = correctAnswers[index]?.content.trim();
+    if (!correctCode) return;
     const answerArea = document.getElementById(`answer_area_${index}`);
-    if (!answerArea) return;
-
-    function renderBlock(block) {
-        const indent = block.depth * 30;
-        let html = "";
-
-        if (block.type === 'text') {
-            html += `<div class='code-line' style='margin-left:${indent}px;'>${escapeHtml(block.content)}</div>`;
-        } else if (block.children && Array.isArray(block.children)) {
-            const desc = block.children.find(c => c.type === 'text');
-            if (desc) {
-                html += `<div class='guideline-description' style='margin-left:${indent}px;'>${escapeHtml(desc.content)}</div>`;
-            }
-            for (const child of block.children) {
-                if (child !== desc) html += renderBlock(child);
-            }
-        }
-
-        return html;
-    }
-
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.innerText = text;
-        return div.innerHTML;
-    }
-
-    answerArea.innerHTML = "<strong>정답:</strong><br>" + renderBlock(block);
+    const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${correctCode}</pre>`;
+    answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }
-
 
 //화면 크기 재조절
 function autoResize(ta) {
