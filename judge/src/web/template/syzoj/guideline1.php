@@ -40,7 +40,7 @@ include("../../guideline_common.php");
 
         <?php
         
-        function render_tree_plain($blocks, &$answer_index = 0) {
+        ffunction render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
         
             foreach ($blocks as $block) {
@@ -52,17 +52,17 @@ include("../../guideline_common.php");
                     if ($raw === '') continue;
         
                     $line = htmlspecialchars($block['content']);
-                    $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
-                    $disabled = $has_correct_answer ? "" : "disabled";
         
+                    // 항상 버튼 표시하도록 수정
                     $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
                     $html .= "<div class='code-line'>{$line}</div>";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
-        
-                    // ✅ 버튼 항상 표시
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}'></textarea>";
+                    
+                    // ✅ 제출/답안확인 버튼 항상 출력
                     $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
                     $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
         
+                    // 정답 출력 영역 및 체크마크
                     $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                     $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
                     $html .= "</div>";
@@ -70,14 +70,14 @@ include("../../guideline_common.php");
                     $answer_index++;
                 }
         
-                // 자식 블록 재귀 처리
+                // 자식 블록 재귀 출력
                 else if (isset($block['children']) && is_array($block['children'])) {
                     $html .= render_tree_plain($block['children'], $answer_index);
                 }
             }
         
             return $html;
-        }
+        }       
         
 
         $answer_index = 0;
