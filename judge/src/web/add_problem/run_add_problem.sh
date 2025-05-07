@@ -5,7 +5,7 @@ touch fuck
 PROBLEM_ID=$(echo "$1" | base64 -d)
 DESCRIPTION=$(echo "$2" | base64 -d)
 EXEMPLARY_CODE=$(echo "$3" | base64 -d)
-
+OUTPUT_DIR=$(echo "$4" | base64 -d)
 
 # PROBLEM_ID=$1
 # DESCRIPTION=$2
@@ -18,6 +18,8 @@ touch here0
 echo $PROBLEM_ID >> here0
 echo $DESCRIPTION >> here0
 echo $EXEMPLARY_CODE >> here0
+echo $OUTPUT_DIR >> here0
+
 python3 make_question_and_code.py "$DESCRIPTION" "$EXEMPLARY_CODE"
 if [ $? -ne 0 ]; then
     echo "문제 생성 실패"
@@ -38,4 +40,25 @@ echo "here2 생성"
 # 3. 이후 스크립트 실행 (예시)
 #python3 post_process.py "$PROBLEM_ID"
 
+cd /home/Capstone_Design_Troy/py/
+
+touch here3
+
+
+TAGGED_GUIDELINE="/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/${PROBLEM_ID}_step1.txt"
+
+echo $TAGGED_GUIDELINE >> here3
+
+python3 make_flowchart.py "$TAGGED_GUIDELINE" "$DESCRIPTION" "$OUTPUT_DIR" "$PROBLEM_ID"
+if [ $? -ne 0 ]; then
+    echo "flowchart 생성 실패"
+    exit 1
+fi
+
+    # . escapeshellarg($tagged_guideline) . " "
+    # . escapeshellarg($desc) . " "
+    # . escapeshellarg($output_dir) . " "
+    # . escapeshellarg($problem_id);
+
+touch here4
 echo "스크립트 완료"

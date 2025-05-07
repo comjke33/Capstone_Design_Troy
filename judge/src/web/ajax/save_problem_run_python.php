@@ -25,15 +25,18 @@ if (preg_match("/<span\s+class=['\"]md auto_select['\"]>(.*?)<\/span>/is", $desc
 #$description = str_replace(",", "&#44;", $description);
 $exemplary_code = $_POST['exemplary_code'] ?? '';
 $problem_id = $_POST['problem_id'] ?? '';
+$output_dir = $_POST['output_dir'] ?? '';
 
 $description_b64 = base64_encode($description);
 $exemplary_code_b64 = base64_encode($exemplary_code);
 $problem_id_b64 = base64_encode($problem_id);
+$output_dir_b64 = base64_encode($output_dir);
 
 $cmd = "nohup bash -c 'cd /home/Capstone_Design_Troy/judge/src/web/add_problem && bash run_add_problem.sh " 
        . escapeshellarg($problem_id_b64) . " " 
        . escapeshellarg($description_b64) . " " 
-       . escapeshellarg($exemplary_code_b64) . "' > /home/debug.log 2>&1 &";
+       . escapeshellarg($exemplary_code_b64) . " "
+       . escapeshellarg($output_dir_b64) ."' > /home/debug.log 2>&1 &";
 
 // $cmd = "nohup bash -c 'cd /home/Capstone_Design_Troy/judge/src/web/add_problem && bash run_add_problem.sh " 
 //        . escapeshellarg($problem_id) . " " 
