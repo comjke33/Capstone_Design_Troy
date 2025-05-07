@@ -31,7 +31,7 @@ $exemplary_code_b64 = base64_encode($exemplary_code);
 $problem_id_b64 = base64_decode($problem_id);
 
 $cmd = "nohup bash -c 'cd /home/Capstone_Design_Troy/judge/src/web/add_problem && bash run_add_problem.sh " 
-       . escapeshellarg($problem_id) . " " 
+       . escapeshellarg($problem_id_b64) . " " 
        . escapeshellarg($description) . " " 
        . escapeshellarg($exemplary_code) . "' > /home/user/pipeline.log 2>&1 &";
 
