@@ -81,7 +81,7 @@ function codeFilter($text) {
         }
 
         // 일반 코드 줄 처리 (비어있거나 } 한 줄인 경우 제외)
-        if (trim($line) !== '' && trim($line) !== '}') {
+        if (trim($line) !== '' && trim($line) !== '}' && !preg_match('/^#include\s+<.*>$/', trim($line))) {
             $stack[count($stack) - 1]['children'][] = [
                 'type' => 'text',
                 'content' => $line,
