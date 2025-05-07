@@ -169,6 +169,39 @@ function import_fps($tempfile) {
     $spjcode = getValue ($searchNode,'spj');
     $remote_oj= getValue ($searchNode,'remote_oj');
     $remote_id= getValue ($searchNode,'remote_id');
+
+    // 문제 등록
+    $pid = addproblem($title, $time_limit, $memory_limit, $description, $input, $output, $sample_input, $sample_output, $hint, $source, 0, $OJ_DATA);
+
+    // 🆕 태그 정보 가져오기 및 DB 저장
+    $tags = [];
+    $tag_nodes = $searchNode->children()->tags->tag;
+    foreach ($tag_nodes as $tag_node) {
+        $tag_name = trim((string)$tag_node);
+
+        // 태그가 이미 존재하는지 확인
+        $sql = "SELECT tag_id FROM tag WHERE name = ?";
+        $tag_id_result = pdo_query($sql, $tag_name);
+
+        if (empty($tag_id_result)) {
+            // 태그가 없으면 추가
+            $sql = "INSERT INTO tag (name) VALUES (?)";
+            pdo_query($sql, $tag_name);
+            $tag_id = pdo_insert_id();
+        } else {
+            $tag_id = $tag_id_result[0]['tag_id'];
+        }
+
+        // 문제와 태그 매핑 추가
+        $sql = "INSERT INTO problem_tag (problem_id, tag_id) VALUES (?, ?)";
+        pdo_query($sql, $pid, $tag_id);
+    }
+
+    echo "Problem '{$title}' with ID {$pid} has been imported with tags.\n";
+  }
+
+  unlink($tempfile);
+}
  
     if($spjcode) $spjlang=getAttribute($searchNode,'spj','language');
     $tpjcode = getValue ($searchNode,'tpj');
