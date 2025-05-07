@@ -112,9 +112,9 @@ $comment_html = convertMarkdownToHtml($comment_text);
 <div class="ui container" style="margin-top: 30px;">
     <h2 class="ui header">📊 나의 취약 유형 리포트</h2>
 
-    <div class="ui raised very padded text container segment" style="background-color: #f9f9fb;">
+    <div class="ui raised very padded text container segment" style="background-color: #f9f9fb; width: 100%;">
         <h3 class="ui teal ribbon label"><i class="comments icon"></i>AI 코멘트</h3>
-        <div class="ui info message" style="font-size: 1.1em; line-height: 1.6;">
+        <div class="ui message" style="font-size: 1.1em; line-height: 1.6; color: #000; background-color: #fff; border: 1px solid #ccc;">
             <p><?php echo $comment_html; ?></p> 
         </div>
     </div>
