@@ -4,7 +4,7 @@ main 함수입니다.
 정수 변수 n을 선언하세요.
 [self_end(1)]
 [self_start(1)]
-scanf("%d", &n);
+정수 n을 입력받으세요.
 [self_end(1)]
 [rep_start(1)]
 변수 i가 1부터 n까지 증가하며 반복하는 for문을 작성하세요.

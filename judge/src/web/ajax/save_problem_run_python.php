@@ -22,16 +22,23 @@ if (preg_match("/<span\s+class=['\"]md auto_select['\"]>(.*?)<\/span>/is", $desc
 
     $description = $innerText;
 }
-$description = str_replace(",", "&#44;", $description);
+#$description = str_replace(",", "&#44;", $description);
 $exemplary_code = $_POST['exemplary_code'] ?? '';
 $problem_id = $_POST['problem_id'] ?? '';
 
-
+$description_b64 = base64_encode($description);
+$exemplary_code_b64 = base64_encode($exemplary_code);
+$problem_id_b64 = base64_encode($problem_id);
 
 $cmd = "nohup bash -c 'cd /home/Capstone_Design_Troy/judge/src/web/add_problem && bash run_add_problem.sh " 
-       . escapeshellarg($problem_id) . " " 
-       . escapeshellarg($description) . " " 
-       . escapeshellarg($exemplary_code) . "' > /home/user/pipeline.log 2>&1 &";
+       . escapeshellarg($problem_id_b64) . " " 
+       . escapeshellarg($description_b64) . " " 
+       . escapeshellarg($exemplary_code_b64) . "' > /home/debug.log 2>&1 &";
+
+// $cmd = "nohup bash -c 'cd /home/Capstone_Design_Troy/judge/src/web/add_problem && bash run_add_problem.sh " 
+//        . escapeshellarg($problem_id) . " " 
+//        . escapeshellarg($description) . " " 
+//        . escapeshellarg($exemplary_code) . "' > /home/user/pipeline.log 2>&1 &";
 
 // 로그 저장용
 function run_script($cmd) {
@@ -45,8 +52,11 @@ function run_script($cmd) {
     ];
 }
 
-run_script($cmd);
-echo json_encode(["status" => "started"]);
+$result = run_script($cmd);
+file_put_contents('/home/debug.log', print_r($result, true));
+echo json_encode([
+    "status" => "started"
+]);
 
 // $results = [];
 // $results[] = run_script("cd /home/Capstone_Design_Troy/judge/src/web/add_problem && python3 make_question_and_code.py " . escapeshellarg($description) . ' ' . escapeshellarg($exemplary_code));
