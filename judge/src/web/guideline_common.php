@@ -54,7 +54,7 @@ function codeFilter($text) {
     foreach ($lines as $line) {
         $line = rtrim($line);
 
-        // 시작 태그 처리
+        // 시작 태그
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $m)) {
             $block = [
                 'type' => $m[1],
@@ -68,7 +68,7 @@ function codeFilter($text) {
             continue;
         }
 
-        // 종료 태그 처리
+        // 종료 태그
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $line, $m)) {
             for ($i = count($stack) - 1; $i >= 1; $i--) {
                 if ($stack[$i]['type'] === $m[1] && $stack[$i]['index'] == $m[2]) {
@@ -79,15 +79,15 @@ function codeFilter($text) {
             continue;
         }
 
-        // 일반 코드 줄 처리 (빈 줄, 단독 '}' 제외)
+        // 일반 텍스트 처리
         $trimmed = trim($line);
-        if ($trimmed !== '' && $trimmed !== '}') {
-            $stack[count($stack) - 1]['children'][] = [
-                'type' => 'text',
-                'content' => $trimmed,
-                'depth' => count($stack) - 1
-            ];
-        }
+        if ($trimmed === '' || $trimmed === '}') continue;
+
+        $stack[count($stack) - 1]['children'][] = [
+            'type' => 'text',
+            'content' => $trimmed,
+            'depth' => count($stack) - 1
+        ];
     }
 
     return $root['children'];
