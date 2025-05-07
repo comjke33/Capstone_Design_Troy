@@ -3,6 +3,31 @@
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 require_once ("../include/db_info.inc.php");
 
+
+
+
+function getProblemTags($problem_id) {
+  $sql = "SELECT t.name FROM problem_tag pt 
+          JOIN tag t ON pt.tag_id = t.tag_id 
+          WHERE pt.problem_id = ?";
+  $result = pdo_query($sql, $problem_id);
+
+  if (!$result) {
+      return [];
+  }
+
+  $tags = [];
+  foreach ($result as $row) {
+      $tags[] = $row['name'];
+  }
+  return $tags;
+}
+
+
+
+
+
+
 if (!isset($OJ_LANG)) {
   $OJ_LANG = "en";
 }
@@ -355,6 +380,15 @@ else {
      echo "<spj language=\"Text\">text judge</spj>";
   }
 ?>
+ <!-- 🆕 태그 정보 추가 -->
+ <tags>
+      <?php 
+          $tags = getProblemTags($row['problem_id']);
+          foreach ($tags as $tag) {
+              echo "<tag><![CDATA[" . $tag . "]]></tag>";
+          }
+      ?>
+    </tags>
 </item>
 
 <?php }
