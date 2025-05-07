@@ -52,7 +52,8 @@ function run_script($cmd) {
     ];
 }
 
-run_script($cmd);
+$result = run_script($cmd);
+file_put_contents('/home/debug.log', print_r($result, true));
 echo json_encode([
     "status" => "started"
 ]);
