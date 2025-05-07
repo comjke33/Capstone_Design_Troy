@@ -26,6 +26,9 @@ $description = str_replace(",", "&#44;", $description);
 $exemplary_code = $_POST['exemplary_code'] ?? '';
 $problem_id = $_POST['problem_id'] ?? '';
 
+
+
+$cmd = "nohup bash -c 'cd /home/Capstone_Design_Troy/judge/src/web/add_problem && bash /home/user/run_add_problem.sh $problem_id $description $exemplary_code' > /home/user/pipeline.log 2>&1 &";
 // 로그 저장용
 function run_script($cmd) {
     $output = [];
@@ -38,10 +41,7 @@ function run_script($cmd) {
     ];
 }
 
-$cmd = "nohup bash -c 'cd /home/Capstone_Design_Troy/judge/src/web/add_problem && bash /home/user/run_add_problem.sh $problem_id $description $exemplary_code' > /home/user/pipeline.log 2>&1 &";
-
-
-exec($cmd);
+run_script($cmd);
 echo json_encode(["status" => "started"]);
 
 // $results = [];
