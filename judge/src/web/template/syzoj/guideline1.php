@@ -232,13 +232,15 @@ function submitAnswer(index) {
 
 //답안 보여주기
 function showAnswer(index) {
-    const correctCode = correctAnswers[index]?.content.trim();
+    const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
     if (!correctCode) return;
+
     const answerArea = document.getElementById(`answer_area_${index}`);
     const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${correctCode}</pre>`;
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }
+
 
 //화면 크기 재조절
 function autoResize(ta) {
