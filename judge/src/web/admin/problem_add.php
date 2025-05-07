@@ -17,9 +17,11 @@ $time_limit = $_POST['time_limit'];
 $memory_limit = $_POST['memory_limit'];
 
 $description = $_POST['description'];
+console.log($description)
 //$description = str_replace("<p>", "", $description); 
 //$description = str_replace("</p>", "<br />", $description);
 $description = str_replace(",", "&#44;", $description); 
+console.log($description)
 
 $input = $_POST['input'];
 //$input = str_replace("<p>", "", $input); 
