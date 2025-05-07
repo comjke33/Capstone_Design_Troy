@@ -26,12 +26,19 @@ $description = str_replace(",", "&#44;", $description);
 $exemplary_code = $_POST['exemplary_code'] ?? '';
 $problem_id = $_POST['problem_id'] ?? '';
 
-
+$description_b64 = base64_encode($description);
+$exemplary_code_b64 = base64_encode($exemplary_code);
+$problem_id_b64 = base64_decode($problem_id)
 
 $cmd = "nohup bash -c 'cd /home/Capstone_Design_Troy/judge/src/web/add_problem && bash run_add_problem.sh " 
-       . escapeshellarg($problem_id) . " " 
-       . escapeshellarg($description) . " " 
-       . escapeshellarg($exemplary_code) . "' > /home/user/pipeline.log 2>&1 &";
+       . escapeshellarg($problem_id_b64) . " " 
+       . escapeshellarg($description_b64) . " " 
+       . escapeshellarg($exemplary_code_b64) . "' > /home/user/pipeline.log 2>&1 &";
+
+// $cmd = "nohup bash -c 'cd /home/Capstone_Design_Troy/judge/src/web/add_problem && bash run_add_problem.sh " 
+//        . escapeshellarg($problem_id) . " " 
+//        . escapeshellarg($description) . " " 
+//        . escapeshellarg($exemplary_code) . "' > /home/user/pipeline.log 2>&1 &";
 
 // 로그 저장용
 function run_script($cmd) {
@@ -47,6 +54,7 @@ function run_script($cmd) {
 
 run_script($cmd);
 echo json_encode(["status" => "started"]);
+echo json_encode($description);
 
 // $results = [];
 // $results[] = run_script("cd /home/Capstone_Design_Troy/judge/src/web/add_problem && python3 make_question_and_code.py " . escapeshellarg($description) . ' ' . escapeshellarg($exemplary_code));
