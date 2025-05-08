@@ -180,6 +180,7 @@ if(isset($_POST['remote_oj'])){
 //   $result = pdo_query($sql, $problem_id, $output_dir, $idx, $start_line, $end_line);
 // }
 // ========================================================
+$output_dir = "/home/Capstone_Design_Troy/judge/src/web/flowcharts/";
 
 $sql = "INSERT INTO `privilege` (`user_id`,`rightstr`) VALUES(?,?)";
 pdo_query($sql, $_SESSION[$OJ_NAME.'_'.'user_id'], "p$pid");
@@ -210,6 +211,7 @@ $.ajax({
         description: <?php echo json_encode($description); ?>,
         exemplary_code: <?php echo json_encode($exemplary_code); ?>,
         problem_id: <?php echo json_encode($pid); ?>,
+        output_dir: <?php echo json_encode($output_dir); ?>,
         post_key: "<?php echo $_SESSION[$OJ_NAME . '_post_key']; ?>"
     },
     success: function(response) {
