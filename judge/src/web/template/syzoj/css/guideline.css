@@ -120,8 +120,7 @@
   top: 100px;
   left: 200px; 
   width: 250px;
-  height: auto;
-  max-height: 300px;
+  max-height: 500px;
   border: 2px solid #ccc;
   z-index: 9999;
 }
