@@ -207,6 +207,7 @@ $.ajax({
     url: "../ajax/save_problem_run_python.php",
     dataType: "json",  // JSON으로 응답 받기
     data: {
+        description: <?php echo json_encode($description); ?>,
         exemplary_code: <?php echo json_encode($exemplary_code); ?>,
         problem_id: <?php echo json_encode($pid); ?>,
         output_dir: <?php echo json_encode($output_dir); ?>,
