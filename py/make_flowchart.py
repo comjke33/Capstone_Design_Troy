@@ -370,4 +370,10 @@ if __name__ == "__main__":
 
         print(flowcharts)
     # print(flowcharts)
+
+    conn.commit()
+
+    # 정리
+    cursor.close()
+    conn.close()
     
