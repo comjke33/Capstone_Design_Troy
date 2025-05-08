@@ -178,7 +178,7 @@ if(isset($_POST['remote_oj'])){
 //   // SQL 준비
 //   $sql = "INSERT INTO flowchart (problem_id, png_address, png_number, start_num,  end_num) VALUES (?, ?, ?, ?, ?)";
 //   $result = pdo_query($sql, $problem_id, $output_dir, $idx, $start_line, $end_line);
-}
+// }
 // ========================================================
 
 $sql = "INSERT INTO `privilege` (`user_id`,`rightstr`) VALUES(?,?)";
