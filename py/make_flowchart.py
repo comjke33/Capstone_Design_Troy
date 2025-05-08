@@ -167,10 +167,9 @@ def generate_summary_gpt(buffer_lines, problem):
             {
                 "role": "system",
                 "content": (
-                    "너는 프로그래밍 언어 전문가이자 흐름도 분석가야. "
-                    "다음은 문제 설명이야: " + problem + 
-                    "\n각 블록들의 코드 설명을 제공할 테니, 이들의 관계를 고려해서 의미가 반영된 요약을 15글자 이내로 큰따옴표 없이 생성해줘."
-                    "\n특히 반복, 조건, 출력 흐름의 관계를 무시하지 마."
+                    f"너는 프로그래밍 언어 전문가이자 흐름도 분석가야. 다음은 문제 설명이야: {problem}\n"
+                    "각 블록들의 코드 설명을 제공할 테니, 이들의 관계를 고려해서 의미가 반영된 요약을 15글자 이내로 큰따옴표 없이 생성해줘.\n"
+                    "특히 반복, 조건, 출력 흐름의 관계를 무시하지 마."
                 )
             },
             {
@@ -221,7 +220,7 @@ if __name__ == "__main__":
         database="jol"
     )
 
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
     cursor.execute("SELECT description FROM problem WHERE problem_id = %s", (problem_id,))
     problem = cursor.fetchall()
     
