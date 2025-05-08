@@ -54,7 +54,7 @@ echo $DESC >> here3
 
 touch fail
 
-python3 make_flowchart.py "$TAGGED_GUIDELINE" "$DESC" "$OUTPUT_DIR" "$PROBLEM_ID" 2 >> fail
+python3 make_flowchart.py "$TAGGED_GUIDELINE" "$DESC" "$OUTPUT_DIR" "$PROBLEM_ID" 2>> fail
 if [ $? -ne 0 ]; then
     echo "flowchart 생성 실패" >> fail
     exit 1
