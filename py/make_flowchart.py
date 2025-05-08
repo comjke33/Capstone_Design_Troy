@@ -304,9 +304,16 @@ if __name__ == "__main__":
     # with open(json_output_path, "w", encoding="utf-8") as f:
     #     json.dump(flowcharts, f, ensure_ascii=False, indent=4)        
 
-    # for flow in flowcharts:
-    #     print(flow.get("summary"), flow.get("start_line"), flow.get("end_line"))
-    #     print("--------------------------------------------------") 
+    for idx in range(len(flowcharts)):
+        # print(flow.get("summary"), flow.get("start_line"), flow.get("end_line"))
+        png_address = '/flowcharts/' + str(problem_id) + '_' + str(idx)
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("INSERT INTO flowchart (problem_id, png_address, png_number, start_num, end_num) VALUES (%d, %s, %d, %d, %d", (problem_id, png_address, idx, flowcharts[idx].get("start_line"), flowcharts[idx].get("end_line")))
+        problem = cursor.fetchall()
+        
+        print("--------------------------------------------------") 
+
+
 
     os.makedirs(output_dir, exist_ok=True)
 
