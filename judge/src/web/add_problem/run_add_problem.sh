@@ -51,9 +51,11 @@ echo $TAGGED_GUIDELINE >> here3
 DESC="/home/Capstone_Design_Troy/judge/src/web/add_problem/question.txt"
 echo $DESC >> here3
 
-python3 make_flowchart.py "$TAGGED_GUIDELINE" "$DESC" "$OUTPUT_DIR" "$PROBLEM_ID"
+
+touch fail
+
+python3 make_flowchart.py "$TAGGED_GUIDELINE" "$DESC" "$OUTPUT_DIR" "$PROBLEM_ID" 2 >> fail
 if [ $? -ne 0 ]; then
-    touch fail
     echo "flowchart 생성 실패" >> fail
     exit 1
 fi
