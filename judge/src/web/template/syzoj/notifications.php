@@ -84,6 +84,19 @@ if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
     $comment_text = $result_comment[0]['comment'];
 }
 
+function convertMarkdownToHtml($text) {
+    // 굵은 텍스트 처리 (예: **문장** → <strong>문장</strong>)
+    $text = preg_replace('/\*\*(.*?)\*\*/', '<strong>$1</strong>', $text);
+
+    // 줄바꿈 처리만 적용 (escape 제거)
+    $text = nl2br($text);
+
+    return $text;
+}
+
+// 적용
+$comment_html = convertMarkdownToHtml($comment_text);
+
 
 ?>
 
@@ -99,10 +112,10 @@ if (!empty($result_comment) && isset($result_comment[0]['comment'])) {
 <div class="ui container" style="margin-top: 30px;">
     <h2 class="ui header">📊 나의 취약 유형 리포트</h2>
 
-    <div class="ui segment">
-        <h4 class="ui header">💬 AI 코멘트</h4>
-        <div class="ui message">
-            <?php echo nl2br(htmlspecialchars($comment_text)); ?>
+    <div class="ui raised very padded text segment" style="background-color: #f9f9fb;">
+        <h3 class="ui teal ribbon label"><i class="comments icon"></i>AI 코멘트</h3>
+        <div class="ui message" style="font-size: 1.1em; line-height: 1.6; color: #000; background-color: #fff; border: 1px solid #ccc;">
+            <p><?php echo $comment_html; ?></p> 
         </div>
     </div>
 

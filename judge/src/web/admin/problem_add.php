@@ -143,33 +143,44 @@ if(isset($_POST['remote_oj'])){
 
 // =================순서도 생성 트리거=======================
 
-// $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
-$problem_id = "1000"; // 디버깅용
-$problem_id = $pid;
+// // $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
+// $problem_id = "1000"; // 디버깅용
+// $problem_id = $pid;
 
-// 인자를 공백으로 구분해 Python 스크립트에 전달
-$tagged_guideline = "/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/" . $problem_id . ".txt";
+// // 인자를 공백으로 구분해 Python 스크립트에 전달
+// $tagged_guideline = "/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/" . $problem_id . ".txt";
 
-// $tagged_guideline = "../src/web/tagged_guideline/";
-// problem을 가져오는 SQL 쿼리
-// $sql = "SELECT description FROM problem WHERE problem_id = ?";
-// $problem = pdo_query($sql, $problem_id);
-// $desc = $problem[0][0];
-$desc = $description;
+// // $tagged_guideline = "../src/web/tagged_guideline/";
+// // problem을 가져오는 SQL 쿼리
+// // $sql = "SELECT description FROM problem WHERE problem_id = ?";
+// // $problem = pdo_query($sql, $problem_id);
+// // $desc = $problem[0][0];
+// $desc = $description;
 
-$output_dir = "/home/Capstone_Design_Troy/judge/src/web/flowcharts/";
+// $output_dir = "/home/Capstone_Design_Troy/judge/src/web/flowcharts/";
 
-echo "<pre>Python 스크립트 실행 중...</pre>";
+// echo "<pre>Python 스크립트 실행 중...</pre>";
 
-$command = "cd /home/Capstone_Design_Troy/py/ && python3 make_flowchart.py "
-    . escapeshellarg($tagged_guideline) . " "
-    . escapeshellarg($desc) . " "
-    . escapeshellarg($output_dir) . " "
-    . escapeshellarg($problem_id);
+// $command = "cd /home/Capstone_Design_Troy/py/ && python3 make_flowchart.py "
+//     . escapeshellarg($tagged_guideline) . " "
+//     . escapeshellarg($desc) . " "
+//     . escapeshellarg($output_dir) . " "
+//     . escapeshellarg($problem_id);
 
-$result = shell_exec($command);
+// $result = shell_exec($command);
+// $json_data = json_decode($result, true);
 
+// foreach ($json_data as $index => $row) {
+//   $idx = intval($index);
+//   $start_line = intval($row['start_line']);
+//   $end_line = intval($row['end_line']);
+
+//   // SQL 준비
+//   $sql = "INSERT INTO flowchart (problem_id, png_address, png_number, start_num,  end_num) VALUES (?, ?, ?, ?, ?)";
+//   $result = pdo_query($sql, $problem_id, $output_dir, $idx, $start_line, $end_line);
+// }
 // ========================================================
+$output_dir = "/home/Capstone_Design_Troy/judge/src/web/flowcharts/";
 
 $sql = "INSERT INTO `privilege` (`user_id`,`rightstr`) VALUES(?,?)";
 pdo_query($sql, $_SESSION[$OJ_NAME.'_'.'user_id'], "p$pid");
@@ -200,6 +211,7 @@ $.ajax({
         description: <?php echo json_encode($description); ?>,
         exemplary_code: <?php echo json_encode($exemplary_code); ?>,
         problem_id: <?php echo json_encode($pid); ?>,
+        output_dir: <?php echo json_encode($output_dir); ?>,
         post_key: "<?php echo $_SESSION[$OJ_NAME . '_post_key']; ?>"
     },
     success: function(response) {
