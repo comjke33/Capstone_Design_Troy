@@ -118,7 +118,7 @@
 #floating-img {
   position: fixed;
   top: 100px;
-  left: 250px; /* 💡 명시적으로 왼쪽 여백 설정하여 center-panel 침범 방지 */
+  left: 200px; /* 💡 명시적으로 왼쪽 여백 설정하여 center-panel 침범 방지 */
   width: 250px;
   max-height: 500px;
   border: 2px solid #ccc;
