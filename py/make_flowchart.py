@@ -15,6 +15,7 @@ import os
 import re
 import sys
 import json
+import mysql.connector
 
 
 api_key_ = os.getenv("OPENAI_API_KEY")
@@ -193,16 +194,16 @@ def generate_summary_gpt(buffer_lines, problem):
 # 메인
 ###########################
 if __name__ == "__main__":
+
+
     guideline_path = ""
-    problem_dir = ""
     output_dir = ""
     problem_id = ""
 
-    if len(sys.argv) == 5:
+    if len(sys.argv) == 4:
         guideline_path = sys.argv[1]
-        problem_dir = sys.argv[2]
-        output_dir = sys.argv[3]
-        problem_id = sys.argv[4]
+        output_dir = sys.argv[2]
+        problem_id = sys.argv[3]
 
     guideline_text = ""
     problem = ""
@@ -210,9 +211,20 @@ if __name__ == "__main__":
     with open(guideline_path, "r", encoding="utf-8") as f:
         guideline_text = f.read()
 
-    with open(problem_dir, "r", encoding="utf-8") as f:
-        problem = f.read()
+    # TODO
+    # SQL에서 problem 선언
+    # MySQL 연결 설정
+    conn = mysql.connector.connect(
+        host="localhost",
+        user="hustoj",
+        password="JGqRe4pltka5e5II4Di3YZdmxv7SGt",
+        database="jol"
+    )
 
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT description FROM problem WHERE problem_id = %s", (problem_id,))
+    problem = cursor.fetchall()
+    
     all_results = process_guideline(guideline_text)  # 함수별 결과
 
     os.makedirs(output_dir, exist_ok=True)

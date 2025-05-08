@@ -140,7 +140,6 @@ if(isset($_POST['remote_oj'])){
 // echo $exemplary_code;
 // //파이썬 실행
 
-
 // =================순서도 생성 트리거=======================
 
 // // $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
@@ -208,7 +207,6 @@ $.ajax({
     url: "../ajax/save_problem_run_python.php",
     dataType: "json",  // JSON으로 응답 받기
     data: {
-        description: <?php echo json_encode($description); ?>,
         exemplary_code: <?php echo json_encode($exemplary_code); ?>,
         problem_id: <?php echo json_encode($pid); ?>,
         output_dir: <?php echo json_encode($output_dir); ?>,
