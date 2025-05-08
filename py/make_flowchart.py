@@ -307,7 +307,10 @@ if __name__ == "__main__":
         # print(flow.get("summary"), flow.get("start_line"), flow.get("end_line"))
         png_address = '/flowcharts/' + str(problem_id) + '_' + str(idx)
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("INSERT INTO flowchart (problem_id, png_address, png_number, start_num, end_num) VALUES (%d, %s, %d, %d, %d", (problem_id, png_address, idx, flowcharts[idx].get("start_line"), flowcharts[idx].get("end_line")))
+        cursor.execute(
+            "INSERT INTO flowchart (problem_id, png_address, png_number, start_num, end_num) VALUES (%s, %s, %s, %s, %s)",
+            (problem_id, png_address, idx, flowcharts[idx].get("start_line"), flowcharts[idx].get("end_line"))
+        )
         problem = cursor.fetchall()
         
         print("--------------------------------------------------") 
