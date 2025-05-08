@@ -33,4 +33,7 @@ data.append(new_entry)
 with open("questions_and_codes.json", "w", encoding="utf-8") as f:
     json.dump(data, f, indent=4, ensure_ascii=False)
 
+with open ("question.txt", "w", encoding="utf-8") as f:
+    f.write(new_question)
+
 print("코드가 data.json에 추가되었습니다.")
