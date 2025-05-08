@@ -211,7 +211,6 @@ $.ajax({
         exemplary_code: <?php echo json_encode($exemplary_code); ?>,
         problem_id: <?php echo json_encode($pid); ?>,
         post_key: "<?php echo $_SESSION[$OJ_NAME . '_post_key']; ?>"
-        output_dir: "<?php echo json_encode($output_dir); ?>"
     },
     success: function(response) {
         console.log("📜 Python Script Response:");
