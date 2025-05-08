@@ -2,8 +2,8 @@
 include("include/db_info.inc.php");
 include("guideline_common.php"); // ✨ 공통 파일 사용
 
-$file_path = "/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/1237.txt";
-$tagged_path = "/home/Capstone_Design_Troy/judge/src/web/tagged_code/1237.txt";
+$file_path = "/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/1243_step1.txt";
+$tagged_path = "/home/Capstone_Design_Troy/judge/src/web/tagged_code/1243_step1.txt";
 
 $guideline_contents = file_get_contents($file_path);
 $tagged_contents = file_get_contents($tagged_path);
