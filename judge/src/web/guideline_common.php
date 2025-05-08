@@ -23,7 +23,7 @@ function guidelineFilter($text) {
             $stack[count($stack) - 1]['children'][] = &$block;
             //새 블록 푸시(이 블록 안에 내용 쌓기)
             $stack[] = &$block;
-            메모리 참조 해제
+            //메모리 참조 해제
             unset($block);
             continue;
         }
