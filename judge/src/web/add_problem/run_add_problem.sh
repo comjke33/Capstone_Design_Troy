@@ -45,11 +45,15 @@ echo "here2 생성"
 
 TAGGED_GUIDELINE="./../tagged_guideline/1260_step1.txt"
 OUTPUT_DIRECTORY="./../flowcharts/"
-echo $TAGGED_GUIDELINE >> here3
+#echo $TAGGED_GUIDELINE >> here3
 DESC="/home/Capstone_Design_Troy/judge/src/web/add_problem/question.txt"
-echo $DESC >> here3
+#echo $DESC >> here3
 
 NEW_PID="1260"
+touch here3
+
+echo $TAGGED_GUIDELINE >> here3
+echo $OUTPUT_DIRECTORY >> here3
 
 touch fail
 
