@@ -29,12 +29,12 @@ fi
 touch here1
 echo "here1 생성"
 
-# 2. 가이드라인 생성
-# python3 make_guideline.py "$PROBLEM_ID" 2>> here1
-# if [ $? -ne 0 ]; then
-#     echo "가이드라인 생성 실패"
-#     exit 1
-# fi
+2. 가이드라인 생성
+python3 make_guideline.py "$PROBLEM_ID" 2>> here1
+if [ $? -ne 0 ]; then
+    echo "가이드라인 생성 실패"
+    exit 1
+fi
 touch here2
 echo "here2 생성"
 
@@ -60,7 +60,7 @@ echo $OUTPUT_DIRECTORY >> here3
 
 touch fail
 
-python3 make_flowchart.py "$TAGGED_GUIDELINE" "$OUTPUT_DIRECTORY" "$NEW_PID" 2>> fail
+python3 make_flowchart.py "$TAGGED_GUIDELINE" "$OUTPUT_DIRECTORY" "$PROBLEM_ID" 2>> fail
 if [ $? -ne 0 ]; then
     echo "flowchart 생성 실패" >> fail
     exit 1
