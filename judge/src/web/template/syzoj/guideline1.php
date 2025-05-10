@@ -333,7 +333,7 @@ function smoothFollowImage() {
 // textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
-    ta.addEventListener("focus", () => fetchImageByLineNumber(idx + 1)); // +1로 라인번호 맞추기
+    ta.addEventListener("focus", () => fetchImageByLineNumber(idx)); // +1로 라인번호 맞추기
     });
 });
 
