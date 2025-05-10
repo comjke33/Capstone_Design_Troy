@@ -38,9 +38,9 @@ echo "here2 생성"
 # 3. 이후 스크립트 실행 (예시)
 #python3 post_process.py "$PROBLEM_ID"
 
-cd /home/Capstone_Design_Troy/py/
+# cd /home/Capstone_Design_Troy/py/
 
-touch here3
+# touch here3
 
 
 TAGGED_GUIDELINE="./../tagged_guideline/1260_step1.txt"
