@@ -1,2 +1,5 @@
 test/env
 kot5-small-finetuned-model/
+.env
+judge/src/web/add_problem/.env
+
