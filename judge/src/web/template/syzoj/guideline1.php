@@ -286,7 +286,7 @@ function smoothFollowImage() {
 
     // 화면 기준 제한
     const minTop = scrollY + 50; // 화면 상단 + 여백
-    const maxTop = scrollY + window.innerHeight - img.offsetHeight - 200; // 화면 하단 - 이미지 높이
+    const maxTop = scrollY + window.innerHeight - img.offsetHeight; // 화면 하단 - 이미지 높이
 
     // 제한된 위치로 보정
     targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
