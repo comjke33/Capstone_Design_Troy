@@ -15,17 +15,19 @@ include("../../guideline_common.php");
         <div class="back-button">
             <button class="ui button back" id="view-problem-button">↩</button>
         </div>
-        
-        <div class="reset-button">
-            <button class="ui button again" id="reset-button">↻</button>
-        </div>
-    </div>
+  </div>
     
   <!-- Step1,2,3 buttons -->
   <div class="step-buttons">
     <button class="ui button" data-step="1" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 1</button>
     <button class="ui button" data-step="2" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 2</button>
     <button class="ui button" data-step="3" data-problem-id="<?= htmlspecialchars($problem_id) ?>">Step 3</button>
+  </div>
+
+  <div class="action-buttons">
+    <div class="reset-button">
+        <button class="ui button again" id="reset-button">↻</button>
+    </div>
   </div>
 </div>
 
