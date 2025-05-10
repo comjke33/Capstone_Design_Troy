@@ -74,8 +74,9 @@ def parse_guideline_blocks(text):
             current_depth = depth
 
         elif end:
-            current_block.append(line)
-            current_function_blocks.append((current_depth, current_block))
+            if current_depth is not None:
+                current_block.append(line)
+                current_function_blocks.append((current_depth, current_block))
             current_block = []
             current_depth = None
 
@@ -118,7 +119,7 @@ def process_guideline(text):
                 "깊이": depth,
                 "역할": role,
                 "내용": block_text,
-                "index": idx + 1
+                "index": idx
             })
         all_results.append(results)
         for result in all_results:
