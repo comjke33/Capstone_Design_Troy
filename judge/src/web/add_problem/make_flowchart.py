@@ -221,7 +221,7 @@ if __name__ == "__main__":
 
 
     guideline_path = f"../tagged_guideline/{problem_id}_step1.txt"
-    output_dir = "../flowchart/"
+    output_dir = "../flowcharts/"
 
     guideline_text = ""
     problem = ""
@@ -331,6 +331,7 @@ if __name__ == "__main__":
             (problem_id, png_address, idx+1, flowcharts[idx].get("start_line"), flowcharts[idx].get("end_line"))
         )
         problem = cursor.fetchall()
+        print(flowcharts)
         
         print("--------------------------------------------------") 
 
