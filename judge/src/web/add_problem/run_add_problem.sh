@@ -43,8 +43,8 @@ cd /home/Capstone_Design_Troy/py/
 touch here3
 
 
-TAGGED_GUIDELINE="./../judge/src/web/tagged_guideline/1260_step1.txt"
-OUTPUT_DIRECTORY="./../judge/src/web/flowcharts/"
+TAGGED_GUIDELINE="./../tagged_guideline/1260_step1.txt"
+OUTPUT_DIRECTORY="./../flowcharts/"
 echo $TAGGED_GUIDELINE >> here3
 DESC="/home/Capstone_Design_Troy/judge/src/web/add_problem/question.txt"
 echo $DESC >> here3
