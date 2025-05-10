@@ -42,7 +42,8 @@ if (count($res) > 0) {
 }
 
 // 디버깅 용 default 이미지 설정
-$url = $default_img;
+// $url = $default_img;
+
 echo json_encode([
     'success' => true,
     'url' => $url,

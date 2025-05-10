@@ -35,8 +35,9 @@ include("../../guideline_common.php");
 <div class="main-layout">
     <!-- 좌측 패널 -->
     <div class="left-panel">
-        <div id="flowchart-images"></div>
+        <img id="flowchart_image" src="./flowcharts/default.png" alt="Flowchart Image" style="width:100%; max-width:250px;">
     </div>
+
 
     <!-- 가운데 패널 -->
     <div class="center-panel">
@@ -254,10 +255,33 @@ let currentTextarea = null;
 let animationRunning = false;
 
 //flowchart렌더링 및 매끄러운 이동
-function updateImageForTextarea(index, ta) {
-    currentTextarea = ta;
-    fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
-        .then(res => res.json())
+// function updateImageForTextarea(index, ta) {
+//     currentTextarea = ta;
+//     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
+//         .then(res => res.json())
+//         .then(data => {
+//             let img = document.getElementById("floating-img");
+//             if (!img) {
+//                 img = document.createElement("img");
+//                 img.id = "floating-img";
+//                 document.body.appendChild(img);
+//             }
+
+//             img.src = data.url;
+//             console.log("서버 디버그 데이터:", data.debug);
+
+//             if (!animationRunning) {
+//                 animationRunning = true;
+//                 smoothFollowImage(); // 따라오기 시작
+//             }
+//         });
+// }
+
+//줄번호에 맞춰서 이미지 fetch
+function fetchImageByLineNumber(lineNumber) {
+    const problemId = <?= json_encode($problem_id) ?>;
+    fetch(`/get_flowchar_image.php?problem_id=${problemId}&index=${lineNumber}`)
+        .then(response => response.json())
         .then(data => {
             let img = document.getElementById("floating-img");
             if (!img) {
@@ -267,14 +291,16 @@ function updateImageForTextarea(index, ta) {
             }
 
             img.src = data.url;
-            console.log("서버 디버그 데이터:", data.debug);
+            console.log("이미지 업데이트:", data.url);
 
             if (!animationRunning) {
                 animationRunning = true;
-                smoothFollowImage(); // 따라오기 시작
+                smoothFollowImage();
             }
-        });
+        })
+        .catch(error => console.error('Error:', error));
 }
+
 
 //이미지 매끄러운 이동
 function smoothFollowImage() {
@@ -307,7 +333,7 @@ function smoothFollowImage() {
 // textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
-        ta.addEventListener("focus", () => updateImageForTextarea(idx, ta));
+    ta.addEventListener("focus", () => fetchImageByLineNumber(idx + 1)); // +1로 라인번호 맞추기
     });
 });
 
