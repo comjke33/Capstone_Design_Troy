@@ -280,13 +280,13 @@ let animationRunning = false;
 //줄번호에 맞춰서 이미지 fetch
 function fetchImageByLineNumber(lineNumber) {
     const problemId = <?= json_encode($problem_id) ?>;
-    fetch(`/get_flowchart_image.php?problem_id=${problemId}&index=${lineNumber}`)
+    fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${lineNumber}`)
         .then(response => response.json())
         .then(data => {
-            let img = document.getElementById("floating-img");
+            let img = document.getElementById("flowchart_image");
             if (!img) {
                 img = document.createElement("img");
-                img.id = "floating-img";
+                img.id = "flowchart_image";
                 document.body.appendChild(img);
             }
 
@@ -304,7 +304,7 @@ function fetchImageByLineNumber(lineNumber) {
 
 //이미지 매끄러운 이동
 function smoothFollowImage() {
-    const img = document.getElementById("floating-img");
+    const img = document.getElementById("flowchart_image");
     if (!img || !currentTextarea) {
         animationRunning = false;
         return;
