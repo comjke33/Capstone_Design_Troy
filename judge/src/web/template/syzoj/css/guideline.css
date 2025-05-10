@@ -1,11 +1,11 @@
-/* top-toolbar → 좌-중앙-우 정렬 */
 .top-toolbar {
   width: 100%; 
   padding: 15px 30px;
   display: flex;
-  justify-content: space-between; /* 좌-우 공간 분리 */
-  align-items: center;            /* 세로 중앙 정렬 */
+  justify-content: center;    /* 중앙 정렬로 변경 */
+  align-items: center;
   box-sizing: border-box;
+  gap: 20px;                 /* 전체 그룹 간 gap 추가 */
 }
 
 .action-buttons {
@@ -13,13 +13,11 @@
   align-items: center;
 }
 
-/* Step 버튼들 가운데 정렬용 */
 .step-buttons {
   display: flex;
-  gap: 10px;
-  justify-content: center;
-  flex-grow: 1;
+  gap: 10px;                 /* Step1~3 버튼 간 gap 유지 */
 }
+
 
 /* Step 버튼 스타일 */
 .step-buttons .ui.button {
