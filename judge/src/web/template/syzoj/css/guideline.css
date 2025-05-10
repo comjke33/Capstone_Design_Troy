@@ -94,7 +94,7 @@
   overflow: visible;
 }
 
-#floating-img {
+#flowchart_image {
   position: fixed;
   top: 100px;
   left: 200px; 

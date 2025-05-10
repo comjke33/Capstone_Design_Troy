@@ -35,7 +35,7 @@ include("../../guideline_common.php");
 <div class="main-layout">
     <!-- 좌측 패널 -->
     <div class="left-panel">
-        <img id="flowchart_image" src="./flowcharts/default.png" alt="Flowchart Image" style="width:100%; max-width:250px;">
+        <img id="flowchart_image" src="../../flowcharts/default.png" alt="Flowchart Image" style="width:100%; max-width:250px;">
     </div>
 
 
@@ -254,7 +254,7 @@ function autoResize(ta) {
 let currentTextarea = null;
 let animationRunning = false;
 
-flowchart렌더링 및 매끄러운 이동
+//flowchart렌더링 및 매끄러운 이동
 function updateImageForTextarea(index, ta) {
     currentTextarea = ta;
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
