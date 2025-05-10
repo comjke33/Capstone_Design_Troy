@@ -11,12 +11,11 @@
 .action-buttons {
   display: flex;
   align-items: center;
-  gap: 10px;
 }
 
 .step-buttons {
   display: flex;
-  gap: 10px;                 /* Step1~3 버튼 간 gap 유지 */
+  gap: 15px;                 /* Step1~3 버튼 간 gap 유지 */
 }
 
 
