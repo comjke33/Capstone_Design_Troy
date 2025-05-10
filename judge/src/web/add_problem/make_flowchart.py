@@ -268,7 +268,8 @@ if __name__ == "__main__":
 
                 if found_output:
                     save_text.append([block for block in buffer_lines])
-                    print(buffer_lines)
+                    for block in buffer_lines:
+                        print(block)
                     buffer_lines = [res]
 
                     next_idx = idx + 1
