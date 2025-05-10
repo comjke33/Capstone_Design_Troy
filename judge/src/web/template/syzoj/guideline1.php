@@ -282,7 +282,7 @@ function smoothFollowImage() {
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-    let targetTop = taRect.top + scrollY - img.offsetHeight + 50;
+    let targetTop = taRect.top + scrollY - img.offsetHeight + 200;
 
     // 화면 기준 제한
     const minTop = scrollY + 200; // 화면 상단 + 여백
