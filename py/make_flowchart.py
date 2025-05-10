@@ -19,8 +19,9 @@ import sys
 import json
 import mysql.connector
 
-load_dotenv()
-api_key_ = os.getenv("OPENAI_API_KEY")
+# .env 파일 위치를 지정하여 로드
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
 ###########################
 # 블록 파싱 (함수 단위로 그룹화)
@@ -206,6 +207,9 @@ if __name__ == "__main__":
         output_dir = sys.argv[2]
         problem_id = sys.argv[3]
 
+    guideline_path = f"../tagged_guideline/{problem_id}_step1.txt"
+    output_dir = "../flowchart/"
+
     guideline_text = ""
     problem = ""
 
@@ -307,11 +311,11 @@ if __name__ == "__main__":
 
     for idx in range(len(flowcharts)):
         # print(flow.get("summary"), flow.get("start_line"), flow.get("end_line"))
-        png_address = '/flowcharts/' + str(problem_id) + '_' + str(idx)
+        png_address = '/flowcharts/' + str(problem_id) + '_' + str(idx+1)
         cursor = conn.cursor(dictionary=True)
         cursor.execute(
             "INSERT INTO flowchart (problem_id, png_address, png_number, start_num, end_num) VALUES (%s, %s, %s, %s, %s)",
-            (problem_id, png_address, idx, flowcharts[idx].get("start_line"), flowcharts[idx].get("end_line"))
+            (problem_id, png_address, idx+1, flowcharts[idx].get("start_line"), flowcharts[idx].get("end_line"))
         )
         problem = cursor.fetchall()
         
