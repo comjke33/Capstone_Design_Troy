@@ -21,16 +21,13 @@ import mysql.connector
 
 
 
-dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
-load_dotenv(dotenv_path)
 
-api_key_ = os.getenv("OPENAI_API_KEY")
 
-with open(log_path, "w") as f:
-    f.write(f"DOTENV PATH: {dotenv_path}\n")
-    f.write(f"File Exists: {os.path.exists(dotenv_path)}\n")
-    f.write(f"API_KEY: {api_key_}\n")
-    f.write("실행은 돼요..\n")
+# with open(log_path, "w") as f:
+#     f.write(f"DOTENV PATH: {dotenv_path}\n")
+#     f.write(f"File Exists: {os.path.exists(dotenv_path)}\n")
+#     f.write(f"API_KEY: {api_key_}\n")
+#     f.write("실행은 돼요..\n")
 
 ###########################
 # 블록 파싱 (함수 단위로 그룹화)
@@ -215,6 +212,11 @@ if __name__ == "__main__":
         guideline_path = sys.argv[1]
         output_dir = sys.argv[2]
         problem_id = sys.argv[3]
+
+    dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
+    load_dotenv(dotenv_path)
+
+    api_key_ = os.getenv("OPENAI_API_KEY")
 
     guideline_path = f"../tagged_guideline/{problem_id}_step1.txt"
     output_dir = "../flowchart/"
