@@ -5,7 +5,7 @@
   justify-content: center;    /* 중앙 정렬로 변경 */
   align-items: center;
   box-sizing: border-box;
-  gap: 20px;                 /* 전체 그룹 간 gap 추가 */
+  gap: 40px;                 /* 전체 그룹 간 gap 추가 */
 }
 
 .action-buttons {
@@ -15,7 +15,7 @@
 
 .step-buttons {
   display: flex;
-  gap: 40px;                 /* Step1~3 버튼 간 gap 유지 */
+  gap: 10px;                 /* Step1~3 버튼 간 gap 유지 */
 }
 
 
