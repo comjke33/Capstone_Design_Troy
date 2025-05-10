@@ -291,6 +291,7 @@ if __name__ == "__main__":
             else:
                 if res["역할"] == "출력" and res["깊이"] > buffer_lines[-1]["깊이"]:
                     buffer_lines.append(res)
+                    print("출력"+str(buffer_lines))
                     idx += 1
                     continue
 
@@ -331,7 +332,6 @@ if __name__ == "__main__":
             (problem_id, png_address, idx+1, flowcharts[idx].get("start_line"), flowcharts[idx].get("end_line"))
         )
         problem = cursor.fetchall()
-        print(flowcharts)
         
         print("--------------------------------------------------") 
 
