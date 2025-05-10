@@ -19,17 +19,19 @@ import sys
 import json
 import mysql.connector
 
-# .env 파일 위치를 지정하여 로드
-dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+base_dir = os.path.dirname(os.path.abspath(__file__))  # py 파일 기준 디렉터리
+log_path = os.path.join(base_dir, "log.txt")           # 절대경로로 log.txt
+
+dotenv_path = os.path.join(base_dir, ".env")
 load_dotenv(dotenv_path)
+
 api_key_ = os.getenv("OPENAI_API_KEY")
 
-# 현재 디렉터리에 log.txt 파일 저장
-with open("log.txt", "w") as f:
+with open(log_path, "w") as f:
     f.write(f"DOTENV PATH: {dotenv_path}\n")
     f.write(f"File Exists: {os.path.exists(dotenv_path)}\n")
     f.write(f"API_KEY: {api_key_}\n")
-    f.write("실행은 돼요..")
+    f.write("실행은 돼요..\n")
 
 ###########################
 # 블록 파싱 (함수 단위로 그룹화)
