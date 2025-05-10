@@ -1,6 +1,8 @@
 import re
 import os
 import sys
+from dotenv import load_dotenv
+
 
 # from transformers import AutoTokenizer
 # from transformers import AutoModelForSeq2SeqLM
@@ -17,7 +19,7 @@ import sys
 import json
 import mysql.connector
 
-
+load_dotenv()
 api_key_ = os.getenv("OPENAI_API_KEY")
 
 ###########################
