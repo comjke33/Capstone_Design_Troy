@@ -35,7 +35,7 @@ include("../../guideline_common.php");
 <div class="main-layout">
     <!-- 좌측 패널 -->
     <div class="left-panel">
-        <img id="flowchart_image" src="../../flowcharts/default.png" alt="Flowchart Image" style="width:100%; max-width:250px;">
+        <img id="flowchart_image" src="../../image/default.png" alt="Flowchart Image" style="width:100%; max-width:250px;">
     </div>
 
 
