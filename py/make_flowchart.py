@@ -159,6 +159,11 @@ def generate_summary_gpt(buffer_lines, problem):
     start_line = min(item["index"] for item in buffer_lines)
     end_line = max(item["index"] for item in buffer_lines)
 
+    dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
+    load_dotenv(dotenv_path)
+
+    api_key_ = os.getenv("OPENAI_API_KEY")
+
     from openai import OpenAI
     client = OpenAI(api_key=api_key_)
 
@@ -213,10 +218,7 @@ if __name__ == "__main__":
         output_dir = sys.argv[2]
         problem_id = sys.argv[3]
 
-    dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
-    load_dotenv(dotenv_path)
 
-    api_key_ = os.getenv("OPENAI_API_KEY")
 
     guideline_path = f"../tagged_guideline/{problem_id}_step1.txt"
     output_dir = "../flowchart/"
