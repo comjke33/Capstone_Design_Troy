@@ -282,7 +282,7 @@ function smoothFollowImage() {
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-    let targetTop = taRect.top + scrollY - img.offsetHeight + 100;
+    let targetTop = taRect.top + scrollY - img.offsetHeight + 50;
 
     // 화면 기준 제한
     const minTop = scrollY + 50; // 화면 상단 + 여백
@@ -304,8 +304,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
         ta.addEventListener("focus", () => updateImageForTextarea(idx, ta));
     });
-
 });
+
 </script>
 
 <?php include("template/$OJ_TEMPLATE/footer.php");?>
