@@ -268,6 +268,7 @@ if __name__ == "__main__":
 
                 if found_output:
                     save_text.append([block for block in buffer_lines])
+                    print(buffer_lines)
                     buffer_lines = [res]
 
                     next_idx = idx + 1
@@ -291,7 +292,6 @@ if __name__ == "__main__":
             else:
                 if res["역할"] == "출력" and res["깊이"] > buffer_lines[-1]["깊이"]:
                     buffer_lines.append(res)
-                    print("출력"+str(buffer_lines))
                     idx += 1
                     continue
 
