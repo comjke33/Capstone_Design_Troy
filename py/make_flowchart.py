@@ -22,6 +22,7 @@ import mysql.connector
 # .env 파일 위치를 지정하여 로드
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 load_dotenv(dotenv_path)
+api_key_ = os.getenv("OPENAI_API_KEY")
 
 ###########################
 # 블록 파싱 (함수 단위로 그룹화)
