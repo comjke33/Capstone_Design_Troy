@@ -121,6 +121,8 @@ def process_guideline(text):
                 "index": idx
             })
         all_results.append(results)
+        for result in all_results:
+            print(result)
     return all_results  # 함수별 리스트
 
 ###########################
@@ -268,8 +270,6 @@ if __name__ == "__main__":
 
                 if found_output:
                     save_text.append([block for block in buffer_lines])
-                    for block in buffer_lines:
-                        print(block)
                     buffer_lines = [res]
 
                     next_idx = idx + 1
