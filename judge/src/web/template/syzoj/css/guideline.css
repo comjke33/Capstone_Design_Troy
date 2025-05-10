@@ -15,7 +15,7 @@
 
 .step-buttons {
   display: flex;
-  gap: 15px;                 /* Step1~3 버튼 간 gap 유지 */
+  gap: 25px;                 /* Step1~3 버튼 간 gap 유지 */
 }
 
 
