@@ -1,7 +1,5 @@
 #!/bin/bash
 
-touch fuck
-
 PROBLEM_ID=$(echo "$1" | base64 -d)
 DESCRIPTION=$(echo "$2" | base64 -d)
 EXEMPLARY_CODE=$(echo "$3" | base64 -d)
@@ -29,7 +27,7 @@ touch here1
 echo "here1 생성"
 
 # 2. 가이드라인 생성
-python3 make_guideline.py "$PROBLEM_ID"
+python3 make_guideline.py "$PROBLEM_ID" 2>> here1
 if [ $? -ne 0 ]; then
     echo "가이드라인 생성 실패"
     exit 1
