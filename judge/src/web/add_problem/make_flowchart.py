@@ -118,7 +118,7 @@ def process_guideline(text):
                 "깊이": depth,
                 "역할": role,
                 "내용": block_text,
-                "index": idx
+                "index": idx + 1
             })
         all_results.append(results)
         for result in all_results:
