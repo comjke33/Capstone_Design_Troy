@@ -11,7 +11,6 @@ $index = isset($_GET['index']) ? intval($_GET['index']) : -1;
 $default_img = "./flowcharts/default.png";
 
 
-
 if ($problem_id <= 0) {
     echo json_encode([
         'success' => true,
