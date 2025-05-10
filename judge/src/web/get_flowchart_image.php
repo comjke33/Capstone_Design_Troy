@@ -1,6 +1,8 @@
 <?php
 require_once "include/db_info.inc.php";
 
+header("Content-Type: application/json");
+
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
 //$problem_id=9944;
 $index = isset($_GET['index']) ? intval($_GET['index']) : -1;
@@ -8,7 +10,7 @@ $index = isset($_GET['index']) ? intval($_GET['index']) : -1;
 // $res = pdo_query($sql, $problem_id);
 $default_img = "./flowcharts/default.png";
 
-header("Content-Type: application/json");
+
 
 if ($problem_id <= 0) {
     echo json_encode([
