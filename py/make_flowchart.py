@@ -24,6 +24,12 @@ dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 api_key_ = os.getenv("OPENAI_API_KEY")
 
+# 현재 디렉터리에 log.txt 파일 저장
+with open("log.txt", "w") as f:
+    f.write(f"DOTENV PATH: {dotenv_path}\n")
+    f.write(f"File Exists: {os.path.exists(dotenv_path)}\n")
+    f.write(f"API_KEY: {api_key_}\n")
+
 ###########################
 # 블록 파싱 (함수 단위로 그룹화)
 ###########################
