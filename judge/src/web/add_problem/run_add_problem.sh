@@ -11,6 +11,9 @@ OUTPUT_DIR=$(echo "$4" | base64 -d)
 
 #cd /home/Capstone_Design_Troy/judge/src/web/add_problem
 
+rm here*
+rm fail
+
 # 1. 문제 생성
 touch here0
 echo $PROBLEM_ID >> here0
