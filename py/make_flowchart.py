@@ -19,10 +19,9 @@ import sys
 import json
 import mysql.connector
 
-base_dir = os.path.dirname(os.path.abspath(__file__))  # py 파일 기준 디렉터리
-log_path = os.path.join(base_dir, "log.txt")           # 절대경로로 log.txt
 
-dotenv_path = os.path.join(base_dir, ".env")
+
+dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
 load_dotenv(dotenv_path)
 
 api_key_ = os.getenv("OPENAI_API_KEY")
