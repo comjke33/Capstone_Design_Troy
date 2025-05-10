@@ -1,0 +1,2 @@
+[self_start(0)]
+This is the starting point of the workflow. We are in the `/home/Capstone_Design_Troy/judge/src/web/flowcharts/` directory. This directory is likely where the flowchart generation and management logic resides. This is a crucial directory for the project, suggesting it holds the core components necessary for designing and potentially visualizing flowcharts.  [self_end(0)]

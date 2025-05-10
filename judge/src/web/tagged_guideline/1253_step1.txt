@@ -1,0 +1,4 @@
+[self_start(0)]
+Main workflow is handled with basic HTML structure and Javascript code. You should see basic code with a flowchart-like visualization.
+
+[self_end(0)]

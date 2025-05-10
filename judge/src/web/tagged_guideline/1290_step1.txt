@@ -1,0 +1,42 @@
+[func_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+시간을 저장할 변수 h와 분을 저장할 변수 m을 선언하세요.
+[self_end(1)]
+[self_start(1)]
+추가적인 시간과 분을 저장할 변수 add_h와 add_m을 선언하세요.
+[self_end(1)]
+[self_start(1)]
+scanf를 사용하여 h와 m의 값을 입력받으세요.
+[self_end(1)]
+[self_start(1)]
+scanf를 사용하여 add_h와 add_m의 값을 입력받으세요.
+[self_end(1)]
+[self_start(1)]
+m에 add_m의 값을 더하세요.
+[self_end(1)]
+[cond_start(1)]
+m이 60보다 크거나 같을 때 동작하는 조건문을 작성하세요.
+[self_start(2)]
+h에 m/60을 더하세요.
+[self_end(2)]
+[self_start(2)]
+m을 m%60으로 업데이트하세요.
+[self_end(2)]
+[cond_end(1)]
+[self_start(1)]
+add_h의 값을 h에 더하세요.
+[self_end(1)]
+[cond_start(1)]
+h가 24보다 크거나 같을 때 동작하는 조건문을 작성하세요.
+[self_start(2)]
+h를 h%24로 업데이트하세요.
+[self_end(2)]
+[cond_end(1)]
+[self_start(1)]
+h와 m을 출력하세요.
+[self_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[func_def_end(0)]

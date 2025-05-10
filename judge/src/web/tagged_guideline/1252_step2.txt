@@ -1,0 +1,4 @@
+[self_start(0)]
+This is the main part of the program. It's located in the `/home/Capstone_Design_Troy/judge/src/web/flowcharts/` directory. It likely contains code related to handling and displaying flowcharts, probably within a web application context.
+
+[self_end(0)]

@@ -1,0 +1,13 @@
+#include <stdio.h>
+[func_def_start(0)]
+int main (void )
+{
+[self_start(1)]
+    int A;
+    int B;
+    scanf ("%d %d", &A, &B );
+    printf ("%d %d %d %d %d", A+B, A-B, A*B, A/B, A%B );
+    return 0;
+[self_end(1)]
+[func_def_end(0)]
+}

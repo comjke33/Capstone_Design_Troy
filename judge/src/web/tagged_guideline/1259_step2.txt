@@ -1,0 +1,32 @@
+[func_def_start(0)]
+정수 num의 주기에 대해 isPrime 함수입니다.
+[cond_start(1)]
+num이 2보다 작으면 isPrime는 0을 반환하세요.
+[cond_end(1)]
+[rep_start(1)]
+2부터 num의 제곱근까지 반복하는 반복문을 작성하세요.
+[cond_start(2)]
+num이 현재 반복 인덱스 i로 나누어 떨어지는지 확인하세요.
+나누어 떨어지면 0을 반환하세요.
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+num이 2부터 반복하는데 제곱근 이하의 어떤 수로도 나누어 떨어지지 않으면 isPrime는 1을 반환하세요.
+[self_end(1)]
+[func_def_end(0)]
+[func_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+2개의 정수 A와 B를 입력받고, 사용자가 입력한 A와 B를 포함하는 범위 내에서 정수 값을 검색하세요.
+[self_end(1)]
+[rep_start(1)]
+i가 A에 1 이상 B에 미치기 전까지 반복하는 반복문을 작성하세요.
+[cond_start(2)]
+isPrime 함수를 사용하여 i가 소수인지 확인하세요.
+소수일 경우, i를 출력하세요.
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[func_def_end(0)]

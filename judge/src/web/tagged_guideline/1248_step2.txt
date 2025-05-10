@@ -1,0 +1,23 @@
+[func_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+N이라는 정수를 선언하고 사용자로부터 정수 N을 입력받아 저장하세요.
+[self_end(1)]
+[rep_start(1)]
+1부터 N까지 반복하는 반복문을 작성하세요.
+[rep_start(2)]
+인덱스 j를 이용하여 N-i 만큼의 공백을 출력하는 반복문을 작성하세요.
+이 반복문은 i번째 줄에서 i만큼의 공백을 출력하기 위함입니다.
+[rep_end(2)]
+[rep_start(2)]
+i 부터 시작하여 i번 반복하는 반복문을 작성하세요.
+각 반복문에서 '*'를 출력하도록 작성하세요.
+[rep_end(2)]
+[self_start(2)]
+줄바꿈을 위해 printf를 사용하여 새 줄을 출력하세요.
+[self_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[func_def_end(0)]

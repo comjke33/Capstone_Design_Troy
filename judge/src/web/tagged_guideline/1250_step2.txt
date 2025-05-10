@@ -1,0 +1,21 @@
+[func_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+정수 N을 저장하기 위한 변수 N을 선언하고 scanf를 사용하여 사용자가 입력한 값을 저장하세요.
+[self_end(1)]
+[rep_start(1)]
+1부터 N까지 반복하는 반복문을 작성하세요.
+[rep_start(2)]
+반복문 내에서, 1부터 N-i까지 반복하면서 공백을 출력하는 반복문을 작성하세요.
+[rep_end(2)]
+[rep_start(2)]
+1부터 i까지 반복하면서 별표(*)를 출력하는 반복문을 작성하세요.
+[rep_end(2)]
+[self_start(2)]
+줄바꿈을 위한 printf(" \n")을 출력하세요.
+[self_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 정상적으로 종료하세요.
+[self_end(1)]
+[func_def_end(0)]

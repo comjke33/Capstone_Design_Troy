@@ -1,0 +1,22 @@
+[func_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+N을 선언하고 사용자가 입력한 정수를 저장하세요.
+scanf를 이용하여 입력받으세요.
+[self_end(1)]
+[rep_start(1)]
+N까지 반복하는 중첩 반복문을 작성하세요.
+[rep_start(2)]
+j를 이용해 1부터 N-i까지 반복하며 각 자리 사이에 공백을 추가하세요.
+[rep_end(2)]
+[rep_start(2)]
+k를 이용해 1부터 i까지 반복하며 각각 별을 출력하세요.
+[rep_end(2)]
+[self_start(2)]
+줄바꿈을 하는 printf을 사용하세요.
+[self_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[func_def_end(0)]

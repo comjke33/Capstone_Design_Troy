@@ -1,0 +1,27 @@
+#include <stdio.h>
+[func_def_start(0)]
+int main () {
+[self_start(1)]
+    int num;
+    int max, min;
+    scanf ("%d", &num );
+    max =num;
+    min =num;
+[self_end(1)]
+[rep_start(1)]
+    for (int i =1; i <10; i++) {
+        scanf ("%d", &num );
+        if (num >max ) {
+            max =num;
+        }
+        if (num <min ) {
+            min =num;
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    printf ("%d %d\n", max, min );
+    return 0;
+[self_end(1)]
+[func_def_end(0)]
+}

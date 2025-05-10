@@ -1,0 +1,4 @@
+[self_start(1)]
+You've started a new context. You are in the directory `/home/Capstone_Design_Troy/judge/src/web/flowcharts/`. This is likely a directory containing flowcharts, possibly for a capstone design project.
+
+[self_end(1)]

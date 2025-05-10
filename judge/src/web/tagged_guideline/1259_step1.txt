@@ -1,0 +1,44 @@
+[func_def_start(0)]
+정수형 함수 `isPrime`를 정의하세요.
+[func_def_start(0)]
+정수형 `num`을 인자로 받아 받아 정수가 아닌 경우 0을 반환하고, 2보다 작은 경우에도 0을 반환하세요.
+[cond_start(1)]
+정수형 `num`이 2보다 작을 때 동작하는 조건문을 작성하세요.
+[self_start(2)]
+정수형 0을 반환하세요.
+[self_end(2)]
+[cond_end(1)]
+[rep_start(1)]
+2부터 시작하여 `num`의 제곱근까지 반복하는 `for`문을 작성하세요.
+[cond_start(2)]
+정수형 `num`이 `i`로 나누어 떨어질 때 동작하는 조건문을 작성하세요.
+[self_start(3)]
+정수형 0을 반환하세요.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+정수형 1을 반환하세요.
+[self_end(1)]
+[func_def_end(0)]
+[func_def_start(0)]
+프로그램 실행할 때 정수형 변수 A와 B를 입력받으세요.
+[self_start(1)]
+정수형 변수 A와 B를 선언하세요.
+[self_end(1)]
+[self_start(1)]
+scanf를 이용하여 A와 B에 정수를 입력받으세요.
+[self_end(1)]
+[rep_start(1)]
+A보다 큰 정수부터 B보다 작을 때까지 반복하는 for문을 작성하세요.
+[cond_start(2)]
+정수형 i가 A보다 크면 동작하는 조건문을 작성하세요.
+[self_start(3)]
+isPrime 함수를 호출하여 i를 입력받으면, i가 소수일 경우에만 i를 출력하세요.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[func_def_end(0)]

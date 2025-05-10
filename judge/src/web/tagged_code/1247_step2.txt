@@ -1,0 +1,33 @@
+#include <stdio.h>
+[func_def_start(0)]
+int main () {
+[self_start(1)]
+    int N;
+    scanf ("%d", &N );
+[self_end(1)]
+[rep_start(1)]
+    for (int i =1; i <=N; i++) {
+[rep_start(2)]
+        for (int j =1; j <=N -i; j++) {
+
+            printf (" " );
+
+[rep_end(2)]
+        }
+[rep_start(2)]
+        for (int k =1; k <=i; k++) {
+
+            printf ("*" );
+
+[rep_end(2)]
+        }
+[self_start(2)]
+        printf ("\n" );
+[self_end(2)]
+[rep_end(1)]
+    }
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[func_def_end(0)]
+}

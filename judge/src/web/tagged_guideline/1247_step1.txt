@@ -1,0 +1,30 @@
+[func_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+정수형 변수 N을 선언하세요.
+[self_end(1)]
+[self_start(1)]
+scanf를 사용하여 N의 값을 입력받으세요.
+[self_end(1)]
+[rep_start(1)]
+N보다 작거나 같은 크기의 i를 사용하여 반복하는 for문을 작성하세요.
+[rep_start(2)]
+j를 1부터 N-i까지 반복하는 for문을 작성하세요.
+[self_start(3)]
+정수형 변수 j를 사용하여 공백을 출력하세요.
+[self_end(3)]
+[rep_end(2)]
+[rep_start(2)]
+정수형 변수 k를 사용하여 i보다 작거나 같은 크기를 반복하는 for문을 작성하세요.
+[self_start(3)]
+정수형 변수 k를 사용하여 *를 출력하세요.
+[self_end(3)]
+[rep_end(2)]
+[self_start(2)]
+줄바꿈을 위한 printf를 사용하세요.
+[self_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[func_def_end(0)]

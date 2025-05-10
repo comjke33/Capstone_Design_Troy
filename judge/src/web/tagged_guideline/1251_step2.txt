@@ -1,0 +1,21 @@
+[func_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+N을 입력받기 위한 정수 변수 N을 선언하고 scanf를 사용하여 사용자로부터 N의 값을 입력받으세요.
+[self_end(1)]
+[rep_start(1)]
+N까지 반복하는 리프트를 작성하세요.
+[rep_start(2)]
+이 반복 내에서, 1부터 N까지 반복하고, N-i만큼 공백을 출력하는 코드를 작성하세요.
+[rep_end(2)]
+[rep_start(2)]
+두 번째 리프트에서는 1부터 i까지 반복하고, '*'를 출력하는 코드를 작성하세요.
+[rep_end(2)]
+[self_start(2)]
+각 반복 후 줄바꿈을 위한 printf ("\n"); 코드를 작성하세요.
+[self_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램의 정상적인 종료를 위한 return 0 코드를 작성하세요.
+[self_end(1)]
+[func_def_end(0)]

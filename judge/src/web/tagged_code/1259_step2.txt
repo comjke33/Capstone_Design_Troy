@@ -1,0 +1,48 @@
+#include <stdio.h>
+[func_def_start(0)]
+int isPrime (int num ) {
+[cond_start(1)]
+if (num <2 ) {
+
+return 0;
+
+[cond_end(1)]
+}
+[rep_start(1)]
+    for (int i =2; i *i <=num; i++) {
+[cond_start(2)]
+        if (num %i ==0 ) {
+
+            return 0;
+
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    return 1;
+[self_end(1)]
+[func_def_end(0)]
+}
+[func_def_start(0)]
+int main () {
+[self_start(1)]
+    int A, B;
+    scanf ("%d %d", &A, &B );
+[self_end(1)]
+[rep_start(1)]
+    for (int i =A +1; i <B; i++) {
+[cond_start(2)]
+        if (isPrime (i ) ) {
+
+            printf ("%d ", i );
+
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[func_def_end(0)]
+}

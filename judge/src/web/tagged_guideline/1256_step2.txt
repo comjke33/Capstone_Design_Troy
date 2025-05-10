@@ -1,0 +1,23 @@
+[func_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+변수 N을 선언하고, 사용자로부터 정수를 입력받아 N에 저장하세요. scanf를 사용하여 N을 입력받고, 정수형 변수로 저장하세요.
+[self_end(1)]
+[rep_start(1)]
+N 값을 반복하며, i부터 N까지의 범위를 가진 반복문을 작성하세요.
+[rep_start(2)]
+첫 번째 반복문에서 j가 1부터 N-i까지 반복되도록 작성하세요.
+N-i 만큼 공백을 출력하는 printf 문을 작성하세요.
+[rep_end(2)]
+[rep_start(2)]
+두 번째 반복문에서 j가 1부터 i까지 반복되도록 작성하세요.
+별표(*)를 출력하는 printf 문을 작성하세요.
+[rep_end(2)]
+[self_start(2)]
+printf("\n"); 줄 바꿈을 출력하는 문을 작성하세요.
+[self_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하는 return 0 문을 작성하세요.
+[self_end(1)]
+[func_def_end(0)]

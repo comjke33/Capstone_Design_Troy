@@ -1,0 +1,4 @@
+[self_start(1)]
+You've initiated a directory listing in the `flowcharts` subdirectory of the `Capstone_Design_Troy` project. This suggests you're likely working on a project involving visual representations of processes, potentially for a capstone design.
+
+[self_end(1)]
