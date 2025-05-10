@@ -14,7 +14,7 @@ $OJ_SID = "STEP 1";
 
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
 $index = isset($_GET['index']) ? intval($_GET['index']) : -1;
-$default_img = "/flowcharts/default.png";
+// $default_img = "./flowcharts/default.png";
 $index_start = 2;
 $index_end = 4;
 
