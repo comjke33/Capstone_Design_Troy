@@ -29,6 +29,7 @@ with open("log.txt", "w") as f:
     f.write(f"DOTENV PATH: {dotenv_path}\n")
     f.write(f"File Exists: {os.path.exists(dotenv_path)}\n")
     f.write(f"API_KEY: {api_key_}\n")
+    f.write("실행은 돼요..")
 
 ###########################
 # 블록 파싱 (함수 단위로 그룹화)
