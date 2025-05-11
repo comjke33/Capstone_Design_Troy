@@ -4,7 +4,6 @@ require_once "include/db_info.inc.php";
 header("Content-Type: application/json");
 
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
-//$problem_id=9944;
 
 // $index1 = isset($_GET['index1']) ? intval($_GET['index1']) : -1;
 // $index2 = isset($_GET['index2']) ? intval($_GET['index2']) : -1;
@@ -28,9 +27,8 @@ if ($problem_id <= 0) {
 }
 
 // 테스트용 쿼리
-$problem_id = 1256;  // 테스트할 problem_id
-$index = 5;  // 테스트할 index (start_num과 end_num에 맞는 번호)
-// $index2 = 6;
+// $problem_id = 1256;  // 테스트할 problem_id
+// $index = 5;  // 테스트할 index (start_num과 end_num에 맞는 번호)
 
 //DB에서 링크를 가져와서 링크를 구현
 $sql = "SELECT png_address FROM flowchart 
