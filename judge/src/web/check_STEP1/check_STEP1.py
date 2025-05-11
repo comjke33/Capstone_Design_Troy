@@ -118,7 +118,10 @@ def main():
     print("\n🔹 ✏️ 수정된 전체 코드:")
     real_modified_code = filter_code_lines(modified_code_lines)
     cleaned_modified_code = clean_code(real_modified_code)
-    for line in cleaned_modified_code:
+    for line in modified_code_lines:
+        print(line)
+    print("----------------------")
+    for line in original_code_lines:
         print(line)
 
     print("\n[🧠] AST 분석 중 (원본)...")
@@ -128,7 +131,7 @@ def main():
         return
 
     print("\n[🧠] AST 분석 중 (수정본)...")
-    modified_ast = generate_ast(cleaned_modified_code)
+    modified_ast = generate_ast(modified_code_lines)
     if modified_ast is None:
         print("[🚫] 수정 코드 AST 생성 실패")
         return
