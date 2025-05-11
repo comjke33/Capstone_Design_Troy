@@ -114,7 +114,10 @@ def main():
     modified_code_lines = adjust_indentation(original_code_lines, modified_code_lines, actual_idx + 1)
 
     print(f"\n[🔁] {line_num}번 줄 교체됨:\n  ▶ 원본: {original_line.strip()}\n  ▶ 입력: {student_line.strip()}")
-    print_code_with_line_numbers(modified_code_lines, "✏️ 수정된 코드")
+
+    # 수정된 코드 출력
+    print("\n🔹 ✏️ 수정된 전체 코드:")
+    print(''.join(modified_code_lines))
 
     print("\n[🧠] AST 분석 중 (원본)...")
     original_ast = generate_ast(filter_code_lines(original_code_lines))
