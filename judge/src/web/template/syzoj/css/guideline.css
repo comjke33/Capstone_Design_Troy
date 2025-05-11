@@ -77,7 +77,7 @@
 
 /* 좌측 flowchart 이미지 영역 */
 .left-panel {
-  margin-left: -200px;
+  margin-left: 200px;
   position: relative;
   width: 25%;
   min-width: 120px;
