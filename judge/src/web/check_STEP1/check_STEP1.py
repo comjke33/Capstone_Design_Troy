@@ -1,6 +1,5 @@
 import subprocess
 import tempfile
-import difflib
 import re
 
 def is_tag_line(line):
@@ -34,13 +33,10 @@ def clean_code(code_lines):
     cleaned_lines = []
     
     for line in code_lines:
-        # 양쪽 공백 제거
-        line = line.strip()
+        # 양쪽 공백 제거 (하지만 들여쓰기는 유지)
+        line = line.rstrip()
         
-        # 여러 공백을 하나로 압축
-        line = re.sub(r'\s+', ' ', line)
-        
-        # 정리된 라인 추가
+        # 여러 공백을 하나로 압축하지 않고 그대로 유지
         cleaned_lines.append(line)
     
     return cleaned_lines
@@ -59,7 +55,6 @@ def read_code_lines(filename):
 
 def generate_ast(code_lines):
     """태그를 제거한 코드로만 AST 생성"""
-    # 태그가 제거된 코드만 사용해서 AST 생성
     code_lines_no_tags = filter_code_lines(code_lines)
     
     with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False) as temp_file:
