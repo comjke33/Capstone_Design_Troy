@@ -1,6 +1,8 @@
 import subprocess
 import tempfile
 import re
+import difflib
+import os
 
 def is_tag_line(line):
     """[self_start(n)] 등 태그 줄인지 판별"""
@@ -85,7 +87,37 @@ def adjust_indentation(original_code_lines, modified_code_lines, line_num):
 
     return modified_code_lines
 
-import difflib
+def validate_code_output(code_lines, expected_output):
+    """주어진 코드의 출력을 실행하고 예상 출력과 비교"""
+    with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False) as temp_file:
+        temp_file.write(''.join(code_lines))
+        temp_file.flush()
+        try:
+            # 컴파일
+            result = subprocess.run(
+                ['gcc', '-o', 'test_program', temp_file.name],  # gcc를 사용해서 컴파일
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=True
+            )
+            
+            # 실행
+            run_result = subprocess.run(
+                ['./test_program'],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True
+            )
+            
+            # 실행 결과가 예상 출력과 일치하는지 확인
+            if run_result.stdout.strip() == expected_output.strip():
+                print("✅ 출력이 예상과 일치합니다.")
+            else:
+                print(f"❌ 예상 출력: {expected_output.strip()} vs 실제 출력: {run_result.stdout.strip()}")
+            
+        except subprocess.CalledProcessError as e:
+            print(f"[❌] 코드 실행 실패:\n{e.stderr}")
 
 def print_ast_diff(original_ast, modified_ast):
     """원본 AST와 수정된 AST의 차이를 비교하고 출력"""
@@ -168,6 +200,10 @@ def main():
         print("\n❌ AST 차이 있음 (의미 변경 가능성이 있습니다)")
 
     print_ast_diff(original_ast, modified_ast)
+
+    # 실제 코드 출력 확인
+    expected_output = input("✏️ 예상 출력: ")
+    validate_code_output(modified_code_lines, expected_output)
 
 if __name__ == "__main__":
     main()
