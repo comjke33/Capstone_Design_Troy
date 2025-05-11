@@ -72,9 +72,6 @@ include("../../guideline_common.php");
                     $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
                     $html .= "</div>";
         
-                    //각 라인 번호에 맞는 이미지 업데이트
-                    $html .= "<script>fetchImageByLineNumber({$answer_index + 1});</script>";  // 라인 번호는 1부터 시작
-
                     $answer_index++;
                 } else if (isset($block['children']) && is_array($block['children'])) {
                     $html .= render_tree_plain($block['children'], $answer_index);
@@ -247,8 +244,6 @@ function showAnswer(index) {
     answerArea.style.display = 'block';
 }
 
-//라인 별로 받아오기
-
 
 //화면 크기 재조절
 function autoResize(ta) {
@@ -282,7 +277,7 @@ function updateImageForTextarea(index, ta) {
         });
 }
 
-//줄번호에 맞춰서 이미지 fetch(일단 보류)
+//줄번호에 맞춰서 이미지 fetch(일단)
 function fetchImageByLineNumber(lineNumber) {
     const problemId = <?= json_encode($problem_id) ?>;
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${lineNumber}`)
