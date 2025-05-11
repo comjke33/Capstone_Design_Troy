@@ -71,9 +71,7 @@ echo json_encode([
         'problem_id' => $problem_id,
         'index1' => $index1,
         'index2' => $index2,
-        'res1' => $res1,
-        'res2' => $res2
-
+        'res' => $res
         // 'index' => $index,
         // 'res' => $res
     ]
