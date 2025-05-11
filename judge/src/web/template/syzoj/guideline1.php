@@ -65,16 +65,8 @@ include("../../guideline_common.php");
                     $html .= "<div class='code-line'>{$line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
-                    $html .= "<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // 해당 텍스트 영역이 존재하는지 확인 후 이미지 업데이트 호출
-        const taElement = document.getElementById('ta_{$answer_index}');
-        if (taElement) {
-            updateImageForTextarea({$answer_index + 1}, taElement);
-        }
-    });
-</script>";
-
+                    // 라인 번호에 맞는 이미지를 업데이트하기 위한 스크립트 추가
+                    // $html .= "<script>updateImageForTextarea({$answer_index + 1}, document.getElementById('ta_{$answer_index}'));</script>";  // 라인 번호에 맞춰 이미지 업데이트
 
                     $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
                     $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
