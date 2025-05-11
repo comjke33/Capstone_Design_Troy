@@ -326,7 +326,7 @@ function smoothFollowImage() {
 
     // 목표 위치: textarea의 상단 위치에 맞춰서 옆에 띄우기
     const targetTop = taRect.top + scrollY;
-    const targetLeft = taRect.right + scrollX - 20; // textarea 오른쪽 옆 20px
+    const targetLeft = taRect.left + scrollX + 20; // textarea 오른쪽 옆 20px
 
     // 현재 위치 가져오기 (정확한 계산 위해 getComputedStyle 사용)
     const currentTop = parseFloat(getComputedStyle(img).top) || 0;
