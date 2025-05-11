@@ -89,10 +89,8 @@
 #flowchart_image {
     position: absolute;
     left: 20px;             /* or wherever you want it anchored */
-    top: 200px;             /* optional 초기값 */
     z-index: 1000;
     width: 250px;
-    transition: top 0.1s linear; /* optional smooth movement */
 }
 
 /* 가운데 코드 입력 영역 */
