@@ -326,19 +326,20 @@ function smoothFollowImage() {
     let targetTop = taRect.top + scrollY - img.offsetHeight + 100;
 
     // 화면 기준 제한
-    const minTop = scrollY + 0; // 화면 상단 + 여백
-    const maxTop = scrollY + window.innerHeight - img.offsetHeight; // 화면 하단 - 이미지 높이
+    const minTop = scrollY;
+    const maxTop = scrollY + window.innerHeight - img.offsetHeight;
 
-    // 제한된 위치로 보정
     targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
 
-    const currentTop = parseFloat(img.style.top) || 0;
-    const nextTop = currentTop + (targetTop - currentTop) * 0.1;
+    // 현재 위치 계산 (getComputedStyle로 정확한 값 사용)
+    const currentTop = parseFloat(getComputedStyle(img).top) || 0;
+    const nextTop = currentTop + (targetTop - currentTop) * 0.3; // 이동 비율 증가
 
     img.style.top = `${nextTop}px`;
 
     requestAnimationFrame(smoothFollowImage);
 }
+
 
 // textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
