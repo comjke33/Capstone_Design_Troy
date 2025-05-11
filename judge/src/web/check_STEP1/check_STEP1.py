@@ -11,7 +11,20 @@ def filter_code_lines(code_lines):
     """태그 줄 제거된 실제 코드 줄만 반환"""
     return [line for line in code_lines if not is_tag_line(line)]
 
+def get_actual_line_index(code_lines, logical_line_number):
+    """
+    논리적 줄 번호(= 태그 제외 후 학생이 본 줄 번호) → 실제 파일 내 줄 인덱스 반환
+    """
+    count = 0
+    for i, line in enumerate(code_lines):
+        if not is_tag_line(line):
+            count += 1
+        if count == logical_line_number:
+            return i
+    return None
+
 def print_code_with_line_numbers(code_lines, title):
+    """태그 줄 제외 후 줄 번호 붙여서 출력"""
     print(f"\n🔹 {title}")
     real_lines = filter_code_lines(code_lines)
     for i, line in enumerate(real_lines, start=1):
@@ -20,17 +33,6 @@ def print_code_with_line_numbers(code_lines, title):
 def read_code_lines(filename):
     with open(filename, 'r') as f:
         return f.readlines()
-
-def print_code_with_line_numbers(code_lines, title):
-    print(f"\n🔹 {title}")
-    for i, line in enumerate(code_lines, start=1):
-        print(f"{i:3}: {line.rstrip()}")
-
-def replace_line(code_lines, line_number, student_line):
-    new_code = code_lines[:]
-    original = new_code[line_number - 1]
-    new_code[line_number - 1] = student_line + '\n'
-    return new_code, original
 
 def generate_ast(code_lines):
     with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False) as temp_file:
@@ -50,12 +52,11 @@ def generate_ast(code_lines):
             return None
 
 def main():
-    original_code_lines = read_code_lines("1290_step1.txt")
+    filename = "1290_step1.txt"
+    original_code_lines = read_code_lines(filename)
 
-    # 태그 제외한 줄만 보여주기
     print_code_with_line_numbers(original_code_lines, "🔍 원본 코드 (수정할 줄 선택)")
 
-    # 입력 받기
     try:
         line_num = int(input("\n✏️ 바꿀 줄 번호 입력: "))
         student_line = input("✏️ 학생 코드 한 줄 입력: ")
@@ -63,25 +64,20 @@ def main():
         print("⚠️ 숫자와 코드 줄을 올바르게 입력하세요.")
         return
 
-    # 태그 제외한 실제 줄들만 필터링해서 줄 번호에 맞는 위치 찾기
-    real_lines = filter_code_lines(original_code_lines)
-    if not (1 <= line_num <= len(real_lines)):
-        print("⚠️ 줄 번호가 유효하지 않습니다.")
+    # 실제 파일 내 줄 인덱스 확인
+    actual_idx = get_actual_line_index(original_code_lines, line_num)
+    if actual_idx is None:
+        print("⚠️ 유효하지 않은 줄 번호입니다.")
         return
-
-    # 실제 줄 번호 매핑 (전체에서 몇 번째 줄인지)
-    actual_line_idx = [i for i, line in enumerate(original_code_lines) if not is_tag_line(line)][line_num - 1]
 
     # 코드 교체
     modified_code_lines = original_code_lines[:]
-    original_line = modified_code_lines[actual_line_idx]
-    modified_code_lines[actual_line_idx] = student_line + '\n'
+    original_line = modified_code_lines[actual_idx]
+    modified_code_lines[actual_idx] = student_line + '\n'
 
-    print(f"\n[🔁] {line_num}번 줄 교체됨:\n  원본: {original_line.strip()}\n  입력: {student_line}")
-
+    print(f"\n[🔁] {line_num}번 줄 교체됨:\n  ▶ 원본: {original_line.strip()}\n  ▶ 입력: {student_line.strip()}")
     print_code_with_line_numbers(modified_code_lines, "✏️ 수정된 코드")
 
-    # AST 생성 (태그 제외한 코드로만)
     print("\n[🧠] AST 분석 중 (원본)...")
     original_ast = generate_ast(filter_code_lines(original_code_lines))
     if original_ast is None:
@@ -106,7 +102,6 @@ def main():
             lineterm=''
         )
         print('\n'.join(diff))
-
 
 if __name__ == "__main__":
     main()
