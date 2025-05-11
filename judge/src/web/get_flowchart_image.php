@@ -33,8 +33,8 @@ if ($problem_id <= 0) {
 // 테스트용 쿼리
     $sql = "SELECT png_address FROM flowchart 
             WHERE problem_id = 1256
-            AND start_num <= 2 
-            AND end_num >= 2 
+            AND start_num <= 1 
+            AND end_num >= 1
             LIMIT 1";
 
 
