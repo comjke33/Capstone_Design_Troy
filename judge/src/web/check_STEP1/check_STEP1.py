@@ -165,6 +165,8 @@ def main():
         print("\n❌ AST 차이 있음 (의미 변경 가능성이 있습니다)")
 
     print_ast_diff(original_ast, modified_ast)
+    print(norm_modified)
+    print(norm_original)
 
 if __name__ == "__main__":
     main()
