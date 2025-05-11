@@ -56,7 +56,7 @@
   display: block;
 }
 .hidden-desktop {
-  display: none;
+  
 }
 @media (max-width: 767px) {
   .visible-phone {

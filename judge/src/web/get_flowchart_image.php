@@ -23,26 +23,19 @@ if ($problem_id <= 0 || $index1 <= 0 || $index2 <= 0) {
             'index2' => $index2,
             // 'index' => $index,
 
-            'res1' => $res1,
-            'res2' => $res2
+            'res' => $res
             // 'res' => $res
         ]
     ]);
     exit;
 }
 
-//DB에서 링크를 가져와서 링크를 구현
-// $sql = "SELECT png_address FROM flowchart 
-//         WHERE problem_id = ? 
-//         AND start_num <= ?
-//         AND end_num >= ?
-//         LIMIT 1";
-
 // 테스트용 쿼리
 $problem_id = 1256;  // 테스트할 problem_id
 $index1 = 5;  // 테스트할 index (start_num과 end_num에 맞는 번호)
 $index2 = 6;
 
+//DB에서 링크를 가져와서 링크를 구현
 $sql = "SELECT png_address FROM flowchart 
         WHERE problem_id = ? 
         AND start_num <= ? 
@@ -71,8 +64,8 @@ echo json_encode([
         'problem_id' => $problem_id,
         'index1' => $index1,
         'index2' => $index2,
-        'res' => $res
+
         // 'index' => $index,
-        // 'res' => $res
+        'res' => $res
     ]
 ]);
