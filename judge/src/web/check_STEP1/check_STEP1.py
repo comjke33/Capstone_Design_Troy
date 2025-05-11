@@ -107,7 +107,7 @@ def main():
     # 코드 교체
     modified_code_lines = original_code_lines[:]
     original_line = modified_code_lines[actual_idx]
-    modified_code_lines[actual_idx] = student_line + '\n'
+    modified_code_lines[actual_idx] = student_line + '\n\n'
 
     # 들여쓰기를 원본 코드에 맞게 조정
     modified_code_lines = adjust_indentation(original_code_lines, modified_code_lines, actual_idx + 1)
