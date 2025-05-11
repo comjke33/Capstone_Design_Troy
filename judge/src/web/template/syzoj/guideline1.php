@@ -329,21 +329,23 @@ function smoothFollowImage() {
         return;
     }
 
-    // 🎯 목표 위치: 절대 좌표 기준 (스크롤 포함된 중심 위치)
+    // 🎯 이미지가 스크롤을 포함한 절대 좌표로 따라가게 설정
     const targetTop = taCenterY - imgHeight / 2;
 
-    // 🎯 현재 이미지 위치 (스크롤 기준 절대 좌표로 계산)
-    const currentTop = img.getBoundingClientRect().top + scrollY;
+    // 현재 이미지의 절대 위치 (스크롤 포함)
+    const imgRect = img.getBoundingClientRect();
+    const currentTop = imgRect.top + scrollY;
 
-    // 🎯 보간 이동
+    // 🎯 보간 계산
     const speed = 0.2;
     const nextTop = currentTop + (targetTop - currentTop) * speed;
 
-    // 직접 절대 위치 지정
+    // 직접 절대 위치 적용
     img.style.top = `${nextTop}px`;
 
     requestAnimationFrame(smoothFollowImage);
 }
+
 
 
 // textarea 클릭 시 트리거
