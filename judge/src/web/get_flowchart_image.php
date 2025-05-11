@@ -35,10 +35,11 @@ $res = pdo_query($sql, $problem_id, $index, $index);
 
 if (count($res) > 0) {
     $filename =($res[0]['png_address'] . ".png");
-    $url = ($res[0]['png_address'] . ".png");
-    // $url = "/flowcharts/1000_1.png";
+    // $url = ($res[0]['png_address'] . ".png");
+    $url = "/flowcharts/" . $filename; // 실제 이미지 경로
+    
 } else {
-    $url = $default_img;
+    $url = "";
 }
 
 // 디버깅 용 default 이미지 설정
