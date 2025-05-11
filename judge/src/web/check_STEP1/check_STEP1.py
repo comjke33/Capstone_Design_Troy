@@ -29,6 +29,11 @@ def generate_ast(code_lines):
             print(f"[❌] AST 파싱 실패:\n{e.stderr}")
             return None
 
+def print_code_with_line_numbers(code_lines, title):
+    print(f"\n🔹 {title}")
+    for i, line in enumerate(code_lines, start=1):
+        print(f"{i:3}: {line.rstrip()}")
+
 def main():
     original_code_lines = read_code_lines("1290_step1.txt")
 
@@ -42,6 +47,9 @@ def main():
     modified_code_lines, original_line = replace_line(original_code_lines, line_num, student_line)
 
     print(f"\n[🔁] Replaced line {line_num}:\n  original: {original_line.strip()}\n  new     : {student_line}")
+
+    print_code_with_line_numbers(original_code_lines, "🔍 원본 코드")
+    print_code_with_line_numbers(modified_code_lines, "✏️ 수정된 코드")
 
     print("\n[🧠] Parsing original code...")
     original_ast = generate_ast(original_code_lines)
