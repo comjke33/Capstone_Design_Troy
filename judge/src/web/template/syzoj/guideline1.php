@@ -320,10 +320,8 @@ function smoothFollowImage() {
 
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
-    const scrollX = window.scrollX || document.documentElement.scrollLeft;
 
     const taTop = taRect.top + scrollY;
-    const taLeft = taRect.left + scrollX;
 
     const taCenterY = taTop + taRect.height / 2;
     const imgHeight = img.offsetHeight;
@@ -337,7 +335,6 @@ function smoothFollowImage() {
 
     // 🎯 목표 위치 계산
     let targetTop = taCenterY - imgHeight / 2;
-    let targetLeft = taLeft - imgWidth - 10;  // textarea 왼쪽에 10px 간격
 
     // 🎯 화면 바깥으로 나가지 않게 제한
     const minTop = scrollY + 10;
@@ -345,15 +342,12 @@ function smoothFollowImage() {
     targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
 
     const currentTop = parseFloat(img.style.top) || (img.getBoundingClientRect().top + scrollY);
-    const currentLeft = parseFloat(img.style.left) || (img.getBoundingClientRect().left + scrollX);
 
     // 🎯 이동 속도 조절 (0.1로 줄임 → 더 느리게, 더 부드럽게)
     const speed = 0.1;
     const nextTop = currentTop + (targetTop - currentTop) * speed;
-    const nextLeft = currentLeft + (targetLeft - currentLeft) * speed;
 
     img.style.top = `${nextTop}px`;
-    img.style.left = `${nextLeft}px`;
 
     requestAnimationFrame(smoothFollowImage);
 }
