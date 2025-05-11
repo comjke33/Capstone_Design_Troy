@@ -322,28 +322,33 @@ function smoothFollowImage() {
 
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
+    const scrollX = window.scrollX || document.documentElement.scrollLeft;
 
-    let targetTop = taRect.top + scrollY - img.offsetHeight + 100;
+    // 정확히 textarea의 상단에 위치하도록 설정
+    const targetTop = taRect.top + scrollY;
 
-    // 화면 기준 제한
-    const minTop = scrollY + 200; // 화면 상단 + 여백
-    const maxTop = scrollY + window.innerHeight - img.offsetHeight; // 화면 하단 - 이미지 높이
+    // 왼쪽으로 약간 떨어져서 배치 (필요시 조절)
+    const targetLeft = taRect.left + scrollX - img.offsetWidth - 20;
 
-    // 제한된 위치로 보정
-    targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
+    // 현재 위치
+    const currentTop = parseFloat(getComputedStyle(img).top) || 0;
+    const currentLeft = parseFloat(getComputedStyle(img).left) || 0;
 
-    const currentTop = parseFloat(img.style.top) || 0;
-    const nextTop = currentTop + (targetTop - currentTop) * 0.1;
+    // 부드러운 이동
+    const nextTop = currentTop + (targetTop - currentTop) * 0.2;
+    const nextLeft = currentLeft + (targetLeft - currentLeft) * 0.2;
 
     img.style.top = `${nextTop}px`;
+    img.style.left = `${nextLeft}px`;
 
     requestAnimationFrame(smoothFollowImage);
 }
 
+
 // textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
-    ta.addEventListener("focus", () => fetchImageByLineNumber(idx)); // +1로 라인번호 맞추기
+    ta.addEventListener("focus", () => fetchImageByLineNumber(idx)); //라인번호 맞추기
     });
 });
 
