@@ -294,6 +294,9 @@ function fetchImageByLineNumber(lineNumber) {
         .then(response => response.json())
         .then(data => {
             let img = document.getElementById("flowchart_image");
+            
+            console.log("서버 응답 데이터:", data);  // 응답 데이터 출력
+
             if (data.url && data.url.trim() !== "") {
                 // 이미지가 존재할 때만 보여주기
                 img.src = data.url;
@@ -338,10 +341,13 @@ function smoothFollowImage() {
     const currentTop = parseFloat(img.style.top) || 0;
     const nextTop = currentTop + (targetTop - currentTop) * 0.1;
 
-    img.style.top = `${nextTop}px`;
+    img.style.top = `${nextTop}px`;  // 이미지의 'top' 위치를 변경
+
+    console.log("이미지 top 위치:", nextTop);  // 이미지 위치 디버깅 출력
 
     requestAnimationFrame(smoothFollowImage);
 }
+
 
 // textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
