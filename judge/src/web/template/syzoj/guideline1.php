@@ -322,7 +322,7 @@ function smoothFollowImage() {
     const scrollY = window.scrollY || document.documentElement.scrollTop;
     const taTop = taRect.top + scrollY;
 
-    const targetTop = taTop - img.offsetHeight + 300; // 조정: 텍스트 위에 표시
+    const targetTop = taRect.top + scrollY;
     const currentTop = parseFloat(img.style.top) || (img.getBoundingClientRect().top + scrollY);
     const nextTop = currentTop + (targetTop - currentTop) * 0.2;
 
