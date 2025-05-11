@@ -31,11 +31,11 @@ if ($problem_id <= 0) {
 //         LIMIT 1";
 
 // 테스트용 쿼리
-"SELECT png_address FROM flowchart 
-WHERE problem_id = 1256
-AND start_num <= 2 
-AND end_num >= 2 
-LIMIT 1";
+    $sql = "SELECT png_address FROM flowchart 
+            WHERE problem_id = 1256
+            AND start_num <= 2 
+            AND end_num >= 2 
+            LIMIT 1";
 
 
 $res = pdo_query($sql, $problem_id, $index, $index);
