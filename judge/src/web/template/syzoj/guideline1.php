@@ -321,34 +321,23 @@ function smoothFollowImage() {
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-    // textarea의 중앙 Y 좌표 (절대 위치)
     const taCenterY = taRect.top + scrollY + taRect.height / 2;
-
-    // 이미지 높이
     const imgHeight = img.offsetHeight;
 
-    // 이미지 높이 미확정이면 다음 프레임으로
     if (!imgHeight || imgHeight === 0) {
         requestAnimationFrame(smoothFollowImage);
         return;
     }
 
-    // 이미지 중앙이 textarea 중앙과 맞도록 조정
-    let targetTop = taCenterY - imgHeight / 2;
+    // 🎯 제한 없이 중앙 정렬만 수행
+    const targetTop = taCenterY - imgHeight / 2;
 
-    // 화면 상단/하단 제한 (viewport 기준)
-    const minTop = scrollY + 10;
-    const maxTop = scrollY + window.innerHeight - imgHeight - 10;
-    targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
-
-    // 현재 top 값 (style로 지정한 px 값 해석 또는 실시간 위치)
     const currentStyleTop = parseFloat(img.style.top);
     const currentTop = isNaN(currentStyleTop)
         ? img.getBoundingClientRect().top + scrollY
         : currentStyleTop;
 
-    // 보간 처리: 부드럽게 이동
-    const speed = 0.15;  // 적당히 부드러운 속도
+    const speed = 0.15;
     const nextTop = currentTop + (targetTop - currentTop) * speed;
 
     img.style.top = `${nextTop}px`;
