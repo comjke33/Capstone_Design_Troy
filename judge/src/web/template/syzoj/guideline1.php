@@ -257,17 +257,48 @@ function autoResize(ta) {
 let currentTextarea = null;
 let animationRunning = false;
 
-//flowchart렌더링 
+
+// 이미지 위치를 텍스트영역 왼쪽에 맞추고, 스크롤을 따라가게 설정
+function updateImagePosition() {
+    const img = document.getElementById("flowchart_image");
+    if (!img || !currentTextarea) {
+        animationRunning = false;
+        return;
+    }
+
+    // `textarea`의 위치를 계산
+    const taRect = currentTextarea.getBoundingClientRect();
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+    // `textarea`의 왼쪽과 상단 위치 계산
+    const targetLeft = taRect.left;
+    const targetTop = taRect.top + scrollY - img.offsetHeight + 200; // 이미지가 `textarea` 위쪽에 따라가게
+
+    // 화면 기준 제한
+    const minTop = scrollY + 200;  // 화면 상단 + 여백
+    const maxTop = scrollY + window.innerHeight - img.offsetHeight;  // 화면 하단 - 이미지 높이
+
+    // 제한된 위치로 보정
+    const finalTop = Math.max(minTop, Math.min(targetTop, maxTop));
+
+    // 이미지 위치 업데이트
+    img.style.left = `${targetLeft}px`;
+    img.style.top = `${finalTop}px`;
+
+    // 스크롤을 따라가며 위치를 실시간으로 업데이트
+    requestAnimationFrame(updateImagePosition);  // 계속해서 이미지를 업데이트
+}
+
+// 클릭한 `textarea`에 맞춰 이미지 위치 업데이트
 function updateImageForTextarea(index, ta) {
-    // 현재 textarea와 관련된 이미지 업데이트
     currentTextarea = ta;
-    
+
     // 플로우차트 이미지를 가져오기 위한 API 호출
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
             let img = document.getElementById("flowchart_image");
-            
+
             // 이미지가 없으면 동적으로 추가할 수 있지만, 여기서는 기존 이미지를 사용
             if (!img) {
                 img = document.createElement("img");
@@ -278,11 +309,8 @@ function updateImageForTextarea(index, ta) {
             img.src = data.url;  // 서버에서 받은 이미지 URL로 설정
             console.log("서버 디버그 데이터:", data.debug);
 
-            // 애니메이션 시작 (이미지가 부드럽게 따라가게)
-            if (!animationRunning) {
-                animationRunning = true;
-                smoothFollowImage(); // 이미지를 부드럽게 따라가기 시작
-            }
+            // 위치를 실시간으로 추적하여 이미지가 `textarea` 왼쪽에 따라가도록
+            updateImagePosition();  // 이미지 위치 업데이트 함수 호출
         });
 }
 
@@ -318,7 +346,7 @@ function fetchImageByLineNumber(lineNumber) {
 }
 
 
-// 이미지 위치를 텍스트영역 왼쪽에 맞추고 스크롤을 따라가게 설정
+//이미지 매끄러운 이동
 function smoothFollowImage() {
     const img = document.getElementById("flowchart_image");
     if (!img || !currentTextarea) {
@@ -341,19 +369,14 @@ function smoothFollowImage() {
 
     const currentTop = parseFloat(img.style.top) || 0;
     // 현재 top과 finalTop 사이의 차이를 그대로 적용하여 더 큰 이동 범위 만들기
-    const nextTop = currentTop + (finalTop - currentTop) * 0.2;  // 이동 범위를 20%로 설정 (조정 가능)
+    const nextTop = currentTop + (finalTop - currentTop);  // 비율 없이 직접 차이를 사용
 
     // 이미지 위치 업데이트
-    img.style.left = `${taRect.left}px`;  // `textarea` 왼쪽에 위치하도록
-    img.style.top = `${nextTop}px`;  // `top` 위치 업데이트
+    img.style.top = `${nextTop}px`;
 
-    // 애니메이션 부드럽게 실행
-    if (Math.abs(finalTop - currentTop) > 1) {
-        requestAnimationFrame(smoothFollowImage);
-    } else {
-        animationRunning = false;  // 애니메이션이 끝나면 실행 상태 종료
-    }
+    requestAnimationFrame(smoothFollowImage);  // 애니메이션 부드럽게 실행
 }
+
 
 // 클릭한 `textarea`에 맞춰 이미지 위치 업데이트
 function updateImageForTextarea(index, ta) {
