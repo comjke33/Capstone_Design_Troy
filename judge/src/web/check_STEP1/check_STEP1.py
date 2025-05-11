@@ -29,11 +29,28 @@ def normalize_ast(ast_str):
     cleaned = [line.strip() for line in lines if line.strip()]
     return '\n'.join(cleaned)
 
+def clean_code(code_lines):
+    """코드에서 불필요한 공백 및 들여쓰기를 자동으로 처리"""
+    cleaned_lines = []
+    
+    for line in code_lines:
+        # 양쪽 공백 제거
+        line = line.strip()
+        
+        # 여러 공백을 하나로 압축
+        line = re.sub(r'\s+', ' ', line)
+        
+        # 정리된 라인 추가
+        cleaned_lines.append(line)
+    
+    return cleaned_lines
+
 def print_code_with_line_numbers(code_lines, title):
     """태그 줄 제외 후 줄 번호 붙여서 출력"""
     print(f"\n🔹 {title}")
     real_lines = filter_code_lines(code_lines)
-    for i, line in enumerate(real_lines, start=1):
+    cleaned_lines = clean_code(real_lines)
+    for i, line in enumerate(cleaned_lines, start=1):
         print(f"{i:3}: {line.rstrip()}")
 
 def read_code_lines(filename):
