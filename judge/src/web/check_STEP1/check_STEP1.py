@@ -58,8 +58,12 @@ def read_code_lines(filename):
         return f.readlines()
 
 def generate_ast(code_lines):
+    """태그를 제거한 코드로만 AST 생성"""
+    # 태그가 제거된 코드만 사용해서 AST 생성
+    code_lines_no_tags = filter_code_lines(code_lines)
+    
     with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False) as temp_file:
-        temp_file.write(''.join(code_lines))
+        temp_file.write(''.join(code_lines_no_tags))
         temp_file.flush()
         try:
             result = subprocess.run(
@@ -115,18 +119,21 @@ def main():
 
     print(f"\n[🔁] {line_num}번 줄 교체됨:\n  ▶ 원본: {original_line.strip()}\n  ▶ 입력: {student_line.strip()}")
 
-    # 수정된 코드 출력
+    # 수정된 코드 출력 (태그 제거 후)
     print("\n🔹 ✏️ 수정된 전체 코드:")
-    print(''.join(modified_code_lines))
+    real_modified_code = filter_code_lines(modified_code_lines)
+    cleaned_modified_code = clean_code(real_modified_code)
+    for line in cleaned_modified_code:
+        print(line)
 
     print("\n[🧠] AST 분석 중 (원본)...")
-    original_ast = generate_ast(filter_code_lines(original_code_lines))
+    original_ast = generate_ast(original_code_lines)
     if original_ast is None:
         print("[🚫] 원본 코드 AST 생성 실패")
         return
 
     print("\n[🧠] AST 분석 중 (수정본)...")
-    modified_ast = generate_ast(filter_code_lines(modified_code_lines))
+    modified_ast = generate_ast(modified_code_lines)
     if modified_ast is None:
         print("[🚫] 수정 코드 AST 생성 실패")
         return
