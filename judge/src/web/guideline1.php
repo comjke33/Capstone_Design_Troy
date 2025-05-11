@@ -16,7 +16,7 @@ $OJ_BLOCK_TREE = guidelineFilter($guideline_contents);
 $OJ_CORRECT_ANSWERS = codeFilter($tagged_contents);
 $OJ_SID = "STEP 1";
 //태그가 제거된 원문 추출
-$OnlyGuideline = guideline_contents($guideline_contents);
+// $OnlyGuideline = guideline_contents($guideline_contents);
 
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
 $index = isset($_GET['index']) ? intval($_GET['index']) : -1;
