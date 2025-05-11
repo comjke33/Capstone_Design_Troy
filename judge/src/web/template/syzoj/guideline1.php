@@ -324,17 +324,17 @@ function smoothFollowImage() {
     const scrollY = window.scrollY || document.documentElement.scrollTop;
     const scrollX = window.scrollX || document.documentElement.scrollLeft;
 
-    // 정확히 textarea 위치 기준
+    // textarea 상단에 맞춤 (더 이상 offsetHeight로 조정 안함)
     const targetTop = taRect.top + scrollY;
 
-    // 왼쪽에 붙이기: textarea 왼쪽 위치 - 이미지 너비 - 여백
+    // textarea 왼쪽에 위치하도록
     const targetLeft = taRect.left + scrollX - img.offsetWidth - 20;
 
     // 현재 위치
     const currentTop = parseFloat(getComputedStyle(img).top) || 0;
     const currentLeft = parseFloat(getComputedStyle(img).left) || 0;
 
-    // 부드러운 이동 처리
+    // 부드럽게 이동
     const nextTop = currentTop + (targetTop - currentTop) * 0.3;
     const nextLeft = currentLeft + (targetLeft - currentLeft) * 0.3;
 
@@ -343,6 +343,7 @@ function smoothFollowImage() {
 
     requestAnimationFrame(smoothFollowImage);
 }
+
 
 
 // textarea 클릭 시 이미지 로드
