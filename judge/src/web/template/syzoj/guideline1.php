@@ -45,41 +45,45 @@ include("../../guideline_common.php");
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
 
         <?php      
-        function render_tree_plain($blocks, &$answer_index = 0) {
+                function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
-        
+
             foreach ($blocks as $block) {
                 $depth = $block['depth'];
                 $margin_left = $depth * 30;
-        
+
                 if ($block['type'] === 'text') {
                     $raw = trim($block['content']);
                     if ($raw === '') continue;
-        
+
                     $line = htmlspecialchars($block['content']);
                     $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
                     $disabled = $has_correct_answer ? "" : "disabled";
-        
+
+                    // 출력되는 각 줄에 대해 이미지 업데이트 스크립트 삽입
                     $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
                     $html .= "<div class='code-line'>{$line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
-        
-                    // 🔥 버튼 항상 표시
+
+                    // 라인 번호에 맞는 이미지를 업데이트하기 위한 스크립트 추가
+                    $html .= "<script>updateImageForTextarea({$answer_index + 1}, document.getElementById('ta_{$answer_index}'));</script>";  // 라인 번호에 맞춰 이미지 업데이트
+
                     $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
                     $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
-        
+
                     $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                     $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
                     $html .= "</div>";
-        
+
                     $answer_index++;
                 } else if (isset($block['children']) && is_array($block['children'])) {
                     $html .= render_tree_plain($block['children'], $answer_index);
                 }
             }
-        
+
             return $html;
-        }     
+        }
+
 
         $answer_index = 0;
         echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
@@ -244,6 +248,8 @@ function showAnswer(index) {
     answerArea.style.display = 'block';
 }
 
+//라인 별로 받아오기
+
 
 //화면 크기 재조절
 function autoResize(ta) {
@@ -254,30 +260,37 @@ function autoResize(ta) {
 let currentTextarea = null;
 let animationRunning = false;
 
-//flowchart렌더링 및 매끄러운 이동
+//flowchart렌더링 
 function updateImageForTextarea(index, ta) {
+    // 현재 textarea와 관련된 이미지 업데이트
     currentTextarea = ta;
+    
+    // 플로우차트 이미지를 가져오기 위한 API 호출
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
             let img = document.getElementById("flowchart_image");
+            
+            // 이미지가 없으면 동적으로 추가할 수 있지만, 여기서는 기존 이미지를 사용
             if (!img) {
-                // img = document.createElement("img");
-                // img.id = "flowchart_image";
-                // document.body.appendChild(img);
+                img = document.createElement("img");
+                img.id = "flowchart_image";
+                document.body.appendChild(img);  // 필요에 따라 이미지 태그를 동적으로 생성
             }
 
-            img.src = data.url;
+            img.src = data.url;  // 서버에서 받은 이미지 URL로 설정
             console.log("서버 디버그 데이터:", data.debug);
 
+            // 애니메이션 시작 (이미지가 부드럽게 따라가게)
             if (!animationRunning) {
                 animationRunning = true;
-                smoothFollowImage(); // 따라오기 시작
+                smoothFollowImage(); // 이미지를 부드럽게 따라가기 시작
             }
         });
 }
 
-//줄번호에 맞춰서 이미지 fetch(일단)
+
+//줄번호에 맞춰서 이미지 fetch(일단 보류)
 function fetchImageByLineNumber(lineNumber) {
     const problemId = <?= json_encode($problem_id) ?>;
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${lineNumber}`)
