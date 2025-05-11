@@ -13,7 +13,7 @@ $index = isset($_GET['index']) ? intval($_GET['index']) : -1;
 // $res = pdo_query($sql, $problem_id);
 
 // 문제 ID와 인덱스가 잘못된 경우
-if ($problem_id <= 0 || $index1 <= 0 || $index2 <= 0) {
+if ($problem_id <= 0) {
     echo json_encode([
         'success' => false,
         'url' => '',
