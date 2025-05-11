@@ -5,19 +5,27 @@ header("Content-Type: application/json");
 
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
 //$problem_id=9944;
-$index = isset($_GET['index']) ? intval($_GET['index']) : -1;
+
+$index1 = isset($_GET['index1']) ? intval($_GET['index1']) : -1;
+$index2 = isset($_GET['index2']) ? intval($_GET['index2']) : -1;
+// $index = isset($_GET['index']) ? intval($_GET['index']) : -1;
 // 디버깅 용 default 이미지 설정
 // $res = pdo_query($sql, $problem_id);
 
-
-if ($problem_id <= 0) {
+// 문제 ID와 인덱스가 잘못된 경우
+if ($problem_id <= 0 || $index1 <= 0 || $index2 <= 0) {
     echo json_encode([
-        'success' => true,
-        'url' => $url,
+        'success' => false,
+        'url' => '',
         'debug' => [
             'problem_id' => $problem_id,
-            'index' => $index,
-            'res' => $res
+            'index1' => $index1,
+            'index2' => $index2,
+            // 'index' => $index,
+
+            'res1' => $res1,
+            'res2' => $res2
+            // 'res' => $res
         ]
     ]);
     exit;
@@ -61,7 +69,12 @@ echo json_encode([
     'url' => $url,
     'debug' => [
         'problem_id' => $problem_id,
-        'index' => $index,
-        'res' => $res
+        'index1' => $index1,
+        'index2' => $index2,
+        'res1' => $res1,
+        'res2' => $res2
+
+        // 'index' => $index,
+        // 'res' => $res
     ]
 ]);
