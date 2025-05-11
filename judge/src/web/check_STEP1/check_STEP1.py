@@ -4,7 +4,7 @@ import tempfile
 from pycparser import parse_file, c_ast
 
 # 경로 설정
-from_path = "for_test.json"
+from_path = "questions_and_codes.json"
 
 # pycparser fake libc include 경로 설정
 import pycparser
