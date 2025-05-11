@@ -329,8 +329,6 @@ function smoothFollowImage() {
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-    // `textarea` 왼쪽에 이미지 위치
-    const targetLeft = taRect.left;  // 왼쪽 위치
     const targetTop = taRect.top + scrollY - img.offsetHeight + 200;
 
     // 화면 기준 제한
@@ -344,7 +342,6 @@ function smoothFollowImage() {
     const nextTop = currentTop + (finalTop - currentTop) * 0.1;
 
     // 이미지 위치 업데이트 (왼쪽 위치를 `textarea`에 맞춤)
-    img.style.left = `${targetLeft}px`;
     img.style.top = `${nextTop}px`;
 
     requestAnimationFrame(smoothFollowImage);  // 애니메이션 부드럽게 실행
