@@ -280,29 +280,36 @@ function updateImageForTextarea(index, ta) {
 //줄번호에 맞춰서 이미지 fetch
 function fetchImageByLineNumber(lineNumber) {
     const problemId = <?= json_encode($problem_id) ?>;
+    const ta = document.querySelectorAll("textarea[id^='ta_']")[lineNumber];
+    if (ta) currentTextarea = ta; // currentTextarea 설정
+
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${lineNumber}`)
         .then(response => response.json())
         .then(data => {
             let img = document.getElementById("flowchart_image");
+            if (!img) {
+                img = document.createElement("img");
+                img.id = "flowchart_image";
+                img.style.position = "absolute"; // 위치 설정 필수
+                document.body.appendChild(img);
+            }
+
             if (data.url && data.url.trim() !== "") {
-                // 이미지가 존재할 때만 보여주기
                 img.src = data.url;
                 img.style.display = "block";
-
-                console.log("이미지 업데이트:", data.url);
 
                 if (!animationRunning) {
                     animationRunning = true;
                     smoothFollowImage();
                 }
             } else {
-                // 이미지 없을 때 숨기기
                 img.style.display = "none";
-                console.log("이미지 없음. 숨김 처리됨.");
+                animationRunning = false;
             }
         })
         .catch(error => console.error('Error:', error));
 }
+
 
 
 //이미지 매끄러운 이동
