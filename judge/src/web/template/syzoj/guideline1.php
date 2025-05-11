@@ -329,21 +329,22 @@ function smoothFollowImage() {
         return;
     }
 
-    // 🎯 제한 없이 중앙 정렬만 수행
+    // 🎯 목표 위치: 절대 좌표 기준 (스크롤 포함된 중심 위치)
     const targetTop = taCenterY - imgHeight / 2;
 
-    const currentStyleTop = parseFloat(img.style.top);
-    const currentTop = isNaN(currentStyleTop)
-        ? img.getBoundingClientRect().top + scrollY
-        : currentStyleTop;
+    // 🎯 현재 이미지 위치 (스크롤 기준 절대 좌표로 계산)
+    const currentTop = img.getBoundingClientRect().top + scrollY;
 
-    const speed = 0.15;
+    // 🎯 보간 이동
+    const speed = 0.2;
     const nextTop = currentTop + (targetTop - currentTop) * speed;
 
+    // 직접 절대 위치 지정
     img.style.top = `${nextTop}px`;
 
     requestAnimationFrame(smoothFollowImage);
 }
+
 
 // textarea 클릭 시 트리거
 document.addEventListener("DOMContentLoaded", () => {
