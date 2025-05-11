@@ -122,8 +122,6 @@ def process_guideline(text):
                 "index": idx
             })
         all_results.append(results)
-        for result in all_results:
-            print(result)
     return all_results  # 함수별 리스트
 
 ###########################
