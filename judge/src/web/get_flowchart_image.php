@@ -8,7 +8,6 @@ $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
 $index = isset($_GET['index']) ? intval($_GET['index']) : -1;
 // 디버깅 용 default 이미지 설정
 // $res = pdo_query($sql, $problem_id);
-$default_img = "./flowcharts/default.png";
 
 
 if ($problem_id <= 0) {
@@ -39,7 +38,7 @@ if (count($res) > 0) {
     $url = ($res[0]['png_address'] . ".png");
     // $url = "/flowcharts/1000_1.png";
 } else {
-    $url = $default_img;
+    $url = "";
 }
 
 // 디버깅 용 default 이미지 설정
