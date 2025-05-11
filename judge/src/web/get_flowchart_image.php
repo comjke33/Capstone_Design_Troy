@@ -29,7 +29,7 @@ if ($problem_id <= 0) {
 
 // 테스트용 쿼리
 $problem_id = 1256;  // 테스트할 problem_id
-$index = 9;  // 테스트할 index (start_num과 end_num에 맞는 번호)
+$index = 8;  // 테스트할 index (start_num과 end_num에 맞는 번호)
 // $index2 = 6;
 
 //DB에서 링크를 가져와서 링크를 구현
