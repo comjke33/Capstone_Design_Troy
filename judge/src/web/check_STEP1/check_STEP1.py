@@ -1,75 +1,72 @@
-import os
-from tree_sitter import Language, Parser
+import subprocess
+import tempfile
+import difflib
 
-# Tree-sitter C 언어 모듈 로드 (미리 빌드되어 있어야 함)
-C_LANGUAGE_PATH = "./build/my-languages.so"  # 이 경로는 사용자 환경에 따라 조정 필요
-C_LANGUAGE = Language(C_LANGUAGE_PATH, "c")
-
-parser = Parser()
-parser.set_language(C_LANGUAGE)
-
-def load_code_with_tags(filename):
+def read_code_lines(filename):
     with open(filename, 'r') as f:
         return f.readlines()
 
-def strip_tags_and_get_code(lines):
-    return [line for line in lines if not line.strip().startswith('[')]
+def replace_line(code_lines, line_number, student_line):
+    new_code = code_lines[:]
+    original = new_code[line_number - 1]
+    new_code[line_number - 1] = student_line + '\n'
+    return new_code, original
 
-def replace_line(lines, target_line_num, student_line):
-    stripped_lines = strip_tags_and_get_code(lines)
-    # 타겟 라인 번호는 1-based라고 가정
-    if 1 <= target_line_num <= len(stripped_lines):
-        original_line = stripped_lines[target_line_num - 1]
-        stripped_lines[target_line_num - 1] = student_line + "\n"
-        return original_line.strip(), student_line.strip(), ''.join(stripped_lines)
-    else:
-        raise IndexError("Invalid line number")
-
-def parse_code(code, parser):
-    try:
-        tree = parser.parse(bytes(code, 'utf8'))
-        return tree
-    except Exception as e:
-        print("Parse error:", e)
-        return None
+def generate_ast(code_lines):
+    with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False) as temp_file:
+        temp_file.write(''.join(code_lines))
+        temp_file.flush()
+        try:
+            result = subprocess.run(
+                ['clang', '-Xclang', '-ast-dump', '-fsyntax-only', temp_file.name],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=True
+            )
+            return result.stdout
+        except subprocess.CalledProcessError as e:
+            print(f"[❌] AST 파싱 실패:\n{e.stderr}")
+            return None
 
 def main():
-    filename = "1290.step1.txt"
-    if not os.path.exists(filename):
-        print(f"파일 '{filename}'이 존재하지 않습니다.")
+    original_code_lines = read_code_lines("1290_step1.txt")
+
+    try:
+        line_num = int(input("Enter line number to replace: "))
+        student_line = input("Enter student code line: ")
+    except ValueError:
+        print("숫자와 올바른 문자열을 입력해 주세요.")
         return
 
-    original_lines = load_code_with_tags(filename)
-    try:
-        line_number = int(input("Enter line number to replace: "))
-        student_line = input("Enter student code line: ")
+    modified_code_lines, original_line = replace_line(original_code_lines, line_num, student_line)
 
-        original_line, new_line, modified_code = replace_line(original_lines, line_number, student_line)
+    print(f"\n[🔁] Replaced line {line_num}:\n  original: {original_line.strip()}\n  new     : {student_line}")
 
-        print(f"\nReplaced line {line_number}:")
-        print(f"  original: {original_line}")
-        print(f"  new     : {new_line}")
+    print("\n[🧠] Parsing original code...")
+    original_ast = generate_ast(original_code_lines)
+    if original_ast is None:
+        print("[🚫] 원본 코드 AST 생성 실패")
+        return
 
-        print("\nParsing original code...")
-        original_code = ''.join(strip_tags_and_get_code(original_lines))
-        tree_original = parse_code(original_code, parser)
-        if tree_original is None:
-            print("Failed to parse original code.")
-            return
+    print("\n[🧠] Parsing modified code...")
+    modified_ast = generate_ast(modified_code_lines)
+    if modified_ast is None:
+        print("[🚫] 수정 코드 AST 생성 실패")
+        return
 
-        print("Parsing modified code...")
-        tree_modified = parse_code(modified_code, parser)
-        if tree_modified is None:
-            print("Failed to parse modified code.")
-            return
-
-        if tree_original.root_node.sexp() == tree_modified.root_node.sexp():
-            print("\n✅ ASTs match: student code is semantically correct.")
-        else:
-            print("\n❌ ASTs do not match: student code changes the program structure.")
-
-    except Exception as e:
-        print("오류 발생:", e)
+    if original_ast.strip() == modified_ast.strip():
+        print("\n✅ AST 동일: 학생 코드가 의미상 동일합니다.")
+    else:
+        print("\n❌ AST 차이 발생:")
+        diff = difflib.unified_diff(
+            original_ast.splitlines(),
+            modified_ast.splitlines(),
+            fromfile='original',
+            tofile='modified',
+            lineterm=''
+        )
+        print('\n'.join(diff))
 
 if __name__ == "__main__":
     main()
