@@ -278,18 +278,22 @@ function updateImageForTextarea(index, ta) {
 }
 
 //줄번호에 맞춰서 이미지 fetch
-// 줄 번호에 따라 이미지 fetch
 function fetchImageByLineNumber(lineNumber) {
     const problemId = <?= json_encode($problem_id) ?>;
     const ta = document.querySelectorAll("textarea[id^='ta_']")[lineNumber];
-    if (!ta) return;
+    if (ta) currentTextarea = ta; // currentTextarea 설정
 
-    currentTextarea = ta; // ⭐️ 반드시 설정
-    const img = document.getElementById("flowchart_image");
-
-    fetch(`/get_flowchart_image.php?problem_id=${problemId}&index=${lineNumber}`)
-        .then(res => res.json())
+    fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${lineNumber}`)
+        .then(response => response.json())
         .then(data => {
+            let img = document.getElementById("flowchart_image");
+            if (!img) {
+                img = document.createElement("img");
+                img.id = "flowchart_image";
+                img.style.position = "absolute"; // 위치 설정 필수
+                document.body.appendChild(img);
+            }
+
             if (data.url && data.url.trim() !== "") {
                 img.src = data.url;
                 img.style.display = "block";
@@ -303,14 +307,12 @@ function fetchImageByLineNumber(lineNumber) {
                 animationRunning = false;
             }
         })
-        .catch(err => {
-            console.error("이미지 로딩 실패:", err);
-            img.style.display = "none";
-            animationRunning = false;
-        });
+        .catch(error => console.error('Error:', error));
 }
 
-// 이미지 따라다니기
+
+
+//이미지 매끄러운 이동
 function smoothFollowImage() {
     const img = document.getElementById("flowchart_image");
     if (!img || !currentTextarea) {
@@ -321,37 +323,27 @@ function smoothFollowImage() {
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-    const taCenterY = taRect.top + scrollY + taRect.height / 2;
-    const imgHeight = img.offsetHeight;
+    let targetTop = taRect.top + scrollY - img.offsetHeight + 100;
 
-    if (!imgHeight || imgHeight === 0) {
-        requestAnimationFrame(smoothFollowImage);
-        return;
-    }
+    // 화면 기준 제한
+    const minTop = scrollY + 200; // 화면 상단 + 여백
+    const maxTop = scrollY + window.innerHeight - img.offsetHeight; // 화면 하단 - 이미지 높이
 
-    // 🎯 이미지가 스크롤을 포함한 절대 좌표로 따라가게 설정
-    const targetTop = taCenterY - imgHeight / 2;
+    // 제한된 위치로 보정
+    targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
 
-    // 현재 이미지의 절대 위치 (스크롤 포함)
-    const imgRect = img.getBoundingClientRect();
-    const currentTop = imgRect.top + scrollY;
+    const currentTop = parseFloat(img.style.top) || 0;
+    const nextTop = currentTop + (targetTop - currentTop) * 0.1;
 
-    // 🎯 보간 계산
-    const speed = 0.2;
-    const nextTop = currentTop + (targetTop - currentTop) * speed;
-
-    // 직접 절대 위치 적용
     img.style.top = `${nextTop}px`;
 
     requestAnimationFrame(smoothFollowImage);
 }
 
-
-
-// textarea 클릭 시 트리거
-document.addEventListener("DOMContentLoaded", () => {
+// textarea 클릭 시 이미지 로드
+document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
-        ta.addEventListener("focus", () => fetchImageByLineNumber(idx));
+    ta.addEventListener("focus", () => fetchImageByLineNumber(idx)); // +1로 라인번호 맞추기
     });
 });
 
