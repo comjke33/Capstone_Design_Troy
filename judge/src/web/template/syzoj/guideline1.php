@@ -323,17 +323,24 @@ function smoothFollowImage() {
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-    let targetTop = taRect.top + scrollY - img.offsetHeight + 100;
+    const taCenterY = taRect.top + scrollY + taRect.height / 2;
+    const imgHeight = img.offsetHeight;
 
-    // 화면 기준 제한
-    const minTop = scrollY + 200; // 화면 상단 + 여백
-    const maxTop = scrollY + window.innerHeight - img.offsetHeight; // 화면 하단 - 이미지 높이
+    // 이미지 로딩 전일 경우 반복 대기
+    if (!imgHeight || imgHeight === 0) {
+        requestAnimationFrame(smoothFollowImage);
+        return;
+    }
 
-    // 제한된 위치로 보정
-    targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
+    // 🎯 중앙 정렬: 이미지의 중앙 = textarea의 중앙
+    const targetTop = taCenterY - imgHeight / 2;
 
-    const currentTop = parseFloat(img.style.top) || 0;
-    const nextTop = currentTop + (targetTop - currentTop) * 0.1;
+    // 현재 top 계산: 절대 위치 기준
+    const currentTop = img.getBoundingClientRect().top + scrollY;
+
+    // 부드럽게 따라오기
+    const speed = 0.2;
+    const nextTop = currentTop + (targetTop - currentTop) * speed;
 
     img.style.top = `${nextTop}px`;
 
