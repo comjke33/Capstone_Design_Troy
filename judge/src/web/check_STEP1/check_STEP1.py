@@ -144,12 +144,16 @@ def main():
     if original_ast is None:
         print("[🚫] 원본 코드 AST 생성 실패")
         return
+    else:
+        print(original_ast)
 
     print("\n[🧠] AST 분석 중 (수정본)...")
     modified_ast = generate_ast(modified_code_lines)
     if modified_ast is None:
         print("[🚫] 수정 코드 AST 생성 실패")
         return
+    else:
+        print(modified_ast)
 
     # AST 정규화
     norm_original = normalize_ast(original_ast)
