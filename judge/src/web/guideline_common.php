@@ -167,28 +167,28 @@ function extractContentsFlat($blocks) { //트리 구조
 }
 
 //태그제거 하는 필터
-function guidelineOnlyTagFilter($text) {
-    /
-    $tagPattern = '/\[\s*(func_def_start|func_def_end|cond_start|cond_end|rep_start|rep_end|self_start|self_end|struct_start|struct_end)\(?\d*\)?\s*\]/';
+// function guidelineOnlyTagFilter($text) {
+//     /
+//     $tagPattern = '/\[\s*(func_def_start|func_def_end|cond_start|cond_end|rep_start|rep_end|self_start|self_end|struct_start|struct_end)\(?\d*\)?\s*\]/';
 
-    // 텍스트를 줄 단위로 분리
-    $lines = explode("\n", $text);
+//     // 텍스트를 줄 단위로 분리
+//     $lines = explode("\n", $text);
     
-    // 태그를 제거하고 공백과 빈 줄을 제거한 결과를 저장할 배열
-    $cleanedLines = array();
+//     // 태그를 제거하고 공백과 빈 줄을 제거한 결과를 저장할 배열
+//     $cleanedLines = array();
 
-    foreach ($lines as $line) {
-        // 태그를 제거하고 공백을 제거
-        $cleanedLine = preg_replace($tagPattern, '', $line); 
-        $cleanedLine = trim($cleanedLine); // 공백 제거
+//     foreach ($lines as $line) {
+//         // 태그를 제거하고 공백을 제거
+//         $cleanedLine = preg_replace($tagPattern, '', $line); 
+//         $cleanedLine = trim($cleanedLine); // 공백 제거
 
-        // 빈 줄은 제외
-        if (strlen($cleanedLine) > 0) {
-            $cleanedLines[] = $cleanedLine;
-        }
-    }
+//         // 빈 줄은 제외
+//         if (strlen($cleanedLine) > 0) {
+//             $cleanedLines[] = $cleanedLine;
+//         }
+//     }
 
-    // 다시 줄을 합쳐서 반환
-    return implode("\n", $cleanedLines);
-}
+//     // 다시 줄을 합쳐서 반환
+//     return implode("\n", $cleanedLines);
+// }
 
