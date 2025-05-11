@@ -101,7 +101,7 @@ def main():
             tofile='modified',
             lineterm=''
         )
-        print('\n'.join(diff))
+        #print('\n'.join(diff))
 
 if __name__ == "__main__":
     main()
