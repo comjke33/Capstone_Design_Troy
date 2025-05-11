@@ -15,8 +15,8 @@ function compile_and_run($code, $problem_id) {
     // 코드 파일 생성
     file_put_contents($filename, $code);
 
-    // Clang 컴파일 명령어로 수정
-    $compile_cmd = "clang $filename -o $output_exe 2>&1";
+    // Clang 컴파일 명령어로 수정 (환경 변수 명시)
+    $compile_cmd = "env PATH=/usr/bin:/usr/local/bin clang -fuse-ld=/usr/bin/ld $filename -o $output_exe 2>&1";
     $compile_result = shell_exec($compile_cmd);
 
     if (!file_exists($output_exe)) {
