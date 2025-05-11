@@ -74,6 +74,18 @@ def generate_ast(code_lines):
             print(f"[❌] AST 파싱 실패:\n{e.stderr}")
             return None
 
+def adjust_indentation(original_code_lines, modified_code_lines, line_num):
+    """수정된 코드의 들여쓰기를 원본 코드에 맞게 조정"""
+    # 원본 코드에서 해당 라인의 들여쓰기 수준을 추출
+    original_line = original_code_lines[line_num - 1]
+    indentation = len(original_line) - len(original_line.lstrip())
+    
+    # 수정된 코드에 원본 코드의 들여쓰기를 맞춤
+    modified_line = modified_code_lines[line_num - 1].strip()
+    modified_code_lines[line_num - 1] = ' ' * indentation + modified_line
+
+    return modified_code_lines
+
 def main():
     filename = "1290_step1.txt"
     original_code_lines = read_code_lines(filename)
@@ -97,6 +109,9 @@ def main():
     modified_code_lines = original_code_lines[:]
     original_line = modified_code_lines[actual_idx]
     modified_code_lines[actual_idx] = student_line + '\n'
+
+    # 들여쓰기를 원본 코드에 맞게 조정
+    modified_code_lines = adjust_indentation(original_code_lines, modified_code_lines, actual_idx + 1)
 
     print(f"\n[🔁] {line_num}번 줄 교체됨:\n  ▶ 원본: {original_line.strip()}\n  ▶ 입력: {student_line.strip()}")
     print_code_with_line_numbers(modified_code_lines, "✏️ 수정된 코드")
