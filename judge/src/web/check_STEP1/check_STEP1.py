@@ -107,7 +107,7 @@ def main():
     # 코드 교체
     modified_code_lines = original_code_lines[:]
     original_line = modified_code_lines[actual_idx]
-    modified_code_lines[actual_idx] = student_line + '\n\n'
+    modified_code_lines[actual_idx] = student_line + '\n'
 
     # 들여쓰기를 원본 코드에 맞게 조정
     modified_code_lines = adjust_indentation(original_code_lines, modified_code_lines, actual_idx + 1)
@@ -118,10 +118,7 @@ def main():
     print("\n🔹 ✏️ 수정된 전체 코드:")
     real_modified_code = filter_code_lines(modified_code_lines)
     cleaned_modified_code = clean_code(real_modified_code)
-    for line in modified_code_lines:
-        print(line)
-    print("----------------------")
-    for line in original_code_lines:
+    for line in cleaned_modified_code:
         print(line)
 
     print("\n[🧠] AST 분석 중 (원본)...")
@@ -129,12 +126,16 @@ def main():
     if original_ast is None:
         print("[🚫] 원본 코드 AST 생성 실패")
         return
+    else:
+        print(original_ast)
 
     print("\n[🧠] AST 분석 중 (수정본)...")
     modified_ast = generate_ast(modified_code_lines)
     if modified_ast is None:
         print("[🚫] 수정 코드 AST 생성 실패")
         return
+    else:
+        print(modified_ast)
 
     # AST 정규화
     norm_original = normalize_ast(original_ast)
