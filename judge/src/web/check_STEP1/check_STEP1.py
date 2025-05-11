@@ -23,6 +23,12 @@ def get_actual_line_index(code_lines, logical_line_number):
             return i
     return None
 
+def normalize_ast(ast_str):
+    """AST 정규화: 공백 및 불필요한 개행 제거"""
+    lines = ast_str.splitlines()
+    cleaned = [line.strip() for line in lines if line.strip()]
+    return '\n'.join(cleaned)
+
 def print_code_with_line_numbers(code_lines, title):
     """태그 줄 제외 후 줄 번호 붙여서 출력"""
     print(f"\n🔹 {title}")
@@ -90,18 +96,14 @@ def main():
         print("[🚫] 수정 코드 AST 생성 실패")
         return
 
-    if original_ast.strip() == modified_ast.strip():
+    # AST 정규화
+    norm_original = normalize_ast(original_ast)
+    norm_modified = normalize_ast(modified_ast)
+
+    if norm_original == norm_modified:
         print("\n✅ AST 동일: 의미상 동일한 코드입니다.")
     else:
-        print("\n❌ AST 차이 있음 (아래 비교):")
-        diff = difflib.unified_diff(
-            original_ast.splitlines(),
-            modified_ast.splitlines(),
-            fromfile='original',
-            tofile='modified',
-            lineterm=''
-        )
-        #print('\n'.join(diff))
+        print("\n❌ AST 차이 있음 (의미 변경 가능성이 있습니다)")
 
 if __name__ == "__main__":
     main()
