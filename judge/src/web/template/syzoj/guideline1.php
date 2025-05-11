@@ -329,6 +329,7 @@ function smoothFollowImage() {
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
 
+    // `textarea`의 상단에 맞게 이미지 위치 설정
     const targetTop = taRect.top + scrollY - img.offsetHeight + 200;
 
     // 화면 기준 제한
@@ -339,13 +340,15 @@ function smoothFollowImage() {
     const finalTop = Math.max(minTop, Math.min(targetTop, maxTop));
 
     const currentTop = parseFloat(img.style.top) || 0;
-    const nextTop = currentTop + (finalTop - currentTop) * 0.1;
+    // 현재 top과 finalTop 사이의 차이를 그대로 적용하여 더 큰 이동 범위 만들기
+    const nextTop = currentTop + (finalTop - currentTop);  // 비율 없이 직접 차이를 사용
 
-    // 이미지 위치 업데이트 (왼쪽 위치를 `textarea`에 맞춤)
+    // 이미지 위치 업데이트
     img.style.top = `${nextTop}px`;
 
     requestAnimationFrame(smoothFollowImage);  // 애니메이션 부드럽게 실행
 }
+
 
 // 클릭한 `textarea`에 맞춰 이미지 위치 업데이트
 function updateImageForTextarea(index, ta) {
