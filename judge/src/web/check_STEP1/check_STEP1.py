@@ -145,7 +145,7 @@ def main():
         print("[🚫] 원본 코드 AST 생성 실패")
         return
     else:
-        print(original_ast)
+        print("[🧠] 원본 AST 출력:\n", original_ast)
 
     print("\n[🧠] AST 분석 중 (수정본)...")
     modified_ast = generate_ast(modified_code_lines)
@@ -153,11 +153,14 @@ def main():
         print("[🚫] 수정 코드 AST 생성 실패")
         return
     else:
-        print(modified_ast)
+        print("[🧠] 수정본 AST 출력:\n", modified_ast)
 
     # AST 정규화
     norm_original = normalize_ast(original_ast)
     norm_modified = normalize_ast(modified_ast)
+
+    print("\n[🔍] 정규화된 원본 AST:\n", norm_original)
+    print("\n[🔍] 정규화된 수정본 AST:\n", norm_modified)
 
     if norm_original == norm_modified:
         print("\n✅ AST 동일: 의미상 동일한 코드입니다.")
@@ -165,8 +168,6 @@ def main():
         print("\n❌ AST 차이 있음 (의미 변경 가능성이 있습니다)")
 
     print_ast_diff(original_ast, modified_ast)
-    print(norm_modified)
-    print(norm_original)
 
 if __name__ == "__main__":
     main()
