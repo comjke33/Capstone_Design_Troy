@@ -86,14 +86,6 @@
   border-right: 1px solid #ccc;
 }
 
-/* flowchart 이미지 컨테이너 */
-#flowchart-images {
-  position: relative;
-  width: 100%;
-  height: auto;
-  overflow: visible;
-}
-
 #flowchart_image {
   position: absolute;
   top: 100px;
