@@ -32,7 +32,8 @@ if ($problem_id <= 0) {
 
 // 테스트용 쿼리
 $problem_id = 1256;  // 테스트할 problem_id
-$index = 4;  // 테스트할 index (start_num과 end_num에 맞는 번호)
+$index1 = 5;  // 테스트할 index (start_num과 end_num에 맞는 번호)
+$index2 = 6;
 
 $sql = "SELECT png_address FROM flowchart 
         WHERE problem_id = ? 
@@ -41,7 +42,7 @@ $sql = "SELECT png_address FROM flowchart
         LIMIT 1";
 
 
-$res = pdo_query($sql, $problem_id, $index, $index);
+$res = pdo_query($sql, $problem_id, $index1, $index2);
 
 
 if (count($res) > 0) {
