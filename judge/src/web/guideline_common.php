@@ -166,16 +166,16 @@ function extractContentsFlat($blocks) { //트리 구조
     return $results; //평탄화된 tree -> array 배열 변환
 }
 
-// function guidelineOnlyTagFilter(text) {
-//     // 대괄호 태그 정규식: [tag_name(number)] 또는 [tag_name]
-//     const tagPattern = /\[ *(func_def_start|func_def_end|cond_start|cond_end|rep_start|rep_end|self_start|self_end|struct_start|struct_end)\(?\d*\)? *\]/g;
+function guidelineOnlyTagFilter(text) {
+    // 대괄호 태그 정규식: [tag_name(number)] 또는 [tag_name]
+    const tagPattern = /\[ *(func_def_start|func_def_end|cond_start|cond_end|rep_start|rep_end|self_start|self_end|struct_start|struct_end)\(?\d*\)? *\]/g;
 
-//     // 줄마다 태그 제거 → 공백 제거 → 빈 줄 제거
-//     const cleaned = text
-//         .split('\n')
-//         .map(line => line.replace(tagPattern, '').trim())
-//         .filter(line => line.length > 0)
-//         .join('\n');
+    // 줄마다 태그 제거 → 공백 제거 → 빈 줄 제거
+    const cleaned = text
+        .split('\n')
+        .map(line => line.replace(tagPattern, '').trim())
+        .filter(line => line.length > 0)
+        .join('\n');
 
-//     return cleaned;
-// }
+    return cleaned;
+}
