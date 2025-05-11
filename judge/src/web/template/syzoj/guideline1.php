@@ -322,36 +322,32 @@ function smoothFollowImage() {
     const scrollY = window.scrollY || document.documentElement.scrollTop;
 
     const taTop = taRect.top + scrollY;
-
     const taCenterY = taTop + taRect.height / 2;
-    const imgHeight = img.offsetHeight;
-    const imgWidth = img.offsetWidth;
 
-    // 이미지가 아직 로드되지 않아 크기 계산이 안될 경우
-    if (imgHeight === 0 || imgWidth === 0) {
+    const imgHeight = img.offsetHeight;
+
+    // 이미지 높이가 아직 계산 안 됐다면 다음 프레임으로 넘김
+    if (imgHeight === 0) {
         requestAnimationFrame(smoothFollowImage);
         return;
     }
 
-    // 🎯 목표 위치 계산
+    // 🎯 목표 위치: 이미지 중앙이 textarea 중앙에 일치
     let targetTop = taCenterY - imgHeight / 2;
 
-    // 🎯 화면 바깥으로 나가지 않게 제한
+    // 🎯 화면 상단/하단 제한
     const minTop = scrollY + 10;
     const maxTop = scrollY + window.innerHeight - imgHeight - 10;
     targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
 
-    const currentTop = parseFloat(img.style.top) || (img.getBoundingClientRect().top + scrollY);
-
-    // 🎯 이동 속도 조절 (0.1로 줄임 → 더 느리게, 더 부드럽게)
-    const speed = 0.1;
-    const nextTop = currentTop + (targetTop - currentTop) * speed;
+    // 🎯 현재 위치 계산
+    const currentTop = img.getBoundingClientRect().top + scrollY;
+    const nextTop = currentTop + (targetTop - currentTop) * 0.1;  // 속도 느리게
 
     img.style.top = `${nextTop}px`;
 
     requestAnimationFrame(smoothFollowImage);
 }
-
 
 // textarea 클릭 시 트리거
 document.addEventListener("DOMContentLoaded", () => {
