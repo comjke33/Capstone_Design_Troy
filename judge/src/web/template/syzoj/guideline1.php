@@ -262,9 +262,9 @@ function updateImageForTextarea(index, ta) {
         .then(data => {
             let img = document.getElementById("flowchart_image");
             if (!img) {
-                img = document.createElement("img");
-                img.id = "flowchart_image";
-                document.body.appendChild(img);
+                // img = document.createElement("img");
+                // img.id = "flowchart_image";
+                // document.body.appendChild(img);
             }
 
             img.src = data.url;
@@ -285,9 +285,9 @@ function fetchImageByLineNumber(lineNumber) {
         .then(data => {
             let img = document.getElementById("flowchart_image");
             if (!img) {
-                img = document.createElement("img");
-                img.id = "flowchart_image";
-                document.body.appendChild(img);
+                // img = document.createElement("img");
+                // img.id = "flowchart_image";
+                // document.body.appendChild(img);
             }
 
             img.src = data.url;
