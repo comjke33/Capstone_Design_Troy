@@ -128,7 +128,7 @@ def main():
         return
 
     print("\n[🧠] AST 분석 중 (수정본)...")
-    modified_ast = generate_ast(modified_code_lines)
+    modified_ast = generate_ast(cleaned_modified_code)
     if modified_ast is None:
         print("[🚫] 수정 코드 AST 생성 실패")
         return
