@@ -72,6 +72,9 @@ include("../../guideline_common.php");
                     $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
                     $html .= "</div>";
         
+                    //각 라인 번호에 맞는 이미지 업데이트
+                    $html .= "<script>fetchImageByLineNumber({$answer_index + 1});</script>";  // 라인 번호는 1부터 시작
+
                     $answer_index++;
                 } else if (isset($block['children']) && is_array($block['children'])) {
                     $html .= render_tree_plain($block['children'], $answer_index);
@@ -244,6 +247,8 @@ function showAnswer(index) {
     answerArea.style.display = 'block';
 }
 
+//라인 별로 받아오기
+
 
 //화면 크기 재조절
 function autoResize(ta) {
@@ -277,34 +282,20 @@ function updateImageForTextarea(index, ta) {
         });
 }
 
-//줄번호에 맞춰서 이미지 fetch
+//줄번호에 맞춰서 이미지 fetch(일단 보류)
 function fetchImageByLineNumber(lineNumber) {
     const problemId = <?= json_encode($problem_id) ?>;
-    const ta = document.querySelectorAll("textarea[id^='ta_']")[lineNumber];
-    if (ta) currentTextarea = ta; // currentTextarea 설정
-
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${lineNumber}`)
         .then(response => response.json())
         .then(data => {
             let img = document.getElementById("flowchart_image");
-            if (!img) {
-                img = document.createElement("img");
-                img.id = "flowchart_image";
-                img.style.position = "absolute"; // 위치 설정 필수
-                document.body.appendChild(img);
-            }
-
             if (data.url && data.url.trim() !== "") {
+                // 이미지가 있을 경우
                 img.src = data.url;
                 img.style.display = "block";
-
-                if (!animationRunning) {
-                    animationRunning = true;
-                    smoothFollowImage();
-                }
             } else {
+                // 이미지가 없을 경우
                 img.style.display = "none";
-                animationRunning = false;
             }
         })
         .catch(error => console.error('Error:', error));
@@ -323,24 +314,17 @@ function smoothFollowImage() {
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-    const taCenterY = taRect.top + scrollY + taRect.height / 2;
-    const imgHeight = img.offsetHeight;
+    let targetTop = taRect.top + scrollY - img.offsetHeight + 200;
 
-    // 이미지 로딩 전일 경우 반복 대기
-    if (!imgHeight || imgHeight === 0) {
-        requestAnimationFrame(smoothFollowImage);
-        return;
-    }
+    // 화면 기준 제한
+    const minTop = scrollY + 200; // 화면 상단 + 여백
+    const maxTop = scrollY + window.innerHeight - img.offsetHeight; // 화면 하단 - 이미지 높이
 
-    // 🎯 중앙 정렬: 이미지의 중앙 = textarea의 중앙
-    const targetTop = taCenterY - imgHeight / 2;
+    // 제한된 위치로 보정
+    targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
 
-    // 현재 top 계산: 절대 위치 기준
-    const currentTop = img.getBoundingClientRect().top + scrollY;
-
-    // 부드럽게 따라오기
-    const speed = 0.2;
-    const nextTop = currentTop + (targetTop - currentTop) * speed;
+    const currentTop = parseFloat(img.style.top) || 0;
+    const nextTop = currentTop + (targetTop - currentTop) * 0.1;
 
     img.style.top = `${nextTop}px`;
 

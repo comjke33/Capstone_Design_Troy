@@ -36,7 +36,6 @@ $res = pdo_query($sql, $problem_id, $index, $index);
 if (count($res) > 0) {
     $filename =($res[0]['png_address'] . ".png");
     $url = ($res[0]['png_address'] . ".png");
-    // $url = "/flowcharts/1000_1.png";
 } else {
     $url = "";
 }
