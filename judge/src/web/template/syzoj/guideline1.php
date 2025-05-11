@@ -284,18 +284,21 @@ function fetchImageByLineNumber(lineNumber) {
         .then(response => response.json())
         .then(data => {
             let img = document.getElementById("flowchart_image");
-            if (!img) {
-                // img = document.createElement("img");
-                // img.id = "flowchart_image";
-                // document.body.appendChild(img);
-            }
+            if (data.url && data.url.trim() !== "") {
+                // 이미지가 존재할 때만 보여주기
+                img.src = data.url;
+                img.style.display = "block";
 
-            img.src = data.url;
-            console.log("이미지 업데이트:", data.url);
+                console.log("이미지 업데이트:", data.url);
 
-            if (!animationRunning) {
-                animationRunning = true;
-                smoothFollowImage();
+                if (!animationRunning) {
+                    animationRunning = true;
+                    smoothFollowImage();
+                }
+            } else {
+                // 이미지 없을 때 숨기기
+                img.style.display = "none";
+                console.log("이미지 없음. 숨김 처리됨.");
             }
         })
         .catch(error => console.error('Error:', error));
