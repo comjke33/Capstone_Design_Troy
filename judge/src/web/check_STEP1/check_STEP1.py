@@ -62,7 +62,7 @@ def generate_ast(code_lines):
         temp_file.flush()
         try:
             result = subprocess.run(
-                ['clang', '-Xclang', '-ast-dump', '-fsyntax-only', temp_file.name],
+                ['clang', '-Xclang', '-ast-view', '-fsyntax-only', temp_file.name],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
