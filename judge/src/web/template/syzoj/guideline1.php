@@ -322,7 +322,7 @@ function smoothFollowImage() {
     const scrollY = window.scrollY || document.documentElement.scrollTop;
     const taTop = taRect.top + scrollY;
 
-    const targetTop = taRect.top + scrollY;
+    const targetTop = taRect.top + scrollY + 100;
     const currentTop = parseFloat(img.style.top) || (img.getBoundingClientRect().top + scrollY);
     const nextTop = currentTop + (targetTop - currentTop) * 0.2;
 
