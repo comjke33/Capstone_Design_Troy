@@ -15,8 +15,8 @@ function compile_and_run($code, $problem_id) {
     // 코드 파일 생성
     file_put_contents($filename, $code);
 
-    // 컴파일 명령어
-    $compile_cmd = "gcc $filename -o $output_exe 2>&1";
+    // Clang 컴파일 명령어로 수정
+    $compile_cmd = "clang $filename -o $output_exe 2>&1";
     $compile_result = shell_exec($compile_cmd);
 
     if (!file_exists($output_exe)) {
