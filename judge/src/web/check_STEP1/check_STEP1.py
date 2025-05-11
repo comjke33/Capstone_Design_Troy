@@ -85,6 +85,24 @@ def adjust_indentation(original_code_lines, modified_code_lines, line_num):
 
     return modified_code_lines
 
+import difflib
+
+def print_ast_diff(original_ast, modified_ast):
+    """원본 AST와 수정된 AST의 차이를 비교하고 출력"""
+    diff = difflib.unified_diff(
+        original_ast.splitlines(), 
+        modified_ast.splitlines(), 
+        fromfile='original_ast', 
+        tofile='modified_ast', 
+        lineterm='', 
+        n=0
+    )
+
+    # 차이점 출력
+    print("\n[🔍] AST 차이점:")
+    for line in diff:
+        print(line)
+
 def main():
     filename = "1290_step1.txt"
     original_code_lines = read_code_lines(filename)
@@ -126,16 +144,12 @@ def main():
     if original_ast is None:
         print("[🚫] 원본 코드 AST 생성 실패")
         return
-    else:
-        print(original_ast)
 
     print("\n[🧠] AST 분석 중 (수정본)...")
     modified_ast = generate_ast(modified_code_lines)
     if modified_ast is None:
         print("[🚫] 수정 코드 AST 생성 실패")
         return
-    else:
-        print(modified_ast)
 
     # AST 정규화
     norm_original = normalize_ast(original_ast)
@@ -145,6 +159,8 @@ def main():
         print("\n✅ AST 동일: 의미상 동일한 코드입니다.")
     else:
         print("\n❌ AST 차이 있음 (의미 변경 가능성이 있습니다)")
+
+    print_ast_diff(original_ast, modified_ast)
 
 if __name__ == "__main__":
     main()
