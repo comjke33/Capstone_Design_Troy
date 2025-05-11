@@ -24,11 +24,19 @@ if ($problem_id <= 0) {
 }
 
 //DB에서 링크를 가져와서 링크를 구현
-$sql = "SELECT png_address FROM flowchart 
-        WHERE problem_id = ? 
-        AND start_num <= ?
-        AND end_num >= ?
-        LIMIT 1";
+// $sql = "SELECT png_address FROM flowchart 
+//         WHERE problem_id = ? 
+//         AND start_num <= ?
+//         AND end_num >= ?
+//         LIMIT 1";
+
+// 테스트용 쿼리
+"SELECT png_address FROM flowchart 
+WHERE problem_id = 1256
+AND start_num <= 2 
+AND end_num >= 2 
+LIMIT 1";
+
 
 $res = pdo_query($sql, $problem_id, $index, $index);
 
