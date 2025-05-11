@@ -320,9 +320,20 @@ function smoothFollowImage() {
 
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
-    const taTop = taRect.top + scrollY;
 
-    const targetTop = taRect.top + scrollY + 100;
+    const taTop = taRect.top + scrollY;
+    const taCenterY = taTop + (taRect.height / 2);
+    const imgHeight = img.offsetHeight;
+
+    // 🎯 이미지 중앙이 textarea 중앙에 맞도록 조정
+    let targetTop = taCenterY - (imgHeight / 2);
+
+    // 🎯 화면 기준 제한 (이미지가 너무 위/아래로 벗어나지 않도록)
+    const minTop = scrollY + 10; // 화면 상단 여백
+    const maxTop = scrollY + window.innerHeight - imgHeight - 10; // 화면 하단 여백
+
+    targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
+
     const currentTop = parseFloat(img.style.top) || (img.getBoundingClientRect().top + scrollY);
     const nextTop = currentTop + (targetTop - currentTop) * 0.2;
 
