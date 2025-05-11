@@ -166,16 +166,29 @@ function extractContentsFlat($blocks) { //트리 구조
     return $results; //평탄화된 tree -> array 배열 변환
 }
 
-function guidelineOnlyTagFilter(text) {
-    // 대괄호 태그 정규식: [tag_name(number)] 또는 [tag_name]
-    const tagPattern = /\[ *(func_def_start|func_def_end|cond_start|cond_end|rep_start|rep_end|self_start|self_end|struct_start|struct_end)\(?\d*\)? *\]/g;
+//태그제거 하는 필터
+function guidelineOnlyTagFilter($text) {
+    /
+    $tagPattern = '/\[\s*(func_def_start|func_def_end|cond_start|cond_end|rep_start|rep_end|self_start|self_end|struct_start|struct_end)\(?\d*\)?\s*\]/';
 
-    // 줄마다 태그 제거 → 공백 제거 → 빈 줄 제거
-    const cleaned = text
-        .split('\n')
-        .map(line => line.replace(tagPattern, '').trim())
-        .filter(line => line.length > 0)
-        .join('\n');
+    // 텍스트를 줄 단위로 분리
+    $lines = explode("\n", $text);
+    
+    // 태그를 제거하고 공백과 빈 줄을 제거한 결과를 저장할 배열
+    $cleanedLines = array();
 
-    return cleaned;
+    foreach ($lines as $line) {
+        // 태그를 제거하고 공백을 제거
+        $cleanedLine = preg_replace($tagPattern, '', $line); 
+        $cleanedLine = trim($cleanedLine); // 공백 제거
+
+        // 빈 줄은 제외
+        if (strlen($cleanedLine) > 0) {
+            $cleanedLines[] = $cleanedLine;
+        }
+    }
+
+    // 다시 줄을 합쳐서 반환
+    return implode("\n", $cleanedLines);
 }
+
