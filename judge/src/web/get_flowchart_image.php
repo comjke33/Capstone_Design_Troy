@@ -40,7 +40,7 @@ $sql = "SELECT png_address FROM flowchart
         LIMIT 1";
 
 
-$res = pdo_query($sql, $problem_id, $index, $index);
+$res = pdo_query($sql, $problem_id, $index, $index+1);
 
 
 if (count($res) > 0) {
