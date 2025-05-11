@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
 
-function submitAnswer(index) {
+/*function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`btn_${index}`);
     const check = document.getElementById(`check_${index}`);
@@ -229,6 +229,50 @@ function submitAnswer(index) {
         ta.style.color = "#c00";
     }
 }
+*/
+function submitAnswer(index) {
+    const ta = document.getElementById(`ta_${index}`);
+    const btn = document.getElementById(`btn_${index}`);
+    const check = document.getElementById(`check_${index}`);
+    const resultArea = document.getElementById(`answer_area_${index}`);
+    const input = ta.value.trim();
+    const step = new URLSearchParams(window.location.search).get("step") || "1";
+    const problemId = new URLSearchParams(window.location.search).get("problem_id") || "0";
+    const key = `answer_status_step${step}_q${index}_pid${problemId}`;
+
+    // AJAX 요청
+    fetch("/validate_code.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ index: index, input: input, problem_id: problemId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            localStorage.setItem(key, "correct");
+
+            ta.readOnly = true;
+            ta.style.backgroundColor = "#d4edda";
+            ta.style.border = "1px solid #d4edda";
+            ta.style.color = "#155724";
+            btn.style.display = "none";
+            check.style.display = "inline";
+            resultArea.innerHTML = `<span style='color: green;'>✅ ${data.message}</span>`;
+        } else {
+            ta.style.backgroundColor = "#ffecec";
+            ta.style.border = "1px solid #e06060";
+            ta.style.color = "#c00";
+            resultArea.innerHTML = `<span style='color: red;'>❌ ${data.message}</span>`;
+        }
+    })
+    .catch(error => {
+        console.error("Error during validation:", error);
+        resultArea.innerHTML = `<span style='color: red;'>⚠️ 서버 오류가 발생했습니다.</span>`;
+    });
+}
+
 
 //답안 보여주기
 function showAnswer(index) {
