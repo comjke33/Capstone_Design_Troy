@@ -6,6 +6,11 @@ def read_code_lines(filename):
     with open(filename, 'r') as f:
         return f.readlines()
 
+def print_code_with_line_numbers(code_lines, title):
+    print(f"\n🔹 {title}")
+    for i, line in enumerate(code_lines, start=1):
+        print(f"{i:3}: {line.rstrip()}")
+
 def replace_line(code_lines, line_number, student_line):
     new_code = code_lines[:]
     original = new_code[line_number - 1]
@@ -29,44 +34,43 @@ def generate_ast(code_lines):
             print(f"[❌] AST 파싱 실패:\n{e.stderr}")
             return None
 
-def print_code_with_line_numbers(code_lines, title):
-    print(f"\n🔹 {title}")
-    for i, line in enumerate(code_lines, start=1):
-        print(f"{i:3}: {line.rstrip()}")
-
 def main():
     original_code_lines = read_code_lines("1290_step1.txt")
 
+    # ✅ 사용자에게 코드 미리 보여주기
+    print_code_with_line_numbers(original_code_lines, "🔍 원본 코드 (수정할 줄 선택)")
+
+    # 사용자 입력
     try:
-        line_num = int(input("Enter line number to replace: "))
-        student_line = input("Enter student code line: ")
+        line_num = int(input("\n✏️ 바꿀 줄 번호 입력: "))
+        student_line = input("✏️ 학생 코드 한 줄 입력: ")
     except ValueError:
-        print("숫자와 올바른 문자열을 입력해 주세요.")
+        print("⚠️ 숫자와 코드 줄을 올바르게 입력하세요.")
         return
 
+    # 코드 교체
     modified_code_lines, original_line = replace_line(original_code_lines, line_num, student_line)
 
-    print(f"\n[🔁] Replaced line {line_num}:\n  original: {original_line.strip()}\n  new     : {student_line}")
+    print(f"\n[🔁] {line_num}번 줄 교체됨:\n  원본: {original_line.strip()}\n  입력: {student_line}")
 
-    print_code_with_line_numbers(original_code_lines, "🔍 원본 코드")
     print_code_with_line_numbers(modified_code_lines, "✏️ 수정된 코드")
 
-    print("\n[🧠] Parsing original code...")
+    print("\n[🧠] AST 분석 중 (원본)...")
     original_ast = generate_ast(original_code_lines)
     if original_ast is None:
         print("[🚫] 원본 코드 AST 생성 실패")
         return
 
-    print("\n[🧠] Parsing modified code...")
+    print("\n[🧠] AST 분석 중 (수정본)...")
     modified_ast = generate_ast(modified_code_lines)
     if modified_ast is None:
         print("[🚫] 수정 코드 AST 생성 실패")
         return
 
     if original_ast.strip() == modified_ast.strip():
-        print("\n✅ AST 동일: 학생 코드가 의미상 동일합니다.")
+        print("\n✅ AST 동일: 의미상 동일한 코드입니다.")
     else:
-        print("\n❌ AST 차이 발생:")
+        print("\n❌ AST 차이 있음 (아래 비교):")
         diff = difflib.unified_diff(
             original_ast.splitlines(),
             modified_ast.splitlines(),
