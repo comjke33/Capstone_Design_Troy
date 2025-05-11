@@ -318,7 +318,7 @@ function fetchImageByLineNumber(lineNumber) {
 }
 
 
-//이미지 매끄러운 이동
+// 이미지 위치를 텍스트영역 왼쪽에 맞추고 스크롤을 따라가게 설정
 function smoothFollowImage() {
     const img = document.getElementById("flowchart_image");
     if (!img || !currentTextarea) {
@@ -341,14 +341,19 @@ function smoothFollowImage() {
 
     const currentTop = parseFloat(img.style.top) || 0;
     // 현재 top과 finalTop 사이의 차이를 그대로 적용하여 더 큰 이동 범위 만들기
-    const nextTop = currentTop + (finalTop - currentTop);  // 비율 없이 직접 차이를 사용
+    const nextTop = currentTop + (finalTop - currentTop) * 0.2;  // 이동 범위를 20%로 설정 (조정 가능)
 
     // 이미지 위치 업데이트
-    img.style.top = `${nextTop}px`;
+    img.style.left = `${taRect.left}px`;  // `textarea` 왼쪽에 위치하도록
+    img.style.top = `${nextTop}px`;  // `top` 위치 업데이트
 
-    requestAnimationFrame(smoothFollowImage);  // 애니메이션 부드럽게 실행
+    // 애니메이션 부드럽게 실행
+    if (Math.abs(finalTop - currentTop) > 1) {
+        requestAnimationFrame(smoothFollowImage);
+    } else {
+        animationRunning = false;  // 애니메이션이 끝나면 실행 상태 종료
+    }
 }
-
 
 // 클릭한 `textarea`에 맞춰 이미지 위치 업데이트
 function updateImageForTextarea(index, ta) {
