@@ -211,30 +211,43 @@ function submitAnswer(index) {
     const problemId = new URLSearchParams(window.location.search).get("problem_id") || "0";
     const key = `answer_status_step${step}_q${index}_pid${problemId}`;
 
-    if (input === correct) {
-        // ✅ 저장
-        localStorage.setItem(key, "correct");
 
-        ta.readOnly = true;
-        ta.style.backgroundColor = "#d4edda";
-        ta.style.border = "1px solid #d4edda";
-        ta.style.color = "#155724";
-        btn.style.display = "none";
-        check.style.display = "inline";
 
-        const nextIndex = index + 1;
-        const nextTa = document.getElementById(`ta_${nextIndex}`);
-        const nextBtn = document.getElementById(`btn_${nextIndex}`);
-        if (nextTa && nextBtn) {
-            nextTa.disabled = false;
-            nextBtn.disabled = false;
-            nextTa.focus();
+    fetch("../../ajax/check_answer.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            answer: input,
+            problem_id: problemId,
+            index: index
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.result === "correct") {
+            localStorage.setItem(key, "correct");
+
+            ta.readOnly = true;
+            ta.style.backgroundColor = "#d4edda";
+            ta.style.border = "1px solid #d4edda";
+            ta.style.color = "#155724";
+            btn.style.display = "none";
+            check.style.display = "inline";
+
+            const nextIndex = index + 1;
+            const nextTa = document.getElementById(`ta_${nextIndex}`);
+            const nextBtn = document.getElementById(`btn_${nextIndex}`);
+            if (nextTa && nextBtn) {
+                nextTa.disabled = false;
+                nextBtn.disabled = false;
+                nextTa.focus();
+            }
+        } else {
+            ta.style.backgroundColor = "#ffecec";
+            ta.style.border = "1px solid #e06060";
+            ta.style.color = "#c00";
         }
-    } else {
-        ta.style.backgroundColor = "#ffecec";
-        ta.style.border = "1px solid #e06060";
-        ta.style.color = "#c00";
-    }
+    });
 }
 
 //답안 보여주기
