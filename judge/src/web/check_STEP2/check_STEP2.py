@@ -25,27 +25,36 @@ def filter_code_lines(code_lines):
 
 def get_blocks(code_lines):
     """코드에서 블럭 단위로 추출"""
+    all_blocks = []
+    all_idx = 0
     blocks = []
+    blocks_idx = 0
     current_block = []
     includes = []  # #include 블럭 저장
     closing_braces = []  # 단독 } 블럭 저장
     inside_block = False
+    block_indices = []
 
     for line in code_lines:
         # 헤더 선언 (#include)은 상수 블럭으로 처리
         if is_include_line(line):
-            includes.append(line)
+            all_blocks.append(line)
+            all_idx += 1
             continue
         
         # 단독 중괄호는 상수 블럭으로 처리
         if is_single_brace(line):
-            closing_braces.append(line)
+            all_blocks.append(line)
+            all_idx += 1
             continue
         
         # 블럭 시작 조건: start 태그를 만나면 새 블럭 시작
         if is_start_tag(line):
             if current_block:
                 blocks.append(current_block)
+                all_blocks.append(current_block)
+                block_indices.append((blocks_idx, all_idx))
+                blocks_idx += 1
                 current_block = []
             current_block.append(line)
             inside_block = True
@@ -54,6 +63,9 @@ def get_blocks(code_lines):
         elif is_tag_line(line):
             if current_block:
                 blocks.append(current_block)
+                all_blocks.append(current_block)
+                block_indices.append((blocks_idx, all_idx))
+                blocks_idx += 1
                 current_block = []
             inside_block = False
         
@@ -61,11 +73,17 @@ def get_blocks(code_lines):
         if inside_block or not is_tag_line(line):
             current_block.append(line)
 
-    # 마지막 블럭 추가
-    if current_block:
-        blocks.append(current_block)
+    # # 마지막 블럭 추가
+    # if current_block:
+    #     blocks.append(current_block)
+    #     # 인덱스 매칭
+    #     block_indices.append((blocks_idx, all_idx))
 
-    return includes, blocks, closing_braces
+    #     blocks_idx += 1
+    # all_blocks.append(current_block)
+    # all_idx += 1
+
+    return includes, blocks, closing_braces, all_blocks, block_indices
 
 def read_code_lines(filename):
     with open(filename, 'r') as f:
@@ -150,7 +168,7 @@ def main():
     code_lines = read_code_lines(filename)
 
     # 블럭 단위로 코드 파싱
-    includes, blocks, closing_braces = get_blocks(code_lines)
+    includes, blocks, closing_braces, all_blocks, block_indices = get_blocks(code_lines)
 
     print("🔧 #include 블럭")
     print("".join(includes))
@@ -170,12 +188,18 @@ def main():
 
     # 새 코드 블럭 생성
     new_block = [line + '\n' for line in new_code.split('\\n')]
-    blocks = replace_block(blocks, block_num, new_block)
+    blocks[block_num] = new_block
+    all_blocks[block_indices[block_num][1]] = new_block
 
     # 블럭을 합쳐서 코드 생성
-    final_code = ''.join(includes) + ''.join([''.join(clean_block(block)) for block in blocks]) + ''.join(closing_braces)
-
+    final_code = ''.join(all_blocks)
     print("\n🔄 수정된 코드:")
+    for block in all_blocks:
+        for line in block:
+            print(line)
+
+    print("---------------------")
+
     print(final_code)
 
     # 수정된 코드 컴파일 및 테스트

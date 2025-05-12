@@ -156,7 +156,7 @@ def print_ast_diff(original_ast, modified_ast):
         print(line)
 
 def main():
-    filename = "1292_step1.txt"
+    filename = "/Users/itaeu/Desktop/Capstone_Design_Troy/judge/src/web/tagged_code/1259_step1.txt"
     original_code_lines = read_code_lines(filename)
 
     print_code_with_line_numbers(original_code_lines, "🔍 원본 코드 (수정할 줄 선택)")
@@ -222,8 +222,8 @@ def main():
 
     # print_ast_diff(original_ast, modified_ast)
 
-    test_in_add = "../../../data/1292/test.in"
-    test_out_add = "../../../data/1292/test.out"
+    test_in_add = "../../../data/1259/sample.in"
+    test_out_add = "../../../data/1259/sample.out"
 
     # 실제 코드 출력 확인
     #expected_output = input("✏️ 예상 출력: ")
