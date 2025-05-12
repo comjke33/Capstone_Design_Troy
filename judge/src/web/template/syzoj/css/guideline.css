@@ -87,8 +87,8 @@
 
 #flowchart_image {
     position: absolute;
-    top: 100px;
-    width: 250px;
+    top: 88px;
+    width: 200px;
     max-height: 500px;
     display: none;  /* 기본적으로 숨기기 */
     transition: top 0.3s ease;
