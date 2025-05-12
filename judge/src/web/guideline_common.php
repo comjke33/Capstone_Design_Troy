@@ -59,54 +59,26 @@ function codeFilter($text) {
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
 
-    $collectingSelf = false;
-    $selfBuffer = "";
-    $selfTagIndex = null;
+    $collectingCode = false;  // 코드 누적 여부
+    $blockBuffer = "";        // 블록 내용 누적
 
     foreach ($lines as $line) {
         $line = rtrim($line);
 
-        //self 블록만 별도로 처리하는 이뉴는
-        //사용자 입력 유도 혹은 하나의 코드조각을 하나의 줄로 인식하기 위해 사용하기 때문에
-        
-        //self_start감지
-        if (preg_match('/\[self_start\((\d+)\)\]/', $line, $m)) {
-            $collectingSelf = true;
-            $selfBuffer = "";
-            $selfTagIndex = $m[1];
-            continue;
-        }
-
-        //self_end 만나면 
-        if (preg_match('/\[self_end\((\d+)\)\]/', $line, $m)) {
-            //self 블록 수집 중인지 확인
-            //같은 블록의 태그가 서로 같은 블록인지(ex. [self_start] 코드 [self_end])
-            if ($collectingSelf && $m[1] == $selfTagIndex) {
-                //지금까지 저장된 $selfBuffer내용 children 배열의 추가
+        // [start] 태그 감지
+        if (preg_match('/\[(\w+)_start\((\d+)\)\]/', $line, $m)) {
+            // 기존에 누적된 텍스트가 있으면 처리
+            if (!empty($blockBuffer)) {
+                // 이전 블록 내용이 있다면, 그것을 하나의 블록으로 처리
                 $stack[count($stack) - 1]['children'][] = [
                     'type' => 'text',
-                    'content' => rtrim($selfBuffer),
+                    'content' => rtrim($blockBuffer),
                     'depth' => count($stack) - 1
                 ];
+                $blockBuffer = "";  // 초기화
             }
-            //self 초기화
-            $collectingSelf = false;
-            $selfBuffer = "";
-            $selfTagIndex = null;
-            // 다시 순회
-            continue;
-        }
 
-        // 🔹 self 내부 내용 누적
-        if ($collectingSelf) {
-            $selfBuffer .= $line . "\n";
-            continue;
-        }
-
-        // 이외의 일반구조 블록 시작
-        if (preg_match('/\[(func_def|rep|cond|struct|construct)_start\((\d+)\)\]/', $line, $m)) {
-            //현재 스택의 top에 children 추가
-            //스택 push, unset(참조해제), 다음줄 이동
+            // 새 블록 시작
             $block = [
                 'type' => 'block',
                 'tag' => $m[1], // 태그 이름
@@ -120,35 +92,40 @@ function codeFilter($text) {
             continue;
         }
 
-        //일반구조 종료 블록 만나면
-        if (preg_match('/\[(func_def|rep|cond|struct|construct)_end\((\d+)\)\]/', $line, $m)) {
-            //뒤에서 부터 앞으로 순회(가장 최근에 열려있는 블록부터 닫기)
-            for ($i = count($stack) - 1; $i >= 1; $i--) {
-                if (isset($stack[$i]['tag']) && $stack[$i]['tag'] === $m[1] && $stack[$i]['index'] == $m[2]) {
-                    array_pop($stack);
-                    break;
-                }
+        // [end] 태그 처리
+        if (preg_match('/\[(\w+)_end\((\d+)\)\]/', $line, $m)) {
+            // 종료 태그를 만나면, 현재 블록에 누적된 텍스트를 처리하고 pop
+            if (!empty($blockBuffer)) {
+                $stack[count($stack) - 1]['children'][] = [
+                    'type' => 'text',
+                    'content' => rtrim($blockBuffer),
+                    'depth' => count($stack) - 1
+                ];
+                $blockBuffer = "";  // 초기화
             }
+            array_pop($stack);  // 스택에서 pop
             continue;
         }
 
-        // 일반 코드 줄 처리 (예외 필터링)
-        if (
-            trim($line) !== '' &&
-            trim($line) !== '}' &&
-            !preg_match('/^#include\s+<.*>$/', trim($line))
-        ) {
-            $stack[count($stack) - 1]['children'][] = [
-                'type' => 'text',
-                'content' => $line,
-                'depth' => count($stack) - 1
-            ];
+        // 코드 라인 누적
+        if (trim($line) !== '') {
+            $blockBuffer .= $line . "\n"; // 블록 내용 누적
         }
     }
 
-    // tree 배열 --> flat 배열로 변환
+    // 마지막으로 남은 텍스트가 있으면 처리
+    if (!empty($blockBuffer)) {
+        $stack[count($stack) - 1]['children'][] = [
+            'type' => 'text',
+            'content' => rtrim($blockBuffer),
+            'depth' => count($stack) - 1
+        ];
+    }
+
+    // 최종 트리 배열을 평탄화(flatten)해서 반환
     return extractContentsFlat($root['children']);
 }
+
 
 // 트리 형태로 저장된 코드 블록 구조를 1차원(flat) 배열로 변환
 function extractContentsFlat($blocks) { //트리 구조
