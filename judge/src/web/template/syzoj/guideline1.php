@@ -318,34 +318,6 @@ function fetchImageByLineNumber(lineNumber) {
 }
 
 
-// 이미지 위치를 텍스트영역 왼쪽에 맞추고, 스크롤을 따라가게 설정
-function smoothFollowImage() {
-    const img = document.getElementById("flowchart_image");
-    if (!img || !currentTextarea) {
-        animationRunning = false;
-        return;
-    }
-
-    const taRect = currentTextarea.getBoundingClientRect();  // `textarea`의 화면 위치 계산
-    const scrollY = window.scrollY || document.documentElement.scrollTop;  // 현재 스크롤 위치
-
-    const targetTop = taRect.top + scrollY - img.offsetHeight + 100;  
-
-    // const minTop = scrollY + 10;  
-    // const maxTop = scrollY + window.innerHeight - img.offsetHeight + 10;  
-
-    // 제한된 위치로 보정
-    // const finalTop = Math.max(minTop, Math.min(targetTop, maxTop));
-
-    // const currentTop = parseFloat(img.style.top) || 0;
-    
-    // const nextTop = currentTop + (finalTop - currentTop) * 0.1;  
-
-    img.style.top = `${targetTop}px`;  // 이미지 `top` 위치 업데이트
-
-    requestAnimationFrame(smoothFollowImage);  // 애니메이션 부드럽게 실행
-}
-
 
 // 클릭한 `textarea`에 맞춰 이미지 위치 업데이트
 function updateImageForTextarea(index, ta) {
@@ -375,11 +347,31 @@ function updateImageForTextarea(index, ta) {
         });
 }
 
+// 이미지 위치를 텍스트영역 왼쪽에 맞추고, 스크롤을 따라가게 설정
+function updateImagePosition() {
+    const img = document.getElementById("flowchart_image");
+    if (!img || !currentTextarea) return;
+
+    const taRect = currentTextarea.getBoundingClientRect();
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+    // 이미지 위치 계산 (textarea 왼쪽, 상단에 여유 주기)
+    const offsetTop = taRect.top + scrollY - 10;
+
+    img.style.position = 'absolute';
+    img.style.top = `${offsetTop}px`;
+}
+
 // textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
         ta.addEventListener("focus", () => updateImageForTextarea(idx, ta)); // 클릭 시 이미지 업데이트
     });
+});
+
+// 스크롤 시 따라오게
+window.addEventListener("scroll", () => {
+    updateImagePosition();
 });
 
 </script>
