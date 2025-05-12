@@ -270,33 +270,37 @@ function updateImageForTextarea(index, ta) {
             if (!img) {
                 img = document.createElement("img");
                 img.id = "flowchart_image";
-                document.body.appendChild(img);
+                document.body.appendChild(img);  // 이미지가 없으면 body에 동적으로 추가
             }
 
             if (data.url && data.url.trim() !== "") {
                 img.src = data.url;
-                img.style.display = "block";
-                
-                // 이미지 위치를 갱신
-                requestAnimationFrame(updateImagePosition);
+                img.style.display = "block";  // 이미지가 있을 때만 보이도록
+
+                // 이미지 위치 갱신
+                updateImagePosition();
             } else {
-                img.style.display = "none";
+                img.style.display = "none";  // 이미지가 없으면 숨기기
             }
         });
 }
+
 
 function updateImagePosition() {
     const img = document.getElementById("flowchart_image");
     if (!img || !currentTextarea) return;
 
+    // textarea의 위치를 계산
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-    // 정확한 페이지 절대 위치 계산
-    const targetTop = taRect.top + scrollY - 10;
+    // 페이지 상에서의 정확한 위치 계산
+    const targetTop = taRect.top + scrollY - 10;  // 여유 값을 조정할 수 있음
 
+    // 이미지 위치 갱신
     img.style.top = `${targetTop}px`;
 }
+
 
 
 //줄번호에 맞춰서 이미지 fetch(일단 보류)
