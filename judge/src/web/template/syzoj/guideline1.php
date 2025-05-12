@@ -259,31 +259,43 @@ let animationRunning = false;
 
 //flowchart렌더링 
 function updateImageForTextarea(index, ta) {
-    // 현재 textarea와 관련된 이미지 업데이트
     currentTextarea = ta;
-    
+
     // 플로우차트 이미지를 가져오기 위한 API 호출
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
-            let img = document.getElementById("flowchart_image");
-            
-            // 이미지가 없으면 동적으로 추가할 수 있지만, 여기서는 기존 이미지를 사용
+            const img = document.getElementById("flowchart_image");
+
             if (!img) {
                 img = document.createElement("img");
                 img.id = "flowchart_image";
-                document.body.appendChild(img);  // 필요에 따라 이미지 태그를 동적으로 생성
+                document.body.appendChild(img);
             }
 
-            img.src = data.url;  // 서버에서 받은 이미지 URL로 설정
-            console.log("서버 디버그 데이터:", data.debug);
-
-            // 애니메이션 시작 (이미지가 부드럽게 따라가게)
-            if (!animationRunning) {
-                animationRunning = true;
-                smoothFollowImage(); // 이미지를 부드럽게 따라가기 시작
+            if (data.url && data.url.trim() !== "") {
+                img.src = data.url;
+                img.style.display = "block";
+                
+                // 이미지 위치를 갱신
+                requestAnimationFrame(updateImagePosition);
+            } else {
+                img.style.display = "none";
             }
         });
+}
+
+function updateImagePosition() {
+    const img = document.getElementById("flowchart_image");
+    if (!img || !currentTextarea) return;
+
+    const taRect = currentTextarea.getBoundingClientRect();
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+    // 정확한 페이지 절대 위치 계산
+    const targetTop = taRect.top + scrollY - 10;
+
+    img.style.top = `${targetTop}px`;
 }
 
 
@@ -320,7 +332,7 @@ function fetchImageByLineNumber(lineNumber) {
 
 function smoothFollowImage() {
     const img = document.getElementById("flowchart_image");
-    if (!img || !currentTextarea) {
+    if (!img || !currentTextarea || img.style.display === "none") {
         animationRunning = false;
         return;
     }
@@ -331,9 +343,10 @@ function smoothFollowImage() {
     // 정확한 페이지 절대 위치 계산
     const targetTop = taRect.top + scrollY - 10;
 
-    img.style.top = `${targetTop}px`;
+    img.style.top = `${targetTop}px`;  // 이미지의 top 값을 계산하여 갱신
 
-    requestAnimationFrame(smoothFollowImage);
+    // 애니메이션 실행 중단
+    animationRunning = false;
 }
 
 
