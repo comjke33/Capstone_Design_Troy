@@ -200,6 +200,7 @@ def main():
 
     print("---------------------")
 
+    final_code = clean_block(final_code)
     print(final_code)
 
     # 수정된 코드 컴파일 및 테스트
