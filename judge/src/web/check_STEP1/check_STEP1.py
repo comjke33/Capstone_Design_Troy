@@ -154,7 +154,7 @@ def print_ast_diff(original_ast, modified_ast):
         print(line)
 
 def main():
-    filename = "1291_step1.txt"
+    filename = "1292_step1.txt"
     original_code_lines = read_code_lines(filename)
 
     print_code_with_line_numbers(original_code_lines, "🔍 원본 코드 (수정할 줄 선택)")
@@ -218,11 +218,13 @@ def main():
         print("\n❌ AST 차이 있음 (의미 변경 가능성이 있습니다)")
 
     print_ast_diff(original_ast, modified_ast)
+    test_in_add = "../../../data/1292/test.in"
+    test_out_add = "../../../data/1292/test.out"
 
     # 실제 코드 출력 확인
     expected_output = input("✏️ 예상 출력: ")
     ##여기 수정해야됨ㄴ
-    validate_code_output_full_io(modified_code_lines, "test.in", "test.out")
+    validate_code_output_full_io(modified_code_lines, test_in_add, test_out_add)
 
 if __name__ == "__main__":
     main()
