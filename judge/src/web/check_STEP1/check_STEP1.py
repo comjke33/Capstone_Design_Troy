@@ -153,11 +153,11 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
     actual_output = result.stdout.strip()
 
     if actual_output == expected_output:
-        # print("✅ 전체 출력이 예상과 일치합니다.")
-        # print("----- 예상 출력 -----")
-        # print(expected_output)
-        # print("----- 실제 출력 -----")
-        # print(actual_output)            
+        print("✅ 전체 출력이 예상과 일치합니다.")
+        print("----- 예상 출력 -----")
+        print(expected_output)
+        print("----- 실제 출력 -----")
+        print(actual_output)            
         return True
     else:
         print("❌ 출력 불일치:")
