@@ -120,6 +120,8 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
         temp_file.flush()
 
         try:
+            env = os.environ.copy()
+            env["PATH"] = "/usr/bin:" + env.get("PATH", "")
             # 1. 컴파일
             subprocess.run(
                 ['/usr/bin/gcc', '-o', 'test_program', temp_file.name],
