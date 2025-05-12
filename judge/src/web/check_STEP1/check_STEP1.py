@@ -203,7 +203,7 @@ def main():
     # except ValueError:
     #     print("⚠️ 잘못된 입력입니다.")
     #     return
-    print(pid)
+    # print(pid)
     block_num = int(line_num) + 1
     new_code = student_code
     print(new_code)
