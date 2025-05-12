@@ -327,7 +327,7 @@ function smoothFollowImage() {
 
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
-    const targetTop = taRect.top + scrollY - 10;
+    const targetTop = taRect.top - scrollY - 10;
 
     img.style.top = `${targetTop}px`;
 
