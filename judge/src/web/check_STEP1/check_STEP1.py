@@ -190,9 +190,7 @@ def main():
     
 
     # 블럭 단위로 코드 파싱
-    includes, blocks, closing_braces, all_blocks, block_indices = get_blocks(code_lines)
-
-    print("나 작동해요.")    
+    includes, blocks, closing_braces, all_blocks, block_indices = get_blocks(code_lines)  
 
     # print("🔧 #include 블럭")
     # print("".join(includes))
@@ -206,14 +204,13 @@ def main():
     #     print("⚠️ 잘못된 입력입니다.")
     #     return
 
-    block_num = line_num + 1
+    block_num = int(line_num) + 1
     new_code = student_code
     print(block_num)
     print(new_code)
     print("Hello\nSibal")
 
 
-    print("나 작동해요.")
 
     if not (0 <= block_num < len(blocks)):
         # print("⚠️ 유효하지 않은 블럭 번호입니다.")
