@@ -224,7 +224,7 @@ def main():
     # 실제 코드 출력 확인
     expected_output = input("✏️ 예상 출력: ")
     ##여기 수정해야됨ㄴ
-    validate_code_output_full_io(modified_code_lines, test_in_add, test_out_add)
+    validate_code_output_full_io(real_modified_code, test_in_add, test_out_add)
 
 if __name__ == "__main__":
     main()
