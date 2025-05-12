@@ -228,8 +228,15 @@ function submitAnswer(index) {
             index: index
         })
     })
-    .then(res => res.json())
+    .then(res => {
+        if (!res.ok) {
+            console.error("서버 오류:", res.status);
+            return Promise.reject("서버 오류");
+        }
+        return res.json();
+    })
     .then(data => {
+        console.log(data);
         if (data.result === "correct") {
             localStorage.setItem(key, "correct");
 
