@@ -25,20 +25,24 @@ function remove_tags($code) {
 }
 
 // 코드 블럭 교체 함수
-function replace_code_block($original_code, $index, $input) {
+function replace_code_block($original_code, $index, $new_code) {
     $lines = explode("\n", $original_code);
-    $result = [];
-
-    foreach ($lines as $line) {
-        // 특정 블럭 위치에 사용자 입력 코드로 교체
+    $code_block_found = false;
+    foreach ($lines as &$line) {
         if (strpos($line, "[self_start($index)]") !== false) {
-            $result[] = $input . ";";
-        } else if (!preg_match('/\[\w+_(start|end)\(\d+\)\]/', $line)) {
-            $result[] = $line;
+            $code_block_found = true;
+            continue;  // 태그 줄은 건너뛰기
+        }
+        if ($code_block_found) {
+            if (strpos($line, "[self_end($index)]") !== false) {
+                $code_block_found = false;
+                continue;  // 태그 줄은 건너뛰기
+            }
+            // 코드 블럭 교체
+            $line = $new_code;
         }
     }
-
-    return implode("\n", $result);
+    return implode("\n", $lines);
 }
 
 // 코드 파일 불러오기
