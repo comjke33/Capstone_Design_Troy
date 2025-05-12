@@ -81,7 +81,6 @@
     top: 100px; /* 초기 위치 */
     right: 20px;
     width: 200px;
-    transition: top 0.3s ease; /* 부드럽게 이동 */
     z-index: 9999;
 }
 

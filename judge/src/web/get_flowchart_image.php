@@ -5,8 +5,6 @@ header("Content-Type: application/json");
 
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
 
-// $index1 = isset($_GET['index1']) ? intval($_GET['index1']) : -1;
-// $index2 = isset($_GET['index2']) ? intval($_GET['index2']) : -1;
 $index = isset($_GET['index']) ? intval($_GET['index']) : -1;
 // 디버깅 용 default 이미지 설정
 
@@ -17,8 +15,6 @@ if ($problem_id <= 0) {
         'url' => '',
         'debug' => [
             'problem_id' => $problem_id,
-            // 'index1' => $index1,
-            // 'index2' => $index2,
             'index' => $index,
             'res' => $res
         ]
@@ -57,9 +53,6 @@ echo json_encode([
     'url' => $url,
     'debug' => [
         'problem_id' => $problem_id,
-        // 'index1' => $index1,
-        // 'index2' => $index2,
-
         'index' => $index,
         'res' => $res
     ]
