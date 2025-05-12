@@ -300,7 +300,7 @@ function fetchImageByLineNumber(lineNumber) {
             if (!data.url) {
                 // 안보이게 설정
                 img.style.display = "none";
-                img.removeAttribute("src");  // ⛔ src="" 제거!
+                // img.removeAttribute("src");  // ⛔ src="" 제거!
                 
             } else {
                 img.src = data.url;
