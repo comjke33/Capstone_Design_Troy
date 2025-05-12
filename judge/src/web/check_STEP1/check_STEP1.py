@@ -128,7 +128,8 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
-                check=True
+                check=True,
+                env=env
             )
         except subprocess.CalledProcessError as e:
             print(f"[❌] 컴파일 실패:\n{e.stderr}")
