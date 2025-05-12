@@ -253,7 +253,7 @@ function submitAnswer(index) {
             ta.style.border = "1px solid #e06060";
             ta.style.color = "#c00";
         }
-    });
+    })
     .catch(err => {
         console.error("서버 요청 실패:", err);
     });
