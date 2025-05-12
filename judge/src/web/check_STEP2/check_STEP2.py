@@ -112,57 +112,56 @@ def print_blocks(blocks):
         for line in block:
             print(line.rstrip())
 
-def compile_and_run(code, test_in_path, test_out_path):
-    """코드 컴파일 및 테스트 케이스 실행"""
+def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
+    """전체 test.in을 입력하고 전체 출력과 비교"""
     with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False) as temp_file:
-        temp_file.write(code)
+        temp_file.write(''.join(code_lines))
         temp_file.flush()
 
-        exe_path = temp_file.name.replace(".c", "")
-
         try:
-            # 컴파일
-            compile_result = subprocess.run(
-                ['clang', temp_file.name, '-o', exe_path],
-                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
-            )
-            if compile_result.returncode != 0:
-                print(f"[❌] 컴파일 오류:\n{compile_result.stderr}")
-                return
-
-            # 테스트 입력/출력 파일 불러오기
-            with open(test_in_path, 'r') as fin:
-                test_input = fin.read()
-            with open(test_out_path, 'r') as fout:
-                expected_output = fout.read().strip()
-
-            # 실행
-            run_result = subprocess.run(
-                [exe_path],
-                input=test_input,
+            # 1. 컴파일
+            subprocess.run(
+                ['gcc', '-o', 'test_program', temp_file.name],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
-                timeout=5
+                check=True
             )
-            actual_output = run_result.stdout.strip()
+        except subprocess.CalledProcessError as e:
+            print(f"[❌] 컴파일 실패:\n{e.stderr}")
+            return
 
-            # 결과 비교
-            if actual_output == expected_output:
-                print("✅ 정답입니다!")
-            else:
-                print("❌ 출력 불일치:")
-                print("예상 출력:")
-                print(expected_output)
-                print("실제 출력:")
-                print(actual_output)
+    # 2. 입력/출력 파일 로드
+    with open(test_in_path, 'r') as fin:
+        full_input = fin.read()
+    with open(test_out_path, 'r') as fout:
+        expected_output = fout.read().strip()
 
-        except subprocess.TimeoutExpired:
-            print("⏰ 실행 시간 초과")
-        finally:
-            os.remove(temp_file.name)
-            if os.path.exists(exe_path):
-                os.remove(exe_path)
+    # 3. 실행
+    try:
+        result = subprocess.run(
+            ['./test_program'],
+            input=full_input,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=5
+        )
+        actual_output = result.stdout.strip()
+
+        if actual_output == expected_output:
+            print("✅ 전체 출력이 예상과 일치합니다.")
+            return True
+        else:
+            print("❌ 출력 불일치:")
+            print("----- 예상 출력 -----")
+            print(expected_output)
+            print("----- 실제 출력 -----")
+            print(actual_output)
+            return False
+
+    except subprocess.TimeoutExpired:
+        print("⏰ 실행 시간 초과")
 
 def main():
     # 파일 경로 설정
@@ -210,7 +209,7 @@ def main():
     print(final_code)
 
     # 수정된 코드 컴파일 및 테스트
-    compile_and_run(final_code, test_in_path, test_out_path)
+    validate_code_output_full_io(final_code, test_in_path, test_out_path)
 
 if __name__ == "__main__":
     main()
