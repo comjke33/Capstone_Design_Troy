@@ -314,7 +314,7 @@ function updateImageForTextarea(index, ta) {
             // 애니메이션 시작 (이미지가 부드럽게 따라가게)
             if (!animationRunning) {
                 animationRunning = true;
-                smoothFollowImage(); // 이미지를 부드럽게 따라가기 시작
+                // smoothFollowImage(); // 이미지를 부드럽게 따라가기 시작
             }
         });
 }
@@ -336,7 +336,7 @@ function fetchImageByLineNumber(lineNumber) {
 
                 if (!animationRunning) {
                     animationRunning = true;
-                    smoothFollowImage();
+                    // smoothFollowImage();
                 }
             } else {
                 // 이미지 없을 때 숨기기
@@ -348,34 +348,34 @@ function fetchImageByLineNumber(lineNumber) {
 }
 
 
-function smoothFollowImage() {
-    const img = document.getElementById("flowchart_image");
-    if (!img || !currentTextarea) {
-        animationRunning = false;
-        return;
-    }
+// function smoothFollowImage() {
+//     const img = document.getElementById("flowchart_image");
+//     if (!img || !currentTextarea) {
+//         animationRunning = false;
+//         return;
+//     }
 
-    const taRect = currentTextarea.getBoundingClientRect();
-    const scrollY = window.scrollY || document.documentElement.scrollTop;
+//     const taRect = currentTextarea.getBoundingClientRect();
+//     const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-    let targetTop = taRect.top + scrollY - img.offsetHeight + 200;  // 수정된 부분: 위치 조정
+//     let targetTop = taRect.top + scrollY - img.offsetHeight + 200;  // 수정된 부분: 위치 조정
 
-    // 화면 기준 제한
-    const minTop = scrollY + 200;  // 화면 상단 + 여백
-    const maxTop = scrollY + window.innerHeight - img.offsetHeight;  // 화면 하단 - 이미지 높이
+//     // 화면 기준 제한
+//     const minTop = scrollY + 200;  // 화면 상단 + 여백
+//     const maxTop = scrollY + window.innerHeight - img.offsetHeight;  // 화면 하단 - 이미지 높이
 
-    // 제한된 위치로 보정
-    targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
+//     // 제한된 위치로 보정
+//     targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
 
-    const currentTop = parseFloat(img.style.top) || 0;
-    const nextTop = currentTop + (targetTop - currentTop) * 0.1;  // 이미지의 이동을 부드럽게 계산
+//     const currentTop = parseFloat(img.style.top) || 0;
+//     const nextTop = currentTop + (targetTop - currentTop) * 0.1;  // 이미지의 이동을 부드럽게 계산
 
-    // 이미지를 부드럽게 이동시키기 위한 스타일 적용
-    img.style.top = `${nextTop}px`;
+//     // 이미지를 부드럽게 이동시키기 위한 스타일 적용
+//     img.style.top = `${nextTop}px`;
 
-    // 계속 애니메이션을 요청
-    requestAnimationFrame(smoothFollowImage);
-}
+//     // 계속 애니메이션을 요청
+//     requestAnimationFrame(smoothFollowImage);
+// }
 
 
 // textarea 클릭 시 이미지 로드
