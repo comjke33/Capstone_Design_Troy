@@ -203,7 +203,7 @@ def main():
     print(final_code)
 
     # 수정된 코드 컴파일 및 테스트
-    compile_and_run(final_code, test_in_path, test_out_path)
+    compile_and_run(clean_block(final_code), test_in_path, test_out_path)
 
 if __name__ == "__main__":
     main()
