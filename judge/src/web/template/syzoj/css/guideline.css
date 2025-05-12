@@ -148,7 +148,7 @@
 }
 
 /* 제출 버튼 및 보기 버튼 */
-.submit-button, .view-button {
+.submit-button, .answer-button, .feedback-button {
   margin-top: 0;
   color: white !important;
   border: none !important;
@@ -161,12 +161,17 @@
 }
 
 .submit-button {
-  background-color: #4a90e2 !important;
+  background-color: #4a90e2;
 }
 
-.view-button {
-  background-color: #ff8c00 !important;
+.answer-button {
+  background-color: #3fE800;
 }
+
+.feedback-button {
+  background-color: #ff8c00;
+}
+
 
 /* 정답 표시 영역 */
 .answer-area {

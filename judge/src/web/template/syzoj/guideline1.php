@@ -68,9 +68,9 @@ include("../../guideline_common.php");
                     // 라인 번호에 맞는 이미지를 업데이트하기 위한 스크립트 추가
                     // $html .= "<script>updateImageForTextarea({$answer_index + 1}, document.getElementById('ta_{$answer_index}'));</script>";  // 라인 번호에 맞춰 이미지 업데이트
 
-                    $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
-                    $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
-                    $html .= "<button onclick='showFeedback({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>피드백 보기</button>";
+                    $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
+                    $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='Answer-button'>답안 확인</button>";
+                    $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='Feedback-button'>피드백 보기</button>";
 
                     $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                     $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
