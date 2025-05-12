@@ -204,6 +204,7 @@ def main():
     new_code = student_code
     print(block_num)
     print(new_code)
+    print("Hello")
 
     if not (0 <= block_num < len(blocks)):
         # print("⚠️ 유효하지 않은 블럭 번호입니다.")
