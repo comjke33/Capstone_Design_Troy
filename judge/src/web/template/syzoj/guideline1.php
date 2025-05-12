@@ -341,7 +341,9 @@ function smoothFollowImage() {
 
     const currentTop = parseFloat(img.style.top) || 0;
     // 현재 top과 finalTop 사이의 차이를 그대로 적용하여 더 큰 이동 범위 만들기
-    const nextTop = currentTop + (finalTop - currentTop);  // 비율 없이 직접 차이를 사용
+
+    const nextTop = currentTop + (finalTop - currentTop) * 0.1;  // 10%씩 이동
+
 
     // 이미지 위치 업데이트
     img.style.top = `${nextTop}px`;
