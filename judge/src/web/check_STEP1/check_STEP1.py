@@ -204,7 +204,7 @@ def main():
     new_code = student_code
 
     if not (0 <= block_num < len(blocks)):
-        print("⚠️ 유효하지 않은 블럭 번호입니다.")
+        # print("⚠️ 유효하지 않은 블럭 번호입니다.")
         return
 
     # 새 코드 블럭 생성
@@ -216,9 +216,9 @@ def main():
     # 블럭을 합쳐서 코드 생성
     final_code = ''.join(line for block in all_blocks for line in block)
     # print("\n🔄 수정된 코드:")
-    for block in all_blocks:
-        for line in block:
-            print(line)
+    # for block in all_blocks:
+    #     for line in block:
+    #         print(line)
 
     # print("---------------------")
     final_code = re.sub(r'\[[^\]]*\]', '', final_code)
