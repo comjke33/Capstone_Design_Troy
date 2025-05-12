@@ -96,7 +96,8 @@
 /* 가운데 코드 입력 영역 */
 .center-panel {
   position: relative;
-  margin-left: 160px;
+  margin-left: 80px;
+  margin-right: 200px; 
   flex-grow: 2;
   padding: 20px;
   overflow-y: auto;
@@ -108,6 +109,7 @@
 /* 오른쪽 피드백 패널 */
 .right-panel {
   position: fixed;
+  right: 10px;
   flex: 0 0 25%;
   max-width: 500px;
   padding: 20px;
