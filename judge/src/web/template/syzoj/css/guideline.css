@@ -77,23 +77,19 @@
 
 /* 좌측 flowchart 이미지 영역 */
 .left-panel {
-  margin-left: -250px;
-  position: relative;
-  width: 25%;
-  min-width: 120px;
-  max-width: 300px;
-  padding: 10px;
-  box-sizing: border-box;
-  border-right: 1px solid #ccc;
+    position: fixed;
+    top: 100px; /* 초기 위치 */
+    right: 20px;
+    width: 200px;
+    transition: top 0.3s ease; /* 부드럽게 이동 */
+    z-index: 9999;
 }
 
 #flowchart_image {
     position: absolute;
-    top: 0;
-    left: 100px; /* 원하는 위치로 조정 */
+    top: 100px;
     width: 250px;
     max-height: 500px;
-    z-index: 9999;
     display: none;  /* 기본적으로 숨기기 */
     transition: top 0.3s ease;
 }
