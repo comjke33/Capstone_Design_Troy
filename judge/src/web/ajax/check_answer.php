@@ -18,4 +18,4 @@ $result = trim(shell_exec($cmd));
 // 결과 반환
 $response = ["result" => $result];
 header("Content-Type: application/json");
-echo json_encode($result);
+echo json_encode($response);
