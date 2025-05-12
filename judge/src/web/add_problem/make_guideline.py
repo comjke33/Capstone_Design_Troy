@@ -38,14 +38,26 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         chunk = s.recv(buffer_size)
         if not chunk:
             break
-        part = chunk.decode('utf-8')
+        received_data += chunk
 
-        # "데이터 생성중..." 은 무시
-        if "데이터 생성중..." in part:
-            print(part.strip())  # 필요하면 출력만 하고 넘김
+    # 전체 데이터를 문자열로 디코딩 (단 한 번)
+    try:
+        full_message = received_data.decode('utf-8')
+    except UnicodeDecodeError as e:
+        print("UTF-8 디코딩 오류:", e)
+        # 오류 무시하고 대체 문자로 표시
+        full_message = received_data.decode('utf-8', errors='replace')
+
+    # "데이터 생성중..." 메시지 제외
+    cleaned_message_lines = []
+    for line in full_message.splitlines():
+        if "데이터 생성중..." in line:
+            print(line.strip())
             continue
-        
-        full_message += part
+        cleaned_message_lines.append(line)
+
+    # 최종 JSON 문자열 구성
+    full_message = "\n".join(cleaned_message_lines)
 
     # 최종 진짜 데이터 처리
     try:
