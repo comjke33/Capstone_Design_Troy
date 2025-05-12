@@ -212,6 +212,12 @@ function submitAnswer(index) {
     const key = `answer_status_step${step}_q${index}_pid${problemId}`;
 
 
+    console.log("제출값:", input);
+    console.log("요청 데이터:", {
+        answer: input,
+        problem_id: problemId,
+        index: index
+    });
 
     fetch("../../ajax/check_answer.php", {
         method: "POST",
@@ -249,6 +255,9 @@ function submitAnswer(index) {
         }
     });
 }
+.catch(err => {
+    console.error("서버 요청 실패:", err);
+});
 
 //답안 보여주기
 function showAnswer(index) {
