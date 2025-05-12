@@ -55,6 +55,7 @@ def get_blocks(code_lines):
                 all_blocks.append(current_block)
                 block_indices.append((blocks_idx, all_idx))
                 blocks_idx += 1
+                all_idx += 1
                 current_block = []
             current_block.append(line)
             inside_block = True
@@ -66,6 +67,7 @@ def get_blocks(code_lines):
                 all_blocks.append(current_block)
                 block_indices.append((blocks_idx, all_idx))
                 blocks_idx += 1
+                all_idx += 1
                 current_block = []
             inside_block = False
         
@@ -191,6 +193,7 @@ def main():
     blocks[block_num] = new_block
     all_blocks[block_indices[block_num][1]] = new_block
 
+
     # 블럭을 합쳐서 코드 생성
     final_code = ''.join(line for block in all_blocks for line in block)
     print("\n🔄 수정된 코드:")
@@ -199,8 +202,7 @@ def main():
             print(line)
 
     print("---------------------")
-
-    final_code = clean_block(final_code)
+    final_code = re.sub(r'\[[^\]]*\]', '', final_code)
     print(final_code)
 
     # 수정된 코드 컴파일 및 테스트
