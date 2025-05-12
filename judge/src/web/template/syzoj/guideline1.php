@@ -254,10 +254,11 @@ function submitAnswer(index) {
             ta.style.color = "#c00";
         }
     });
+    .catch(err => {
+        console.error("서버 요청 실패:", err);
+    });
+
 }
-.catch(err => {
-    console.error("서버 요청 실패:", err);
-});
 
 //답안 보여주기
 function showAnswer(index) {
