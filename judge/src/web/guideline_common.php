@@ -166,7 +166,7 @@ function extractContentsFlat($blocks) { //트리 구조
     return $results; //평탄화된 tree -> array 배열 변환
 }
 
-//태그제거 하는 필터
+//태그만제거 하는 필터
 function guidelineOnlyTagFilter($text) {
     // 대괄호 태그 정규식: [tag_name(number)] 또는 [tag_name]
     $tagPattern = '/\[\s*(func_def_start|func_def_end|cond_start|cond_end|rep_start|rep_end|self_start|self_end|struct_start|struct_end)\(?\d*\)?\s*\]/';
