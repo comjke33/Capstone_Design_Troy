@@ -176,15 +176,18 @@ def main():
         pid = sys.argv[1]
         line_num = sys.argv[2]
         student_code = sys.argv[3]
-    print("나 작동해요.")
+    
 
     # 파일 경로 설정
     filename = f"../tagged_code/{pid}_step1.txt"
     test_in_path = f"../../../data/{pid}/test.in"
     test_out_path = f"../../../data/{pid}/test.out"
+
     
     # 코드 읽기
     code_lines = read_code_lines(filename)
+
+    print("나 작동해요.")
 
     # 블럭 단위로 코드 파싱
     includes, blocks, closing_braces, all_blocks, block_indices = get_blocks(code_lines)
