@@ -370,9 +370,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // 스크롤 시 따라오게
-window.addEventListener("scroll", () => {
-    updateImagePosition();
-});
+// window.addEventListener("scroll", () => {
+//     updateImagePosition();
+// });
 
 </script>
 
