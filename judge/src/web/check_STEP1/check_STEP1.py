@@ -2,6 +2,7 @@ import subprocess
 import tempfile
 import re
 import os
+import sys
 
 def is_tag_line(line):
     """태그 줄인지 판별"""
@@ -170,10 +171,16 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
         print("⏰ 실행 시간 초과")
 
 def main():
+
+    if len(sys.argv) == 4:
+        pid = sys.argv[1]
+        line_num = sys.argv[2]
+        student_code = sys.argv[3]
+
     # 파일 경로 설정
-    filename = "../tagged_code/1292_step2.txt"
-    test_in_path = "../../../data/1292/test.in"
-    test_out_path = "../../../data/1292/test.out"
+    filename = f"../tagged_code/{pid}_step2.txt"
+    test_in_path = f"../../../data/{pid}/test.in"
+    test_out_path = f"../../../data/{pid}/test.out"
     
     # 코드 읽기
     code_lines = read_code_lines(filename)
@@ -186,12 +193,15 @@ def main():
 
     print_blocks(blocks)
 
-    try:
-        block_num = int(input("\n✏️ 교체할 블럭 번호 입력 (1부터 시작): ")) - 1
-        new_code = input("✏️ 교체할 코드 블럭 입력 (줄바꿈은 \\n 사용): ")
-    except ValueError:
-        print("⚠️ 잘못된 입력입니다.")
-        return
+    # try:
+    #     block_num = int(input("\n✏️ 교체할 블럭 번호 입력 (1부터 시작): ")) - 1
+    #     new_code = input("✏️ 교체할 코드 블럭 입력 (줄바꿈은 \\n 사용): ")
+    # except ValueError:
+    #     print("⚠️ 잘못된 입력입니다.")
+    #     return
+
+    block_num = line_num
+    new_code = student_code
 
     if not (0 <= block_num < len(blocks)):
         print("⚠️ 유효하지 않은 블럭 번호입니다.")
