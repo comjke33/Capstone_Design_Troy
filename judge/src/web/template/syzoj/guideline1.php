@@ -297,7 +297,7 @@ function fetchImageByLineNumber(lineNumber) {
             
             console.log("서버 응답 데이터:", data);  // 응답 데이터 출력
 
-            if (!data.url || data.url.trim() === "") {
+            if (!data.url) {
                 // 안보이게 설정
                 img.style.display = "none";
                 img.removeAttribute("src");  // ⛔ src="" 제거!
