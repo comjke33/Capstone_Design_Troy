@@ -318,59 +318,27 @@ function fetchImageByLineNumber(lineNumber) {
 }
 
 
-
-// 클릭한 `textarea`에 맞춰 이미지 위치 업데이트
-function updateImageForTextarea(index, ta) {
-    currentTextarea = ta;
-
-    // 플로우차트 이미지를 가져오기 위한 API 호출
-    fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
-        .then(res => res.json())
-        .then(data => {
-            let img = document.getElementById("flowchart_image");
-
-            // 이미지가 없으면 동적으로 추가할 수 있지만, 여기서는 기존 이미지를 사용
-            if (!img) {
-                img = document.createElement("img");
-                img.id = "flowchart_image";
-                document.body.appendChild(img);  // 필요에 따라 이미지 태그를 동적으로 생성
-            }
-
-            img.src = data.url;  // 서버에서 받은 이미지 URL로 설정
-            console.log("서버 디버그 데이터:", data.debug);
-
-            // 애니메이션 시작 (이미지가 부드럽게 따라가게)
-            if (!animationRunning) {
-                animationRunning = true;
-                smoothFollowImage(); // 이미지를 부드럽게 따라가기 시작
-            }
-        });
-}
-
-// 이미지 위치를 텍스트영역 왼쪽에 맞추고, 스크롤을 따라가게 설정
-function updateImagePosition() {
+function smoothFollowImage() {
     const img = document.getElementById("flowchart_image");
-    if (!img || !currentTextarea) return;
+    if (!img || !currentTextarea) {
+        animationRunning = false;
+        return;
+    }
 
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
+    const targetTop = taRect.top + scrollY - 10;
 
-    // 이미지 위치 계산 (textarea 왼쪽, 상단에 여유 주기)
-    const offsetTop = taRect.top + scrollY - 10;
+    img.style.top = `${targetTop}px`;
 
-    img.style.top = `${offsetTop}px`;
+    requestAnimationFrame(smoothFollowImage);
 }
+
 
 // textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
-        // focus + click 모두 대응
-        ["focus", "click"].forEach(evt => {
-            ta.addEventListener(evt, () => {
-                currentTextarea = ta;
-                updateImagePosition();
-            });
-        });
+        ta.addEventListener("focus", () => updateImageForTextarea(idx, ta)); // 클릭 시 이미지 업데이트
     });
 });
 
