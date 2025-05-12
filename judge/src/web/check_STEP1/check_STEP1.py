@@ -160,6 +160,7 @@ def main():
     print_code_with_line_numbers(original_code_lines, "🔍 원본 코드 (수정할 줄 선택)")
 
     try:
+        #####TODO 여기 수정#####
         line_num = int(input("\n✏️ 바꿀 줄 번호 입력: "))
         student_line = input("✏️ 학생 코드 한 줄 입력: ")
     except ValueError:
@@ -222,7 +223,7 @@ def main():
     test_out_add = "../../../data/1292/test.out"
 
     # 실제 코드 출력 확인
-    expected_output = input("✏️ 예상 출력: ")
+    #expected_output = input("✏️ 예상 출력: ")
     ##여기 수정해야됨ㄴ
     validate_code_output_full_io(real_modified_code, test_in_add, test_out_add)
 
