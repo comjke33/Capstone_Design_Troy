@@ -126,12 +126,14 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
 
         if actual_output == expected_output:
             print("✅ 전체 출력이 예상과 일치합니다.")
+            return True
         else:
             print("❌ 출력 불일치:")
             print("----- 예상 출력 -----")
             print(expected_output)
             print("----- 실제 출력 -----")
             print(actual_output)
+            return False
 
     except subprocess.TimeoutExpired:
         print("⏰ 실행 시간 초과")
@@ -219,14 +221,14 @@ def main():
     #     print("\n❌ AST 차이 있음 (의미 변경 가능성이 있습니다)")
 
     # print_ast_diff(original_ast, modified_ast)
-    
+
     test_in_add = "../../../data/1292/test.in"
     test_out_add = "../../../data/1292/test.out"
 
     # 실제 코드 출력 확인
     #expected_output = input("✏️ 예상 출력: ")
     ##여기 수정해야됨ㄴ
-    validate_code_output_full_io(real_modified_code, test_in_add, test_out_add)
+    return validate_code_output_full_io(real_modified_code, test_in_add, test_out_add)
 
 if __name__ == "__main__":
     main()
