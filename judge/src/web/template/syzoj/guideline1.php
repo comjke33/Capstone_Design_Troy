@@ -65,6 +65,9 @@ include("../../guideline_common.php");
                     $html .= "<div class='code-line'>{$line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
+                    // 라인 번호에 맞는 이미지를 업데이트하기 위한 스크립트 추가
+                    // $html .= "<script>updateImageForTextarea({$answer_index + 1}, document.getElementById('ta_{$answer_index}'));</script>";  // 라인 번호에 맞춰 이미지 업데이트
+
                     $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
                     $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
 
@@ -294,9 +297,6 @@ function fetchImageByLineNumber(lineNumber) {
         .then(response => response.json())
         .then(data => {
             let img = document.getElementById("flowchart_image");
-            
-            console.log("서버 응답 데이터:", data);  // 응답 데이터 출력
-
             if (data.url && data.url.trim() !== "") {
                 // 이미지가 존재할 때만 보여주기
                 img.src = data.url;
@@ -318,7 +318,7 @@ function fetchImageByLineNumber(lineNumber) {
 }
 
 
-// 이미지 위치를 텍스트영역 왼쪽에 맞추고, 스크롤을 따라가게 설정
+//이미지 매끄러운 이동
 function smoothFollowImage() {
     const img = document.getElementById("flowchart_image");
     if (!img || !currentTextarea) {
@@ -326,59 +326,30 @@ function smoothFollowImage() {
         return;
     }
 
-    const taRect = currentTextarea.getBoundingClientRect();  // `textarea`의 화면 위치 계산
-    const scrollY = window.scrollY || document.documentElement.scrollTop;  // 현재 스크롤 위치
+    const taRect = currentTextarea.getBoundingClientRect();
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-    const targetTop = taRect.top + scrollY - img.offsetHeight + 100;  
+    let targetTop = taRect.top + scrollY - img.offsetHeight + 200;
 
-    const minTop = scrollY + 10;  
-    const maxTop = scrollY + window.innerHeight - img.offsetHeight + 10;  
+    // 화면 기준 제한
+    const minTop = scrollY + 200; // 화면 상단 + 여백
+    const maxTop = scrollY + window.innerHeight - img.offsetHeight; // 화면 하단 - 이미지 높이
 
     // 제한된 위치로 보정
-    const finalTop = Math.max(minTop, Math.min(targetTop, maxTop));
+    targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
 
     const currentTop = parseFloat(img.style.top) || 0;
-    
-    const nextTop = currentTop + (finalTop - currentTop) * 0.1;  
+    const nextTop = currentTop + (targetTop - currentTop) * 0.1;
 
-    img.style.top = `${nextTop}px`;  // 이미지 `top` 위치 업데이트
+    img.style.top = `${nextTop}px`;
 
-    requestAnimationFrame(smoothFollowImage);  // 애니메이션 부드럽게 실행
-}
-
-
-// 클릭한 `textarea`에 맞춰 이미지 위치 업데이트
-function updateImageForTextarea(index, ta) {
-    currentTextarea = ta;
-
-    // 플로우차트 이미지를 가져오기 위한 API 호출
-    fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
-        .then(res => res.json())
-        .then(data => {
-            let img = document.getElementById("flowchart_image");
-
-            // 이미지가 없으면 동적으로 추가할 수 있지만, 여기서는 기존 이미지를 사용
-            if (!img) {
-                img = document.createElement("img");
-                img.id = "flowchart_image";
-                document.body.appendChild(img);  // 필요에 따라 이미지 태그를 동적으로 생성
-            }
-
-            img.src = data.url;  // 서버에서 받은 이미지 URL로 설정
-            console.log("서버 디버그 데이터:", data.debug);
-
-            // 애니메이션 시작 (이미지가 부드럽게 따라가게)
-            if (!animationRunning) {
-                animationRunning = true;
-                smoothFollowImage(); // 이미지를 부드럽게 따라가기 시작
-            }
-        });
+    requestAnimationFrame(smoothFollowImage);
 }
 
 // textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
-        ta.addEventListener("focus", () => updateImageForTextarea(idx, ta)); // 클릭 시 이미지 업데이트
+    ta.addEventListener("focus", () => fetchImageByLineNumber(idx)); // +1로 라인번호 맞추기
     });
 });
 
