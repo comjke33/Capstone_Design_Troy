@@ -358,21 +358,23 @@ function updateImagePosition() {
     // 이미지 위치 계산 (textarea 왼쪽, 상단에 여유 주기)
     const offsetTop = taRect.top + scrollY - 10;
 
-    img.style.position = 'absolute';
     img.style.top = `${offsetTop}px`;
 }
 
 // textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
-        ta.addEventListener("focus", () => updateImageForTextarea(idx, ta)); // 클릭 시 이미지 업데이트
+        // focus + click 모두 대응
+        ["focus", "click"].forEach(evt => {
+            ta.addEventListener(evt, () => {
+                currentTextarea = ta;
+                updateImagePosition();
+            });
+        });
     });
 });
 
-// 스크롤 시 따라오게
-// window.addEventListener("scroll", () => {
-//     updateImagePosition();
-// });
+
 
 </script>
 
