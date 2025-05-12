@@ -87,37 +87,55 @@ def adjust_indentation(original_code_lines, modified_code_lines, line_num):
 
     return modified_code_lines
 
-def validate_code_output(code_lines, expected_output):
-    """주어진 코드의 출력을 실행하고 예상 출력과 비교"""
+def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
+    """전체 test.in을 입력하고 전체 출력과 비교"""
     with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False) as temp_file:
         temp_file.write(''.join(code_lines))
         temp_file.flush()
+
         try:
-            # 컴파일
-            result = subprocess.run(
-                ['gcc', '-o', 'test_program', temp_file.name],  # gcc를 사용해서 컴파일
+            # 1. 컴파일
+            subprocess.run(
+                ['gcc', '-o', 'test_program', temp_file.name],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
                 check=True
             )
-            
-            # 실행
-            run_result = subprocess.run(
-                ['./test_program'],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True
-            )
-            
-            # 실행 결과가 예상 출력과 일치하는지 확인
-            if run_result.stdout.strip() == expected_output.strip():
-                print("✅ 출력이 예상과 일치합니다.")
-            else:
-                print(f"❌ 예상 출력: {expected_output.strip()} vs 실제 출력: {run_result.stdout.strip()}")
-            
         except subprocess.CalledProcessError as e:
-            print(f"[❌] 코드 실행 실패:\n{e.stderr}")
+            print(f"[❌] 컴파일 실패:\n{e.stderr}")
+            return
+
+    # 2. 입력/출력 파일 로드
+    with open(test_in_path, 'r') as fin:
+        full_input = fin.read()
+    with open(test_out_path, 'r') as fout:
+        expected_output = fout.read().strip()
+
+    # 3. 실행
+    try:
+        result = subprocess.run(
+            ['./test_program'],
+            input=full_input,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=5
+        )
+        actual_output = result.stdout.strip()
+
+        if actual_output == expected_output:
+            print("✅ 전체 출력이 예상과 일치합니다.")
+        else:
+            print("❌ 출력 불일치:")
+            print("----- 예상 출력 -----")
+            print(expected_output)
+            print("----- 실제 출력 -----")
+            print(actual_output)
+
+    except subprocess.TimeoutExpired:
+        print("⏰ 실행 시간 초과")
+
 
 def print_ast_diff(original_ast, modified_ast):
     """원본 AST와 수정된 AST의 차이를 비교하고 출력"""
@@ -136,7 +154,7 @@ def print_ast_diff(original_ast, modified_ast):
         print(line)
 
 def main():
-    filename = "1290_step1.txt"
+    filename = "1291_step1.txt"
     original_code_lines = read_code_lines(filename)
 
     print_code_with_line_numbers(original_code_lines, "🔍 원본 코드 (수정할 줄 선택)")
@@ -203,7 +221,8 @@ def main():
 
     # 실제 코드 출력 확인
     expected_output = input("✏️ 예상 출력: ")
-    validate_code_output(modified_code_lines, expected_output)
+    ##여기 수정해야됨ㄴ
+    validate_code_output_full_io(modified_code_lines, "test.in", "test.out")
 
 if __name__ == "__main__":
     main()
