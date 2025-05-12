@@ -122,7 +122,7 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
         try:
             # 1. 컴파일
             subprocess.run(
-                ['gcc', '-o', 'test_program', temp_file.name],
+                ['/usr/bin/gcc', '-o', 'test_program', temp_file.name],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
@@ -130,7 +130,7 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
             )
         except subprocess.CalledProcessError as e:
             print(f"[❌] 컴파일 실패:\n{e.stderr}")
-            return True
+            return
 
     # 2. 입력/출력 파일 로드
     with open(test_in_path, 'r') as fin:
