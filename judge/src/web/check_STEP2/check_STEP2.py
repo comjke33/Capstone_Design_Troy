@@ -196,7 +196,8 @@ def main():
 
     print("\n🔄 수정된 코드:")
     for block in all_blocks:
-        print(block)
+        for line in block:
+            print(line)
 
     # 수정된 코드 컴파일 및 테스트
     #compile_and_run(final_code, test_in_path, test_out_path)
