@@ -35,7 +35,7 @@ include("../../guideline_common.php");
 <div class="main-layout">
     <!-- 좌측 패널 -->
     <div class="left-panel">
-        <img id="flowchart_image" style="display:none;">
+        <img id="flowchart_image" style="display: none>
     </div>
 
 
@@ -267,6 +267,13 @@ function updateImageForTextarea(index, ta) {
         .then(res => res.json())
         .then(data => {
             let img = document.getElementById("flowchart_image");
+            
+            // 이미지가 없으면 동적으로 추가할 수 있지만, 여기서는 기존 이미지를 사용
+            if (!img) {
+                img = document.createElement("img");
+                img.id = "flowchart_image";
+                document.body.appendChild(img);  // 필요에 따라 이미지 태그를 동적으로 생성
+            }
 
             img.src = data.url;  // 서버에서 받은 이미지 URL로 설정
             console.log("서버 디버그 데이터:", data.debug);
