@@ -65,6 +65,17 @@ function codeFilter($text) {
     foreach ($lines as $line) {
         $line = rtrim($line);
 
+        // `#include` 라인은 무시
+        if (preg_match('/^#include\s+<.*>$/', trim($line))) {
+            continue;  // 해당 라인은 처리하지 않음
+        }
+
+        // `textarea` 부분이 `}` 또는 공백일 경우 무시
+        if (trim($line) === '}' || trim($line) === '') {
+            continue;  // 해당 라인은 처리하지 않음
+        }
+
+
         // [start] 태그 감지
         if (preg_match('/\[(\w+)_start\((\d+)\)\]/', $line, $m)) {
             // 기존에 누적된 텍스트가 있으면 처리
