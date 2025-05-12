@@ -108,10 +108,10 @@ def clean_block(block):
 
 def print_blocks(blocks):
     """블럭들을 순서대로 출력"""
-    for idx, block in enumerate(blocks):
-        print(f"\n🔹 블럭 {idx + 1}")
-        for line in block:
-            print(line.rstrip())
+    # for idx, block in enumerate(blocks):
+    #     # print(f"\n🔹 블럭 {idx + 1}")
+    #     for line in block:
+            # print(line.rstrip())
 
 def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
     """전체 test.in을 입력하고 전체 출력과 비교"""
@@ -129,7 +129,7 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
                 check=True
             )
         except subprocess.CalledProcessError as e:
-            print(f"[❌] 컴파일 실패:\n{e.stderr}")
+            # print(f"[❌] 컴파일 실패:\n{e.stderr}")
             return
 
     # 2. 입력/출력 파일 로드
@@ -137,38 +137,38 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
         full_input = fin.read()
     with open(test_out_path, 'r') as fout:
         expected_output = fout.read().strip()
-    print(full_input)
-    print(expected_output)
+    # print(full_input)
+    # print(expected_output)
 
     # 3. 실행
-    try:
-        result = subprocess.run(
-            ['./test_program'],
-            input=full_input,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            timeout=5
-        )
-        actual_output = result.stdout.strip()
+    # try:
+    result = subprocess.run(
+        ['./test_program'],
+        input=full_input,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        timeout=5
+    )
+    actual_output = result.stdout.strip()
 
-        if actual_output == expected_output:
-            print("✅ 전체 출력이 예상과 일치합니다.")
-            print("----- 예상 출력 -----")
-            print(expected_output)
-            print("----- 실제 출력 -----")
-            print(actual_output)            
-            return True
-        else:
-            print("❌ 출력 불일치:")
-            print("----- 예상 출력 -----")
-            print(expected_output)
-            print("----- 실제 출력 -----")
-            print(actual_output)
-            return False
+    if actual_output == expected_output:
+        # print("✅ 전체 출력이 예상과 일치합니다.")
+        # print("----- 예상 출력 -----")
+        # print(expected_output)
+        # print("----- 실제 출력 -----")
+        # print(actual_output)            
+        return True
+    else:
+        # print("❌ 출력 불일치:")
+        # print("----- 예상 출력 -----")
+        # print(expected_output)
+        # print("----- 실제 출력 -----")
+        # print(actual_output)
+        return False
 
-    except subprocess.TimeoutExpired:
-        print("⏰ 실행 시간 초과")
+    # except subprocess.TimeoutExpired:
+    #     print("⏰ 실행 시간 초과")
 
 def main():
 
@@ -188,10 +188,10 @@ def main():
     # 블럭 단위로 코드 파싱
     includes, blocks, closing_braces, all_blocks, block_indices = get_blocks(code_lines)
 
-    print("🔧 #include 블럭")
-    print("".join(includes))
+    # print("🔧 #include 블럭")
+    # print("".join(includes))
 
-    print_blocks(blocks)
+    # print_blocks(blocks)
 
     # try:
     #     block_num = int(input("\n✏️ 교체할 블럭 번호 입력 (1부터 시작): ")) - 1
@@ -215,14 +215,14 @@ def main():
 
     # 블럭을 합쳐서 코드 생성
     final_code = ''.join(line for block in all_blocks for line in block)
-    print("\n🔄 수정된 코드:")
+    # print("\n🔄 수정된 코드:")
     for block in all_blocks:
         for line in block:
             print(line)
 
-    print("---------------------")
+    # print("---------------------")
     final_code = re.sub(r'\[[^\]]*\]', '', final_code)
-    print(final_code)
+    # print(final_code)
 
     # 수정된 코드 컴파일 및 테스트
     if(validate_code_output_full_io(final_code, test_in_path, test_out_path)):
