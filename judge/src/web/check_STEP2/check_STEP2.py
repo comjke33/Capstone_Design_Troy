@@ -38,14 +38,18 @@ def get_blocks(code_lines):
     for line in code_lines:
         # 헤더 선언 (#include)은 상수 블럭으로 처리
         if is_include_line(line):
-            all_blocks.append(line)
+            includes.append(line)
+            all_blocks.append(includes)
             all_idx += 1
+            includes = []
             continue
         
         # 단독 중괄호는 상수 블럭으로 처리
         if is_single_brace(line):
-            all_blocks.append(line)
+            closing_braces.append(line)
+            all_blocks.append(closing_braces)
             all_idx += 1
+            closing_braces = []
             continue
         
         # 블럭 시작 조건: start 태그를 만나면 새 블럭 시작
