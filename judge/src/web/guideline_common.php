@@ -7,12 +7,19 @@ function guidelineFilter($text) {
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
 
+    $currentBlock = null;  // 현재 텍스트 블록을 추적
+
     //우측 공백제거
     foreach ($lines as $line) {
         $line = rtrim($line);
 
         // 시작 태그일 경우 새 블록 생성 및 스택에 추가
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $m)) {
+            // 기존에 텍스트가 있으면 블록에 추가
+            if ($currentBlock !== null) {
+                $stack[count($stack) - 1]['children'][] = $currentBlock;
+            }
+
             $block = [
                 'type' => $m[1], // 태그 이름
                 'index' => $m[2], // 태그 번호
@@ -32,6 +39,11 @@ function guidelineFilter($text) {
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $line, $m)) {
             for ($i = count($stack) - 1; $i >= 1; $i--) {
                 if ($stack[$i]['type'] === $m[1] && $stack[$i]['index'] == $m[2]) {
+                    // 텍스트가 남아 있다면 저장
+                    if ($currentBlock !== null) {
+                        $stack[$i]['children'][] = $currentBlock;
+                        $currentBlock = null;
+                    }
                     array_pop($stack);
                     break;
                 }
@@ -39,19 +51,30 @@ function guidelineFilter($text) {
             continue;
         }
 
-        // 일반 텍스트는 현재 블록에 추가
+        // 일반 텍스트는 현재 블록에 추가 (줄이 끝날 때마다 누적)
         if (trim($line) !== '') {
-            $stack[count($stack) - 1]['children'][] = [
-                'type' => 'text',
-                'content' => $line,
-                'depth' => count($stack) - 1
-            ];
+            if ($currentBlock === null) {
+                $currentBlock = [
+                    'type' => 'text',
+                    'content' => $line,
+                    'depth' => count($stack) - 1
+                ];
+            } else {
+                // 이전 텍스트와 합침
+                $currentBlock['content'] .= "\n" . $line;
+            }
         }
+    }
+
+    // 마지막에 남은 텍스트가 있으면 추가
+    if ($currentBlock !== null) {
+        $stack[count($stack) - 1]['children'][] = $currentBlock;
     }
 
     //최종 결과를 반환(root는 제외)
     return $root['children'];
 }
+
 
 
 function codeFilter($text) {
