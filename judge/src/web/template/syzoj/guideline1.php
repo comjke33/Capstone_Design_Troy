@@ -257,7 +257,6 @@ function autoResize(ta) {
 let currentTextarea = null;
 let animationRunning = false;
 
-//flowchart렌더링 
 function updateImageForTextarea(index, ta) {
     currentTextarea = ta;
 
@@ -280,11 +279,39 @@ function updateImageForTextarea(index, ta) {
                 img.style.display = "none";  // 이미지가 없으면 숨기기
             }
 
+            // 이미지 위치를 한 번만 갱신
             if (!animationRunning) {
                 animationRunning = true;
-                smoothFollowImage(); // 따라오기 시작
+                updateImagePosition(); // 한 번만 실행하여 이미지 위치를 갱신
             }
         });
+}
+
+function updateImagePosition() {
+    const img = document.getElementById("flowchart_image");
+    if (!img || !currentTextarea || img.style.display === "none") {
+        animationRunning = false;
+        return;
+    }
+
+    // textarea 위치 계산
+    const taRect = currentTextarea.getBoundingClientRect();
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+    // 정확한 페이지 절대 위치 계산 (스크롤을 고려하여)
+    const targetTop = taRect.top + scrollY - 10;
+
+    // 화면 기준으로 이미지가 밖으로 나가지 않게 제한
+    const minTop = scrollY + 10; // 화면 상단 + 여백
+    const maxTop = scrollY + window.innerHeight - img.offsetHeight - 10; // 화면 하단 - 이미지 높이
+
+    // 제한된 위치로 보정
+    const finalTop = Math.max(minTop, Math.min(targetTop, maxTop));
+
+    img.style.top = `${finalTop}px`;
+
+    // 애니메이션 종료 처리
+    animationRunning = false;
 }
 
 function smoothFollowImage() {
