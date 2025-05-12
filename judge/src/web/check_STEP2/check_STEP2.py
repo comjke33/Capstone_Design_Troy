@@ -142,7 +142,7 @@ def compile_and_run(code, test_in_path, test_out_path):
 
 def main():
     # 파일 경로 설정
-    filename = "./tagged_code/1292_step2.txt"
+    filename = "../tagged_code/1292_step2.txt"
     test_in_path = "../../../data/1292/sample.in"
     test_out_path = "../../../data/1292/sample.out"
     
