@@ -287,12 +287,10 @@ function updateImageForTextarea(index, ta) {
         });
 }
 
+// 이미지 위치 갱신 (스크롤을 따라가게)
 function updateImagePosition() {
     const img = document.getElementById("flowchart_image");
-    if (!img || !currentTextarea || img.style.display === "none") {
-        animationRunning = false;
-        return;
-    }
+    if (!img || !currentTextarea || img.style.display === "none") return;
 
     // textarea 위치 계산
     const taRect = currentTextarea.getBoundingClientRect();
@@ -308,7 +306,9 @@ function updateImagePosition() {
     // 제한된 위치로 보정
     const finalTop = Math.max(minTop, Math.min(targetTop, maxTop));
 
-    img.style.top = `${finalTop}px`;
+    // 이미지를 body 기준으로 위치 조정
+    img.style.position = "absolute";  // position이 없다면 추가
+    img.style.top = `${finalTop}px`;  // 위치 갱신
 
     // 애니메이션 종료 처리
     animationRunning = false;
