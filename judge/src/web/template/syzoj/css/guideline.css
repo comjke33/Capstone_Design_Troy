@@ -96,7 +96,7 @@
 /* 가운데 코드 입력 영역 */
 .center-panel {
   position: relative;
-  margin-left: 220px;
+  margin-left: 160px;
   flex-grow: 2;
   padding: 20px;
   overflow-y: auto;
