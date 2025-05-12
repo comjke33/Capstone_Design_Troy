@@ -55,6 +55,7 @@ def get_blocks(code_lines):
                 all_blocks.append(current_block)
                 block_indices.append((blocks_idx, all_idx))
                 blocks_idx += 1
+                all_idx += 1
                 current_block = []
             current_block.append(line)
             inside_block = True
@@ -66,6 +67,7 @@ def get_blocks(code_lines):
                 all_blocks.append(current_block)
                 block_indices.append((blocks_idx, all_idx))
                 blocks_idx += 1
+                all_idx += 1
                 current_block = []
             inside_block = False
         
