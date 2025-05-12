@@ -10,7 +10,7 @@ $tagged_contents = file_get_contents($tagged_path);
 
 $OJ_BLOCK_TREE = guidelineFilter($guideline_contents);
 $OJ_CORRECT_ANSWERS = codeFilter($tagged_contents);
-$OJ_SID = "STEP 1";
+$OJ_SID = "STEP 3";
 //태그가 제거된 가이드라인
 $OJ_NoTagGuideline = guidelineOnlyTagFilter($guideline_contents);
 
