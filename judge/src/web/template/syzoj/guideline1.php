@@ -295,7 +295,7 @@ function updateImagePosition() {
     const scrollY = window.scrollY || document.documentElement.scrollTop;
 
     // 페이지 상에서의 정확한 위치 계산
-    const targetTop = taRect.top + scrollY - 10;  // 여유 값을 조정할 수 있음
+    const targetTop = taRect.top + scrollY - 100;  // 여유 값을 조정할 수 있음
 
     // 이미지 위치 갱신
     img.style.top = `${targetTop}px`;
