@@ -6,49 +6,64 @@ $index = intval($data['index']);
 $input = trim($data['input']);
 $problem_id = intval($data['problem_id']);
 
+// TXT 파일 경로 설정
+function get_txt_path($problem_id) {
+    return "/home/Capstone_Design_Troy/judge/src/web/tagged_code/{$problem_id}_step2.txt";
+}
+
+// 코드 파일 경로 설정
+function get_submission_path($problem_id) {
+    return "/tmp/submission_{$problem_id}.c";
+}
+
+// 실행 파일 경로 설정
+function get_output_path($problem_id) {
+    return "/tmp/submission_{$problem_id}.out";
+}
+
 // 태그 제거 함수
 function remove_tags($code) {
-    // 정규식을 이용하여 태그 제거
+    // 코드에서 모든 [태그]를 제거
     return preg_replace('/\[\w+_(start|end)\(\d+\)\]/', '', $code);
 }
 
-// 파일에서 태그 제거 후 C 코드로 변환
-function convert_txt_to_c($problem_id) {
-    // 문제 경로 설정 (txt 파일 경로)
-    $txt_file = "/home/Capstone_Design_Troy/judge/src/web/tagged_code/{$problem_id}_step2.txt";
-    $c_file = "/home/Capstone_Design_Troy/judge/src/web/tagged_code/submission.c";
-    
-    // 파일 존재 여부 확인
-    if (!file_exists($txt_file)) {
-        return ["success" => false, "message" => "TXT 파일을 찾을 수 없습니다."];
+// 코드 블럭 교체 함수
+function replace_code_block($original_code, $index, $input) {
+    $lines = explode("\n", $original_code);
+    $result = [];
+
+    foreach ($lines as $line) {
+        // 특정 인덱스의 코드 블럭을 사용자가 입력한 코드로 교체
+        if (strpos($line, "[self_start($index)]") !== false) {
+            $result[] = $input;
+        } else {
+            $result[] = $line;
+        }
     }
+    return implode("\n", $result);
+}
 
-    // TXT 파일 읽기
-    $code = file_get_contents($txt_file);
-    if ($code === false) {
-        return ["success" => false, "message" => "파일 읽기 오류"];
+// 코드 파일 불러오기
+function load_original_code($problem_id) {
+    $file_path = get_txt_path($problem_id);
+    if (!file_exists($file_path)) {
+        return ["success" => false, "message" => "원본 코드 파일을 찾을 수 없습니다."];
     }
-
-    // 태그 제거
-    $cleaned_code = remove_tags($code);
-
-    // C 파일로 저장
-    if (file_put_contents($c_file, $cleaned_code) === false) {
-        return ["success" => false, "message" => "C 파일 생성 오류"];
-    }
-
-    return ["success" => true, "message" => "C 코드 변환 완료"];
+    return file_get_contents($file_path);
 }
 
 // 코드 컴파일 및 실행
-function compile_and_run($problem_id) {
-    $c_file = "/home/Capstone_Design_Troy/judge/src/web/tagged_code/submission.c";
-    $output_exe = "/home/Capstone_Design_Troy/judge/src/web/tagged_code/submission.out";
+function compile_and_run($code, $problem_id) {
+    $filename = get_submission_path($problem_id);
+    $output_exe = get_output_path($problem_id);
     $input_file = "/home/Capstone_Design_Troy/judge/data/{$problem_id}/sample.in";
     $expected_output = "/home/Capstone_Design_Troy/judge/data/{$problem_id}/sample.out";
 
+    // 코드 파일 생성
+    file_put_contents($filename, $code);
+
     // Clang 컴파일 명령어로 수정
-    $compile_cmd = "env PATH=/usr/bin:/usr/local/bin clang -fuse-ld=/usr/bin/ld $c_file -o $output_exe 2>&1";
+    $compile_cmd = "env PATH=/usr/bin:/usr/local/bin clang -fuse-ld=/usr/bin/ld $filename -o $output_exe 2>&1";
     $compile_result = shell_exec($compile_cmd);
 
     // 컴파일 오류 발생 시
@@ -69,11 +84,25 @@ function compile_and_run($problem_id) {
     }
 }
 
-// TXT 파일 변환 후 실행
-$result = convert_txt_to_c($problem_id);
-if ($result['success']) {
-    $result = compile_and_run($problem_id);
-}
+// 코드 검증 로직
+if (!empty($input)) {
+    // 원본 코드 불러오기
+    $original_code = load_original_code($problem_id);
+    if (is_array($original_code)) {
+        echo json_encode($original_code);
+        exit;
+    }
 
-echo json_encode($result);
+    // 태그 제거
+    $cleaned_code = remove_tags($original_code);
+
+    // 코드 블럭 교체
+    $complete_code = replace_code_block($cleaned_code, $index, $input);
+
+    // 컴파일 및 실행
+    $result = compile_and_run($complete_code, $problem_id);
+    echo json_encode($result);
+} else {
+    echo json_encode(["success" => false, "message" => "코드가 비어 있습니다."]);
+}
 ?>
