@@ -203,13 +203,9 @@ def main():
     # except ValueError:
     #     print("⚠️ 잘못된 입력입니다.")
     #     return
-
+    print(pid)
     block_num = int(line_num) + 1
     new_code = student_code
-    print(block_num)
-    print(new_code)
-    print("Hello\nSibal")
-
 
 
     if not (0 <= block_num < len(blocks)):
