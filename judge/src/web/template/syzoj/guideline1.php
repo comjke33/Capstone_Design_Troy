@@ -330,7 +330,7 @@ function smoothFollowImage() {
     const scrollY = window.scrollY || document.documentElement.scrollTop;
 
     // `textarea`의 상단에 맞게 이미지 위치 설정
-    const targetTop = taRect.top + scrollY - img.offsetHeight + 200;
+    const targetTop = taRect.top + scrollY - img.offsetHeight + 100;
 
     // 화면 기준 제한
     const minTop = scrollY + 200;  // 화면 상단 + 여백
