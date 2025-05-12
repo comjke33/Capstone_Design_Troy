@@ -297,21 +297,13 @@ function fetchImageByLineNumber(lineNumber) {
             
             console.log("서버 응답 데이터:", data);  // 응답 데이터 출력
 
-            if (data.url && data.url.trim() !== "") {
-                // 이미지가 존재할 때만 보여주기
-                img.src = data.url;
-                img.style.display = "block";
-
-                console.log("이미지 업데이트:", data.url);
-
-                if (!animationRunning) {
-                    animationRunning = true;
-                    smoothFollowImage();
-                }
-            } else {
-                // 이미지 없을 때 숨기기
+            if (!data.url || data.url.trim() === "") {
+                // 안보이게 설정
                 img.style.display = "none";
-                console.log("이미지 없음. 숨김 처리됨.");
+                smoothFollowImage();
+            } else {
+                img.src = data.url;
+                img.style.display = "block"; // 명시적으로 보이게
             }
         })
         .catch(error => console.error('Error:', error));
