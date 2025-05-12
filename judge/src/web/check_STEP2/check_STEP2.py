@@ -192,7 +192,7 @@ def main():
     all_blocks[block_indices[block_num][1]] = new_block
 
     # 블럭을 합쳐서 코드 생성
-    final_code = ''.join(all_blocks)
+    final_code = ''.join(line for block in all_blocks for line in block)
     print("\n🔄 수정된 코드:")
     for block in all_blocks:
         for line in block:
