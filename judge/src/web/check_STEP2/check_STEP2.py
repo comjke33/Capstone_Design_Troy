@@ -52,6 +52,7 @@ def get_blocks(code_lines):
         if is_start_tag(line):
             if current_block:
                 blocks.append(current_block)
+                all_blocks.append(current_block)
                 block_indices.append((blocks_idx, all_idx))
                 blocks_idx += 1
                 current_block = []
@@ -62,6 +63,7 @@ def get_blocks(code_lines):
         elif is_tag_line(line):
             if current_block:
                 blocks.append(current_block)
+                all_blocks.append(current_block)
                 block_indices.append((blocks_idx, all_idx))
                 blocks_idx += 1
                 current_block = []
