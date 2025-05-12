@@ -93,7 +93,7 @@ include("../../guideline_common.php");
 
     <!-- 오른쪽 패널 -->
     <div class="right-panel">
-        <h2>📋 피드백 창</h2>
+
     </div>
 </div>
 
