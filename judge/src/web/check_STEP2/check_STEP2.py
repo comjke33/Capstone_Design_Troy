@@ -53,7 +53,7 @@ def get_blocks(code_lines):
             if current_block:
                 blocks.append(current_block)
                 block_indices.append((blocks_idx, all_idx))
-                block_idx += 1
+                blocks_idx += 1
                 current_block = []
             current_block.append(line)
             inside_block = True
