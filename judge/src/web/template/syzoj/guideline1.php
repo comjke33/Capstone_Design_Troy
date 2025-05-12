@@ -70,6 +70,7 @@ include("../../guideline_common.php");
 
                     $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
                     $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
+                    $html .= "<button onclick='showFeedback({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>피드백 보기</button>";
 
                     $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                     $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
@@ -278,7 +279,33 @@ function showAnswer(index) {
     answerArea.style.display = 'block';
 }
 
-//라인 별로 받아오기
+function showFeedback(index) {
+
+    const feedbackContent = getFeedbackContent(index);
+
+    // 오른쪽 패널에 피드백 표시
+    const feedbackPanel = document.querySelector('.right-panel');
+    feedbackPanel.innerHTML = `
+        <h2>📋 피드백 창</h2>
+        <div class="feedback-content">
+            <p><strong>${index + 1}번 줄에 대한 피드백:</strong></p>
+            <p>${feedbackContent}</p>
+        </div>
+    `;
+}
+
+// 테스트용 피드백 내용 (실제로는 문제 데이터에 따라 변경 가능)
+function getFeedbackContent(index) {
+    const feedbacks = [
+        "변수 선언 방식이 잘못되었습니다. var 대신 let을 사용해 보세요.",
+        "조건문이 항상 참입니다. 논리를 다시 확인해 보세요.",
+        "함수 호출 순서를 잘못 이해하신 것 같습니다.",
+        "루프 탈출 조건이 없어서 무한 루프가 발생할 수 있습니다."
+    ];
+    return feedbacks[index] || "피드백이 아직 준비되지 않았습니다.";
+}
+
+//===============================================================================================
 
 
 //화면 크기 재조절
