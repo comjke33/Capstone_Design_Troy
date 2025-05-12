@@ -35,7 +35,7 @@ include("../../guideline_common.php");
 <div class="main-layout">
     <!-- 좌측 패널 -->
     <div class="left-panel">
-        <img id="flowchart_image" ">
+        <img id="flowchart_image" src="../../image/basic.png">
     </div>
 
 
@@ -318,6 +318,7 @@ function fetchImageByLineNumber(lineNumber) {
 }
 
 
+// 이미지 위치를 텍스트영역 왼쪽에 맞추고, 스크롤을 따라가게 설정
 function smoothFollowImage() {
     const img = document.getElementById("flowchart_image");
     if (!img || !currentTextarea) {
@@ -325,15 +326,54 @@ function smoothFollowImage() {
         return;
     }
 
-    const taRect = currentTextarea.getBoundingClientRect();
-    const scrollY = window.scrollY || document.documentElement.scrollTop;
-    const targetTop = taRect.top - scrollY - 100;
+    const taRect = currentTextarea.getBoundingClientRect();  // `textarea`의 화면 위치 계산
+    const scrollY = window.scrollY || document.documentElement.scrollTop;  // 현재 스크롤 위치
 
-    img.style.top = `${targetTop}px`;
+    const targetTop = taRect.top + scrollY - img.offsetHeight + 100;  
 
-    requestAnimationFrame(smoothFollowImage);
+    const minTop = scrollY + 10;  
+    const maxTop = scrollY + window.innerHeight - img.offsetHeight + 10;  
+
+    // 제한된 위치로 보정
+    const finalTop = Math.max(minTop, Math.min(targetTop, maxTop));
+
+    const currentTop = parseFloat(img.style.top) || 0;
+    
+    const nextTop = currentTop + (finalTop - currentTop) * 0.1;  
+
+    img.style.top = `${nextTop}px`;  // 이미지 `top` 위치 업데이트
+
+    requestAnimationFrame(smoothFollowImage);  // 애니메이션 부드럽게 실행
 }
 
+
+// 클릭한 `textarea`에 맞춰 이미지 위치 업데이트
+function updateImageForTextarea(index, ta) {
+    currentTextarea = ta;
+
+    // 플로우차트 이미지를 가져오기 위한 API 호출
+    fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
+        .then(res => res.json())
+        .then(data => {
+            let img = document.getElementById("flowchart_image");
+
+            // 이미지가 없으면 동적으로 추가할 수 있지만, 여기서는 기존 이미지를 사용
+            if (!img) {
+                img = document.createElement("img");
+                img.id = "flowchart_image";
+                document.body.appendChild(img);  // 필요에 따라 이미지 태그를 동적으로 생성
+            }
+
+            img.src = data.url;  // 서버에서 받은 이미지 URL로 설정
+            console.log("서버 디버그 데이터:", data.debug);
+
+            // 애니메이션 시작 (이미지가 부드럽게 따라가게)
+            if (!animationRunning) {
+                animationRunning = true;
+                smoothFollowImage(); // 이미지를 부드럽게 따라가기 시작
+            }
+        });
+}
 
 // textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
@@ -341,8 +381,6 @@ document.addEventListener("DOMContentLoaded", function () {
         ta.addEventListener("focus", () => updateImageForTextarea(idx, ta)); // 클릭 시 이미지 업데이트
     });
 });
-
-
 
 </script>
 
