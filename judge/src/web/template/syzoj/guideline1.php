@@ -35,7 +35,7 @@ include("../../guideline_common.php");
 <div class="main-layout">
     <!-- 좌측 패널 -->
     <div class="left-panel">
-        <img id="flowchart_image" style="display none;">
+        <img id="flowchart_image" style="display: none;">
     </div>
 
 
@@ -300,7 +300,8 @@ function fetchImageByLineNumber(lineNumber) {
             if (!data.url || data.url.trim() === "") {
                 // 안보이게 설정
                 img.style.display = "none";
-                smoothFollowImage();
+                img.removeAttribute("src");  // ⛔ src="" 제거!
+                
             } else {
                 img.src = data.url;
                 img.style.display = "block"; // 명시적으로 보이게
