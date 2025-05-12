@@ -206,6 +206,7 @@ def main():
     print(pid)
     block_num = int(line_num) + 1
     new_code = student_code
+    print(new_code)
 
 
     if not (0 <= block_num < len(blocks)):
