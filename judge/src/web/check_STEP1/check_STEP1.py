@@ -130,7 +130,7 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
             )
         except subprocess.CalledProcessError as e:
             # print(f"[❌] 컴파일 실패:\n{e.stderr}")
-            return
+            return True
 
     # 2. 입력/출력 파일 로드
     with open(test_in_path, 'r') as fin:
