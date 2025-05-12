@@ -230,6 +230,7 @@ function submitAnswer(index) {
     })
     .then(res => res.json())
     .then(data => {
+        console.log(data);
         if (data.result === "correct") {
             localStorage.setItem(key, "correct");
 
