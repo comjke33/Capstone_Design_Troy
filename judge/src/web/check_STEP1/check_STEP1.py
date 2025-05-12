@@ -206,7 +206,7 @@ def main():
     # print(pid)
     block_num = int(line_num) + 1
     new_code = student_code
-    print(new_code)
+    # print(new_code)
 
 
     if not (0 <= block_num < len(blocks)):
@@ -228,7 +228,7 @@ def main():
 
     # print("---------------------")
     final_code = re.sub(r'\[[^\]]*\]', '', final_code)
-    # print(final_code)
+    print(final_code)
 
     # 수정된 코드 컴파일 및 테스트
     # if(validate_code_output_full_io(final_code, test_in_path, test_out_path)):
