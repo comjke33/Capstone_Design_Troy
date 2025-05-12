@@ -4,6 +4,8 @@ $answer = $data["answer"] ?? "";
 $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 
+$problemId = 1292;
+
 // 사용자 입력을 safe하게 처리
 $escapedAnswer = escapeshellarg($answer);
 $escapedProblemId = escapeshellarg($problemId);
