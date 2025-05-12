@@ -290,29 +290,6 @@ function updateImageForTextarea(index, ta) {
         });
 }
 
-//flowchart렌더링 및 매끄러운 이동
-function updateImageForTextarea(index, ta) {
-    currentTextarea = ta;
-    fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
-        .then(res => res.json())
-        .then(data => {
-            let img = document.getElementById("flowchart_image");
-            if (!img) {
-                img = document.createElement("img");
-                img.id = "flowchart_image";
-                document.body.appendChild(img);
-            }
-
-            img.src = data.url;
-            console.log("서버 디버그 데이터:", data.debug);
-
-            if (!animationRunning) {
-                animationRunning = true;
-                smoothFollowImage(); // 따라오기 시작
-            }
-        });
-}
-
 function smoothFollowImage() {
     const img = document.getElementById("flowchart_image");
     if (!img || !currentTextarea || img.style.display === "none") {
