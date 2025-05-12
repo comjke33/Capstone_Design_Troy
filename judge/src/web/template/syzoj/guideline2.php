@@ -35,13 +35,13 @@ include("../../guideline_common.php");
 <div class="main-layout">
     <!-- 좌측 패널 -->
     <div class="left-panel">
-        <!-- <img id="flowchart_image"> -->
+        <!-- <img id="flowchart_image" src="../../image/basic.png"> -->
     </div>
 
 
     <!-- 가운데 패널 -->
     <div class="center-panel">
-        <h1>한 문단씩 풀기</h1>
+        <h1>한 문단씩씩 풀기</h1>
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
 
         <?php      
@@ -65,8 +65,8 @@ include("../../guideline_common.php");
                     $html .= "<div class='code-line'>{$line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
-                    라인 번호에 맞는 이미지를 업데이트하기 위한 스크립트 추가
-                    $html .= "<script>updateImageForTextarea({$answer_index + 1}, document.getElementById('ta_{$answer_index}'));</script>";  // 라인 번호에 맞춰 이미지 업데이트
+                    // 라인 번호에 맞는 이미지를 업데이트하기 위한 스크립트 추가
+                    // $html .= "<script>updateImageForTextarea({$answer_index + 1}, document.getElementById('ta_{$answer_index}'));</script>";  // 라인 번호에 맞춰 이미지 업데이트
 
                     $html .= "<button onclick='submitAnswer({$answer_index})' id='btn_{$answer_index}' class='submit-button'>제출</button>";
                     $html .= "<button onclick='showAnswer({$answer_index})' id='view_btn_{$answer_index}' class='view-button'>답안 확인</button>";
@@ -257,6 +257,9 @@ function autoResize(ta) {
     ta.style.height = ta.scrollHeight + 'px';
 }
 
+// let currentTextarea = null;
+// let animationRunning = false;
+
 //flowchart렌더링 
 // function updateImageForTextarea(index, ta) {
 //     // 현재 textarea와 관련된 이미지 업데이트
@@ -287,7 +290,7 @@ function autoResize(ta) {
 // }
 
 
-//줄번호에 맞춰서 이미지 fetch(일단 보류)
+// //줄번호에 맞춰서 이미지 fetch(일단 보류)
 // function fetchImageByLineNumber(lineNumber) {
 //     const problemId = <?= json_encode($problem_id) ?>;
 //     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${lineNumber}`)
