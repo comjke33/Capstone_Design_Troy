@@ -1,0 +1,21 @@
+[func_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+두 개의 정수 변수 h와 m을 선언하고, 시간 추가를 위한 add_h와 add_m을 선언하세요.
+시간을 입력받기 위해 scanf 함수를 사용하여 h와 m을 입력받고, 추가 시간까지 입력받는 scanf 함수를 작성하세요.
+m에 add_m 값을 더하는 코드를 작성하세요.
+[self_end(1)]
+[cond_start(1)]
+m이 60 이상인지 확인하기 위한 조건문을 작성하세요. 조건이 참일 경우, h와 m을 추가하여 시간 조정할 수 있는 코드를 작성하세요.
+[cond_end(1)]
+[self_start(1)]
+add_h를 h에 더하는 코드를 작성하세요.
+[self_end(1)]
+[cond_start(1)]
+h가 24 이상인지 확인하는 조건문을 작성하세요. 조건이 참일 경우, h를 24로 나눈 나머지를 계산하여 h를 조정하세요.
+[cond_end(1)]
+[self_start(1)]
+h와 m을 출력하기 위한 printf 함수를 작성하세요.
+프로그램을 종료하기 위해 return 0을 작성하세요.
+[self_end(1)]
+[func_def_end(0)]
