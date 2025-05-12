@@ -257,90 +257,35 @@ function autoResize(ta) {
 let currentTextarea = null;
 let animationRunning = false;
 
+//flowchart렌더링 
 function updateImageForTextarea(index, ta) {
+    // 현재 textarea와 관련된 이미지 업데이트
     currentTextarea = ta;
-
+    
     // 플로우차트 이미지를 가져오기 위한 API 호출
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
-            const img = document.getElementById("flowchart_image");
-
+            let img = document.getElementById("flowchart_image");
+            
+            // 이미지가 없으면 동적으로 추가할 수 있지만, 여기서는 기존 이미지를 사용
             if (!img) {
                 img = document.createElement("img");
                 img.id = "flowchart_image";
-                document.body.appendChild(img);  // 이미지가 없으면 body에 동적으로 추가
+                document.body.appendChild(img);  // 필요에 따라 이미지 태그를 동적으로 생성
             }
 
-            if (data.url && data.url.trim() !== "") {
-                img.src = data.url;
-                img.style.display = "block";  // 이미지가 있을 때만 보이도록
-            } else {
-                img.style.display = "none";  // 이미지가 없으면 숨기기
-            }
+            img.src = data.url;  // 서버에서 받은 이미지 URL로 설정
+            console.log("서버 디버그 데이터:", data.debug);
 
-            // 이미지 위치를 한 번만 갱신
+            // 애니메이션 시작 (이미지가 부드럽게 따라가게)
             if (!animationRunning) {
                 animationRunning = true;
-                updateImagePosition(); // 한 번만 실행하여 이미지 위치를 갱신
+                smoothFollowImage(); // 이미지를 부드럽게 따라가기 시작
             }
         });
 }
 
-// 이미지 위치 갱신 (스크롤을 따라가게)
-function updateImagePosition() {
-    const img = document.getElementById("flowchart_image");
-    if (!img || !currentTextarea || img.style.display === "none") return;
-
-    // textarea 위치 계산
-    const taRect = currentTextarea.getBoundingClientRect();
-    const scrollY = window.scrollY || document.documentElement.scrollTop;
-
-    // 정확한 페이지 절대 위치 계산 (스크롤을 고려하여)
-    const targetTop = taRect.top + scrollY - 10;
-
-    // 화면 기준으로 이미지가 밖으로 나가지 않게 제한
-    const minTop = scrollY + 10; // 화면 상단 + 여백
-    const maxTop = scrollY + window.innerHeight - img.offsetHeight - 10; // 화면 하단 - 이미지 높이
-
-    // 제한된 위치로 보정
-    const finalTop = Math.max(minTop, Math.min(targetTop, maxTop));
-
-    // 이미지를 body 기준으로 위치 조정
-    img.style.position = "absolute";  // position이 없다면 추가
-    img.style.top = `${finalTop}px`;  // 위치 갱신
-
-    // 애니메이션 종료 처리
-    animationRunning = false;
-}
-
-function smoothFollowImage() {
-    const img = document.getElementById("flowchart_image");
-    if (!img || !currentTextarea || img.style.display === "none") {
-        animationRunning = false;
-        return;
-    }
-
-    const taRect = currentTextarea.getBoundingClientRect();
-    const scrollY = window.scrollY || document.documentElement.scrollTop;
-
-    // 정확한 페이지 절대 위치 계산
-    const targetTop = taRect.top + scrollY - img.offsetHeight + 100;
-
-    // 화면 기준 제한
-    const minTop = scrollY + 10; // 화면 상단 + 여백
-    const maxTop = scrollY + window.innerHeight - img.offsetHeight - 10; // 화면 하단 - 이미지 높이
-
-    // 제한된 위치로 보정
-    targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
-
-    const currentTop = parseFloat(img.style.top) || 0;
-    const nextTop = currentTop + (targetTop - currentTop) * 0.1;
-
-    img.style.top = `${nextTop}px`;
-
-    requestAnimationFrame(smoothFollowImage);
-}
 
 //줄번호에 맞춰서 이미지 fetch(일단 보류)
 function fetchImageByLineNumber(lineNumber) {
@@ -370,6 +315,23 @@ function fetchImageByLineNumber(lineNumber) {
             }
         })
         .catch(error => console.error('Error:', error));
+}
+
+
+function smoothFollowImage() {
+    const img = document.getElementById("flowchart_image");
+    if (!img || !currentTextarea) {
+        animationRunning = false;
+        return;
+    }
+
+    const taRect = currentTextarea.getBoundingClientRect();
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
+    const targetTop = taRect.top - scrollY - 100;
+
+    img.style.top = `${targetTop}px`;
+
+    requestAnimationFrame(smoothFollowImage);
 }
 
 
