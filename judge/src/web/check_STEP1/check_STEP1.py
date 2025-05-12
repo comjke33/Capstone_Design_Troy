@@ -200,7 +200,7 @@ def main():
     #     print("⚠️ 잘못된 입력입니다.")
     #     return
 
-    block_num = line_num
+    block_num = line_num + 1
     new_code = student_code
 
     if not (0 <= block_num < len(blocks)):
