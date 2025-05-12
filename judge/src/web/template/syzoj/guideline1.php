@@ -318,7 +318,7 @@ function fetchImageByLineNumber(lineNumber) {
 }
 
 
-//이미지 매끄러운 이동
+//이미지 매끄러운 이동(일단 보류)
 function smoothFollowImage() {
     const img = document.getElementById("flowchart_image");
     if (!img || !currentTextarea) {
