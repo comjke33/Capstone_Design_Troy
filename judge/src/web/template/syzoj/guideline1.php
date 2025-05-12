@@ -327,7 +327,9 @@ function smoothFollowImage() {
 
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
-    const targetTop = taRect.top + scrollY - 100;
+
+    // 정확한 페이지 절대 위치 계산
+    const targetTop = taRect.top + scrollY - 10;
 
     img.style.top = `${targetTop}px`;
 
