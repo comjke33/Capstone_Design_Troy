@@ -6,14 +6,23 @@ $index = intval($data['index']);
 $input = trim($data['input']);
 $problem_id = intval($data['problem_id']);
 
+/**
+ * 태그 제거 함수
+ */
+function remove_tags($code) {
+    return preg_replace('/\[[^\]]*\]/', '', $code);
+}
+
 function compile_and_run($code, $problem_id) {
-    $filename = "/tmp/submission_{$problem_id}.c";
+    // 파일 경로 설정
+    $filename = "/home/Capstone_Design_Troy/judge/src/web/tagged_code/submission.c";
     $output_exe = "/tmp/submission_{$problem_id}.out";
     $input_file = "/home/Capstone_Design_Troy/judge/data/{$problem_id}/sample.in";
     $expected_output = "/home/Capstone_Design_Troy/judge/data/{$problem_id}/sample.out";
 
-    // 코드 파일 생성
-    file_put_contents($filename, $code);
+    // 태그를 제거한 코드 생성
+    $clean_code = remove_tags($code);
+    file_put_contents($filename, $clean_code);
 
     // Clang 컴파일 명령어로 수정 (환경 변수 명시)
     $compile_cmd = "env PATH=/usr/bin:/usr/local/bin clang -fuse-ld=/usr/bin/ld $filename -o $output_exe 2>&1";
