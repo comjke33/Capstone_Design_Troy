@@ -172,8 +172,8 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
 def main():
     # 파일 경로 설정
     filename = "../tagged_code/1292_step2.txt"
-    test_in_path = "../../../data/1292/sample.in"
-    test_out_path = "../../../data/1292/sample.out"
+    test_in_path = "../../../data/1292/test.in"
+    test_out_path = "../../../data/1292/test.out"
     
     # 코드 읽기
     code_lines = read_code_lines(filename)
