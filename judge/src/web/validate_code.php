@@ -6,24 +6,21 @@ $index = intval($data['index']);
 $input = trim($data['input']);
 $problem_id = intval($data['problem_id']);
 
-// TXT 파일 경로 설정
-function get_txt_path($problem_id) {
-    return "/home/Capstone_Design_Troy/judge/src/web/tagged_code/{$problem_id}_step2.txt";
-}
-
 // 코드 파일 경로 설정
 function get_submission_path($problem_id) {
     return "/tmp/submission_{$problem_id}.c";
 }
 
-// 실행 파일 경로 설정
 function get_output_path($problem_id) {
     return "/tmp/submission_{$problem_id}.out";
 }
 
+function get_txt_path($problem_id) {
+    return "/home/Capstone_Design_Troy/judge/src/web/tagged_code/{$problem_id}_step2.txt";
+}
+
 // 태그 제거 함수
 function remove_tags($code) {
-    // 코드에서 모든 [태그]를 제거
     return preg_replace('/\[\w+_(start|end)\(\d+\)\]/', '', $code);
 }
 
@@ -33,13 +30,14 @@ function replace_code_block($original_code, $index, $input) {
     $result = [];
 
     foreach ($lines as $line) {
-        // 특정 인덱스의 코드 블럭을 사용자가 입력한 코드로 교체
+        // 특정 블럭 위치에 사용자 입력 코드로 교체
         if (strpos($line, "[self_start($index)]") !== false) {
-            $result[] = $input;
-        } else {
+            $result[] = $input . ";";
+        } else if (!preg_match('/\[\w+_(start|end)\(\d+\)\]/', $line)) {
             $result[] = $line;
         }
     }
+
     return implode("\n", $result);
 }
 
@@ -62,7 +60,7 @@ function compile_and_run($code, $problem_id) {
     // 코드 파일 생성
     file_put_contents($filename, $code);
 
-    // Clang 컴파일 명령어로 수정
+    // Clang 컴파일 명령어
     $compile_cmd = "env PATH=/usr/bin:/usr/local/bin clang -fuse-ld=/usr/bin/ld $filename -o $output_exe 2>&1";
     $compile_result = shell_exec($compile_cmd);
 
