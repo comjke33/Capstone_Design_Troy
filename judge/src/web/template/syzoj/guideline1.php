@@ -257,50 +257,28 @@ function autoResize(ta) {
 let currentTextarea = null;
 let animationRunning = false;
 
-//flowchart렌더링 
+//flowchart렌더링 및 매끄러운 이동
 function updateImageForTextarea(index, ta) {
     currentTextarea = ta;
-
-    // 플로우차트 이미지를 가져오기 위한 API 호출
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
-            const img = document.getElementById("flowchart_image");
-
+            let img = document.getElementById("flowchart_image");
             if (!img) {
                 img = document.createElement("img");
                 img.id = "flowchart_image";
-                document.body.appendChild(img);  // 이미지가 없으면 body에 동적으로 추가
+                document.body.appendChild(img);
             }
 
-            if (data.url && data.url.trim() !== "") {
-                img.src = data.url;
-                img.style.display = "block";  // 이미지가 있을 때만 보이도록
+            img.src = data.url;
+            console.log("서버 디버그 데이터:", data.debug);
 
-                // 이미지 위치 갱신
-                updateImagePosition();
-            } else {
-                img.style.display = "none";  // 이미지가 없으면 숨기기
+            if (!animationRunning) {
+                animationRunning = true;
+                smoothFollowImage(); // 따라오기 시작
             }
         });
 }
-
-
-function updateImagePosition() {
-    const img = document.getElementById("flowchart_image");
-    if (!img || !currentTextarea) return;
-
-    // textarea의 위치를 계산
-    const taRect = currentTextarea.getBoundingClientRect();
-    const scrollY = window.scrollY || document.documentElement.scrollTop;
-
-    // 페이지 상에서의 정확한 위치 계산
-    const targetTop = taRect.top + scrollY - 100;  // 여유 값을 조정할 수 있음
-
-    // 이미지 위치 갱신
-    img.style.top = `${targetTop}px`;
-}
-
 
 
 //줄번호에 맞춰서 이미지 fetch(일단 보류)
@@ -333,10 +311,10 @@ function fetchImageByLineNumber(lineNumber) {
         .catch(error => console.error('Error:', error));
 }
 
-
+//이미지 매끄러운 이동
 function smoothFollowImage() {
     const img = document.getElementById("flowchart_image");
-    if (!img || !currentTextarea || img.style.display === "none") {
+    if (!img || !currentTextarea) {
         animationRunning = false;
         return;
     }
@@ -344,13 +322,21 @@ function smoothFollowImage() {
     const taRect = currentTextarea.getBoundingClientRect();
     const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-    // 정확한 페이지 절대 위치 계산
-    const targetTop = taRect.top + scrollY - 10;
+    let targetTop = taRect.top + scrollY - img.offsetHeight + 100;
 
-    img.style.top = `${targetTop}px`;  // 이미지의 top 값을 계산하여 갱신
+    // 화면 기준 제한
+    const minTop = scrollY + 10; // 화면 상단 + 여백
+    const maxTop = scrollY + window.innerHeight - img.offsetHeight - 10; // 화면 하단 - 이미지 높이
 
-    // 애니메이션 실행 중단
-    animationRunning = false;
+    // 제한된 위치로 보정
+    targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
+
+    const currentTop = parseFloat(img.style.top) || 0;
+    const nextTop = currentTop + (targetTop - currentTop) * 0.1;
+
+    img.style.top = `${nextTop}px`;
+
+    requestAnimationFrame(smoothFollowImage);
 }
 
 
