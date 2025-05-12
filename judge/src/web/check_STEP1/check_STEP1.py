@@ -129,8 +129,8 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
                 check=True
             )
         except subprocess.CalledProcessError as e:
-            print(f"[❌] 컴파일 실패:\n{e.stderr}")
-            return
+            # print(f"[❌] 컴파일 실패:\n{e.stderr}")
+            return False
 
     # 2. 입력/출력 파일 로드
     with open(test_in_path, 'r') as fin:
@@ -228,13 +228,13 @@ def main():
 
     # print("---------------------")
     final_code = re.sub(r'\[[^\]]*\]', '', final_code)
-    print(final_code)
+    # print(final_code)
 
     # 수정된 코드 컴파일 및 테스트
-    # if(validate_code_output_full_io(final_code, test_in_path, test_out_path)):
-    #     print("correct")
-    # else:
-    #     print("no")
+    if(validate_code_output_full_io(final_code, test_in_path, test_out_path)):
+        print("correct")
+    else:
+        print("no")
 
 if __name__ == "__main__":
     main()
