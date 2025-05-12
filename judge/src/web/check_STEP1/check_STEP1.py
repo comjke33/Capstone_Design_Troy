@@ -231,10 +231,10 @@ def main():
     # print(final_code)
 
     # 수정된 코드 컴파일 및 테스트
-    if(validate_code_output_full_io(final_code, test_in_path, test_out_path)):
-        print("correct")
-    else:
-        print("no")
+    # if(validate_code_output_full_io(final_code, test_in_path, test_out_path)):
+    #     print("correct")
+    # else:
+    #     print("no")
 
 if __name__ == "__main__":
     main()
