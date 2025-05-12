@@ -26,9 +26,9 @@ def filter_code_lines(code_lines):
 def get_blocks(code_lines):
     """코드에서 블럭 단위로 추출"""
     all_blocks = []
-    all_idx = 1
+    all_idx = 0
     blocks = []
-    blocks_idx = 1
+    blocks_idx = 0
     current_block = []
     includes = []  # #include 블럭 저장
     closing_braces = []  # 단독 } 블럭 저장
