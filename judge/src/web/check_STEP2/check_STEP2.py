@@ -192,15 +192,18 @@ def main():
     all_blocks[block_indices[block_num][1]] = new_block
 
     # 블럭을 합쳐서 코드 생성
-    final_code = ''.join(includes) + ''.join([''.join(clean_block(block)) for block in blocks]) + ''.join(closing_braces)
-
+    final_code = ''.join(all_blocks)
     print("\n🔄 수정된 코드:")
     for block in all_blocks:
         for line in block:
             print(line)
 
+    print("---------------------")
+
+    print(final_code)
+
     # 수정된 코드 컴파일 및 테스트
-    #compile_and_run(final_code, test_in_path, test_out_path)
+    compile_and_run(final_code, test_in_path, test_out_path)
 
 if __name__ == "__main__":
     main()
