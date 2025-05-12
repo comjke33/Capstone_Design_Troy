@@ -142,9 +142,9 @@ def compile_and_run(code, test_in_path, test_out_path):
 
 def main():
     # 파일 경로 설정
-    filename = "/Users/itaeu/Desktop/Capstone_Design_Troy/judge/src/web/tagged_code/1292_step2.txt"
-    test_in_path = "judge/data/1292/sample.in"
-    test_out_path = "judge/data/1292/sample.out"
+    filename = "./tagged_code/1292_step2.txt"
+    test_in_path = "../../../data/1292/sample.in"
+    test_out_path = "../../../data/1292/sample.out"
     
     # 코드 읽기
     code_lines = read_code_lines(filename)
