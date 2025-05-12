@@ -136,6 +136,8 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
         full_input = fin.read()
     with open(test_out_path, 'r') as fout:
         expected_output = fout.read().strip()
+    print(full_input)
+    print(expected_output)
 
     # 3. 실행
     try:
@@ -151,7 +153,6 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
 
         if actual_output == expected_output:
             print("✅ 전체 출력이 예상과 일치합니다.")
-            print("❌ 출력 불일치:")
             print("----- 예상 출력 -----")
             print(expected_output)
             print("----- 실제 출력 -----")
