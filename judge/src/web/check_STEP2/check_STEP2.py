@@ -186,8 +186,8 @@ def main():
 
     # 새 코드 블럭 생성
     new_block = [line + '\n' for line in new_code.split('\\n')]
-    blocks = replace_block(blocks, block_num, new_block)
-    all_blocks[block_indices[block_num][1]] = blocks[block_num]
+    blocks[block_num] = new_block
+    all_blocks[block_indices[block_num][1]] = new_block
 
     # 블럭을 합쳐서 코드 생성
     final_code = ''.join(includes) + ''.join([''.join(clean_block(block)) for block in blocks]) + ''.join(closing_braces)
