@@ -160,11 +160,11 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
         # print(actual_output)            
         return True
     else:
-        # print("❌ 출력 불일치:")
-        # print("----- 예상 출력 -----")
-        # print(expected_output)
-        # print("----- 실제 출력 -----")
-        # print(actual_output)
+        print("❌ 출력 불일치:")
+        print("----- 예상 출력 -----")
+        print(expected_output)
+        print("----- 실제 출력 -----")
+        print(actual_output)
         return False
 
     # except subprocess.TimeoutExpired:
