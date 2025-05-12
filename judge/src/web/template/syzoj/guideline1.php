@@ -276,9 +276,6 @@ function updateImageForTextarea(index, ta) {
             if (data.url && data.url.trim() !== "") {
                 img.src = data.url;
                 img.style.display = "block";  // 이미지가 있을 때만 보이도록
-
-                // 이미지 위치 갱신
-                updateImagePosition();
             } else {
                 img.style.display = "none";  // 이미지가 없으면 숨기기
             }
