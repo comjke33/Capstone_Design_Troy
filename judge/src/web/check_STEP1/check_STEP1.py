@@ -204,7 +204,7 @@ def main():
     #     print("⚠️ 잘못된 입력입니다.")
     #     return
     # print(pid)
-    block_num = int(line_num) + 1
+    block_num = int(line_num)
     new_code = student_code
     # print(new_code)
 
