@@ -108,12 +108,16 @@
 
 /* 오른쪽 피드백 패널 */
 .right-panel {
+    width: auto;
     right: 10px;
     position: fixed;
     flex: 0 0 25%;
     max-width: 350px;
     padding: 20px;
     overflow-y: auto;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    border-left: 1px solid #ddd;
 }
 
 /* 코드 설명 라인 */
