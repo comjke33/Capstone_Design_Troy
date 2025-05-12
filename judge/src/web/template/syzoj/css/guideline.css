@@ -77,9 +77,9 @@
 
 /* 좌측 flowchart 이미지 영역 */
 .left-panel {
-    position: relative;
+    position: fixed;
     top: 100px; /* 초기 위치 */
-    left: 20px;
+    left: 30px;
     width: 200px;
     z-index: 9999;
 }
