@@ -253,11 +253,6 @@ if(file_exists($solution_file)){
         echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
     }
 
-    // 단계별 풀기 버튼 표시 조건
-    $allowed_user_ids = include(__DIR__ . "/../../get_user_id.php");
-    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
-    $is_allowed = $user_id && in_array($user_id, $allowed_user_ids);
-
     // 단계별 풀기(하단)
     if (!isset($cid) && $is_allowed) {
         echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
