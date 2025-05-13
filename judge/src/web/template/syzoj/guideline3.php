@@ -249,11 +249,12 @@ function showAnswer(index) {
 }
 
 function showFeedback(index) {
-
     const feedbackContent = getFeedbackContent(index);
 
     // 오른쪽 패널에 피드백 표시
     const feedbackPanel = document.querySelector('.right-panel');
+    
+    // 피드백 내용을 채워 넣기
     feedbackPanel.innerHTML = `
         <h2>📋 피드백 창</h2>
         <div class="feedback-content">
@@ -261,9 +262,11 @@ function showFeedback(index) {
             <p>${feedbackContent}</p>
         </div>
     `;
+
     // 숨겨진 패널을 보이게 하기
     feedbackPanel.style.display = 'block';
 }
+
 
 // 테스트용 피드백 내용 (실제로는 문제 데이터에 따라 변경 가능)
 function getFeedbackContent(index) {
