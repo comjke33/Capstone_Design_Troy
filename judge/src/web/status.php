@@ -527,27 +527,30 @@ for ($i=0; $i<$rows_cnt; $i++) {
     //   continue;
     // }
 
-    // 허락된 사용자인 경우에만 버튼을 표시
-      if (in_array($current_user_id, $allowed_user_ids)) {
-          if ($row['result'] != 4) {  // Accepted가 아닌 경우
-              $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}&problem_id={$pid}\" class=\"ui orange mini button\">피드백 보기</a>";
-          } else { // Accepted인 경우
-              $view_status[$i][10] = "
-              <button class='toggle-similar ui blue mini button' data-sid='{$sid}'>유사문제 추천</button>
-              <div id='similar-{$sid}' class='similar-box' style='display:none; margin-top:5px;'></div>
-              ";
-          }
-      } else {
-          // 허락되지 않은 사용자는 버튼을 볼 수 없음
-          $view_status[$i][10] = "-"; 
-      }
-  } else {
-      // 대회 문제인 경우는 출력하지 않음
-      $view_status[$i][10] = "-";
-  }
+    // 문제를 표시할 부분
+    if (!isset($cid)) { // 대회 문제가 아닌 경우에만 버튼 출력
+        $sid = urlencode($row['solution_id']);
+        $pid = urlencode($row['problem_id']);
+        
+        // 허락된 사용자들만 버튼을 표시
+        if (in_array($row['user_id'], $allowed_user_ids)) { // 문제 제출자(user_id)가 허락된 사용자라면
+            if ($row['result'] != 4) {  // Accepted가 아닌 경우
+                $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}&problem_id={$pid}\" class=\"ui orange mini button\">피드백 보기</a>";
+            } else { // Accepted인 경우
+                $view_status[$i][10] = "
+                <button class='toggle-similar ui blue mini button' data-sid='{$sid}'>유사문제 추천</button>
+                <div id='similar-{$sid}' class='similar-box' style='display:none; margin-top:5px;'></div>
+                ";
+            }
+        } else {
+            // 허락되지 않은 사용자는 버튼을 볼 수 없음
+            $view_status[$i][10] = "-"; 
+        }
+    } else {
+        // 대회 문제인 경우는 출력하지 않음
+        $view_status[$i][10] = "-";
+    }
   
-  
-
 }
 if($total_count>0) $avg_delay/= $total_count;
 
