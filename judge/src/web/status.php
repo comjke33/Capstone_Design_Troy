@@ -12,7 +12,7 @@ require_once('./include/setlang.php');
 require_once("./include/my_func.inc.php");
 
 // Include the get_user_id.php file to fetch the allowed_user_ids
-require_once "./get_user_id.php";
+// require_once "./get_user_id.php";
 
 $view_title = "$MSG_STATUS";
 
