@@ -516,10 +516,10 @@ for ($i=0; $i<$rows_cnt; $i++) {
     $current_user_id = $_SESSION[$OJ_NAME.'_'.'user_id']; // Get the user ID from session
 
     // Skip processing if the user is not in the allowed list
-    if (!in_array($current_user_id, $allowed_user_ids)) {
-      $view_status[$i][10] = "-"; // Hide the button if user is not allowed
-      continue;
-    }
+    // if (!in_array($current_user_id, $allowed_user_ids)) {
+    //   $view_status[$i][10] = "-"; // Hide the button if user is not allowed
+    //   continue;
+    // }
 
     if (!isset($cid)) { // 대회 문제가 아닌 경우에만 버튼 출력
     $sid = urlencode($row['solution_id']);
