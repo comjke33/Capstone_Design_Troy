@@ -1,0 +1,48 @@
+#include <stdio.h>
+[func_def_start(0)]
+int digit_sum (int n ) {
+[self_start(1)]
+    int sum =0;
+[self_end(1)]
+[rep_start(1)]
+    while (n >0 ) {
+
+        sum +=n %10;
+        n /=10;
+
+[rep_end(1)]
+    }
+[self_start(1)]
+    return sum;
+[self_end(1)]
+[func_def_end(0)]
+}
+[func_def_start(0)]
+int find_generator (int n ) {
+[rep_start(1)]
+    for (int i =1; i <n; i++) {
+[cond_start(2)]
+        if (i +digit_sum (i ) ==n ) {
+
+            return i;
+
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[func_def_end(0)]
+}
+[func_def_start(0)]
+int main () {
+[self_start(1)]
+    int n;
+    scanf ("%d", &n );
+    int result =find_generator (n );
+    printf ("%d\n", result );
+    return 0;
+[self_end(1)]
+[func_def_end(0)]
+}

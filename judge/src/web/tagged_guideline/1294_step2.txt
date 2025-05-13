@@ -1,0 +1,35 @@
+[func_def_start(0)]
+이 함수는 정수 n의 각 자릿수를 모두 더한 값을 반환하는 digit_sum 입니다.
+[self_start(1)]
+정수 sum을 0으로 초기화하세요.
+[self_end(1)]
+[rep_start(1)]
+n이 0보다 클 동안 반복하는 반복문을 작성하세요.
+n을 10으로 나눈 나머지를 sum에 더하고 n을 10으로 나눈 몫으로 업데이트하세요.
+[rep_end(1)]
+[self_start(1)]
+sum을 반환하세요.
+[self_end(1)]
+[func_def_end(0)]
+[func_def_start(0)]
+이 함수는 n의 제네레이터를 찾기 위한 find_generator 입니다.
+[rep_start(1)]
+1부터 n 미만까지 반복하는 반복문을 작성하세요.
+[cond_start(2)]
+현재 숫자의 제네레이터인지 확인하기 위해 다음 조건을 작성하세요.
+제네레이터가 되는지 확인하기 위해 i + digit_sum(i)가 n과 같은지 확인하세요.
+일치하는 경우, 해당 숫자인 i를 반환하고 반복문을 종료하세요.
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+제네레이터가 발견되지 않았다면 0을 반환하세요.
+[self_end(1)]
+[func_def_end(0)]
+[func_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+정수 n을 입력받으세요.
+n의 제네레이터를 찾기 위해 find_generator 함수를 호출하고 그 결과를 result에 저장하세요.
+결과를 출력하고 프로그램을 종료하세요.
+[self_end(1)]
+[func_def_end(0)]
