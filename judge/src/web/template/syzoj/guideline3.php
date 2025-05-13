@@ -261,6 +261,8 @@ function showFeedback(index) {
             <p>${feedbackContent}</p>
         </div>
     `;
+    // 숨겨진 패널을 보이게 하기
+    feedbackPanel.style.display = 'block';
 }
 
 // 테스트용 피드백 내용 (실제로는 문제 데이터에 따라 변경 가능)
