@@ -92,9 +92,8 @@ include("../../guideline_common.php");
     </div>
 
     <!-- 오른쪽 패널 -->
-    <div class="right-panel">
-        <h2>📋 피드백 창</h2>
-    </div>
+    <div class="right-panel" style="display:none;">
+
 </div>
 
 <script>
