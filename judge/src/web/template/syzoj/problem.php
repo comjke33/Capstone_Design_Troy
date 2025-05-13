@@ -252,11 +252,10 @@ if(file_exists($solution_file)){
             // 단계별 풀기(하단)
             if (!isset($cid) && $is_allowed) {
               echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
+
+              echo "<script>console.log('잘 작동합니다!');</script>";
             }
-    ?>
-
-
-          
+    ?>          
       </div>
 </div>
 <style>
