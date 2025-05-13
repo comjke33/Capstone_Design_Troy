@@ -12,11 +12,6 @@ if(isset($OJ_LANG)){
 	require_once("./lang/$OJ_LANG.php");
 }
 
-// 단계별 풀기 버튼 표시 조건
-$allowed_user_ids = include(__DIR__ . "/../../get_user_id.php");
-$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
-$is_allowed = $user_id && in_array($user_id, $allowed_user_ids);
-
 $now = date("Y-m-d H:i",time());
 
 if (isset($_GET['cid']))

@@ -7,8 +7,6 @@
           }
 ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
-<?php include("../../get_user_id.php");
-
 <style>
 .ace_cursor {
   border-left-width: 1px !important;
@@ -93,29 +91,26 @@ if(file_exists($solution_file)){
       $langmask = intval($langmask);
       $problem_real_id = isset($PID[$pid]) ? $PID[$pid] : 0;
 
-      $allowed_user_ids = include(__DIR__ . "/../../get_user_id.php");
-      $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
-      $is_allowed = $user_id && in_array($user_id, $allowed_user_ids);
-
       if ($pr_flag) {
-          echo "<a id='submit' class=\"small ui primary button\" href=\"submitpage.php?id=$id\">$MSG_SUBMIT</a>";
-          echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$id\">$MSG_SUBMIT_RECORD</a>";
-          echo "<a class=\"small ui orange button\" href=\"problemstatus.php?id=$id\">$MSG_STATISTICS</a>";
+        echo "<a id='submit' class=\"small ui primary button\" href=\"submitpage.php?id=$id\">$MSG_SUBMIT</a>";
+        echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$id\">$MSG_SUBMIT_RECORD</a>";
+        echo "<a class=\"small ui orange button\" href=\"problemstatus.php?id=$id\">$MSG_STATISTICS</a>";
       } else {
-          echo "<a href=\"contest.php?cid=$cid\" class=\"ui orange button\">$MSG_RETURN_CONTEST</a>";
-          echo "<a id='submit' class=\"small ui primary button\" href=\"submitpage.php?cid=$cid&pid=$pid&langmask=$langmask\">$MSG_SUBMIT</a>";
-          echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$problem_real_id&cid=$cid\">$MSG_SUBMIT_RECORD</a>";
+        echo "<a href=\"contest.php?cid=$cid\" class=\"ui orange button\">$MSG_RETURN_CONTEST</a>";
+        echo "<a id='submit' class=\"small ui primary button\" href=\"submitpage.php?cid=$cid&pid=$pid&langmask=$langmask\">$MSG_SUBMIT</a>";
+        echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$problem_real_id&cid=$cid\">$MSG_SUBMIT_RECORD</a>";
       }
 
       if (isset($OJ_DATA, $id) && !file_exists($OJ_DATA . "/$id/solution.name")) {
-          echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
+        echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
       }
 
-      // ✅ 단계별 풀기 버튼: 대회 중이 아니고, 허용된 사용자만
-      if (!isset($cid) && $is_allowed) {
-          echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
+      //단계별 풀기 상단
+      if (!isset($cid)) {
+        echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
       }
-      ?>
+    ?>
+
           
       </div>
      
@@ -230,39 +225,35 @@ if(file_exists($solution_file)){
             </a>
           <?php } ?>
         </div>
-    
+     
       </div>
     </div>
   <?php } ?>
   
-    <div class="ui buttons">
+     <div class="ui buttons">
 
-        <?php
-    if ($pr_flag) {
-        echo "<a id='submit' class=\"small ui primary button\" href=\"submitpage.php?id=$id\">$MSG_SUBMIT</a>";
-        echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$id\">$MSG_SUBMIT_RECORD</a>";
-        echo "<a class=\"small ui orange button\" href=\"problemstatus.php?id=$id\">$MSG_STATISTICS</a>";
-    } else {
-        echo "<a href=\"contest.php?cid=$cid\" class=\"ui orange button\">$MSG_RETURN_CONTEST</a>";
-        echo "<a id='submit' class=\"small ui primary button\" href=\"submitpage.php?cid=$cid&pid=$pid&langmask=$langmask\">$MSG_SUBMIT</a>";
-        echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$PID[$pid]&cid=$cid\">$MSG_SUBMIT_RECORD</a>";
-    }
+     <?php
+            if($pr_flag){
+              echo "<a id='submit'  class=\"small ui primary button\" href=\"submitpage.php?id=$id\">$MSG_SUBMIT</a>";
+              echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$id\">$MSG_SUBMIT_RECORD</a>";
+              echo "<a class=\"small ui orange button\" href=\"problemstatus.php?id=$id\">$MSG_STATISTICS</a>";
+            } else {
+              echo "<a href=\"contest.php?cid=$cid\" class=\"ui orange button\">$MSG_RETURN_CONTEST</a>";
+              echo "<a id='submit'  class=\"small ui primary button\" href=\"submitpage.php?cid=$cid&pid=$pid&langmask=$langmask\">$MSG_SUBMIT</a>";
+              echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$PID[$pid]&cid=$cid\">$MSG_SUBMIT_RECORD</a>";
+            }
+            if(!file_exists($OJ_DATA."/".$id."/solution.name")) echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
 
-    // SHOW OFF 버튼 (파일 존재 안할 때만 보여줌)
-    if (!file_exists($OJ_DATA . "/" . $id . "/solution.name")) {
-        echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
-    }
-
-    // 단계별 풀기(하단)
-    if (!isset($cid) && $is_allowed) {
-        echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
-    }
+            // 단계별 풀기(하단)
+            if (!isset($cid)) {
+              echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
+            }
     ?>
 
 
-    </div>
+          
+      </div>
 </div>
-
 <style>
     #dragButton {
   width: 10px;
