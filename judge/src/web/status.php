@@ -15,7 +15,7 @@ require_once("./include/my_func.inc.php");
 require_once ("./get_user_id.php");
 
 // 현재 로그인된 사용자 ID
-$current_user_id = isset($_SESSION[$OJ_NAME.'_'.'user_id']) ? $_SESSION[$OJ_NAME.'_'.'user_id'] : null;
+// $current_user_id = isset($_SESSION[$OJ_NAME.'_'.'user_id']) ? $_SESSION[$OJ_NAME.'_'.'user_id'] : null;
 // user_id 목록 가져오기
 $allowed_user_ids = getUserIdsFromDatabase();
 
