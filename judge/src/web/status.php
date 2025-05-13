@@ -15,7 +15,7 @@ require_once("./include/my_func.inc.php");
 require_once ("./get_user_id.php");
 
 // 현재 로그인된 사용자 ID
-// $current_user_id = isset($_SESSION[$OJ_NAME.'_'.'user_id']) ? $_SESSION[$OJ_NAME.'_'.'user_id'] : null;
+$current_user_id = isset($_SESSION[$OJ_NAME.'_'.'user_id']) ? $_SESSION[$OJ_NAME.'_'.'user_id'] : null;
 // user_id 목록 가져오기
 $allowed_user_ids = getUserIdsFromDatabase();
 
@@ -527,7 +527,7 @@ for ($i=0; $i<$rows_cnt; $i++) {
     //   continue;
     // }
 
-    // 문제를 표시할 부분
+  if (isset($allowed_user_ids)) {
     if (!isset($cid)) { // 대회 문제가 아닌 경우에만 버튼 출력
         $sid = urlencode($row['solution_id']);
         $pid = urlencode($row['problem_id']);
@@ -550,7 +550,8 @@ for ($i=0; $i<$rows_cnt; $i++) {
         // 대회 문제인 경우는 출력하지 않음
         $view_status[$i][10] = "-";
     }
-  
+  }
+
 }
 if($total_count>0) $avg_delay/= $total_count;
 
