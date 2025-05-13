@@ -358,7 +358,7 @@ function fetchImageByLineNumber(lineNumber) {
         .then(response => response.json())
         .then(data => {
             let img = document.getElementById("flowchart_image");
-            if (data.url && data.url.trim() !== "") {
+            if (data.url) {
                 // 이미지가 존재할 때만 보여주기
                 img.src = data.url;
                 img.style.display = "block";
