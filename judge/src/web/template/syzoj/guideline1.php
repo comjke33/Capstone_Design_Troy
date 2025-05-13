@@ -92,7 +92,7 @@ include("../../guideline_common.php");
     </div>
 
     <!-- 오른쪽 패널 -->
-    <div class="right-panel" >
+    <div class="right-panel">
 
     </div>
 </div>
@@ -280,12 +280,11 @@ function showAnswer(index) {
 }
 
 function showFeedback(index) {
+
     const feedbackContent = getFeedbackContent(index);
 
     // 오른쪽 패널에 피드백 표시
     const feedbackPanel = document.querySelector('.right-panel');
-    
-    // 피드백 내용을 채워 넣기
     feedbackPanel.innerHTML = `
         <h2>📋 피드백 창</h2>
         <div class="feedback-content">
@@ -293,11 +292,7 @@ function showFeedback(index) {
             <p>${feedbackContent}</p>
         </div>
     `;
-
-    // 숨겨진 패널을 보이게 하기
-    feedbackPanel.style.display = 'block';
 }
-
 
 // 테스트용 피드백 내용 (실제로는 문제 데이터에 따라 변경 가능)
 function getFeedbackContent(index) {
@@ -358,7 +353,7 @@ function fetchImageByLineNumber(lineNumber) {
         .then(response => response.json())
         .then(data => {
             let img = document.getElementById("flowchart_image");
-            if (data.url) {
+            if (data.url && data.url.trim() !== "") {
                 // 이미지가 존재할 때만 보여주기
                 img.src = data.url;
                 img.style.display = "block";
