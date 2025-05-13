@@ -5,15 +5,18 @@ function getUserIdsFromDatabase() {
     $db = mysqli_connect("localhost", "username", "password", "database_name"); // 본인의 DB 정보로 수정하세요
 
     if (!$db) {
-        die("Connection failed: " . mysqli_connect_error());
+        error_log("Connection failed: " . mysqli_connect_error());
+        return []; // DB 연결 실패 시 빈 배열 반환
     }
 
-    // user_id만 가져오는 쿼리
-    $query = "SELECT user_id FROM users";
+    // user_id만 가져오는 쿼리 (LIMIT 추가)
+    $query = "SELECT user_id FROM users LIMIT 1000"; // 데이터를 1000개만 가져옴
     $result = mysqli_query($db, $query);
 
     if (!$result) {
-        die("Query failed: " . mysqli_error($db)); // 쿼리 오류 처리
+        error_log("Query failed: " . mysqli_error($db)); // 오류 로그 기록
+        mysqli_close($db);
+        return []; // 쿼리 실패 시 빈 배열 반환
     }
 
     // user_id를 저장할 배열 초기화
@@ -30,5 +33,3 @@ function getUserIdsFromDatabase() {
     // user_id 배열 반환
     return $allowed_user_ids;
 }
-
-?>
