@@ -1,6 +1,6 @@
 <?php
-require_once "./include/db_info.inc.php";
-header("Content-Type: application/json");
+// require_once "./include/db_info.inc.php";
+// header("Content-Type: application/json");
 
 // Initialize the allowed_user_ids array
 $allowed_user_ids = [];
