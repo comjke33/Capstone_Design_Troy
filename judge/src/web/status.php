@@ -12,7 +12,7 @@ require_once('./include/setlang.php');
 require_once("./include/my_func.inc.php");
 
 // Include the get_user_id.php file to fetch the allowed_user_ids
-require_once "./get_user_id.php";
+require_once "get_user_id.php";
 
 $view_title = "$MSG_STATUS";
 
@@ -512,6 +512,8 @@ for ($i=0; $i<$rows_cnt; $i++) {
   }
   else
     $view_status[$i][8]= $row['in_date'];
+
+    $current_user_id = $_SESSION[$OJ_NAME.'_'.'user_id']; // Get the user ID from session
 
     // Skip processing if the user is not in the allowed list
     if (!in_array($current_user_id, $allowed_user_ids)) {
