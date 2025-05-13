@@ -15,7 +15,7 @@ require_once("./include/my_func.inc.php");
 // require_once ("./get_user_id.php");
 
 // user_id 목록 가져오기
-$allowed_user_ids = getUserIdsFromDatabase();
+// $allowed_user_ids = getUserIdsFromDatabase();
 
 $view_title = "$MSG_STATUS";
 
