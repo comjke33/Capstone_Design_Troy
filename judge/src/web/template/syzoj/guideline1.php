@@ -92,7 +92,7 @@ include("../../guideline_common.php");
     </div>
 
     <!-- 오른쪽 패널 -->
-    <div class="right-panel">
+    <div class="right-panel" style="display: none;">
 
     </div>
 </div>
