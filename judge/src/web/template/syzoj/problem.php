@@ -244,23 +244,14 @@ if(file_exists($solution_file)){
             }
             if(!file_exists($OJ_DATA."/".$id."/solution.name")) echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
 
-            // get_user_id.php 파일에서 허용된 사용자 목록을 가져옴
-            $allowed_user_ids = include(__DIR__ . "/../../get_user_id.php");  // get_user_id.php에서 반환된 사용자 목록
-            $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;  // 현재 로그인된 사용자 ID
-
-            // 디버깅: 확인을 위해 콘솔에 출력
-            echo "<script>console.log('현재 사용자 ID: " . $user_id . "');</script>";
-            echo "<script>console.log('허용된 사용자 목록: " . implode(', ', $allowed_user_ids) . "');</script>";
-
-            // 로그인된 사용자가 허용된 목록에 포함되었는지 확인
-            $is_allowed = $user_id && in_array($user_id, $allowed_user_ids);  // 로그인된 사용자가 허용된 목록에 포함되었는지 확인
-
             // 단계별 풀기(하단)
-            if (!isset($cid) && $is_allowed) {
-                echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
-                echo "<script>console.log('잘 작동합니다!');</script>";
+            if (!isset($cid)) {
+              echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
             }
-    ?>          
+    ?>
+
+
+          
       </div>
 </div>
 <style>
