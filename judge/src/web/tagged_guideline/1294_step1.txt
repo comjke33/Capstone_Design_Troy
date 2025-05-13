@@ -1,0 +1,18 @@
+[func_def_start(0)]
+정수 n을 입력받아 생성기 함수를 찾으세요.
+[self_start(1)]
+정수형 변수 sum을 0으로 초기화하세요.
+[self_end(1)]
+[rep_start(1)]
+n이 0보다 클 때 동작하는 while문을 작성하세요.
+[self_start(2)]
+n을 10으로 나눈 나머지를 sum에 더하세요.
+[self_end(2)]
+[self_start(2)]
+n을 10으로 나눈 몫을 구하세요.
+[self_end(2)]
+[rep_end(1)]
+[self_start(1)]
+sum을 반환하세요.
+[self_end(1)]
+[func_def_end(0)]

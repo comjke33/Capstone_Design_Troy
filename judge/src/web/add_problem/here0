@@ -1,4 +1,4 @@
-1293
-문제N개의숫자가공백없이쓰여있다.이숫자를모두합해서출력하는프로그램을작성하시오.입력첫째줄에숫자의개수N(1≤N≤100)이주어진다.둘째줄에숫자N개가공백없이주어진다.
-#include <stdio.h> #include <string.h> int main() { int a; scanf("%d",&a); char str[100]; int arr[100]={0}; scanf("%s",str); int sum=0; for(int i=0;i<strlen(str);i++) { arr[i]=str[i]; arr[i]+=1-'1'; sum+=arr[i]; } printf("%d",sum); }
+1294
+어떤자연수N이있을때&#44;그자연수N의분해합은N과N을이루는각자리수의합을의미한다.어떤자연수M의분해합이N인경우&#44;M을N의생성자라한다.예를들어&#44;245의분해합은256(=245+2+4+5)이된다.따라서245는256의생성자가된다.물론&#44;어떤자연수의경우에는생성자가없을수도있다.반대로&#44;생성자가여러개인자연수도있을수있다.자연수N이주어졌을때&#44;N의가장작은생성자를구해내는프로그램을작성하시오.
+#include <stdio.h>  int digit_sum(int n) { int sum = 0; while (n > 0) { sum += n % 10; n /= 10; } return sum; }  int find_generator(int n) { for (int i = 1; i < n; i++) { if (i + digit_sum(i) == n) { return i; } } return 0; }  int main() { int n; scanf("%d", &n); int result = find_generator(n); printf("%d\n", result); return 0; }
 /home/Capstone_Design_Troy/judge/src/web/flowcharts/
