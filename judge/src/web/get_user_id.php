@@ -29,10 +29,4 @@ $allowed_user_ids = [
     'zxczxc'
 ];
 
-// 쿼리에서 사용할 IN절 생성
-$placeholders = implode(',', array_fill(0, count($allowed_user_ids), '?'));
-
-$sql = "SELECT user_id FROM users WHERE user_id IN ($placeholders)";
-$res = pdo_query($sql, ...$allowed_user_ids);
-
-return ['test1', 'test3', 'guideline_user1'];
+return $allowed_user_ids;
