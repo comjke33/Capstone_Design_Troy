@@ -134,41 +134,77 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
         except subprocess.CalledProcessError as e:
             print(f"[❌] 컴파일 실패:\n{e.stderr}")
             return False
+        
+    test_files = [f for f in os.listdir(test_in_path) if f.endswith('.in')]
+    test_files.sort()
 
-    # 2. 입력/출력 파일 로드
-    with open(test_in_path, 'r') as fin:
-        full_input = fin.read()
-    with open(test_out_path, 'r') as fout:
-        expected_output = fout.read().strip()
-    # print(full_input)
-    # print(expected_output)
+    all_passed = True
+    
+    for in_file in test_files:
+        base_name = os.path.splitext(in_file)[0]
+        out_file = base_name + '.out'
 
-    # 3. 실행
-    # try:
-    result = subprocess.run(
-        ['./test_program'],
-        input=full_input,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-        timeout=5
-    )
-    actual_output = result.stdout.strip()
+        in_path = os.path.join(test_in_path, in_file)
+        out_path = os.path.join(test_in_path, out_file)
 
-    if actual_output == expected_output:
-        # print("✅ 전체 출력이 예상과 일치합니다.")
-        # print("----- 예상 출력 -----")
-        # print(expected_output)
-        # print("----- 실제 출력 -----")
-        # print(actual_output)            
-        return True
-    else:
-        # print("❌ 출력 불일치:")
-        # print("----- 예상 출력 -----")
-        # print(expected_output)
-        # print("----- 실제 출력 -----")
-        # print(actual_output)
-        return False
+        # 입력/출력 파일 읽기
+        with open(in_path, 'r') as fin:
+            full_input = fin.read()
+        with open(out_path, 'r') as fout:
+            expected_output = fout.read().strip()
+
+        # 프로그램 실행
+        result = subprocess.run(
+            ['./test_program'],
+            input=full_input,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=5
+        )
+        actual_output = result.stdout.strip()
+
+        # 결과 비교
+        if actual_output != expected_output:
+            # print(f"✅ {base_name}: 통과")
+            all_passed = False
+
+    return all_passed
+
+    # # 2. 입력/출력 파일 로드
+    # with open(test_in_path, 'r') as fin:
+    #     full_input = fin.read()
+    # with open(test_out_path, 'r') as fout:
+    #     expected_output = fout.read().strip()
+    # # print(full_input)
+    # # print(expected_output)
+
+    # # 3. 실행
+    # # try:
+    # result = subprocess.run(
+    #     ['./test_program'],
+    #     input=full_input,
+    #     stdout=subprocess.PIPE,
+    #     stderr=subprocess.PIPE,
+    #     text=True,
+    #     timeout=5
+    # )
+    # actual_output = result.stdout.strip()
+
+    # if actual_output == expected_output:
+    #     # print("✅ 전체 출력이 예상과 일치합니다.")
+    #     # print("----- 예상 출력 -----")
+    #     # print(expected_output)
+    #     # print("----- 실제 출력 -----")
+    #     # print(actual_output)            
+    #     return True
+    # else:
+    #     # print("❌ 출력 불일치:")
+    #     # print("----- 예상 출력 -----")
+    #     # print(expected_output)
+    #     # print("----- 실제 출력 -----")
+    #     # print(actual_output)
+    #     return False
 
     # except subprocess.TimeoutExpired:
     #     print("⏰ 실행 시간 초과")
@@ -183,7 +219,7 @@ def main():
 
     # 파일 경로 설정
     filename = f"../tagged_code/{pid}_step1.txt"
-    test_in_path = f"../../../data/{pid}/test.in"
+    test_in_path = f"../../../data/{pid}"
     test_out_path = f"../../../data/{pid}/test.out"
 
     
