@@ -12,6 +12,8 @@ if(isset($OJ_LANG)){
 	require_once("./lang/$OJ_LANG.php");
 }
 
+require_once('./get_user_id.php');
+
 $now = date("Y-m-d H:i",time());
 
 if (isset($_GET['cid']))
