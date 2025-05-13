@@ -105,13 +105,26 @@ if(file_exists($solution_file)){
         echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
       }
 
-      //단계별 풀기 상단
-      if (!isset($cid)) {
-        echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
-      }
-    ?>
 
-          
+
+      $allowed_user_ids = include(__DIR__ . "/../../get_user_id.php");  // get_user_id.php 경로가 맞는지 확인하세요
+
+      // 로그인된 사용자 ID 확인
+      $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+
+      // 사용자가 허용된 목록에 포함되어 있는지 확인
+      $is_allowed = $user_id && in_array($user_id, $allowed_user_ids);
+
+      // 조건에 맞으면 단계별 풀기 버튼 표시
+      if (!isset($cid) && $is_allowed) {
+          echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
+      }
+      // if (!isset($cid)) {
+      //   echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
+      // }
+
+
+    ?>
       </div>
      
       <?php
@@ -244,14 +257,23 @@ if(file_exists($solution_file)){
             }
             if(!file_exists($OJ_DATA."/".$id."/solution.name")) echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
 
-            // 단계별 풀기(하단)
-            if (!isset($cid)) {
-              echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
+            $allowed_user_ids = include(__DIR__ . "/../../get_user_id.php");  // get_user_id.php 경로가 맞는지 확인하세요
+
+            // 로그인된 사용자 ID 확인
+            $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+
+            // 사용자가 허용된 목록에 포함되어 있는지 확인
+            $is_allowed = $user_id && in_array($user_id, $allowed_user_ids);
+
+            // 조건에 맞으면 단계별 풀기 버튼 표시
+            if (!isset($cid) && $is_allowed) {
+                echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
             }
+
+            // if (!isset($cid)) {
+            //   echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
+            // }
     ?>
-
-
-          
       </div>
 </div>
 <style>
