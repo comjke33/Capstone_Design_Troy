@@ -300,8 +300,8 @@ function showFeedback(index) {
     const problemId = urlParams.get("problem_id") || "0";
     const ta = document.getElementById(`ta_${index}`);
     const blockCode = ta ? ta.value.trim() : "";
-    const step = new URLSearchParams(window.location.search).get("step") || "1";  // 추가
-    
+    const step = new URLSearchParams(window.location.search).get("step") || "1";
+
     // 피드백을 가져오기 전 로딩 표시
     const feedbackPanel = document.querySelector('.right-panel');
     feedbackPanel.innerHTML = `
@@ -320,15 +320,15 @@ function showFeedback(index) {
             problem_id: problemId,
             index: index,
             block_code: blockCode,
-            step: step  // 추가
+            step: step
         })
     })
     .then(response => response.json())
     .then(data => {
-        if (data.result === "success") {
-            const feedbackContent = data.feedback;
+        if (data.status === "success") {
+            // 줄바꿈을 <br> 태그로 변환하여 표시
+            const feedbackContent = data.result.replace(/\n/g, "<br>");
             
-            // 오른쪽 패널에 피드백 표시
             feedbackPanel.innerHTML = `
                 <h2>📋 피드백 창</h2>
                 <div class="feedback-content">
@@ -336,7 +336,6 @@ function showFeedback(index) {
                     <p>${feedbackContent}</p>
                 </div>
             `;
-            feedbackPanel.style.display = 'block';
         } else {
             feedbackPanel.innerHTML = `
                 <h2>📋 피드백 창</h2>
