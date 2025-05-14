@@ -185,7 +185,7 @@ def main():
     # 전달받은 파일 경로
     param_file = sys.argv[1]
 
-    # 디버깅: 파일 경로 확인
+    # 파일 경로 확인
     if not os.path.exists(param_file):
         print(f"파일 경로 오류: {param_file}")
         sys.exit(1)
@@ -204,14 +204,19 @@ def main():
     block_code = params.get("block_code", "작성못함")
     step = int(params.get("step", 1))
 
-    # 로그 파일로 디버깅 정보 기록
+    # 디버깅 정보 기록
     with open("/tmp/python_input_debug.log", "a") as log_file:
         log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
-        log_file.write(f"Received file path: {param_file}\n")
-        log_file.write(f"File exists: {os.path.exists(param_file)}\n")
 
-    # 피드백 출력 (임시)
-    print(f"block_code: {block_code}")
+    # 모범 코드 및 가이드라인 불러오기
+    model_answer = get_model_answer(problem_id)
+    guideline = get_guideline(problem_id, block_index, step)
+
+    # 피드백 생성
+    hint = generate_hint(block_code, block_index, guideline, model_answer)
+    
+    # 피드백 출력
+    print(f"피드백: {hint}")
 
 if __name__ == "__main__":
     main()
