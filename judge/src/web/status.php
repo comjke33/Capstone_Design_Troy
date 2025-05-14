@@ -510,7 +510,7 @@ for ($i=0; $i<$rows_cnt; $i++) {
   else
     $view_status[$i][8]= $row['in_date'];
 
-    if (!isset($cid) ||  isset($_SESSION[$OJ_NAME.'_'.'administrator'])) { // 대회 문제가 아닌 경우에만 버튼 출력
+    if (!isset($cid) && isset($_SESSION[$OJ_NAME.'_'.'administrator'])) { // 대회 문제가 아닌 경우에만 버튼 출력
       $sid = urlencode($row['solution_id']);
       $pid = urlencode($row['problem_id']);
       if ($row['result'] != 4) {  // Accepted가 아닌 경우
