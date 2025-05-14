@@ -6,7 +6,7 @@ $data = json_decode(file_get_contents("php://input"), true);
 $problem_id = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $block_code = isset($data["block_code"]) && $data["block_code"] !== "" ? $data["block_code"] : "작성못함";
-$step = $data["step"] ?? "0";  // step 인자 추가
+$step = isset($data["step"]) ? intval($data["step"]) : 0;  // step 인자 추가
 
 // 디버그: 입력 데이터 로그
 file_put_contents("/tmp/php_debug.log", "Received Data: " . json_encode($data) . "\n", FILE_APPEND);
