@@ -67,7 +67,7 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     try:
         client = openai.OpenAI()
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-mini",
             messages=[
                 {
                     "role": "system",
