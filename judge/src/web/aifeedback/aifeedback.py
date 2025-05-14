@@ -2,6 +2,11 @@ import sys
 import openai
 import os
 
+from dotenv import load_dotenv
+
+    dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
+    load_dotenv(dotenv_path)
+
 def generate_hint(block_code, block_number):
     """OpenAI API를 이용하여 코드 블럭에 대한 힌트 생성"""
     openai.api_key = os.getenv("OPENAI_API_KEY")
