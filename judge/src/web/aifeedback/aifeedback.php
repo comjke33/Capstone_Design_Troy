@@ -9,9 +9,9 @@ $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // step 인자 추가
 
 // 절대 경로로 임시 파일 생성
-$tmpFile = "/home/Capstone_Design_Troy/judge/src/web/aifeedback/input_params.txt";
+$tmpFile = "/home/Capstone_Design_Troy/judge/src/web/aifeedback/input_params.json";
 
-// 파라미터를 파일에 기록
+// 파라미터를 파일에 기록 (JSON 형식)
 file_put_contents($tmpFile, json_encode([
     "problem_id" => $problemId,
     "index" => $index,
@@ -22,8 +22,8 @@ file_put_contents($tmpFile, json_encode([
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
 
-// 파이썬 명령어 구성
-$cmd = "python3 $scriptPath $tmpFile";
+// 파이썬 명령어 구성 (절대 경로 사용)
+$cmd = "python3 " . escapeshellarg($scriptPath) . " " . escapeshellarg($tmpFile);
 
 // 디버깅 로그
 file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);

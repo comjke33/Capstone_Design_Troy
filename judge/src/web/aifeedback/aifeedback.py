@@ -179,11 +179,16 @@ def generate_hint(block_code, block_number, guideline, model_answer):
 
 def main():
     if len(sys.argv) != 2:
-        print("error: 인자 부족")
+        print(f"error: 인자 부족 (받은 인자 개수: {len(sys.argv) - 1})")
         sys.exit(1)
 
     # 전달받은 파일 경로
     param_file = sys.argv[1]
+
+    # 디버깅: 파일 경로 확인
+    if not os.path.exists(param_file):
+        print(f"파일 경로 오류: {param_file}")
+        sys.exit(1)
 
     # 인자 파일 읽기
     try:
@@ -202,6 +207,8 @@ def main():
     # 로그 파일로 디버깅 정보 기록
     with open("/tmp/python_input_debug.log", "a") as log_file:
         log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
+        log_file.write(f"Received file path: {param_file}\n")
+        log_file.write(f"File exists: {os.path.exists(param_file)}\n")
 
     # 피드백 출력 (임시)
     print(f"block_code: {block_code}")
