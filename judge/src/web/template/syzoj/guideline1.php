@@ -284,7 +284,17 @@ function showFeedback(index) {
     const urlParams = new URLSearchParams(window.location.search);
     const problemId = urlParams.get("problem_id") || "0";
     const ta = document.getElementById(`ta_${index}`);
-    const blockCode = ta.value.trim();
+    const blockCode = ta ? ta.value.trim() : "";
+
+    // 피드백을 가져오기 전 로딩 표시
+    const feedbackPanel = document.querySelector('.right-panel');
+    feedbackPanel.innerHTML = `
+        <h2>📋 피드백 창</h2>
+        <div class="feedback-content">
+            <p>피드백을 가져오는 중입니다...</p>
+        </div>
+    `;
+    feedbackPanel.style.display = 'block';
 
     // AJAX 요청으로 피드백 가져오기
     fetch("../../ajax/aifeedback_request.php", {
@@ -302,7 +312,6 @@ function showFeedback(index) {
             const feedbackContent = data.feedback;
             
             // 오른쪽 패널에 피드백 표시
-            const feedbackPanel = document.querySelector('.right-panel');
             feedbackPanel.innerHTML = `
                 <h2>📋 피드백 창</h2>
                 <div class="feedback-content">
@@ -312,13 +321,25 @@ function showFeedback(index) {
             `;
             feedbackPanel.style.display = 'block';
         } else {
-            alert("피드백을 가져오는 데 실패했습니다.");
+            feedbackPanel.innerHTML = `
+                <h2>📋 피드백 창</h2>
+                <div class="feedback-content">
+                    <p>피드백을 가져오지 못했습니다. 잠시 후 다시 시도해 주세요.</p>
+                </div>
+            `;
         }
     })
     .catch(err => {
         console.error("서버 요청 실패:", err);
+        feedbackPanel.innerHTML = `
+            <h2>📋 피드백 창</h2>
+            <div class="feedback-content">
+                <p>서버 요청 오류: ${err.message}</p>
+            </div>
+        `;
     });
 }
+
 /*
 function showFeedback(index) {
     const feedbackContent = getFeedbackContent(index);
@@ -338,9 +359,8 @@ function showFeedback(index) {
     // 숨겨진 패널을 보이게 하기
     feedbackPanel.style.display = 'block';
 }
-*/
 
-/*// 테스트용 피드백 내용 (실제로는 문제 데이터에 따라 변경 가능)
+// 테스트용 피드백 내용 (실제로는 문제 데이터에 따라 변경 가능)
 function getFeedbackContent(index) {
     const feedbacks = [
         "변수 선언 방식이 잘못되었습니다. var 대신 let을 사용해 보세요.",
@@ -350,9 +370,8 @@ function getFeedbackContent(index) {
     ];
     return feedbacks[index] || "피드백이 아직 준비되지 않았습니다.";
 }
-*/
 //===============================================================================================
-
+*/
 
 //화면 크기 재조절
 function autoResize(ta) {
