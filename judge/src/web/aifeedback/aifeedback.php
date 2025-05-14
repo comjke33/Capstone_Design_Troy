@@ -12,12 +12,13 @@ $step = $data["step"] ?? "1";  // step 인자 추가
 $tmpFile = "/tmp/code_" . uniqid() . ".json";
 
 // JSON으로 인코딩하여 파일에 저장
-file_put_contents($tmpFile, json_encode([
+$jsonData = json_encode([
     "problem_id" => $problemId,
     "index" => $index,
     "block_code" => $blockCode,
     "step" => $step
-]));
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+file_put_contents($tmpFile, $jsonData);
 
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
