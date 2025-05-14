@@ -176,8 +176,9 @@ def generate_hint(block_code, block_number, guideline, model_answer):
 def decode_block_code(encoded_code):
     """URL 디코딩 후 Base64 디코딩"""
     try:
-        url_decoded = urllib.parse.unquote(encoded_code)  # URL 디코딩
-        base64_decoded = base64.b64decode(url_decoded).decode('utf-8')  # Base64 디코딩
+        # URL 디코딩 -> Base64 디코딩
+        url_decoded = urllib.parse.unquote(encoded_code)
+        base64_decoded = base64.b64decode(url_decoded).decode('utf-8')
         return base64_decoded
     except Exception as e:
         return f"디코딩 오류: {str(e)}"

@@ -8,7 +8,7 @@ $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // step 인자 추가
 
-// 블록 코드를 Base64로 인코딩 후 URL 인코딩
+// 블록 코드를 Base64 인코딩 후 URL 인코딩
 $encodedBlockCode = urlencode(base64_encode($blockCode));
 
 // 파이썬 피드백 스크립트 경로
