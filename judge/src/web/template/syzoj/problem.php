@@ -106,8 +106,14 @@ if(file_exists($solution_file)){
       }
 
       //단계별 풀기 상단
-      if (!isset($cid)) {
-        echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
+      $disallowed_user_id = 
+      [ 'notguideline_user1',
+        'notguideline_user2'
+      ];
+
+      // 단계별 풀기(하단)
+      if (!isset($cid) && !in_array($_SESSION[$OJ_NAME.'_'.'user_id'], $disallowed_user_id)) {
+          echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
       }
     ?>
 
@@ -244,8 +250,13 @@ if(file_exists($solution_file)){
             }
             if(!file_exists($OJ_DATA."/".$id."/solution.name")) echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
 
+               $disallowed_user_id = 
+              [ 'notguideline_user1',
+                'notguideline_user2'
+              ];
+
             // 단계별 풀기(하단)
-            if (!isset($cid)) {
+            if (!isset($cid) && !in_array($_SESSION[$OJ_NAME.'_'.'user_id'], $disallowed_user_id)) {
               echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
             }
     ?>
