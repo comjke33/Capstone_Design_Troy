@@ -10,8 +10,6 @@ require_once('./include/db_info.inc.php');
 require_once('./include/memcache.php');
 require_once('./include/setlang.php');
 require_once("./include/my_func.inc.php");
-//유저 아이디 가져오기
-require_once("get_user_id.php");
 
 $view_title = "$MSG_STATUS";
 
@@ -512,59 +510,20 @@ for ($i=0; $i<$rows_cnt; $i++) {
   else
     $view_status[$i][8]= $row['in_date'];
 
-    ////////////////////////////////
-    /////       수정           /////
-    ////////////////////////////////
-    
-    
-    //사용자의 user_id가 user_result에 있는지 확인하는 함수
-    // function isUserRegistered($user_id, $user_result) {
-    //     while ($row = $user_result->fetch_assoc()) {
-    //         if ($row['user_id'] == $user_id) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
-
-    // // 예시로 사용자의 ID가 $row['user_id']라고 가정
-    // $user_id = $row['user_id']; 
-
-    // if (isUserRegistered($user_id, $user_result)) {
-    // // 대회 문제가 아닌 경우에만 버튼 출력
-    //     if (!isset($cid)) {
-    //         $sid = urlencode($row['solution_id']);
-    //         $pid = urlencode($row['problem_id']);
-    //         if ($row['result'] != 4) {  // Accepted가 아닌 경우
-    //             $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}&problem_id={$pid}\" class=\"ui orange mini button\">피드백 보기</a>";
-    //         } else { // Accepted인 경우
-    //             $view_status[$i][10] = "
-    //             <button class='toggle-similar ui blue mini button' data-sid='{$sid}'>유사문제 추천</button>
-    //             <div id='similar-{$sid}' class='similar-box' style='display:none; margin-top:5px;'></div>
-    //             ";
-    //         }
-    //     } else {
-    //         $view_status[$i][10] = "-"; // 대회 문제인 경우 출력 안 함
-    //     }
-    // } else {
-    //     // user_result에 등록되지 않은 사용자라면 버튼 출력 안 함
-    //     $view_status[$i][10] = "-";
-    // }
-
-    // if (!isset($cid)) { // 대회 문제가 아닌 경우에만 버튼 출력
-    //   $sid = urlencode($row['solution_id']);
-    //   $pid = urlencode($row['problem_id']);
-    //   if ($row['result'] != 4) {  // Accepted가 아닌 경우
-    //       $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}&problem_id={$pid}\" class=\"ui orange mini button\">피드백 보기</a>";
-    //   } else { // Accepted인 경우
-    //     $view_status[$i][10] = "
-    //     <button class='toggle-similar ui blue mini button' data-sid='{$sid}'>유사문제 추천</button>
-    //     <div id='similar-{$sid}' class='similar-box' style='display:none; margin-top:5px;'></div>
-    //   ";
-    //     }
-    // } else {
-    //     $view_status[$i][10] = "-"; // 대회 문제인 경우 출력 안 함
-    // }
+    if (!isset($cid) ||  isset($_SESSION[$OJ_NAME.'_'.'administrator'])) { // 대회 문제가 아닌 경우에만 버튼 출력
+      $sid = urlencode($row['solution_id']);
+      $pid = urlencode($row['problem_id']);
+      if ($row['result'] != 4) {  // Accepted가 아닌 경우
+          $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}&problem_id={$pid}\" class=\"ui orange mini button\">피드백 보기</a>";
+      } else { // Accepted인 경우
+        $view_status[$i][10] = "
+        <button class='toggle-similar ui blue mini button' data-sid='{$sid}'>유사문제 추천</button>
+        <div id='similar-{$sid}' class='similar-box' style='display:none; margin-top:5px;'></div>
+      ";
+        }
+    } else {
+        $view_status[$i][10] = "-"; // 대회 문제인 경우 출력 안 함
+    }
   
 }
 if($total_count>0) $avg_delay/= $total_count;
