@@ -21,14 +21,14 @@
 
 /* Step 버튼 스타일 */
 .step-buttons .ui.button {
-  background-color: #2185d0 !important;
-  color: #ffffff !important;
-  border-radius: 4px !important;
+  background-color: #2185d0 ;
+  color: #ffffff ;
+  border-radius: 4px;
   min-width: 100px;
 }
 
 .step-buttons .ui.button.active {
-  background-color: #0d71bb !important;
+  background-color: #000080 ;
 }
 
 /* 공통 버튼 스타일 */
