@@ -15,7 +15,7 @@ file_put_contents($tmpFile, $blockCode);
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
 
-// 파이썬 명령어 구성
+// 파이썬 명령어 구성 (경로에 따옴표 제거)
 $cmd = "python3 $scriptPath $problemId $index $tmpFile $step";
 
 // 디버그: Python 명령어 확인
