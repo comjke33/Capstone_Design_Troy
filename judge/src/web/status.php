@@ -512,8 +512,8 @@ for ($i=0; $i<$rows_cnt; $i++) {
 
     // 예시로, 특정 user_id만 버튼을 보이게 하려면
     $disallowed_user_id = 
-      [ 'noguideline_user1',
-        'noguideline_user2'
+      [ 'notguideline_user1',
+        'notguideline_user2'
       ];
 
     if (!isset($cid) && !in_array($_SESSION[$OJ_NAME.'_'.'user_id'], $disallowed_user_id)) { 
