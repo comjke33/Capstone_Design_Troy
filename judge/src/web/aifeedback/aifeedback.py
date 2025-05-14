@@ -174,9 +174,11 @@ def generate_hint(block_code, block_number, guideline, model_answer):
         return f"AI 피드백 생성 오류: {str(e)}"
 
 def decode_block_code(encoded_code):
-    """Base64로 인코딩된 코드 디코딩"""
+    """URL 디코딩 후 Base64 디코딩"""
     try:
-        return base64.b64decode(encoded_code).decode('utf-8')
+        url_decoded = urllib.parse.unquote(encoded_code)  # URL 디코딩
+        base64_decoded = base64.b64decode(url_decoded).decode('utf-8')  # Base64 디코딩
+        return base64_decoded
     except Exception as e:
         return f"디코딩 오류: {str(e)}"
 
@@ -190,7 +192,7 @@ def main():
     encoded_block_code = sys.argv[3]
     step = int(sys.argv[4])
 
-    # Base64 디코딩
+    # 디코딩 처리
     block_code = decode_block_code(encoded_block_code)
 
     # 디코딩 오류 처리
