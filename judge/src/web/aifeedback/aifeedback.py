@@ -5,7 +5,6 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 import re
-import base64
 
 # 환경 변수 파일 로드
 dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
@@ -174,18 +173,6 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
-def decode_block_code(encoded_str):
-    """Base64 디코딩을 통해 문자열 복구"""
-    try:
-        # 패딩 문제 자동 해결
-        missing_padding = len(encoded_str) % 4
-        if missing_padding:
-            encoded_str += '=' * (4 - missing_padding)
-        decoded_bytes = base64.b64decode(encoded_str)
-        return decoded_bytes.decode("utf-8")
-    except Exception as e:
-        return f"디코딩 오류: {str(e)}"
-
 def main():
     if len(sys.argv) != 5:
         print("error: 인자 부족")
@@ -193,18 +180,17 @@ def main():
 
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
-    encoded_block_code = sys.argv[3]
-    step = int(sys.argv[4])
+    block_code = urllib.parse.unquote(sys.argv[3])
+    step = int(sys.argv[4])  # step 인자 추가
 
-    # Base64 디코딩
-    block_code = decode_block_code(encoded_block_code)
+    model_answer = get_model_answer(problem_id)
+    guideline = get_guideline(problem_id, block_index, step)
 
-    # 디버그 로그 작성
     with open("/tmp/python_input_debug.log", "a") as log_file:
-        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
+        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}, guideline: {guideline}, model_answer: {model_answer}\n")
 
-    # 최종 출력
-    print(f"block_code: {block_code}")
+    hint = generate_hint(block_code, block_index, guideline, model_answer)
+    print(f"{hint}")
 
 if __name__ == "__main__":
     main()
