@@ -13,13 +13,12 @@ $encodedBlockCode = urlencode($blockCode);
 $escapedProblemId = escapeshellarg($problemId);
 $escapedIndex = escapeshellarg($index);
 $escapedStep = escapeshellarg($step);
-$escapedBlockCode = escapeshellarg($encodedBlockCode);
 
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
 
 // 파이썬 명령어 구성
-$cmd = "python3 $scriptPath $escapedProblemId $escapedIndex $escapedBlockCode $escapedStep";
+$cmd = "python3 $scriptPath $escapedProblemId $escapedIndex \"$encodedBlockCode\" $escapedStep";
 
 // 디버그: Python 명령어 확인
 file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);

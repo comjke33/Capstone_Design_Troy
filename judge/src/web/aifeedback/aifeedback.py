@@ -174,7 +174,6 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
-
 def decode_url(encoded_str):
     """URL 디코딩 함수"""
     try:
