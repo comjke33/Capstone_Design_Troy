@@ -8,14 +8,14 @@ $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // step 인자 추가
 
-// 블록 코드를 Base64 인코딩 후 URL 인코딩
-$encodedBlockCode = urlencode(base64_encode($blockCode));
+// 특수문자만 URL 인코딩 처리
+$encodedBlockCode = rawurlencode($blockCode);
 
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
 
-// 파이썬 명령어 구성
-$cmd = escapeshellcmd("python3 $scriptPath $problemId $index $encodedBlockCode $step");
+// 파이썬 명령어 구성 (인코딩된 코드 직접 전달)
+$cmd = escapeshellcmd("python3 $scriptPath $problemId $index '$encodedBlockCode' $step");
 
 // 디버깅 로그
 file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);

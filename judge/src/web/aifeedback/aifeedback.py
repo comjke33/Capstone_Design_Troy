@@ -5,7 +5,6 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 import re
-import base64
 # 환경 변수 파일 로드
 dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
 if os.path.exists(dotenv_path):
@@ -173,13 +172,11 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
-def decode_block_code(encoded_code):
-    """URL 디코딩 후 Base64 디코딩"""
+def decode_special_chars(encoded_code):
+    """URL 디코딩하여 특수문자 복원"""
     try:
-        # URL 디코딩 -> Base64 디코딩
-        url_decoded = urllib.parse.unquote(encoded_code)
-        base64_decoded = base64.b64decode(url_decoded).decode('utf-8')
-        return base64_decoded
+        decoded_code = urllib.parse.unquote(encoded_code)
+        return decoded_code
     except Exception as e:
         return f"디코딩 오류: {str(e)}"
 
@@ -194,7 +191,7 @@ def main():
     step = int(sys.argv[4])
 
     # 디코딩 처리
-    block_code = decode_block_code(encoded_block_code)
+    block_code = decode_special_chars(encoded_block_code)
 
     # 디코딩 오류 처리
     if block_code.startswith("디코딩 오류"):
