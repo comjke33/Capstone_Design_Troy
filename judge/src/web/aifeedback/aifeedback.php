@@ -8,25 +8,26 @@ $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // step 인자 추가
 
-// JSON 파일 경로 지정
-$tmpJsonFile = tempnam(sys_get_temp_dir(), 'code_') . '.json';
+// 임시 파일 경로 지정 (고정 경로 사용)
+$tmpFile = "/tmp/code_block.txt";
 
-// JSON 데이터 생성
-$jsonData = json_encode([
-    "problem_id" => $problemId,
-    "index" => $index,
-    "block_code" => $blockCode,
-    "step" => $step
-], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+// 파일 작성 시도
+if (file_put_contents($tmpFile, $blockCode) === false) {
+    file_put_contents("/tmp/php_debug.log", "파일 작성 실패: $tmpFile\n", FILE_APPEND);
+    die(json_encode(["status" => "error", "message" => "파일 작성 실패"]));
+}
 
-// JSON 파일 저장
-file_put_contents($tmpJsonFile, $jsonData);
+// 파일이 실제로 존재하는지 확인
+if (!file_exists($tmpFile)) {
+    file_put_contents("/tmp/php_debug.log", "임시 파일이 존재하지 않음: $tmpFile\n", FILE_APPEND);
+    die(json_encode(["status" => "error", "message" => "파일이 존재하지 않음"]));
+}
 
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
 
-// 파이썬 명령어 구성 (파일 경로를 인자로 전달)
-$cmd = escapeshellcmd("python3 $scriptPath $tmpJsonFile");
+// 파이썬 명령어 구성
+$cmd = "python3 $scriptPath $problemId $index $tmpFile $step";
 
 // 디버깅 로그
 file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);
@@ -36,9 +37,6 @@ exec($cmd, $output, $return_var);
 
 // 디버깅 로그
 file_put_contents("/tmp/php_debug.log", "Python Output: " . implode("\n", $output) . "\n", FILE_APPEND);
-
-// JSON 파일 삭제
-unlink($tmpJsonFile);
 
 // 결과 처리
 $response = [
