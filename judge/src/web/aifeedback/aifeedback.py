@@ -45,17 +45,21 @@ def is_start_tag(line):
     """블럭 시작 태그인지 판별"""
     return "start" in line
 
+def is_end_tag(line):
+    """블럭 종료 태그인지 판별"""
+    return "end" in line
+
 def extract_block_number(line):
     """블럭 번호 추출"""
     match = re.search(r"\((\d+)\)", line)
     return int(match.group(1)) if match else -1
 
-def get_guideline_blocks(guideline_path):
-    """가이드라인 파일에서 블럭별로 추출"""
-    if not os.path.exists(guideline_path):
+def get_blocks_from_file(file_path):
+    """파일에서 블럭 단위로 추출"""
+    if not os.path.exists(file_path):
         return {}
 
-    with open(guideline_path, 'r') as f:
+    with open(file_path, 'r') as f:
         lines = f.readlines()
 
     blocks = {}
@@ -71,7 +75,7 @@ def get_guideline_blocks(guideline_path):
                 block_number = extract_block_number(line)
                 current_block = [line]
                 inside_block = True
-            else:
+            elif is_end_tag(line):
                 current_block.append(line)
                 if block_number is not None:
                     blocks[block_number] = "".join(current_block).strip()
@@ -89,7 +93,7 @@ def get_guideline_blocks(guideline_path):
 def get_guideline(problem_id, block_index):
     """가이드라인 파일에서 특정 블럭을 추출 (step1 고정)"""
     guideline_path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/{problem_id}_step1.txt"
-    blocks = get_guideline_blocks(guideline_path)
+    blocks = get_blocks_from_file(guideline_path)
 
     return blocks.get(block_index, "블럭 가이드라인 없음")
 
