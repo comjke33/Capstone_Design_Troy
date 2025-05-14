@@ -178,7 +178,7 @@ def generate_hint(block_code, block_number, guideline, model_answer):
 def decode_base64(encoded_str):
     """Base64 디코딩 함수"""
     try:
-        # Base64 디코딩을 바이너리 모드로 먼저 시도하고, UTF-8로 변환
+        # Base64 디코딩 후 UTF-8로 변환
         binary_data = base64.b64decode(encoded_str)
         return binary_data.decode('utf-8', errors='replace')
     except Exception as e:
@@ -192,7 +192,7 @@ def main():
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
     encoded_block_code = sys.argv[3]
-    step = int(sys.argv[4])  # step 인자 추가
+    step = int(sys.argv[4])
 
     # Base64 디코딩하여 코드 복구
     block_code = decode_base64(encoded_block_code)
@@ -201,6 +201,7 @@ def main():
     with open("/tmp/python_input_debug.log", "a") as log_file:
         log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
 
+    # 출력 확인
     print(f"block_code: {block_code}")
 
 if __name__ == "__main__":
