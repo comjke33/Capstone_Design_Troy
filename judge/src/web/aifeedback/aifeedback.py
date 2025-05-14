@@ -23,7 +23,7 @@ def generate_hint(block_code, block_number):
     """
     try:
         response = openai.ChatCompletion.create(
-            model="gpt-4-turbo",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "코드 작성 도움 시스템입니다."},
                 {"role": "user", "content": prompt}
