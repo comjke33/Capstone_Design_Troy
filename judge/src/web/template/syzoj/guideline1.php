@@ -285,6 +285,7 @@ function showFeedback(index) {
     const problemId = urlParams.get("problem_id") || "0";
     const ta = document.getElementById(`ta_${index}`);
     const blockCode = ta ? ta.value.trim() : "";
+    const step = new URLSearchParams(window.location.search).get("step") || "1";  // 추가
 
     // 피드백을 가져오기 전 로딩 표시
     const feedbackPanel = document.querySelector('.right-panel');
@@ -303,7 +304,8 @@ function showFeedback(index) {
         body: JSON.stringify({
             problem_id: problemId,
             index: index,
-            block_code: blockCode
+            block_code: blockCode,
+            step: step  // 추가
         })
     })
     .then(response => response.json())
