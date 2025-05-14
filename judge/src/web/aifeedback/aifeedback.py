@@ -187,6 +187,10 @@ def main():
     file_path = sys.argv[3]
     step = int(sys.argv[4])
 
+    # 파일 경로 확인 로그
+    print(f"Received file path: {file_path}")
+    print(f"File exists: {os.path.exists(file_path)}")
+
     # 코드 블럭을 임시 파일에서 읽기
     block_code = read_code_lines(file_path)
 
@@ -195,9 +199,7 @@ def main():
         log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
 
     # 피드백 생성
-    hint = generate_hint(block_code, block_index)
     print(f"block_code: {block_code}")
-    print(f"hint: {hint}")
 
 if __name__ == "__main__":
     main()
