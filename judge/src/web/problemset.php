@@ -143,18 +143,18 @@ foreach ($result as $row) {
 	$view_problemset[$i][2] = "<div class='left'><a href='problem.php?id=".$row['problem_id']."'>".$row['title']."</a></div>";;
 	$view_problemset[$i][3] = "<div pid='".$row['problem_id']."' fd='source' class='center'>";
 
-	foreach ($category as $cat) {
-		if(trim($cat)==""||trim($cat)=="&nbsp")
-			continue;
+	// foreach ($category as $cat) {
+	// 	if(trim($cat)==""||trim($cat)=="&nbsp")
+	// 		continue;
 
-		$hash_num = hexdec(substr(md5($cat),0,7));
-		$label_theme = $color_theme[$hash_num%count($color_theme)];
+	// 	$hash_num = hexdec(substr(md5($cat),0,7));
+	// 	$label_theme = $color_theme[$hash_num%count($color_theme)];
 
-		if ($label_theme=="")
-			$label_theme = "default";
+	// 	if ($label_theme=="")
+	// 		$label_theme = "default";
 
-		$view_problemset[$i][3] .= "<a title='".htmlentities($cat,ENT_QUOTES,'UTF-8')."' >".mb_substr($cat,0,10,'utf8')."</a>&nbsp;";
-	}
+	// 	$view_problemset[$i][3] .= "<a title='".htmlentities($cat,ENT_QUOTES,'UTF-8')."' >".mb_substr($cat,0,10,'utf8')."</a>&nbsp;";
+	// }
 
 	$view_problemset[$i][3] .= "</div >";
 	$view_problemset[$i][4] = "<div class='center'><a href='status.php?problem_id=".$row['problem_id']."&jresult=4'>".$row['accepted']."</a></div>";
