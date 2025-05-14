@@ -224,6 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+
 //문제 맞았는지 여부 확인
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
