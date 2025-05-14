@@ -7,6 +7,12 @@
           }
 ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
+
+<?php
+//허가된 유저들만 사용가능하게
+include('../../allowed_users.php');
+?>
+
 <style>
 .ace_cursor {
   border-left-width: 1px !important;
@@ -21,6 +27,8 @@
 div[class*=ace_br] {
     border-radius: 0 !important;
 }
+
+
 
 </style>
 <script src="<?php echo $OJ_CDN_URL.$path_fix."template/$OJ_TEMPLATE/"?>clipboard.min.js"></script>
@@ -106,31 +114,31 @@ if(file_exists($solution_file)){
       }
 
       //허가된 사용자들
-      $allowed_user_id = [
-        'admin', 
-        'endtoend', 
-        'end_to_end', 
-        'ERRORMAN', 
-        'ERRORMON', 
-        'errortest', 
-        'error_test', 
-        'error_test1', 
-        'guideline_user1', 
-        'guideline_user2', 
-        // 'notguideline_user1', 
-        // 'notguideline_user2', 
-        'notification_test', 
-        'notification_test2', 
-        'sonson', 
-        'test', 
-        'test1', 
-        'test2', 
-        'test3', 
-        'test4', 
-        'test5', 
-        'zxccyh', 
-        'zxczxc'
-        ];
+      // $allowed_user_id = [
+      //   'admin', 
+      //   'endtoend', 
+      //   'end_to_end', 
+      //   'ERRORMAN', 
+      //   'ERRORMON', 
+      //   'errortest', 
+      //   'error_test', 
+      //   'error_test1', 
+      //   'guideline_user1', 
+      //   'guideline_user2', 
+      //   // 'notguideline_user1', 
+      //   // 'notguideline_user2', 
+      //   'notification_test', 
+      //   'notification_test2', 
+      //   'sonson', 
+      //   'test', 
+      //   'test1', 
+      //   'test2', 
+      //   'test3', 
+      //   'test4', 
+      //   'test5', 
+      //   'zxccyh', 
+      //   'zxczxc'
+      //   ];
 
       //단계별 풀기 상단
       if (!isset($cid) && in_array($_SESSION[$OJ_NAME.'_'.'user_id'], $allowed_user_id)) {
