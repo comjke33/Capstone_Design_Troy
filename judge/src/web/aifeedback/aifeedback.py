@@ -39,36 +39,59 @@ def get_model_answer(problem_id):
 
 def is_tag_line(line):
     """태그 줄인지 판별"""
-    return bool(re.match(r"\s*## BLOCK \d+", line))
+    return bool(re.match(r"\s*\[.*_(start|end)\(\d+\)\]\s*", line))
 
-def get_guideline(problem_id, block_number):
-    """가이드라인 파일에서 블럭별로 가져오기"""
-    guideline_path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/{problem_id}_step1.txt"
-    try:
-        with open(guideline_path, 'r') as file:
-            guideline_content = file.readlines()
+def is_start_tag(line):
+    """블럭 시작 태그인지 판별"""
+    return "start" in line
 
-        # 가이드라인 블럭 분리
-        blocks = {}
-        current_block = []
-        current_block_number = None
+def extract_block_number(line):
+    """블럭 번호 추출"""
+    match = re.search(r"\((\d+)\)", line)
+    return int(match.group(1)) if match else -1
 
-        for line in guideline_content:
-            if is_tag_line(line):
-                if current_block_number is not None:
-                    blocks[current_block_number] = "".join(current_block).strip()
-                current_block_number = int(re.search(r"## BLOCK (\d+)", line).group(1))
+def get_guideline_blocks(guideline_path):
+    """가이드라인 파일에서 블럭별로 추출"""
+    if not os.path.exists(guideline_path):
+        return {}
+
+    with open(guideline_path, 'r') as f:
+        lines = f.readlines()
+
+    blocks = {}
+    current_block = []
+    block_number = None
+    inside_block = False
+
+    for line in lines:
+        if is_tag_line(line):
+            if is_start_tag(line):
+                if current_block and block_number is not None:
+                    blocks[block_number] = "".join(current_block).strip()
+                block_number = extract_block_number(line)
                 current_block = [line]
+                inside_block = True
             else:
                 current_block.append(line)
+                if block_number is not None:
+                    blocks[block_number] = "".join(current_block).strip()
+                current_block = []
+                inside_block = False
+        elif inside_block:
+            current_block.append(line)
 
-        # 마지막 블럭 처리
-        if current_block_number is not None:
-            blocks[current_block_number] = "".join(current_block).strip()
+    # 마지막 블럭 처리
+    if current_block and block_number is not None:
+        blocks[block_number] = "".join(current_block).strip()
 
-        return blocks.get(block_number, "블럭 가이드라인 없음")
-    except FileNotFoundError:
-        return "가이드라인 파일 없음"
+    return blocks
+
+def get_guideline(problem_id, block_index):
+    """가이드라인 파일에서 특정 블럭을 추출 (step1 고정)"""
+    guideline_path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/{problem_id}_step1.txt"
+    blocks = get_guideline_blocks(guideline_path)
+
+    return blocks.get(block_index, "블럭 가이드라인 없음")
 
 def generate_hint(block_code, block_number, guideline, model_answer):
     """OpenAI API를 이용하여 코드 블럭에 대한 힌트 생성"""
@@ -105,7 +128,7 @@ def generate_hint(block_code, block_number, guideline, model_answer):
             max_tokens=300,
             temperature=0.7
         )
-        return response.choices[0].message.content.strip()
+        return response['choices'][0]['message']['content'].strip()
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
@@ -121,7 +144,7 @@ def main():
     # 모범 코드 가져오기
     model_answer = get_model_answer(problem_id)
 
-    # 블럭별 가이드라인 가져오기
+    # 블럭별 가이드라인 가져오기 (step1 고정)
     guideline = get_guideline(problem_id, block_index)
 
     # 디버그 로그 추가
