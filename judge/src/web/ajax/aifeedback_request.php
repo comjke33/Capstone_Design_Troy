@@ -19,11 +19,12 @@ $escapedIndex = escapeshellarg($index);
 $escapedBlockCode = escapeshellarg($block_code);
 
 // 파이썬 실행 명령어
-$cmd = "cd ../../aifeedback && python3 aifeedback.py $escapedProblemId $escapedIndex $escapedBlockCode";
+$cmd = "cd ../../aifeedback && python3 aifeedback.py $escapedProblemId $escapedIndex $escapedBlockCode 2>&1";
 exec($cmd, $output, $return_var);
 
+// 오류 여부 확인
 if ($return_var !== 0) {
-    echo json_encode(["result" => "error", "message" => "Python 스크립트 실행 오류"]);
+    echo json_encode(["result" => "error", "message" => "Python 스크립트 실행 오류", "details" => implode("\n", $output)]);
 } else {
     $feedback = implode("\n", $output);
     echo json_encode(["result" => "success", "feedback" => trim($feedback)]);
