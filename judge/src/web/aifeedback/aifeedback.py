@@ -189,7 +189,13 @@ def main():
 
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
-    file_path = sys.argv[3]  # 임시 파일 경로
+    
+    # JSON으로 인코딩된 파일 경로를 디코딩
+    try:
+        file_path = json.loads(sys.argv[3])
+    except json.JSONDecodeError:
+        file_path = sys.argv[3].strip("'")
+
     step = int(sys.argv[4])
 
     # 코드 블럭을 임시 파일에서 읽기
