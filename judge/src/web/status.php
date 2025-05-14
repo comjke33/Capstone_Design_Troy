@@ -510,7 +510,10 @@ for ($i=0; $i<$rows_cnt; $i++) {
   else
     $view_status[$i][8]= $row['in_date'];
 
-    if (!isset($cid) && isset($_SESSION[$OJ_NAME.'_'.'administrator'])) { // 대회 문제가 아닌 경우에만 버튼 출력
+    // 예시로, 특정 user_id만 버튼을 보이게 하려면
+    $allowed_user_id = 'guideline_user1';
+
+    if (!isset($cid) && $_SESSION[$OJ_NAME.'_'.'user_id'] == $allowed_user_id) { // 대회 문제가 아닌 경우에만 버튼 출력
       $sid = urlencode($row['solution_id']);
       $pid = urlencode($row['problem_id']);
       if ($row['result'] != 4) {  // Accepted가 아닌 경우
