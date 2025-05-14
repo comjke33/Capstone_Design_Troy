@@ -248,6 +248,13 @@ function submitAnswer(index) {
             btn.style.display = "none";
             check.style.display = "inline";
 
+            // 답안 확인, 피드백 보기 버튼 숨기기
+            const answerBtn = document.getElementById(`answer_btn_${index}`);
+            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
+            
+            if (answerBtn) answerBtn.style.display = "none";  // 답안 확인 버튼 숨기기
+            if (feedbackBtn) feedbackBtn.style.display = "none";  // 피드백 보기 버튼 숨기기
+
             const nextIndex = index + 1;
             const nextTa = document.getElementById(`ta_${nextIndex}`);
             const nextBtn = document.getElementById(`btn_${nextIndex}`);
