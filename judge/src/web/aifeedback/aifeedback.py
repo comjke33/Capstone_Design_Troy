@@ -95,8 +95,6 @@ def main():
     # 모범 코드 가져오기
     model_answer = get_model_answer(problem_id)
 
-
-
     # 가이드라인 가져오기
     guideline = get_guideline(problem_id)
 
