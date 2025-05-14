@@ -231,7 +231,25 @@ html, body {
             <?php }  ?>
             <?php echo $sql_news_menu_result_html; ?>
             <div class="right menu">
-                <a id="notification-link" class="item active" href="#">
+                <?php
+                $disallowed_user_id = [
+                    'notguideline_user1',  // 허가되지 않은 사용자 예시
+                    'notguideline_user2'   // 허가되지 않은 사용자 예시
+                ];
+                // disallowed_user_id에 포함되지 않은 사용자만 알림 버튼을 보이도록 조건 추가
+                if (isset($_SESSION[$OJ_NAME.'_'.'user_id']) && !in_array($_SESSION[$OJ_NAME.'_'.'user_id'], $disallowed_user_id)) {
+                ?>
+                    <a id="notification-link" class="item active" href="#">
+                        <span class="bell-wrapper">
+                            <i class="fa fa-bell"></i>
+                            <?php if (isset($new_notification_count) && $new_notification_count > 0) { ?>
+                                <span class="notification-dot"></span>
+                            <?php } ?>
+                        </span>
+                        <span class="desktop-only"></span>
+                    </a>
+
+                <!-- <a id="notification-link" class="item active" href="#">
                     <span class="bell-wrapper">
                         <i class="fa fa-bell"></i>
                         <?php if(isset($new_notification_count) && $new_notification_count > 0){ ?>
@@ -239,7 +257,7 @@ html, body {
                         <?php } ?>
                     </span>
                     <span class="desktop-only"></span>
-                </a>
+                </a> -->
 
                 <script>
                 document.getElementById("notification-link").addEventListener("click", function(e) {
