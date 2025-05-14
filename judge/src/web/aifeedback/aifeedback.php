@@ -9,17 +9,26 @@ $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // step 인자 추가
 
 // 임시 파일에 코드 블럭 저장
-$tmpFile = tempnam(sys_get_temp_dir(), 'code_');
-file_put_contents($tmpFile, $blockCode);
-
-// 경로를 절대 경로로 변환
+$tmpDir = sys_get_temp_dir();  // /tmp 디렉토리 경로
+$tmpFile = tempnam($tmpDir, 'code_');
 $realTmpFile = realpath($tmpFile);
+
+// 파일 생성 여부 확인
+if ($realTmpFile === false) {
+    error_log("임시 파일 생성 실패");
+    die(json_encode(["status" => "error", "message" => "임시 파일 생성 실패"]));
+}
+
+file_put_contents($realTmpFile, $blockCode);
+
+// 로그 파일로 임시 파일 경로 기록
+file_put_contents("/tmp/php_debug.log", "임시 파일 경로: $realTmpFile\n", FILE_APPEND);
 
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
 
 // 파이썬 명령어 구성
-$cmd = "python3 $scriptPath $problemId $index '$realTmpFile' $step";
+$cmd = "python3 $scriptPath $problemId $index \"$realTmpFile\" $step";
 
 // 디버깅 로그
 file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);
@@ -30,8 +39,15 @@ exec($cmd, $output, $return_var);
 // 디버깅 로그
 file_put_contents("/tmp/php_debug.log", "Python Output: " . implode("\n", $output) . "\n", FILE_APPEND);
 
+// 임시 파일 삭제 확인
+if (!file_exists($realTmpFile)) {
+    file_put_contents("/tmp/php_debug.log", "임시 파일이 존재하지 않습니다: $realTmpFile\n", FILE_APPEND);
+} else {
+    file_put_contents("/tmp/php_debug.log", "임시 파일이 성공적으로 생성됨: $realTmpFile\n", FILE_APPEND);
+}
+
 // 임시 파일 삭제
-unlink($tmpFile);
+unlink($realTmpFile);
 
 // 결과 처리
 $response = [

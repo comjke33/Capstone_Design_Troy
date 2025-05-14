@@ -5,6 +5,7 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 import re
+import os
 
 # 환경 변수 파일 로드
 dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
@@ -190,6 +191,14 @@ def main():
     block_index = int(sys.argv[2])
     file_path = sys.argv[3]
     step = int(sys.argv[4])
+
+    # 디버깅: 경로 출력
+    print(f"Received file path: {file_path}")
+
+    # 경로 존재 여부 확인
+    if not os.path.exists(file_path):
+        print(f"파일 확인 오류: {file_path}")
+        sys.exit(1)
 
     # 코드 블럭을 임시 파일에서 읽기
     block_code = read_code_lines(file_path)
