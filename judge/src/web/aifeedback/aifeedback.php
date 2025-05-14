@@ -8,14 +8,14 @@ $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";
 
-// 임시 파일 경로 설정
+// 임시 파일 경로 설정 (코드 내용을 임시 파일에 저장)
 $tmpFile = tempnam("/tmp", "aifeedback_");
 file_put_contents($tmpFile, $blockCode);
 
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
 
-// 파이썬 명령어 구성 (경로에 따옴표 제거)
+// 파이썬 명령어 구성
 $cmd = "python3 $scriptPath $problemId $index $tmpFile $step";
 
 // 디버그: Python 명령어 확인
