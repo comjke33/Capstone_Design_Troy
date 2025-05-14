@@ -181,11 +181,13 @@ def main():
 
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
+
     # JSON 문자열 안전하게 디코딩
     try:
         block_code = json.loads(sys.argv[3])
     except json.JSONDecodeError:
         block_code = sys.argv[3].strip("'")
+
     step = int(sys.argv[4])  # step 인자 추가
 
     model_answer = get_model_answer(problem_id)

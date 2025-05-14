@@ -9,7 +9,7 @@ $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // step 인자 추가
 
 // 입력 안전 처리 (쉘 인젝션 방지)
-$escapedBlockCode = escapeshellarg(json_encode($blockCode));  // JSON 인코딩 추가
+$escapedBlockCode = escapeshellarg(json_encode($blockCode));  // JSON으로 인코딩하여 안전하게 전달
 $escapedProblemId = escapeshellarg($problemId);
 $escapedIndex = escapeshellarg($index);
 $escapedStep = escapeshellarg($step);
