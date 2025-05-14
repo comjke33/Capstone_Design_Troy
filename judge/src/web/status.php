@@ -10,6 +10,8 @@ require_once('./include/db_info.inc.php');
 require_once('./include/memcache.php');
 require_once('./include/setlang.php');
 require_once("./include/my_func.inc.php");
+//유저 아이디 가져오기
+require_once("./get_user_id.php");
 $view_title = "$MSG_STATUS";
 
 if (isset($OJ_LANG)) {
@@ -512,7 +514,7 @@ for ($i=0; $i<$rows_cnt; $i++) {
     ////////////////////////////////
     /////       수정           /////
     ////////////////////////////////
-    include './get_user_id.php';  // get_user_id.php에서 result 변수를 불러옵니다
+    
     
     // 사용자의 user_id가 user_result에 있는지 확인하는 함수
     function isUserRegistered($user_id, $user_result) {
@@ -547,7 +549,6 @@ for ($i=0; $i<$rows_cnt; $i++) {
         // user_result에 등록되지 않은 사용자라면 버튼 출력 안 함
         $view_status[$i][10] = "-";
     }
-    ?>
 
   //   if (!isset($cid)) { // 대회 문제가 아닌 경우에만 버튼 출력
   //     $sid = urlencode($row['solution_id']);
@@ -564,8 +565,6 @@ for ($i=0; $i<$rows_cnt; $i++) {
   //     $view_status[$i][10] = "-"; // 대회 문제인 경우 출력 안 함
   // }
   
-  
-
 }
 if($total_count>0) $avg_delay/= $total_count;
 
