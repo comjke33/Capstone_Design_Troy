@@ -5,7 +5,6 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 import re
-import base64
 import json
 
 # 환경 변수 파일 로드
@@ -175,12 +174,12 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
-def decode_base64(encoded_str):
-    """Base64 디코딩 함수"""
+
+def decode_url(encoded_str):
+    """URL 디코딩 함수"""
     try:
-        # Base64 디코딩 후 UTF-8로 변환
-        binary_data = base64.b64decode(encoded_str)
-        return binary_data.decode('utf-8', errors='replace')
+        # URL 디코딩 후 UTF-8로 변환
+        return urllib.parse.unquote(encoded_str)
     except Exception as e:
         return f"디코딩 오류: {str(e)}"
 
@@ -194,8 +193,8 @@ def main():
     encoded_block_code = sys.argv[3]
     step = int(sys.argv[4])
 
-    # Base64 디코딩하여 코드 복구
-    block_code = decode_base64(encoded_block_code)
+    # URL 디코딩하여 코드 복구
+    block_code = decode_url(encoded_block_code)
 
     # 디버깅 로그 작성
     with open("/tmp/python_input_debug.log", "a") as log_file:
