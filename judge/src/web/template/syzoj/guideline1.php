@@ -280,44 +280,31 @@ function showAnswer(index) {
 }
 
 
-function showFeedback(index) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const problemId = urlParams.get("problem_id") || "0";
+function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
-    const blockCode = ta.value.trim();
+    const btn = document.getElementById(`btn_${index}`);
+    const check = document.getElementById(`check_${index}`);
+    
+    if (!ta || !btn || !check) {
+        console.error(`Element ta_${index}, btn_${index}, or check_${index} not found`);
+        return;
+    }
 
-    // AJAX 요청으로 피드백 가져오기
-    fetch("../../ajax/aifeedback_request.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            problem_id: problemId,
-            index: index,
-            block_code: blockCode
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.result === "success") {
-            const feedbackContent = data.feedback;
-            
-            // 오른쪽 패널에 피드백 표시
-            const feedbackPanel = document.querySelector('.right-panel');
-            feedbackPanel.innerHTML = `
-                <h2>📋 피드백 창</h2>
-                <div class="feedback-content">
-                    <p><strong>${index + 1}번 줄에 대한 피드백:</strong></p>
-                    <p>${feedbackContent}</p>
-                </div>
-            `;
-            feedbackPanel.style.display = 'block';
-        } else {
-            alert("피드백을 가져오는 데 실패했습니다.");
-        }
-    })
-    .catch(err => {
-        console.error("서버 요청 실패:", err);
-    });
+    const input = ta.value.trim();
+    const correct = (correctAnswers[index]?.content || "").trim();
+
+    if (input === correct) {
+        ta.readOnly = true;
+        ta.style.backgroundColor = "#d4edda";
+        ta.style.border = "1px solid #d4edda";
+        ta.style.color = "#155724";
+        btn.style.display = "none";
+        check.style.display = "inline";
+    } else {
+        ta.style.backgroundColor = "#ffecec";
+        ta.style.border = "1px solid #e06060";
+        ta.style.color = "#c00";
+    }
 }
 /*
 function showFeedback(index) {
