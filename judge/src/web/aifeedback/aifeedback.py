@@ -1,16 +1,17 @@
 import sys
 import openai
 import os
-
 from dotenv import load_dotenv
 
+# 환경 변수 파일 로드
 dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
-load_dotenv(dotenv_path)
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def generate_hint(block_code, block_number):
     """OpenAI API를 이용하여 코드 블럭에 대한 힌트 생성"""
-    openai.api_key = os.getenv("OPENAI_API_KEY")
-
     prompt = f"""
     다음은 C 코드의 일부입니다.
 
@@ -21,13 +22,16 @@ def generate_hint(block_code, block_number):
     어떻게 작성해야 하는지에 대한 힌트를 알려주세요. 단, 코드를 알려주는 것은 안됩니다. 7줄 이내로 작성해주십시오.
     """
     try:
-        response = openai.Completion.create(
-            model="gpt-4o-mini",
-            prompt=prompt,
+        response = openai.ChatCompletion.create(
+            model="gpt-4-turbo",
+            messages=[
+                {"role": "system", "content": "코드 작성 도움 시스템입니다."},
+                {"role": "user", "content": prompt}
+            ],
             max_tokens=300,
             temperature=0.7
         )
-        return response['choices'][0]['text'].strip()
+        return response['choices'][0]['message']['content'].strip()
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
