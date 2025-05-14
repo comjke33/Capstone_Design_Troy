@@ -1,4 +1,9 @@
 <?php
+//허가된 유저들만 사용가능하게
+include('../../allowed_users.php');
+?>
+
+<?php
         require_once(dirname(__FILE__)."/../../include/memcache.php");
         function checkmail(){  // check if has mail
           global $OJ_NAME;
@@ -157,10 +162,6 @@ html, body {
 </script>
 </head>
 
-<?php
-//허가된 유저들만 사용가능하게
-include('../../allowed_users.php');
-?>
 
 <?php
         if(!isset($_GET['spa'])){
@@ -239,28 +240,28 @@ include('../../allowed_users.php');
                 <?php
                     $allowed_user_id = [
                     'admin', 
-                    'endtoend', 
-                    'end_to_end', 
-                    'ERRORMAN', 
-                    'ERRORMON', 
-                    'errortest', 
-                    'error_test', 
-                    'error_test1', 
-                    'guideline_user1', 
-                    'guideline_user2', 
-                    // 'notguideline_user1', 
-                    // 'notguideline_user2', 
-                    'notification_test', 
-                    'notification_test2', 
-                    'sonson', 
-                    'test', 
-                    'test1', 
-                    'test2', 
-                    'test3', 
-                    'test4', 
-                    'test5', 
-                    'zxccyh', 
-                    'zxczxc'
+                    // 'endtoend', 
+                    // 'end_to_end', 
+                    // 'ERRORMAN', 
+                    // 'ERRORMON', 
+                    // 'errortest', 
+                    // 'error_test', 
+                    // 'error_test1', 
+                    // 'guideline_user1', 
+                    // 'guideline_user2', 
+                    // // 'notguideline_user1', 
+                    // // 'notguideline_user2', 
+                    // 'notification_test', 
+                    // 'notification_test2', 
+                    // 'sonson', 
+                    // 'test', 
+                    // 'test1', 
+                    // 'test2', 
+                    // 'test3', 
+                    // 'test4', 
+                    // 'test5', 
+                    // 'zxccyh', 
+                    // 'zxczxc'
                     ];
 
                 // allowed_user_id에 포함된 사용자만 알림 버튼을 보이도록 조건 추가
