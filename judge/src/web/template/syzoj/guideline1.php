@@ -51,6 +51,7 @@ include("../../guideline_common.php");
             foreach ($blocks as $block) {
                 $depth = $block['depth'];
                 $margin_left = $depth * 30;
+                $isCorrect = false;
 
                 if ($block['type'] === 'text') {
                     $raw = trim($block['content']);
@@ -68,9 +69,11 @@ include("../../guideline_common.php");
                     // 라인 번호에 맞는 이미지를 업데이트하기 위한 스크립트 추가
                     // $html .= "<script>updateImageForTextarea({$answer_index + 1}, document.getElementById('ta_{$answer_index}'));</script>";  // 라인 번호에 맞춰 이미지 업데이트
 
+                    if(!$isCorrect){
                     $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
                     $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
                     $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
+                    }
 
                     $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                     $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
@@ -253,14 +256,16 @@ function submitAnswer(index) {
             const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
             const submitBtn = document.getElementById(`submit_btn_${index}`);
 
-            // display: none을 사용하여 버튼 숨기기
-            if (answerBtn) answerBtn.style.display = "none";  // 답안 확인 버튼 숨기기
-            if (feedbackBtn) feedbackBtn.style.display = "none";  // 피드백 보기 버튼 숨기기
-            if (submitBtn) submitBtn.style.display = "none";  // 제출 버튼 숨기기
+            if($isCorrect) {// display: none을 사용하여 버튼 숨기기
+                answerBtn.style.display = "none";  // 답안 확인 버튼 숨기기
+                feedbackBtn.style.display = "none";  // 피드백 보기 버튼 숨기기
+                submitBtn.style.display = "none";  // 제출 버튼 숨기기
+            }
 
             const nextIndex = index + 1;
             const nextTa = document.getElementById(`ta_${nextIndex}`);
             const nextBtn = document.getElementById(`btn_${nextIndex}`);
+
             if (nextTa && nextBtn) {
                 nextTa.disabled = false;
                 nextBtn.disabled = false;
