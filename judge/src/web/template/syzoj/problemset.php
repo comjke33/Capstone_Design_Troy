@@ -35,38 +35,6 @@
       <div class="nine wide right aligned column">
      
         <!-- Show Tags체크박스 제공 토글 -->
-        <div class="ui toggle checkbox" id="show_tag">
-          <style id="show_tag_style"></style>
-          <script>
-          if (localStorage.getItem('show_tag') != '0') {
-            document.write('<input type="checkbox" checked>');
-            document.getElementById('show_tag_style').innerHTML = '.show_tag_controled { white-space: nowrap; overflow: hidden; }';
-          } else {
-            document.write('<input type="checkbox">');
-            document.getElementById('show_tag_style').innerHTML = '.show_tag_controled { width: 0; white-space: nowrap; overflow: hidden; }';
-          }
-          </script>
-
-          <script>
-          $(function () {
-            $('#show_tag').checkbox('setting', 'onChange', function () {
-              let checked = $('#show_tag').checkbox('is checked');
-              localStorage.setItem('show_tag', checked ? '1' : '0');
-              if (checked) {
-                document.getElementById('show_tag_style').innerHTML = '.show_tag_controled { white-space: nowrap; overflow: hidden; }';
-              } else {
-                document.getElementById('show_tag_style').innerHTML = '.show_tag_controled { width: 0; white-space: nowrap; overflow: hidden; }';
-              }
-            });
-          });
-          </script>
-          <!-- <label><?php echo $MSG_SHOW_TAGS;?></label> -->
-          
-        </div>
-        <!-- <div style="margin-left: 10px; display: inline-block; ">
-               <a style="margin-left: 10px; " href="category.php" class="ui labeled icon mini green button"><i class="plus icon"></i> <?php echo $MSG_SHOW_ALL_TAGS;?></a>
-          
-        </div> -->
 
       </div>
     </div>
@@ -151,7 +119,7 @@
 
               echo "<div class=\"show_tag_controled\" style=\"float: right; \">";
               //echo "<span class=\"ui header\">";
-              // echo  $view_problemset[$i][3];
+              echo  $view_problemset[$i][3];
               //echo "</span></div>";
 	      echo "</div>";
             echo "</td>";
