@@ -6,6 +6,7 @@ import mysql.connector
 from dotenv import load_dotenv
 import re
 import json
+import base64
 
 # 환경 변수 파일 로드
 dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
@@ -174,12 +175,12 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
-def read_code_lines(filename):
+def decode_base64(encoded_str):
+    """Base64로 인코딩된 문자열 디코딩"""
     try:
-        with open(filename, 'r', encoding='utf-8') as f:
-            return f.read()
+        return base64.b64decode(encoded_str).decode('utf-8')
     except Exception as e:
-        print(f"파일 읽기 오류: {str(e)}")
+        print(f"디코딩 오류: {str(e)}")
         sys.exit(1)
 
 def main():
@@ -189,20 +190,11 @@ def main():
 
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
-    file_path = sys.argv[3]  # 임시 파일 경로
+    encoded_block_code = sys.argv[3]
     step = int(sys.argv[4])
 
-    # 경로 디버깅
-    with open("/tmp/python_input_debug.log", "a") as log_file:
-        log_file.write(f"Received file path: {file_path}\n")
-        log_file.write(f"File exists: {os.path.isfile(file_path)}\n")
-        
-    # 파일이 있는지 확인
-    if not os.path.isfile(file_path):
-        print(f"파일 확인 오류: {file_path}")
-        sys.exit(1)
-
-    block_code = read_code_lines(file_path)
+    # Base64로 인코딩된 코드 디코딩
+    block_code = decode_base64(encoded_block_code)
 
     # 로그 파일로 디버깅 정보 기록
     with open("/tmp/python_input_debug.log", "a") as log_file:
