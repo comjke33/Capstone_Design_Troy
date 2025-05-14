@@ -299,12 +299,9 @@ function showFeedback(index) {
     const urlParams = new URLSearchParams(window.location.search);
     const problemId = urlParams.get("problem_id") || "0";
     const ta = document.getElementById(`ta_${index}`);
-    let blockCode = ta ? ta.value.trim() : "";
-    const step = urlParams.get("step") || "1";
-
-    // 특수문자 처리
-    blockCode = JSON.stringify(blockCode);  // JSON으로 인코딩하여 특수문자 처리
-
+    const blockCode = ta ? ta.value.trim() : "";
+    const step = new URLSearchParams(window.location.search).get("step") || "1";  // 추가
+    
     // 피드백을 가져오기 전 로딩 표시
     const feedbackPanel = document.querySelector('.right-panel');
     feedbackPanel.innerHTML = `
@@ -323,16 +320,15 @@ function showFeedback(index) {
             problem_id: problemId,
             index: index,
             block_code: blockCode,
-            step: step
+            step: step  // 추가
         })
     })
     .then(response => response.json())
     .then(data => {
-        if (data.status === "success") {
-            let feedbackContent = data.result;
-            feedbackContent = feedbackContent.replace(/\\n/g, "<br>");  // 줄바꿈 처리
-
-            // 피드백 표시
+        if (data.result === "success") {
+            const feedbackContent = data.feedback;
+            
+            // 오른쪽 패널에 피드백 표시
             feedbackPanel.innerHTML = `
                 <h2>📋 피드백 창</h2>
                 <div class="feedback-content">
@@ -340,6 +336,7 @@ function showFeedback(index) {
                     <p>${feedbackContent}</p>
                 </div>
             `;
+            feedbackPanel.style.display = 'block';
         } else {
             feedbackPanel.innerHTML = `
                 <h2>📋 피드백 창</h2>
@@ -350,6 +347,7 @@ function showFeedback(index) {
         }
     })
     .catch(err => {
+        console.error("서버 요청 실패:", err);
         feedbackPanel.innerHTML = `
             <h2>📋 피드백 창</h2>
             <div class="feedback-content">
