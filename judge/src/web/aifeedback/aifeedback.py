@@ -128,10 +128,9 @@ def generate_hint(block_code, block_number, guideline, model_answer):
             max_tokens=300,
             temperature=0.7
         )
-        return response['choices'][0]['message']['content'].strip()
+        return response.choices[0].message.content.strip()
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
-
 def main():
     if len(sys.argv) != 4:
         print("error: 인자 부족")
