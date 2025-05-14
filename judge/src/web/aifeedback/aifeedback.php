@@ -11,8 +11,8 @@ $step = $data["step"] ?? "1";  // Step 추가
 // 디버그 로그
 file_put_contents("/tmp/php_debug.log", "Received Data: " . json_encode($data) . "\n", FILE_APPEND);
 
-// 문자열 이스케이프 처리
-$blockCode = str_replace(['\\', '"'], ['\\\\', '\\"'], $blockCode);
+// 문자열 이스케이프 처리 (백슬래시와 큰따옴표 두 번 이스케이프)
+$blockCode = str_replace(['\\', '"'], ['\\\\\\\\', '\\"'], $blockCode);
 
 // 파이썬 명령어 인자 처리
 $escapedBlockCode = escapeshellarg($blockCode);  
