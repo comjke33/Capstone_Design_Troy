@@ -11,7 +11,8 @@ require_once('./include/memcache.php');
 require_once('./include/setlang.php');
 require_once("./include/my_func.inc.php");
 //유저 아이디 가져오기
-require_once("./get_user_id.php");
+// require_once("./get_user_id.php");
+
 $view_title = "$MSG_STATUS";
 
 if (isset($OJ_LANG)) {
