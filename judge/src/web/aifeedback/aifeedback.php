@@ -9,13 +9,14 @@ $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // Step 추가
 
 // 디버그 로그
-file_put_contents("/tmp/php_debug.log", "Received Data: " . json_encode($data, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND);
+file_put_contents("/tmp/php_debug.log", "Received Data: " . json_encode($data) . "\n", FILE_APPEND);
 
-// 파이썬 명령어 인자 처리
-$escapedBlockCode = escapeshellarg($blockCode);  
+// 이스케이프 처리 개선
+$blockCode = addslashes($blockCode);  // PHP 내장 함수로 이스케이프
+$escapedBlockCode = escapeshellarg($blockCode);  // 쉘 인젝션 방지
 $escapedProblemId = escapeshellarg($problemId);
 $escapedIndex = escapeshellarg($index);
-$escapedStep = escapeshellarg($step);  
+$escapedStep = escapeshellarg($step);  // Step 추가
 
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
@@ -39,6 +40,6 @@ $response = [
 ];
 
 // JSON으로 반환
-header("Content-Type: application/json; charset=UTF-8");
-echo json_encode($response, JSON_UNESCAPED_UNICODE);  // 한글 깨짐 방지
+header("Content-Type: application/json");
+echo json_encode($response);
 ?>

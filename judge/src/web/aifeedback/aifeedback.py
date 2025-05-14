@@ -174,31 +174,24 @@ def generate_hint(block_code, block_number, guideline, model_answer):
         return f"AI 피드백 생성 오류: {str(e)}"
     
 
-def decode_argument(arg):
-    """PHP에서 전달된 이스케이프를 디코딩"""
-    try:
-        return arg.encode('latin1').decode('utf-8')  # 인코딩 복구
-    except UnicodeDecodeError:
-        return arg  # 디코딩 실패 시 원본 반환
-
 def main():
-    # 인자 수 확인
     if len(sys.argv) != 5:
         print("error: 인자 부족")
         sys.exit(1)
 
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
-    block_code = decode_argument(sys.argv[3])  # 디코딩 처리
-    step = int(sys.argv[4])
+    block_code = urllib.parse.unquote(sys.argv[3])
+    step = int(sys.argv[4])  # step 인자 추가
 
-    # 디버그 출력
-    with open("/tmp/python_input_debug.log", "a", encoding="utf-8") as log_file:
-        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: '{block_code}', step: {step}\n")
+    model_answer = get_model_answer(problem_id)
+    guideline = get_guideline(problem_id, block_index, step)
 
-    # 피드백 생성 (예시)
-    hint = f"Received block code: {block_code}"
-    print(hint)
+    with open("/tmp/python_input_debug.log", "a") as log_file:
+        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}, guideline: {guideline}, model_answer: {model_answer}\n")
+
+    hint = generate_hint(block_code, block_index, guideline, model_answer)
+    print(f"{hint}")
 
 if __name__ == "__main__":
     main()
