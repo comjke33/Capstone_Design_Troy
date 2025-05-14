@@ -2,6 +2,7 @@ import sys
 import urllib.parse
 import openai
 import os
+import mysql.connector
 from dotenv import load_dotenv
 
 # 환경 변수 파일 로드
@@ -10,6 +11,41 @@ if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
+# MySQL 연결 설정
+conn = mysql.connector.connect(
+    host="localhost",
+    user="hustoj",
+    password="JGqRe4pltka5e5II4Di3YZdmxv7SGt",
+    database="jol"
+)
+
+def get_model_answer(problem_id):
+    """데이터베이스에서 모범 코드 가져오기"""
+    try:
+        cursor = conn.cursor()
+        query = "SELECT exemplary_code FROM exemplary WHERE problem_id = %s"
+        cursor.execute(query, (problem_id,))
+        result = cursor.fetchone()
+        if result:
+            return result[0]
+        else:
+            return "모범 코드 없음"
+    except Exception as e:
+        return f"DB 오류: {str(e)}"
+    finally:
+        cursor.close()
+
+def get_guideline(problem_id):
+    """가이드라인 파일 가져오기"""
+    guideline_path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/{problem_id}.txt"
+    try:
+        with open(guideline_path, 'r') as file:
+            return file.read()
+    except FileNotFoundError:
+        return "가이드라인 파일 없음"
+
+
 
 def generate_hint(block_code, block_number, guideline, model_answer):
     """OpenAI API를 이용하여 코드 블럭에 대한 힌트 생성"""
@@ -45,20 +81,23 @@ def generate_hint(block_code, block_number, guideline, model_answer):
             max_tokens=300,
             temperature=0.7
         )
-        return response.choices[0].message.content.strip()
+        return response['choices'][0]['message']['content'].strip()
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
-
 def main():
-    if len(sys.argv) != 6:
+    if len(sys.argv) != 4:
         print("error: 인자 부족")
         sys.exit(1)
 
     problem_id = sys.argv[1]
     block_index = sys.argv[2]
     block_code = urllib.parse.unquote(sys.argv[3])
-    guideline = urllib.parse.unquote(sys.argv[4])
-    model_answer = urllib.parse.unquote(sys.argv[5])
+
+    # 모범 코드 가져오기
+    model_answer = get_model_answer(problem_id)
+
+    # 가이드라인 가져오기
+    guideline = get_guideline(problem_id)
 
     # 디버그 로그 추가
     with open("/tmp/python_input_debug.log", "a") as log_file:
