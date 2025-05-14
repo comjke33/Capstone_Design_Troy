@@ -24,6 +24,7 @@ include('../../allowed_users.php');
     background: transparent;
 }
 
+
 div[class*=ace_br] {
     border-radius: 0 !important;
 }

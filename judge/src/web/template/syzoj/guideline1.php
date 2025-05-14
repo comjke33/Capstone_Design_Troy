@@ -187,6 +187,15 @@ document.addEventListener("DOMContentLoaded", function () {
             const nextStep = btn.getAttribute("data-step");
             const nextProblemId = btn.getAttribute("data-problem-id") || problemId;
 
+            // 배경색을 빨간색으로 설정하고 다른 버튼들은 기본 색상으로 되돌리기
+            buttons.forEach(button => {
+                button.style.backgroundColor = ""; // 기본 배경색으로 리셋
+                button.classList.remove("active");
+            });
+
+            btn.style.backgroundColor = "red"; // 클릭된 버튼은 빨간색으로
+            btn.classList.add("active");
+
             document.querySelectorAll("textarea").forEach((textarea, index) => {
                 const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
                 localStorage.setItem(key, textarea.value);
@@ -409,7 +418,6 @@ function updateImageForTextarea(index, ta) {
             }
         });
 }
-
 
 //줄번호에 맞춰서 이미지 fetch(일단 보류)
 function fetchImageByLineNumber(lineNumber) {
