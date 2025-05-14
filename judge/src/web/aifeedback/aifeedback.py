@@ -182,7 +182,11 @@ def main():
     # 인자 수신
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
-    block_code = json.loads(sys.argv[3])  # JSON 문자열을 안전하게 디코딩
+    try:
+        # JSON 문자열을 안전하게 디코딩
+        block_code = json.loads(sys.argv[3].replace("'", "\""))  
+    except json.JSONDecodeError:
+        block_code = sys.argv[3]  # 단순 문자열로 처리
     step = int(sys.argv[4])
 
     # 디버그 로그 출력
