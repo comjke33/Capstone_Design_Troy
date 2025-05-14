@@ -6,22 +6,17 @@ $data = json_decode(file_get_contents("php://input"), true);
 $blockCode = $data["block_code"] ?? "작성못함";
 $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
-$step = $data["step"] ?? "1";  // step 인자 추가
 
-// 입력 안전 처리 (URL 인코딩으로 안전하게 변환)
-$encodedBlockCode = urlencode($blockCode);
+// 입력 안전 처리 (쉘 인젝션 방지)
+$escapedBlockCode = escapeshellarg($blockCode);
 $escapedProblemId = escapeshellarg($problemId);
 $escapedIndex = escapeshellarg($index);
-$escapedStep = escapeshellarg($step);
 
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
 
 // 파이썬 명령어 구성
-$cmd = "python3 $scriptPath $escapedProblemId $escapedIndex \"$encodedBlockCode\" $escapedStep";
-
-// 디버그: Python 명령어 확인
-file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);
+$cmd = "python3 $scriptPath $escapedProblemId $escapedIndex $escapedBlockCode";
 
 // 파이썬 스크립트 실행 및 결과 수신
 exec($cmd, $output, $return_var);
