@@ -176,10 +176,6 @@ def main():
     block_index = int(sys.argv[2])
     block_code = urllib.parse.unquote(sys.argv[3])
 
-    # block_code가 빈 문자열이면 기본값 설정
-    if not block_code.strip():
-        block_code = "작성못함"
-
     model_answer = get_model_answer(problem_id)
     guideline = get_guideline(problem_id, block_index)
 
