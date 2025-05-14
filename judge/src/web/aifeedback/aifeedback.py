@@ -174,9 +174,13 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
+
 def read_code_lines(filename):
-    with open(filename, 'r') as f:
-        return f.read()
+    try:
+        with open(filename, 'r', encoding='utf-8') as f:
+            return f.read()
+    except Exception as e:
+        return f"파일 읽기 오류: {str(e)}"
 
 def main():
     if len(sys.argv) != 5:
@@ -189,11 +193,7 @@ def main():
     step = int(sys.argv[4])
 
     # 코드 블럭을 임시 파일에서 읽기
-    try:
-        block_code = read_code_lines(file_path)
-    except Exception as e:
-        print(f"파일 읽기 오류: {str(e)}")
-        sys.exit(1)
+    block_code = read_code_lines(file_path)
 
     print(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}")
 

@@ -8,18 +8,21 @@ $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // step 인자 추가
 
-// 임시 파일에 코드 블럭 저장
-$tmpFile = tempnam(sys_get_temp_dir(), 'code_');
+// 임시 파일에 코드 블럭 저장 (UTF-8 인코딩)
+$tmpFile = tempnam(sys_get_temp_dir(), 'code_') . '.txt';
 file_put_contents($tmpFile, $blockCode);
 
 // 파이썬 피드백 스크립트 경로
-$scriptPath = "../aifeedback/aifeedback.py";
+$scriptPath = "/home/Capstone_Design_Troy/judge/src/web/aifeedback/aifeedback.py";
 
 // 파이썬 명령어 구성 (임시 파일 경로 전달)
-$cmd = escapeshellcmd("python3 $scriptPath $problemId $index $tmpFile $step");
+$cmd = "python3 " . escapeshellarg($scriptPath) . " " . escapeshellarg($problemId) . " " . escapeshellarg($index) . " " . escapeshellarg($tmpFile) . " " . escapeshellarg($step);
+
+// 디버그: 명령어 확인
+file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);
 
 // 파이썬 스크립트 실행 및 결과 수신
-exec($cmd, $output, $return_var);
+exec($cmd . " 2>&1", $output, $return_var);
 
 // 임시 파일 삭제
 unlink($tmpFile);
