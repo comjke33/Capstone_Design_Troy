@@ -18,8 +18,7 @@ $escapedIndex = escapeshellarg($index);
 $escapedStep = escapeshellarg($step);  
 
 // 특수 문자 이스케이프 처리 (역슬래시와 큰따옴표)
-$escapedBlockCode = str_replace('"', '\"', $escapedBlockCode);
-$escapedBlockCode = str_replace("\\", "\\\\", $escapedBlockCode);
+$escapedBlockCode = addslashes($escapedBlockCode);  // PHP에서 역슬래시와 큰따옴표 처리
 
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
