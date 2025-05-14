@@ -23,8 +23,8 @@ file_put_contents($tmpFile, $jsonData);
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
 
-// 파이썬 명령어 구성 (JSON 파일 경로 전달)
-$cmd = "python3 $scriptPath $tmpFile";
+// 파이썬 명령어 구성 (파일 경로만 넘김)
+$cmd = "python3 $scriptPath " . escapeshellarg($tmpFile);
 
 // 디버깅 로그
 file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);

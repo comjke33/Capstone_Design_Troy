@@ -176,6 +176,7 @@ def generate_hint(block_code, block_number, guideline, model_answer):
 
 
 
+
 def main():
     if len(sys.argv) != 2:
         print("error: 인자 부족")
