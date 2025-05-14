@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Step 버튼 클릭 시 저장 후 이동 및 배경색 변경
+    // 버튼 클릭 시 저장 후 이동 및 배경색 변경
     buttons.forEach(btn => {
         btn.addEventListener("click", () => {
             const nextStep = btn.getAttribute("data-step");
@@ -190,12 +190,12 @@ document.addEventListener("DOMContentLoaded", function () {
             // 기존 버튼들에서 'active' 클래스를 제거하고 배경색 초기화
             buttons.forEach(button => {
                 button.classList.remove("active");  // 기존 버튼에서 active 클래스를 제거
-                button.style.backgroundColor = "";  // 기존 버튼 배경색 초기화
+                button.style.backgroundColor = "";  // 배경색 초기화
             });
 
             // 클릭된 버튼에만 'active' 클래스를 추가하여 빨간색 배경 적용
             btn.classList.add("active");
-            btn.style.backgroundColor = "red";  // 클릭된 버튼의 배경색 빨간색으로 설정
+            btn.style.backgroundColor = "red";  // 클릭된 버튼의 배경을 빨간색으로 설정
 
             // 클릭된 버튼의 상태를 localStorage에 저장
             localStorage.setItem("activeStepButton", nextStep);
