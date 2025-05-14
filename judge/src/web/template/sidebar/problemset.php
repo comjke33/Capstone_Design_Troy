@@ -58,7 +58,7 @@
             });
           });
           </script>
-          <label><?php echo $MSG_SHOW_TAGS;?></label>
+          <!-- <label><?php echo $MSG_SHOW_TAGS;?></label> -->
           
         </div>
         <div style="margin-left: 10px; display: inline-block; ">
