@@ -189,14 +189,19 @@ def main():
 
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
-    file_path = sys.argv[3]
+    file_path = sys.argv[3]  # 임시 파일 경로
     step = int(sys.argv[4])
 
-    # 로그 파일로 디버깅 정보 기록
+    # 경로 디버깅
     with open("/tmp/python_input_debug.log", "a") as log_file:
         log_file.write(f"Received file path: {file_path}\n")
+        log_file.write(f"File exists: {os.path.isfile(file_path)}\n")
+        
+    # 파일이 있는지 확인
+    if not os.path.isfile(file_path):
+        print(f"파일 확인 오류: {file_path}")
+        sys.exit(1)
 
-    # 코드 블럭을 임시 파일에서 읽기
     block_code = read_code_lines(file_path)
 
     # 로그 파일로 디버깅 정보 기록
