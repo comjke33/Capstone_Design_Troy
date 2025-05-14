@@ -512,7 +512,7 @@ for ($i=0; $i<$rows_cnt; $i++) {
     ////////////////////////////////
     /////       수정           /////
     ////////////////////////////////
-    include 'get_user_id.php';  // get_user_id.php에서 result 변수를 불러옵니다
+    include './get_user_id.php';  // get_user_id.php에서 result 변수를 불러옵니다
     
     // 사용자의 user_id가 user_result에 있는지 확인하는 함수
     function isUserRegistered($user_id, $user_result) {
