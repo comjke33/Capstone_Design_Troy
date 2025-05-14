@@ -5,6 +5,7 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 import re
+import json
 
 # 환경 변수 파일 로드
 dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
@@ -178,19 +179,14 @@ def main():
         print("error: 인자 부족")
         sys.exit(1)
 
+    # 인자 수신
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
-    block_code = urllib.parse.unquote(sys.argv[3])
-    step = int(sys.argv[4])  # step 인자 추가
+    block_code = json.loads(sys.argv[3])  # JSON 문자열을 안전하게 디코딩
+    step = int(sys.argv[4])
 
-    model_answer = get_model_answer(problem_id)
-    guideline = get_guideline(problem_id, block_index, step)
-
-    with open("/tmp/python_input_debug.log", "a") as log_file:
-        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}, guideline: {guideline}, model_answer: {model_answer}\n")
-
-    hint = generate_hint(block_code, block_index, guideline, model_answer)
-    print(f"{hint}")
+    # 디버그 로그 출력
+    print(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}")
 
 if __name__ == "__main__":
     main()
