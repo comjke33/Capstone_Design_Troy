@@ -9,10 +9,7 @@ $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // Step 추가
 
 // 디버그 로그
-file_put_contents("/tmp/php_debug.log", "Received Data: " . json_encode($data) . "\n", FILE_APPEND);
-
-// 문자열 이스케이프 처리 (백슬래시와 큰따옴표 두 번 이스케이프)
-$blockCode = str_replace(['\\', '"'], ['\\\\\\\\', '\\"'], $blockCode);
+file_put_contents("/tmp/php_debug.log", "Received Data: " . json_encode($data, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND);
 
 // 파이썬 명령어 인자 처리
 $escapedBlockCode = escapeshellarg($blockCode);  
@@ -42,6 +39,6 @@ $response = [
 ];
 
 // JSON으로 반환
-header("Content-Type: application/json");
-echo json_encode($response);
+header("Content-Type: application/json; charset=UTF-8");
+echo json_encode($response, JSON_UNESCAPED_UNICODE);  // 한글 깨짐 방지
 ?>

@@ -176,7 +176,10 @@ def generate_hint(block_code, block_number, guideline, model_answer):
 
 def decode_argument(arg):
     """PHP에서 전달된 이스케이프를 디코딩"""
-    return arg.encode().decode('unicode_escape')
+    try:
+        return arg.encode('latin1').decode('utf-8')  # 인코딩 복구
+    except UnicodeDecodeError:
+        return arg  # 디코딩 실패 시 원본 반환
 
 def main():
     # 인자 수 확인
@@ -190,8 +193,8 @@ def main():
     step = int(sys.argv[4])
 
     # 디버그 출력
-    with open("/tmp/python_input_debug.log", "a") as log_file:
-        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
+    with open("/tmp/python_input_debug.log", "a", encoding="utf-8") as log_file:
+        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: '{block_code}', step: {step}\n")
 
     # 피드백 생성 (예시)
     hint = f"Received block code: {block_code}"
