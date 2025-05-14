@@ -174,6 +174,10 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
+def read_code_lines(filename):
+    with open(filename, 'r') as f:
+        return f.read()
+
 def main():
     if len(sys.argv) != 5:
         print("error: 인자 부족")
@@ -181,22 +185,17 @@ def main():
 
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
-    tmp_file = sys.argv[3]  # 임시 파일 경로
+    file_path = sys.argv[3]  # 임시 파일 경로
     step = int(sys.argv[4])
 
-    # 임시 파일에서 block_code 읽기
+    # 코드 블럭을 임시 파일에서 읽기
     try:
-        with open(tmp_file, 'r', encoding='utf-8') as f:
-            block_code = f.read().strip()
+        block_code = read_code_lines(file_path)
     except Exception as e:
-        print(f"block_code: 파일 읽기 오류: {str(e)}")
+        print(f"파일 읽기 오류: {str(e)}")
         sys.exit(1)
 
-    # 디버그 로그
-    with open("/tmp/python_input_debug.log", "a") as log_file:
-        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
-
-    print(f"block_code: {block_code}")
+    print(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}")
 
 if __name__ == "__main__":
     main()
