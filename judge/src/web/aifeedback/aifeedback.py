@@ -182,26 +182,28 @@ def main():
         print("error: 인자 부족")
         sys.exit(1)
 
-    json_path = sys.argv[1]
+    # JSON 파일 경로 받기
+    json_file_path = sys.argv[1]
 
     # JSON 파일 읽기
     try:
-        with open(json_path, 'r', encoding='utf-8') as file:
-            data = json.load(file)
-            problem_id = data.get("problem_id", "0")
+        with open(json_file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            problem_id = data.get("problem_id")
             block_index = int(data.get("index", 0))
             block_code = data.get("block_code", "작성못함")
             step = int(data.get("step", 1))
+
+        # 로그 파일로 디버깅 정보 기록
+        with open("/tmp/python_input_debug.log", "a") as log_file:
+            log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
+
+        # 피드백 출력
+        print(f"block_code: {block_code}")
+
     except Exception as e:
         print(f"파일 읽기 오류: {str(e)}")
         sys.exit(1)
-
-    # 로그 파일로 디버깅 정보 기록
-    with open("/tmp/python_input_debug.log", "a") as log_file:
-        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
-
-    # 피드백 출력
-    print(f"block_code: {block_code}")
 
 if __name__ == "__main__":
     main()

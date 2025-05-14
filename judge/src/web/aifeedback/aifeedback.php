@@ -8,23 +8,25 @@ $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // step 인자 추가
 
-// 임시 JSON 파일 경로 설정
-$tmpFile = "/tmp/code_" . uniqid() . ".json";
+// JSON 파일 경로 지정
+$tmpJsonFile = tempnam(sys_get_temp_dir(), 'code_') . '.json';
 
-// JSON으로 인코딩하여 파일에 저장
+// JSON 데이터 생성
 $jsonData = json_encode([
     "problem_id" => $problemId,
     "index" => $index,
     "block_code" => $blockCode,
     "step" => $step
 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-file_put_contents($tmpFile, $jsonData);
+
+// JSON 파일 저장
+file_put_contents($tmpJsonFile, $jsonData);
 
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
 
-// 파이썬 명령어 구성 (파일 경로만 넘김)
-$cmd = "python3 $scriptPath " . escapeshellarg($tmpFile);
+// 파이썬 명령어 구성 (파일 경로를 인자로 전달)
+$cmd = escapeshellcmd("python3 $scriptPath $tmpJsonFile");
 
 // 디버깅 로그
 file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);
@@ -35,8 +37,8 @@ exec($cmd, $output, $return_var);
 // 디버깅 로그
 file_put_contents("/tmp/php_debug.log", "Python Output: " . implode("\n", $output) . "\n", FILE_APPEND);
 
-// 임시 파일 삭제
-unlink($tmpFile);
+// JSON 파일 삭제
+unlink($tmpJsonFile);
 
 // 결과 처리
 $response = [
