@@ -15,7 +15,7 @@ if (!is_dir($tmpDir)) {
 }
 
 // 임시 파일 생성
-$tmpFile = tempnam($tmpDir, 'code_');
+$tmpFile = $tmpDir . "/code_block.txt";
 file_put_contents($tmpFile, $blockCode);
 
 // 경로를 절대 경로로 변환
@@ -34,9 +34,6 @@ exec($cmd, $output, $return_var);
 
 // 디버깅 로그
 file_put_contents("/tmp/php_debug.log", "Python Output: " . implode("\n", $output) . "\n", FILE_APPEND);
-
-// 임시 파일 삭제
-unlink($tmpFile);
 
 // 결과 처리
 $response = [

@@ -176,6 +176,7 @@ def generate_hint(block_code, block_number, guideline, model_answer):
 
 
 
+
 def main():
     if len(sys.argv) != 5:
         print("error: 인자 부족")
@@ -186,22 +187,15 @@ def main():
     file_path = sys.argv[3]
     step = int(sys.argv[4])
 
-    # 디버깅 로그
-    with open("/tmp/python_input_debug.log", "a") as log_file:
-        log_file.write(f"Received file path: {file_path}\n")
-        log_file.write(f"File exists: {os.path.isfile(file_path)}\n")
-
     # 코드 블럭을 임시 파일에서 읽기
     block_code = read_code_lines(file_path)
 
-    # 디버깅 로그
+    # 로그 파일로 디버깅 정보 기록
     with open("/tmp/python_input_debug.log", "a") as log_file:
         log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
 
-    model_answer = get_model_answer(problem_id)
-    guideline = "가이드라인 없음"  # 임의로 설정 (실제 로직 필요)
-
-    hint = generate_hint(block_code, block_index, guideline, model_answer)
+    # 피드백 생성
+    hint = generate_hint(block_code, block_index)
     print(f"block_code: {block_code}")
     print(f"hint: {hint}")
 
