@@ -5,7 +5,7 @@ header("Content-Type: application/json");
 $data = json_decode(file_get_contents("php://input"), true);
 $problem_id = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
-$block_code = $data["block_code"] ?? "작성못함";
+$block_code = isset($data["block_code"]) && $data["block_code"] !== "" ? $data["block_code"] : "작성못함";
 $step = $data["step"] ?? "1";  // step 인자 추가
 
 // 디버그: 입력 데이터 로그
