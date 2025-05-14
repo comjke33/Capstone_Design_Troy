@@ -1,4 +1,6 @@
 <?php
+// 세션 시작
+session_start();
 $cache_time = 10;
 $OJ_CACHE_SHARE = false;
 
