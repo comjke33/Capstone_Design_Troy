@@ -1,4 +1,4 @@
-\<?php
+<?php
 // AI 피드백 요청 처리
 
 // JSON 데이터 수신 및 파싱
@@ -8,15 +8,22 @@ $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // step 인자 추가
 
-// 임시 파일 경로를 고정하여 사용
-$tmpFile = "/dummy/block_code.txt";
-file_put_contents($tmpFile, $blockCode);
+// 임시 JSON 파일 경로 설정
+$tmpFile = "/tmp/code_" . uniqid() . ".json";
+
+// JSON으로 인코딩하여 파일에 저장
+file_put_contents($tmpFile, json_encode([
+    "problem_id" => $problemId,
+    "index" => $index,
+    "block_code" => $blockCode,
+    "step" => $step
+]));
 
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
 
-// 파이썬 명령어 구성 (경로를 따옴표로 감싸서 인코딩 처리)
-$cmd = escapeshellcmd(python3 $scriptPath $problemId $index $tmpFile $step);
+// 파이썬 명령어 구성 (JSON 파일 경로 전달)
+$cmd = "python3 $scriptPath $tmpFile";
 
 // 디버깅 로그
 file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);
@@ -26,6 +33,9 @@ exec($cmd, $output, $return_var);
 
 // 디버깅 로그
 file_put_contents("/tmp/php_debug.log", "Python Output: " . implode("\n", $output) . "\n", FILE_APPEND);
+
+// 임시 파일 삭제
+unlink($tmpFile);
 
 // 결과 처리
 $response = [

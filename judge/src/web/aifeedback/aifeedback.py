@@ -5,7 +5,7 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 import re
-import os
+import json
 
 # 환경 변수 파일 로드
 dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
@@ -174,43 +174,33 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
-def read_code_lines(filename):
+
+
+def main():
+    if len(sys.argv) != 2:
+        print("error: 인자 부족")
+        sys.exit(1)
+
+    json_path = sys.argv[1]
+
+    # JSON 파일 읽기
     try:
-        with open(filename, 'r', encoding='utf-8') as f:
-            return f.read()
+        with open(json_path, 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            problem_id = data["problem_id"]
+            block_index = int(data["index"])
+            block_code = data["block_code"]
+            step = int(data["step"])
     except Exception as e:
         print(f"파일 읽기 오류: {str(e)}")
         sys.exit(1)
 
-def main():
-    if len(sys.argv) != 5:
-        print("error: 인자 부족")
-        sys.exit(1)
-
-    problem_id = sys.argv[1]
-    block_index = int(sys.argv[2])
-    file_path = sys.argv[3]  # 고정 파일 경로
-    step = int(sys.argv[4])
-
-    # 코드 블럭을 고정 경로에서 읽기
-    if not os.path.exists(file_path):
-        print(f"파일 확인 오류: {file_path}")
-        sys.exit(1)
-
-    block_code = read_code_lines(file_path)
-
-    # 디버깅 정보 기록
+    # 로그 파일로 디버깅 정보 기록
     with open("/tmp/python_input_debug.log", "a") as log_file:
         log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
 
     # 피드백 출력
     print(f"block_code: {block_code}")
-
-    # 고정 파일 삭제
-    try:
-        os.remove(file_path)
-    except Exception as e:
-        print(f"파일 삭제 오류: {str(e)}")
 
 if __name__ == "__main__":
     main()
