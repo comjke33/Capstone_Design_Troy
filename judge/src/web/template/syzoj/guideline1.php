@@ -156,6 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
+    // 각 textarea에 대한 저장 처리
     document.querySelectorAll("textarea").forEach((textarea, index) => {
         const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
         const statusKey = `answer_status_step${currentStep}_q${index}_pid${problemId}`;
@@ -167,7 +168,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (savedStatus === "correct") {
-            // ✅ 이전에 정답 제출한 경우 스타일 복원
             textarea.readOnly = true;
             textarea.style.backgroundColor = "#d4edda";
             textarea.style.border = "1px solid #d4edda";
@@ -181,31 +181,33 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // 버튼 클릭 시 저장 후 이동
+    // Step 버튼 클릭 시 저장 후 이동 및 배경색 변경
     buttons.forEach(btn => {
         btn.addEventListener("click", () => {
             const nextStep = btn.getAttribute("data-step");
             const nextProblemId = btn.getAttribute("data-problem-id") || problemId;
 
-            // 배경색을 빨간색으로 설정하고 다른 버튼들은 기본 색상으로 되돌리기
+            // 기존 버튼들에서 'active' 클래스를 제거하고 배경색 초기화
             buttons.forEach(button => {
-                button.style.backgroundColor = ""; // 기본 배경색으로 리셋
-                button.classList.remove("active");
+                button.classList.remove("active");  // 기존 버튼에서 active 클래스를 제거
             });
 
-            btn.style.backgroundColor = "red"; // 클릭된 버튼은 빨간색으로
+            // 클릭된 버튼에만 'active' 클래스를 추가하여 빨간색 배경 적용
             btn.classList.add("active");
 
+            // 모든 textarea의 데이터를 로컬 스토리지에 저장
             document.querySelectorAll("textarea").forEach((textarea, index) => {
                 const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
                 localStorage.setItem(key, textarea.value);
             });
 
+            // 페이지 이동
             const baseUrl = window.location.pathname;
             window.location.href = `${baseUrl}?step=${nextStep}&problem_id=${nextProblemId}`;
         });
     });
 });
+
 
 //문제 맞았는지 여부 확인
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
