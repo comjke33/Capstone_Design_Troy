@@ -172,9 +172,17 @@ def generate_hint(block_code, block_number, guideline, model_answer):
         return response.choices[0].message.content.strip()
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
+import sys
+import base64
 
+# Base64 디코딩 함수
 def decode_base64(encoded_str):
     try:
+        # 패딩 보정
+        missing_padding = len(encoded_str) % 4
+        if missing_padding:
+            encoded_str += '=' * (4 - missing_padding)
+        # Base64 디코딩
         return base64.b64decode(encoded_str).decode('utf-8')
     except Exception as e:
         return f"디코딩 오류: {str(e)}"
