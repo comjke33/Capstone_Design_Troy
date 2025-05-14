@@ -249,10 +249,9 @@ function showFeedback(index) {
     const urlParams = new URLSearchParams(window.location.search);
     const problemId = urlParams.get("problem_id") || "0";
     const ta = document.getElementById(`ta_${index}`);
-    const blockCode = ta ? ta.value.trim() : "";
+    let blockCode = ta ? ta.value.trim() : "";
     const step = new URLSearchParams(window.location.search).get("step") || "1";  // 추가
-    console.log("Step 값:", step);
-    console.log("요청 데이터:", { problem_id: problemId, index: index, block_code: blockCode, step: step });
+    blockCode = blockCode.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
     // 피드백을 가져오기 전 로딩 표시
     const feedbackPanel = document.querySelector('.right-panel');
     feedbackPanel.innerHTML = `
