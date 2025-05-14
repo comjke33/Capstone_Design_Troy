@@ -268,6 +268,9 @@ function saveCorrectSolution($solution_id, $problem_id, $correct_code) {
   pdo_query($sql, $solution_id, $problem_id, $correct_code);
 }
 
+//허가된 유저들만 사용가능하게
+include('allowed_users.php');
+
 for ($i=0; $i<$rows_cnt; $i++) {
   $row = $result[$i];
 
@@ -510,33 +513,32 @@ for ($i=0; $i<$rows_cnt; $i++) {
   else
     $view_status[$i][8]= $row['in_date'];
 
-    // 예시로, 특정 user_id만 버튼을 보이게 하려면
-    
-    $allowed_user_id = [
-    'admin', 
-    'endtoend', 
-    'end_to_end', 
-    'ERRORMAN', 
-    'ERRORMON', 
-    'errortest', 
-    'error_test', 
-    'error_test1', 
-    'guideline_user1', 
-    'guideline_user2', 
-    // 'notguideline_user1', 
-    // 'notguideline_user2', 
-    'notification_test', 
-    'notification_test2', 
-    'sonson', 
-    'test', 
-    'test1', 
-    'test2', 
-    'test3', 
-    'test4', 
-    'test5', 
-    'zxccyh', 
-    'zxczxc'
-    ];
+    // 예시로, 특정 user_id만 버튼을 보이게 하려면 
+    // $allowed_user_id = [
+    // 'admin', 
+    // 'endtoend', 
+    // 'end_to_end', 
+    // 'ERRORMAN', 
+    // 'ERRORMON', 
+    // 'errortest', 
+    // 'error_test', 
+    // 'error_test1', 
+    // 'guideline_user1', 
+    // 'guideline_user2', 
+    // // 'notguideline_user1', 
+    // // 'notguideline_user2', 
+    // 'notification_test', 
+    // 'notification_test2', 
+    // 'sonson', 
+    // 'test', 
+    // 'test1', 
+    // 'test2', 
+    // 'test3', 
+    // 'test4', 
+    // 'test5', 
+    // 'zxccyh', 
+    // 'zxczxc'
+    // ];
 
     if (!isset($cid) && in_array($_SESSION[$OJ_NAME.'_'.'user_id'], $allowed_user_id)) { 
     // 대회 문제가 아닌 경우 또는 allowed_user_id에 포함되는 경우에만 버튼 출력
