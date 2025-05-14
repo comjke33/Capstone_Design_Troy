@@ -218,7 +218,6 @@ def main():
         student_code = sys.argv[3]
     
     student_code = ast.literal_eval(f"'{student_code}'")
-    print(student_code)
 
     # 파일 경로 설정
     filename = f"../tagged_code/{pid}_step1.txt"
