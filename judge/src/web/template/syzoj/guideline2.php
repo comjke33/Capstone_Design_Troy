@@ -286,10 +286,10 @@ function showFeedback(index) {
     const ta = document.getElementById(`ta_${index}`);
     let blockCode = ta ? ta.value.trim() : "";
     const step = new URLSearchParams(window.location.search).get("step") || "1";  // 추가
-    blockCode = blockCode.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+    blockCode = blockCode.replace(/"/g, '\\"');  // 큰따옴표만 처리
     
 
-    
+
     const feedbackPanel = document.querySelector('.right-panel');
     feedbackPanel.innerHTML = `
         <h2>📋 피드백 창</h2>
