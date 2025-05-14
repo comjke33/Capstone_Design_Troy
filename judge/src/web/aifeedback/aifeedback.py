@@ -5,7 +5,7 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 import re
-import base64
+
 # 환경 변수 파일 로드
 dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
 if os.path.exists(dotenv_path):
@@ -172,20 +172,14 @@ def generate_hint(block_code, block_number, guideline, model_answer):
         return response.choices[0].message.content.strip()
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
-import sys
-import base64
 
-# Base64 디코딩 함수
-def decode_base64(encoded_str):
+
+def read_code_lines(filename):
     try:
-        # 패딩 보정
-        missing_padding = len(encoded_str) % 4
-        if missing_padding:
-            encoded_str += '=' * (4 - missing_padding)
-        # Base64 디코딩
-        return base64.b64decode(encoded_str).decode('utf-8')
+        with open(filename, 'r', encoding='utf-8') as f:
+            return f.read()
     except Exception as e:
-        return f"디코딩 오류: {str(e)}"
+        return f"파일 읽기 오류: {str(e)}"
 
 def main():
     if len(sys.argv) != 5:
@@ -194,11 +188,11 @@ def main():
 
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
-    encoded_block_code = sys.argv[3]
+    file_path = sys.argv[3]
     step = int(sys.argv[4])
 
-    # Base64로 디코딩
-    block_code = decode_base64(encoded_block_code)
+    # 코드 블럭을 임시 파일에서 읽기
+    block_code = read_code_lines(file_path)
 
     # 로그 파일로 디버깅 정보 기록
     with open("/tmp/python_input_debug.log", "a") as log_file:
