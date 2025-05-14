@@ -11,8 +11,8 @@ $step = $data["step"] ?? "1";  // Step 추가
 // 디버그 로그
 file_put_contents("/tmp/php_debug.log", "Received Data: " . json_encode($data, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND);
 
-// JSON 인코딩을 통해 안전하게 전달
-$escapedBlockCode = json_encode($blockCode, JSON_UNESCAPED_UNICODE);
+// 이스케이프 처리 - 작은따옴표와 큰따옴표 모두 이스케이프
+$escapedBlockCode = addslashes($blockCode);  // 특수문자 이스케이프
 $escapedProblemId = escapeshellarg($problemId);
 $escapedIndex = escapeshellarg($index);
 $escapedStep = escapeshellarg($step);
@@ -21,7 +21,7 @@ $escapedStep = escapeshellarg($step);
 $scriptPath = "../aifeedback/aifeedback.py";
 
 // 파이썬 명령어 구성
-$cmd = "python3 $scriptPath $escapedProblemId $escapedIndex " . escapeshellarg($escapedBlockCode) . " $escapedStep";
+$cmd = "python3 $scriptPath $escapedProblemId $escapedIndex \"$escapedBlockCode\" $escapedStep";
 
 // 디버그: 파이썬 명령어 확인
 file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);

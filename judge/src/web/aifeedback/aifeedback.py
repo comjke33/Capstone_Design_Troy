@@ -174,6 +174,7 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
+
 def main():
     if len(sys.argv) != 5:
         print("error: 인자 부족")
@@ -184,9 +185,9 @@ def main():
     block_index = int(sys.argv[2])
     try:
         # JSON 문자열을 안전하게 디코딩
-        block_code = json.loads(sys.argv[3].replace("'", "\""))  
-    except json.JSONDecodeError:
-        block_code = sys.argv[3]  # 단순 문자열로 처리
+        block_code = sys.argv[3].encode('utf-8').decode('unicode_escape')  
+    except Exception as e:
+        block_code = sys.argv[3]  # 디코딩 실패 시 그대로 사용
     step = int(sys.argv[4])
 
     # 디버그 로그 출력
