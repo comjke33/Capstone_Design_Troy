@@ -310,7 +310,6 @@ function showFeedback(index) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log("AJAX 응답 데이터:", data);
         const feedbackContent = data.result.replace(/\\n/g, "<br>");
         const feedbackPanel = document.querySelector('.right-panel');
         feedbackPanel.innerHTML = `
