@@ -356,6 +356,7 @@ function showFeedback(index) {
         `;
     });
 }
+
 /*
 function showFeedback(index) {
     const feedbackContent = getFeedbackContent(index);
