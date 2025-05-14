@@ -189,10 +189,12 @@ def main():
 
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
-    
-    # 경로 인코딩 없이 바로 사용
     file_path = sys.argv[3]
     step = int(sys.argv[4])
+
+    # 로그 파일로 디버깅 정보 기록
+    with open("/tmp/python_input_debug.log", "a") as log_file:
+        log_file.write(f"Received file path: {file_path}\n")
 
     # 코드 블럭을 임시 파일에서 읽기
     block_code = read_code_lines(file_path)

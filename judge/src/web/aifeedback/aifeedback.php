@@ -8,18 +8,18 @@ $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // step 인자 추가
 
-// 임시 파일에 코드 블럭 저장
-$tmpFile = tempnam(sys_get_temp_dir(), 'code_');
+// 임시 파일 경로를 강제로 /tmp 디렉토리에 설정
+$tmpFile = "/tmp/code_" . uniqid() . ".txt";
 file_put_contents($tmpFile, $blockCode);
 
-// 경로를 절대 경로로 변환
-$realTmpFile = realpath($tmpFile);
+// 디버깅 로그
+file_put_contents("/tmp/php_debug.log", "임시 파일 생성 경로: $tmpFile\n", FILE_APPEND);
 
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
 
-// 파이썬 명령어 구성 (경로를 따옴표로 감싸서 인코딩 처리하지 않음)
-$cmd = "python3 $scriptPath $problemId $index $realTmpFile $step";
+// 파이썬 명령어 구성
+$cmd = "python3 $scriptPath $problemId $index $tmpFile $step";
 
 // 디버깅 로그
 file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);
