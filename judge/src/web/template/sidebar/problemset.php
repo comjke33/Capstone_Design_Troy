@@ -149,7 +149,7 @@
 
               echo "<div class=\"show_tag_controled\" style=\"float: right; \">";
               //echo "<span class=\"ui header\">";
-              echo  $view_problemset[$i][3];
+              // echo  $view_problemset[$i][3];
               //echo "</span></div>";
 	      echo "</div>";
             echo "</td>";
