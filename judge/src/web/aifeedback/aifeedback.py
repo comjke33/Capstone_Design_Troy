@@ -178,27 +178,32 @@ def generate_hint(block_code, block_number, guideline, model_answer):
 
 
 def main():
-    if len(sys.argv) != 5:
+    if len(sys.argv) != 2:
         print("error: 인자 부족")
         sys.exit(1)
 
-    problem_id = sys.argv[1]
-    block_index = int(sys.argv[2])
-    file_path = sys.argv[3]
-    step = int(sys.argv[4])
+    # 전달받은 파일 경로
+    param_file = sys.argv[1]
 
-    # 파일 경로 확인 로그
-    print(f"Received file path: {file_path}")
-    print(f"File exists: {os.path.exists(file_path)}")
+    # 인자 파일 읽기
+    try:
+        with open(param_file, 'r', encoding='utf-8') as f:
+            params = json.load(f)
+    except Exception as e:
+        print(f"파일 읽기 오류: {str(e)}")
+        sys.exit(1)
 
-    # 코드 블럭을 임시 파일에서 읽기
-    block_code = read_code_lines(file_path)
+    # 인자 추출
+    problem_id = params.get("problem_id", "0")
+    block_index = int(params.get("index", 0))
+    block_code = params.get("block_code", "작성못함")
+    step = int(params.get("step", 1))
 
     # 로그 파일로 디버깅 정보 기록
     with open("/tmp/python_input_debug.log", "a") as log_file:
         log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
 
-    # 피드백 생성
+    # 피드백 출력 (임시)
     print(f"block_code: {block_code}")
 
 if __name__ == "__main__":
