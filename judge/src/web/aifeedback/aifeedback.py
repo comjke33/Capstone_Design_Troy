@@ -41,6 +41,9 @@ def generate_hint(block_code, block_number):
         )
         return response.choices[0].message.content.strip()
     except Exception as e:
+        # 디버그 로그 파일에 오류 기록
+        with open("/tmp/python_input_debug.log", "a") as log_file:
+            log_file.write(f"Error: {str(e)}\n")
         return f"AI 피드백 생성 오류: {str(e)}"
 
 def main():
@@ -51,6 +54,10 @@ def main():
     problem_id = sys.argv[1]
     block_index = sys.argv[2]
     block_code = sys.argv[3]
+
+    # 인자 디버깅 로그 출력
+    with open("/tmp/python_input_debug.log", "a") as log_file:
+        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}\n")
 
     # AI 피드백 생성
     hint = generate_hint(block_code, block_index)
