@@ -239,31 +239,33 @@ function submitAnswer(index) {
     .then(data => {
         console.log(data);
         if (data.result === "correct") {
-            localStorage.setItem(key, "correct");
+    localStorage.setItem(key, "correct");
 
-            ta.readOnly = true;
-            ta.style.backgroundColor = "#d4edda";
-            ta.style.border = "1px solid #d4edda";
-            ta.style.color = "#155724";
-            btn.style.display = "none";
-            check.style.display = "inline";
+    ta.readOnly = true;
+    ta.style.backgroundColor = "#d4edda";
+    ta.style.border = "1px solid #d4edda";
+    ta.style.color = "#155724";
+    btn.style.display = "none";  // 제출 버튼 숨기기
+    check.style.display = "inline";  // ✅ 표시
 
-            // 답안 확인, 피드백 보기 버튼 숨기기
-            const answerBtn = document.getElementById(`answer_btn_${index}`);
-            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
-            
-            if (answerBtn) answerBtn.style.display = "none";  // 답안 확인 버튼 숨기기
-            if (feedbackBtn) feedbackBtn.style.display = "none";  // 피드백 보기 버튼 숨기기
+    // 답안 확인, 피드백 보기 버튼 숨기기
+    const answerBtn = document.getElementById(`answer_btn_${index}`);
+    const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
+    
+    if (answerBtn) answerBtn.style.display = "none";  // 답안 확인 버튼 숨기기
+        if (feedbackBtn) feedbackBtn.style.display = "none";  // 피드백 보기 버튼 숨기기
 
-            const nextIndex = index + 1;
-            const nextTa = document.getElementById(`ta_${nextIndex}`);
-            const nextBtn = document.getElementById(`btn_${nextIndex}`);
-            if (nextTa && nextBtn) {
-                nextTa.disabled = false;
-                nextBtn.disabled = false;
-                nextTa.focus();
-            }
-        } else {
+        const nextIndex = index + 1;
+        const nextTa = document.getElementById(`ta_${nextIndex}`);
+        const nextBtn = document.getElementById(`btn_${nextIndex}`);
+
+        if (nextTa && nextBtn) {
+            nextTa.disabled = false; // 다음 문제로 넘어가는 버튼은 활성화
+            nextBtn.disabled = false; // 버튼을 활성화
+            nextTa.focus();
+        }
+    }
+    else {
             ta.style.backgroundColor = "#ffecec";
             ta.style.border = "1px solid #e06060";
             ta.style.color = "#c00";
