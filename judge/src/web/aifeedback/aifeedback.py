@@ -38,7 +38,7 @@ def get_model_answer(problem_id):
 
 def get_guideline(problem_id):
     """가이드라인 파일 가져오기"""
-    guideline_path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/{problem_id}.txt"
+    guideline_path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/{problem_id}_step1.txt"
     try:
         with open(guideline_path, 'r') as file:
             return file.read()
