@@ -512,7 +512,7 @@ for ($i=0; $i<$rows_cnt; $i++) {
 
     // 예시로, 특정 user_id만 버튼을 보이게 하려면
     
-    $allowed_users = [
+    $allowed_user_id = [
     'admin', 
     'endtoend', 
     'end_to_end', 

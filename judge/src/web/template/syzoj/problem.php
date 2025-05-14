@@ -132,7 +132,6 @@ if(file_exists($solution_file)){
         'zxczxc'
         ];
 
-
       //단계별 풀기 상단
       if (!isset($cid) && in_array($_SESSION[$OJ_NAME.'_'.'user_id'], $allowed_user_id)) {
             echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
