@@ -176,34 +176,34 @@ def generate_hint(block_code, block_number, guideline, model_answer):
 
 
 
-
 def main():
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 5:
         print("error: 인자 부족")
         sys.exit(1)
 
-    # JSON 파일 경로 받기
-    json_file_path = sys.argv[1]
+    problem_id = sys.argv[1]
+    block_index = int(sys.argv[2])
+    file_path = sys.argv[3]
+    step = int(sys.argv[4])
 
-    # JSON 파일 읽기
-    try:
-        with open(json_file_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-            problem_id = data.get("problem_id")
-            block_index = int(data.get("index", 0))
-            block_code = data.get("block_code", "작성못함")
-            step = int(data.get("step", 1))
+    # 디버깅 로그
+    with open("/tmp/python_input_debug.log", "a") as log_file:
+        log_file.write(f"Received file path: {file_path}\n")
+        log_file.write(f"File exists: {os.path.isfile(file_path)}\n")
 
-        # 로그 파일로 디버깅 정보 기록
-        with open("/tmp/python_input_debug.log", "a") as log_file:
-            log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
+    # 코드 블럭을 임시 파일에서 읽기
+    block_code = read_code_lines(file_path)
 
-        # 피드백 출력
-        print(f"block_code: {block_code}")
+    # 디버깅 로그
+    with open("/tmp/python_input_debug.log", "a") as log_file:
+        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
 
-    except Exception as e:
-        print(f"파일 읽기 오류: {str(e)}")
-        sys.exit(1)
+    model_answer = get_model_answer(problem_id)
+    guideline = "가이드라인 없음"  # 임의로 설정 (실제 로직 필요)
+
+    hint = generate_hint(block_code, block_index, guideline, model_answer)
+    print(f"block_code: {block_code}")
+    print(f"hint: {hint}")
 
 if __name__ == "__main__":
     main()
