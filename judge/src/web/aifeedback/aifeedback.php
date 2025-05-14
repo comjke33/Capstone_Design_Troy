@@ -10,6 +10,11 @@ $step = $data["step"] ?? "1";  // step 인자 추가
 
 // 특수문자 안전 처리
 $encodedBlockCode = base64_encode($blockCode);
+
+// 패딩 처리 (길이가 4의 배수가 되도록 = 추가)
+$encodedBlockCode .= str_repeat('=', 4 - (strlen($encodedBlockCode) % 4));
+
+// 입력 안전 처리 (쉘 인젝션 방지)
 $escapedProblemId = escapeshellarg($problemId);
 $escapedIndex = escapeshellarg($index);
 $escapedStep = escapeshellarg($step);

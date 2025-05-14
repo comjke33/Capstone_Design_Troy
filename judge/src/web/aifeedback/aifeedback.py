@@ -177,6 +177,10 @@ def generate_hint(block_code, block_number, guideline, model_answer):
 def decode_block_code(encoded_str):
     """Base64 디코딩을 통해 문자열 복구"""
     try:
+        # 패딩 문제 자동 해결
+        missing_padding = len(encoded_str) % 4
+        if missing_padding:
+            encoded_str += '=' * (4 - missing_padding)
         decoded_bytes = base64.b64decode(encoded_str)
         return decoded_bytes.decode("utf-8")
     except Exception as e:
