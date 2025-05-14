@@ -239,33 +239,34 @@ function submitAnswer(index) {
     .then(data => {
         console.log(data);
         if (data.result === "correct") {
-    localStorage.setItem(key, "correct");
+            localStorage.setItem(key, "correct");
 
-    ta.readOnly = true;
-    ta.style.backgroundColor = "#d4edda";
-    ta.style.border = "1px solid #d4edda";
-    ta.style.color = "#155724";
-    btn.style.display = "none";  // 제출 버튼 숨기기
-    check.style.display = "inline";  // ✅ 표시
+            ta.readOnly = true;
+            ta.style.backgroundColor = "#d4edda";
+            ta.style.border = "1px solid #d4edda";
+            ta.style.color = "#155724";
+            btn.style.display = "none";
+            check.style.display = "inline";
 
-    // 답안 확인, 피드백 보기 버튼 숨기기
-    const answerBtn = document.getElementById(`answer_btn_${index}`);
-    const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
-    
-    if (answerBtn) answerBtn.style.display = "none";  // 답안 확인 버튼 숨기기
-        if (feedbackBtn) feedbackBtn.style.display = "none";  // 피드백 보기 버튼 숨기기
+                // 정답이 맞은 경우 버튼 숨기기
+            const answerBtn = document.getElementById(`answer_btn_${index}`);
+            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
+            const submitBtn = document.getElementById(`submit_btn_${index}`);
 
-        const nextIndex = index + 1;
-        const nextTa = document.getElementById(`ta_${nextIndex}`);
-        const nextBtn = document.getElementById(`btn_${nextIndex}`);
+            // display: none을 사용하여 버튼 숨기기
+            if (answerBtn) answerBtn.style.display = "none";  // 답안 확인 버튼 숨기기
+            if (feedbackBtn) feedbackBtn.style.display = "none";  // 피드백 보기 버튼 숨기기
+            if (submitBtn) submitBtn.style.display = "none";  // 제출 버튼 숨기기
 
-        if (nextTa && nextBtn) {
-            nextTa.disabled = false; // 다음 문제로 넘어가는 버튼은 활성화
-            nextBtn.disabled = false; // 버튼을 활성화
-            nextTa.focus();
-        }
-    }
-    else {
+            const nextIndex = index + 1;
+            const nextTa = document.getElementById(`ta_${nextIndex}`);
+            const nextBtn = document.getElementById(`btn_${nextIndex}`);
+            if (nextTa && nextBtn) {
+                nextTa.disabled = false;
+                nextBtn.disabled = false;
+                nextTa.focus();
+            }
+        } else {
             ta.style.backgroundColor = "#ffecec";
             ta.style.border = "1px solid #e06060";
             ta.style.color = "#c00";
@@ -294,9 +295,7 @@ function showFeedback(index) {
     const problemId = urlParams.get("problem_id") || "0";
     const ta = document.getElementById(`ta_${index}`);
     const blockCode = ta ? ta.value.trim() : "";
-    const step = new URLSearchParams(window.location.search).get("step") || "1";  // 추가
-    console.log("Step 값:", step);
-    console.log("요청 데이터:", { problem_id: problemId, index: index, block_code: blockCode, step: step });
+
     // 피드백을 가져오기 전 로딩 표시
     const feedbackPanel = document.querySelector('.right-panel');
     feedbackPanel.innerHTML = `
@@ -314,8 +313,7 @@ function showFeedback(index) {
         body: JSON.stringify({
             problem_id: problemId,
             index: index,
-            block_code: blockCode,
-            step: step  // 추가
+            block_code: blockCode
         })
     })
     .then(response => response.json())
