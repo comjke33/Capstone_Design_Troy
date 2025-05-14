@@ -174,13 +174,13 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
-
 def read_code_lines(filename):
     try:
         with open(filename, 'r', encoding='utf-8') as f:
             return f.read()
     except Exception as e:
-        return f"파일 읽기 오류: {str(e)}"
+        print(f"파일 읽기 오류: {str(e)}")
+        sys.exit(1)
 
 def main():
     if len(sys.argv) != 5:
@@ -189,26 +189,28 @@ def main():
 
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
-    file_path = sys.argv[3]
+    file_path = sys.argv[3]  # 고정 파일 경로
     step = int(sys.argv[4])
 
-    # 디버깅: 경로 출력
-    print(f"Received file path: {file_path}")
-
-    # 경로 존재 여부 확인
+    # 코드 블럭을 고정 경로에서 읽기
     if not os.path.exists(file_path):
         print(f"파일 확인 오류: {file_path}")
         sys.exit(1)
 
-    # 코드 블럭을 임시 파일에서 읽기
     block_code = read_code_lines(file_path)
 
-    # 로그 파일로 디버깅 정보 기록
+    # 디버깅 정보 기록
     with open("/tmp/python_input_debug.log", "a") as log_file:
         log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
 
     # 피드백 출력
     print(f"block_code: {block_code}")
+
+    # 고정 파일 삭제
+    try:
+        os.remove(file_path)
+    except Exception as e:
+        print(f"파일 삭제 오류: {str(e)}")
 
 if __name__ == "__main__":
     main()
