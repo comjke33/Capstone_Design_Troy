@@ -8,23 +8,27 @@ $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // step 인자 추가
 
-// 임시 파일 경로 설정
-$tmpFile = tempnam(sys_get_temp_dir(), 'code_') . '.txt';
-
-// 코드 블럭을 임시 파일에 저장 (UTF-8 인코딩)
+// 임시 파일에 코드 블럭 저장
+$tmpFile = tempnam(sys_get_temp_dir(), 'code_');
 file_put_contents($tmpFile, $blockCode);
 
+// 경로를 절대 경로로 변환
+$realTmpFile = realpath($tmpFile);
+
 // 파이썬 피드백 스크립트 경로
-$scriptPath = "/home/Capstone_Design_Troy/judge/src/web/aifeedback/aifeedback.py";
+$scriptPath = "../aifeedback/aifeedback.py";
 
-// 파이썬 명령어 구성 (임시 파일 경로 전달)
-$cmd = "python3 " . escapeshellarg($scriptPath) . " " . escapeshellarg($problemId) . " " . escapeshellarg($index) . " " . escapeshellarg($tmpFile) . " " . escapeshellarg($step);
+// 파이썬 명령어 구성 (경로를 따옴표로 감싸서 인코딩 처리)
+$cmd = escapeshellcmd("python3 $scriptPath $problemId $index \"$realTmpFile\" $step");
 
-// 디버그: 명령어 확인
+// 디버깅 로그
 file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);
 
 // 파이썬 스크립트 실행 및 결과 수신
-exec($cmd . " 2>&1", $output, $return_var);
+exec($cmd, $output, $return_var);
+
+// 디버깅 로그
+file_put_contents("/tmp/php_debug.log", "Python Output: " . implode("\n", $output) . "\n", FILE_APPEND);
 
 // 임시 파일 삭제
 unlink($tmpFile);

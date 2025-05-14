@@ -174,13 +174,13 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
-
 def read_code_lines(filename):
     try:
         with open(filename, 'r', encoding='utf-8') as f:
             return f.read()
     except Exception as e:
-        return f"파일 읽기 오류: {str(e)}"
+        print(f"파일 읽기 오류: {str(e)}")
+        sys.exit(1)
 
 def main():
     if len(sys.argv) != 5:
