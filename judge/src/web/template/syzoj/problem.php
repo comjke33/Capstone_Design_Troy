@@ -106,7 +106,7 @@ if(file_exists($solution_file)){
       }
 
       //허가된 사용자들
-      $allowed_users = [
+      $allowed_user_id = [
         'admin', 
         'endtoend', 
         'end_to_end', 

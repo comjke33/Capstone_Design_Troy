@@ -232,7 +232,7 @@ html, body {
             <?php echo $sql_news_menu_result_html; ?>
             <div class="right menu">
                 <?php
-                    $allowed_users = [
+                    $allowed_user_id = [
                     'admin', 
                     'endtoend', 
                     'end_to_end', 
@@ -259,7 +259,7 @@ html, body {
                     ];
 
                 // allowed_user_id에 포함된 사용자만 알림 버튼을 보이도록 조건 추가
-                if (isset($_SESSION[$OJ_NAME.'_'.'user_id']) && in_array($_SESSION[$OJ_NAME.'_'.'user_id'], $allowed_user_id)) {
+                if (in_array($_SESSION[$OJ_NAME.'_'.'user_id'], $allowed_user_id)) {
                     ?>
                     <a id="notification-link" class="item active" href="#">
                         <span class="bell-wrapper">
