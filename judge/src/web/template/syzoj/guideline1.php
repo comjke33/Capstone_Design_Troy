@@ -190,10 +190,15 @@ document.addEventListener("DOMContentLoaded", function () {
             // 기존 버튼들에서 'active' 클래스를 제거하고 배경색 초기화
             buttons.forEach(button => {
                 button.classList.remove("active");  // 기존 버튼에서 active 클래스를 제거
+                button.style.backgroundColor = "";  // 기존 버튼 배경색 초기화
             });
 
             // 클릭된 버튼에만 'active' 클래스를 추가하여 빨간색 배경 적용
             btn.classList.add("active");
+            btn.style.backgroundColor = "red";  // 클릭된 버튼의 배경색 빨간색으로 설정
+
+            // 클릭된 버튼의 상태를 localStorage에 저장
+            localStorage.setItem("activeStepButton", nextStep);
 
             // 모든 textarea의 데이터를 로컬 스토리지에 저장
             document.querySelectorAll("textarea").forEach((textarea, index) => {
@@ -206,6 +211,16 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = `${baseUrl}?step=${nextStep}&problem_id=${nextProblemId}`;
         });
     });
+
+    // 페이지 로드 시 저장된 'activeStepButton'을 사용하여 활성화된 버튼에 배경색을 빨간색으로 설정
+    const activeStep = localStorage.getItem("activeStepButton");
+    if (activeStep) {
+        const activeButton = document.querySelector(`.step-buttons .ui.button[data-step="${activeStep}"]`);
+        if (activeButton) {
+            activeButton.classList.add("active");
+            activeButton.style.backgroundColor = "red";  // 저장된 버튼의 배경을 빨간색으로 유지
+        }
+    }
 });
 
 
