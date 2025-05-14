@@ -284,7 +284,7 @@ function showFeedback(index) {
     const urlParams = new URLSearchParams(window.location.search);
     const problemId = urlParams.get("problem_id") || "0";
     const ta = document.getElementById(`ta_${index}`);
-    const blockCode = ta ? ta.value.trim() : "";
+    const blockCode = ta ? ta.value.trim() : "NULL";
 
     // 피드백을 가져오기 전 로딩 표시
     const feedbackPanel = document.querySelector('.right-panel');
