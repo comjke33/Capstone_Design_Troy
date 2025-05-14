@@ -22,6 +22,13 @@ file_put_contents($tmpFile, json_encode([
 // 파일 권한 설정
 chmod($tmpFile, 0666);
 
+// 파일 존재 여부 확인 로그
+if (file_exists($tmpFile)) {
+    file_put_contents("/tmp/php_debug.log", "JSON 파일 생성 성공: $tmpFile\n", FILE_APPEND);
+} else {
+    file_put_contents("/tmp/php_debug.log", "JSON 파일 생성 실패: $tmpFile\n", FILE_APPEND);
+}
+
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "/home/Capstone_Design_Troy/judge/src/web/aifeedback/aifeedback.py";
 
