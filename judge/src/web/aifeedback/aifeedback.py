@@ -5,7 +5,6 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 import re
-import json
 
 # 환경 변수 파일 로드
 dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
@@ -174,24 +173,24 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
-
 def main():
     if len(sys.argv) != 5:
         print("error: 인자 부족")
         sys.exit(1)
 
-    # 인자 수신
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
-    try:
-        # JSON 문자열을 안전하게 디코딩
-        block_code = sys.argv[3].encode('utf-8').decode('unicode_escape')  
-    except Exception as e:
-        block_code = sys.argv[3]  # 디코딩 실패 시 그대로 사용
-    step = int(sys.argv[4])
+    block_code = urllib.parse.unquote(sys.argv[3])
+    step = int(sys.argv[4])  # step 인자 추가
 
-    # 디버그 로그 출력
-    print(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}")
+    model_answer = get_model_answer(problem_id)
+    guideline = get_guideline(problem_id, block_index, step)
+
+    with open("/tmp/python_input_debug.log", "a") as log_file:
+        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}, guideline: {guideline}, model_answer: {model_answer}\n")
+
+    hint = generate_hint(block_code, block_index, guideline, model_answer)
+    print(f"{hint}")
 
 if __name__ == "__main__":
     main()
