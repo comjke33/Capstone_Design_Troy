@@ -11,12 +11,14 @@ $step = $data["step"] ?? "1";  // Step 추가
 // 디버그 로그
 file_put_contents("/tmp/php_debug.log", "Received Data: " . json_encode($data) . "\n", FILE_APPEND);
 
-// 이스케이프 처리 개선
-$blockCode = addslashes($blockCode);  // PHP 내장 함수로 이스케이프
-$escapedBlockCode = escapeshellarg($blockCode);  // 쉘 인젝션 방지
+// 문자열 이스케이프 처리
+$blockCode = str_replace(['\\', '"'], ['\\\\', '\\"'], $blockCode);
+
+// 파이썬 명령어 인자 처리
+$escapedBlockCode = escapeshellarg($blockCode);  
 $escapedProblemId = escapeshellarg($problemId);
 $escapedIndex = escapeshellarg($index);
-$escapedStep = escapeshellarg($step);  // Step 추가
+$escapedStep = escapeshellarg($step);  
 
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
