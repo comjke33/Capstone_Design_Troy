@@ -71,9 +71,11 @@ def get_blocks_from_file(file_path):
         if is_tag_line(line):
             if is_start_tag(line):
                 if current_block and block_number is not None:
+                    # 기존 블럭을 저장
                     blocks[block_number] = "".join(current_block).strip()
+                    current_block = []  # 새로운 블럭 시작을 위해 초기화
                 block_number = extract_block_number(line)
-                current_block = [line]
+                current_block.append(line)
                 inside_block = True
             elif is_end_tag(line):
                 current_block.append(line)
@@ -91,11 +93,15 @@ def get_blocks_from_file(file_path):
     return blocks
 
 def get_guideline(problem_id, block_index):
-    """가이드라인 파일에서 특정 블럭을 추출 (step1 고정)"""
-    guideline_path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/{problem_id}_step1.txt"
-    blocks = get_blocks_from_file(guideline_path)
+    """가이드라인 파일에서 특정 블럭을 추출"""
+    for step in range(1, 4):  # step1, step2, step3
+        guideline_path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/{problem_id}_step{step}.txt"
+        if os.path.exists(guideline_path):
+            blocks = get_blocks_from_file(guideline_path)
+            if block_index in blocks:
+                return blocks[block_index]
 
-    return blocks.get(block_index, "블럭 가이드라인 없음")
+    return "블럭 가이드라인 없음"
 
 def generate_hint(block_code, block_number, guideline, model_answer):
     """OpenAI API를 이용하여 코드 블럭에 대한 힌트 생성"""
