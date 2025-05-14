@@ -37,6 +37,7 @@ def get_model_answer(problem_id):
     finally:
         cursor.close()
 
+# 블럭 처리 관련 함수
 def is_tag_line(line):
     """태그 줄인지 판별"""
     return bool(re.match(r"\s*\[.*_(start|end)\(\d+\)\]\s*", line))
@@ -45,61 +46,93 @@ def is_start_tag(line):
     """블럭 시작 태그인지 판별"""
     return "start" in line
 
-def is_end_tag(line):
-    """블럭 종료 태그인지 판별"""
-    return "end" in line
+def is_include_line(line):
+    """헤더 선언(#include)인지 판별"""
+    return line.strip().startswith("#")
 
-def extract_block_number(line):
-    """블럭 번호 추출"""
-    match = re.search(r"\((\d+)\)", line)
-    return int(match.group(1)) if match else -1
+def is_single_brace(line):
+    """단독 중괄호인지 판별"""
+    return line.strip() == "}"
 
-def get_blocks_from_file(file_path):
-    """파일에서 블럭 단위로 추출"""
-    if not os.path.exists(file_path):
-        return {}
+def filter_code_lines(code_lines):
+    """태그 줄 제거된 실제 코드 줄만 반환"""
+    return [line for line in code_lines if not is_tag_line(line)]
 
-    with open(file_path, 'r') as f:
-        lines = f.readlines()
+def clean_block(block):
+    """블럭에서 태그를 제거하여 반환"""
+    return [line for line in block if not is_tag_line(line)]
 
-    blocks = {}
+def get_blocks(code_lines):
+    """코드에서 블럭 단위로 추출"""
+    all_blocks = []
+    all_idx = 0
+    blocks = []
+    blocks_idx = 0
     current_block = []
-    block_number = None
+    includes = []  # #include 블럭 저장
+    closing_braces = []  # 단독 } 블럭 저장
     inside_block = False
+    block_indices = []
 
-    for line in lines:
-        if is_tag_line(line):
-            if is_start_tag(line):
-                if current_block and block_number is not None:
-                    blocks[block_number] = "".join(current_block).strip()
-                block_number = extract_block_number(line)
-                current_block = [line]
-                inside_block = True
-            elif is_end_tag(line):
-                current_block.append(line)
-                if block_number is not None:
-                    blocks[block_number] = "".join(current_block).strip()
+    for line in code_lines:
+        # 헤더 선언 (#include)은 상수 블럭으로 처리
+        if is_include_line(line):
+            includes.append(line)
+            all_blocks.append(includes)
+            all_idx += 1
+            includes = []
+            continue
+        
+        # 단독 중괄호는 상수 블럭으로 처리
+        if is_single_brace(line):
+            closing_braces.append(line)
+            all_blocks.append(closing_braces)
+            all_idx += 1
+            closing_braces = []
+            continue
+        
+        # 블럭 시작 조건: start 태그를 만나면 새 블럭 시작
+        if is_start_tag(line):
+            if current_block:
+                blocks.append(current_block)
+                all_blocks.append(current_block)
+                block_indices.append((blocks_idx, all_idx))
+                blocks_idx += 1
+                all_idx += 1
                 current_block = []
-                inside_block = False
-        elif inside_block:
+            current_block.append(line)
+            inside_block = True
+        
+        # 블럭 종료 조건: 다음 블럭의 시작 태그를 만나면 블럭 종료
+        elif is_tag_line(line):
+            if current_block:
+                blocks.append(current_block)
+                all_blocks.append(current_block)
+                block_indices.append((blocks_idx, all_idx))
+                blocks_idx += 1
+                all_idx += 1
+                current_block = []
+            inside_block = False
+        
+        # 블럭 내부 코드 추가
+        if inside_block or not is_tag_line(line):
             current_block.append(line)
 
-    # 마지막 블럭 처리
-    if current_block and block_number is not None:
-        blocks[block_number] = "".join(current_block).strip()
-
-    return blocks
+    return includes, blocks, closing_braces, all_blocks, block_indices
 
 def get_guideline(problem_id, block_index):
     """가이드라인 파일에서 특정 블럭을 추출 (step1 고정)"""
     guideline_path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/{problem_id}_step1.txt"
     if os.path.exists(guideline_path):
-        blocks = get_blocks_from_file(guideline_path)
-        if block_index in blocks:
-            return blocks[block_index]
+        code_lines = read_code_lines(guideline_path)
+        _, blocks, _, _, _ = get_blocks(code_lines)
+        if block_index < len(blocks):
+            return ''.join(clean_block(blocks[block_index]))
     return "블럭 가이드라인 없음"
 
-
+def read_code_lines(filename):
+    with open(filename, 'r') as f:
+        return f.readlines()
 
 def generate_hint(block_code, block_number, guideline, model_answer):
     """OpenAI API를 이용하여 코드 블럭에 대한 힌트 생성"""
@@ -124,14 +157,8 @@ def generate_hint(block_code, block_number, guideline, model_answer):
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {
-                    "role": "system",
-                    "content": "코드 작성 도움 시스템입니다. 코드 블럭의 역할과 작성 방법을 설명합니다."
-                },
-                {
-                    "role": "user",
-                    "content": prompt
-                }
+                {"role": "system", "content": "코드 작성 도움 시스템입니다. 코드 블럭의 역할과 작성 방법을 설명합니다."},
+                {"role": "user", "content": prompt}
             ],
             max_tokens=300,
             temperature=0.7
@@ -139,6 +166,7 @@ def generate_hint(block_code, block_number, guideline, model_answer):
         return response.choices[0].message.content.strip()
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
+
 def main():
     if len(sys.argv) != 4:
         print("error: 인자 부족")
@@ -148,20 +176,13 @@ def main():
     block_index = int(sys.argv[2])
     block_code = urllib.parse.unquote(sys.argv[3])
 
-    # 모범 코드 가져오기
     model_answer = get_model_answer(problem_id)
-
-    # 블럭별 가이드라인 가져오기 (step1 고정)
     guideline = get_guideline(problem_id, block_index)
 
-    # 디버그 로그 추가
     with open("/tmp/python_input_debug.log", "a") as log_file:
         log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, guideline: {guideline}, model_answer: {model_answer}\n")
 
-    # AI 피드백 생성
     hint = generate_hint(block_code, block_index, guideline, model_answer)
-
-    # 피드백 출력
     print(f"{hint}")
 
 if __name__ == "__main__":
