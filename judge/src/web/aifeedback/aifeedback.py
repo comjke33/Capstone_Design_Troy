@@ -120,9 +120,9 @@ def get_blocks(code_lines):
 
     return includes, blocks, closing_braces, all_blocks, block_indices
 
-def get_guideline(problem_id, block_index):
-    """가이드라인 파일에서 특정 블럭을 추출 (step1 고정)"""
-    guideline_path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/{problem_id}_step1.txt"
+def get_guideline(problem_id, block_index, step):
+    """가이드라인 파일에서 특정 블럭을 추출 (step 가변)"""
+    guideline_path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/{problem_id}_step{step}.txt"
     if os.path.exists(guideline_path):
         code_lines = read_code_lines(guideline_path)
         _, blocks, _, _, _ = get_blocks(code_lines)
@@ -168,19 +168,20 @@ def generate_hint(block_code, block_number, guideline, model_answer):
         return f"AI 피드백 생성 오류: {str(e)}"
 
 def main():
-    if len(sys.argv) != 4:
+    if len(sys.argv) != 5:
         print("error: 인자 부족")
         sys.exit(1)
 
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
     block_code = urllib.parse.unquote(sys.argv[3])
+    step = int(sys.argv[4])  # step 인자 추가
 
     model_answer = get_model_answer(problem_id)
-    guideline = get_guideline(problem_id, block_index)
+    guideline = get_guideline(problem_id, block_index, step)
 
     with open("/tmp/python_input_debug.log", "a") as log_file:
-        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, guideline: {guideline}, model_answer: {model_answer}\n")
+        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}, guideline: {guideline}, model_answer: {model_answer}\n")
 
     hint = generate_hint(block_code, block_index, guideline, model_answer)
     print(f"{hint}")
