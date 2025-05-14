@@ -27,15 +27,8 @@
   min-width: 100px;
 }
 
-/* 활성화된 버튼의 스타일 */
 .step-buttons .ui.button.active {
-  background-color: red !important;  /* 클릭된 버튼은 빨간색으로 */
-  color: white !important;  /* 텍스트는 흰색 */
-}
-
-/* 버튼 클릭 시 hover 상태에서 다른 스타일을 추가할 수 있습니다 (선택 사항) */
-.step-buttons .ui.button:hover {
-  background-color: #0d71bb;  /* Hover 시 배경색 변경 */
+  background-color: #0d71bb !important;
 }
 
 /* 공통 버튼 스타일 */
