@@ -5,7 +5,7 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 import re
-
+import ast
 # 환경 변수 파일 로드
 dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
 if os.path.exists(dotenv_path):
@@ -179,8 +179,9 @@ def main():
         sys.exit(1)
 
     problem_id = sys.argv[1]
+    block_code = sys.argv[3]
     block_index = int(sys.argv[2])
-    block_code = urllib.parse.unquote(sys.argv[3])
+    block_code = ast.literal_eval(f"'(block_code)'")
     step = int(sys.argv[4])  # step 인자 추가
 
     model_answer = get_model_answer(problem_id)
