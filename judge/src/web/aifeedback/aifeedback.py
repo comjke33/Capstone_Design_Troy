@@ -25,8 +25,18 @@ def generate_hint(block_code, block_number):
         response = openai.ChatCompletion.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "코드 작성 도움 시스템입니다."},
-                {"role": "user", "content": prompt}
+                {
+                    "role": "system",
+                    "content": (
+                        "너는 프로그래밍 언어 전문가이자 코드 분석가야. "
+                        "다음은 C 코드 블럭입니다. 코드 블럭이 수행하는 역할과 작성 방법에 대한 힌트를 제시해 주세요. "
+                        "코드를 직접 제시하지 않고 7줄 이내로 설명해야 합니다."
+                    )
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
             ],
             max_tokens=300,
             temperature=0.7
