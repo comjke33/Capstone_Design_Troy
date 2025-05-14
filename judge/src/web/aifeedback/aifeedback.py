@@ -36,9 +36,9 @@ def get_model_answer(problem_id):
     finally:
         cursor.close()
 
-def get_guideline(problem_id, step_number):
+def get_guideline(problem_id):
     """가이드라인 파일 가져오기"""
-    guideline_path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/{problem_id}_step{step_number}.txt"
+    guideline_path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/{problem_id}_step1.txt"
     try:
         with open(guideline_path, 'r') as file:
             return file.read()
@@ -95,15 +95,10 @@ def main():
     # 모범 코드 가져오기
     model_answer = get_model_answer(problem_id)
 
-    # 단계(step) 추정
-    step_number = 1
-    if "_step2" in block_code:
-        step_number = 2
-    elif "_step3" in block_code:
-        step_number = 3
+
 
     # 가이드라인 가져오기
-    guideline = get_guideline(problem_id, step_number)
+    guideline = get_guideline(problem_id)
 
     # 디버그 로그 추가
     with open("/tmp/python_input_debug.log", "a") as log_file:
