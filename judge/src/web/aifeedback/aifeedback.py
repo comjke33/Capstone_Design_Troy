@@ -187,6 +187,10 @@ def main():
     file_path = sys.argv[3]
     step = int(sys.argv[4])
 
+    # 파일 경로 확인 로그
+    print(f"Received file path: {file_path}")
+    print(f"File exists: {os.path.exists(file_path)}")
+
     # 코드 블럭을 임시 파일에서 읽기
     block_code = read_code_lines(file_path)
 
