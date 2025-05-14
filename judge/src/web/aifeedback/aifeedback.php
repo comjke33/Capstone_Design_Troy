@@ -18,11 +18,8 @@ $realTmpFile = realpath($tmpFile);
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
 
-// 경로를 JSON으로 인코딩하여 전달
-$encodedPath = escapeshellarg(json_encode($realTmpFile));
-
-// 파이썬 명령어 구성
-$cmd = "python3 $scriptPath $problemId $index $encodedPath $step";
+// 파이썬 명령어 구성 (경로를 따옴표로 감싸서 인코딩 처리하지 않음)
+$cmd = "python3 $scriptPath $problemId $index $realTmpFile $step";
 
 // 디버깅 로그
 file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);
