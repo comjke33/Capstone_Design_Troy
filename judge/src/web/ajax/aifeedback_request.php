@@ -22,13 +22,6 @@ file_put_contents($tmpFile, json_encode([
 // 파일 권한 설정
 chmod($tmpFile, 0666);
 
-// 파일 존재 여부 확인 로그
-if (file_exists($tmpFile)) {
-    file_put_contents("/tmp/php_debug.log", "JSON 파일 생성 성공: $tmpFile\n", FILE_APPEND);
-} else {
-    file_put_contents("/tmp/php_debug.log", "JSON 파일 생성 실패: $tmpFile\n", FILE_APPEND);
-}
-
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "/home/Capstone_Design_Troy/judge/src/web/aifeedback/aifeedback.py";
 
@@ -41,7 +34,10 @@ exec($cmd, $output, $return_var);
 // 피드백을 하나의 문자열로 합치기
 $feedback = implode("\n", $output);
 
-// 피드백 데이터 로그
+// 줄바꿈을 명시적으로 변환하여 JSON 응답 처리
+$feedback = str_replace("\n", "\\n", $feedback);
+
+// 로그에 기록
 file_put_contents("/tmp/php_debug.log", "Merged Feedback: " . $feedback . "\n", FILE_APPEND);
 
 // 결과 처리
