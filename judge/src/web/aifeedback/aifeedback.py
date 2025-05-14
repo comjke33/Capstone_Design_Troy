@@ -5,8 +5,6 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 import re
-import json
-import base64
 
 # 환경 변수 파일 로드
 dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
@@ -175,14 +173,6 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
-def decode_base64(encoded_str):
-    """Base64로 인코딩된 문자열 디코딩"""
-    try:
-        return base64.b64decode(encoded_str).decode('utf-8')
-    except Exception as e:
-        print(f"디코딩 오류: {str(e)}")
-        sys.exit(1)
-
 def main():
     if len(sys.argv) != 5:
         print("error: 인자 부족")
@@ -190,18 +180,17 @@ def main():
 
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
-    encoded_block_code = sys.argv[3]
-    step = int(sys.argv[4])
+    block_code = urllib.parse.unquote(sys.argv[3])
+    step = int(sys.argv[4])  # step 인자 추가
 
-    # Base64로 인코딩된 코드 디코딩
-    block_code = decode_base64(encoded_block_code)
+    model_answer = get_model_answer(problem_id)
+    guideline = get_guideline(problem_id, block_index, step)
 
-    # 로그 파일로 디버깅 정보 기록
     with open("/tmp/python_input_debug.log", "a") as log_file:
-        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
+        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}, guideline: {guideline}, model_answer: {model_answer}\n")
 
-    # 피드백 출력
-    print(f"block_code: {block_code}")
+    hint = generate_hint(block_code, block_index, guideline, model_answer)
+    print(f"{hint}")
 
 if __name__ == "__main__":
     main()
