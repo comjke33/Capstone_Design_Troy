@@ -300,60 +300,29 @@ function showFeedback(index) {
     const problemId = urlParams.get("problem_id") || "0";
     const ta = document.getElementById(`ta_${index}`);
     const blockCode = ta ? ta.value.trim() : "";
-    const step = new URLSearchParams(window.location.search).get("step") || "1";  // 추가
-    
-    // 피드백을 가져오기 전 로딩 표시
-    const feedbackPanel = document.querySelector('.right-panel');
-    feedbackPanel.innerHTML = `
-        <h2>📋 피드백 창</h2>
-        <div class="feedback-content">
-            <p>피드백을 가져오는 중입니다...</p>
-        </div>
-    `;
-    feedbackPanel.style.display = 'block';
+    const step = urlParams.get("step") || "1"; 
 
-    // AJAX 요청으로 피드백 가져오기
+    // AJAX 요청
     fetch("../../ajax/aifeedback_request.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            problem_id: problemId,
-            index: index,
-            block_code: blockCode,
-            step: step  // 추가
-        })
+        body: JSON.stringify({ problem_id: problemId, index: index, block_code: blockCode, step: step })
     })
     .then(response => response.json())
     .then(data => {
-        if (data.result === "success") {
-            const feedbackContent = data.feedback;
-            
-            // 오른쪽 패널에 피드백 표시
-            feedbackPanel.innerHTML = `
-                <h2>📋 피드백 창</h2>
-                <div class="feedback-content">
-                    <p><strong>${index + 1}번 줄에 대한 피드백:</strong></p>
-                    <p>${feedbackContent}</p>
-                </div>
-            `;
-            feedbackPanel.style.display = 'block';
-        } else {
-            feedbackPanel.innerHTML = `
-                <h2>📋 피드백 창</h2>
-                <div class="feedback-content">
-                    <p>피드백을 가져오지 못했습니다. 잠시 후 다시 시도해 주세요.</p>
-                </div>
-            `;
-        }
-    })
-    .catch(err => {
-        console.error("서버 요청 실패:", err);
+        const feedbackContent = data.result.replace(/\\n/g, "<br>");
+        const feedbackPanel = document.querySelector('.right-panel');
         feedbackPanel.innerHTML = `
             <h2>📋 피드백 창</h2>
             <div class="feedback-content">
-                <p>서버 요청 오류: ${err.message}</p>
+                <p><strong>${index + 1}번 줄에 대한 피드백:</strong></p>
+                <p>${feedbackContent}</p>
             </div>
         `;
+        feedbackPanel.style.display = 'block';
+    })
+    .catch(err => {
+        console.error("서버 요청 실패:", err);
     });
 }
 

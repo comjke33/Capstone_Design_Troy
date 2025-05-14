@@ -5,6 +5,7 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 import re
+import json
 
 # 환경 변수 파일 로드
 dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
@@ -173,33 +174,49 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
-def decode_block_code(encoded_str):
-    """URL 디코딩을 통해 문자열 복구"""
-    try:
-        decoded_str = urllib.parse.unquote(encoded_str)
-        return decoded_str
-    except Exception as e:
-        return f"디코딩 오류: {str(e)}"
+
+
 
 def main():
-    if len(sys.argv) != 5:
-        print("error: 인자 부족")
+    if len(sys.argv) != 2:
+        print(f"error: 인자 부족 (받은 인자 개수: {len(sys.argv) - 1})")
         sys.exit(1)
 
-    problem_id = sys.argv[1]
-    block_index = int(sys.argv[2])
-    encoded_block_code = sys.argv[3]
-    step = int(sys.argv[4])
+    # 전달받은 파일 경로
+    param_file = sys.argv[1]
 
-    # URL 디코딩
-    block_code = decode_block_code(encoded_block_code)
+    # 파일 경로 확인
+    if not os.path.exists(param_file):
+        print(f"파일 경로 오류: {param_file}")
+        sys.exit(1)
 
-    # 디버그 로그 작성
+    # 인자 파일 읽기
+    try:
+        with open(param_file, 'r', encoding='utf-8') as f:
+            params = json.load(f)
+    except Exception as e:
+        print(f"파일 읽기 오류: {str(e)}")
+        sys.exit(1)
+
+    # 인자 추출
+    problem_id = params.get("problem_id", "0")
+    block_index = int(params.get("index", 0))
+    block_code = params.get("block_code", "작성못함")
+    step = int(params.get("step", 1))
+
+    # 디버깅 정보 기록
     with open("/tmp/python_input_debug.log", "a") as log_file:
         log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
 
-    # 최종 출력
-    print(f"block_code: {block_code}")
+    # 모범 코드 및 가이드라인 불러오기
+    model_answer = get_model_answer(problem_id)
+    guideline = get_guideline(problem_id, block_index, step)
+
+    # 피드백 생성
+    hint = generate_hint(block_code, block_index, guideline, model_answer)
+    
+    # 피드백 출력
+    print(f"피드백: {hint}")
 
 if __name__ == "__main__":
     main()
