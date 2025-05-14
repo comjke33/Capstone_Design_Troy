@@ -151,10 +151,8 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
     const urlParams = new URLSearchParams(window.location.search);
-    const currentStep = urlParams.get("step") || "1";  // URL에서 step 값을 가져옴
-    const problemId = urlParams.get("problem_id") || "0";  // URL에서 problem_id 값을 가져옴
-
-    const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
+    const currentStep = urlParams.get("step") || "1"; // URL에서 step 값을 가져옴
+    const problemId = urlParams.get("problem_id") || "0"; // URL에서 problem_id 값을 가져옴
 
     // 각 textarea에 대한 저장 처리
     document.querySelectorAll("textarea").forEach((textarea, index) => {
@@ -187,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const nextStep = btn.getAttribute("data-step");
             const nextProblemId = btn.getAttribute("data-problem-id") || problemId;
 
-            // 클릭된 버튼을 활성화 (배경색 빨간색으로 변경)
+            // 기존 버튼들에서 'active' 클래스를 제거하고 배경색 초기화
             buttons.forEach(button => {
                 button.classList.remove("active");  // 기존 버튼에서 active 클래스를 제거
                 button.style.backgroundColor = "";  // 배경색 초기화
@@ -220,6 +218,7 @@ document.addEventListener("DOMContentLoaded", function () {
         activeButton.style.backgroundColor = "red";  // 저장된 버튼의 배경을 빨간색으로 유지
     }
 });
+
 
 
 //문제 맞았는지 여부 확인
