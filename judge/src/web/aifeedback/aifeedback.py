@@ -195,9 +195,7 @@ def main():
         log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
 
     # 피드백 생성
-    hint = generate_hint(block_code, block_index)
     print(f"block_code: {block_code}")
-    print(f"hint: {hint}")
 
 if __name__ == "__main__":
     main()
