@@ -188,10 +188,10 @@ def main():
     try:
         with open(json_path, 'r', encoding='utf-8') as file:
             data = json.load(file)
-            problem_id = data["problem_id"]
-            block_index = int(data["index"])
-            block_code = data["block_code"]
-            step = int(data["step"])
+            problem_id = data.get("problem_id", "0")
+            block_index = int(data.get("index", 0))
+            block_code = data.get("block_code", "작성못함")
+            step = int(data.get("step", 1))
     except Exception as e:
         print(f"파일 읽기 오류: {str(e)}")
         sys.exit(1)
