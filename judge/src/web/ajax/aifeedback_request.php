@@ -26,7 +26,7 @@ $escapedGuideline = escapeshellarg($guideline);
 $escapedModelAnswer = escapeshellarg($model_answer);
 
 // Python 스크립트 호출 명령어
-$cmd = "python3 /home/Capstone_Design_Troy/judge/src/web/aifeedback/aifeedback.py $escapedProblemId $escapedIndex $escapedBlockCode $escapedGuideline $escapedModelAnswer";
+$cmd = "python3 /home/Capstone_Design_Troy/judge/src/web/aifeedback/aifeedback.py $escapedProblemId $escapedIndex \"$escapedBlockCode\" \"$escapedGuideline\" \"$escapedModelAnswer\"";
 
 // 디버그: Python 명령어 확인
 file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);
