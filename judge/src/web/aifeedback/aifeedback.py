@@ -173,13 +173,6 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
-def sanitize_code(block_code):
-    """특수문자를 HTML 안전 문자로 변환"""
-    # HTML 인코딩 및 역슬래시 문제 해결
-    block_code = block_code.replace('\\', '\\\\').replace('"', '\\"')
-    return html.escape(block_code)
-
-
 def main():
     if len(sys.argv) != 5:
         print("error: 인자 부족")
@@ -188,17 +181,16 @@ def main():
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
     block_code = urllib.parse.unquote(sys.argv[3])
-    step = int(sys.argv[4])
-
-    # 코드 이스케이프 처리
-    sanitized_code = sanitize_code(block_code)
+    step = int(sys.argv[4])  # step 인자 추가
 
     model_answer = get_model_answer(problem_id)
     guideline = get_guideline(problem_id, block_index, step)
 
-    # 디버그 로그 추가
     with open("/tmp/python_input_debug.log", "a") as log_file:
-        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {sanitized_code}, step: {step}, guideline: {guideline}, model_answer: {model_answer}\n")
+        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}, guideline: {guideline}, model_answer: {model_answer}\n")
 
-    hint = generate_hint(sanitized_code, block_index, guideline, model_answer)
+    hint = generate_hint(block_code, block_index, guideline, model_answer)
     print(f"{hint}")
+
+if __name__ == "__main__":
+    main()

@@ -284,9 +284,8 @@ function showFeedback(index) {
     const urlParams = new URLSearchParams(window.location.search);
     const problemId = urlParams.get("problem_id") || "0";
     const ta = document.getElementById(`ta_${index}`);
-    let blockCode = ta ? ta.value.trim() : "";
+    const blockCode = ta ? ta.value.trim() : "";
     const step = new URLSearchParams(window.location.search).get("step") || "1";  // 추가
-    blockCode = blockCode.replace(/"/g, '\\"');  // 큰따옴표만 처리
     
 
 
