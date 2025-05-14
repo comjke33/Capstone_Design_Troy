@@ -181,23 +181,22 @@ def main():
 
     problem_id = sys.argv[1]
     block_index = int(sys.argv[2])
+    step = int(sys.argv[4])  # step 인자 추가
 
     # JSON 문자열 안전하게 디코딩
     try:
         block_code = json.loads(sys.argv[3])
+        # 만약 block_code가 문자열로 인식된다면 다시 파싱
+        if isinstance(block_code, str):
+            block_code = json.loads(block_code)
     except json.JSONDecodeError:
         block_code = sys.argv[3].strip("'")
 
-    step = int(sys.argv[4])  # step 인자 추가
-
-    model_answer = get_model_answer(problem_id)
-    guideline = get_guideline(problem_id, block_index, step)
-
+    # 디버깅 로그 작성
     with open("/tmp/python_input_debug.log", "a") as log_file:
-        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}, guideline: {guideline}, model_answer: {model_answer}\n")
+        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
 
-    hint = generate_hint(block_code, block_index, guideline, model_answer)
-    print(f"{hint}")
+    print(f"block_code: {block_code}")
 
 if __name__ == "__main__":
     main()
