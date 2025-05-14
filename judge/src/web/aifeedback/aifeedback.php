@@ -8,8 +8,8 @@ $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // step 인자 추가
 
-// Base64 인코딩으로 안전하게 전달
-$encodedBlockCode = base64_encode($blockCode);
+// Base64 인코딩으로 안전하게 전달 (UTF-8로 명시적 변환 후 인코딩)
+$encodedBlockCode = base64_encode(mb_convert_encoding($blockCode, "UTF-8"));
 $escapedProblemId = escapeshellarg($problemId);
 $escapedIndex = escapeshellarg($index);
 $escapedStep = escapeshellarg($step);

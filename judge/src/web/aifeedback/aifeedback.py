@@ -178,7 +178,9 @@ def generate_hint(block_code, block_number, guideline, model_answer):
 def decode_base64(encoded_str):
     """Base64 디코딩 함수"""
     try:
-        return base64.b64decode(encoded_str).decode('utf-8')
+        # Base64 디코딩을 바이너리 모드로 먼저 시도하고, UTF-8로 변환
+        binary_data = base64.b64decode(encoded_str)
+        return binary_data.decode('utf-8', errors='replace')
     except Exception as e:
         return f"디코딩 오류: {str(e)}"
 
