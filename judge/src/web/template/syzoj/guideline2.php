@@ -212,8 +212,33 @@ function submitAnswer(index) {
     const problemId = new URLSearchParams(window.location.search).get("problem_id") || "0";
     const key = `answer_status_step${step}_q${index}_pid${problemId}`;
 
-    if (input === correct) {
-        // ✅ 저장
+
+    console.log("제출값:", input);
+    console.log("요청 데이터:", {
+        answer: input,
+        problem_id: problemId,
+        index: index
+    });
+
+    fetch("../../ajax/check_answer_STEP2.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            answer: input,
+            problem_id: problemId,
+            index: index
+        })
+    })
+    .then(res => {
+        if (!res.ok) {
+            console.error("서버 오류:", res.status);
+            return Promise.reject("서버 오류");
+        }
+        return res.json();
+    })
+    .then(data => {
+        console.log(data);
+        if (data.result === "correct") {
         localStorage.setItem(key, "correct");
 
         ta.readOnly = true;
@@ -236,6 +261,11 @@ function submitAnswer(index) {
         ta.style.border = "1px solid #e06060";
         ta.style.color = "#c00";
     }
+    })
+    .catch(err => {
+        console.error("서버 요청 실패:", err);
+    });
+
 }
 
 //답안 보여주기
