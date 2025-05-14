@@ -216,7 +216,7 @@ def main():
     hint = generate_hint(block_code, block_index, guideline, model_answer)
     
     # 피드백 출력
-    print(f"피드백: {hint}")
+    print(hint)
 
 if __name__ == "__main__":
     main()
