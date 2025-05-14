@@ -38,19 +38,29 @@ $cmd = "python3 " . escapeshellarg($scriptPath) . " " . escapeshellarg($tmpFile)
 // 디버깅 로그
 file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);
 
+
 // 파이썬 스크립트 실행 및 결과 수신
 exec($cmd, $output, $return_var);
 
-// 디버깅 로그
+// 디버깅 로그 추가
+file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);
 file_put_contents("/tmp/php_debug.log", "Python Output: " . implode("\n", $output) . "\n", FILE_APPEND);
+
+// 결과를 하나의 문자열로 합치기 (줄바꿈 처리)
+$feedback = implode("\n", $output);
+
+// 디버깅: 피드백 내용 로그로 확인
+file_put_contents("/tmp/php_debug.log", "Merged Feedback: " . $feedback . "\n", FILE_APPEND);
 
 // 결과 처리
 $response = [
-    "result" => implode("\n", $output),
+    "result" => $feedback, // 수정: 줄바꿈 포함하여 하나로 합치기
     "status" => $return_var === 0 ? "success" : "error"
 ];
 
+// 디버깅: PHP에서 결과 출력 확인
+file_put_contents("/tmp/php_debug.log", "PHP 처리 결과: " . json_encode($response, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND);
+
 // JSON으로 반환
 header("Content-Type: application/json");
-echo json_encode($response);
-?>
+echo json_encode($response, JSON_UNESCAPED_UNICODE); // 한글 깨짐 방지
