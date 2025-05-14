@@ -258,7 +258,7 @@
 	$MSG_RECENT_PROBLEM="최근 문제";
 	$MSG_RECENT_CONTEST="최근 대회";
 	$MSG_PASS_RATE="통과율";
-	// $MSG_SHOW_TAGS="태그 보기";
+	$MSG_SHOW_TAGS="태그 보기";
 	$MSG_SHOW_ALL_TAGS="모든 태그";
     $MSG_TABLE_TRANSPOSE="Table Transpose";
 
