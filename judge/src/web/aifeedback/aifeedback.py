@@ -181,7 +181,7 @@ def main():
     problem_id = sys.argv[1]
     block_code = sys.argv[3]
     block_index = int(sys.argv[2])
-    block_code = ast.literal_eval(f"'(block_code)'")
+    block_code = ast.literal_eval(f"'{block_code}'")
     step = int(sys.argv[4])  # step 인자 추가
 
     model_answer = get_model_answer(problem_id)
