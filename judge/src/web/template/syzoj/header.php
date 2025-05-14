@@ -1,9 +1,4 @@
 <?php
-// allowed_users.php 파일을 포함하여 배열을 불러옴
-include('allowed_users.php');
-?>
-
-<?php
         require_once(dirname(__FILE__)."/../../include/memcache.php");
         function checkmail(){  // check if has mail
           global $OJ_NAME;
@@ -241,40 +236,12 @@ include('allowed_users.php');
             <?php }  ?>
             <?php echo $sql_news_menu_result_html; ?>
 
-            <?php
-            // allowed_users.php 파일을 포함하여 배열을 불러옴
-            include('allowed_users.php');
-            ?>
+
 
             <div class="right menu">
                 
 
                 <?php
-                    // $allowed_user_id = [
-                    // 'admin', 
-                    // 'endtoend', 
-                    // 'end_to_end', 
-                    // 'ERRORMAN', 
-                    // 'ERRORMON', 
-                    // 'errortest', 
-                    // 'error_test', 
-                    // 'error_test1', 
-                    // 'guideline_user1', 
-                    // 'guideline_user2', 
-                    // // 'notguideline_user1', 
-                    // // 'notguideline_user2', 
-                    // 'notification_test', 
-                    // 'notification_test2', 
-                    // 'sonson', 
-                    // 'test', 
-                    // 'test1', 
-                    // 'test2', 
-                    // 'test3', 
-                    // 'test4', 
-                    // 'test5', 
-                    // 'zxccyh', 
-                    // 'zxczxc'
-                    // ];
 
                 // allowed_user_id에 포함된 사용자만 알림 버튼을 보이도록 조건 추가
                 if (in_array($_SESSION[$OJ_NAME.'_'.'user_id'], $allowed_user_id)) {
