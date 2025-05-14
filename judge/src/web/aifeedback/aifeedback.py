@@ -195,7 +195,12 @@ def main():
     # 코드 블럭을 임시 파일에서 읽기
     block_code = read_code_lines(file_path)
 
-    print(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}")
+    # 로그 파일로 디버깅 정보 기록
+    with open("/tmp/python_input_debug.log", "a") as log_file:
+        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
+
+    # 피드백 출력
+    print(f"block_code: {block_code}")
 
 if __name__ == "__main__":
     main()

@@ -8,8 +8,10 @@ $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // step 인자 추가
 
-// 임시 파일에 코드 블럭 저장 (UTF-8 인코딩)
+// 임시 파일 경로 설정
 $tmpFile = tempnam(sys_get_temp_dir(), 'code_') . '.txt';
+
+// 코드 블럭을 임시 파일에 저장 (UTF-8 인코딩)
 file_put_contents($tmpFile, $blockCode);
 
 // 파이썬 피드백 스크립트 경로
