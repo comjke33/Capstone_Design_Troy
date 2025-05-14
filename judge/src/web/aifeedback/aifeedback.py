@@ -5,6 +5,7 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 import re
+import base64
 # 환경 변수 파일 로드
 dotenv_path = "/home/Capstone_Design_Troy/judge/src/web/add_problem/.env"
 if os.path.exists(dotenv_path):
@@ -172,11 +173,9 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
 
-def decode_special_chars(encoded_code):
-    """URL 디코딩하여 특수문자 복원"""
+def decode_base64(encoded_str):
     try:
-        decoded_code = urllib.parse.unquote(encoded_code)
-        return decoded_code
+        return base64.b64decode(encoded_str).decode('utf-8')
     except Exception as e:
         return f"디코딩 오류: {str(e)}"
 
@@ -190,13 +189,8 @@ def main():
     encoded_block_code = sys.argv[3]
     step = int(sys.argv[4])
 
-    # 디코딩 처리
-    block_code = decode_special_chars(encoded_block_code)
-
-    # 디코딩 오류 처리
-    if block_code.startswith("디코딩 오류"):
-        print(block_code)
-        sys.exit(1)
+    # Base64로 디코딩
+    block_code = decode_base64(encoded_block_code)
 
     # 로그 파일로 디버깅 정보 기록
     with open("/tmp/python_input_debug.log", "a") as log_file:
