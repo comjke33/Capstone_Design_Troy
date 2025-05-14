@@ -16,9 +16,7 @@ $OJ_SID = "STEP 1";
 
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
 $index = isset($_GET['index']) ? intval($_GET['index']) : -1;
-$default_img = "./image/basic.png";
-$index_start = 0;
-$index_end = 0;
+// $default_img = "./image/basic.png";
 
 include("template/syzoj/guideline1.php");//렌더링 파일 불러오기
 ?>
