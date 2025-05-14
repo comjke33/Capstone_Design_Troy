@@ -172,7 +172,6 @@ def generate_hint(block_code, block_number, guideline, model_answer):
         return response.choices[0].message.content.strip()
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
-    
 
 def main():
     if len(sys.argv) != 5:
