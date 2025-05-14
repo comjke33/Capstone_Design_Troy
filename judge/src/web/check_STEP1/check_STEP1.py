@@ -3,6 +3,7 @@ import tempfile
 import re
 import os
 import sys
+import ast
 
 def is_tag_line(line):
     """태그 줄인지 판별"""
@@ -216,6 +217,8 @@ def main():
         line_num = sys.argv[2]
         student_code = sys.argv[3]
     
+    student_code = ast.literal_eval(f"'{student_code}'")
+    print(student_code)
 
     # 파일 경로 설정
     filename = f"../tagged_code/{pid}_step1.txt"
