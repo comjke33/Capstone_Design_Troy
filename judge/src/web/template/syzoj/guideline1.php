@@ -151,11 +151,12 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
     const urlParams = new URLSearchParams(window.location.search);
-    const currentStep = urlParams.get("step") || "1";
-    const problemId = urlParams.get("problem_id") || "0";
+    const currentStep = urlParams.get("step") || "1";  // URL에서 step 값을 가져옴
+    const problemId = urlParams.get("problem_id") || "0";  // URL에서 problem_id 값을 가져옴
 
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
+    // 각 textarea에 대한 저장 처리
     document.querySelectorAll("textarea").forEach((textarea, index) => {
         const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
         const statusKey = `answer_status_step${currentStep}_q${index}_pid${problemId}`;
@@ -167,7 +168,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (savedStatus === "correct") {
-            // ✅ 이전에 정답 제출한 경우 스타일 복원
             textarea.readOnly = true;
             textarea.style.backgroundColor = "#d4edda";
             textarea.style.border = "1px solid #d4edda";
@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const nextStep = btn.getAttribute("data-step");
             const nextProblemId = btn.getAttribute("data-problem-id") || problemId;
 
-            // 기존 버튼들에서 'active' 클래스를 제거하고 배경색 초기화
+            // 클릭된 버튼을 활성화 (배경색 빨간색으로 변경)
             buttons.forEach(button => {
                 button.classList.remove("active");  // 기존 버튼에서 active 클래스를 제거
                 button.style.backgroundColor = "";  // 배경색 초기화
@@ -213,15 +213,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // 페이지 로드 시 저장된 'activeStepButton'을 사용하여 활성화된 버튼에 배경색을 빨간색으로 설정
-    const activeStep = localStorage.getItem("activeStepButton");
-    if (activeStep) {
-        const activeButton = document.querySelector(`.step-buttons .ui.button[data-step="${activeStep}"]`);
-        if (activeButton) {
-            activeButton.classList.add("active");
-            activeButton.style.backgroundColor = "red";  // 저장된 버튼의 배경을 빨간색으로 유지
-        }
+    const activeStep = localStorage.getItem("activeStepButton") || currentStep;
+    const activeButton = document.querySelector(`.step-buttons .ui.button[data-step="${activeStep}"]`);
+    if (activeButton) {
+        activeButton.classList.add("active");
+        activeButton.style.backgroundColor = "red";  // 저장된 버튼의 배경을 빨간색으로 유지
     }
 });
+
 
 //문제 맞았는지 여부 확인
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
