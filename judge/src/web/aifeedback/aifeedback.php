@@ -16,7 +16,7 @@ file_put_contents($tmpFile, $blockCode);
 $scriptPath = "../aifeedback/aifeedback.py";
 
 // 파이썬 명령어 구성 (경로를 따옴표로 감싸서 인코딩 처리)
-$cmd = escapeshellcmd("python3 $scriptPath $problemId $index $tmpFile $step");
+$cmd = escapeshellcmd(python3 $scriptPath $problemId $index $tmpFile $step);
 
 // 디버깅 로그
 file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);
