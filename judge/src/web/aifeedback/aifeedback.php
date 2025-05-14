@@ -12,19 +12,20 @@ $step = $data["step"] ?? "1";  // Step 추가
 file_put_contents("/tmp/php_debug.log", "Received Data: " . json_encode($data, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND);
 
 // 입력 안전 처리 (쉘 인젝션 방지)
-$escapedBlockCode = escapeshellarg($blockCode);  
+// 특수 문자 이스케이프 처리 (역슬래시와 큰따옴표)
+$escapedBlockCode = addslashes($blockCode);
 $escapedProblemId = escapeshellarg($problemId);
 $escapedIndex = escapeshellarg($index);
 $escapedStep = escapeshellarg($step);  
-
-// 특수 문자 이스케이프 처리 (역슬래시와 큰따옴표)
-$escapedBlockCode = addslashes($escapedBlockCode);  // PHP에서 역슬래시와 큰따옴표 처리
 
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "../aifeedback/aifeedback.py";
 
 // 파이썬 명령어 구성
 $cmd = "python3 $scriptPath $escapedProblemId $escapedIndex \"$escapedBlockCode\" $escapedStep";
+
+// 디버그: 파이썬 명령어 확인
+file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);
 
 // 파이썬 스크립트 실행 및 결과 수신
 exec($cmd . " 2>&1", $output, $return_var);

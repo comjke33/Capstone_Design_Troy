@@ -303,7 +303,7 @@ function showFeedback(index) {
     const step = urlParams.get("step") || "1";
 
     // 특수문자 처리
-    blockCode = blockCode.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+    blockCode = JSON.stringify(blockCode);  // JSON으로 인코딩하여 특수문자 처리
 
     // 피드백을 가져오기 전 로딩 표시
     const feedbackPanel = document.querySelector('.right-panel');
