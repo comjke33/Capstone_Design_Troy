@@ -145,6 +145,8 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     4. 가이드라인에 없는 내용은 모범코드와 비교하여 작성이 적절한지 판단하고 간단히 언급해주세요.
     5. 코드를 직접 제시하지 말고, 수정 방향과 힌트를 제시해주세요.
     6. 7줄이내로 답변해주세요.
+    7. '작성못함'으로 답변이 되어 있는 경우 학생은 작성을 할 줄 모르는 경우입니다.
+    
 
     학생이 제출한 코드 (블록번호 : {block_number}):
     {block_code}
