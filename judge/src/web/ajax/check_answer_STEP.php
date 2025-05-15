@@ -4,14 +4,17 @@ $data = json_decode(file_get_contents("php://input"), true);
 $answer = $data["answer"] ?? "";
 $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
-$step = $data["step"] ?? "1";  
+$step = $data["step"] ?? "1";
+
+// 디버깅 로그
+file_put_contents("/tmp/php_debug.log", "Received Data: " . json_encode($data, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND);
 
 // 세션 시작
 session_start();
 $user_id = $_SESSION['user_id'] ?? uniqid();
 
 // 고유 파일명 생성
-$unique_id = uniqid("answer_");
+$unique_id = uniqid("check_step_");
 $answerFile = "/tmp/" . $unique_id . ".txt";
 $tmpFile = "/tmp/" . $unique_id . ".json";
 $feedbackFile = "/tmp/" . $unique_id . "_feedback.txt";
