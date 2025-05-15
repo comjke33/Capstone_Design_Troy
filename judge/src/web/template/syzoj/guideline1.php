@@ -300,21 +300,27 @@ function showFeedback(index) {
     const problemId = urlParams.get("problem_id") || "0";
     const ta = document.getElementById(`ta_${index}`);
     const blockCode = ta ? ta.value.trim() : "";
-    const step = urlParams.get("step") || "1"; 
+    const step = urlParams.get("step") || "1";
 
-    // AJAX 요청
     fetch("../../ajax/aifeedback_request.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ problem_id: problemId, index: index, block_code: blockCode, step: step })
+        body: JSON.stringify({
+            problem_id: problemId,
+            index: index,
+            block_code: blockCode,
+            step: step
+        })
     })
     .then(response => response.json())
     .then(data => {
-        const feedbackContent = data.result.replace(/\\n/g, "<br>");
         const feedbackPanel = document.querySelector('.right-panel');
+        // 줄바꿈 처리
+        const feedbackContent = data.result.replace(/\n/g, "<br>");
+        
         feedbackPanel.innerHTML = `
             <h2>📋 피드백 창</h2>
-            <div class="feedback-content">
+            <div class="feedback-content" style="white-space: pre-line;">
                 <p><strong>${index + 1}번 줄에 대한 피드백:</strong></p>
                 <p>${feedbackContent}</p>
             </div>
@@ -323,6 +329,13 @@ function showFeedback(index) {
     })
     .catch(err => {
         console.error("서버 요청 실패:", err);
+        const feedbackPanel = document.querySelector('.right-panel');
+        feedbackPanel.innerHTML = `
+            <h2>📋 피드백 창</h2>
+            <div class="feedback-content">
+                <p>서버 요청 오류: ${err.message}</p>
+            </div>
+        `;
     });
 }
 
