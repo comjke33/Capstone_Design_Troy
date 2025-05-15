@@ -210,7 +210,8 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
     # except subprocess.TimeoutExpired:
     #     print("⏰ 실행 시간 초과")
 
-def main():
+    """
+    def main():
 
     if len(sys.argv) == 4:
         pid = sys.argv[1]
@@ -273,6 +274,49 @@ def main():
 
     # 수정된 코드 컴파일 및 테스트
     if(validate_code_output_full_io(final_code, test_in_path, test_out_path)):
+        print("correct")
+    else:
+        print("no")
+
+if __name__ == "__main__":
+    main()
+    """
+    
+    
+def main():
+    if len(sys.argv) != 5:
+        print("Usage: python3 script.py <problem_id> <line_num> <student_code> <step>")
+        sys.exit(1)
+
+    pid = sys.argv[1]
+    line_num = sys.argv[2]
+    student_code = sys.argv[3]
+    step = sys.argv[4]  # step 인자 추가
+
+    student_code = ast.literal_eval(f"'{student_code}'")
+
+    filename = f"../tagged_code/{pid}_step{step}.txt"
+    test_in_path = f"../../../data/{pid}"
+
+    code_lines = read_code_lines(filename)
+
+    includes, blocks, closing_braces, all_blocks, block_indices = get_blocks(code_lines)  
+
+    block_num = int(line_num)
+    new_code = student_code
+
+    if not (0 <= block_num < len(blocks)):
+        print("Invalid block number")
+        return
+
+    new_block = [line + '\n' for line in new_code.split('\\n')]
+    blocks[block_num] = new_block
+    all_blocks[block_indices[block_num][1]] = new_block
+
+    final_code = ''.join(line for block in all_blocks for line in block)
+    final_code = re.sub(r'\[[^\]]*\]', '', final_code)
+
+    if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
     else:
         print("no")

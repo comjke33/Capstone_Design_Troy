@@ -223,7 +223,7 @@ function submitAnswer(index) {
         index: index
     });
 
-    fetch("../../ajax/check_answer_STEP1.php", {
+    fetch("../../ajax/check_answer_STEP.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
