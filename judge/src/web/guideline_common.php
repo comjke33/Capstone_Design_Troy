@@ -12,7 +12,7 @@ function guidelineFilter($text) {
         $line = rtrim($line);
 
         // 시작 태그일 경우 새 블록 생성 및 스택에 추가
-        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_start\((\d+)\)\]/', $line, $m)) {
+        if (preg_match('/\[(func_def|rep|cond|self|struct|construct|main_def)_start\((\d+)\)\]/', $line, $m)) {
             $block = [
                 'type' => $m[1], // 태그 이름
                 'index' => $m[2], // 태그 번호
@@ -29,7 +29,7 @@ function guidelineFilter($text) {
         }
 
         // 종료 태그만나면 동일한 type, index가진 블록 찾아 pop
-        if (preg_match('/\[(func_def|rep|cond|self|struct|construct)_end\((\d+)\)\]/', $line, $m)) {
+        if (preg_match('/\[(func_def|rep|cond|self|struct|construct|main_def)_end\((\d+)\)\]/', $line, $m)) {
             for ($i = count($stack) - 1; $i >= 1; $i--) {
                 if ($stack[$i]['type'] === $m[1] && $stack[$i]['index'] == $m[2]) {
                     array_pop($stack);
