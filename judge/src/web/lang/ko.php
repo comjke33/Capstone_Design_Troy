@@ -2,7 +2,7 @@
 	//oj-header.php
 	$MSG_FAQ="문제해결전략 게시판";
 	$MSG_BBS="묻고답하기";
-	$MSG_HOME="처음화면";
+	$MSG_HOME="홈";
 	$MSG_PROBLEMS="문제";
 	$MSG_STATUS="채점기록";
 	$MSG_RANKLIST="순위";
