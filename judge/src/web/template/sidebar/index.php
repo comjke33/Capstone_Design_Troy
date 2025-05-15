@@ -5,7 +5,7 @@
         <div class="eleven wide column">
             <!-- 홈 화면 공지사항 부분 -->
             <!-- <h4 class="ui top attached block header"><i class="ui info icon"></i><?php echo $MSG_NEWS;?></h4> -->
-            <div class="ui bottom attached segment">
+            <!-- <div class="ui bottom attached segment">
                 <table class="ui very basic table">
 
                     <!-- 최근 문제 부분-->
@@ -15,7 +15,7 @@
                             <th><?php echo $MSG_TIME;?></th>
                         </tr>
                     </thead> -->
-                    <tbody>
+                    <!-- <tbody>
                         <?php
                         $sql_news = "select * FROM `news` WHERE `defunct`!='Y' AND `title`!='faqs.cn' ORDER BY `importance` ASC,`time` DESC LIMIT 10";
                         $result_news = mysql_query_cache( $sql_news );
@@ -32,7 +32,7 @@
                         ?>
                     </tbody>
                 </table>
-            </div>
+            </div>  -->
 <?php
 
 // 문제를 푼 제출 및 통과 그래프
