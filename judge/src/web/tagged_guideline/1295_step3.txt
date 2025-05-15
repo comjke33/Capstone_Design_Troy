@@ -1,0 +1,16 @@
+[func_def_start(0)]
+이 함수는 사용자로부터 5개의 좌표점을 읽어오는 read_data라는 사용자 정의 함수입니다. 이 함수는 정수 n과 함께, 두 개의 float 배열 x와 y를 인자로 받습니다. 또한 세 개의 float 변수를 사용하여 두 변수를 저장할 준비를 합니다.
+각 좌표점을 읽어와서 로그 값을 계산하는 loop를 작성하세요.
+[func_def_end(0)]
+[func_def_start(0)]
+이 함수는 calculate_coefficients라는 사용자 정의 함수입니다. 이 함수는 세 개의 float 변수를 받으면, a와 b라는 두 개의 float 변수를 계산할 준비를 합니다. 사용자로부터 입력된 로그의 합, y의 총합, 로그의 제곱의 합, y와 로그의 곱의 합을 활용하여 a와 b의 값을 계산하세요.
+[func_def_end(0)]
+[func_def_start(0)]
+이 함수는 predict_value라는 사용자 정의 함수입니다. 이 함수는 세 개의 float 변수를 받으면, a와 b라는 두 개의 float 변수를 활용하여 예측값을 출력하세요.
+[func_def_end(0)]
+[func_def_start(0)]
+main 함수입니다. float 배열 x와 y를 선언하고, 두 변수를 저장할 변수를 선언하세요. sum_logx, sum_y, sum_logx2, sum_ylogx에 대한 변수를 선언하고 각 변수를 0으로 초기화하세요.
+read_data 함수를 호출하여 사용자로부터 5개의 좌표점을 입력받으세요. 그 다음, calculate_coefficients 함수를 호출하여 a와 b를 계산하세요.
+두 개의 입력받은 값 x와 예측 결과 y를 출력하세요.
+[self_end(1)]
+[func_def_end(0)]

@@ -1,0 +1,29 @@
+#include <stdio.h>
+[func_def_start(0)]
+int main () {
+[self_start(1)]
+    int N, M;
+    int arr[100][100];
+    scanf ("%d %d", &N, &M );
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; i <N; i++) {
+        for (int j =0; j <M; j++) {
+            scanf ("%d", &arr[i][j] );
+        }
+[rep_end(1)]
+    }
+[rep_start(1)]
+    for (int j =0; j <M; j++) {
+        for (int i =0; i <N; i++) {
+            printf ("%d", arr[i][j] );
+            if (i <N -1 ) printf (" " );
+        }
+        printf ("\n" );
+[rep_end(1)]
+    }
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[func_def_end(0)]
+}

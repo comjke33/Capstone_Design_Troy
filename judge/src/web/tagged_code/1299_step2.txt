@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <string.h>
+[func_def_start(0)]
+int main () {
+[self_start(1)]
+    char word[101];
+    scanf ("%s", word );
+    int len =strlen (word );
+    int isPalindrome =1;
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; i <len /2; i++) {
+[cond_start(2)]
+        if (word[i] !=word[len -1 -i] ) {
+
+            isPalindrome =0;
+            break;
+
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    printf ("%d\n", isPalindrome );
+    return 0;
+[self_end(1)]
+[func_def_end(0)]
+}

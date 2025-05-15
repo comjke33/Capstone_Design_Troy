@@ -1,0 +1,38 @@
+[func_def_start(0)]
+정수형 변수 n을 매개변수로 받는 함수 hanoi를 정의하세요. 이 함수는 재귀적으로 동작하며, 원반을 3개의 기둥으로 옮기는 최소 이동 횟수를 계산합니다.
+[cond_start(1)]
+n이 1일 때 동작하는 조건을 작성하세요. 하나의 원반만 옮기면 되는 상황을 확인하는 탈출조건입니다.
+[self_start(2)]
+1개의 원반을 이동하는 데 필요한 최소 이동 횟수 1을 반환하세요.
+[self_end(2)]
+[cond_end(1)]
+[self_start(1)]
+n이 1보다 큰 경우이므로, 2 * hanoi (n - 1) 더하기 1을 반환하는 식으로 재귀 호출을 수행합니다.
+[self_end(1)]
+[func_def_end(0)]
+
+[func_def_start(0)]
+정해진 결과 출력 및 입력 받기를 위한 getInputAndPrintResult 함수를 정의하세요.
+[self_start(1)]
+n을 입력 받기 위한 int형 변수를 선언하세요.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 n을 입력 받으세요.
+[self_end(1)]
+[self_start(1)]
+n을 매개변수로 hanoi 함수를 호출하세요.
+[self_start(2)]
+hanoi 함수 반환 값을 %lld 포맷팅을 통해 출력하세요.
+[self_end(2)]
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+getInputAndPrintResult 함수를 호출하세요.
+[self_end(1)]
+[self_start(1)]
+프로그램 종료를 위해 0을 반환하세요.
+[self_end(1)]
+[main_def_end(0)]

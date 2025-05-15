@@ -1,0 +1,18 @@
+[main_def_start(0)]
+[main_start(1)]
+[self_start(2)]
+정수형 변수 n을 선언하세요.
+[self_end(2)]
+[rep_start(2)]
+n에 정수를 입력 받을 때까지 반복하는 while문을 작성하세요.
+[rep_end(2)]
+[self_start(3)]
+scanf 함수를 이용하여 n에 정수를 입력 받으세요.
+[self_end(3)]
+[cond_start(2)]
+입력한 n이 -1 인 경우 break문을 실행하세요.
+[rep_end(1)]
+[self_start(1)]
+프로그램 종료를 위해 0을 반환하세요.
+[self_end(1)]
+[main_def_end(0)]

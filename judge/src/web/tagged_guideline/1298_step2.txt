@@ -1,0 +1,48 @@
+[func_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+정수형 변수 n을 선언하세요.
+[self_end(1)]
+[rep_start(1)]
+무한 반복문을 작성하세요.
+[self_start(2)]
+정수형 변수 n을 입력받기 위해 scanf를 사용하세요.
+[self_end(2)]
+[cond_start(2)]
+if 문을 사용하여 n이 -1 이면 반복문을 break 하세요.
+[cond_end(2)]
+[self_start(2)]
+정수형 변수 sum을 0으로 초기화하고, 정수형 배열 divisors와 count를 선언하세요.
+[self_end(2)]
+[rep_start(2)]
+n의 약수를 구하기 위해 반복문을 작성하세요. i는 1부터 n/2까지 증가하는 정수입니다.
+[cond_start(3)]
+n을 i로 나눈 나머지가 0일 경우, sum에 i를 더하고, divisors 배열의 count를 증가시켜 i를 저장하세요.
+[cond_end(3)]
+[rep_end(2)]
+[cond_start(2)]
+sum이 n과 같다면 조건을 확인하세요.
+[self_start(3)]
+n 값을 출력하고, 조건을 만족하는 경우 추가 정보도 출력하세요.
+[self_end(3)]
+[rep_start(3)]
+divisors 배열의 각 요소를 출력하기 위해 반복문을 작성하세요.
+[self_start(4)]
+divisor의 값을 출력하세요.
+[cond_start(4)]
+divisors 배열의 요소의 인덱스가 마지막 인덱스 (count - 1)가 아닐 경우, " + "를 출력하세요.
+[cond_end(4)]
+[rep_end(3)]
+[self_start(3)]
+새로운 줄을 출력하세요.
+[self_end(3)]
+[cond_end(2)]
+조건을 만족하는 경우를 처리하세요.
+[cond_start(2)]
+else 문을 사용하여 n이 완벽한 수일 경우를 처리하세요.
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 정상적으로 종료하세요.
+[self_end(1)]
+[func_def_end(0)]

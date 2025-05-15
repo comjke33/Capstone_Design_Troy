@@ -1,0 +1,16 @@
+[func_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+문자열을 저장할 char 배열 word를 선언하고, 사용자로부터 입력을 받아 word에 저장하세요.
+len 변수를 사용하여 입력된 문자열의 길이를 계산하고, strlen 함수를 이용하여 길이를 저장하세요.
+isPalindrome 변수를 1로 초기화하여 문자열이 palindrome인지 확인하는 것을 위한 상태를 나타내세요.
+[self_end(1)]
+[rep_start(1)]
+문자열의 두 절반을 비교하는 반복문을 작성하세요.
+반복문 내에서 word의 두 번째 인덱스와 마지막 인덱스에서 len의 절반만큼 거리에 있는 문자를 비교하세요.
+이 두 문자가 다르면 isPalindrome 변수를 0으로 설정하고 반복문을 break하여 즉시 중단하세요.
+[rep_end(1)]
+[self_start(1)]
+isPalindrome의 값을 출력하고 프로그램을 종료하세요.
+[self_end(1)]
+[func_def_end(0)]

@@ -1,0 +1,82 @@
+[func_def_start(0)]
+주어진 데이터의 x, y 값을 저장하기 위한 함수를 정의하세요.
+x[], y[]에 각각 x와 y의 값을 저장하기 위한 float 타입 배열입니다.
+n은 데이터 포인트의 개수입니다.
+sum_logx는 x의 자연로그의 합을 저장하기 위한 변수입니다.
+sum_y는 y의 합을 저장하기 위한 변수입니다.
+sum_logx2는 x의 자연로그를 제곱한 값의 합을 저장하기 위한 변수입니다.
+sum_ylogx는 y * x의 합을 저장하기 위한 변수입니다.
+[rep_start(1)]
+x[i]와 y[i]의 값을 각각 받기 위해 i를 0부터 n-1까지 반복하는 for문을 작성하세요.
+[self_start(2)]
+scanf 함수를 이용하여 x[i]와 y[i]에 각각 데이터를 입력 받으세요.
+[self_end(2)]
+[self_start(2)]
+log(x[i])를 계산하여 lx를 정의하세요. x의 자연로그입니다.
+[self_end(2)]
+[self_start(2)]
+sum_logx에 lx를 더하세요. x의 자연로그의 합을 계산합니다.
+[self_end(2)]
+[self_start(2)]
+sum_y에 y[i]를 더하세요. y의 합을 계산합니다.
+[self_end(2)]
+[self_start(2)]
+lx * lx를 계산하여 sum_logx2에 저장하세요. x의 자연로그를 제곱한 값의 합을 계산합니다.
+[self_end(2)]
+[self_start(2)]
+y[i] * lx를 계산하여 sum_ylogx에 저장하세요. y * x의 합을 계산합니다.
+[self_end(2)]
+[rep_end(1)]
+[func_def_end(0)]
+
+[func_def_start(0)]
+계수 a와 b를 계산하는 함수를 정의하세요.
+sum_logx, sum_y, sum_logx2, sum_ylogx는 read_data 함수에서 각각 계산된 값입니다.
+a는 y = a + b*ln(x) 모델의 a 값입니다.
+b는 y = a + b*ln(x) 모델의 b 값입니다.
+[self_start(1)]
+b를 구하는 공식: b = (5 * sum_ylogx - sum_logx * sum_y) / (5 * sum_logx2 - sum_logx * sum_logx)를 계산하세요.
+[self_end(1)]
+[self_start(1)]
+a를 구하는 공식: a = (sum_y - b * sum_logx) / 5를 계산하세요.
+[self_end(1)]
+[func_def_end(0)]
+
+[func_def_start(0)]
+정해진 a와 b를 이용하여 입력 x에 대한 예측값을 계산하는 함수를 정의하세요.
+a는 a 값입니다.
+b는 b 값입니다.
+input_x는 예측을 원할 때 사용되는 입력 값입니다.
+[self_start(1)]
+log(input_x)를 계산하여 b를 곱하세요.
+[self_end(1)]
+[self_end(1)]
+y = a + b*ln(x)의 예측값을 반환하세요.
+[func_def_end(0)]
+
+[main_def_start(0)]
+프로그램의 시작 부분입니다.
+[self_start(1)]
+x[5]와 y[5]를 각각 5개의 데이터 포인트를 저장할 float 배열로 초기화하세요.
+sum_logx, sum_y, sum_logx2, sum_ylogx는 각각 자연로그 합, y의 합, x의 자연로그 제곱 합, y*x 합을 저장할 float 타입의 초기값입니다.
+[self_end(1)]
+[self_start(1)]
+read_data 함수를 호출하여 데이터를 수집하세요. x와 y 값을 입력 받습니다.
+n에 입력받은 데이터 포인트의 개수를 설정하세요.
+[self_end(1)]
+[self_start(1)]
+a와 b의 값을 저장할 float 타입의 변수 a와 b를 선언하세요.
+[self_end(1)]
+[self_start(1)]
+calculate_coefficients 함수를 호출하여 a와 b를 계산하세요.
+[self_end(1)]
+[self_start(1)]
+입력 x 값을 받기 위해 scanf 함수를 사용하세요.
+[self_end(1)]
+[self_start(1)]
+predict_value 함수를 호출하여 입력된 x에 대한 예측값을 출력하세요.
+[self_end(1)]
+[self_start(1)]
+프로그램 종료를 위해 0을 반환하세요.
+[self_end(1)]
+[main_def_end(0)]
