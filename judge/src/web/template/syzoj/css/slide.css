@@ -4,7 +4,9 @@
     height: 300px;
     overflow: hidden;
     background-color: transparent !important;
+    margin-bottom: 20px; /* 슬라이드와 아래 콘텐츠 사이 간격 */
 }
+
 .carousel-slide {
     position: absolute;
     width: 100%;
@@ -15,9 +17,11 @@
     opacity: 0;
     transition: opacity 1s ease-in-out;
 }
+
 .carousel-slide.active {
     opacity: 1;
 }
+
 .carousel-dots {
     position: absolute;
     bottom: 10px;
@@ -26,6 +30,7 @@
     display: flex;
     z-index: 2;
 }
+
 .carousel-dot {
     width: 10px;
     height: 10px;
@@ -34,6 +39,7 @@
     margin: 0 5px;
     cursor: pointer;
 }
+
 .carousel-dot.active {
     background-color: rgba(255, 255, 255, 0.5); /* 반투명 흰색 */
 }
@@ -53,9 +59,29 @@
     font-size: 20px;
     z-index: 2;
 }
+
 .carousel-arrow.left {
     left: 10px;
 }
+
 .carousel-arrow.right {
     right: 10px;
+}
+
+/* 추가: 슬라이드와 관련된 텍스트 스타일 */
+.carousel-header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3; /* 텍스트가 슬라이드 이미지 위에 오도록 */
+}
+
+/* 아래 콘텐츠와의 간격을 위한 스타일 */
+.ui.three.column.grid {
+    margin-top: 30px; /* 각 섹션 간 간격 */
 }
