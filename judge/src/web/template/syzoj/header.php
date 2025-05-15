@@ -102,7 +102,7 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=0.5">
     <title><?php echo $show_title ?></title>
-    <?php include(dirname(__FILE__)."/css.php");?>
+    <!-- <?php include(dirname(__FILE__)."/css.php");?> -->
         <style>
 @media (max-width: 991px) {
         .mobile-only {
