@@ -2524,23 +2524,23 @@
         }
     }
 
-    $.plot = function(placeholder, data, options) {
-        //var t0 = new Date();
-        var plot = new Plot($(placeholder), data, options, $.plot.plugins);
-        //(window.console ? console.log : alert)("time used (msecs): " + ((new Date()).getTime() - t0.getTime()));
-        return plot;
-    };
+    // $.plot = function(placeholder, data, options) {
+    //     //var t0 = new Date();
+    //     var plot = new Plot($(placeholder), data, options, $.plot.plugins);
+    //     //(window.console ? console.log : alert)("time used (msecs): " + ((new Date()).getTime() - t0.getTime()));
+    //     return plot;
+    // };
 
-    $.plot.version = "0.7";
+    // $.plot.version = "0.7";
     
-    $.plot.plugins = [];
+    // $.plot.plugins = [];
 
-    // returns a string with the date d formatted according to fmt
-    $.plot.formatDate = function(d, fmt, monthNames) {
-        var leftPad = function(n) {
-            n = "" + n;
-            return n.length == 1 ? "0" + n : n;
-        };
+    // // returns a string with the date d formatted according to fmt
+    // $.plot.formatDate = function(d, fmt, monthNames) {
+    //     var leftPad = function(n) {
+    //         n = "" + n;
+    //         return n.length == 1 ? "0" + n : n;
+    //     };
         
         var r = [];
         var escape = false, padNext = false;
