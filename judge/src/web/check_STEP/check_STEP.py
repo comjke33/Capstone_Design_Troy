@@ -300,17 +300,12 @@ def main():
     answer_file = params.get("answer_file", "")
     step = params.get("step", "1")
 
-    # 답안 파일 읽기 (원래 형태 그대로 읽음)
+    # 답안 파일 읽기
     try:
         with open(answer_file, 'r', encoding='utf-8') as f:
             answer = f.read()
     except FileNotFoundError:
         answer = "파일을 읽을 수 없습니다."
-
-    # 디버깅 로그
-    with open("/tmp/python_debug.log", "a") as log_file:
-        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, step: {step}\n")
-        log_file.write(f"Answer: {answer}\n")
 
     # 피드백 파일에 결과 저장
     with open(feedback_file, 'w', encoding='utf-8') as f:
