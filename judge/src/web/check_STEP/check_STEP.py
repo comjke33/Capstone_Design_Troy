@@ -4,6 +4,7 @@ import re
 import os
 import sys
 import ast
+import json
 
 def is_tag_line(line):
     """태그 줄인지 판별"""
