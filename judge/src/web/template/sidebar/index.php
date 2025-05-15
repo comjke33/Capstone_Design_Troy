@@ -5,6 +5,7 @@
         <div class="eleven wide column">
 
         </div>
+            <!-- 검색 -->
             <h4 class="ui top attached block header"><i class="ui search icon"></i><?php echo $MSG_SEARCH;?></h4>
             <div class="ui bottom attached segment">
                 <form action="problem.php" method="get">
@@ -18,9 +19,42 @@
                 </form>
             </div>            
 
+            <!-- 최근 문제 -->
+            <h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM;?> </h4>
+            <div class="ui bottom attached segment">
+                <table class="ui very basic center aligned table">
+                    <thead>
+                        <tr>
+                            <th width="60%"><?php echo $MSG_TITLE;?></th>
+                            <th width="40%"><?php echo $MSG_TIME;?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                   <?php
+		$noip_problems=array_merge(...mysql_query_cache("select problem_id from contest c left join contest_problem cp on start_time<'$now' and end_time>'$now' and c.title like ? and c.contest_id=cp.contest_id","%$OJ_NOIP_KEYWORD%"));
+		$noip_problems=array_unique($noip_problems);
+                         if(isset($_SESSION[$OJ_NAME."_user_id"])) $user_id=$_SESSION[$OJ_NAME."_user_id"]; else $user_id='guest';
+                        $sql_problems = "select p.problem_id,title,max_in_date from (select problem_id,min(result) best,max(in_date) max_in_date from solution
+                                where user_id=? and result>=4 and problem_id>0 group by problem_id ) s inner join problem p on s.problem_id=p.problem_id
+                             where s.best>4 order by max_in_date desc  LIMIT 5";
+                        $result_problems = mysql_query_cache( $sql_problems ,$user_id);
+                        if ( !empty($result_problems) ) {
+                            $i = 1;
+			    foreach ( $result_problems as $row ) {
+				if(in_array(strval($row['problem_id']),$noip_problems)) continue;
+                                echo "<tr>"."<td>"
+                                    ."<a href=\"problem.php?id=".$row["problem_id"]."\">"
+                                    .$row["title"]."</a></td>"
+                                    ."<td>".substr($row["max_in_date"],5,5)."</td>"."</tr>";
+                            }
+                        }
+                    ?>
+                    </tbody>
+                </table>
+            </div>
 <?php
 
-            <h4 class="ui top attached block header"><i class="ui star icon"></i><?php echo $OJ_INDEX_NEWS_TITLE;?></h4>
+            // <h4 class="ui top attached block header"><i class="ui star icon"></i><?php echo $OJ_INDEX_NEWS_TITLE;?></h4>
             <div class="ui bottom attached segment">
                 <table class="ui very basic left aligned table" style="table-layout: fixed; ">
                     <tbody>
@@ -48,39 +82,7 @@
             </div>
         </div>
         <div class="right floated five wide column">
-            <h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM;?> </h4>
-            <div class="ui bottom attached segment">
-                <table class="ui very basic center aligned table">
-                    <thead>
-                        <tr>
-                            <th width="60%"><?php echo $MSG_TITLE;?></th>
-                            <th width="40%"><?php echo $MSG_TIME;?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                   <?php
-                        // 未解之谜
-		$noip_problems=array_merge(...mysql_query_cache("select problem_id from contest c left join contest_problem cp on start_time<'$now' and end_time>'$now' and c.title like ? and c.contest_id=cp.contest_id","%$OJ_NOIP_KEYWORD%"));
-		$noip_problems=array_unique($noip_problems);
-                         if(isset($_SESSION[$OJ_NAME."_user_id"])) $user_id=$_SESSION[$OJ_NAME."_user_id"]; else $user_id='guest';
-                        $sql_problems = "select p.problem_id,title,max_in_date from (select problem_id,min(result) best,max(in_date) max_in_date from solution
-                                where user_id=? and result>=4 and problem_id>0 group by problem_id ) s inner join problem p on s.problem_id=p.problem_id
-                             where s.best>4 order by max_in_date desc  LIMIT 5";
-                        $result_problems = mysql_query_cache( $sql_problems ,$user_id);
-                        if ( !empty($result_problems) ) {
-                            $i = 1;
-			    foreach ( $result_problems as $row ) {
-				if(in_array(strval($row['problem_id']),$noip_problems)) continue;
-                                echo "<tr>"."<td>"
-                                    ."<a href=\"problem.php?id=".$row["problem_id"]."\">"
-                                    .$row["title"]."</a></td>"
-                                    ."<td>".substr($row["max_in_date"],5,5)."</td>"."</tr>";
-                            }
-                        }
-                    ?>
-                    </tbody>
-                </table>
-            </div>
+            
             
             <h4 class="ui top attached block header"><i class="ui calendar icon"></i><?php echo $MSG_RECENT_CONTEST ;?></h4>
             <div class="ui bottom attached center aligned segment">
