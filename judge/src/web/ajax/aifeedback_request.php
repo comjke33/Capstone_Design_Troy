@@ -1,5 +1,6 @@
 <?php
-session_start();  // 세션 시작
+// AI 피드백 요청 처리
+session_start(); // 세션 시작
 
 // JSON 데이터 수신 및 파싱
 $data = json_decode(file_get_contents("php://input"), true);
@@ -8,64 +9,71 @@ $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // step 인자 추가
 
-// 모범 코드 가져오기
-function getModelAnswer($problemId) {
-    try {
-        $pdo = new PDO("mysql:host=localhost;dbname=jol", "hustoj", "JGqRe4pltka5e5II4Di3YZdmxv7SGt");
-        $stmt = $pdo->prepare("SELECT exemplary_code FROM exemplary WHERE problem_id = ?");
-        $stmt->execute([$problemId]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['exemplary_code'] ?? "모범 코드 없음";
-    } catch (PDOException $e) {
-        return "DB 오류: " . $e->getMessage();
-    }
+// 학생 ID 가져오기: 세션에서 먼저 가져오고 없으면 uniqid로 대체
+$studentId = $_SESSION['user_id'] ?? uniqid();
+
+// 디버깅: 입력 데이터 확인
+file_put_contents("/tmp/php_debug.log", "Received Data: " . json_encode($data, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND);
+
+// 학생별 디렉토리 생성
+$studentDir = "/tmp/aifeedback/" . $studentId;
+if (!is_dir($studentDir)) {
+    mkdir($studentDir, 0777, true);
 }
 
-// 가이드라인 가져오기
-function getGuideline($problemId, $step) {
-    $filePath = "/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/{$problemId}_step{$step}.txt";
-    if (file_exists($filePath)) {
-        return file_get_contents($filePath);
-    }
-    return "가이드라인 없음";
-}
-
-// 모범 코드와 가이드라인 불러오기
-$modelAnswer = getModelAnswer($problemId);
-$guideline = getGuideline($problemId, $step);
-
-// 세션 ID를 이용하여 고유 파일명 생성
-$session_id = session_id() ?: uniqid();
-$tmpFile = sys_get_temp_dir() . "/aifeedback_input_" . $session_id . ".json";
+// JSON 파일 경로
+$tmpFile = $studentDir . "/input_" . $problemId . "_" . $index . ".json";
 
 // 파라미터를 파일에 기록 (JSON 형식)
 file_put_contents($tmpFile, json_encode([
     "problem_id" => $problemId,
     "index" => $index,
     "block_code" => $blockCode,
-    "step" => $step,
-    "model_answer" => $modelAnswer,
-    "guideline" => $guideline
+    "step" => $step
 ], JSON_UNESCAPED_UNICODE));
 
 // 파일 권한 설정
 chmod($tmpFile, 0666);
 
+// 파일 존재 여부 확인 로그
+if (file_exists($tmpFile)) {
+    file_put_contents("/tmp/php_debug.log", "JSON 파일 생성 성공: $tmpFile\n", FILE_APPEND);
+} else {
+    file_put_contents("/tmp/php_debug.log", "JSON 파일 생성 실패: $tmpFile\n", FILE_APPEND);
+}
+
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "/home/Capstone_Design_Troy/judge/src/web/aifeedback/aifeedback.py";
+
+// 파이썬 명령어 구성 (절대 경로 사용)
 $cmd = "python3 " . escapeshellarg($scriptPath) . " " . escapeshellarg($tmpFile);
+
+// 디버깅 로그
+file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);
 
 // 파이썬 스크립트 실행 및 결과 수신
 exec($cmd, $output, $return_var);
 
+// 디버깅 로그 추가
+file_put_contents("/tmp/php_debug.log", "Python Output: " . implode("\n", $output) . "\n", FILE_APPEND);
+
 // 피드백을 하나의 문자열로 합치기
 $feedback = implode("\n", $output);
+file_put_contents("/tmp/php_debug.log", "Merged Feedback: " . $feedback . "\n", FILE_APPEND);
 
 // 결과 처리
 $response = [
     "result" => $feedback,
     "status" => $return_var === 0 ? "success" : "error"
 ];
+
+// 파일 삭제 (보안과 디스크 사용량 관리)
+if (file_exists($tmpFile)) {
+    unlink($tmpFile);
+}
+
+// 디버깅: PHP에서 결과 출력 확인
+file_put_contents("/tmp/php_debug.log", "PHP 처리 결과: " . json_encode($response, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND);
 
 // JSON으로 반환
 header("Content-Type: application/json");
