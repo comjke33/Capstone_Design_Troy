@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="<?php echo "template/$OJ_TEMPLATE"; ?>/css/slide.css">
 
 <div class="padding">
-  <div class="ui three column grid" style="background-color: transparent;">
+  <div class="ui three column grid" style="background-color: none;">
     <div class="eleven wide column">
       <?php if(file_exists("image/slide1.jpg")) { ?>
         <h4 class="ui top attached block header" style='margin-top: 10px;'><i class="th icon"></i><?php echo $OJ_NAME ?></h4>
