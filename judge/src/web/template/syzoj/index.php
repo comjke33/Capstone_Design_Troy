@@ -91,7 +91,7 @@
     <div class="right floated five wide column">
 
       <h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM; ?> </h4>
-      <div class="ui bottom attached segment">
+      <!-- <div class="ui bottom attached segment">
         <table class="ui very basic center aligned table">
           <thead><tr><th><?php echo $MSG_TITLE; ?></th><th><?php echo $MSG_TIME; ?></th></tr></thead>
           <tbody>
@@ -110,10 +110,10 @@
             ?>
           </tbody>
         </table>
-      </div>
+      </div> -->
 
       <h4 class="ui top attached block header"><i class="ui search icon"></i><?php echo $MSG_SEARCH; ?></h4>
-      <div class="ui bottom attached segment">
+      <!-- <div class="ui bottom attached segment">
         <form action="problem.php" method="get">
           <div class="ui search">
             <div class="ui left icon input">
@@ -122,7 +122,7 @@
             </div>
           </div>
         </form>
-      </div>
+      </div> -->
 
       <h4 class="ui top attached block header"><i class="ui calendar icon"></i><?php echo $MSG_RECENT_CONTEST; ?></h4>
       <div class="ui bottom attached center aligned segment">
