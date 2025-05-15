@@ -1,0 +1,49 @@
+#include <stdio.h>
+[main_def_start(0)]
+int main () {
+[self_start(1)]
+    int N, M;
+[self_end(1)]
+[self_start(1)]
+    int arr[100][100];
+[self_end(1)]
+[self_start(1)]
+    scanf ("%d %d", &N, &M );
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; i <N; i++) {
+[rep_start(2)]
+        for (int j =0; j <M; j++) {
+[self_start(3)]
+            scanf ("%d", &arr[i][j] );
+[self_end(3)]
+[rep_end(2)]
+        }
+[rep_end(1)]
+    }
+[rep_start(1)]
+    for (int j =0; j <M; j++) {
+[rep_start(2)]
+        for (int i =0; i <N; i++) {
+[self_start(3)]
+            printf ("%d", arr[i][j] );
+[self_end(3)]
+[cond_start(3)]
+if (i <N -1 ) {
+[self_start(4)]
+printf (" " );
+[self_end(4)]
+[cond_end(3)]
+}
+[rep_end(2)]
+        }
+[self_start(2)]
+        printf ("\n" );
+[self_end(2)]
+[rep_end(1)]
+    }
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

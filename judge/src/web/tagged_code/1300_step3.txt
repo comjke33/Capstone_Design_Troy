@@ -1,0 +1,13 @@
+#include <stdio.h>
+[func_def_start(0)]
+int main () {
+[self_start(1)]
+    char hex[7];
+    scanf ("%s", hex );
+    int decimal;
+    sscanf (hex, "%x", &decimal );
+    printf ("%d\n", decimal );
+    return 0;
+[self_end(1)]
+[func_def_end(0)]
+}

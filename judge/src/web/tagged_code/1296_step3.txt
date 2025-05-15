@@ -1,0 +1,22 @@
+#include <stdio.h>
+[func_def_start(0)]
+long long hanoi (int n ) {
+    if (n ==1 ) return 1;
+    return 2 *hanoi (n -1 ) +1;
+[func_def_end(0)]
+}
+[func_def_start(0)]
+void getInputAndPrintResult () {
+    int n;
+    scanf ("%d", &n );
+    printf ("%lld", hanoi (n ) );
+[func_def_end(0)]
+}
+[func_def_start(0)]
+int main () {
+[self_start(1)]
+    getInputAndPrintResult ();
+    return 0;
+[self_end(1)]
+[func_def_end(0)]
+}

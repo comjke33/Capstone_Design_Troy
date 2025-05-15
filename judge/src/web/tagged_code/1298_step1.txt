@@ -1,0 +1,79 @@
+#include <stdio.h>
+[main_def_start(0)]
+int main () {
+[self_start(1)]
+    int n;
+[self_end(1)]
+[rep_start(1)]
+    while (1 ) {
+[self_start(2)]
+        scanf ("%d", &n );
+[self_end(2)]
+[cond_start(2)]
+if (n ==-1 ) {
+[self_start(3)]
+break;
+[self_end(3)]
+[cond_end(2)]
+}
+[self_start(2)]
+        int sum =0;
+[self_end(2)]
+[self_start(2)]
+        int divisors[100000];
+[self_end(2)]
+[self_start(2)]
+        int count =0;
+[self_end(2)]
+[rep_start(2)]
+        for (int i =1; i <=n /2; i++) {
+[cond_start(3)]
+            if (n %i ==0 ) {
+[self_start(4)]
+                sum +=i;
+[self_end(4)]
+[self_start(4)]
+                divisors[count++] =i;
+[self_end(4)]
+[cond_end(3)]
+            }
+[rep_end(2)]
+        }
+[cond_start(2)]
+        if (sum ==n ) {
+[self_start(3)]
+            printf ("%d = ", n );
+[self_end(3)]
+[rep_start(3)]
+            for (int i =0; i <count; i++) {
+[self_start(4)]
+                printf ("%d", divisors[i] );
+[self_end(4)]
+[cond_start(4)]
+if (i !=count -1 ) {
+[self_start(5)]
+printf (" + " );
+[self_end(5)]
+[cond_end(4)]
+}
+[rep_end(3)]
+            }
+[self_start(3)]
+            printf ("\n" );
+[self_end(3)]
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else {
+[self_start(3)]
+            printf ("%d is NOT perfect.\n", n );
+[self_end(3)]
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}
