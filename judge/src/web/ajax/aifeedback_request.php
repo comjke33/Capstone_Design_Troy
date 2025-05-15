@@ -11,9 +11,8 @@ $step = $data["step"] ?? "1";  // step 인자 추가
 // 디버깅: 입력 데이터 확인
 file_put_contents("/tmp/php_debug.log", "Received Data: " . json_encode($data, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND);
 
-// 세션 ID를 이용하여 고유 파일명 생성
-$session_id = session_id() ?: uniqid();
-$tmpFile = sys_get_temp_dir() . "/aifeedback_input_" . $session_id . ".json";
+// 절대 경로로 JSON 파일 생성 (Python 스크립트와 동일한 디렉토리)
+$tmpFile = "/home/Capstone_Design_Troy/judge/src/web/aifeedback/input_params.json";
 
 // 파라미터를 파일에 기록 (JSON 형식)
 file_put_contents($tmpFile, json_encode([
@@ -57,11 +56,6 @@ $response = [
     "result" => $feedback,
     "status" => $return_var === 0 ? "success" : "error"
 ];
-
-// 파일 삭제 (보안과 디스크 사용량 관리)
-if (file_exists($tmpFile)) {
-    unlink($tmpFile);
-}
 
 // 디버깅: PHP에서 결과 출력 확인
 file_put_contents("/tmp/php_debug.log", "PHP 처리 결과: " . json_encode($response, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND);

@@ -141,7 +141,7 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     학생 코드와 가이드라인, 모범 코드를 참고하여 문제점을 간단히 분석해주세요.
 
     1. 학생 코드가 가이드라인과 다른 부분을 간단히 지적하고 이유를 설명하세요.
-    2. 가이드라인에 맞게 수정하려면 어떤 방향으로 수정해야 하는지 제안해주세요. 단, 답을 알려주어선 안됩니다.
+    2. 가이드라인에 맞게 수정하려면 어떤 방향으로 수정해야 하는지 제안해주세요. 단,
     3. 답변은 문제점, 수정방향 2가지에 대하여만 간단하게 언급해주세요.
     4. 마크업은 하지말아주세요.
     
@@ -200,13 +200,16 @@ def main():
     block_code = params.get("block_code", "작성못함")
     step = int(params.get("step", 1))
 
-    # 디버깅 정보 기록
-    with open("/tmp/python_input_debug.log", "a") as log_file:
-        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
+
 
     # 모범 코드 및 가이드라인 불러오기
     model_answer = get_model_answer(problem_id)
     guideline = get_guideline(problem_id, block_index, step)
+    
+    
+    # 디버깅 정보 기록
+    with open("/tmp/python_input_debug.log", "a") as log_file:
+        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index},block_code: {block_code}, step: {step}, guideline:{guideline}, model_answer: {model_answer}\n")
 
     # 피드백 생성
     hint = generate_hint(block_code, block_index, guideline, model_answer)
