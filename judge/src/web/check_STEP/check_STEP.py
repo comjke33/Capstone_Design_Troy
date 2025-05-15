@@ -282,13 +282,9 @@ if __name__ == "__main__":
     main()
     """
         
-def decode_escaped_string(escaped_string):
-    """이중 이스케이프 처리된 문자열 복원"""
-    return escaped_string.encode().decode('unicode_escape')
-
 def main():
     if len(sys.argv) != 3:
-        print("Usage: python3 script.py <tmp_file> <feedback_file>")
+        print("Usage: python3 script.py <param_file> <feedback_file>")
         sys.exit(1)
 
     param_file = sys.argv[1]
@@ -300,15 +296,20 @@ def main():
 
     problem_id = params.get("problem_id", "0")
     block_index = params.get("index", "0")
-    raw_answer = params.get("answer", "작성못함")
+    answer_file = params.get("answer_file", "")
     step = params.get("step", "1")
 
-    # 이스케이프 처리 복원
-    answer = decode_escaped_string(raw_answer)
+    # 답안 파일 읽기
+    try:
+        with open(answer_file, 'r', encoding='utf-8') as f:
+            answer = f.read()
+    except FileNotFoundError:
+        answer = "파일을 읽을 수 없습니다."
 
-    # 디버깅
+    # 디버깅 로그
     with open("/tmp/python_debug.log", "a") as log_file:
-        log_file.write(f"Received answer: {answer}\n")
+        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, step: {step}\n")
+        log_file.write(f"Answer: {answer}\n")
 
     # 피드백 파일에 결과 저장
     with open(feedback_file, 'w', encoding='utf-8') as f:
