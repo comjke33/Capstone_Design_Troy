@@ -16,7 +16,7 @@ $answerFile = "/tmp/" . $unique_id . ".txt";
 $tmpFile = "/tmp/" . $unique_id . ".json";
 $feedbackFile = "/tmp/" . $unique_id . "_feedback.txt";
 
-// 답안을 파일로 저장
+// 답안을 파일로 저장 (역슬래시 문제 방지)
 file_put_contents($answerFile, $answer);
 
 // 파라미터를 JSON으로 임시 파일에 저장
