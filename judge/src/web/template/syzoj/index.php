@@ -129,12 +129,18 @@ document.querySelector('.carousel').addEventListener('mouseleave', () => autoPla
 $(function () {
   var d1 = <?php echo json_encode($chart_data_all ?? []); ?>;
   var d2 = <?php echo json_encode($chart_data_ac ?? []); ?>;
-  $.plot($('#submission'), [
-    { label: "<?php echo $MSG_SUBMIT ?>", data: d1, lines: { show: true } },
-    { label: "<?php echo $MSG_SOVLED ?>", data: d2, bars: { show: true } }
-  ], {
-    grid: { backgroundColor: { colors: ["#fff", "#eee"] } },
-    xaxis: { mode: "time" }
-  });
+
+  // 조건을 추가하여 차트가 그려지지 않도록 함
+  if (false) {  // false 조건을 넣어 차트를 그리지 않도록 함
+    $.plot($('#submission'), [
+      { label: "<?php echo $MSG_SUBMIT ?>", data: d1, lines: { show: true } },
+      { label: "<?php echo $MSG_SOVLED ?>", data: d2, bars: { show: true } }
+    ], {
+      grid: { backgroundColor: { colors: ["#fff", "#eee"] } },
+      xaxis: { mode: "time" }
+    });
+  }
 });
+
+
 </script>
