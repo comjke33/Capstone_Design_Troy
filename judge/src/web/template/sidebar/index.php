@@ -3,7 +3,7 @@
 <div class="padding">
     <div class="ui three column grid">
         <div class="eleven wide column">
-            z
+            <h4 class="ui top attached block header"><i class="ui info icon"></i><?php echo $MSG_NEWS;?></h4>
             <div class="ui bottom attached segment">
                 <table class="ui very basic table">
                     <thead>
