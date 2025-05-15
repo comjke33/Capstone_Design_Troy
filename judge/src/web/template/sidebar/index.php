@@ -4,12 +4,12 @@
   <div class="ui grid">
     <!-- 검색 -->
     <div class="sixteen wide column">
-      <h4 class="ui top attached block header"><i class="ui search icon"></i><?php echo $MSG_SEARCH;?></h4>
+      <h4 class="ui top attached block header"><i class="ui search icon"></i>검색</h4>
       <div class="ui bottom attached segment">
         <form action="problem.php" method="get">
           <div class="ui search" style="width: 100%;">
             <div class="ui left icon input" style="width: 100%;">
-              <input class="prompt" style="width: 100%;" type="text" placeholder="<?php echo $MSG_PROBLEM_ID;?> …" name="id">
+              <input class="prompt" style="width: 100%;" type="text" placeholder="문제ID ..." name="id">
               <i class="search icon"></i>
             </div>
             <div class="results" style="width: 100%;"></div>
@@ -19,19 +19,18 @@
     </div>
 
     <!-- 최근 문제 -->
-    <div class="sixteen wide column">
-      <h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM;?> </h4>
+    <div class="sixteen wide column" style="margin-top: 20px;">
+      <h4 class="ui top attached block header"><i class="ui rss icon"></i> 최근 문제 </h4>
       <div class="ui bottom attached segment">
         <table class="ui very basic center aligned table">
           <thead>
             <tr>
-              <th width="60%"><?php echo $MSG_TITLE;?></th>
-              <th width="40%"><?php echo $MSG_TIME;?></th>
+              <th width="60%">제목</th>
+              <th width="40%">시간</th>
             </tr>
           </thead>
           <tbody>
             <?php
-              // 최근 문제 쿼리
               $noip_problems=array_merge(...mysql_query_cache("select problem_id from contest c left join contest_problem cp on start_time<'$now' and end_time>'$now' and c.title like ? and c.contest_id=cp.contest_id","%$OJ_NOIP_KEYWORD%"));
               $noip_problems=array_unique($noip_problems);
               $user_id = $_SESSION[$OJ_NAME."_user_id"] ?? 'guest';
@@ -52,9 +51,8 @@
     </div>
 
     <!-- 이달의 우수생 -->
-    <div class="sixteen wide column">
+    <div class="sixteen wide column" style="margin-top: 20px;">
       <?php
-        // 이달의 우수생 쿼리
         $month_id = mysql_query_cache("SELECT solution_id FROM solution WHERE in_date < DATE_ADD(CURDATE(), INTERVAL -DAY(CURDATE())+1 DAY) ORDER BY solution_id DESC LIMIT 1;");
         $month_id = (!empty($month_id) && isset($month_id[0][0])) ? $month_id[0][0] : 0;
 
@@ -62,7 +60,7 @@
           $view_month_rank = mysql_query_cache("SELECT user_id, nick, COUNT(DISTINCT problem_id) ac FROM solution WHERE solution_id > $month_id AND problem_id > 0 AND user_id NOT IN ($OJ_RANK_HIDDEN) AND result = 4 GROUP BY user_id, nick ORDER BY ac DESC LIMIT 10");
           if(!empty($view_month_rank)) {
       ?>
-            <h4 class="ui top attached block header"><i class="ui star icon"></i>이달의 우수생</h4>
+            <h4 class="ui top attached block header"><i class="ui star icon"></i> 이달의 우수생 </h4>
             <div class="ui bottom attached segment">
               <table class="ui very basic center aligned table">
                 <tbody>
