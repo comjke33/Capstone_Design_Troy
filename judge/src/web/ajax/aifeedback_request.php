@@ -6,20 +6,21 @@ $data = json_decode(file_get_contents("php://input"), true);
 $blockCode = $data["block_code"] ?? "작성못함";
 $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
-$step = $data["step"] ?? "1";  // step 인자 추가
+$step = $data["step"] ?? "1";
 
 // 디버깅: 입력 데이터 확인
 file_put_contents("/tmp/php_debug.log", "Received Data: " . json_encode($data, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND);
 
-// 세션 시작 (세션 ID를 이용하여 고유 파일명 생성)
+// 세션 시작
 session_start();
 $user_id = $_SESSION['user_id'] ?? uniqid();  // 세션에 user_id가 없으면 임시 ID 사용
 
-// 고유 파일명 생성 (UUID 또는 세션 ID 기반)
-$unique_filename = uniqid("aifeedback_") . "_" . $user_id . ".json";
-$tmpFile = "/home/Capstone_Design_Troy/judge/src/web/aifeedback/" . $unique_filename;
+// 고유 파일명 생성
+$unique_id = uniqid("aifeedback_");
+$tmpFile = "/tmp/" . $unique_id . ".json";
+$feedbackFile = "/tmp/" . $unique_id . "_feedback.txt";
 
-// 파라미터를 파일에 기록 (JSON 형식)
+// 파라미터를 파일에 기록
 file_put_contents($tmpFile, json_encode([
     "problem_id" => $problemId,
     "index" => $index,
@@ -27,34 +28,24 @@ file_put_contents($tmpFile, json_encode([
     "step" => $step
 ], JSON_UNESCAPED_UNICODE));
 
-// 파일 권한 설정 (www-data만 접근 가능)
-chmod($tmpFile, 0600);  // 보안 강화를 위해 파일 권한 수정
-
-// 파일 존재 여부 확인 로그
-if (file_exists($tmpFile)) {
-    file_put_contents("/tmp/php_debug.log", "JSON 파일 생성 성공: $tmpFile\n", FILE_APPEND);
-} else {
-    file_put_contents("/tmp/php_debug.log", "JSON 파일 생성 실패: $tmpFile\n", FILE_APPEND);
-}
-
 // 파이썬 피드백 스크립트 경로
 $scriptPath = "/home/Capstone_Design_Troy/judge/src/web/aifeedback/aifeedback.py";
 
-// 파이썬 명령어 구성 (절대 경로 사용)
-$cmd = "python3 " . escapeshellarg($scriptPath) . " " . escapeshellarg($tmpFile);
+// 파이썬 명령어 구성
+$cmd = "python3 " . escapeshellarg($scriptPath) . " " . escapeshellarg($tmpFile) . " " . escapeshellarg($feedbackFile);
 
-// 디버깅 로그
-file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);
-
-// 파이썬 스크립트 실행 및 결과 수신
+// 파이썬 스크립트 실행
 exec($cmd, $output, $return_var);
 
-// 디버깅 로그 추가
-file_put_contents("/tmp/php_debug.log", "Python Output: " . implode("\n", $output) . "\n", FILE_APPEND);
+// 피드백 읽기
+if (file_exists($feedbackFile)) {
+    $feedback = file_get_contents($feedbackFile);
+} else {
+    $feedback = "피드백 파일이 존재하지 않습니다.";
+}
 
-// 피드백을 하나의 문자열로 합치기
-$feedback = implode("\n", $output);
-file_put_contents("/tmp/php_debug.log", "Merged Feedback: " . $feedback . "\n", FILE_APPEND);
+// 디버깅 로그 추가
+file_put_contents("/tmp/php_debug.log", "Python Output: " . $feedback . "\n", FILE_APPEND);
 
 // 결과 처리
 $response = [
@@ -62,16 +53,10 @@ $response = [
     "status" => $return_var === 0 ? "success" : "error"
 ];
 
-// 파일 삭제 (보안과 디스크 사용량 관리)
-if (file_exists($tmpFile)) {
-    unlink($tmpFile);
-    file_put_contents("/tmp/php_debug.log", "임시 파일 삭제: $tmpFile\n", FILE_APPEND);
-} else {
-    file_put_contents("/tmp/php_debug.log", "임시 파일 삭제 실패: $tmpFile\n", FILE_APPEND);
+// 피드백 파일 삭제
+if (file_exists($feedbackFile)) {
+    unlink($feedbackFile);
 }
-
-// 디버깅: PHP에서 결과 출력 확인
-file_put_contents("/tmp/php_debug.log", "PHP 처리 결과: " . json_encode($response, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND);
 
 // JSON으로 반환
 header("Content-Type: application/json");
