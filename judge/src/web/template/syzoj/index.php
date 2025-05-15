@@ -45,7 +45,7 @@
         </table>
       </div>
 
-      <?php
+      <!-- <?php
         $month_id = mysql_query_cache("SELECT solution_id FROM solution WHERE in_date<DATE_ADD(CURDATE(), INTERVAL -DAY(CURDATE())+1 DAY) ORDER BY solution_id DESC LIMIT 1;");
         $month_id = (!empty($month_id) && isset($month_id[0][0])) ? $month_id[0][0] : 0;
 
@@ -63,7 +63,7 @@
                 </tbody>
               </table>
             </div>
-      <?php }} ?>
+      <?php }} ?> -->
 
       <h4 class="ui top attached block header"><i class="ui star icon"></i><?php echo $OJ_INDEX_NEWS_TITLE; ?></h4>
       <div class="ui bottom attached segment">
@@ -124,7 +124,7 @@
         </form>
       </div> -->
 
-      <h4 class="ui top attached block header"><i class="ui calendar icon"></i><?php echo $MSG_RECENT_CONTEST; ?></h4>
+      <!-- <h4 class="ui top attached block header"><i class="ui calendar icon"></i><?php echo $MSG_RECENT_CONTEST; ?></h4>
       <div class="ui bottom attached center aligned segment">
         <table class="ui very basic center aligned table">
           <thead><tr><th><?php echo $MSG_CONTEST_NAME; ?></th><th><?php echo $MSG_START_TIME; ?></th></tr></thead>
@@ -138,7 +138,7 @@
             ?>
           </tbody>
         </table>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
