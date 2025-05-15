@@ -4,9 +4,9 @@
 <!-- 외부 CSS 링크 (중복 head 제거) -->
 <link rel="stylesheet" href="<?php echo "template/$OJ_TEMPLATE"; ?>/css/slide.css">
 
-<div class="padding">
-  <div class="ui three column grid">
-    <div class="eleven wide column">
+<div class="padding" style="padding: 0;">
+  <div class="ui grid">
+    <div class="sixteen wide column">
       <?php if(file_exists("image/slide1.jpg")) { ?>
         <h4 class="ui top attached block header" style='margin-top: 10px;'><i class="th icon"></i><?php echo $OJ_NAME ?></h4>
         <div class="ui bottom attached center aligned segment carousel">

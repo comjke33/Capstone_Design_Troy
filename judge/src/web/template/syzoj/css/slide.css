@@ -85,3 +85,12 @@
 .ui.three.column.grid {
     margin-top: 30px; /* 각 섹션 간 간격 */
 }
+
+.ui.grid {
+  margin: 0 !important;
+}
+
+.ui.grid > .column {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
