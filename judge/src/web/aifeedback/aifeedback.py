@@ -200,13 +200,16 @@ def main():
     block_code = params.get("block_code", "작성못함")
     step = int(params.get("step", 1))
 
-    # 디버깅 정보 기록
-    with open("/tmp/python_input_debug.log", "a") as log_file:
-        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}\n")
+
 
     # 모범 코드 및 가이드라인 불러오기
     model_answer = get_model_answer(problem_id)
     guideline = get_guideline(problem_id, block_index, step)
+    
+    
+    # 디버깅 정보 기록
+    with open("/tmp/python_input_debug.log", "a") as log_file:
+        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index},block_code: {block_code}, step: {step}, guideline:{guideline}, model_answer: {model_answer}\n")
 
     # 피드백 생성
     hint = generate_hint(block_code, block_index, guideline, model_answer)
