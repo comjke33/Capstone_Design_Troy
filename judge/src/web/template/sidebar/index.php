@@ -131,32 +131,6 @@ if($NOIP_flag[0]==0)$view_month_rank=mysql_query_cache("select user_id,nick,coun
                     </div>
                 </form>
             </div>
-            <h4 class="ui top attached block header"><i class="ui calendar icon"></i><?php echo $MSG_RECENT_CONTEST ;?></h4>
-            <div class="ui bottom attached center aligned segment">
-                <table class="ui very basic center aligned table">
-                    <thead>
-                        <tr>
-                            <th><?php echo $MSG_CONTEST_NAME;?></th>
-                            <th><?php echo $MSG_START_TIME;?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                        $sql_contests = "select * FROM `contest` where defunct='N' ORDER BY `contest_id` DESC LIMIT 5";
-                        $result_contests = mysql_query_cache( $sql_contests );
-                        if ( $result_contests ) {
-                            $i = 1;
-                            foreach ( $result_contests as $row ) {
-                                echo "<tr>"."<td>"
-                                    ."<a href=\"contest.php?cid=".$row["contest_id"]."\">"
-                                    .$row["title"]."</a></td>"
-                                    ."<td>".substr($row["start_time"],5,5)."</td>"."</tr>";
-                            }
-                        }
-                    ?>
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
 </div>
