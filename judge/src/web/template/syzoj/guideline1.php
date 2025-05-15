@@ -302,6 +302,18 @@ function showFeedback(index) {
     const blockCode = ta ? ta.value.trim() : "";
     const step = urlParams.get("step") || "1";
 
+
+
+    const feedbackPanel = document.querySelector('.right-panel');
+    feedbackPanel.innerHTML = `
+        <h2>📋 피드백 창</h2>
+        <div class="feedback-content">
+            <p>피드백을 가져오는 중입니다...</p>
+        </div>
+    `;
+    feedbackPanel.style.display = 'block';
+
+
     fetch("../../ajax/aifeedback_request.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
