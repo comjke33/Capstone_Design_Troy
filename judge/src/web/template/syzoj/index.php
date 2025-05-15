@@ -4,7 +4,10 @@
 <!-- 외부 CSS 링크 (중복 head 제거) -->
 <link rel="stylesheet" href="<?php echo "template/$OJ_TEMPLATE"; ?>/css/slide.css">
 
-<div class="padding" style="padding: 0;">
+<div class="padding" style="padding: 0; background-color: transparent; background-image: url('../../image/bg.jpg');">
+  <!-- 내용 -->
+</div>
+
   <div class="ui grid">
     <div class="sixteen wide column">
       <?php if(file_exists("image/slide1.jpg")) { ?>
