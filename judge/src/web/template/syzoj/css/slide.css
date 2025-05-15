@@ -87,12 +87,12 @@
 }
 
 .ui.grid {
-  margin-left: 100px;
-  margin-right: 100px;
-  margin: 0 !important;
+  margin-left: 1rem !important;
+  margin-right: 1rem !important;
 }
 
 .ui.grid > .column {
-  padding-right: 0 !important;
-  padding-left: 0 !important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
 }
+
