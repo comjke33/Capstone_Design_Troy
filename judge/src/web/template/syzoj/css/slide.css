@@ -34,7 +34,7 @@
     cursor: pointer;
 }
 .carousel-dot.active {
-    background-color: white;
+    background-color: transparent;
 }
 .carousel-arrow {
     position: absolute;
