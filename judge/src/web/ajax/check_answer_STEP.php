@@ -15,15 +15,15 @@ $user_id = $_SESSION['user_id'] ?? uniqid();
 
 // 고유 파일명 생성
 $unique_id = uniqid("check_step_");
-$answerFile = "/tmp/" . $unique_id . ".txt";
-$tmpFile = "/tmp/" . $unique_id . ".json";
+$answerFile = "/tmp/" . $unique_id . "_answer.txt";
+$paramFile = "/tmp/" . $unique_id . ".json";
 $feedbackFile = "/tmp/" . $unique_id . "_feedback.txt";
 
-// 답안을 파일로 저장 (역슬래시 문제 방지)
+// 답안을 파일로 저장
 file_put_contents($answerFile, $answer);
 
 // 파라미터를 JSON으로 임시 파일에 저장
-file_put_contents($tmpFile, json_encode([
+file_put_contents($paramFile, json_encode([
     "problem_id" => $problemId,
     "index" => $index,
     "answer_file" => $answerFile,
@@ -34,7 +34,7 @@ file_put_contents($tmpFile, json_encode([
 $scriptPath = "/home/Capstone_Design_Troy/judge/src/web/check_STEP/check_STEP.py";
 
 // 파이썬 명령어 구성
-$cmd = "python3 " . escapeshellarg($scriptPath) . " " . escapeshellarg($tmpFile) . " " . escapeshellarg($feedbackFile);
+$cmd = "python3 " . escapeshellarg($scriptPath) . " " . escapeshellarg($paramFile) . " " . escapeshellarg($feedbackFile);
 exec($cmd, $output, $return_var);
 
 // 피드백 읽기
@@ -50,8 +50,8 @@ if (file_exists($feedbackFile)) {
 }
 
 // 임시 파일 삭제
-if (file_exists($tmpFile)) {
-    unlink($tmpFile);
+if (file_exists($paramFile)) {
+    unlink($paramFile);
 }
 
 if (file_exists($answerFile)) {
