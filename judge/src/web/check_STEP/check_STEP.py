@@ -300,7 +300,7 @@ def main():
     answer_file = params.get("answer_file", "")
     step = params.get("step", "1")
 
-    # 답안 파일 읽기
+    # 답안 파일 읽기 (원래 형태 그대로 읽음)
     try:
         with open(answer_file, 'r', encoding='utf-8') as f:
             answer = f.read()

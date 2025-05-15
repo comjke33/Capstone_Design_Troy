@@ -19,7 +19,7 @@ $answerFile = "/tmp/" . $unique_id . "_answer.txt";
 $paramFile = "/tmp/" . $unique_id . ".json";
 $feedbackFile = "/tmp/" . $unique_id . "_feedback.txt";
 
-// 답안을 파일로 저장
+// 답안을 파일로 저장 (이스케이프 없이 원래 형태 그대로)
 file_put_contents($answerFile, $answer);
 
 // 파라미터를 JSON으로 임시 파일에 저장
