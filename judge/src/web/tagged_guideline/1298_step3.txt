@@ -1,0 +1,28 @@
+[func_def_start(0)]
+main함수입니다.
+[self_start(1)]
+정수 n을 저장할 변수를 선언하세요.
+[self_end(1)]
+[rep_start(1)]
+무한 반복문을 작성하세요.
+입력받은 n이 -1인 경우 반복문을 종료하세요.
+[rep_end(1)]
+[self_start(1)]
+배열 divisors를 선언하고, 개수를 count로 관리하세요.
+[self_end(1)]
+[rep_start(1)]
+n의 약수들을 찾아 divisor 배열에 추가하세요.
+나눗셈의 나머지값이 0인 경우, 약수라고 판단하세요.
+divisors의 count를 증가시키세요.
+[rep_end(1)]
+[self_start(1)]
+sum이 n과 같은 경우, n이 완벽한 제곱수인지 확인하세요.
+완벽한 제곱수라면, n과 약수들의 조합을 출력하세요.
+[self_end(1)]
+[rep_start(1)]
+반복문을 종료하고 프로그램을 종료하세요.
+[rep_end(1)]
+[self_start(1)]
+프로그램의 종료를 알려주세요.
+[self_end(1)]
+[func_def_end(0)]

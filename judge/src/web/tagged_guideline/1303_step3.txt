@@ -1,0 +1,28 @@
+[func_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+x와 y 데이터를 저장할 float 배열을 선언하세요.
+로그 데이터를 저장할 변수를 선언하여 0으로 초기화하세요.
+[func_def_start(0)]
+sum_logx, sum_y, sum_logx2, sum_ylogx
+[func_def_end(0)]
+[func_def_start(0)]
+두 변수 x와 y를 각각 입력받기 위해 읽기 함수를 호출하세요.
+[func_def_end(0)]
+[func_def_start(0)]
+두 변수 a와 b를 저장할 float 배열을 선언하세요.
+[func_def_end(0)]
+[func_def_start(0)]
+계수 a와 b를 계산하세요.
+[func_def_end(0)]
+[func_def_start(0)]
+입력할 x 값을 입력받으세요.
+[func_def_end(0)]
+[func_def_start(0)]
+예측 값을 계산하기 위해 predict_value 함수를 호출하세요.
+[func_def_end(0)]
+[func_def_start(0)]
+출력하기 위한 printf 문을 작성하세요.
+[func_def_end(0)]
+[self_end(1)]
+[func_def_end(0)]

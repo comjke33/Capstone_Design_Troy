@@ -1,0 +1,18 @@
+[func_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+길이가 100인 char 배열 word를 선언하고, 사용자로부터 문자열을 입력받으세요.
+len 변수를 선언하여 word의 길이를 저장하세요.
+isPalindrome 변수를 1로 초기화하여 Palindrome 여부를 나타냅니다.
+[self_end(1)]
+[rep_start(1)]
+word의 앞 절반 길이만큼 반복하는 반복문을 작성하세요.
+[cond_start(2)]
+이 반복문에서 두 번째 인덱스 바로 뒤의 문자와 뒤쪽 인덱스 바로 앞의 문자를 비교하세요.
+두 문자가 같지 않다면, isPalindrome을 0으로 설정하고 반복문을 종료하세요.
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+isPalindrome 변수의 값을 출력하고 프로그램을 종료하세요.
+[self_end(1)]
+[func_def_end(0)]

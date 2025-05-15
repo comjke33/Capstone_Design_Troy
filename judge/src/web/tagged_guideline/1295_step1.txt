@@ -1,0 +1,80 @@
+[func_def_start(0)]
+x, y 값 5 쌍을 입력받기 위한 read_data 함수를 정의하세요. x[]: x 5개를 입력받기 위한 실수형 배열입니다. y[]:y 5개를 입력받기 위한 실수형 배열입니다. n: 데이터 쌍의 개수를 받습니다. *sum_logx: log(x) 값들의 합을 저장하기 위한 실수형 변수입니다 *sum_y: y 값들의 합을 저장하기 위한 실수형 변수입니다. *sum_logx2: log(x)의 제곱 값들의 합을 저장하기 위한 실수형 변수입니다. *sum_ylogx: y * log(x) 값들의 합을 저장하기 위한 실수형 변수입니다.
+[rep_start(1)]
+i는 0부터 n까지 반복하여 x[i]와 y[i]를 각각 입력받는 for문을 작성하세요. x[i]에는 x 값을 입력받고 y[i]에는 y 값을 입력받습니다.
+[self_start(2)]
+x[i]와 y[i]를 scanf를 사용하여 입력 받습니다.
+[self_end(2)]
+[self_start(2)]
+log(x[i])를 계산하여 실수형 변수 lx에 저장하세요.
+[self_end(2)]
+[self_start(2)]
+*sum_logx에 lx를 더하세요.
+[self_end(2)]
+[self_start(2)]
+*sum_y에 y[i]를 더하세요.
+[self_end(2)]
+[self_start(2)]
+lx * lx를 계산하여 *sum_logx2에 더하세요.
+[self_end(2)]
+[self_start(2)]
+y[i] * lx를 계산하여 *sum_ylogx에 더하세요.
+[self_end(2)]
+[rep_end(1)]
+[func_def_end(0)]
+
+[func_def_start(0)]
+최소제곱법을 이용한 계수 계산 함수를 정의하세요.
+sum_logx: log(x) 값들의 합인 실수형 변수입니다.
+sum_y: y 값들의 합인 실수형 변수입니다.
+sum_logx2: log(x)의 제곱 값들의 합인 실수형 변수입니다.
+sum_ylogx: y * log(x) 값들의 합입니다.
+*a, *b: 모델의 계수를 저장하는 변수입니다.
+[self_start(1)]
+*b의 값을 다음과 같이 계산하세요.
+*b = (5 * sum_ylogx - sum_logx * sum_y) / (5 * sum_logx2 - sum_logx * sum_logx)
+정확한 최소 제곱계수를 사용하여 b를 계산하세요.
+[self_end(1)]
+[self_start(1)]
+*a의 값을 다음과 같이 계산하세요.
+*a = (sum_y - b * sum_logx) / 5
+모델의 a 계수를 계산하세요.
+[self_end(1)]
+[func_def_end(0)]
+
+[func_def_start(0)]
+예측값을 계산하는 predict_value 함수를 정의하세요.
+a, b: 모델의 계수입니다.
+input_x: 예측에 사용되는 x 값입니다.
+[self_start(1)]
+a + b * log(input_x)를 계산하여 예측값을 반환하세요.
+예측값은 입력된 x 값을 사용하여 계산됩니다.
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+x[5], y[5], sum_logx, sum_y, sum_logx2, sum_ylogx를 선언하세요.
+sum_logx, sum_y, sum_logx2, sum_ylogx는 0으로 초기화하세요.
+[self_end(1)]
+[self_start(1)]
+read_data 함수를 호출하여 데이터를 읽어 오세요.
+[self_end(1)]
+[self_start(1)]
+실수형 변수 a와 b를 선언하세요.
+모델의 계수를 저장할 변수입니다.
+[self_end(1)]
+[self_start(1)]
+calculate_coefficients 함수를 호출하여 a와 b를 계산하세요.
+[self_end(1)]
+[self_start(1)]
+사용자로부터 입력받을 x 값을 입력 받기 위한 실수형 변수 input_x를 선언하세요.
+[self_end(1)]
+[self_start(1)]
+predict_value 함수를 호출하여 예측한 값을 출력하세요.
+[self_end(1)]
+[self_start(1)]
+프로그램 종료를 위해 0을 반환하세요.
+[self_end(1)]
+[main_def_end(0)]

@@ -1,0 +1,5 @@
+[self_start(0)]
+/home/Capstone_Design_Troy/judge/src/web/flowcharts
+This is the root directory for the flowchart component of the Capstone Design project. It's the base where all the relevant files reside.
+
+[self_end(0)]
