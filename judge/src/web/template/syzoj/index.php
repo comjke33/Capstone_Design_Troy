@@ -23,9 +23,8 @@
         </div>
       <?php } ?>
 
-      <!-- <h4 class="ui top attached block header"><i class="ui info icon"></i><?php echo $MSG_NEWS; ?></h4> -->
-      <!-- 그래프 부분 -->
-      <!-- <div class="ui bottom attached segment">
+      <h4 class="ui top attached block header"><i class="ui info icon"></i><?php echo $MSG_NEWS; ?></h4>
+      <div class="ui bottom attached segment">
         <table class="ui very basic table">
           <thead>
             <tr><th><?php echo $MSG_TITLE; ?></th><th><?php echo $MSG_TIME; ?></th></tr>
@@ -44,7 +43,7 @@
             ?>
           </tbody>
         </table>
-      </div> -->
+      </div>
 
       <?php
         $month_id = mysql_query_cache("SELECT solution_id FROM solution WHERE in_date<DATE_ADD(CURDATE(), INTERVAL -DAY(CURDATE())+1 DAY) ORDER BY solution_id DESC LIMIT 1;");
@@ -66,8 +65,7 @@
             </div>
       <?php }} ?>
 
-      <!-- 공지사항 부분 -->
-      <!-- <h4 class="ui top attached block header"><i class="ui star icon"></i><?php echo $OJ_INDEX_NEWS_TITLE; ?></h4>
+      <h4 class="ui top attached block header"><i class="ui star icon"></i><?php echo $OJ_INDEX_NEWS_TITLE; ?></h4>
       <div class="ui bottom attached segment">
         <table class="ui very basic left aligned table">
           <tbody>
@@ -87,7 +85,7 @@
           </tbody>
         </table>
       </div>
-    </div> -->
+    </div>
 
     <!-- 오른쪽 사이드 섹션 -->
     <div class="right floated five wide column">

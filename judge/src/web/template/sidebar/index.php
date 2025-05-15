@@ -194,4 +194,3 @@ if($NOIP_flag[0]==0)$view_month_rank=mysql_query_cache("select user_id,nick,coun
                 } );
                 //alert((new Date()).getTime());
         </script>
-
