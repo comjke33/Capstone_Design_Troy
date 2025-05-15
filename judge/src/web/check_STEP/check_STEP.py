@@ -281,45 +281,38 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
 if __name__ == "__main__":
     main()
     """
-    
-    
+        
+def decode_escaped_string(escaped_string):
+    """이중 이스케이프 처리된 문자열 복원"""
+    return escaped_string.encode().decode('unicode_escape')
+
 def main():
-    if len(sys.argv) != 5:
-        print("Usage: python3 script.py <problem_id> <line_num> <student_code> <step>")
+    if len(sys.argv) != 3:
+        print("Usage: python3 script.py <tmp_file> <feedback_file>")
         sys.exit(1)
 
-    pid = sys.argv[1]
-    line_num = sys.argv[2]
-    student_code = sys.argv[3]
-    step = sys.argv[4]  # step 인자 추가
+    param_file = sys.argv[1]
+    feedback_file = sys.argv[2]
 
-    student_code = ast.literal_eval(f"'{student_code}'")
+    # JSON 파일 읽기
+    with open(param_file, 'r', encoding='utf-8') as f:
+        params = json.load(f)
 
-    filename = f"../tagged_code/{pid}_step{step}.txt"
-    test_in_path = f"../../../data/{pid}"
+    problem_id = params.get("problem_id", "0")
+    block_index = params.get("index", "0")
+    raw_answer = params.get("answer", "작성못함")
+    step = params.get("step", "1")
 
-    code_lines = read_code_lines(filename)
+    # 이스케이프 처리 복원
+    answer = decode_escaped_string(raw_answer)
 
-    includes, blocks, closing_braces, all_blocks, block_indices = get_blocks(code_lines)  
+    # 디버깅
+    with open("/tmp/python_debug.log", "a") as log_file:
+        log_file.write(f"Received answer: {answer}\n")
 
-    block_num = int(line_num)
-    new_code = student_code
-
-    if not (0 <= block_num < len(blocks)):
-        print("Invalid block number")
-        return
-
-    new_block = [line + '\n' for line in new_code.split('\\n')]
-    blocks[block_num] = new_block
-    all_blocks[block_indices[block_num][1]] = new_block
-
-    final_code = ''.join(line for block in all_blocks for line in block)
-    final_code = re.sub(r'\[[^\]]*\]', '', final_code)
-
-    if validate_code_output_full_io(final_code, test_in_path):
-        print("correct")
-    else:
-        print("no")
+    # 피드백 파일에 결과 저장
+    with open(feedback_file, 'w', encoding='utf-8') as f:
+        f.write(f"Decoded Answer: {answer}")
 
 if __name__ == "__main__":
     main()
