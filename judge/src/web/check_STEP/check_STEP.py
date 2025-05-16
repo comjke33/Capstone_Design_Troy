@@ -4,7 +4,6 @@ import re
 import os
 import sys
 import ast
-import json
 
 def is_tag_line(line):
     """태그 줄인지 판별"""
@@ -211,105 +210,40 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
     # except subprocess.TimeoutExpired:
     #     print("⏰ 실행 시간 초과")
 
-    """
-    def main():
-
-    if len(sys.argv) == 4:
+def main():
+    if len(sys.argv) == 5:
         pid = sys.argv[1]
-        line_num = sys.argv[2]
-        student_code = sys.argv[3]
-    
+        step = sys.argv[2]  # 추가: step 변수를 처리
+        line_num = sys.argv[3]
+        student_code = sys.argv[4]
+
     student_code = ast.literal_eval(f"'{student_code}'")
 
-    # 파일 경로 설정
-    filename = f"../tagged_code/{pid}_step1.txt"
+    filename = f"../tagged_code/{pid}_step{step}.txt"  # step 변수 사용
     test_in_path = f"../../../data/{pid}"
     test_out_path = f"../../../data/{pid}/test.out"
 
-    
-    # 코드 읽기
     code_lines = read_code_lines(filename)
 
-    
+    includes, blocks, closing_braces, all_blocks, block_indices = get_blocks(code_lines)
 
-    # 블럭 단위로 코드 파싱
-    includes, blocks, closing_braces, all_blocks, block_indices = get_blocks(code_lines)  
-
-    # print("🔧 #include 블럭")
-    # print("".join(includes))
-
-    # print_blocks(blocks)
-
-    # try:
-    #     block_num = int(input("\n✏️ 교체할 블럭 번호 입력 (1부터 시작): ")) - 1
-    #     new_code = input("✏️ 교체할 코드 블럭 입력 (줄바꿈은 \\n 사용): ")
-    # except ValueError:
-    #     print("⚠️ 잘못된 입력입니다.")
-    #     return
-    # print(pid)
     block_num = int(line_num)
     new_code = student_code
-    # print(new_code)
-
 
     if not (0 <= block_num < len(blocks)):
-        # print("⚠️ 유효하지 않은 블럭 번호입니다.")
         return
 
-    # 새 코드 블럭 생성
     new_block = [line + '\n' for line in new_code.split('\\n')]
     blocks[block_num] = new_block
     all_blocks[block_indices[block_num][1]] = new_block
 
-
-    # 블럭을 합쳐서 코드 생성
     final_code = ''.join(line for block in all_blocks for line in block)
-    # print("\n🔄 수정된 코드:")
-    # for block in all_blocks:
-    #     for line in block:
-    #         print(line)
-
-    # print("---------------------")
     final_code = re.sub(r'\[[^\]]*\]', '', final_code)
-    # print(final_code)
 
-    # 수정된 코드 컴파일 및 테스트
-    if(validate_code_output_full_io(final_code, test_in_path, test_out_path)):
+    if validate_code_output_full_io(final_code, test_in_path, test_out_path):
         print("correct")
     else:
         print("no")
-
-if __name__ == "__main__":
-    main()
-    """
-        
-def main():
-    if len(sys.argv) != 3:
-        print("Usage: python3 script.py <param_file> <feedback_file>")
-        sys.exit(1)
-
-    param_file = sys.argv[1]
-    feedback_file = sys.argv[2]
-
-    # JSON 파일 읽기
-    with open(param_file, 'r', encoding='utf-8') as f:
-        params = json.load(f)
-
-    problem_id = params.get("problem_id", "0")
-    block_index = params.get("index", "0")
-    answer_file = params.get("answer_file", "")
-    step = params.get("step", "1")
-
-    # 답안 파일 읽기
-    try:
-        with open(answer_file, 'r', encoding='utf-8') as f:
-            answer = f.read()
-    except FileNotFoundError:
-        answer = "파일을 읽을 수 없습니다."
-
-    # 피드백 파일에 결과 저장
-    with open(feedback_file, 'w', encoding='utf-8') as f:
-        f.write(f"Decoded Answer: {answer}")
 
 if __name__ == "__main__":
     main()

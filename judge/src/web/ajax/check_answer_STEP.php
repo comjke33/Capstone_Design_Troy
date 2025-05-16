@@ -4,62 +4,24 @@ $data = json_decode(file_get_contents("php://input"), true);
 $answer = $data["answer"] ?? "";
 $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
-$step = $data["step"] ?? "1";
+$step = $data["step"] ?? "1";  // 단계 정보를 변수로 처리
 
-// 디버깅 로그
-file_put_contents("/tmp/php_debug.log", "Received Data: " . json_encode($data, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND);
+// 안전한 인자 처리
+$escapedAnswer = escapeshellarg($answer);
+$escapedProblemId = escapeshellarg($problemId);
+$escapedIndex = escapeshellarg($index);
+$escapedStep = escapeshellarg($step);  // 추가
 
-// 세션 시작
-session_start();
-$user_id = $_SESSION['user_id'] ?? uniqid();
+// 파이썬 실행 명령어 (출력과 오류 모두 캡처)
+$cmd = "cd ../check_STEP && python3 check_STEP.py $escapedProblemId $escapedStep $escapedIndex $escapedAnswer 2>&1";
 
-// 고유 파일명 생성
-$unique_id = uniqid("check_step_");
-$answerFile = "/tmp/" . $unique_id . "_answer.txt";
-$paramFile = "/tmp/" . $unique_id . ".json";
-$feedbackFile = "/tmp/" . $unique_id . "_feedback.txt";
-
-// 답안을 파일로 저장 (이스케이프 없이 원래 형태 그대로)
-file_put_contents($answerFile, $answer);
-
-// 파라미터를 JSON으로 임시 파일에 저장
-file_put_contents($paramFile, json_encode([
-    "problem_id" => $problemId,
-    "index" => $index,
-    "answer_file" => $answerFile,
-    "step" => $step
-], JSON_UNESCAPED_UNICODE));
-
-// 파이썬 스크립트 경로
-$scriptPath = "/home/Capstone_Design_Troy/judge/src/web/check_STEP/check_STEP.py";
-
-// 파이썬 명령어 구성
-$cmd = "python3 " . escapeshellarg($scriptPath) . " " . escapeshellarg($paramFile) . " " . escapeshellarg($feedbackFile);
-exec($cmd, $output, $return_var);
-
-// 피드백 읽기
-if (file_exists($feedbackFile)) {
-    $feedback = file_get_contents($feedbackFile);
-} else {
-    $feedback = "피드백 파일이 존재하지 않습니다.";
-}
-
-// 피드백 파일 삭제
-if (file_exists($feedbackFile)) {
-    unlink($feedbackFile);
-}
-
-// 임시 파일 삭제
-if (file_exists($paramFile)) {
-    unlink($paramFile);
-}
-
-if (file_exists($answerFile)) {
-    unlink($answerFile);
-}
+// 디버그 로그 작성
+file_put_contents("/tmp/php_debug.log", "Command: $cmd\n", FILE_APPEND);
+$result = shell_exec($cmd);
+file_put_contents("/tmp/php_debug.log", "Python Output: $result\n", FILE_APPEND);
 
 // 결과 반환
-$response = ["result" => $feedback];
+$response = ["result" => trim($result)];
 header("Content-Type: application/json");
-echo json_encode($response, JSON_UNESCAPED_UNICODE);
+echo json_encode($response);
 ?>
