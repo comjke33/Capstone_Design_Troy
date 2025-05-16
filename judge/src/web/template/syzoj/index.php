@@ -76,7 +76,10 @@
               <table class="ui very basic center aligned table">
                 <tbody>
                 <?php foreach ($view_month_rank as $row) {
-                    echo "<tr><td><a href='userinfo.php?user=".htmlentities($row[0], ENT_QUOTES, "UTF-8")."'>".htmlentities($row[0], ENT_QUOTES, "UTF-8")."</a></td><td>{$row[1]}</td><td>{$row[2]}</td></tr>";
+                    echo "<tr><td><a href='userinfo.php?user=".htmlentities($row[0], ENT_QUOTES, "UTF-8")."'>".htmlentities($row[0], ENT_QUOTES, "UTF-8")."</a></td>
+                      // <td>{$row[1]}</td>
+                      // <td>{$row[2]}</td>
+                        </tr>";
                 } ?>
                 </tbody>
               </table>
