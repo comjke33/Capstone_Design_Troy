@@ -304,8 +304,15 @@ def main():
     try:
         with open(answer_file, 'r', encoding='utf-8') as f:
             answer = f.read()
+            # 이스케이프 문자 처리
+            answer = answer.encode('utf-8').decode('unicode_escape')
     except FileNotFoundError:
         answer = "파일을 읽을 수 없습니다."
+
+    # 디버깅 로그
+    with open("/tmp/python_debug.log", "a") as log_file:
+        log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, step: {step}\n")
+        log_file.write(f"Decoded Answer: {answer}\n")
 
     # 피드백 파일에 결과 저장
     with open(feedback_file, 'w', encoding='utf-8') as f:

@@ -19,7 +19,7 @@ $answerFile = "/tmp/" . $unique_id . "_answer.txt";
 $paramFile = "/tmp/" . $unique_id . ".json";
 $feedbackFile = "/tmp/" . $unique_id . "_feedback.txt";
 
-// 답안을 파일로 저장 (이스케이프 없이 원래 형태 그대로)
+// 답안을 파일로 저장 (특수문자 그대로 저장)
 file_put_contents($answerFile, $answer);
 
 // 파라미터를 JSON으로 임시 파일에 저장
@@ -28,7 +28,7 @@ file_put_contents($paramFile, json_encode([
     "index" => $index,
     "answer_file" => $answerFile,
     "step" => $step
-], JSON_UNESCAPED_UNICODE));
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 
 // 파이썬 스크립트 경로
 $scriptPath = "/home/Capstone_Design_Troy/judge/src/web/check_STEP/check_STEP.py";
