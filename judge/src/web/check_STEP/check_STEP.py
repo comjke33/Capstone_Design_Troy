@@ -4,7 +4,41 @@ import re
 import os
 import sys
 import ast
+import json
 
+# 디버깅 로그 파일 설정
+log_file = "/tmp/python_script_debug.log"
+
+def log_debug(message):
+    with open(log_file, "a") as f:
+        f.write(message + "\n")
+
+try:
+    # 입력 인자 확인
+    log_debug(f"Received args: {sys.argv}")
+
+    # 파일 경로 파라미터 확인
+    param_file = sys.argv[1]
+    feedback_file = sys.argv[2]
+    log_debug(f"Param file: {param_file}, Feedback file: {feedback_file}")
+
+    # JSON 파일 읽기
+    with open(param_file, 'r', encoding='utf-8') as f:
+        params = json.load(f)
+        log_debug(f"Loaded params: {params}")
+
+    # 피드백 파일 작성
+    with open(feedback_file, 'w', encoding='utf-8') as f:
+        f.write("correct")
+    log_debug(f"Successfully wrote to feedback file: {feedback_file}")
+
+except Exception as e:
+    error_message = f"Error: {str(e)}"
+    log_debug(error_message)
+    print(error_message)
+    sys.exit(1)
+    
+    
 def is_tag_line(line):
     """태그 줄인지 판별"""
     return bool(re.match(r"\s*\[.*_(start|end)\(\d+\)\]\s*", line))
