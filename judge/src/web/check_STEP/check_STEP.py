@@ -220,7 +220,7 @@ def main():
     student_code = ast.literal_eval(f"'{student_code}'")
 
     filename = f"../tagged_code/{pid}_step{step}.txt"  # step 변수 사용
-    test_in_path = f"../../../data/{pid}"
+    test_in_path = f"../../../data/{pid}/test.in"
     test_out_path = f"../../../data/{pid}/test.out"
 
     code_lines = read_code_lines(filename)
