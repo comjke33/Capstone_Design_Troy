@@ -30,7 +30,7 @@ file_put_contents($tmpFile, json_encode([
 $scriptPath = "/home/Capstone_Design_Troy/judge/src/web/check_STEP/check_STEP.py";
 
 // 파이썬 명령어 구성
-$cmd = "python3 " . escapeshellarg($scriptPath) . " " . escapeshellarg($tmpFile);
+$cmd = "python3 " . escapeshellarg($scriptPath) . " " . escapeshellarg($tmpFile) . " " . escapeshellarg($feedbackFile);
 file_put_contents("/tmp/php_debug.log", "Python Command: $cmd\n", FILE_APPEND);
 
 // 파이썬 스크립트 실행
@@ -41,9 +41,15 @@ file_put_contents("/tmp/php_debug.log", "Command Output: " . implode("\n", $outp
 
 // 명령어 실행 상태 체크
 if ($return_var === 0) {
-    $result = implode("\n", $output);
+    if (file_exists($feedbackFile)) {
+        $result = file_get_contents($feedbackFile);
+    } else {
+        $result = "Error: Feedback file not found";
+        file_put_contents("/tmp/php_debug.log", "Feedback file not found: $feedbackFile\n", FILE_APPEND);
+    }
 } else {
-    $result = "Error: " . implode("\n", $output);
+    $result = "Error: Command failed with return code $return_var";
+    file_put_contents("/tmp/php_debug.log", "Error executing command: " . implode("\n", $output) . "\n", FILE_APPEND);
 }
 
 // 결과 반환
@@ -54,5 +60,8 @@ echo json_encode($response, JSON_UNESCAPED_UNICODE);
 // 임시 파일 삭제
 if (file_exists($tmpFile)) {
     unlink($tmpFile);
+}
+if (file_exists($feedbackFile)) {
+    unlink($feedbackFile);
 }
 ?>
