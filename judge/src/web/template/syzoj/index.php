@@ -40,73 +40,27 @@
       </div>
 
       <!-- 최근 문제 -->
-      <h4 class="ui top attached block header">
-        <i class="ui rss icon"></i> 최근 푼 문제
-      </h4>
+      <h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM; ?> </h4>
       <div class="ui bottom attached segment">
-        <table class="ui celled striped center aligned table">
-          <thead>
-            <tr>
-              <th>문제 제목</th>
-              <th>제출 날짜</th>
-            </tr>
-          </thead>
+        <table class="ui very basic center aligned table">
+          <thead><tr><th><?php echo $MSG_TITLE; ?></th><th><?php echo $MSG_TIME; ?></th></tr></thead>
           <tbody>
             <?php
-              $noip_problems = array_merge(...mysql_query_cache(
-                "SELECT problem_id 
-                FROM contest c 
-                LEFT JOIN contest_problem cp 
-                ON start_time<'$now' AND end_time>'$now' 
-                AND (c.title LIKE ? OR (c.contest_type & 20) > 0) 
-                AND c.contest_id = cp.contest_id",
-                "%$OJ_NOIP_KEYWORD%"
-              ));
+              $noip_problems = array_merge(...mysql_query_cache("SELECT problem_id FROM contest c LEFT JOIN contest_problem cp ON start_time<'$now' AND end_time>'$now' AND (c.title LIKE ? OR (c.contest_type & 20) > 0) AND c.contest_id=cp.contest_id", "%$OJ_NOIP_KEYWORD%"));
               $noip_problems = array_map('strval', array_unique($noip_problems));
-
               $user_id = $_SESSION[$OJ_NAME.'_user_id'] ?? 'guest';
-
-              $sql_problems = "
-                SELECT p.problem_id, title, max_in_date 
-                FROM (
-                  SELECT problem_id, MIN(result) best, MAX(in_date) max_in_date 
-                  FROM solution 
-                  WHERE user_id = ? AND result >= 4 AND problem_id > 0 
-                  GROUP BY problem_id
-                ) s
-                INNER JOIN problem p ON s.problem_id = p.problem_id 
-                WHERE s.best > 4 
-                ORDER BY max_in_date DESC 
-                LIMIT 5
-              ";
+              $sql_problems = "SELECT p.problem_id, title, max_in_date FROM (SELECT problem_id, MIN(result) best, MAX(in_date) max_in_date FROM solution WHERE user_id=? AND result>=4 AND problem_id>0 GROUP BY problem_id) s INNER JOIN problem p ON s.problem_id=p.problem_id WHERE s.best>4 ORDER BY max_in_date DESC LIMIT 5";
               $result_problems = mysql_query_cache($sql_problems, $user_id);
-
-              $has_visible_data = false;
-
               if (!empty($result_problems)) {
                 foreach ($result_problems as $row) {
-                  if (in_array(strval($row['problem_id']), $noip_problems)) continue;
-
-                  $title = htmlentities($row['title'], ENT_QUOTES, "UTF-8");
-                  $problem_id = intval($row['problem_id']);
-                  $date = htmlentities(substr($row['max_in_date'], 0, 10), ENT_QUOTES, "UTF-8"); // YYYY-MM-DD
-
-                  echo "<tr>
-                          <td><a href='problem.php?id={$problem_id}'>{$title}</a></td>
-                          <td>{$date}</td>
-                        </tr>";
-                  $has_visible_data = true;
+                  if(in_array(strval($row['problem_id']), $noip_problems)) continue;
+                  echo "<tr><td><a href='problem.php?id={$row['problem_id']}'>{$row['title']}</a></td><td>".substr($row['max_in_date'],5,5)."</td></tr>";
                 }
-              }
-
-              if (!$has_visible_data) {
-                echo "<tr><td colspan='2'>최근 제출한 문제가 없습니다.</td></tr>";
               }
             ?>
           </tbody>
         </table>
       </div>
-
 
       <!-- 이달의 우수생 -->
       <?php
