@@ -213,20 +213,18 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
 def main():
     if len(sys.argv) == 5:
         pid = sys.argv[1]
-        step = sys.argv[2]
+        step = sys.argv[2]  # 추가: step 변수를 처리
         line_num = sys.argv[3]
         student_code = sys.argv[4]
 
     student_code = ast.literal_eval(f"'{student_code}'")
 
-    # 파일 경로 설정
-    filename = f"../tagged_code/{pid}_step{step}.txt"
+    filename = f"../tagged_code/{pid}_step{step}.txt"  # step 변수 사용
     test_in_path = f"../../../data/{pid}"
+    test_out_path = f"../../../data/{pid}/test.out"
 
-    # 코드 읽기
     code_lines = read_code_lines(filename)
 
-    # 블럭 단위로 코드 파싱
     includes, blocks, closing_braces, all_blocks, block_indices = get_blocks(code_lines)
 
     block_num = int(line_num)
@@ -235,16 +233,14 @@ def main():
     if not (0 <= block_num < len(blocks)):
         return
 
-    # 새 코드 블럭 생성
     new_block = [line + '\n' for line in new_code.split('\\n')]
     blocks[block_num] = new_block
     all_blocks[block_indices[block_num][1]] = new_block
 
-    # 블럭을 합쳐서 코드 생성
     final_code = ''.join(line for block in all_blocks for line in block)
     final_code = re.sub(r'\[[^\]]*\]', '', final_code)
 
-    if validate_code_output_full_io(final_code, test_in_path):
+    if validate_code_output_full_io(final_code, test_in_path, test_out_path):
         print("correct")
     else:
         print("no")
