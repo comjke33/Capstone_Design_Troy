@@ -6,17 +6,21 @@
     <div class="row" style="white-space: nowrap; ">
       <div class="seven wide column">
           <form action="" method="get">
-            <div class="ui search" style="width: 280px; height: 28px; margin-top: -5.3px;float:left ">
-              <div class="ui left icon input" style="width: 100%; ">
-                <!-- 첫 번째 폼은 문제 제목을 검색하는 기능을 제공하고, 두 번째 폼은 문제 ID를 검색합니다 -->
-                <input class="prompt" style="width: 100%; " type="text" placeholder=" <?php echo $MSG_TITLE;?> …" name="search"
-		       value="<?php if(isset($_GET['search']))echo htmlentities($_GET['search'],ENT_QUOTES,'UTF-8') ?>"
+            <div class="ui search" style="max-width: 300px; margin-bottom: 1em;">
+              <!-- ui 수정 -->
+              <div class="ui fluid left icon input">
+                <input 
+                  class="prompt" 
+                  type="text" 
+                  name="search" 
+                  placeholder="<?php echo $MSG_TITLE; ?> …" 
+                  value="<?php if (isset($_GET['search'])) echo htmlentities($_GET['search'], ENT_QUOTES, 'UTF-8'); ?>"
                 >
-
                 <i class="search icon"></i>
               </div>
-              <div class="results" style="width: 100%; "></div>
+              <div class="results"></div>
             </div>
+
           </form>
 
           <form action="problem.php" method="get">
