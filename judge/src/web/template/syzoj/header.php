@@ -252,7 +252,7 @@ include('allowed_users.php');
                     ?>
                     <a id="notification-link" class="item active" href="#">
                         <span class="bell-wrapper">
-                            <i class="fa fa-bell"></i>
+                            <i class="fas fa-bell"></i>
                             <?php if (isset($new_notification_count) && $new_notification_count > 0) { ?>
                                 <span class="notification-dot"></span>
                             <?php } ?>
