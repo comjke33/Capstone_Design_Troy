@@ -27,90 +27,42 @@
       <?php } ?>
 
       <!-- 검색 -->
-      <h4 class="ui top attached block header"><i class="ui search icon"></i><?php echo $MSG_SEARCH; ?></h4>
-      <div class="ui bottom attached segment">
-        <form action="problem.php" method="get">
-          <div class="ui search">
-            <div class="ui left icon input">
-              <input class="prompt" type="text" placeholder="<?php echo $MSG_PROBLEM_ID; ?> …" name="id">
-              <i class="search icon"></i>
-            </div>
-          </div>
-        </form>
-      </div>
+    <h4 class="ui top attached block header">
+      <i class="ui search icon"></i> 문제 검색
+    </h4>
+    <div class="ui bottom attached segment">
+      <form action="problem.php" method="get" class="ui form">
+        <div class="ui fluid action input">
+          <input type="text" name="id" placeholder="문제 ID 또는 번호를 입력하세요…" />
+          <button type="submit" class="ui icon primary button">
+            <i class="search icon"></i>
+          </button>
+        </div>
+      </form>
+    </div>
 
       <!-- 최근 문제 -->
-      <h4 class="ui top attached block header">
-        <i class="ui rss icon"></i> 최근 푼 문제
-      </h4>
+      <h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM; ?> </h4>
       <div class="ui bottom attached segment">
-        <table class="ui celled striped hoverable center aligned table">
-          <thead>
-            <tr>
-              <th>문제 제목</th>
-              <th>제출 날짜</th>
-            </tr>
-          </thead>
+        <table class="ui very basic center aligned table">
+          <thead><tr><th><?php echo $MSG_TITLE; ?></th><th><?php echo $MSG_TIME; ?></th></tr></thead>
           <tbody>
             <?php
-              $now = date("Y-m-d H:i:s"); // 현재 시간 설정
-
-              // NOIP 문제 제외
-              $noip_problems = array_merge(...mysql_query_cache(
-                "SELECT problem_id 
-                FROM contest c 
-                LEFT JOIN contest_problem cp 
-                ON start_time < '$now' AND end_time > '$now' 
-                AND (c.title LIKE ? OR (c.contest_type & 20) > 0) 
-                AND c.contest_id = cp.contest_id", 
-                "%$OJ_NOIP_KEYWORD%"
-              ));
+              $noip_problems = array_merge(...mysql_query_cache("SELECT problem_id FROM contest c LEFT JOIN contest_problem cp ON start_time<'$now' AND end_time>'$now' AND (c.title LIKE ? OR (c.contest_type & 20) > 0) AND c.contest_id=cp.contest_id", "%$OJ_NOIP_KEYWORD%"));
               $noip_problems = array_map('strval', array_unique($noip_problems));
-
               $user_id = $_SESSION[$OJ_NAME.'_user_id'] ?? 'guest';
-
-              // 최근 제출 문제 (정답 아닌 결과 중 최신)
-              $sql_problems = "
-                SELECT p.problem_id, title, max_in_date 
-                FROM (
-                  SELECT problem_id, MIN(result) AS best, MAX(in_date) AS max_in_date 
-                  FROM solution 
-                  WHERE user_id = ? AND result >= 4 AND problem_id > 0 
-                  GROUP BY problem_id
-                ) s
-                INNER JOIN problem p ON s.problem_id = p.problem_id 
-                WHERE s.best > 4 
-                ORDER BY max_in_date DESC 
-                LIMIT 5
-              ";
-
+              $sql_problems = "SELECT p.problem_id, title, max_in_date FROM (SELECT problem_id, MIN(result) best, MAX(in_date) max_in_date FROM solution WHERE user_id=? AND result>=4 AND problem_id>0 GROUP BY problem_id) s INNER JOIN problem p ON s.problem_id=p.problem_id WHERE s.best>4 ORDER BY max_in_date DESC LIMIT 5";
               $result_problems = mysql_query_cache($sql_problems, $user_id);
-              $has_data = false;
-
               if (!empty($result_problems)) {
                 foreach ($result_problems as $row) {
-                  if (in_array(strval($row['problem_id']), $noip_problems)) continue;
-
-                  $title = htmlentities($row['title'], ENT_QUOTES, "UTF-8");
-                  $pid = intval($row['problem_id']);
-                  $date = htmlentities(substr($row['max_in_date'], 0, 10), ENT_QUOTES, "UTF-8"); // YYYY-MM-DD
-
-                  echo "<tr>
-                          <td><a href='problem.php?id={$pid}'>{$title}</a></td>
-                          <td>{$date}</td>
-                        </tr>";
-                  $has_data = true;
+                  if(in_array(strval($row['problem_id']), $noip_problems)) continue;
+                  echo "<tr><td><a href='problem.php?id={$row['problem_id']}'>{$row['title']}</a></td><td>".substr($row['max_in_date'],5,5)."</td></tr>";
                 }
-              }
-
-              if (!$has_data) {
-                echo "<tr><td colspan='2'>최근 제출한 문제가 없습니다.</td></tr>";
               }
             ?>
           </tbody>
         </table>
       </div>
-
 
       <!-- 이달의 우수생 -->
       <?php
