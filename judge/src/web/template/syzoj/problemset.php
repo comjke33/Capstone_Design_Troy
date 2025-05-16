@@ -6,7 +6,7 @@
     <div class="row" style="white-space: nowrap; ">
       <div class="seven wide column">
           <!-- 문제 제목 또는 출처 검색 -->
-          <form action="" method="get" style="max-width: 500px; margin-bottom: 1.5em;">
+          <form action="" method="get" style="max-width: 2000px; margin-bottom: 1.5em;">
             <div class="ui fluid action input">
               <input 
                 class="prompt"
