@@ -190,30 +190,30 @@ include('allowed_users.php');
           ?>
             <!-- 문제 -->
             <a class="item <?php if ($url=="problemset.php") echo "active";?>"
-                href="<?php echo $path_fix?>problemset.php"><i class="list icon"></i><span class="desktop-only"><?php echo ?></span></a>
+                href="<?php echo $path_fix?>problemset.php"><i class="list icon"></i><span class="desktop-only"><?php echo $MSG_PROBLEMS?></span></a>
  
             <a class="item <?php if ($url=="contest.php") echo "active";?>" href="<?php echo $path_fix?>contest.php<?php if(isset($_SESSION[$OJ_NAME."_user_id"])) echo "?my" ?>" ><i
-                    class="trophy icon"></i><span class="desktop-only"> <?php echo ?></span></a>
+                    class="trophy icon"></i><span class="desktop-only"> <?php echo $MSG_CONTEST?></span></a>
             <!-- 상태 -->
             <a class="item <?php if ($url=="status.php") echo "active";?>" href="<?php echo $path_fix?>status.php"><i
-                    class="tasks icon"></i><span class="desktop-only"><?php echo ?></span></a>
+                    class="tasks icon"></i><span class="desktop-only"><?php echo $MSG_STATUS?></span></a>
             <!-- 순위 -->
             <a class="item <?php if ($url=="ranklist.php") echo "active";?> "
-                href="<?php echo $path_fix?>ranklist.php"><i class="signal icon"></i><span class="desktop-only"><?php echo ?></span></a>
+                href="<?php echo $path_fix?>ranklist.php"><i class="signal icon"></i><span class="desktop-only"><?php echo $MSG_RANKLIST?></span></a>
             <!-- 최근 경진대회 -->
 <?php if(isset($OJ_RECENT_CONTEST)&&$OJ_RECENT_CONTEST){    ?>
             <a class="item <?php if ($url=="recent-contest.php") echo "active";?> "
-                href="<?php echo $path_fix?>recent-contest.php"><i class="bullhorn icon"></i> <span class="desktop-only"><?php echo ></span></a>
+                href="<?php echo $path_fix?>recent-contest.php"><i class="bullhorn icon"></i> <span class="desktop-only"><?php echo $MSG_RECENT_CONTEST?></span></a>
 <?php } ?>
             <!-- 문제해결 전략게시판 -->
             <a class="item <?php if ($url=="faqs.php") echo "active";?>" href="<?php echo $path_fix?>faqs.php"><i
-                    class="help circle icon"></i><span class="desktop-only"> <?php echo ?></span></a>
+                    class="help circle icon"></i><span class="desktop-only"> <?php echo $MSG_FAQ?></span></a>
 
             <a class="item <?php if ($url=="troy_debugging.php") echo "active";?>" href="<?php echo $path_fix?>troy_debugging.php"><i
             class="bug icon"></i><span class="desktop-only"> <?php echo "디버그용"?></span></a>
             <!-- 토론 게시판 -->
               <?php if (isset($OJ_BBS)&& $OJ_BBS){ ?>
-                  <a class='item' href="discuss.php"><i class="clipboard icon"></i> <span class="desktop-only"><?php echo ></span></a>
+                  <a class='item' href="discuss.php"><i class="clipboard icon"></i> <span class="desktop-only"><?php echo $MSG_BBS?></span></a>
               <?php }
 
             }
