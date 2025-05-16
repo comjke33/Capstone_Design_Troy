@@ -181,7 +181,7 @@ include('allowed_users.php');
             
           <?php
             if(isset($OJ_AI_HTML)&&$OJ_AI_HTML && !isset($OJ_ON_SITE_CONTEST_ID) ) echo $OJ_AI_HTML;
-            else echo '<a class="desktop-only item" href="/"><i class="home icon"></i><span class="desktop-only">'.$MSG_HOME.'</span></a>';
+            else echo '<a class="desktop-only item" href="/"><i class="home icon"></i><span class="desktop-only">'.'</span></a>';
             if(file_exists("moodle"))  // Moodle 디렉토리가 있으면 자동으로 링크 추가
             {
               echo '<a class="item" href="moodle"><i class="group icon"></i><span class="desktop-only">Moodle</span></a>';
@@ -190,33 +190,30 @@ include('allowed_users.php');
           ?>
             <!-- 문제 -->
             <a class="item <?php if ($url=="problemset.php") echo "active";?>"
-                href="<?php echo $path_fix?>problemset.php"><i class="list icon"></i><span class="desktop-only"><?php echo $MSG_PROBLEMS?></span></a>
-            <!--//////////////////////////-->
-            <!-- 소스/카테고리 제거-->
-            <!--//////////////////////////-->
-            <!-- 경진대회/과제 -->
+                href="<?php echo $path_fix?>problemset.php"><i class="list icon"></i><span class="desktop-only"><?php echo ?></span></a>
+ 
             <a class="item <?php if ($url=="contest.php") echo "active";?>" href="<?php echo $path_fix?>contest.php<?php if(isset($_SESSION[$OJ_NAME."_user_id"])) echo "?my" ?>" ><i
-                    class="trophy icon"></i><span class="desktop-only"> <?php echo $MSG_CONTEST?></span></a>
+                    class="trophy icon"></i><span class="desktop-only"> <?php echo ?></span></a>
             <!-- 상태 -->
             <a class="item <?php if ($url=="status.php") echo "active";?>" href="<?php echo $path_fix?>status.php"><i
-                    class="tasks icon"></i><span class="desktop-only"><?php echo $MSG_STATUS?></span></a>
+                    class="tasks icon"></i><span class="desktop-only"><?php echo ?></span></a>
             <!-- 순위 -->
             <a class="item <?php if ($url=="ranklist.php") echo "active";?> "
-                href="<?php echo $path_fix?>ranklist.php"><i class="signal icon"></i><span class="desktop-only"><?php echo $MSG_RANKLIST?></span></a>
+                href="<?php echo $path_fix?>ranklist.php"><i class="signal icon"></i><span class="desktop-only"><?php echo ?></span></a>
             <!-- 최근 경진대회 -->
 <?php if(isset($OJ_RECENT_CONTEST)&&$OJ_RECENT_CONTEST){    ?>
             <a class="item <?php if ($url=="recent-contest.php") echo "active";?> "
-                href="<?php echo $path_fix?>recent-contest.php"><i class="bullhorn icon"></i> <span class="desktop-only"><?php echo $MSG_RECENT_CONTEST?></span></a>
+                href="<?php echo $path_fix?>recent-contest.php"><i class="bullhorn icon"></i> <span class="desktop-only"><?php echo ></span></a>
 <?php } ?>
             <!-- 문제해결 전략게시판 -->
             <a class="item <?php if ($url=="faqs.php") echo "active";?>" href="<?php echo $path_fix?>faqs.php"><i
-                    class="help circle icon"></i><span class="desktop-only"> <?php echo $MSG_FAQ?></span></a>
+                    class="help circle icon"></i><span class="desktop-only"> <?php echo ?></span></a>
 
             <a class="item <?php if ($url=="troy_debugging.php") echo "active";?>" href="<?php echo $path_fix?>troy_debugging.php"><i
             class="bug icon"></i><span class="desktop-only"> <?php echo "디버그용"?></span></a>
             <!-- 토론 게시판 -->
               <?php if (isset($OJ_BBS)&& $OJ_BBS){ ?>
-                  <a class='item' href="discuss.php"><i class="clipboard icon"></i> <span class="desktop-only"><?php echo $MSG_BBS?></span></a>
+                  <a class='item' href="discuss.php"><i class="clipboard icon"></i> <span class="desktop-only"><?php echo ></span></a>
               <?php }
 
             }
@@ -224,14 +221,14 @@ include('allowed_users.php');
             <?php if( isset($_GET['cid']) && intval($_GET['cid'])>0 ){
                      $cid=intval($_GET['cid']);
                      if(!isset($OJ_ON_SITE_CONTEST_ID)){   ?>
-                            <a id="" class="item" href="<?php echo $path_fix?>contest.php" ><i class="arrow left icon"></i><span class="desktop-only"><?php echo $MSG_CONTEST.$MSG_LIST?></span></a>
+                            <a id="" class="item" href="<?php echo $path_fix?>contest.php" ><i class="arrow left icon"></i><span class="desktop-only"></span></a>
             <?php    }      ?>
-            <a id="" class="item active" href="<?php echo $path_fix?>contest.php?cid=<?php echo $cid?>" ><i class="list icon"></i><span class="desktop-only"><?php echo $MSG_PROBLEMS.$MSG_LIST?></span></a>
-            <a id="" class="item active" href="<?php echo $path_fix?>status.php?cid=<?php echo $cid?>" ><i class="tasks icon"></i><span class="desktop-only"><?php echo $MSG_STATUS.$MSG_LIST?></span></a>
-            <a id="" class="item active" href="<?php echo $path_fix?>contestrank.php?cid=<?php echo $cid?>" ><i class="numbered list icon"></i><span class="desktop-only"><?php echo $MSG_RANKLIST?></span></a>
-            <a id="" class="item active" href="<?php echo $path_fix?>contestrank-oi.php?cid=<?php echo $cid?>" ><i class="child icon"></i><span class="desktop-only">OI-<?php echo $MSG_RANKLIST?></span></a>
+            <a id="" class="item active" href="<?php echo $path_fix?>contest.php?cid=<?php echo $cid?>" ><i class="list icon"></i><span class="desktop-only"></span></a>
+            <a id="" class="item active" href="<?php echo $path_fix?>status.php?cid=<?php echo $cid?>" ><i class="tasks icon"></i><span class="desktop-only"></span></a>
+            <a id="" class="item active" href="<?php echo $path_fix?>contestrank.php?cid=<?php echo $cid?>" ><i class="numbered list icon"></i><span class="desktop-only"></span></a>
+            <a id="" class="item active" href="<?php echo $path_fix?>contestrank-oi.php?cid=<?php echo $cid?>" ><i class="child icon"></i><span class="desktop-only">OI-</span></a>
             <?php if (isset($OJ_BBS)&& $OJ_BBS){ ?>
-                  <a class='item active' href="discuss.php?cid=<?php echo $cid?>"><i class="clipboard icon"></i> <span class="desktop-only"><?php echo $MSG_BBS?></span></a>
+                  <a class='item active' href="discuss.php?cid=<?php echo $cid?>"><i class="clipboard icon"></i> <span class="desktop-only"></span></a>
              <?php } ?>
 
                     <?php if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'contest_creator'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])){ ?>
