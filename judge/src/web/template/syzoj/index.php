@@ -70,7 +70,7 @@
         $month_id = (!empty($month_id) && isset($month_id[0][0])) ? $month_id[0][0] : 0;
 
         if(isset($NOIP_flag[0]) && $NOIP_flag[0]==0) {
-          $view_month_rank = mysql_query_cache("SELECT user_id,nick,COUNT(DISTINCT problem_id) ac FROM solution WHERE solution_id>$month_id AND problem_id>0 AND user_id NOT IN ($OJ_RANK_HIDDEN) AND result=4 GROUP BY user_id,nick ORDER BY ac DESC LIMIT 10");
+          $view_month_rank = mysql_query_cache("SELECT user_id,nick,COUNT(DISTINCT problem_id) ac FROM solution WHERE solution_id>$month_id AND problem_id>0 AND user_id NOT IN ($OJ_RANK_HIDDEN) AND result=4 GROUP BY user_id,nick ORDER BY ac DESC LIMIT 5"); //상위 5명만 출력
           if(!empty($view_month_rank)) {
       ?>
             <h4 class="ui top attached block header"><i class="ui star icon"></i>이달의 우수생</h4>
