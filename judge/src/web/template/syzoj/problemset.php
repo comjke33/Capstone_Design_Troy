@@ -20,20 +20,15 @@
           </form>
 
 
-          <form action="problem.php" method="get" style="max-width: 400px; margin: 0 auto;">
-            <div class="ui fluid action input">
-              <input 
-                type="text" 
-                name="id" 
-                placeholder="문제 ID를 입력하세요…" 
-                value="<?= isset($_GET['id']) ? htmlentities($_GET['id'], ENT_QUOTES, 'UTF-8') : '' ?>"
-              >
-              <button type="submit" class="ui blue icon button">
+          <form action="problem.php" method="get">
+            <div class="ui search" style="width: 120px; height: 28px; margin-top: -5.3px; ">
+              <div class="ui icon input" style="width: 100%; ">
+                <input class="prompt" style="width: 100%; " type="text" value="" placeholder="ID" name="id">
                 <i class="search icon"></i>
-              </button>
+              </div>
+              <div class="results" style="width: 100%; "></div>
             </div>
           </form>
-
 
       </div>
 
