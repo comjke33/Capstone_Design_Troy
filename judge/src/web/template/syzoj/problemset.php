@@ -5,33 +5,37 @@
   <div class="ui grid" style="margin-bottom: 10px; ">
     <div class="row" style="white-space: nowrap; ">
       <div class="seven wide column">
-          <form action="" method="get">
-            <div class="ui search" style="max-width: 300px; margin-bottom: 1em;">
-              <!-- ui 수정 -->
-              <div class="ui fluid left icon input">
-                <input 
-                  class="prompt" 
-                  type="text" 
-                  name="search" 
-                  placeholder="<?php echo $MSG_TITLE; ?> …" 
-                  value="<?php if (isset($_GET['search'])) echo htmlentities($_GET['search'], ENT_QUOTES, 'UTF-8'); ?>"
-                >
+          <!-- 문제 제목 또는 출처 검색 -->
+          <form action="" method="get" style="max-width: 500px; margin-bottom: 1.5em;">
+            <div class="ui fluid action input">
+              <input 
+                class="prompt"
+                type="text" 
+                name="search" 
+                placeholder="<?php echo $MSG_TITLE; ?> 또는 출처로 검색하세요…" 
+                value="<?php if (isset($_GET['search'])) echo htmlentities($_GET['search'], ENT_QUOTES, 'UTF-8'); ?>"
+              >
+              <button type="submit" class="ui blue icon button">
                 <i class="search icon"></i>
-              </div>
-              <div class="results"></div>
-            </div>
-
-          </form>
-
-          <form action="problem.php" method="get">
-            <div class="ui search" style="width: 120px; height: 28px; margin-top: -5.3px; ">
-              <div class="ui icon input" style="width: 100%; ">
-                <input class="prompt" style="width: 100%; " type="text" value="" placeholder="ID" name="id">
-                <i class="search icon"></i>
-              </div>
-              <div class="results" style="width: 100%; "></div>
+              </button>
             </div>
           </form>
+
+          <!-- 문제 ID로 바로 이동 -->
+          <form action="problem.php" method="get" style="max-width: 300px;">
+            <div class="ui fluid action input">
+              <input 
+                type="text" 
+                name="id" 
+                placeholder="문제 ID 입력…" 
+                value="<?php if (isset($_GET['id'])) echo htmlentities($_GET['id'], ENT_QUOTES, 'UTF-8'); ?>"
+              >
+              <button type="submit" class="ui blue icon button">
+                <i class="search icon"></i>
+              </button>
+            </div>
+          </form>
+
 
       </div>
 
