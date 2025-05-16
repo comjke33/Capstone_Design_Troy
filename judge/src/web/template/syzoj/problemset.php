@@ -5,23 +5,20 @@
   <div class="ui grid" style="margin-bottom: 10px; ">
     <div class="row" style="white-space: nowrap; ">
       <div class="seven wide column">
-          <form action="" method="get">
-            <div class="ui search" style="max-width: 300px; margin-bottom: 1em;">
-              <!-- ui 수정 -->
-              <div class="ui fluid left icon input">
-                <input 
-                  class="prompt" 
-                  type="text" 
-                  name="search" 
-                  placeholder="<?php echo $MSG_TITLE; ?> …" 
-                  value="<?php if (isset($_GET['search'])) echo htmlentities($_GET['search'], ENT_QUOTES, 'UTF-8'); ?>"
-                >
+          <form action="problem.php" method="get" style="max-width: 500px; margin: auto;">
+            <div class="ui fluid action input">
+              <input 
+                type="text" 
+                name="id" 
+                placeholder="문제 ID 또는 번호를 입력하세요…" 
+                value="<?= isset($_GET['id']) ? htmlentities($_GET['id'], ENT_QUOTES, 'UTF-8') : '' ?>"
+              >
+              <button type="submit" class="ui blue icon button">
                 <i class="search icon"></i>
-              </div>
-              <div class="results"></div>
+              </button>
             </div>
-
           </form>
+
 
           <form action="problem.php" method="get">
             <div class="ui search" style="width: 120px; height: 28px; margin-top: -5.3px; ">
