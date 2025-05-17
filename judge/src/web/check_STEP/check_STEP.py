@@ -128,28 +128,29 @@ def validate_code_output_full_io(code_lines, test_in_path):
     exe_name = generate_unique_name()
     exe_path = f"/tmp/{exe_name}"
 
+    # 코드 블럭을 가져와서 교체
+    final_code = ''.join(code_lines)
     with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False, dir="/tmp") as temp_file:
-        temp_file.write(''.join(code_lines))
+        temp_file.write(final_code)
         temp_file.flush()
         temp_c_path = temp_file.name
 
     try:
         env = os.environ.copy()
-        env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/9:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
+        env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/11:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
 
-        # 컴파일 단계
+        # 1. 컴파일 시도
         compile_result = subprocess.run(
             ['gcc', temp_c_path, '-o', exe_path],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
-            check=False,
+            check=True,
             env=env
         )
         if compile_result.returncode != 0:
             print(f"[❌] 컴파일 실패:\n{compile_result.stderr}")
             return False
-
     except subprocess.CalledProcessError as e:
         print(f"[❌] 컴파일 실패:\n{e.stderr}")
         return False
@@ -189,6 +190,7 @@ def validate_code_output_full_io(code_lines, test_in_path):
             if os.path.exists(exe_path):
                 os.remove(exe_path)
 
+    # 최종 성공 시 한 번만 correct 출력
     print("correct")
     return True
 def main():
@@ -202,10 +204,12 @@ def main():
     with open(param_file, 'r', encoding='utf-8') as f:
         params = json.load(f)
 
-    pid = params.get("problem_id", "0")
-    step = params.get("step", "1")  # 기본값으로 "1" 설정
-    line_num = int(params.get("index", "0"))
-    student_code = params.get("answer", "")
+    pid = params["problem_id"]
+    step = params["step"]
+    line_num = int(params["index"])
+    student_code = params["answer"]
+
+    print(f"Problem ID: {pid}, Step: {step}, Index: {line_num}, Code: {student_code}")
 
     filename = f"../tagged_code/{pid}_step{step}.txt"
     test_in_path = f"../../../data/{pid}"
