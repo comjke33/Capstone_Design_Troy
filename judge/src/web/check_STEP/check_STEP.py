@@ -122,7 +122,6 @@ def generate_unique_name():
     return f"test_program_{uuid.uuid4().hex}"
 
 
-
 def validate_code_output_full_io(code_lines, test_in_path):
     """코드 컴파일 및 테스트 케이스 실행"""
     exe_name = generate_unique_name()
@@ -184,7 +183,7 @@ def validate_code_output_full_io(code_lines, test_in_path):
             if os.path.exists(exe_path):
                 os.remove(exe_path)
 
-    print("correct")
+    # 최종 성공 시 한 번만 correct 출력
     return True
 
 def main():
@@ -214,12 +213,12 @@ def main():
     final_code = ''.join(line for block in all_blocks for line in block)
     final_code = re.sub(r'\[[^\]]*\]', '', final_code)
 
+    # validate 함수의 반환값에 따라 출력
     if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
-        return
     else:
         print("no")
-        return
 
 if __name__ == "__main__":
+    main()
     main()
