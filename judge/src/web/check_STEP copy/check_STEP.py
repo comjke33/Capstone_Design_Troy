@@ -156,6 +156,29 @@ def validate_code_output_full_io(code_lines, test_in_path):
     print("correct")
     return True
 
+def validate_code_output_full_io(code_lines, test_in_path):
+    """코드 컴파일 및 테스트 케이스 실행"""
+    exe_path = "/tmp/test_program"
+    with open("/tmp/final_code.c", 'w') as temp_file:
+        temp_file.write(''.join(code_lines))
+
+    try:
+        env = os.environ.copy()
+        env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/11:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
+        subprocess.run(
+            ['gcc', '/tmp/final_code.c', '-o', exe_path],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=True,
+            env=env
+        )
+    except subprocess.CalledProcessError as e:
+        print(f"[❌] 컴파일 실패:\n{e.stderr}")
+        return False
+
+    return True
+
 def main():
     if len(sys.argv) != 2:
         print("Usage: python3 check_STEP.py <param_file>")
@@ -170,16 +193,24 @@ def main():
     pid = params["problem_id"]
     step = params["step"]
     line_num = int(params["index"])
-    student_code = params["answer"]
+    code_file = params["code_file"]
 
-    # 디버깅용 출력
-    print(f"Problem ID: {pid}, Step: {step}, Index: {line_num}, Code: {student_code}")
+    # 원본 코드 불러오기
+    original_code_path = f"../tagged_code/{pid}_step{step}.txt"
+    code_lines = read_code_lines(original_code_path)
 
+    # 사용자 코드 불러오기
+    with open(code_file, 'r') as f:
+        user_code = f.read()
+
+    # 코드 블럭 교체
+    block_num = line_num
+    new_block = [line + '\n' for line in user_code.split('\\n')]
+    code_lines[block_num] = ''.join(new_block)
+
+    # 최종 코드 컴파일 및 실행
     test_in_path = f"../../../data/{pid}"
-    final_code = student_code + '\n'
-
-    # 컴파일 및 실행
-    if validate_code_output_full_io(final_code, test_in_path):
+    if validate_code_output_full_io(code_lines, test_in_path):
         print("correct")
     else:
         print("no")
