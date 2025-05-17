@@ -160,17 +160,19 @@ def main():
     with open(param_file, 'r', encoding='utf-8') as f:
         params = json.load(f)
 
-    pid = params["problem_id"]
-    step = params["step"]
-    line_num = int(params["index"])
-    student_code = params["answer"]
+    pid = params.get("problem_id", "0")
+    step = params.get("step", "1")  # 기본값으로 "1" 설정
+    line_num = int(params.get("index", "0"))
+    student_code = params.get("answer", "")
 
-    # 코드 내용
+    filename = f"../tagged_code/{pid}_step{step}.txt"
+    test_in_path = f"../../../data/{pid}"
+
+    code_lines = read_code_lines(filename)
+
+    # 최종 코드 생성
     final_code = student_code + '\n'
     final_code = re.sub(r'\[[^\]]*\]', '', final_code)
-
-    # 테스트 입력 경로
-    test_in_path = f"../../../data/{pid}"
 
     # 컴파일 및 실행
     if validate_code_output_full_io(final_code, test_in_path):
