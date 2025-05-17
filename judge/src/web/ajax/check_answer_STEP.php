@@ -6,13 +6,16 @@ $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";
 
+// 역슬래시를 이중으로 처리하지 않도록
+$answer = str_replace("\\", "\\\\", $answer);
+
 // JSON 파일 경로 생성
 $param_file = "/tmp/params_" . uniqid() . ".json";
 $params = [
     "problem_id" => $problemId,
     "step" => $step,
     "index" => $index,
-    "answer" => $answer  // 이스케이프 처리하지 않음
+    "answer" => $answer  // 이스케이프 처리 조정
 ];
 file_put_contents($param_file, json_encode($params, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 

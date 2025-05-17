@@ -133,6 +133,7 @@ def validate_code_output_full_io(code_lines, test_in_path):
     exe_path = "/tmp/test_program"
 
     with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False, dir="/tmp") as temp_file:
+        # 코드 라인을 그대로 기록
         temp_file.write(''.join(code_lines))
         temp_file.flush()
         temp_c_path = temp_file.name
@@ -177,7 +178,7 @@ def main():
     test_in_path = f"../../../data/{pid}"
     final_code = student_code + '\n'
 
-    # 역슬래시를 수정하지 않고 그대로 사용
+    # 컴파일 및 실행
     if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
     else:
