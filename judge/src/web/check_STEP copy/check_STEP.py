@@ -123,13 +123,19 @@ def generate_unique_name():
     return f"test_program_{uuid.uuid4().hex}"
 
 
+def decode_escape_sequences(text):
+    """이스케이프 시퀀스를 올바르게 변환"""
+    return text.encode('utf-8').decode('unicode_escape')
+
 def validate_code_output_full_io(code_lines, test_in_path):
     """코드 컴파일 및 테스트 케이스 실행"""
     exe_path = "/tmp/test_program"
 
+    # 임시 파일 생성
     with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False, dir="/tmp") as temp_file:
-        # 문자열 이스케이프 처리 개선
-        code_content = ''.join(code_lines).encode('utf-8').decode('unicode_escape')
+        # 이스케이프 시퀀스 복구
+        code_content = ''.join(code_lines)
+        code_content = decode_escape_sequences(code_content)
         temp_file.write(code_content)
         temp_file.flush()
         temp_c_path = temp_file.name
