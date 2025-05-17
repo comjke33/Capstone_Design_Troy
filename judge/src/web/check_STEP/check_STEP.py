@@ -128,6 +128,7 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
     exe_name = f"test_program_{uuid.uuid4().hex}"
     exe_path = f"/tmp/{exe_name}"
 
+    # 임시 파일에 코드 작성 (전체 코드 포함)
     with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False, dir="/tmp") as temp_file:
         temp_file.write(''.join(code_lines))
         temp_file.flush()
