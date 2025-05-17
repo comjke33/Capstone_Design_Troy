@@ -177,9 +177,7 @@ def main():
     test_in_path = f"../../../data/{pid}"
     final_code = student_code + '\n'
 
-    # 코드 이스케이프 복구
-    final_code = final_code.replace('\\\\', '\\')
-
+    # 역슬래시를 수정하지 않고 그대로 사용
     if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
     else:

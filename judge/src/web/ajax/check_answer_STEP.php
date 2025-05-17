@@ -12,7 +12,7 @@ $params = [
     "problem_id" => $problemId,
     "step" => $step,
     "index" => $index,
-    "answer" => addslashes($answer)  // 역슬래시를 이스케이프하여 저장
+    "answer" => $answer  // 이스케이프 처리하지 않음
 ];
 file_put_contents($param_file, json_encode($params, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 
