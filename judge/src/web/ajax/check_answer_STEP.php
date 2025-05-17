@@ -10,20 +10,20 @@ $step = $data["step"] ?? "1";  // 단계 정보를 변수로 처리
 $escapedAnswer = escapeshellarg($answer);
 $escapedProblemId = escapeshellarg($problemId);
 $escapedIndex = escapeshellarg($index);
-$escapedStep = escapeshellarg($step);  // 추가
+$escapedStep = escapeshellarg($step);
 
-// 임시 파일에 JSON 데이터 작성
-$json_data = json_encode([
+// 파라미터를 JSON 형식으로 임시 파일에 저장
+$param = [
     "problem_id" => $problemId,
     "step" => $step,
     "index" => $index,
     "answer" => $answer
-]);
-$tmp_filename = "/tmp/" . uniqid("param_", true) . ".json";
-file_put_contents($tmp_filename, $json_data);
+];
+$paramFile = tempnam(sys_get_temp_dir(), 'param_') . '.json';
+file_put_contents($paramFile, json_encode($param, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 
 // 파이썬 실행 명령어 (출력과 오류 모두 캡처)
-$cmd = "cd ../check_STEP && python3 check_STEP.py " . escapeshellarg($tmp_filename) . " 2>&1";
+$cmd = "cd ../check_STEP && python3 check_STEP.py $paramFile 2>&1";
 
 // 디버그 로그 작성
 file_put_contents("/tmp/php_debug.log", "Command: $cmd\n", FILE_APPEND);
@@ -36,5 +36,5 @@ header("Content-Type: application/json");
 echo json_encode($response);
 
 // 임시 파일 삭제
-unlink($tmp_filename);
+unlink($paramFile);
 ?>
