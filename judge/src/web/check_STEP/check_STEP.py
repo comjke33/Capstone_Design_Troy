@@ -130,6 +130,7 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
 
     # 코드 전체를 임시 파일로 작성
     with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False, dir="/tmp") as temp_file:
+        # 코드 전체를 임시 파일에 기록
         temp_file.write(''.join(code_lines))
         temp_file.flush()
         temp_c_path = temp_file.name
@@ -138,9 +139,9 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
         env = os.environ.copy()
         env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/11:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
 
-        # 1. 컴파일
+        # 컴파일
         subprocess.run(
-            ['/usr/bin/gcc', '-o', exe_path, temp_c_path],
+            ['gcc', temp_c_path, '-o', exe_path],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
@@ -159,37 +160,37 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
     for in_file in test_files:
         base_name = os.path.splitext(in_file)[0]
         out_file = base_name + '.out'
-
         in_path = os.path.join(test_in_path, in_file)
         out_path = os.path.join(test_in_path, out_file)
 
-        # 입력/출력 파일 읽기
         with open(in_path, 'r') as fin:
             full_input = fin.read()
         with open(out_path, 'r') as fout:
             expected_output = fout.read().strip()
 
-        # 프로그램 실행
-        result = subprocess.run(
-            [exe_path],
-            input=full_input,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            timeout=5
-        )
-        actual_output = result.stdout.strip()
+        try:
+            result = subprocess.run(
+                [exe_path],
+                input=full_input,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                timeout=5
+            )
+            actual_output = result.stdout.strip()
 
-        # 결과 비교
-        if actual_output != expected_output:
-            print(f"[❌] 테스트 실패: {base_name}")
-            all_passed = False
+            if actual_output != expected_output:
+                print(f"[❌] 테스트 실패: {base_name}")
+                return False
+        except subprocess.TimeoutExpired:
+            print("[❌] 실행 시간 초과")
+            return False
+        finally:
+            if os.path.exists(exe_path):
+                os.remove(exe_path)
 
-    # 삭제: 실행 파일 제거
-    if os.path.exists(exe_path):
-        os.remove(exe_path)
-
-    return all_passed
+    print("correct")
+    return True
 
 
 def main():
@@ -212,18 +213,15 @@ def main():
     test_in_path = f"../../../data/{pid}"
     test_out_path = f"../../../data/{pid}/test.out"
 
-    # 기존 코드 불러오기
+    # 기존 코드 읽기
     original_code_lines = read_code_lines(filename)
 
-    # 사용자 코드 삽입
+    # 코드 교체
     if 0 <= line_num < len(original_code_lines):
         original_code_lines[line_num] = student_code + '\n'
 
-    # 최종 코드 생성
-    final_code = ''.join(original_code_lines)
-
-    # 코드 검증
-    if validate_code_output_full_io(final_code, test_in_path, test_out_path):
+    # 컴파일 및 실행
+    if validate_code_output_full_io(original_code_lines, test_in_path, test_out_path):
         print("correct")
     else:
         print("no")
