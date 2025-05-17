@@ -198,10 +198,9 @@ def main():
     line_num = int(params["index"])
     student_code = params["answer"]
 
-    print(f"Problem ID: {pid}, Step: {step}, Index: {line_num}, Code: {student_code}")
-
     filename = f"../tagged_code/{pid}_step{step}.txt"
     test_in_path = f"../../../data/{pid}"
+    test_out_path = f"../../../data/{pid}/test.out"  # 추가
 
     code_lines = read_code_lines(filename)
 
@@ -210,7 +209,7 @@ def main():
     final_code = re.sub(r'\[[^\]]*\]', '', final_code)
 
     # 컴파일 및 실행
-    if validate_code_output_full_io(final_code, test_in_path):
+    if validate_code_output_full_io(final_code, test_in_path, test_out_path):  # 인자 추가
         print("correct")
     else:
         print("no")
