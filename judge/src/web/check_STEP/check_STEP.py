@@ -4,6 +4,7 @@ import re
 import os
 import sys
 import ast
+import uuid
 
 
 def is_tag_line(line):
@@ -115,117 +116,86 @@ def print_blocks(blocks):
     #     for line in block:
             # print(line.rstrip())
 
-def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
-    """전체 test.in을 입력하고 전체 출력과 비교"""
-    with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False) as temp_file:
+
+def generate_unique_name():
+    """유니크한 실행 파일 이름 생성"""
+    return f"test_program_{uuid.uuid4().hex}"
+
+
+
+
+def validate_code_output_full_io(code_lines, test_in_path):
+    """코드 컴파일 및 테스트 케이스 실행"""
+    exe_name = generate_unique_name()
+    exe_path = f"/tmp/{exe_name}"
+
+    with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False, dir="/tmp") as temp_file:
         temp_file.write(''.join(code_lines))
         temp_file.flush()
+        temp_c_path = temp_file.name
 
-        try:
-            env = os.environ.copy()
-            env["PATH"] = "/usr/bin:" + env.get("PATH", "")
-            # 1. 컴파일
-            subprocess.run(
-                ['/usr/bin/gcc', '-o', 'test_program', temp_file.name],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                check=True,
-                env=env
-            )
-        except subprocess.CalledProcessError as e:
-            print(f"[❌] 컴파일 실패:\n{e.stderr}")
-            return False
-        
+    try:
+        subprocess.run(
+            ['gcc', temp_c_path, '-o', exe_path],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=True
+        )
+    except subprocess.CalledProcessError as e:
+        print(f"[❌] 컴파일 실패:\n{e.stderr}")
+        return False
+
     test_files = [f for f in os.listdir(test_in_path) if f.endswith('.in')]
     test_files.sort()
 
-    all_passed = True
-    
     for in_file in test_files:
         base_name = os.path.splitext(in_file)[0]
         out_file = base_name + '.out'
-
         in_path = os.path.join(test_in_path, in_file)
         out_path = os.path.join(test_in_path, out_file)
 
-        # 입력/출력 파일 읽기
         with open(in_path, 'r') as fin:
             full_input = fin.read()
         with open(out_path, 'r') as fout:
             expected_output = fout.read().strip()
 
-        # 프로그램 실행
-        result = subprocess.run(
-            ['./test_program'],
-            input=full_input,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            timeout=5
-        )
-        actual_output = result.stdout.strip()
+        try:
+            result = subprocess.run(
+                [exe_path],
+                input=full_input,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                timeout=5
+            )
+            actual_output = result.stdout.strip()
 
-        # 결과 비교
-        if actual_output != expected_output:
-            # print(f"✅ {base_name}: 통과")
-            all_passed = False
+            if actual_output != expected_output:
+                print(f"[❌] 테스트 실패: {base_name}")
+                return False
+        except subprocess.TimeoutExpired:
+            print("[❌] 실행 시간 초과")
+            return False
+        finally:
+            if os.path.exists(exe_path):
+                os.remove(exe_path)
 
-    return all_passed
-
-    # # 2. 입력/출력 파일 로드
-    # with open(test_in_path, 'r') as fin:
-    #     full_input = fin.read()
-    # with open(test_out_path, 'r') as fout:
-    #     expected_output = fout.read().strip()
-    # # print(full_input)
-    # # print(expected_output)
-
-    # # 3. 실행
-    # # try:
-    # result = subprocess.run(
-    #     ['./test_program'],
-    #     input=full_input,
-    #     stdout=subprocess.PIPE,
-    #     stderr=subprocess.PIPE,
-    #     text=True,
-    #     timeout=5
-    # )
-    # actual_output = result.stdout.strip()
-
-    # if actual_output == expected_output:
-    #     # print("✅ 전체 출력이 예상과 일치합니다.")
-    #     # print("----- 예상 출력 -----")
-    #     # print(expected_output)
-    #     # print("----- 실제 출력 -----")
-    #     # print(actual_output)            
-    #     return True
-    # else:
-    #     # print("❌ 출력 불일치:")
-    #     # print("----- 예상 출력 -----")
-    #     # print(expected_output)
-    #     # print("----- 실제 출력 -----")
-    #     # print(actual_output)
-    #     return False
-
-    # except subprocess.TimeoutExpired:
-    #     print("⏰ 실행 시간 초과")
+    print("correct")
+    return True
 
 def main():
     if len(sys.argv) == 5:
         pid = sys.argv[1]
-        step = sys.argv[2]  # 추가: step 변수를 처리
+        step = sys.argv[2]
         line_num = sys.argv[3]
         student_code = sys.argv[4]
 
     student_code = ast.literal_eval(f"'{student_code}'")
-
-    filename = f"../tagged_code/{pid}_step{step}.txt"  # step 변수 사용
+    filename = f"../tagged_code/{pid}_step{step}.txt"
     test_in_path = f"../../../data/{pid}"
-    test_out_path = f"../../../data/{pid}/test.out"
 
     code_lines = read_code_lines(filename)
-
     includes, blocks, closing_braces, all_blocks, block_indices = get_blocks(code_lines)
 
     block_num = int(line_num)
@@ -241,7 +211,7 @@ def main():
     final_code = ''.join(line for block in all_blocks for line in block)
     final_code = re.sub(r'\[[^\]]*\]', '', final_code)
 
-    if validate_code_output_full_io(final_code, test_in_path, test_out_path):
+    if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
     else:
         print("no")
