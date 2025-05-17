@@ -123,10 +123,6 @@ def generate_unique_name():
     return f"test_program_{uuid.uuid4().hex}"
 
 
-def decode_escape_sequences(text):
-    """이스케이프 시퀀스를 올바르게 변환"""
-    return text.encode('utf-8').decode('unicode_escape')
-
 
 def validate_code_output_full_io(code_lines, test_in_path):
     """코드 컴파일 및 테스트 케이스 실행"""
@@ -156,29 +152,9 @@ def validate_code_output_full_io(code_lines, test_in_path):
     print("correct")
     return True
 
-def validate_code_output_full_io(code_lines, test_in_path):
-    """코드 컴파일 및 테스트 케이스 실행"""
-    exe_path = "/tmp/test_program"
-    with open("/tmp/final_code.c", 'w') as temp_file:
-        temp_file.write(''.join(code_lines))
-
-    try:
-        env = os.environ.copy()
-        env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/11:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
-        subprocess.run(
-            ['gcc', '/tmp/final_code.c', '-o', exe_path],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            check=True,
-            env=env
-        )
-    except subprocess.CalledProcessError as e:
-        print(f"[❌] 컴파일 실패:\n{e.stderr}")
-        return False
-
-    print("correct")
-    return True
+def decode_escape_sequences(text):
+    """이스케이프 시퀀스를 올바르게 변환"""
+    return bytes(text, "utf-8").decode("unicode_escape")
 
 def main():
     if len(sys.argv) != 2:
@@ -191,33 +167,22 @@ def main():
     with open(param_file, 'r', encoding='utf-8') as f:
         params = json.load(f)
 
-    # "answer" 필드 존재 여부 확인
-    if "answer" not in params:
-        print("Error: 'answer' field not found in JSON")
-        sys.exit(1)
+    pid = params["problem_id"]
+    step = params["step"]
+    line_num = int(params["index"])
+    student_code = decode_escape_sequences(params["answer"])
 
-    pid = params.get("problem_id", "0")
-    step = params.get("step", "1")
-    line_num = int(params.get("index", "0"))
-    code_file = params.get("code_file", "")
-    student_code = params.get("answer", "")
+    # 디버그 출력
+    print(f"Problem ID: {pid}, Step: {step}, Index: {line_num}, Code: {student_code}")
 
-    # 원본 코드 불러오기
-    original_code_path = f"../tagged_code/{pid}_step{step}.txt"
-    code_lines = read_code_lines(original_code_path)
-
-    # 사용자 코드 불러오기
-    with open(code_file, 'r') as f:
-        user_code = f.read()
-
-    # 코드 블럭 교체
-    block_num = line_num
-    new_block = [line + '\n' for line in user_code.split('\\n')]
-    code_lines[block_num] = ''.join(new_block)
+    # 임시로 사용자 코드 저장
+    code_file = "/tmp/user_code.c"
+    with open(code_file, 'w') as f:
+        f.write(student_code)
 
     # 최종 코드 컴파일 및 실행
     test_in_path = f"../../../data/{pid}"
-    if validate_code_output_full_io(code_lines, test_in_path):
+    if validate_code_output_full_io([student_code], test_in_path):
         print("correct")
     else:
         print("no")

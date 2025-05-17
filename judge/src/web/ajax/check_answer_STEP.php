@@ -6,8 +6,8 @@ $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";
 
-// 안전한 인자 처리
-$escapedAnswer = addslashes($answer);
+// 역슬래시를 제대로 처리
+$escapedAnswer = str_replace("\\", "\\\\", $answer);
 
 // 임시 코드 파일 경로 생성
 $code_file = "/tmp/code_" . uniqid() . ".c";
@@ -19,7 +19,7 @@ $params = [
     "problem_id" => $problemId,
     "step" => $step,
     "index" => $index,
-    "answer" => $escapedAnswer,  // 추가됨
+    "answer" => $escapedAnswer,  
     "code_file" => $code_file
 ];
 file_put_contents($param_file, json_encode($params));
