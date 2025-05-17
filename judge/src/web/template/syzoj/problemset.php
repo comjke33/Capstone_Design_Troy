@@ -80,6 +80,10 @@
 <?php } ?> -->
 
 
+<!-- 검색창 아래 여백 추가 -->
+<div class="ui hidden divider" style="margin-top: 2em;"></div>
+
+  <!-- 테이블 부분 -->
   <table class="ui very basic center aligned table">
     <thead>
       <tr>
