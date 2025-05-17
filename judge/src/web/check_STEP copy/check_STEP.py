@@ -124,10 +124,14 @@ def generate_unique_name():
 
 
 
+
 def validate_code_output_full_io(code, test_in_path):
     """코드 컴파일 및 테스트 케이스 실행"""
     exe_path = "/tmp/test_program"
     temp_c_path = "/tmp/final_code.c"
+
+    # 이스케이프 문자를 올바르게 디코딩
+    code = decode_escape_sequences(code)
 
     # 최종 코드 파일 작성
     with open(temp_c_path, 'w') as temp_file:
@@ -148,7 +152,6 @@ def validate_code_output_full_io(code, test_in_path):
         print(f"[❌] 컴파일 실패:\n{e.stderr}")
         return False
 
-    print("correct")
     return True
 
 def main():
