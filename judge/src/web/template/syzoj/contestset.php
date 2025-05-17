@@ -4,25 +4,42 @@
 <div class="ui grid" style="margin-bottom: 10px; ">
     <div class="row" style="white-space: nowrap; ">
       <div class="seven wide column">
-          <form method=post action=contest.php >
-            <!-- 검색창 부분, my파라미터 존재 시 내 대회만 -->
-            <div class="ui search" style="width: 280px; height: 28px; margin-top: -5.3px; ">
-              <div class="ui left icon input" style="width: 100%; ">
-                <input class="prompt" style="width: 100%; " type="text" value="" placeholder=" <?php echo $MSG_CONTEST_NAME ?> …" name="keyword">
-                <i class="search icon"></i>&nbsp;&nbsp;&nbsp;
-                <?php
-                if(isset($_GET['my'])){
-                
-                echo '<a  class="ui button"  href="contest.php" >'.$MSG_VIEW_ALL_CONTESTS .'</a>';
-                }else{
-                
-                echo '<a  class="ui button"  href="contest.php?my" >나의 숙제 경기 보이기</a>';
-                };
-                ?>
+          <form method="post" action="contest.php" class="ui form" style="margin-top: 2em; margin-bottom: 2em;">
+            <div class="ui stackable grid">
+              
+              <!-- 검색창과 버튼 -->
+              <div class="twelve wide column">
+                <div class="ui fluid action input" style="max-width: 100%; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07); border-radius: 6px;">
+                  <input 
+                    class="prompt" 
+                    type="text" 
+                    name="keyword" 
+                    value="<?php if (isset($_POST['keyword'])) echo htmlentities($_POST['keyword'], ENT_QUOTES, 'UTF-8'); ?>" 
+                    placeholder="<?php echo $MSG_CONTEST_NAME ?> 검색…" 
+                    style="border-radius: 6px 0 0 6px;"
+                  >
+                  <button type="submit" class="ui blue icon button" style="border-radius: 0 6px 6px 0;">
+                    <i class="search icon"></i>
+                  </button>
+                </div>
               </div>
-              <div class="results" style="width: 100%; "></div>
+
+              <!-- 내 숙제/전체 보기 토글 버튼 -->
+              <div class="four wide column right aligned">
+                <?php if (isset($_GET['my'])) { ?>
+                  <a href="contest.php" class="ui small basic grey button">
+                    <i class="list icon"></i> <?php echo $MSG_VIEW_ALL_CONTESTS ?>
+                  </a>
+                <?php } else { ?>
+                  <a href="contest.php?my" class="ui small basic teal button">
+                    <i class="user icon"></i> 나의 숙제 경기 보기
+                  </a>
+                <?php } ?>
+              </div>
+
             </div>
           </form>
+
 
       </div>
 

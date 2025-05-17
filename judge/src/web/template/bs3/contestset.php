@@ -27,37 +27,11 @@
       <table align=center width=80%>
         <tr align='center'>
           <td>
-            <form class="ui form" method="post" action="contest.php" style="margin-top: 2em; margin-bottom: 2em;">
-              <div class="ui stackable grid">
-                
-                <!-- 검색 입력 및 버튼 -->
-                <div class="twelve wide column">
-                  <div class="ui fluid action input" style="max-width: 100%; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07); border-radius: 6px;">
-                    <input 
-                      type="text" 
-                      name="keyword" 
-                      class="prompt"
-                      placeholder="<?php echo $MSG_CONTEST_NAME ?>"
-                      value="<?php if(isset($_POST['keyword'])) echo htmlentities($_POST['keyword'], ENT_QUOTES, 'UTF-8'); ?>"
-                      style="border-radius: 6px 0 0 6px;"
-                    >
-                    <button type="submit" class="ui blue icon button" style="border-radius: 0 6px 6px 0;">
-                      <i class="search icon"></i> <?php echo $MSG_SEARCH ?>
-                    </button>
-                  </div>
-                </div>
-
-                <!-- 전체 보기 버튼 -->
-                <div class="four wide column right aligned">
-                  <a href="contest.php" class="ui small basic grey button">
-                    <i class="list icon"></i> <?php echo $MSG_VIEW_ALL_CONTESTS ?>
-                  </a>
-                </div>
-
-              </div>
+            <form class=form-inline method=post action=contest.php>
+              <input class="form-control" name=keyword value="<?php if(isset($_POST['keyword'])) echo htmlentities($_POST['keyword'],ENT_QUOTES,"UTF-8")?>" placeholder="<?php echo $MSG_CONTEST_NAME?>">
+              <button class="form-control" type=submit><?php echo $MSG_SEARCH?></button>
+	      <a href="contest.php" ><?php echo $MSG_VIEW_ALL_CONTESTS ?></a>
             </form>
-
-
           </td>
         </tr>
       </table>
