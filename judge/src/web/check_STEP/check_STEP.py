@@ -187,33 +187,31 @@ def validate_code_output_full_io(code_lines, test_in_path):
     return True
 
 def main():
-    if len(sys.argv) == 5:
-        pid = sys.argv[1]
-        step = sys.argv[2]
-        line_num = sys.argv[3]
-        student_code = sys.argv[4]
+    if len(sys.argv) != 2:
+        print("Usage: python3 check_STEP.py <param_file>")
+        sys.exit(1)
 
-    student_code = ast.literal_eval(f"'{student_code}'")
+    param_file = sys.argv[1]
+
+    # 파일에서 JSON 파라미터 읽기
+    with open(param_file, 'r', encoding='utf-8') as f:
+        params = json.load(f)
+
+    pid = params["problem_id"]
+    step = params["step"]
+    line_num = int(params["index"])
+    student_code = params["answer"]
+
     filename = f"../tagged_code/{pid}_step{step}.txt"
     test_in_path = f"../../../data/{pid}"
 
     code_lines = read_code_lines(filename)
-    includes, blocks, closing_braces, all_blocks, block_indices = get_blocks(code_lines)
 
-    block_num = int(line_num)
-    new_code = student_code
-
-    if not (0 <= block_num < len(blocks)):
-        return
-
-    new_block = [line + '\n' for line in new_code.split('\\n')]
-    blocks[block_num] = new_block
-    all_blocks[block_indices[block_num][1]] = new_block
-
-    final_code = ''.join(line for block in all_blocks for line in block)
+    # 최종 코드 생성
+    final_code = student_code + '\n'
     final_code = re.sub(r'\[[^\]]*\]', '', final_code)
 
-    # validate 함수의 반환값에 따라 출력
+    # 컴파일 및 실행
     if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
     else:
