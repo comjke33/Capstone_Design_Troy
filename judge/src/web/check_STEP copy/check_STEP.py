@@ -127,12 +127,11 @@ def generate_unique_name():
 def validate_code_output_full_io(code_lines, test_in_path):
     """코드 컴파일 및 테스트 케이스 실행"""
     exe_path = "/tmp/test_program"
+    temp_c_path = "/tmp/final_code.c"
 
-    with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False, dir="/tmp") as temp_file:
-        # 코드 라인을 그대로 기록
+    # 최종 코드 파일 작성
+    with open(temp_c_path, 'w') as temp_file:
         temp_file.write(''.join(code_lines))
-        temp_file.flush()
-        temp_c_path = temp_file.name
 
     try:
         env = os.environ.copy()
@@ -152,10 +151,6 @@ def validate_code_output_full_io(code_lines, test_in_path):
     print("correct")
     return True
 
-def decode_escape_sequences(text):
-    """이스케이프 시퀀스를 올바르게 변환"""
-    return bytes(text, "utf-8").decode("unicode_escape")
-
 def main():
     if len(sys.argv) != 2:
         print("Usage: python3 check_STEP.py <param_file>")
@@ -170,19 +165,15 @@ def main():
     pid = params["problem_id"]
     step = params["step"]
     line_num = int(params["index"])
-    student_code = decode_escape_sequences(params["answer"])
+    code_file = params["code_file"]
 
-    # 디버그 출력
-    print(f"Problem ID: {pid}, Step: {step}, Index: {line_num}, Code: {student_code}")
-
-    # 임시로 사용자 코드 저장
-    code_file = "/tmp/user_code.c"
-    with open(code_file, 'w') as f:
-        f.write(student_code)
+    # 사용자 코드 불러오기 (파일로 직접 읽기)
+    with open(code_file, 'r') as f:
+        user_code = f.read()
 
     # 최종 코드 컴파일 및 실행
     test_in_path = f"../../../data/{pid}"
-    if validate_code_output_full_io([student_code], test_in_path):
+    if validate_code_output_full_io([user_code], test_in_path):
         print("correct")
     else:
         print("no")
