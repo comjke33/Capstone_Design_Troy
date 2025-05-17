@@ -151,16 +151,22 @@ def validate_code_output_full_io(code_lines, test_in_path):
     return True
 
 def main():
-    if len(sys.argv) != 5:
-        print("Usage: python3 check_STEP.py <problem_id> <step> <index> <student_code>")
+    if len(sys.argv) != 2:
+        print("Usage: python3 check_STEP.py <param_file>")
         sys.exit(1)
 
-    pid = sys.argv[1]
-    step = sys.argv[2]
-    line_num = int(sys.argv[3])
-    student_code = json.loads(sys.argv[4])  # JSON으로 전달된 인자 디코딩
+    param_file = sys.argv[1]
 
-    # 디버깅용
+    # JSON 파일에서 인자 읽기
+    with open(param_file, 'r', encoding='utf-8') as f:
+        params = json.load(f)
+
+    pid = params["problem_id"]
+    step = params["step"]
+    line_num = int(params["index"])
+    student_code = params["answer"]
+
+    # 디버깅용 출력
     print(f"Problem ID: {pid}, Step: {step}, Index: {line_num}, Code: {student_code}")
 
     test_in_path = f"../../../data/{pid}"
