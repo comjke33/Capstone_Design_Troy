@@ -6,11 +6,11 @@ $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // 단계 정보를 변수로 처리
 
-// 안전한 인자 처리
-$escapedAnswer = json_encode($answer);
+// 안전한 인자 처리 (JSON 인코딩 후 인용부호 추가)
+$escapedAnswer = escapeshellarg(json_encode($answer));
 $escapedProblemId = escapeshellarg($problemId);
 $escapedIndex = escapeshellarg($index);
-$escapedStep = escapeshellarg($step);
+$escapedStep = escapeshellarg($step);  // 추가
 
 // 파이썬 실행 명령어 (출력과 오류 모두 캡처)
 $cmd = "cd ../check_STEP && python3 check_STEP.py $escapedProblemId $escapedStep $escapedIndex $escapedAnswer 2>&1";

@@ -192,10 +192,13 @@ def main():
     pid = sys.argv[1]
     step = sys.argv[2]
     line_num = int(sys.argv[3])
-    student_code = json.loads(sys.argv[4])  # JSON 파싱
+    student_code = json.loads(sys.argv[4])  # JSON으로 전달된 문자열을 디코딩
 
     test_in_path = f"../../../data/{pid}"
     final_code = student_code + '\n'
+
+    # 디버깅용: 전달된 코드 확인
+    print(f"Received code: {final_code}")
 
     if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
