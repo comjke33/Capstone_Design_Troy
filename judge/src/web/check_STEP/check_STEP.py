@@ -125,7 +125,9 @@ def generate_unique_name():
 
 def validate_code_output_full_io(code_lines, test_in_path):
     """코드 컴파일 및 테스트 케이스 실행"""
-    exe_name = f"/tmp/{uuid.uuid4().hex}"
+    exe_name = generate_unique_name()
+    exe_path = f"/tmp/{exe_name}"
+
     with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False, dir="/tmp") as temp_file:
         temp_file.write(''.join(code_lines))
         temp_file.flush()
@@ -134,21 +136,61 @@ def validate_code_output_full_io(code_lines, test_in_path):
     try:
         env = os.environ.copy()
         env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/9:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
-        subprocess.run(
-            ['gcc', temp_c_path, '-o', exe_name],
+
+        # 컴파일 단계
+        compile_result = subprocess.run(
+            ['gcc', temp_c_path, '-o', exe_path],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
-            check=True,
+            check=False,
             env=env
         )
+        if compile_result.returncode != 0:
+            print(f"[❌] 컴파일 실패:\n{compile_result.stderr}")
+            return False
+
     except subprocess.CalledProcessError as e:
         print(f"[❌] 컴파일 실패:\n{e.stderr}")
         return False
 
+    test_files = [f for f in os.listdir(test_in_path) if f.endswith('.in')]
+    test_files.sort()
+
+    for in_file in test_files:
+        base_name = os.path.splitext(in_file)[0]
+        out_file = base_name + '.out'
+        in_path = os.path.join(test_in_path, in_file)
+        out_path = os.path.join(test_in_path, out_file)
+
+        with open(in_path, 'r') as fin:
+            full_input = fin.read()
+        with open(out_path, 'r') as fout:
+            expected_output = fout.read().strip()
+
+        try:
+            result = subprocess.run(
+                [exe_path],
+                input=full_input,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                timeout=5
+            )
+            actual_output = result.stdout.strip()
+
+            if actual_output != expected_output:
+                print(f"[❌] 테스트 실패: {base_name}")
+                return False
+        except subprocess.TimeoutExpired:
+            print("[❌] 실행 시간 초과")
+            return False
+        finally:
+            if os.path.exists(exe_path):
+                os.remove(exe_path)
+
     print("correct")
     return True
-
 def main():
     if len(sys.argv) != 2:
         print("Usage: python3 check_STEP.py <param_file>")
