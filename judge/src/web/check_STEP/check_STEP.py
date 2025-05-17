@@ -123,23 +123,20 @@ def generate_unique_name():
     return f"test_program_{uuid.uuid4().hex}"
 
 
-def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
+def validate_code_output_full_io(code_lines, test_in_path):
     """코드 컴파일 및 테스트 케이스 실행"""
     exe_name = generate_unique_name()
     exe_path = f"/tmp/{exe_name}"
 
-    # 코드 전체를 임시 파일로 작성
     with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False, dir="/tmp") as temp_file:
-        # 코드 전체를 임시 파일에 기록
         temp_file.write(''.join(code_lines))
         temp_file.flush()
         temp_c_path = temp_file.name
 
     try:
         env = os.environ.copy()
-        env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/11:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
+        env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/9:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
 
-        # 컴파일
         subprocess.run(
             ['gcc', temp_c_path, '-o', exe_path],
             stdout=subprocess.PIPE,
@@ -151,12 +148,10 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
     except subprocess.CalledProcessError as e:
         print(f"[❌] 컴파일 실패:\n{e.stderr}")
         return False
-        
+
     test_files = [f for f in os.listdir(test_in_path) if f.endswith('.in')]
     test_files.sort()
 
-    all_passed = True
-    
     for in_file in test_files:
         base_name = os.path.splitext(in_file)[0]
         out_file = base_name + '.out'
@@ -189,9 +184,8 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
             if os.path.exists(exe_path):
                 os.remove(exe_path)
 
-    print("correct")
+    # 최종 성공 시 한 번만 correct 출력
     return True
-
 
 def main():
     if len(sys.argv) != 2:
@@ -211,21 +205,29 @@ def main():
 
     filename = f"../tagged_code/{pid}_step{step}.txt"
     test_in_path = f"../../../data/{pid}"
-    test_out_path = f"../../../data/{pid}/test.out"
 
-    # 기존 코드 읽기
-    original_code_lines = read_code_lines(filename)
+    code_lines = read_code_lines(filename)
 
-    # 코드 교체
-    if 0 <= line_num < len(original_code_lines):
-        original_code_lines[line_num] = student_code + '\n'
+    # 블럭 단위로 코드 파싱
+    includes, blocks, closing_braces, all_blocks, block_indices = get_blocks(code_lines)  
+
+    # 코드 교체: 블럭 번호로 특정 블럭을 사용자 코드로 교체
+    block_num = int(line_num)
+
+    # 새 코드 블럭 생성
+    new_block = [line + '\n' for line in student_code.split('\\n')]
+    blocks[block_num] = new_block
+    all_blocks[block_indices[block_num][1]] = new_block
+
+    # 블럭을 합쳐서 최종 코드 생성
+    final_code = ''.join(line for block in all_blocks for line in block)
+    final_code = re.sub(r'\[[^\]]*\]', '', final_code)
 
     # 컴파일 및 실행
-    if validate_code_output_full_io(original_code_lines, test_in_path, test_out_path):
+    if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
     else:
         print("no")
-
 
 if __name__ == "__main__":
     main()
