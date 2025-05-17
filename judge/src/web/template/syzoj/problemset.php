@@ -45,6 +45,9 @@
 
 <?php if (!isset($_GET['list'])){ ?>
 
+<span>
+<span>
+
 <div style="margin-bottom: 30px; ">
     
     <?php
