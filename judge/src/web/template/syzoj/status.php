@@ -103,6 +103,18 @@
   </form>
   <!-- 검색 필터 폼 끝 -->
 
+
+
+  <!-- 채점 결과 테이블 -->
+  <style>
+    #result-tab tbody tr:nth-child(even) {
+      background-color: #f4f6fa;
+    }
+    #result-tab tbody tr:nth-child(odd) {
+      background-color: #ffffff;
+    }
+  </style>
+
   <!-- 채점 결과 테이블 -->
   <table class="ui celled striped compact center aligned table" id="result-tab">
     <thead>
