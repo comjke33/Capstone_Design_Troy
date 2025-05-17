@@ -34,7 +34,7 @@
                   <a href="contest.php?my" class="ui small basic teal button">
                     <i class="user icon"></i> 나의 숙제 경기 보기
                   </a>
-                <?php } ?> -->
+                <?php } ?> 
               </div>
 
             </div>
