@@ -191,10 +191,16 @@ def main():
     with open(param_file, 'r', encoding='utf-8') as f:
         params = json.load(f)
 
-    pid = params["problem_id"]
-    step = params["step"]
-    line_num = int(params["index"])
-    code_file = params["code_file"]
+    # "answer" 필드 존재 여부 확인
+    if "answer" not in params:
+        print("Error: 'answer' field not found in JSON")
+        sys.exit(1)
+
+    pid = params.get("problem_id", "0")
+    step = params.get("step", "1")
+    line_num = int(params.get("index", "0"))
+    code_file = params.get("code_file", "")
+    student_code = params.get("answer", "")
 
     # 원본 코드 불러오기
     original_code_path = f"../tagged_code/{pid}_step{step}.txt"
