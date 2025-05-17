@@ -2,7 +2,7 @@
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 <div class="ui container" style="margin-top: 3em;">
   <div class="ui center aligned">
-    <div style="display: inline-flex; gap: 20em;"> <!-- 두 폼 사이 간격 설정 -->
+    <div style="display: inline-flex; gap: 10em;"> <!-- 두 폼 사이 간격 설정 -->
       
       <!-- 검색 폼 -->
       <form class="ui form" method="get" action="">
