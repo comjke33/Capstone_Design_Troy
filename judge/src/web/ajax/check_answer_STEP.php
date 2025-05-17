@@ -20,11 +20,8 @@ file_put_contents("/tmp/php_debug.log", "Command: $cmd\n", FILE_APPEND);
 $result = shell_exec($cmd);
 file_put_contents("/tmp/php_debug.log", "Python Output: $result\n", FILE_APPEND);
 
-// 결과에서 불필요한 줄바꿈 제거
-$cleaned_result = trim(preg_replace('/\s+/', ' ', $result));
-
 // 결과 반환
-$response = ["result" => $cleaned_result];
+$response = ["result" => trim($result)];
 header("Content-Type: application/json");
 echo json_encode($response);
 ?>
