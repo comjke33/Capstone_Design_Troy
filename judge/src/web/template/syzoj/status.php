@@ -2,7 +2,8 @@
 <?php include("template/$OJ_TEMPLATE/header.php"); ?>
 <script src="template/<?php echo $OJ_TEMPLATE?>/js/textFit.min.js"></script>
 
-<div class="ui container" style="padding-top: 2em; padding-bottom: 2em;">
+<div class="ui fluid container" style="padding-top: 2em; padding-bottom: 2em; max-width: 1400px;">
+
 
   <!-- 검색 필터 폼 시작 -->
   <form id="simform" class="ui form" method="get" action="status.php">
