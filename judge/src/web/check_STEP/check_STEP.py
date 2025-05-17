@@ -5,7 +5,6 @@ import os
 import sys
 import ast
 import uuid
-import json
 
 
 def is_tag_line(line):
