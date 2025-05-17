@@ -15,7 +15,7 @@
     </div>
 
     <!-- 사용자 검색 및 그룹 검색 -->
-    <div class="eight wide column">
+    <div class="eight wide column" style="background-color: #f9f9f9; padding: 1em; border-radius: 6px;">
       <form class="ui mini form" method="get" action="ranklist.php">
         <div class="fields">
           <div class="field">
@@ -33,7 +33,7 @@
         </div>
       </form>
     </div>
-  </div>
+
 
   <!-- 랭킹 테이블 -->
   <div class="ui segment" style="margin-top: 1em;">
