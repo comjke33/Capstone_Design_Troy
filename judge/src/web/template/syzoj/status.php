@@ -24,18 +24,18 @@
       </div>
 
       <!-- 학교 이름 입력 -->
-      <div class="column">
+      <!-- <div class="column">
         <div class="field">
           <input type="text" name="school" placeholder="<?php echo $MSG_SCHOOL ?>" value="<?php echo isset($school)?htmlspecialchars($school, ENT_QUOTES):'' ?>">
         </div>
-      </div>
+      </div> -->
 
       <!-- 그룹 이름 입력 -->
-      <div class="column">
+      <!-- <div class="column">
         <div class="field">
           <input type="text" name="group_name" placeholder="<?php echo $MSG_GROUP_NAME ?>" value="<?php echo isset($group_name)?htmlspecialchars($group_name, ENT_QUOTES):'' ?>">
         </div>
-      </div>
+      </div> -->
 
       <!-- 언어 필터 드롭다운 -->
       <div class="column">
