@@ -49,14 +49,7 @@
 
 <div style="margin-bottom: 30px; ">
     
-    <!-- prev,next -->
-    <?php
-      // if(!isset($page)) $page=1;
-      // $page=intval($page);
-      // $section=8;
-      // $start=$page>$section?$page-$section:1;
-      // $end=$page+$section>$view_total_page?$view_total_page:$page+$section;
-    ?>
+
 <div style="text-align: center; ">
   <div class="ui pagination menu" style="box-shadow: none; ">
     <a href="problemset.php?page=1" class="icon item">  
