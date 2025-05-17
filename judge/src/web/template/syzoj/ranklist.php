@@ -7,10 +7,10 @@
 <div class="ui stackable grid">
   <div class="eight wide column">
     <div class="ui mini buttons">
-      <a href="ranklist.php?scope=d" class="ui button" style="background-color: none;"><?= $MSG_DAY ?></a>
-      <a href="ranklist.php?scope=w" class="ui button" style="background-color: none;"><?= $MSG_WEEK ?></a>
-      <a href="ranklist.php?scope=m" class="ui button" style="background-color: none; color: #fff;"><?= $MSG_MONTH ?></a>
-      <a href="ranklist.php?scope=y" class="ui button" style="background-color: none; color: #fff;"><?= $MSG_YEAR ?></a>
+      <a href="ranklist.php?scope=d" class="ui button" style="background-color: #FFFFFF; color: #;"><?= $MSG_DAY ?></a>
+      <a href="ranklist.php?scope=w" class="ui button" style="background-color: #FFFFFF; color: #fff;"><?= $MSG_WEEK ?></a>
+      <a href="ranklist.php?scope=m" class="ui button" style="background-color: #FFFFFF; color: #fff;"><?= $MSG_MONTH ?></a>
+      <a href="ranklist.php?scope=y" class="ui button" style="background-color: #FFFFFF; color: #fff;"><?= $MSG_YEAR ?></a>
     </div>
   </div>
 
