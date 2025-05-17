@@ -7,6 +7,7 @@ import ast
 import uuid
 import json
 
+
 def is_tag_line(line):
     """태그 줄인지 판별"""
     return bool(re.match(r"\s*\[.*_(start|end)\(\d+\)\]\s*", line))
@@ -34,26 +35,29 @@ def get_blocks(code_lines):
     blocks = []
     blocks_idx = 0
     current_block = []
-    includes = []
-    closing_braces = []
+    includes = []  # #include 블럭 저장
+    closing_braces = []  # 단독 } 블럭 저장
     inside_block = False
     block_indices = []
 
     for line in code_lines:
+        # 헤더 선언 (#include)은 상수 블럭으로 처리
         if is_include_line(line):
             includes.append(line)
             all_blocks.append(includes)
             all_idx += 1
             includes = []
             continue
-
+        
+        # 단독 중괄호는 상수 블럭으로 처리
         if is_single_brace(line):
             closing_braces.append(line)
             all_blocks.append(closing_braces)
             all_idx += 1
             closing_braces = []
             continue
-
+        
+        # 블럭 시작 조건: start 태그를 만나면 새 블럭 시작
         if is_start_tag(line):
             if current_block:
                 blocks.append(current_block)
@@ -64,7 +68,8 @@ def get_blocks(code_lines):
                 current_block = []
             current_block.append(line)
             inside_block = True
-
+        
+        # 블럭 종료 조건: 다음 블럭의 시작 태그를 만나면 블럭 종료
         elif is_tag_line(line):
             if current_block:
                 blocks.append(current_block)
@@ -74,9 +79,20 @@ def get_blocks(code_lines):
                 all_idx += 1
                 current_block = []
             inside_block = False
-
+        
+        # 블럭 내부 코드 추가
         if inside_block or not is_tag_line(line):
             current_block.append(line)
+
+    # # 마지막 블럭 추가
+    # if current_block:
+    #     blocks.append(current_block)
+    #     # 인덱스 매칭
+    #     block_indices.append((blocks_idx, all_idx))
+
+    #     blocks_idx += 1
+    # all_blocks.append(current_block)
+    # all_idx += 1
 
     return includes, blocks, closing_braces, all_blocks, block_indices
 
@@ -84,9 +100,34 @@ def read_code_lines(filename):
     with open(filename, 'r') as f:
         return f.readlines()
 
+def replace_block(code_blocks, block_index, new_block):
+    """지정한 블럭을 새 블럭으로 교체"""
+    if 0 <= block_index < len(code_blocks):
+        code_blocks[block_index] = new_block
+    return code_blocks
+
+def clean_block(block):
+    """블럭에서 태그를 제거하여 반환"""
+    return [line for line in block if not is_tag_line(line)]
+
+def print_blocks(blocks):
+    """블럭들을 순서대로 출력"""
+    # for idx, block in enumerate(blocks):
+    #     # print(f"\n🔹 블럭 {idx + 1}")
+    #     for line in block:
+            # print(line.rstrip())
+
+
+def generate_unique_name():
+    """유니크한 실행 파일 이름 생성"""
+    return f"test_program_{uuid.uuid4().hex}"
+
+
 def validate_code_output_full_io(code_lines, test_in_path):
     """코드 컴파일 및 테스트 케이스 실행"""
-    exe_name = f"/tmp/test_program_{uuid.uuid4().hex}"
+    exe_name = generate_unique_name()
+    exe_path = f"/tmp/{exe_name}"
+
     with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False, dir="/tmp") as temp_file:
         temp_file.write(''.join(code_lines))
         temp_file.flush()
@@ -94,9 +135,10 @@ def validate_code_output_full_io(code_lines, test_in_path):
 
     try:
         env = os.environ.copy()
-        env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/11:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
+        env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/9:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
+
         subprocess.run(
-            ['gcc', temp_c_path, '-o', exe_name],
+            ['gcc', temp_c_path, '-o', exe_path],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
@@ -123,7 +165,7 @@ def validate_code_output_full_io(code_lines, test_in_path):
 
         try:
             result = subprocess.run(
-                [exe_name],
+                [exe_path],
                 input=full_input,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
@@ -139,10 +181,10 @@ def validate_code_output_full_io(code_lines, test_in_path):
             print("[❌] 실행 시간 초과")
             return False
         finally:
-            if os.path.exists(exe_name):
-                os.remove(exe_name)
+            if os.path.exists(exe_path):
+                os.remove(exe_path)
 
-    print("correct")
+    # 최종 성공 시 한 번만 correct 출력
     return True
 
 def main():
@@ -152,6 +194,7 @@ def main():
 
     param_file = sys.argv[1]
 
+    # 파일에서 JSON 파라미터 읽기
     with open(param_file, 'r', encoding='utf-8') as f:
         params = json.load(f)
 
@@ -165,21 +208,22 @@ def main():
 
     code_lines = read_code_lines(filename)
 
-    includes, blocks, closing_braces, all_blocks, block_indices = get_blocks(code_lines)
+    # 블럭 단위로 코드 파싱
+    includes, blocks, closing_braces, all_blocks, block_indices = get_blocks(code_lines)  
 
+    # 코드 교체: 블럭 번호로 특정 블럭을 사용자 코드로 교체
     block_num = int(line_num)
-    new_code = student_code
 
-    if not (0 <= block_num < len(blocks)):
-        return
-
-    new_block = [line + '\n' for line in new_code.split('\\n')]
+    # 새 코드 블럭 생성
+    new_block = [line + '\n' for line in student_code.split('\\n')]
     blocks[block_num] = new_block
     all_blocks[block_indices[block_num][1]] = new_block
 
+    # 블럭을 합쳐서 최종 코드 생성
     final_code = ''.join(line for block in all_blocks for line in block)
     final_code = re.sub(r'\[[^\]]*\]', '', final_code)
 
+    # 컴파일 및 실행
     if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
     else:

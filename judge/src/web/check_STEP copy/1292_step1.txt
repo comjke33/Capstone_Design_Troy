@@ -1,0 +1,46 @@
+#include <stdio.h>
+[func_def_start(0)]
+int main () {
+[self_start(1)]
+    int h, m;
+[self_end(1)]
+[self_start(1)]
+    int add_h, add_m;
+[self_end(1)]
+[self_start(1)]
+    scanf ("%d %d", &h, &m );
+[self_end(1)]
+[self_start(1)]
+    scanf ("%d %d", &add_h, &add_m );
+[self_end(1)]
+[self_start(1)]
+    m +=add_m;
+[self_end(1)]
+[cond_start(1)]
+    if (m >=60 ) {
+[self_start(2)]
+        h +=m /60;
+[self_end(2)]
+[self_start(2)]
+        m =m %60;
+[self_end(2)]
+[cond_end(1)]
+    }
+[self_start(1)]
+    h +=add_h;
+[self_end(1)]
+[cond_start(1)]
+    if (h >=24 ) {
+[self_start(2)]
+        h =h %24;
+[self_end(2)]
+[cond_end(1)]
+    }
+[self_start(1)]
+    printf ("%d %d\n", h, m );
+[self_end(1)]
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[func_def_end(0)]
+}
