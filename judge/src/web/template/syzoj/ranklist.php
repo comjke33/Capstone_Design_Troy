@@ -1,68 +1,69 @@
 <?php $show_title="$MSG_RANKLIST - $OJ_NAME"; ?>
-<?php include("template/$OJ_TEMPLATE/header.php"); ?>
+<?php include("template/$OJ_TEMPLATE/header.php");?>
 
-<!-- 랭킹 범위 선택 및 검색 기능 -->
-<div class="ui container" style="padding-top: 2em; padding-bottom: 2em; max-width: 1200px;">
-  <div class="ui stackable grid">
-    <div class="eight wide column">
-      <div class="ui mini buttons">
-        <a href="ranklist.php?scope=d" class="ui button <?php if ($_GET['scope']=='d') echo 'blue'; ?>"><?php echo $MSG_DAY ?></a>
-        <a href="ranklist.php?scope=w" class="ui button <?php if ($_GET['scope']=='w') echo 'blue'; ?>"><?php echo $MSG_WEEK ?></a>
-        <a href="ranklist.php?scope=m" class="ui button <?php if ($_GET['scope']=='m') echo 'blue'; ?>"><?php echo $MSG_MONTH ?></a>
-        <a href="ranklist.php?scope=y" class="ui button <?php if ($_GET['scope']=='y') echo 'blue'; ?>"><?php echo $MSG_YEAR ?></a>
-      </div>
+<!-- 특정 기간동안의 랭킹 확인 -->
+<div class="padding">
+	<a href="ranklist.php?scope=d" class="ui mini button"><?php echo $MSG_DAY?></a>
+	<a href="ranklist.php?scope=w" class="ui mini button"><?php echo $MSG_WEEK?></a>
+	<a href="ranklist.php?scope=m" class="ui mini button"><?php echo $MSG_MONTH?></a>
+	<a href="ranklist.php?scope=y" class="ui mini button"><?php echo $MSG_YEAR?></a>
+  <form action="ranklist.php" class="ui mini form" method="get" role="form" style="margin-bottom: 25px; text-align: right; ">
+    <div class="ui action left icon input inline" style="width: 180px; margin-right: 77px; ">
+      <i class="search icon"></i><input name="prefix" placeholder="<?php echo $MSG_USER?>" type="text" value="<?php echo htmlentities(isset($_GET['prefix'])?$_GET['prefix']:"",ENT_QUOTES,"utf-8") ?>">
+      <button class="ui mini button" type="submit"><?php echo $MSG_SEARCH?></button>
     </div>
-    <div class="eight wide column">
-      <form class="ui mini form" action="ranklist.php" method="get">
-        <div class="ui action input" style="margin-bottom: 0.5em;">
-          <input name="prefix" placeholder="<?php echo $MSG_USER ?>" type="text" value="<?php echo htmlentities(isset($_GET['prefix']) ? $_GET['prefix'] : '', ENT_QUOTES, 'utf-8') ?>">
-          <button class="ui mini blue button" type="submit"><?php echo $MSG_SEARCH ?></button>
-        </div>
-        <div class="ui action input">
-          <input name="group_name" placeholder="<?php echo $MSG_GROUP_NAME ?>" type="text" value="<?php echo htmlentities(isset($_GET['group_name']) ? $_GET['group_name'] : '', ENT_QUOTES, 'utf-8') ?>">
-          <button class="ui mini blue button" type="submit"><?php echo $MSG_SEARCH ?></button>
-        </div>
-      </form>
+     <div class="ui action left icon input inline" style="width: 180px; margin-right: 77px; ">
+      <i class="search icon"></i><input name="group_name" placeholder="<?php echo $MSG_GROUP_NAME ?>" type="text" value="<?php echo htmlentities(isset($_GET['group_name']) ? $_GET['group_name'] : "", ENT_QUOTES, "utf-8") ?>">
+      <button class="ui mini button" type="submit"><?php echo $MSG_SEARCH ?></button>
     </div>
-  </div>
+  </form>
 
-  <!-- 랭킹 테이블 -->
-  <table class="ui celled striped table center aligned">
-    <thead>
-      <tr>
-        <th style="width: 60px; "><?php echo $MSG_Number ?></th>
-        <th style="width: 180px; "><?php echo $MSG_USER ?></th>
-        <th><?php echo $MSG_NICK ?></th>
-        <th><?php echo $MSG_GROUP_NAME ?></th>
-        <th style="width: 100px; "><?php echo $MSG_SOVLED ?></th>
-        <th style="width: 100px; "><?php echo $MSG_SUBMIT ?></th>
-        <th style="width: 100px; "><?php echo $MSG_RATIO ?></th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php foreach ($view_rank as $row): ?>
-        <tr>
-          <?php foreach ($row as $cell): ?>
-            <td><?php echo $cell; ?></td>
-          <?php endforeach; ?>
-        </tr>
-      <?php endforeach; ?>
-    </tbody>
-  </table>
-
-  <!-- 페이지네이션 -->
-  <div class="ui center aligned segment">
-    <div class="ui pagination menu">
-      <?php
-        for ($i = 0; $i < $view_total; $i += $page_size) {
-          $start = $i + 1;
-          $end = $i + $page_size;
-          $link = "ranklist.php?start={$i}" . ($scope ? "&scope=$scope" : "");
-          echo "<a class='item' href='$link'>$start-$end</a>";
-        }
-      ?>
-    </div>
+      <!-- 순위 테이블(순위, 사용자, 닉네임, 그룹 이름, 문제 해결 수, 제출 수 비율) -->
+	    <table class="ui very basic center aligned table" 
+      style="table-layout: fixed; ">
+	        <thead>
+	        <tr>
+	            <th style="width: 60px; "><?php echo $MSG_Number?></th>
+	            <th style="width: 180px; "><?php echo $MSG_USER?></th>
+	            <th><?php echo $MSG_NICK?></th>
+			<th><?php echo $MSG_GROUP_NAME?></th>
+              <th style="width: 100px; "><?php echo $MSG_SOVLED?></th>
+              <th style="width: 100px; "><?php echo $MSG_SUBMIT?></th>
+              <th style="width: 100px; "><?php echo $MSG_RATIO?></th>
+	        </tr>
+	        </thead>
+	        <tbody>
+          <?php
+          foreach($view_rank as $row){
+          echo "<tr>";
+          foreach($row as $table_cell){
+          echo "<td>";
+          echo "\t".$table_cell;
+          echo "</td>";
+          }
+          echo "</tr>";
+          }
+          ?>
+	        </tbody>
+	    </table>
+    <br>
+    <div style="margin-bottom: 30px; ">
+  
+  <div style="text-align: center; ">
+	<div class="ui pagination" style="box-shadow: none; ">      
+    <?php
+    for($i = 0; $i <$view_total ; $i += $page_size) {
+    $str= "<a class=\"ui button\" href='./ranklist.php?start=" . strval ( $i ).($scope?"&scope=$scope":"") . "'>";
+    $str.= strval ( $i + 1 );
+    $str.= "-";
+    $str.= strval ( $i + $page_size );
+    $str.= "</a>";
+    echo $str;
+    }
+    ?>
+	</div>
   </div>
 </div>
+</div>
 
-<?php include("template/$OJ_TEMPLATE/footer.php"); ?>
+<?php include("template/$OJ_TEMPLATE/footer.php");?>
