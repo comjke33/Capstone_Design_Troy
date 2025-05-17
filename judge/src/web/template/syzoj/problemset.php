@@ -39,9 +39,12 @@
         </div>
       </form>
     </div>
-
   </div>
 </div>
+
+<!-- 줄 바꿈 -->
+<div class="ui hidden divider"></div>
+<div class="ui hidden divider"></div>
 
   <table class="ui very basic center aligned table">
     <thead>
