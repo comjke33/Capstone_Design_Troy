@@ -162,14 +162,23 @@ def main():
     with open(param_file, 'r', encoding='utf-8') as f:
         params = json.load(f)
 
-    pid = params["problem_id"]
-    step = params["step"]
-    line_num = int(params["index"])
-    code_file = params["code_file"]
+    # 안전하게 "answer" 키 가져오기
+    if "answer" not in params:
+        print("Error: 'answer' key not found in JSON parameters.")
+        sys.exit(1)
+
+    pid = params.get("problem_id", "0")
+    step = params.get("step", "1")
+    line_num = int(params.get("index", "0"))
+    code_file = params.get("code_file", "")
 
     # 사용자 코드 불러오기 (파일로 직접 읽기)
-    with open(code_file, 'r') as f:
-        user_code = f.read()
+    if code_file:
+        with open(code_file, 'r') as f:
+            user_code = f.read()
+    else:
+        print("Error: Code file not specified.")
+        sys.exit(1)
 
     # 최종 코드 컴파일 및 실행
     test_in_path = f"../../../data/{pid}"
