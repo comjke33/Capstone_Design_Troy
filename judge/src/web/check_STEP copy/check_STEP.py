@@ -125,20 +125,21 @@ def generate_unique_name():
 
 def validate_code_output_full_io(code_lines, test_in_path):
     """코드 컴파일 및 테스트 케이스 실행"""
-    exe_name = generate_unique_name()
-    exe_path = f"/tmp/{exe_name}"
+    exe_path = "/tmp/test_program"
+    temp_file_path = "/tmp/temp_code.c"
 
-    with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False, dir="/tmp") as temp_file:
+    # 임시 파일에 코드 작성
+    with open(temp_file_path, 'w') as temp_file:
         temp_file.write(''.join(code_lines))
         temp_file.flush()
-        temp_c_path = temp_file.name
 
     try:
         env = os.environ.copy()
-        env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/9:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
+        env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/11:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
 
+        # 컴파일 시도
         subprocess.run(
-            ['gcc', temp_c_path, '-o', exe_path],
+            ['gcc', temp_file_path, '-o', exe_path],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
@@ -183,9 +184,12 @@ def validate_code_output_full_io(code_lines, test_in_path):
         finally:
             if os.path.exists(exe_path):
                 os.remove(exe_path)
+            if os.path.exists(temp_file_path):
+                os.remove(temp_file_path)
 
-    # 최종 성공 시 한 번만 correct 출력
+    print("correct")
     return True
+
 def main():
     if len(sys.argv) != 2:
         print("Usage: python3 check_STEP.py <param_file>")
@@ -202,31 +206,22 @@ def main():
     line_num = int(params["index"])
     student_code = params["answer"]
 
-    # 이스케이프 복구
-    student_code = student_code.encode('utf-8').decode('unicode_escape')
-
+    # 코드 파일 경로 설정
     filename = f"../tagged_code/{pid}_step{step}.txt"
     test_in_path = f"../../../data/{pid}"
 
-    code_lines = read_code_lines(filename)
+    # 코드 읽기
+    with open(filename, 'r') as f:
+        code_lines = f.readlines()
 
-    # 블럭 단위로 코드 파싱
-    includes, blocks, closing_braces, all_blocks, block_indices = get_blocks(code_lines)  
-
-    # 코드 교체: 블럭 번호로 특정 블럭을 사용자 코드로 교체
-    block_num = int(line_num)
-
-    # 새 코드 블럭 생성
-    new_block = [line + '\n' for line in student_code.split('\\n')]
-    blocks[block_num] = new_block
-    all_blocks[block_indices[block_num][1]] = new_block
-
-    # 블럭을 합쳐서 최종 코드 생성
-    final_code = ''.join(line for block in all_blocks for line in block)
-    final_code = re.sub(r'\[[^\]]*\]', '', final_code)
+    # 코드 교체
+    code_lines[line_num] = student_code + '\n'
 
     # 컴파일 및 실행
-    if validate_code_output_full_io(final_code, test_in_path):
+    if validate_code_output_full_io(code_lines, test_in_path):
         print("correct")
     else:
         print("no")
+
+if __name__ == "__main__":
+    main()
