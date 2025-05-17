@@ -104,52 +104,65 @@
   <!-- 검색 필터 폼 끝 -->
 
 
+<!-- 채점 결과 테이블 스타일 추가 -->
+<style>
+  /* 전체 테이블 배경색 */
+  #result-tab {
+    background-color: #f9f9f9;
+  }
 
-  <!-- 채점 결과 테이블 -->
-  <style>
-    #result-tab tbody tr:nth-child(even) {
-      background-color: #f4f6fa;
-    }
-    #result-tab tbody tr:nth-child(odd) {
-      background-color: #ffffff;
-    }
-  </style>
+  /* 짝수 행 배경색 */
+  #result-tab tbody tr:nth-child(even) {
+    background-color: #f4f6fa;
+  }
 
-  <!-- 채점 결과 테이블 -->
-  <table class="ui celled striped compact center aligned table" id="result-tab">
-    <thead>
-      <tr>
-        <th><?php echo $MSG_RUNID ?></th>
-        <th><?php echo $MSG_USER ?></th>
-        <th><?php echo $MSG_NICK ?></th>
-        <th><?php echo $MSG_PROBLEM_ID ?></th>
-        <th><?php echo $MSG_RESULT ?></th>
-        <th><?php echo $MSG_MEMORY ?></th>
-        <th><?php echo $MSG_TIME ?></th>
-        <th><?php echo $MSG_LANG ?></th>
-        <th><?php echo $MSG_CODE_LENGTH ?></th>
-        <th><?php echo $MSG_SUBMIT_TIME ?></th>
-        <?php if (!isset($cid)) echo "<th>$MSG_FEEDBACK</th>"; ?>
-        <?php if (!isset($cid) && isset($_SESSION[$OJ_NAME.'_'.'administrator'])) echo "<th>$MSG_JUDGER</th>"; ?>
-      </tr>
-    </thead>
-    <tbody style="font-weight: 500; font-size: 14px;">
-      <?php
-        // 채점 결과 행 반복 출력
-        foreach ($view_status as $row) {
-          echo "<tr>";
-          $i = 0;
-          foreach ($row as $cell) {
-            // 결과 컬럼은 특별 스타일 적용
-            $class = ($i == 4) ? "td_result" : (($i == 0 || $i > 7 && $i != 9) ? "desktop-only item" : "");
-            echo "<td class='$class'>" . $cell . "</td>";
-            $i++;
-          }
-          echo "</tr>";
+  /* 홀수 행 배경색 */
+  #result-tab tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+  }
+
+  /* 마우스 오버 시 강조 */
+  #result-tab tbody tr:hover {
+    background-color: #e8f0ff;
+  }
+</style>
+
+<!-- 채점 결과 테이블 -->
+<table class="ui celled striped compact center aligned table" id="result-tab">
+  <thead>
+    <tr>
+      <th><?php echo $MSG_RUNID ?></th>
+      <th><?php echo $MSG_USER ?></th>
+      <th><?php echo $MSG_NICK ?></th>
+      <th><?php echo $MSG_PROBLEM_ID ?></th>
+      <th><?php echo $MSG_RESULT ?></th>
+      <th><?php echo $MSG_MEMORY ?></th>
+      <th><?php echo $MSG_TIME ?></th>
+      <th><?php echo $MSG_LANG ?></th>
+      <th><?php echo $MSG_CODE_LENGTH ?></th>
+      <th><?php echo $MSG_SUBMIT_TIME ?></th>
+      <?php if (!isset($cid)) echo "<th>$MSG_FEEDBACK</th>"; ?>
+      <?php if (!isset($cid) && isset($_SESSION[$OJ_NAME.'_'.'administrator'])) echo "<th>$MSG_JUDGER</th>"; ?>
+    </tr>
+  </thead>
+  <tbody style="font-weight: 500; font-size: 14px;">
+    <?php
+      // 채점 결과 행 반복 출력
+      foreach ($view_status as $row) {
+        echo "<tr>";
+        $i = 0;
+        foreach ($row as $cell) {
+          // 결과 컬럼은 특별 스타일 적용
+          $class = ($i == 4) ? "td_result" : (($i == 0 || $i > 7 && $i != 9) ? "desktop-only item" : "");
+          echo "<td class='$class'>" . $cell . "</td>";
+          $i++;
         }
-      ?>
-    </tbody>
-  </table>
+        echo "</tr>";
+      }
+    ?>
+  </tbody>
+</table>
+
 
   <!-- 페이지 이동 버튼 -->
   <div class="ui center aligned segment" style="margin-top: 2em;">
