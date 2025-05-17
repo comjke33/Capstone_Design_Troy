@@ -148,7 +148,6 @@ def validate_code_output_full_io(code_lines, test_in_path):
         print(f"[❌] 컴파일 실패:\n{e.stderr}")
         return False
 
-    print("correct")
     return True
 
 def main():
