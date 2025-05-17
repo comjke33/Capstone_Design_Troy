@@ -39,9 +39,45 @@
         </div>
       </form>
     </div>
+
   </div>
 </div>
 
+
+<!-- prev, next부분 -->
+<!-- <?php if (!isset($_GET['list'])){ ?>
+
+<div style="margin-bottom: 30px; ">
+    
+    <?php
+      if(!isset($page)) $page=1;
+      $page=intval($page);
+      $section=8;
+      $start=$page>$section?$page-$section:1;
+      $end=$page+$section>$view_total_page?$view_total_page:$page+$section;
+    ?>
+<div style="text-align: center; ">
+  <div class="ui pagination menu" style="box-shadow: none; ">
+    <a href="problemset.php?page=1" class="icon item">  
+      <i class="fast backward icon"></i>
+    </a>
+
+
+    <?php
+      for ($i=$start;$i<=$end;$i++){
+        echo "<a class=\"".($page==$i?"active ":"")."item\" href=\"problemset.php?page=".$i.htmlentities($postfix,ENT_QUOTES,'UTF-8')."\">".$i."</a>";
+      }
+    ?>
+    <a class="<?php if($page==$view_total_page) echo "disabled "; ?> icon item" href="<?php if($page<>$view_total_page) echo "problemset.php?page=".($page+1).htmlentities($postfix,ENT_QUOTES,'UTF-8'); ?>" id="page_next">
+    <i class="right chevron icon"></i>
+    </a>  
+    <a href="problemset.php?page=<?php echo $view_total_page?>" class="icon item">  
+      <i class="fast forward icon"></i>
+    </a>
+  </div>
+</div>
+</div>
+<?php } ?> -->
 
 
   <table class="ui very basic center aligned table">
