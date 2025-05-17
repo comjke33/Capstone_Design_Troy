@@ -62,22 +62,6 @@
       <i class="fast backward icon"></i>
     </a>
 
-    <a class="icon item <?php if($page==1) echo 'disabled'; ?>"
-      href="<?php if($page!=1) echo 'problemset.php?page='.($page-1).htmlentities($postfix, ENT_QUOTES, 'UTF-8'); ?>">
-      <i class="chevron left icon"></i>
-    </a>
-
-    <?php for ($i = $start; $i <= $end; $i++): ?>
-      <a class="item <?= $page == $i ? 'active' : '' ?>" href="problemset.php?page=<?= $i . htmlentities($postfix, ENT_QUOTES, 'UTF-8') ?>">
-        <?= $i ?>
-      </a>
-    <?php endfor; ?>
-
-    <a class="icon item <?php if($page==$view_total_page) echo 'disabled'; ?>"
-      href="<?php if($page!=$view_total_page) echo 'problemset.php?page='.($page+1).htmlentities($postfix, ENT_QUOTES, 'UTF-8'); ?>">
-      <i class="chevron right icon"></i>
-    </a>
-
 
     <?php
       for ($i=$start;$i<=$end;$i++){
