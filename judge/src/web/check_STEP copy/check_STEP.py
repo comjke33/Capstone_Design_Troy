@@ -148,6 +148,7 @@ def validate_code_output_full_io(code, test_in_path):
         print(f"[❌] 컴파일 실패:\n{e.stderr}")
         return False
 
+    print("correct")
     return True
 
 def main():
@@ -161,10 +162,11 @@ def main():
     with open(param_file, 'r', encoding='utf-8') as f:
         params = json.load(f)
 
-    pid = params["problem_id"]
-    step = params["step"]
-    line_num = int(params["index"])
-    code_file = params["code_file"]  # answer 대신 code_file 사용
+    pid = params.get("problem_id")
+    step = params.get("step")
+    line_num = int(params.get("index"))
+    answer = params.get("answer")  # 수정: answer 필드도 받아옴
+    code_file = params.get("code_file")
 
     # 사용자 코드 불러오기 (파일로 직접 읽기)
     user_code = read_code_lines(code_file)

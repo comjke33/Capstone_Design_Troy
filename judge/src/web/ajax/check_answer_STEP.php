@@ -19,6 +19,7 @@ $params = array(
     "problem_id" => $problemId,
     "step" => $step,
     "index" => $index,
+    "answer" => $answer,  // 반드시 answer 필드 포함
     "code_file" => $codeFile
 );
 file_put_contents($paramFilePath, json_encode($params, JSON_UNESCAPED_UNICODE));
