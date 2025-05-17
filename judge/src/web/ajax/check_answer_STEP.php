@@ -20,8 +20,9 @@ file_put_contents("/tmp/php_debug.log", "Command: $cmd\n", FILE_APPEND);
 $result = shell_exec($cmd);
 file_put_contents("/tmp/php_debug.log", "Python Output: $result\n", FILE_APPEND);
 
+
 // 결과 반환
-$response = ["result" => trim($result)];
+$response = ["result" => $result];
 header("Content-Type: application/json");
 echo json_encode($response);
 ?>
