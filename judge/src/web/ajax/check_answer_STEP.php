@@ -7,12 +7,11 @@ $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // 단계 정보를 변수로 처리
 
 // 안전한 인자 처리
-$escapedAnswer = str_replace("\\\\", "\\", $answer);  // 역슬래시 복구
 $param = [
     "problem_id" => $problemId,
     "step" => $step,
     "index" => $index,
-    "answer" => $escapedAnswer  // 복구된 문자열 사용
+    "answer" => $answer  // 그대로 전달
 ];
 $paramFile = tempnam(sys_get_temp_dir(), 'param_') . '.json';
 file_put_contents($paramFile, json_encode($param, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
