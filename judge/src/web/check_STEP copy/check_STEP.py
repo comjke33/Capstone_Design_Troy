@@ -186,7 +186,6 @@ def validate_code_output_full_io(code_lines, test_in_path):
 
     # 최종 성공 시 한 번만 correct 출력
     return True
-
 def main():
     if len(sys.argv) != 2:
         print("Usage: python3 check_STEP.py <param_file>")
@@ -201,7 +200,7 @@ def main():
     pid = params["problem_id"]
     step = params["step"]
     line_num = int(params["index"])
-    student_code = params["answer"]
+    student_code = params["answer"].encode().decode('unicode_escape')  # 역슬래시 처리
 
     filename = f"../tagged_code/{pid}_step{step}.txt"
     test_in_path = f"../../../data/{pid}"
@@ -228,6 +227,3 @@ def main():
         print("correct")
     else:
         print("no")
-
-if __name__ == "__main__":
-    main()
