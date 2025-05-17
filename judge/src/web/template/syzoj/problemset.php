@@ -5,8 +5,10 @@
     <div class="ten wide column">
       
       <!-- 문제 제목 또는 출처 검색 -->
-      <form action="" method="get" class="ui form" style="margin-bottom: 2em;">
-        <div class="ui fluid action input" style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
+<!-- 문제 ID로 바로 이동 -->
+    <form action="problem.php" method="get" class="ui form" style="margin-bottom: 2em;">
+      <div class="ui fluid action input" style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
+    6px;">
           <input 
             class="prompt"
             type="text" 
