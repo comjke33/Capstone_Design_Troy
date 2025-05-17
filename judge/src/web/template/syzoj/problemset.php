@@ -1,47 +1,38 @@
 <?php $show_title="$MSG_PROBLEMS - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 <div class="ui container" style="margin-top: 3em;">
-  <div class="ui stackable centered grid">
-    <div class="row">
-
-      <!-- 검색창 넓게 -->
-      <div class="ten wide column">
-        <form action="" method="get" class="ui form">
-          <div class="ui fluid action input" style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
-            <input 
-              class="prompt"
-              type="text" 
-              name="search" 
-              placeholder="<?php echo $MSG_TITLE; ?> 또는 출처로 검색하세요…" 
-              value="<?php if (isset($_GET['search'])) echo htmlentities($_GET['search'], ENT_QUOTES, 'UTF-8'); ?>"
-              style="border-radius: 6px 0 0 6px;"
-            >
-            <button type="submit" class="ui blue icon button" style="border-radius: 0 6px 6px 0;">
-              <i class="search icon"></i>
-            </button>
-          </div>
-        </form>
+  <div class="ui center aligned">
+    <form class="ui form" style="display: inline-flex; gap: 1em;" method="get" action="">
+      <!-- 문제 제목/출처 검색 -->
+      <div class="ui action input" style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
+        <input 
+          type="text" 
+          name="search" 
+          placeholder="<?php echo $MSG_TITLE; ?> 또는 출처로 검색하세요…"
+          value="<?php if (isset($_GET['search'])) echo htmlentities($_GET['search'], ENT_QUOTES, 'UTF-8'); ?>"
+          style="border-radius: 6px 0 0 6px;"
+        >
+        <button type="submit" class="ui blue icon button" style="border-radius: 0 6px 6px 0;">
+          <i class="search icon"></i>
+        </button>
       </div>
+    </form>
 
-      <!-- ID 입력창 좁게 -->
-      <div class="six wide column">
-        <form action="problem.php" method="get" class="ui form">
-          <div class="ui fluid action input" style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
-            <input 
-              type="text" 
-              name="id" 
-              placeholder="문제 ID 입력…" 
-              value="<?php if (isset($_GET['id'])) echo htmlentities($_GET['id'], ENT_QUOTES, 'UTF-8'); ?>"
-              style="border-radius: 6px 0 0 6px;"
-            >
-            <button type="submit" class="ui blue icon button" style="border-radius: 0 6px 6px 0;">
-              <i class="arrow right icon"></i>
-            </button>
-          </div>
-        </form>
+    <form class="ui form" style="display: inline-flex; gap: 1em;" method="get" action="problem.php">
+      <!-- 문제 ID 바로 이동 -->
+      <div class="ui action input" style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px; margin-left: 1em;">
+        <input 
+          type="text" 
+          name="id" 
+          placeholder="문제 ID 입력…"
+          value="<?php if (isset($_GET['id'])) echo htmlentities($_GET['id'], ENT_QUOTES, 'UTF-8'); ?>"
+          style="border-radius: 6px 0 0 6px;"
+        >
+        <button type="submit" class="ui blue icon button" style="border-radius: 0 6px 6px 0;">
+          <i class="arrow right icon"></i>
+        </button>
       </div>
-
-    </div>
+    </form>
   </div>
 </div>
 
