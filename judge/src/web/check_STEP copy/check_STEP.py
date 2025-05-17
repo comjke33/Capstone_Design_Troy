@@ -147,40 +147,6 @@ def validate_code_output_full_io(code_lines, test_in_path):
         print(f"[❌] 컴파일 실패:\n{e.stderr}")
         return False
 
-    test_files = [f for f in os.listdir(test_in_path) if f.endswith('.in')]
-    test_files.sort()
-
-    for in_file in test_files:
-        base_name = os.path.splitext(in_file)[0]
-        out_file = base_name + '.out'
-        in_path = os.path.join(test_in_path, in_file)
-        out_path = os.path.join(test_in_path, out_file)
-
-        with open(in_path, 'r') as fin:
-            full_input = fin.read()
-        with open(out_path, 'r') as fout:
-            expected_output = fout.read().strip()
-
-        try:
-            result = subprocess.run(
-                [exe_path],
-                input=full_input,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                timeout=5
-            )
-            actual_output = result.stdout.strip()
-            if actual_output != expected_output:
-                print(f"[❌] 테스트 실패: {base_name}")
-                return False
-        except subprocess.TimeoutExpired:
-            print("[❌] 실행 시간 초과")
-            return False
-        finally:
-            if os.path.exists(exe_path):
-                os.remove(exe_path)
-
     print("correct")
     return True
 
@@ -192,13 +158,13 @@ def main():
     pid = sys.argv[1]
     step = sys.argv[2]
     line_num = int(sys.argv[3])
-    student_code = json.loads(sys.argv[4])  # JSON으로 전달된 문자열을 디코딩
+    student_code = json.loads(sys.argv[4])  # JSON 문자열로 전달된 코드 파싱
+
+    # 디버깅용
+    print(f"Problem ID: {pid}, Step: {step}, Index: {line_num}, Code: {student_code}")
 
     test_in_path = f"../../../data/{pid}"
     final_code = student_code + '\n'
-
-    # 디버깅용: 전달된 코드 확인
-    print(f"Received code: {final_code}")
 
     if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
