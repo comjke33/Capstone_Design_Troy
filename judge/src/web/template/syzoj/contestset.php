@@ -31,9 +31,9 @@
                     <i class="list icon"></i> <?php echo $MSG_VIEW_ALL_CONTESTS ?>
                   </a>
                 <?php } else { ?>
-                  <!-- <a href="contest.php?my" class="ui small basic teal button">
+                  <a href="contest.php?my" class="ui small basic teal button">
                     <i class="user icon"></i> 나의 숙제 경기 보기
-                  </a> -->
+                  </a>
                 <?php } ?>
               </div>
 
