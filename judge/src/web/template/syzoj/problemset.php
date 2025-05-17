@@ -1,11 +1,11 @@
 <?php $show_title="$MSG_PROBLEMS - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 <div class="ui container" style="margin-top: 3em;">
-  <div class="ui centered grid">
-    <div class="ten wide column">
-      
-      <!-- 문제 제목 또는 출처 검색 -->
-      <form action="" method="get" class="ui form" style="margin-bottom: 2em;">
+  <div class="ui stackable grid">
+    
+    <!-- 문제 제목/출처 검색 -->
+    <div class="eight wide column">
+      <form action="" method="get" class="ui form">
         <div class="ui fluid action input" style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
           <input 
             class="prompt"
@@ -20,9 +20,11 @@
           </button>
         </div>
       </form>
+    </div>
 
-      <!-- 문제 ID로 바로 이동 -->
-      <form action="problem.php" method="get" class="ui form" style="margin-bottom: 2em;">
+    <!-- 문제 ID 바로 이동 -->
+    <div class="eight wide column">
+      <form action="problem.php" method="get" class="ui form">
         <div class="ui fluid action input" style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
           <input 
             type="text" 
@@ -36,8 +38,8 @@
           </button>
         </div>
       </form>
-
     </div>
+
   </div>
 </div>
 
