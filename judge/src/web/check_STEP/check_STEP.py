@@ -125,31 +125,28 @@ def generate_unique_name():
 
 def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
     """코드 컴파일 및 테스트 케이스 실행"""
-    exe_name = f"test_program_{uuid.uuid4().hex}"
+    exe_name = generate_unique_name()
     exe_path = f"/tmp/{exe_name}"
 
+    # 코드 전체를 임시 파일로 작성
     with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False, dir="/tmp") as temp_file:
         temp_file.write(''.join(code_lines))
         temp_file.flush()
         temp_c_path = temp_file.name
 
     try:
-        # 환경 변수 설정
         env = os.environ.copy()
         env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/11:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
 
-        # 1. 컴파일 시도
-        compile_result = subprocess.run(
-            ['gcc', temp_c_path, '-o', exe_path],
+        # 1. 컴파일
+        subprocess.run(
+            ['/usr/bin/gcc', '-o', exe_path, temp_c_path],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
+            check=True,
             env=env
         )
-        if compile_result.returncode != 0:
-            print(f"[❌] 컴파일 실패:\n{compile_result.stderr}")
-            return False
-
     except subprocess.CalledProcessError as e:
         print(f"[❌] 컴파일 실패:\n{e.stderr}")
         return False
@@ -157,40 +154,44 @@ def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
     test_files = [f for f in os.listdir(test_in_path) if f.endswith('.in')]
     test_files.sort()
 
+    all_passed = True
+    
     for in_file in test_files:
         base_name = os.path.splitext(in_file)[0]
         out_file = base_name + '.out'
+
         in_path = os.path.join(test_in_path, in_file)
         out_path = os.path.join(test_in_path, out_file)
 
+        # 입력/출력 파일 읽기
         with open(in_path, 'r') as fin:
             full_input = fin.read()
         with open(out_path, 'r') as fout:
             expected_output = fout.read().strip()
 
-        try:
-            result = subprocess.run(
-                [exe_path],
-                input=full_input,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                timeout=5
-            )
-            actual_output = result.stdout.strip()
+        # 프로그램 실행
+        result = subprocess.run(
+            [exe_path],
+            input=full_input,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=5
+        )
+        actual_output = result.stdout.strip()
 
-            if actual_output != expected_output:
-                print(f"[❌] 테스트 실패: {base_name}")
-                return False
-        except subprocess.TimeoutExpired:
-            print("[❌] 실행 시간 초과")
-            return False
-        finally:
-            if os.path.exists(exe_path):
-                os.remove(exe_path)
+        # 결과 비교
+        if actual_output != expected_output:
+            print(f"[❌] 테스트 실패: {base_name}")
+            all_passed = False
 
-    print("correct")
-    return True
+    # 삭제: 실행 파일 제거
+    if os.path.exists(exe_path):
+        os.remove(exe_path)
+
+    return all_passed
+
+
 def main():
     if len(sys.argv) != 2:
         print("Usage: python3 check_STEP.py <param_file>")
@@ -209,19 +210,24 @@ def main():
 
     filename = f"../tagged_code/{pid}_step{step}.txt"
     test_in_path = f"../../../data/{pid}"
-    test_out_path = f"../../../data/{pid}/test.out"  # 추가
+    test_out_path = f"../../../data/{pid}/test.out"
 
-    code_lines = read_code_lines(filename)
+    # 기존 코드 불러오기
+    original_code_lines = read_code_lines(filename)
+
+    # 사용자 코드 삽입
+    if 0 <= line_num < len(original_code_lines):
+        original_code_lines[line_num] = student_code + '\n'
 
     # 최종 코드 생성
-    final_code = student_code + '\n'
-    final_code = re.sub(r'\[[^\]]*\]', '', final_code)
+    final_code = ''.join(original_code_lines)
 
-    # 컴파일 및 실행
-    if validate_code_output_full_io(final_code, test_in_path, test_out_path):  # 인자 추가
+    # 코드 검증
+    if validate_code_output_full_io(final_code, test_in_path, test_out_path):
         print("correct")
     else:
         print("no")
+
 
 if __name__ == "__main__":
     main()
