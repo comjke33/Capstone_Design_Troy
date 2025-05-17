@@ -12,8 +12,18 @@ $escapedProblemId = escapeshellarg($problemId);
 $escapedIndex = escapeshellarg($index);
 $escapedStep = escapeshellarg($step);  // 추가
 
+// 임시 파일에 JSON 데이터 작성
+$json_data = json_encode([
+    "problem_id" => $problemId,
+    "step" => $step,
+    "index" => $index,
+    "answer" => $answer
+]);
+$tmp_filename = "/tmp/" . uniqid("param_", true) . ".json";
+file_put_contents($tmp_filename, $json_data);
+
 // 파이썬 실행 명령어 (출력과 오류 모두 캡처)
-$cmd = "cd ../check_STEP && python3 check_STEP.py $escapedProblemId $escapedStep $escapedIndex $escapedAnswer 2>&1";
+$cmd = "cd ../check_STEP && python3 check_STEP.py " . escapeshellarg($tmp_filename) . " 2>&1";
 
 // 디버그 로그 작성
 file_put_contents("/tmp/php_debug.log", "Command: $cmd\n", FILE_APPEND);
@@ -24,4 +34,7 @@ file_put_contents("/tmp/php_debug.log", "Python Output: $result\n", FILE_APPEND)
 $response = ["result" => trim($result)];
 header("Content-Type: application/json");
 echo json_encode($response);
+
+// 임시 파일 삭제
+unlink($tmp_filename);
 ?>
