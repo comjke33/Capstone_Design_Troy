@@ -11,7 +11,7 @@ $tempDir = "/tmp/";
 $codeFile = $tempDir . "code_" . uniqid() . ".c";
 $paramFilePath = $tempDir . "params_" . uniqid() . ".json";
 
-// 코드 내용을 파일로 저장 (그대로 쓰기)
+// 코드 내용을 파일로 저장
 file_put_contents($codeFile, $answer);
 
 // JSON 파라미터 파일 생성
@@ -19,7 +19,7 @@ $params = array(
     "problem_id" => $problemId,
     "step" => $step,
     "index" => $index,
-    "code_file" => $codeFile
+    "code_file" => $codeFile  // answer 대신 code_file 경로 전달
 );
 file_put_contents($paramFilePath, json_encode($params, JSON_UNESCAPED_UNICODE));
 

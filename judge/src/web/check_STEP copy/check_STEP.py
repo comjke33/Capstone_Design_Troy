@@ -148,6 +148,7 @@ def validate_code_output_full_io(code_lines, test_in_path):
         print(f"[❌] 컴파일 실패:\n{e.stderr}")
         return False
 
+    print("correct")
     return True
 
 def main():
@@ -164,27 +165,15 @@ def main():
     pid = params["problem_id"]
     step = params["step"]
     line_num = int(params["index"])
-    code_file = params["code_file"]
+    code_file = params["code_file"]  # answer 대신 code_file 사용
 
-    # 원본 코드 파일 경로
-    original_code_path = f"../tagged_code/{pid}_step{step}.txt"
-    code_lines = read_code_lines(original_code_path)
-
-    # 사용자 코드 블록 교체
+    # 사용자 코드 불러오기 (파일로 직접 읽기)
     with open(code_file, 'r') as f:
         user_code = f.read()
 
-    # 코드 교체: 특정 블럭을 사용자 코드로 교체
-    block_num = line_num
-    new_block = [line + '\n' for line in user_code.split('\n')]
-    code_lines[block_num] = ''.join(new_block)
-
-    # 블럭을 합쳐서 최종 코드 생성
-    final_code = ''.join(code_lines)
-
-    # 컴파일 및 실행
+    # 최종 코드 컴파일 및 실행
     test_in_path = f"../../../data/{pid}"
-    if validate_code_output_full_io(final_code, test_in_path):
+    if validate_code_output_full_io([user_code], test_in_path):
         print("correct")
     else:
         print("no")
