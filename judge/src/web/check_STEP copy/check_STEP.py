@@ -202,7 +202,7 @@ def main():
     line_num = int(params["index"])
     student_code = params["answer"]
 
-    # 이스케이프 복구 (\\n -> \n)
+    # 이스케이프 복구
     student_code = student_code.encode('utf-8').decode('unicode_escape')
 
     filename = f"../tagged_code/{pid}_step{step}.txt"

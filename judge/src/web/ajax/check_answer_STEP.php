@@ -4,14 +4,14 @@ $data = json_decode(file_get_contents("php://input"), true);
 $answer = $data["answer"] ?? "";
 $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
-$step = $data["step"] ?? "1";  // 단계 정보를 변수로 처리
+$step = $data["step"] ?? "1";
 
 // 안전한 인자 처리
 $param = [
     "problem_id" => $problemId,
     "step" => $step,
     "index" => $index,
-    "answer" => $answer  // 그대로 전달
+    "answer" => $answer
 ];
 $paramFile = tempnam(sys_get_temp_dir(), 'param_') . '.json';
 file_put_contents($paramFile, json_encode($param, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
