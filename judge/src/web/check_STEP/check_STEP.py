@@ -202,10 +202,12 @@ def main():
     with open(param_file, 'r', encoding='utf-8') as f:
         params = json.load(f)
 
-    pid = params.get("problem_id", "0")
-    step = params.get("step", "1")  # 기본값으로 "1" 설정
-    line_num = int(params.get("index", "0"))
-    student_code = params.get("answer", "")
+    pid = params["problem_id"]
+    step = params["step"]
+    line_num = int(params["index"])
+    student_code = params["answer"]
+
+    print(f"Problem ID: {pid}, Step: {step}, Index: {line_num}, Code: {student_code}")
 
     filename = f"../tagged_code/{pid}_step{step}.txt"
     test_in_path = f"../../../data/{pid}"
