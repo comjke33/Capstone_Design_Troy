@@ -27,11 +27,20 @@
       <table align=center width=80%>
         <tr align='center'>
           <td>
-            <form class=form-inline method=post action=contest.php>
-              <input class="form-control" name=keyword value="<?php if(isset($_POST['keyword'])) echo htmlentities($_POST['keyword'],ENT_QUOTES,"UTF-8")?>" placeholder="<?php echo $MSG_CONTEST_NAME?>">
-              <button class="form-control" type=submit><?php echo $MSG_SEARCH?></button>
-	      <a href="contest.php" ><?php echo $MSG_VIEW_ALL_CONTESTS ?></a>
+            <form class="ui form" method="post" action="contest.php" style="margin-top: 1em; margin-bottom: 2em;">
+              <div class="ui action input" style="width: 100%; max-width: 400px;">
+                <input 
+                  class="prompt"
+                  type="text" 
+                  name="keyword" 
+                  value="<?php if(isset($_POST['keyword'])) echo htmlentities($_POST['keyword'],ENT_QUOTES,'UTF-8'); ?>" 
+                  placeholder="<?php echo $MSG_CONTEST_NAME ?>"
+                >
+                <button type="submit" class="ui blue button"><?php echo $MSG_SEARCH ?></button>
+              </div>
+              <a href="contest.php" class="ui small basic button" style="margin-left: 1em;"><?php echo $MSG_VIEW_ALL_CONTESTS ?></a>
             </form>
+
           </td>
         </tr>
       </table>

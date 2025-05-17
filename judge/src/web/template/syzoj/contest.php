@@ -28,7 +28,7 @@
 
     <!-- 대회 시작/종료 시각이 좌우로 배치
     Semantic UI의 라벨 컴포넌트 활용!-->
-    <div class="ui pointing below left label"><?php echo $view_start_time?></div> -->
+    <div class="ui pointing below left label"><?php echo $view_start_time?></div> 
     <div class="ui pointing below right label"><?php echo $view_end_time?></div>
 
     <!-- 대회 진행률(5초마다 갱신) -->
