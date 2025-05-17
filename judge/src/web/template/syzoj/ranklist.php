@@ -7,15 +7,15 @@
   <div class="ui stackable grid">
     <div class="eight wide column">
       <div class="ui mini buttons">
-        <a href="ranklist.php?scope=d" class="ui button <?= ($_GET['scope'] ?? '') === 'd' ? 'blue' : '' ?>"><?= $MSG_DAY ?></a>
-        <a href="ranklist.php?scope=w" class="ui button <?= ($_GET['scope'] ?? '') === 'w' ? 'blue' : '' ?>"><?= $MSG_WEEK ?></a>
-        <a href="ranklist.php?scope=m" class="ui button <?= ($_GET['scope'] ?? '') === 'm' ? 'blue' : '' ?>"><?= $MSG_MONTH ?></a>
-        <a href="ranklist.php?scope=y" class="ui button <?= ($_GET['scope'] ?? '') === 'y' ? 'blue' : '' ?>"><?= $MSG_YEAR ?></a>
+        <a href="ranklist.php?scope=d" class="ui basic button" style="background-color: #fff;"><?= $MSG_DAY ?></a>
+        <a href="ranklist.php?scope=w" class="ui basic button" style="background-color: #fff;"><?= $MSG_WEEK ?></a>
+        <a href="ranklist.php?scope=m" class="ui basic button" style="background-color: #fff;"><?= $MSG_MONTH ?></a>
+        <a href="ranklist.php?scope=y" class="ui basic button" style="background-color: #fff;"><?= $MSG_YEAR ?></a>
       </div>
     </div>
 
     <!-- 사용자 검색 및 그룹 검색 -->
-    <div class="eight wide column" style="background-color: #f9f9f9; padding: 1em; border-radius: 6px;">
+    <div class="eight wide column" style="background-color: transparent; padding: 1em 0;">
       <form class="ui mini form" method="get" action="ranklist.php">
         <div class="fields">
           <div class="field">
@@ -33,14 +33,14 @@
         </div>
       </form>
     </div>
-
+  </div>
 
   <!-- 랭킹 테이블 -->
   <div class="ui segment" style="margin-top: 1em;">
     <table class="ui celled striped compact center aligned table">
       <thead>
         <tr>
-          <th style="width: 60px;"><?= $MSG_Number ?></th>
+          <th style="width: 60px;"><?= $MSG_NUMBER ?></th>
           <th style="width: 160px;"><?= $MSG_USER ?></th>
           <th><?= $MSG_NICK ?></th>
           <th><?= $MSG_GROUP_NAME ?></th>
