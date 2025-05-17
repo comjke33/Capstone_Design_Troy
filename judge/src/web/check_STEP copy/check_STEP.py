@@ -173,7 +173,7 @@ def main():
 
     # 최종 코드 컴파일 및 실행
     test_in_path = f"../../../data/{pid}"
-    if validate_code_output_full_io([user_code], test_in_path):
+    if validate_code_output_full_io(user_code.splitlines(True), test_in_path):
         print("correct")
     else:
         print("no")
