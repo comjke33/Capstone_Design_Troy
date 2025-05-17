@@ -137,7 +137,7 @@ def validate_code_output_full_io(code_lines, test_in_path):
 
     try:
         env = os.environ.copy()
-        env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/9:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
+        env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/11:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
 
         # 1. 컴파일 시도
         compile_result = subprocess.run(
