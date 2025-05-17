@@ -5,6 +5,7 @@ import os
 import sys
 import ast
 
+
 def is_tag_line(line):
     """태그 줄인지 판별"""
     return bool(re.match(r"\s*\[.*_(start|end)\(\d+\)\]\s*", line))
