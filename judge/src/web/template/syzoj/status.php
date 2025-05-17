@@ -4,36 +4,31 @@
 
 <div class="ui container" style="padding-top: 2em; padding-bottom: 2em;">
   <form id="simform" class="ui form" method="get" action="status.php">
-    <div class="ui stackable grid">
-      <div class="four wide column">
+    <div class="ui stackable equal width grid">
+      <div class="column">
         <div class="field">
-          <label><?php echo $MSG_PROBLEM_ID ?>:</label>
-          <input type="text" name="problem_id" value="<?php echo isset($problem_id)?htmlspecialchars($problem_id, ENT_QUOTES):'' ?>">
+          <input type="text" name="problem_id" placeholder="<?php echo $MSG_PROBLEM_ID ?>" value="<?php echo isset($problem_id)?htmlspecialchars($problem_id, ENT_QUOTES):'' ?>">
         </div>
       </div>
-      <div class="four wide column">
+      <div class="column">
         <div class="field">
-          <label><?php echo $MSG_USER ?>:</label>
-          <input type="text" name="user_id" value="<?php echo isset($user_id)?htmlspecialchars($user_id, ENT_QUOTES):'' ?>">
+          <input type="text" name="user_id" placeholder="<?php echo $MSG_USER ?>" value="<?php echo isset($user_id)?htmlspecialchars($user_id, ENT_QUOTES):'' ?>">
         </div>
       </div>
-      <div class="four wide column">
+      <div class="column">
         <div class="field">
-          <label><?php echo $MSG_SCHOOL ?>:</label>
-          <input type="text" name="school" value="<?php echo isset($school)?htmlspecialchars($school, ENT_QUOTES):'' ?>">
+          <input type="text" name="school" placeholder="<?php echo $MSG_SCHOOL ?>" value="<?php echo isset($school)?htmlspecialchars($school, ENT_QUOTES):'' ?>">
         </div>
       </div>
-      <div class="four wide column">
+      <div class="column">
         <div class="field">
-          <label><?php echo $MSG_GROUP_NAME ?>:</label>
-          <input type="text" name="group_name" value="<?php echo isset($group_name)?htmlspecialchars($group_name, ENT_QUOTES):'' ?>">
+          <input type="text" name="group_name" placeholder="<?php echo $MSG_GROUP_NAME ?>" value="<?php echo isset($group_name)?htmlspecialchars($group_name, ENT_QUOTES):'' ?>">
         </div>
       </div>
-      <div class="four wide column">
+      <div class="column">
         <div class="field">
-          <label><?php echo $MSG_LANG ?>:</label>
-          <select name="language" class="ui dropdown">
-            <option value="-1">All</option>
+          <select name="language" class="ui fluid dropdown">
+            <option value="-1"><?php echo $MSG_LANG ?>: All</option>
             <?php
               $selectedLang = isset($_GET['language']) ? intval($_GET['language']) : -1;
               $lang_count = count($language_ext);
@@ -48,13 +43,12 @@
           </select>
         </div>
       </div>
-      <div class="four wide column">
+      <div class="column">
         <div class="field">
-          <label><?php echo $MSG_RESULT ?>:</label>
-          <select name="jresult" class="ui dropdown">
+          <select name="jresult" class="ui fluid dropdown">
+            <option value="-1"><?php echo $MSG_RESULT ?>: All</option>
             <?php
               $jresult_get = isset($_GET['jresult']) ? intval($_GET['jresult']) : -1;
-              echo "<option value='-1'".($jresult_get == -1 ? " selected" : "").">All</option>";
               for ($j = 0; $j < 12; $j++) {
                 $i = ($j + 4) % 12;
                 echo "<option value='$i'".($i == $jresult_get ? " selected" : "").">$jresult[$i]</option>";
@@ -63,11 +57,12 @@
           </select>
         </div>
       </div>
+
       <?php if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'source_browser'])) { ?>
-      <div class="four wide column">
+      <div class="column">
         <div class="field">
-          <label>코드 유사도:</label>
-          <select name="showsim" class="ui dropdown" onchange="document.getElementById('simform').submit();">
+          <select name="showsim" class="ui fluid dropdown" onchange="document.getElementById('simform').submit();">
+            <option value=""><?php echo "코드 유사도"; ?></option>
             <?php
               $showsim = isset($_GET['showsim']) ? intval($_GET['showsim']) : 0;
               foreach ([0, 80, 85, 90, 95, 100] as $val) {
@@ -78,15 +73,18 @@
         </div>
       </div>
       <?php } ?>
-      <div class="sixteen wide column">
-        <button type="submit" class="ui green button"><i class="search icon"></i> <?php echo $MSG_SEARCH ?></button>
-        <span class="ui mini grey button">AWT: <?php echo round($avg_delay, 2) ?>s</span>
+
+      <div class="sixteen wide column" style="margin-top: 1em;">
+        <button type="submit" class="ui blue labeled icon button">
+          <i class="search icon"></i> <?php echo $MSG_SEARCH ?>
+        </button>
+        <span class="ui basic grey label">AWT: <?php echo round($avg_delay, 2) ?>s</span>
         <script>var AWT = <?php echo round($avg_delay*500, 0); ?>;</script>
       </div>
     </div>
   </form>
 
-  <table class="ui very basic celled center aligned table" id="result-tab">
+  <table class="ui celled striped compact center aligned table" id="result-tab">
     <thead>
       <tr>
         <th><?php echo $MSG_RUNID ?></th>
@@ -103,7 +101,7 @@
         <?php if (!isset($cid) && isset($_SESSION[$OJ_NAME.'_'.'administrator'])) echo "<th>$MSG_JUDGER</th>"; ?>
       </tr>
     </thead>
-    <tbody style="font-weight:700">
+    <tbody style="font-weight: 500; font-size: 14px;">
       <?php
         foreach ($view_status as $row) {
           echo "<tr>";
