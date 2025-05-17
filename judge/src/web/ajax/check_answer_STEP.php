@@ -6,8 +6,8 @@ $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";  // 단계 정보를 변수로 처리
 
-// 안전한 인자 처리
-$escapedAnswer = escapeshellarg(json_encode($answer)); // JSON 인코딩 후 이스케이프
+// 안전한 인자 처리 (JSON 인코딩 후 이스케이프)
+$escapedAnswer = escapeshellarg(json_encode($answer)); 
 $escapedProblemId = escapeshellarg($problemId);
 $escapedIndex = escapeshellarg($index);
 $escapedStep = escapeshellarg($step);  

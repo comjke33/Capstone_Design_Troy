@@ -158,7 +158,7 @@ def main():
     pid = sys.argv[1]
     step = sys.argv[2]
     line_num = int(sys.argv[3])
-    student_code = json.loads(sys.argv[4])  # JSON 문자열로 전달된 코드 파싱
+    student_code = json.loads(sys.argv[4])  # JSON으로 전달된 인자 디코딩
 
     # 디버깅용
     print(f"Problem ID: {pid}, Step: {step}, Index: {line_num}, Code: {student_code}")
