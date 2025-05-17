@@ -83,7 +83,7 @@
 <!-- 검색창 아래 여백 추가 -->
 <div class="ui row">
   <div class="sixteen wide column">
-    <div style="height: 30px; clear: both;"></div>
+    <div style="height: 60px; clear: both;"></div>
   </div>
 </div>
 
