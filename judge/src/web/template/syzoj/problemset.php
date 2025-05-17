@@ -81,7 +81,12 @@
 
 
 <!-- 검색창 아래 여백 추가 -->
-<div class="ui hidden divider" style="margin-top: 2em;"></div>
+<div class="ui row">
+  <div class="sixteen wide column">
+    <div style="height: 30px; clear: both;"></div>
+  </div>
+</div>
+
 
   <!-- 테이블 부분 -->
   <table class="ui very basic center aligned table">
