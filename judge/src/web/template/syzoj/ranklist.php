@@ -3,16 +3,16 @@
 
 <div class="ui container" style="padding-top: 2em; padding-bottom: 2em; max-width: 1200px;">
 
-  <!-- 랭킹 범위 선택 버튼 -->
-  <div class="ui stackable grid">
-    <div class="eight wide column">
-      <div class="ui mini buttons">
-        <a href="ranklist.php?scope=d" class="ui basic button" style="background-color: #fff;"><?= $MSG_DAY ?></a>
-        <a href="ranklist.php?scope=w" class="ui basic button" style="background-color: #fff;"><?= $MSG_WEEK ?></a>
-        <a href="ranklist.php?scope=m" class="ui basic button" style="background-color: #fff;"><?= $MSG_MONTH ?></a>
-        <a href="ranklist.php?scope=y" class="ui basic button" style="background-color: #fff;"><?= $MSG_YEAR ?></a>
-      </div>
+<!-- 랭킹 범위 선택 버튼 -->
+<div class="ui stackable grid">
+  <div class="eight wide column">
+    <div class="ui mini buttons">
+      <a href="ranklist.php?scope=d" class="ui button" style="background-color: #000; color: #fff;"><?= $MSG_DAY ?></a>
+      <a href="ranklist.php?scope=w" class="ui button" style="background-color: #000; color: #fff;"><?= $MSG_WEEK ?></a>
+      <a href="ranklist.php?scope=m" class="ui button" style="background-color: #000; color: #fff;"><?= $MSG_MONTH ?></a>
+      <a href="ranklist.php?scope=y" class="ui button" style="background-color: #000; color: #fff;"><?= $MSG_YEAR ?></a>
     </div>
+  </div>
 
     <!-- 사용자 검색 및 그룹 검색 -->
     <div class="eight wide column" style="background-color: transparent; padding: 1em 0;">
