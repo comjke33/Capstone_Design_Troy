@@ -200,7 +200,8 @@ def main():
     pid = params["problem_id"]
     step = params["step"]
     line_num = int(params["index"])
-    student_code = params["answer"].encode().decode('unicode_escape')  # 역슬래시 처리
+    # 역슬래시를 원래대로 복원
+    student_code = params["answer"].encode().decode('unicode_escape')
 
     filename = f"../tagged_code/{pid}_step{step}.txt"
     test_in_path = f"../../../data/{pid}"
