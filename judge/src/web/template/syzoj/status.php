@@ -103,30 +103,6 @@
   </form>
   <!-- 검색 필터 폼 끝 -->
 
-
-<!-- 채점 결과 테이블 스타일 추가 -->
-<style>
-  /* 전체 테이블 배경색 */
-  #result-tab {
-    background-color: #f9f9f9;
-  }
-
-  /* 짝수 행 배경색 */
-  #result-tab tbody tr:nth-child(even) {
-    background-color: #f4f6fa;
-  }
-
-  /* 홀수 행 배경색 */
-  #result-tab tbody tr:nth-child(odd) {
-    background-color: #ffffff;
-  }
-
-  /* 마우스 오버 시 강조 */
-  #result-tab tbody tr:hover {
-    background-color: #e8f0ff;
-  }
-</style>
-
 <!-- 채점 결과 테이블 -->
 <table class="ui celled striped compact center aligned table" id="result-tab">
   <thead>
