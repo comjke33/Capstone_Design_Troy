@@ -27,19 +27,30 @@
       <table align=center width=80%>
         <tr align='center'>
           <td>
-            <form class="ui form" method="post" action="contest.php" style="margin-top: 1em; margin-bottom: 2em;">
-              <div class="ui action input" style="width: 100%; max-width: 400px;">
-                <input 
-                  class="prompt"
-                  type="text" 
-                  name="keyword" 
-                  value="<?php if(isset($_POST['keyword'])) echo htmlentities($_POST['keyword'],ENT_QUOTES,'UTF-8'); ?>" 
-                  placeholder="<?php echo $MSG_CONTEST_NAME ?>"
-                >
-                <button type="submit" class="ui blue button"><?php echo $MSG_SEARCH ?></button>
-              </div>
-              <a href="contest.php" class="ui small basic button" style="margin-left: 1em;"><?php echo $MSG_VIEW_ALL_CONTESTS ?></a>
-            </form>
+            <form class="ui form" method="post" action="contest.php" style="margin-top: 2em; margin-bottom: 2em;">
+  <div class="ui stackable grid">
+    <div class="eight wide column">
+      <div class="ui fluid action input" style="box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); border-radius: 6px;">
+        <input
+          type="text"
+          name="keyword"
+          placeholder="<?php echo $MSG_CONTEST_NAME ?>"
+          value="<?php if(isset($_POST['keyword'])) echo htmlentities($_POST['keyword'], ENT_QUOTES, 'UTF-8'); ?>"
+          style="border-radius: 6px 0 0 6px;"
+        >
+        <button type="submit" class="ui blue button" style="border-radius: 0 6px 6px 0;">
+          <i class="search icon"></i> <?php echo $MSG_SEARCH ?>
+        </button>
+      </div>
+    </div>
+    <div class="eight wide column right aligned">
+      <a href="contest.php" class="ui basic grey button">
+        <i class="list icon"></i> <?php echo $MSG_VIEW_ALL_CONTESTS ?>
+      </a>
+    </div>
+  </div>
+</form>
+
 
           </td>
         </tr>
