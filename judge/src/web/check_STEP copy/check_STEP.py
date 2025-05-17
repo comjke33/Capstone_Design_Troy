@@ -130,12 +130,9 @@ def validate_code_output_full_io(code, test_in_path):
     exe_path = "/tmp/test_program"
     temp_c_path = "/tmp/final_code.c"
 
-    # 이스케이프 문자를 올바르게 디코딩
-    code = decode_escape_sequences(code)
-
     # 최종 코드 파일 작성
     with open(temp_c_path, 'w') as temp_file:
-        temp_file.write(code)
+        temp_file.write(code)  # 수정: 이스케이프 처리 없이 저장
 
     try:
         env = os.environ.copy()
@@ -168,7 +165,7 @@ def main():
     pid = params.get("problem_id")
     step = params.get("step")
     line_num = int(params.get("index"))
-    answer = params.get("answer")  # 수정: answer 필드도 받아옴
+    answer = params.get("answer")
     code_file = params.get("code_file")
 
     # 사용자 코드 불러오기 (파일로 직접 읽기)
