@@ -123,76 +123,65 @@ def generate_unique_name():
     return f"test_program_{uuid.uuid4().hex}"
 
 
-def validate_code_output_full_io(code_lines, test_in_path):
-    """코드 컴파일 및 테스트 케이스 실행"""
-    exe_name = generate_unique_name()
-    exe_path = f"/tmp/{exe_name}"
-
-    # 코드 블럭을 가져와서 교체
-    final_code = ''.join(code_lines)
-    with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False, dir="/tmp") as temp_file:
-        temp_file.write(final_code)
+def validate_code_output_full_io(code_lines, test_in_path, test_out_path):
+    """전체 test.in을 입력하고 전체 출력과 비교"""
+    # 임시 파일에 코드를 작성
+    with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False) as temp_file:
+        temp_file.write(''.join(code_lines))
         temp_file.flush()
         temp_c_path = temp_file.name
 
-    try:
-        env = os.environ.copy()
-        env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/11:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
-
-        # 1. 컴파일 시도
-        compile_result = subprocess.run(
-            ['gcc', temp_c_path, '-o', exe_path],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            check=True,
-            env=env
-        )
-        if compile_result.returncode != 0:
-            print(f"[❌] 컴파일 실패:\n{compile_result.stderr}")
+        try:
+            env = os.environ.copy()
+            env["PATH"] = "/usr/bin:" + env.get("PATH", "")
+            # 1. 컴파일
+            compile_result = subprocess.run(
+                ['/usr/bin/gcc', '-o', 'test_program', temp_c_path],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=True,
+                env=env
+            )
+        except subprocess.CalledProcessError as e:
+            print(f"[❌] 컴파일 실패:\n{e.stderr}")
             return False
-    except subprocess.CalledProcessError as e:
-        print(f"[❌] 컴파일 실패:\n{e.stderr}")
-        return False
-
+        
     test_files = [f for f in os.listdir(test_in_path) if f.endswith('.in')]
     test_files.sort()
+
+    all_passed = True
 
     for in_file in test_files:
         base_name = os.path.splitext(in_file)[0]
         out_file = base_name + '.out'
+
         in_path = os.path.join(test_in_path, in_file)
         out_path = os.path.join(test_in_path, out_file)
 
+        # 입력/출력 파일 읽기
         with open(in_path, 'r') as fin:
             full_input = fin.read()
         with open(out_path, 'r') as fout:
             expected_output = fout.read().strip()
 
-        try:
-            result = subprocess.run(
-                [exe_path],
-                input=full_input,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                timeout=5
-            )
-            actual_output = result.stdout.strip()
+        # 프로그램 실행
+        result = subprocess.run(
+            ['./test_program'],
+            input=full_input,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=5
+        )
+        actual_output = result.stdout.strip()
 
-            if actual_output != expected_output:
-                print(f"[❌] 테스트 실패: {base_name}")
-                return False
-        except subprocess.TimeoutExpired:
-            print("[❌] 실행 시간 초과")
-            return False
-        finally:
-            if os.path.exists(exe_path):
-                os.remove(exe_path)
+        # 결과 비교
+        if actual_output != expected_output:
+            print(f"[❌] 테스트 실패: {base_name}")
+            all_passed = False
 
-    # 최종 성공 시 한 번만 correct 출력
-    print("correct")
-    return True
+    return all_passed
 def main():
     if len(sys.argv) != 2:
         print("Usage: python3 check_STEP.py <param_file>")
