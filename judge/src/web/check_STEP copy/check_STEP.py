@@ -128,7 +128,9 @@ def validate_code_output_full_io(code_lines, test_in_path):
     exe_path = "/tmp/test_program"
 
     with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False, dir="/tmp") as temp_file:
-        temp_file.write(''.join(code_lines))
+        # 문자열 이스케이프 처리 개선
+        code_content = ''.join(code_lines).encode('utf-8').decode('unicode_escape')
+        temp_file.write(code_content)
         temp_file.flush()
         temp_c_path = temp_file.name
 
