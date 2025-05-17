@@ -4,7 +4,7 @@
   <div class="ui stackable grid">
     
     <!-- 문제 제목/출처 검색 -->
-    <div class="eight wide column">
+    <div class="five wide column">
       <form action="" method="get" class="ui form">
         <div class="ui fluid action input" style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
           <input 
@@ -23,7 +23,7 @@
     </div>
 
     <!-- 문제 ID 바로 이동 -->
-    <div class="eight wide column">
+    <div class="five wide column">
       <form action="problem.php" method="get" class="ui form">
         <div class="ui fluid action input" style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
           <input 
