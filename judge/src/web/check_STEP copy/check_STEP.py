@@ -161,27 +161,30 @@ def main():
     with open(param_file, 'r', encoding='utf-8') as f:
         params = json.load(f)
 
-    # 안전하게 "answer" 키 가져오기
-    if "answer" not in params:
-        print("Error: 'answer' key not found in JSON parameters.")
-        sys.exit(1)
+    pid = params["problem_id"]
+    step = params["step"]
+    line_num = int(params["index"])
+    code_file = params["code_file"]
 
-    pid = params.get("problem_id", "0")
-    step = params.get("step", "1")
-    line_num = int(params.get("index", "0"))
-    code_file = params.get("code_file", "")
+    # 원본 코드 파일 경로
+    original_code_path = f"../tagged_code/{pid}_step{step}.txt"
+    code_lines = read_code_lines(original_code_path)
 
-    # 사용자 코드 불러오기 (파일로 직접 읽기)
-    if code_file:
-        with open(code_file, 'r') as f:
-            user_code = f.read()
-    else:
-        print("Error: Code file not specified.")
-        sys.exit(1)
+    # 사용자 코드 블록 교체
+    with open(code_file, 'r') as f:
+        user_code = f.read()
 
-    # 최종 코드 컴파일 및 실행
+    # 코드 교체: 특정 블럭을 사용자 코드로 교체
+    block_num = line_num
+    new_block = [line + '\n' for line in user_code.split('\n')]
+    code_lines[block_num] = ''.join(new_block)
+
+    # 블럭을 합쳐서 최종 코드 생성
+    final_code = ''.join(code_lines)
+
+    # 컴파일 및 실행
     test_in_path = f"../../../data/{pid}"
-    if validate_code_output_full_io([user_code], test_in_path):
+    if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
     else:
         print("no")
