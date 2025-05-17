@@ -126,20 +126,17 @@ def generate_unique_name():
 def validate_code_output_full_io(code_lines, test_in_path):
     """코드 컴파일 및 테스트 케이스 실행"""
     exe_path = "/tmp/test_program"
-    temp_file_path = "/tmp/temp_code.c"
 
-    # 임시 파일에 코드 작성
-    with open(temp_file_path, 'w') as temp_file:
+    with tempfile.NamedTemporaryFile(suffix=".c", mode='w+', delete=False, dir="/tmp") as temp_file:
         temp_file.write(''.join(code_lines))
         temp_file.flush()
+        temp_c_path = temp_file.name
 
     try:
         env = os.environ.copy()
         env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/11:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
-
-        # 컴파일 시도
         subprocess.run(
-            ['gcc', temp_file_path, '-o', exe_path],
+            ['gcc', temp_c_path, '-o', exe_path],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
@@ -174,7 +171,6 @@ def validate_code_output_full_io(code_lines, test_in_path):
                 timeout=5
             )
             actual_output = result.stdout.strip()
-
             if actual_output != expected_output:
                 print(f"[❌] 테스트 실패: {base_name}")
                 return False
@@ -184,41 +180,24 @@ def validate_code_output_full_io(code_lines, test_in_path):
         finally:
             if os.path.exists(exe_path):
                 os.remove(exe_path)
-            if os.path.exists(temp_file_path):
-                os.remove(temp_file_path)
 
     print("correct")
     return True
 
 def main():
-    if len(sys.argv) != 2:
-        print("Usage: python3 check_STEP.py <param_file>")
+    if len(sys.argv) != 5:
+        print("Usage: python3 check_STEP.py <problem_id> <step> <index> <student_code>")
         sys.exit(1)
 
-    param_file = sys.argv[1]
+    pid = sys.argv[1]
+    step = sys.argv[2]
+    line_num = int(sys.argv[3])
+    student_code = json.loads(sys.argv[4])  # JSON 파싱
 
-    # 파일에서 JSON 파라미터 읽기
-    with open(param_file, 'r', encoding='utf-8') as f:
-        params = json.load(f)
-
-    pid = params["problem_id"]
-    step = params["step"]
-    line_num = int(params["index"])
-    student_code = params["answer"]
-
-    # 코드 파일 경로 설정
-    filename = f"../tagged_code/{pid}_step{step}.txt"
     test_in_path = f"../../../data/{pid}"
+    final_code = student_code + '\n'
 
-    # 코드 읽기
-    with open(filename, 'r') as f:
-        code_lines = f.readlines()
-
-    # 코드 교체
-    code_lines[line_num] = student_code + '\n'
-
-    # 컴파일 및 실행
-    if validate_code_output_full_io(code_lines, test_in_path):
+    if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
     else:
         print("no")
