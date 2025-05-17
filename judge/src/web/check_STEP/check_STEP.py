@@ -135,12 +135,18 @@ def validate_code_output_full_io(code_lines, test_in_path):
         temp_c_path = temp_file.name
 
     try:
+        # 명시적으로 환경 변수 설정
+        env = os.environ.copy()
+        # gcc와 cc1 경로를 명시적으로 추가
+        env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/9:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
+
         subprocess.run(
             ['gcc', temp_c_path, '-o', exe_path],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
-            check=True
+            check=True,
+            env=env  # 환경 변수 설정 추가
         )
     except subprocess.CalledProcessError as e:
         print(f"[❌] 컴파일 실패:\n{e.stderr}")
@@ -183,7 +189,6 @@ def validate_code_output_full_io(code_lines, test_in_path):
 
     print("correct")
     return True
-
 def main():
     if len(sys.argv) == 5:
         pid = sys.argv[1]
