@@ -216,8 +216,10 @@ def main():
 
     if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
+        return
     else:
         print("no")
+        return
 
 if __name__ == "__main__":
     main()
