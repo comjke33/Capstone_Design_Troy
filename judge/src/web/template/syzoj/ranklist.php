@@ -7,10 +7,10 @@
 <div class="ui stackable grid">
   <div class="eight wide column">
     <div class="ui mini buttons">
-      <a href="ranklist.php?scope=d" class="ui button" style="background-color: #FFFFFF; color: #000000DE;"><?= $MSG_DAY ?></a>
-      <a href="ranklist.php?scope=w" class="ui button" style="background-color: #FFFFFF; color: #000000DE;"><?= $MSG_WEEK ?></a>
-      <a href="ranklist.php?scope=m" class="ui button" style="background-color: #FFFFFF; color: #000000DE;"><?= $MSG_MONTH ?></a>
-      <a href="ranklist.php?scope=y" class="ui button" style="background-color: #FFFFFF; color: #000000DE;"><?= $MSG_YEAR ?></a>
+      <a href="ranklist.php?scope=d" class="ui button" style="background-color: #FFFFFF; color: #000000;"><?= $MSG_DAY ?></a>
+      <a href="ranklist.php?scope=w" class="ui button" style="background-color: #FFFFFF; color: #000000;"><?= $MSG_WEEK ?></a>
+      <a href="ranklist.php?scope=m" class="ui button" style="background-color: #FFFFFF; color: #000000;"><?= $MSG_MONTH ?></a>
+      <a href="ranklist.php?scope=y" class="ui button" style="background-color: #FFFFFF; color: #000000;"><?= $MSG_YEAR ?></a>
     </div>
   </div>
 
@@ -62,17 +62,18 @@
   </div>
 
   <!-- 페이지네이션 -->
-  <div class="ui center aligned segment">
-    <div class="ui pagination menu">
+  <div class="ui center aligned" style="margin-top: 2em;">
+    <div class="ui pagination menu" style="box-shadow: none; background: transparent;">
       <?php for ($i = 0; $i < $view_total; $i += $page_size):
         $start = $i + 1;
         $end = $i + $page_size;
         $link = "ranklist.php?start={$i}" . (isset($scope) ? "&scope=$scope" : "");
-        ?>
+      ?>
         <a class="item" href="<?= $link ?>"><?= $start ?>-<?= $end ?></a>
       <?php endfor; ?>
     </div>
   </div>
+
 </div>
 
 <?php include("template/$OJ_TEMPLATE/footer.php"); ?>
