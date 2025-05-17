@@ -141,9 +141,9 @@
 </table>
 
 
-  <!-- 페이지 이동 버튼 -->
-  <div class="ui center aligned segment" style="margin-top: 2em;">
-    <div class="ui pagination menu">
+    <!-- 페이지 이동 버튼 -->
+  <div class="ui center aligned" style="margin-top: 2em;">
+    <div class="ui pagination menu" style="box-shadow: none; border: none;">
       <a class="icon item" href="<?php echo 'status.php?'.$str2; ?>">Top</a>
       <?php
         if (isset($_GET['prevtop']))
@@ -154,6 +154,7 @@
       <a class="icon item" href="<?php echo 'status.php?'.$str2.'&top='.$bottom.'&prevtop='.$top; ?>">Next</a>
     </div>
   </div>
+
 </div>
 
 <!-- 판정 상태와 스타일 관련 스크립트 변수 정의 -->
