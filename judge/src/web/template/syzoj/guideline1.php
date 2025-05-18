@@ -45,48 +45,48 @@ include("../../guideline_common.php");
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
 
         <?php      
-                function render_tree_plain($blocks, &$answer_index = 0) {
-            $html = "";
+            function render_tree_plain($blocks, &$answer_index = 0) {
+                $html = "";
 
-            foreach ($blocks as $block) {
-                $depth = $block['depth'];
-                $margin_left = $depth * 30;
-                $isCorrect = false;
+                foreach ($blocks as $block) {
+                    $depth = $block['depth'] ?? 0;
+                    $margin_left = $depth * 50;
+                    $isCorrect = false;
 
-                if ($block['type'] === 'text') {
-                    $raw = trim($block['content']);
-                    if ($raw === '') continue;
+                    if ($block['type'] === 'text') {
+                        $raw = trim($block['content']);
+                        if ($raw === '') continue;
 
-                    $line = htmlspecialchars($block['content']);
-                    $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
-                    $disabled = $has_correct_answer ? "" : "disabled";
+                        $line = htmlspecialchars($block['content']);
+                        $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
+                        $disabled = $has_correct_answer ? "" : "disabled";
 
-                    // 출력되는 각 줄에 대해 이미지 업데이트 스크립트 삽입
-                    $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
-                    $html .= "<div class='code-line'>{$line}</div>";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                        $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
+                        $html .= "<div class='code-line'>{$line}</div>";
+                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
-                    // 라인 번호에 맞는 이미지를 업데이트하기 위한 스크립트 추가
-                    // $html .= "<script>updateImageForTextarea({$answer_index + 1}, document.getElementById('ta_{$answer_index}'));</script>";  // 라인 번호에 맞춰 이미지 업데이트
+                        if (!$isCorrect) {
+                            $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
+                            $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
+                            $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
+                        }
 
-                    if(!$isCorrect){
-                    $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
-                    $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
-                    $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
+                        $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
+                        $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
+                        $html .= "</div>";
+
+                        $answer_index++;
                     }
 
-                    $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
-                    $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
-                    $html .= "</div>";
-
-                    $answer_index++;
-                } else if (isset($block['children']) && is_array($block['children'])) {
-                    $html .= render_tree_plain($block['children'], $answer_index);
+                    // 💡 여기서 block이면서 children이 있으면 재귀 호출
+                    if (isset($block['children']) && is_array($block['children'])) {
+                        $html .= render_tree_plain($block['children'], $answer_index);
+                    }
                 }
+
+                return $html;
             }
 
-            return $html;
-        }
 
 
         $answer_index = 0;
