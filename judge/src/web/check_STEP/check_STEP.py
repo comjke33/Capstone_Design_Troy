@@ -83,6 +83,9 @@ def get_blocks(code_lines):
 def read_code_lines(filename):
     with open(filename, 'r') as f:
         return f.readlines()
+def decode_escape_sequences(text):
+    """이스케이프 시퀀스를 올바르게 변환"""
+    return bytes(text, "utf-8").decode("unicode_escape")
 
 def validate_code_output_full_io(code_lines, test_in_path):
     """코드 컴파일 및 테스트 케이스 실행"""
