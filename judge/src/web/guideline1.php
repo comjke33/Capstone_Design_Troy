@@ -14,9 +14,6 @@ $tagged_contents = file_get_contents($tagged_path);
 $OJ_BLOCK_TREE = guidelineFilter($guideline_contents);
 $OJ_CORRECT_ANSWERS = codeFilter($tagged_contents);
 $OJ_SID = "STEP 1";
-//태그가 제거된 가이드라인
-// $OJ_NoTagGuideline = guidelineOnlyTagFilter($guideline_contents);
-
 
 $index = isset($_GET['index']) ? intval($_GET['index']) : -1;
 // $default_img = "./image/basic.png";
