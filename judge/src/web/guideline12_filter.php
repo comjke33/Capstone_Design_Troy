@@ -11,11 +11,13 @@ function guidelineFilter($text) {
 
         // 시작 태그: 누적 텍스트 먼저 처리
         if (preg_match('/\[(func_def|rep|cond|self|struct|construct|main_def)_start\((\d+)\)\]/', $line, $m)) {
-            if (trim($textBuffer) !== '') {
-                $stack[count($stack) - 1]['children'][] = [
-                    'type' => 'text',
+            if (trim($textBuffer) !== '') { //비어있지 않은 경우
+                $stack[count($stack) - 1]['children'][] = [ 
+                //stack은 현재 트리구조, count(%stack)-1은 스택 맨 위(현재 작업중)
+                //children은 text or block이 담김
+                    'type' => 'text', 
                     'content' => rtrim($textBuffer),
-                    'depth' => count($stack) - 1
+                    'depth' => count($stack) - 1 //깊이 지정(들여쓰기 할 떄 사용)
                 ];
                 $textBuffer = "";
             }
