@@ -15,7 +15,7 @@ ini_set("display_errors", 1);
 
 <?php
 //허가된 유저들만 사용가능하게
-include('../../allowed_users.php');
+include('/../../allowed_users.php');
 ?>
 
 <style>
