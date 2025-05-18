@@ -10,9 +10,14 @@
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 
 <?php
-//허가된 유저들만 사용가능하게
-include('/../../allowed_users.php');
+$path = dirname(__FILE__) . '/../../../allowed_users.php';
+if (file_exists($path)) {
+    include($path);
+} else {
+    die("allowed_users.php 파일이 존재하지 않습니다: " . $path);
+}
 ?>
+
 
 <style>
 .ace_cursor {
