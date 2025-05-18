@@ -95,7 +95,8 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="ko" style="position:fixed; width: 100%; overflow: hidden; ">
+<html lang="ko">
+
 
 <head>
     <meta charset="utf-8">
