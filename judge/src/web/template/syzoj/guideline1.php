@@ -45,7 +45,7 @@ include("../../guideline_common.php");
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
 
         <?php      
-        function render_tree_plain($blocks, &$answer_index = 0) {
+             function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
 
             foreach ($blocks as $block) {
@@ -96,6 +96,10 @@ include("../../guideline_common.php");
 
             return $html;
         }
+
+
+        $answer_index = 0;
+        echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
         ?>
     </div>
 
@@ -225,8 +229,7 @@ function submitAnswer(index) {
     console.log("요청 데이터:", {
         answer: input,
         problem_id: problemId,
-        index: index,
-        step:step
+        index: index
     });
 
     fetch("../../ajax/check_answer_STEP.php", {
@@ -235,8 +238,7 @@ function submitAnswer(index) {
         body: JSON.stringify({
             answer: input,
             problem_id: problemId,
-            index: index,
-            step:step
+            index: index
         })
     })
     .then(res => {
