@@ -178,17 +178,25 @@ include('allowed_users.php');
     <div id="page-header" class="ui" style="position: fixed; height: 49px; z-index:99999">
         <div id="menu" class="menu-container">
         <!-- 왼쪽: 로고 -->
-        <div class="menu-left">
-            <a class="logo item" href="/">
-            <span style="font-family: 'Exo 2'; font-size: 1.8em; font-weight: 700;">
+        <div class="menu-logo">
+            <a href="/" class="logo">
+            <span style="font-family: 'Exo 2'; font-size: 2em; font-weight: 700; color: #003366;">
                 <?php echo $domain == $DOMAIN ? $OJ_NAME : ucwords($OJ_NAME) . "'s OJ"; ?>
             </span>
             </a>
-            <!-- 여기에 홈, 문제, 대회 등 메뉴 추가 가능 -->
         </div>
 
-        <!-- 오른쪽: 알림 + 사용자 -->
-        <div class="right menu">
+        <!-- 가운데: 메뉴 -->
+        <div class="menu-middle">
+            <a class="item" href="/"><i class="home icon"></i> 홈</a>
+            <a class="item" href="/problemset.php"><i class="list icon"></i> 문제</a>
+            <a class="item" href="/contest.php"><i class="trophy icon"></i> 대회</a>
+            <a class="item" href="/status.php"><i class="tasks icon"></i> 채점기록</a>
+            <a class="item" href="/ranklist.php"><i class="signal icon"></i> 순위</a>
+        </div>
+
+        <!-- 오른쪽: 알림 + 유저 -->
+        <div class="menu-right">
             <?php if (in_array($_SESSION[$OJ_NAME . '_user_id'], $allowed_user_id)) { ?>
             <a id="notification-link" class="item" href="#">
                 <span class="bell-wrapper"><i class="fa fa-bell"></i></span>
