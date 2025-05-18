@@ -399,5 +399,18 @@ include('allowed_users.php');
   flex-shrink: 0;
 }
 
+.page-header {
+  display: flex;
+  justify-content: center; /* 수평 가운데 정렬 */
+  align-items: center;     /* 수직 가운데 정렬 (높이 49px 기준) */
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 49px;
+  width: 100%;
+  z-index: 99999;
+  background-color: #e7f0f7; /* 배경색이 필요하다면 추가 */
+}
+
 
 </style>
