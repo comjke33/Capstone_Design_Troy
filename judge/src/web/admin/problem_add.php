@@ -201,6 +201,7 @@ function phpfm(pid){
 </script>
 
 <script>
+/* 
 $.ajax({
     type: "POST",
     url: "../ajax/save_problem_run_python.php",
@@ -238,4 +239,63 @@ $.ajax({
         console.error("❌ Python 실행 중 오류 발생:", error);
     }
 });
+*/
+
+<?php
+// HTML 특수문자 디코딩 함수
+function decode_html($str) {
+    return htmlspecialchars_decode($str, ENT_QUOTES | ENT_HTML401);
+}
+
+// 문제 등록 시 HTML 엔티티 복구
+$title = decode_html($_POST['title']);
+$description = decode_html($_POST['description']);
+$input = decode_html($_POST['input']);
+$output = decode_html($_POST['output']);
+$hint = decode_html($_POST['hint']);
+$exemplary_code = decode_html($_POST['exemplary_code']);
+?>
+
+
+$.ajax({
+    type: "POST",
+    url: "../ajax/save_problem_run_python.php",
+    dataType: "json",  // JSON으로 응답 받기
+    contentType: "application/json; charset=UTF-8",  // JSON 형식으로 전송
+    data: JSON.stringify({
+        description: <?php echo json_encode($description, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>,
+        exemplary_code: <?php echo json_encode($exemplary_code, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>,
+        problem_id: <?php echo json_encode($pid); ?>,
+        output_dir: <?php echo json_encode($output_dir); ?>,
+        post_key: "<?php echo $_SESSION[$OJ_NAME . '_post_key']; ?>"
+    }),
+    beforeSend: function(request, settings) {
+        console.log("🚀 전송할 데이터:", settings.data);
+    },
+    success: function(response) {
+        console.log("📜 Python Script Response:");
+        console.log(response);
+
+        if (Array.isArray(response)) {
+            response.forEach((result, idx) => {
+                console.log(`▶️ Script ${idx + 1}`);
+                console.log("Command:", result.command);
+                console.log("Return Code:", result.return_code);
+                console.log("Output:", result.output.join("\n"));
+            });
+        } else if (typeof response === "object" && response !== null) {
+            if (response.status) {
+                console.log(`🟡 상태: ${response.status}`);
+            } else {
+                console.warn("⚠️ 응답 객체에 예상된 키가 없음:", response);
+            }
+        } else {
+            console.error("⚠️ 알 수 없는 형식의 응답:", response);
+        }
+    },
+    error: function(xhr, status, error) {
+        console.error("❌ Python 실행 중 오류 발생:", error);
+    }
+});
+
 </script>
