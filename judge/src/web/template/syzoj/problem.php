@@ -1,4 +1,9 @@
 <?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+?>
+
+<?php
           if($pr_flag){
             $show_title="P$id - ".$row['title']." - $OJ_NAME";
           }else{
