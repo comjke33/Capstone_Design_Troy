@@ -151,6 +151,10 @@ function codeFilter($text) {
 
     // 최종 트리 배열을 평탄화(flatten)해서 반환
     return extractContentsFlat($root['children']);
+
+    foreach ($stack[count($stack) - 1]['children'] as $child) {
+    echo "<!-- PARSED BLOCK: " . htmlentities($child['content']) . " -->\n";
+}
 }
 
 
