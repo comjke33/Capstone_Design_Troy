@@ -4,42 +4,37 @@
   <div class="ui center aligned">
     <div style="display: inline-flex; gap: 10em;"> <!-- 두 폼 사이 간격 설정 -->
       
-      <!-- 검색 폼 -->
-      <div style="display: flex; gap: 1rem; width: 100%; max-width: 800px; margin: 0 auto;">
-
-        <!-- 제목/출처 검색 -->
-        <form class="ui form" method="get" action="" style="flex: 1;">
-          <div class="ui action input" style="width: 100%; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
-            <input 
-              type="text" 
-              name="search" 
-              placeholder="<?php echo $MSG_TITLE; ?> 또는 출처로 검색하세요…"
-              value="<?php if (isset($_GET['search'])) echo htmlentities($_GET['search'], ENT_QUOTES, 'UTF-8'); ?>"
-              style="border-radius: 6px 0 0 6px; width: 100%;"
-            >
-            <button type="submit" class="ui blue icon button" style="border-radius: 0 6px 6px 0;">
-              <i class="search icon"></i>
-            </button>
-          </div>
-        </form>
-
-        <!-- ID 이동 -->
-        <form class="ui form" method="get" action="problem.php" style="flex: 1;">
-          <div class="ui action input" style="width: 100%; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
-            <input 
-              type="text" 
-              name="id" 
-              placeholder="문제 ID 입력…"
-              value="<?php if (isset($_GET['id'])) echo htmlentities($_GET['id'], ENT_QUOTES, 'UTF-8'); ?>"
-              style="border-radius: 6px 0 0 6px; width: 100%;"
-            >
-            <button type="submit" class="ui blue icon button" style="border-radius: 0 6px 6px 0;">
-              <i class="arrow right icon"></i>
-            </button>
-          </div>
-        </form>
-
+     <!-- 검색 폼 -->
+    <form class="ui form" method="get" action="" style="flex: 1; min-width: 300px; max-width: 600px;">
+      <div class="ui action input" style="width: 100%; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
+        <input 
+          type="text" 
+          name="search" 
+          placeholder="<?php echo $MSG_TITLE; ?> 또는 출처로 검색하세요…"
+          value="<?php if (isset($_GET['search'])) echo htmlentities($_GET['search'], ENT_QUOTES, 'UTF-8'); ?>"
+          style="border-radius: 6px 0 0 6px; width: 100%;"
+        >
+        <button type="submit" class="ui blue icon button" style="border-radius: 0 6px 6px 0;">
+          <i class="search icon"></i>
+        </button>
       </div>
+    </form>
+
+    <!-- ID 이동 폼 -->
+    <form class="ui form" method="get" action="problem.php" style="flex: 1; min-width: 200px; max-width: 300px;">
+      <div class="ui action input" style="width: 100%; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
+        <input 
+          type="text" 
+          name="id" 
+          placeholder="문제 ID 입력…"
+          value="<?php if (isset($_GET['id'])) echo htmlentities($_GET['id'], ENT_QUOTES, 'UTF-8'); ?>"
+          style="border-radius: 6px 0 0 6px; width: 100%;"
+        >
+        <button type="submit" class="ui blue icon button" style="border-radius: 0 6px 6px 0;">
+          <i class="arrow right icon"></i>
+        </button>
+      </div>
+    </form>
 
 
     </div>
