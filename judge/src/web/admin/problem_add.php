@@ -187,7 +187,16 @@ $_SESSION[$OJ_NAME.'_'."p$pid"] = true;
 echo "&nbsp;&nbsp;- <a href='javascript:phpfm($pid);'>Add more TestData now!</a>";
 /*  */
 ?>
+<?php
+// HTML 특수문자 디코딩 함수
+function decode_html($str) {
+    return htmlspecialchars_decode($str, ENT_QUOTES | ENT_HTML401);
+}
 
+// JSON으로 전송할 데이터를 미리 디코딩
+$description = decode_html($description);
+$exemplary_code = decode_html($exemplary_code);
+?>
 <script src='../template/bs3/jquery.min.js' ></script>
 <script>
 function phpfm(pid){
@@ -201,7 +210,6 @@ function phpfm(pid){
 </script>
 
 <script>
-/*
 $.ajax({
     type: "POST",
     url: "../ajax/save_problem_run_python.php",
@@ -226,47 +234,6 @@ $.ajax({
             });
         } else if (typeof response === "object" && response !== null) {
             // 객체인 경우 status 등 출력
-            if (response.status) {
-                console.log(`🟡 상태: ${response.status}`);
-            } else {
-                console.warn("⚠️ 응답 객체에 예상된 키가 없음:", response);
-            }
-        } else {
-            console.error("⚠️ 알 수 없는 형식의 응답:", response);
-        }
-    },
-    error: function(xhr, status, error) {
-        console.error("❌ Python 실행 중 오류 발생:", error);
-    }
-});
-*/
-$.ajax({
-    type: "POST",
-    url: "../ajax/save_problem_run_python.php",
-    dataType: "json",  // JSON으로 응답 받기
-    contentType: "application/json; charset=UTF-8",  // JSON으로 명시적 전송
-    data: JSON.stringify({
-        description: <?php echo json_encode(htmlspecialchars_decode($description, ENT_QUOTES), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>,
-        exemplary_code: <?php echo json_encode($exemplary_code, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>,
-        problem_id: <?php echo json_encode($pid); ?>,
-        output_dir: <?php echo json_encode($output_dir); ?>,
-        post_key: "<?php echo $_SESSION[$OJ_NAME . '_post_key']; ?>"
-    }),
-    beforeSend: function(request, settings) {
-        console.log("🚀 전송할 데이터:", settings.data);
-    },
-    success: function(response) {
-        console.log("📜 Python Script Response:");
-        console.log(response);
-
-        if (Array.isArray(response)) {
-            response.forEach((result, idx) => {
-                console.log(`▶️ Script ${idx + 1}`);
-                console.log("Command:", result.command);
-                console.log("Return Code:", result.return_code);
-                console.log("Output:", result.output.join("\n"));
-            });
-        } else if (typeof response === "object" && response !== null) {
             if (response.status) {
                 console.log(`🟡 상태: ${response.status}`);
             } else {
