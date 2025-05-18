@@ -367,49 +367,25 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
 <?php } ?>
 
 <style>
-
 .menu-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 1rem;
   padding: 0.5rem 1rem;
   background-color: transparent;
   font-size: 16px;
-  width: 100%;
 }
 
-.menu-left {
-  display: flex;
-  align-items: center;
-  gap: 2rem; /* 메뉴들 사이 간격 */
-}
-
-.menu-left .logo {
-  font-size: 1.8em;
-  font-weight: bold;
-  color: #003366;
-  margin-right: 2rem;
-  display: flex;
-  align-items: center;
-}
-
-.menu-left a {
+.menu-container a {
   color: #003366;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.3em;
+  gap: 0.4em; /* 아이콘과 텍스트 간격 */
 }
 
-.menu-left a:hover {
+.menu-container a:hover {
   color: #0078d7;
-}
-
-.right.menu {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-left: auto;
 }
 
 </style>
