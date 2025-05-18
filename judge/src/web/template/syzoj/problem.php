@@ -45,9 +45,7 @@ div[class*=ace_br] {
           // 조건을 통해 문제 상태 확인하여 제목 출력 제목은 $row['title']로 가져옴
           if($pr_flag){
             echo "$id: ".$row['title'];
-            // <%= problem.title %><% if (problem.allowedEdit && !problem.is_public) { %><span class="ui tiny red label">未公开</span><% } %>";
-            //echo "<title>$MSG_PROBLEM".$row['problem_id']."--". $row['title']."</title>";
-            //echo "<center><h2><strong>$id: ".$row['title']."</strong></h2>";
+
           }else{
             $id=$row['problem_id'];
             //echo "<title>$MSG_PROBLEM ".$PID[$pid].": ".$row['title']." </title>";
@@ -76,10 +74,10 @@ if(file_exists($solution_file)){
 	      
 	  <span class="ui label" problem_id="<?php echo $id?>" ><?php echo $MSG_Memory_Limit ?>：<span tb="problem" fd="memory_limit"><?php echo $row['memory_limit']; ?></span> MB</span>
           <span class="ui label" problem_id="<?php echo $id?>" ><?php echo $MSG_Time_Limit ?>：<span tb="problem" fd="time_limit"><?php echo $row['time_limit']; ?></span> S</span>
-         <!-- <span class="ui label">标准输入输出</span> -->
+
       </div>
       <div class="row" style="margin-top: -23px">
-        <!--   <span class="ui label">题目类型：传统</span> -->
+
           <span class="ui label"><?php echo $MSG_JUDGE_STYLE ?>：<?php echo array($MSG_NJ,$MSG_SPJ,$MSG_RTJ)[$row['spj']] ; ?> </span>
           <span class="ui label"><?php echo $MSG_Creator ?>：<span id='creator'></span></span>
       </div>
