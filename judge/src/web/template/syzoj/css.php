@@ -6,7 +6,7 @@
 ?>
 
 <!-- css파일 링크 -->
-<link rel="stylesheet" href="<?php echo $OJ_CDN_URL.$path_fix."template/$OJ_TEMPLATE"?>/css/style.css">
+<!-- <link rel="stylesheet" href="<?php echo $OJ_CDN_URL.$path_fix."template/$OJ_TEMPLATE"?>/css/style.css"> -->
 <link rel="stylesheet" href="<?php echo $OJ_CDN_URL.$path_fix."template/$OJ_TEMPLATE"?>/css/tomorrow.css">
 <link rel="stylesheet" href="<?php echo $path_fix."template/$OJ_TEMPLATE"?>/css/semantic.min.css?v=0.1">
 <link rel="stylesheet" href="<?php echo $OJ_CDN_URL.$path_fix."template/$OJ_TEMPLATE"?>/css/katex.min.css">
