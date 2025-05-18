@@ -154,32 +154,3 @@ function extractContentsFlat($blocks) { //트리 구조
     return $results; //평탄화된 tree -> array 배열 변환
 }
 
-//태그제거 하는 필터
-// function guidelineOnlyTagFilter($text) {
-//     // 대괄호 태그 정규식: [tag_name(number)] 또는 [tag_name]
-//     $tagPattern = '/\[\s*(func_def_start|func_def_end|cond_start|cond_end|rep_start|rep_end|self_start|self_end|struct_start|struct_end)\(?\d*\)?\s*\]/';
-
-//     // 텍스트를 줄 단위로 분리
-//     $lines = explode("\n", $text);
-    
-//     $parsedLines = array();
-
-//     // 각 줄에 대해 태그를 제거하고, 각 줄에 대한 start_line과 end_line을 기록
-//     foreach ($lines as $line_number => $line) {
-//         // 태그를 제거하고 공백을 제거
-//         $cleanedLine = preg_replace($tagPattern, '', $line);
-//         $cleanedLine = trim($cleanedLine); // 공백 제거
-
-//         // 빈 줄은 제외
-//         if (strlen($cleanedLine) > 0) {
-//             // 해당 줄 번호를 `start_line`과 `end_line`에 맞게 처리할 수 있도록 추가
-//             $parsedLines[] = [
-//                 'line_number' => $line_number + 1,  // 1-based index
-//                 'content' => $cleanedLine
-//             ];
-//         }
-//     }
-
-//     return $parsedLines;
-// }
-

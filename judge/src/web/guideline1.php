@@ -1,6 +1,6 @@
 <?php
 include("include/db_info.inc.php");
-include("guideline_common.php"); // ✨ 공통 파일 사용
+include("guideline12_filter.php"); // ✨ 공통 파일 사용
 
 // $problem_id = 1295; 
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
