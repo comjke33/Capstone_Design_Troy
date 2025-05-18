@@ -6,15 +6,15 @@
       
     <!-- 검색 폼 -->
     <form class="ui form" method="get" action="">
-      <div class="ui action input" style="width: 300px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
+      <div class="ui action input" style="width: 400px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
         <input 
           type="text" 
           name="search" 
           placeholder="<?php echo $MSG_TITLE; ?> 또는 출처로 검색하세요…"
           value="<?php if (isset($_GET['search'])) echo htmlentities($_GET['search'], ENT_QUOTES, 'UTF-8'); ?>"
-          style="border-radius: 6px 0 0 6px; width: calc(100% - 40px);"
+          style="border-radius: 6px 0 0 6px; width: calc(100% - 44px);"
         >
-        <button type="submit" class="ui blue icon button" style="border-radius: 0 6px 6px 0; width: 40px;">
+        <button type="submit" class="ui blue icon button" style="border-radius: 0 6px 6px 0; width: 44px;">
           <i class="search icon"></i>
         </button>
       </div>
@@ -22,15 +22,15 @@
 
     <!-- ID 이동 폼 -->
     <form class="ui form" method="get" action="problem.php">
-      <div class="ui action input" style="width: 300px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
+      <div class="ui action input" style="width: 400px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
         <input 
           type="text" 
           name="id" 
           placeholder="문제 ID 입력…"
           value="<?php if (isset($_GET['id'])) echo htmlentities($_GET['id'], ENT_QUOTES, 'UTF-8'); ?>"
-          style="border-radius: 6px 0 0 6px; width: calc(100% - 40px);"
+          style="border-radius: 6px 0 0 6px; width: calc(100% - 44px);"
         >
-        <button type="submit" class="ui blue icon button" style="border-radius: 0 6px 6px 0; width: 40px;">
+        <button type="submit" class="ui blue icon button" style="border-radius: 0 6px 6px 0; width: 44px;">
           <i class="arrow right icon"></i>
         </button>
       </div>
