@@ -176,48 +176,7 @@ include('allowed_users.php');
 
     <!-- 사이트 이름 표시, 메뉴 항목 링크제공 -->
     <div id="page-header" class="ui" style="position: fixed; height: 49px; z-index:99999">
-        <div id="menu" class="menu-container">
-        <!-- 왼쪽: 로고 -->
-        <div class="menu-logo">
-            <a href="/" class="logo">
-            <span style="font-family: 'Exo 2'; font-size: 2em; font-weight: 700; color: #003366;">
-                <?php echo $domain == $DOMAIN ? $OJ_NAME : ucwords($OJ_NAME) . "'s OJ"; ?>
-            </span>
-            </a>
-        </div>
-
-        <!-- 가운데: 메뉴 -->
-        <div class="menu-middle">
-            <a class="item" href="/"><i class="home icon"></i> 홈</a>
-            <a class="item" href="/problemset.php"><i class="list icon"></i> 문제</a>
-            <a class="item" href="/contest.php"><i class="trophy icon"></i> 대회</a>
-            <a class="item" href="/status.php"><i class="tasks icon"></i> 채점기록</a>
-            <a class="item" href="/ranklist.php"><i class="signal icon"></i> 순위</a>
-        </div>
-
-        <!-- 오른쪽: 알림 + 유저 -->
-        <div class="menu-right">
-            <?php if (in_array($_SESSION[$OJ_NAME . '_user_id'], $allowed_user_id)) { ?>
-            <a id="notification-link" class="item" href="#">
-                <span class="bell-wrapper"><i class="fa fa-bell"></i></span>
-                <?php if ($new_notification_count > 0) echo '<span class="notification-dot"></span>'; ?>
-            </a>
-            <?php } ?>
-
-            <div class="ui simple dropdown item">
-            <?php
-                echo $_SESSION[$OJ_NAME . '_user_id'];
-                if (!empty($_SESSION[$OJ_NAME . '_nick'])) echo "(" . $_SESSION[$OJ_NAME . '_nick'] . ")";
-            ?>
-            <i class="dropdown icon"></i>
-            <div class="menu">
-                <a class="item" href="modifypage.php"><i class="edit icon"></i>정보 수정</a>
-                <a class="item" href="logout.php"><i class="power icon"></i>로그아웃</a>
-            </div>
-            </div>
-        </div>
-        </div>
-
+        
             
           <?php
             if(isset($OJ_AI_HTML)&&$OJ_AI_HTML && !isset($OJ_ON_SITE_CONTEST_ID) ) echo $OJ_AI_HTML;
@@ -461,5 +420,6 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
   background-color: red;
   border-radius: 50%;
 }
+
 
 </style>
