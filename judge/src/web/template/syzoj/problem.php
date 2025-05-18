@@ -78,7 +78,7 @@ if(file_exists($solution_file)){
       <div class="row" style="margin-top: -23px">
         <!--   <span class="ui label">题目类型：传统</span> -->
           <span class="ui label" style="background-color: #ffffff;" ><?php echo $MSG_JUDGE_STYLE ?>：<?php echo array($MSG_NJ,$MSG_SPJ,$MSG_RTJ)[$row['spj']] ; ?> </span>
-          <span class="ui label"><?php echo $MSG_Creator ?>：<span id='creator'></span></span>
+          <span class="ui label" style="background-color: #ffffff;" ><?php echo $MSG_Creator ?>：<span id='creator'></span></span>
       </div>
       <div class="row" style="margin-top: -23px">
           <span class="ui label" style="background-color: #ffffff;" ><?php echo $MSG_SUBMIT ?>：<?php echo $row['submit']; ?></span>
