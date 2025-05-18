@@ -64,7 +64,8 @@ include("../../guideline_common.php");
 
                     // 출력되는 각 줄에 대해 이미지 업데이트 스크립트 삽입
                     $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
-                    $html .= "<div class='code-line'>{$line}</div>";
+                    $html .= "<div class='code-line'>" . htmlspecialchars($block['content'], ENT_QUOTES, 'UTF-8') . "</div>";
+
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
                     // 라인 번호에 맞는 이미지를 업데이트하기 위한 스크립트 추가
