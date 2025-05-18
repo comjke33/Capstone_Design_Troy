@@ -223,7 +223,30 @@ include('allowed_users.php');
             
 
             <!-- 토론 게시판 -->
-            
+            <?php if (isset($OJ_BBS)&& $OJ_BBS){ ?>
+                <a class='item' href="discuss.php"><i class="clipboard icon"></i> <span class="desktop-only"><php echo $MSG_BBS?></span></a>
+            <?php }
+
+            }
+                ?>
+            <?php if( isset($_GET['cid']) && intval($_GET['cid'])>0 ){
+                     $cid=intval($_GET['cid']);
+                     if(!isset($OJ_ON_SITE_CONTEST_ID)){   ?>
+                            <a id="" class="item" href="<?php echo $path_fix?>contest.php" ><i class="arrow left icon"></i><span class="desktop-only"><?php echo $MSG_CONTEST.$MSG_LIST?></span></a>
+            <?php    }      ?>
+            <a id="" class="item active" href="<?php echo $path_fix?>contest.php?cid=<?php echo $cid?>" ><i class="list icon"></i><span class="desktop-only"><?php echo $MSG_PROBLEMS.$MSG_LIST?></span></a>
+            <a id="" class="item active" href="<?php echo $path_fix?>status.php?cid=<?php echo $cid?>" ><i class="tasks icon"></i><span class="desktop-only"><?php echo $MSG_STATUS.$MSG_LIST?></span></a>
+            <a id="" class="item active" href="<?php echo $path_fix?>contestrank.php?cid=<?php echo $cid?>" ><i class="numbered list icon"></i><span class="desktop-only"><?php echo $MSG_RANKLIST?></span></a>
+            <a id="" class="item active" href="<?php echo $path_fix?>contestrank-oi.php?cid=<?php echo $cid?>" ><i class="child icon"></i><span class="desktop-only">OI-<?php echo $MSG_RANKLIST?></span></a>
+            <?php if (isset($OJ_BBS)&& $OJ_BBS){ ?>
+                  <a class='item active' href="discuss.php?cid=<?php echo $cid?>"><i class="clipboard icon"></i> <span class="desktop-only"><?php echo $MSG_BBS?></span></a>
+             <?php } ?>
+
+                    <?php if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'contest_creator'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])){ ?>
+                            <a id="" class="item active" href="<?php echo $path_fix?>conteststatistics.php?cid=<?php echo $cid?>" ><i class="eye icon"></i><span class="desktop-only"><?php echo $MSG_STATISTICS?></span></a>
+                    <?php }  ?>
+            <?php }  ?>
+            <?php echo $sql_news_menu_result_html; ?>
 
 
             <div class="right menu">
