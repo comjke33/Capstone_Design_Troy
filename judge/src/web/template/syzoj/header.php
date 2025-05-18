@@ -174,52 +174,48 @@ include('allowed_users.php');
    <body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay; background: url('../../image/bg.jpg') no-repeat center center fixed; background-size: cover !important;">
     
 
-    <!-- 사이트 이름 표시, 메뉴 항목 링크제공 -->
-    <div id="page-header" class="ui" style="position: fixed; height: 49px; z-index:99999">
         <div id="menu" class="menu-container">
-        <!-- 왼쪽: 로고 -->
-        <div class="menu-left">
-            <a class="logo item" href="/">
-            <span style="font-family: 'Exo 2'; font-size: 1.8em; font-weight: 700;">
-                <?php echo $domain == $DOMAIN ? $OJ_NAME : ucwords($OJ_NAME) . "'s OJ"; ?>
-            </span>
-            </a>
-            <!-- 여기에 홈, 문제, 대회 등 메뉴 추가 가능 -->
-        </div>
+    <!-- 왼쪽: 로고 -->
+    <div class="menu-logo">
+        <a href="/" class="logo">
+        <span style="font-family: 'Exo 2'; font-size: 2em; font-weight: 700; color: #003366;">
+            <?php echo $domain == $DOMAIN ? $OJ_NAME : ucwords($OJ_NAME) . "'s OJ"; ?>
+        </span>
+        </a>
+    </div>
 
-        <!-- 오른쪽: 알림 + 사용자 -->
-        <div class="right menu">
-            <?php if (in_array($_SESSION[$OJ_NAME . '_user_id'], $allowed_user_id)) { ?>
-            <a id="notification-link" class="item" href="#">
-                <span class="bell-wrapper"><i class="fa fa-bell"></i></span>
-                <?php if ($new_notification_count > 0) echo '<span class="notification-dot"></span>'; ?>
-            </a>
-            <?php } ?>
+    <!-- 가운데: 메뉴 -->
+    <div class="menu-middle">
+        <a class="item" href="/"><i class="home icon"></i> 홈</a>
+        <a class="item" href="/problemset.php"><i class="list icon"></i> 문제</a>
+        <a class="item" href="/contest.php"><i class="trophy icon"></i> 대회</a>
+        <a class="item" href="/status.php"><i class="tasks icon"></i> 채점기록</a>
+        <a class="item" href="/ranklist.php"><i class="signal icon"></i> 순위</a>
+    </div>
 
-            <div class="ui simple dropdown item">
-            <?php
-                echo $_SESSION[$OJ_NAME . '_user_id'];
-                if (!empty($_SESSION[$OJ_NAME . '_nick'])) echo "(" . $_SESSION[$OJ_NAME . '_nick'] . ")";
-            ?>
-            <i class="dropdown icon"></i>
-            <div class="menu">
-                <a class="item" href="modifypage.php"><i class="edit icon"></i>정보 수정</a>
-                <a class="item" href="logout.php"><i class="power icon"></i>로그아웃</a>
-            </div>
-            </div>
+    <!-- 오른쪽: 알림 + 유저 -->
+    <div class="menu-right">
+        <?php if (in_array($_SESSION[$OJ_NAME . '_user_id'], $allowed_user_id)) { ?>
+        <a id="notification-link" class="item" href="#">
+            <span class="bell-wrapper"><i class="fa fa-bell"></i></span>
+            <?php if ($new_notification_count > 0) echo '<span class="notification-dot"></span>'; ?>
+        </a>
+        <?php } ?>
+
+        <div class="ui simple dropdown item">
+        <?php
+            echo $_SESSION[$OJ_NAME . '_user_id'];
+            if (!empty($_SESSION[$OJ_NAME . '_nick'])) echo "(" . $_SESSION[$OJ_NAME . '_nick'] . ")";
+        ?>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+            <a class="item" href="modifypage.php"><i class="edit icon"></i>정보 수정</a>
+            <a class="item" href="logout.php"><i class="power icon"></i>로그아웃</a>
         </div>
         </div>
+    </div>
+    </div>
 
-            
-          <?php
-            if(isset($OJ_AI_HTML)&&$OJ_AI_HTML && !isset($OJ_ON_SITE_CONTEST_ID) ) echo $OJ_AI_HTML;
-            else echo '<a class="desktop-only item" href="/"><i class="home icon"></i><span class="desktop-only">'.$MSG_HOME.'</span></a>';
-            if(file_exists("moodle"))  // Moodle 디렉토리가 있으면 자동으로 링크 추가
-            {
-              echo '<a class="item" href="moodle"><i class="group icon"></i><span class="desktop-only">Moodle</span></a>';
-            }
-             if( !isset($OJ_ON_SITE_CONTEST_ID) && (!isset($_GET['cid'])||$cid==0) ){
-          ?>
 
             <!-- 문제 -->
             <a class="item <?php if ($url=="problemset.php") echo "active";?>"
@@ -402,35 +398,57 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
 
 .menu-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 1rem;
+  justify-content: space-between;
+  padding: 0.6rem 1.5rem;
+  background-color: #e7f0f7;
   font-size: 16px;
   width: 100%;
 }
 
-.menu-left {
+.menu-logo {
+  flex: 0 0 auto;
+}
+
+.menu-middle {
   display: flex;
   align-items: center;
   gap: 2rem;
+  flex-grow: 1;
+  justify-content: center;
 }
 
-.menu-left .logo {
-  font-size: 1.8em;
-  font-weight: bold;
-  color: #003366;
-}
-
-.right.menu {
+.menu-right {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.right.menu .item {
-  display: flex;
+.menu-container a {
+  color: #003366;
+  text-decoration: none;
+  display: inline-flex;
   align-items: center;
   gap: 0.4em;
 }
+
+.menu-container a:hover {
+  color: #0078d7;
+}
+
+.bell-wrapper {
+  position: relative;
+}
+
+.notification-dot {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 6px;
+  height: 6px;
+  background-color: red;
+  border-radius: 50%;
+}
+
 
 </style>
