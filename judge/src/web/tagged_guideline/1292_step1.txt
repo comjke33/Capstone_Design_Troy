@@ -7,7 +7,8 @@ main 함수를 정의하세요.
 정수형 변수 add_h와 add_m을 선언하세요.
 [self_end(1)]
 [self_start(1)]
-scanf를 사용하여 h와 m의 값을 입력받으세요.
+scanf를 사용하여
+h와 m의 값을 입력받으세요.
 [self_end(1)]
 [self_start(1)]
 scanf를 사용하여 add_h와 add_m의 값을 입력받으세요.
