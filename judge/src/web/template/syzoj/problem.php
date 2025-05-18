@@ -73,10 +73,8 @@ if(file_exists($solution_file)){
 	      
 	  <span class="ui label" style="background-color: #ffffff;"  problem_id="<?php echo $id?>" ><?php echo $MSG_Memory_Limit ?>：<span tb="problem" fd="memory_limit"><?php echo $row['memory_limit']; ?></span> MB</span>
           <span class="ui label" style="background-color: #ffffff;" problem_id="<?php echo $id?>" ><?php echo $MSG_Time_Limit ?>：<span tb="problem" fd="time_limit"><?php echo $row['time_limit']; ?></span> S</span>
-         <!-- <span class="ui label">标准输入输出</span> -->
       </div>
       <div class="row" style="margin-top: -23px">
-        <!--   <span class="ui label">题目类型：传统</span> -->
           <span class="ui label" style="background-color: #ffffff;" ><?php echo $MSG_JUDGE_STYLE ?>：<?php echo array($MSG_NJ,$MSG_SPJ,$MSG_RTJ)[$row['spj']] ; ?> </span>
           <span class="ui label" style="background-color: #ffffff;" ><?php echo $MSG_Creator ?>：<span id='creator'></span></span>
       </div>
@@ -167,6 +165,10 @@ if(file_exists($solution_file)){
     $soutput=str_replace("<","&lt;",$row['sample_output']);
     $soutput=str_replace(">","&gt;",$soutput);
   ?>
+
+
+
+
   <?php if(strlen($sinput)>0 && $sinput!="\n"||isset($_GET['spa'])){ ?>
     <div class="row">
         <div class="column">
@@ -175,7 +177,7 @@ if(file_exists($solution_file)){
           <!-- <span class=copy id=\"copyin\" data-clipboard-text=\"".($sinput)."\"><?php echo $MSG_COPY; ?></span> -->
           <div class="ui bottom attached segment font-content">
             <!-- <pre><?php echo ($sinput); ?></pre> -->
-            <pre style="margin-top: 0; margin-bottom: 0; "><code id='sinput' class="lang-plain"><?php echo ($sinput); ?></code></pre>
+            <pre style="margin-top: 0; margin-bottom: 0; background-color: #ffffff;"><code id='sinput' class="lang-plain"><?php echo ($sinput); ?></code></pre>
           </div>
         </div>
     </div>
@@ -188,7 +190,7 @@ if(file_exists($solution_file)){
           <!-- <span class=copy id=\"copyout\" data-clipboard-text=\"".($soutput)."\"><?php echo $MSG_COPY; ?></span> -->
           <div class="ui bottom attached segment font-content">
             <!-- <div class="ui existing segment"> -->
-              <pre style="margin-top: 0; margin-bottom: 0; "><code id='soutput' class="lang-plain"><?php echo ($soutput); ?></code></pre>
+              <pre style="margin-top: 0; margin-bottom: 0; background-color: #ffffff;"><code id='soutput' class="lang-plain"><?php echo ($soutput); ?></code></pre>
             <!-- </div> -->
           </div>
         </div>
