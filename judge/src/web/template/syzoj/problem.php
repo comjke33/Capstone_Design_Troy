@@ -10,7 +10,7 @@
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 
 <?php
-$path = dirname(__FILE__) . '/../../../allowed_users.php';
+$path = dirname(__FILE__) . '../../allowed_users.php';
 if (file_exists($path)) {
     include($path);
 } else {
