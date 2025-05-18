@@ -191,14 +191,10 @@ def main():
     new_block = [line + '\n' for line in new_code.split('\n')]
     blocks[block_num] = new_block
     all_blocks[block_indices[block_num][1]] = new_block
-    print(block_num)
-    print("\n")
-    print(block_indices[block_num][1])
-    print("\n")
+
 
     final_code = ''.join(line for block in all_blocks for line in block)
     final_code = re.sub(r'\[[^\]]*\]', '', final_code)
-    print(final_code)
 
     if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
