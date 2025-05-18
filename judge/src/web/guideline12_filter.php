@@ -164,8 +164,8 @@ function extractContentsFlat($blocks) { //트리 구조
             $results[] = ['content' => $block['content']]; 
         } elseif (isset($block['children']) && is_array($block['children'])) {
             //block에 children 배열이 있으면, 자식들을 전부 펼쳐서 $results와 재귀 결과를  array_merge()로 합쳐서 정리
-            $results[] = ['content' => htmlspecialchars($block['content'], ENT_QUOTES, 'UTF-8')];
-            // $results = array_merge($results, extractContentsFlat($block['children'])); <-- 이 코드는 < 기호를 잘못인식하는 문제 O
+            $results = array_merge($results, extractContentsFlat($block['children'])); 
+            // 이 코드는 < 기호를 잘못인식하는 문제 O 렌더링에서 처리할 예정
         }
     }
     return $results; //평탄화된 tree -> array 배열 변환

@@ -57,7 +57,8 @@ include("../../guideline_common.php");
                     $raw = trim($block['content']);
                     if ($raw === '') continue;
 
-                    $line = htmlspecialchars($block['content']);
+                    //렌더링 할 때 변환
+                    $line = htmlspecialchars($block['content'], ENT_QUOTES, 'UTF-8');
                     $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
                     $disabled = $has_correct_answer ? "" : "disabled";
 
