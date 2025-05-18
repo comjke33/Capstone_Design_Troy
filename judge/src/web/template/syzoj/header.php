@@ -297,69 +297,68 @@ include('allowed_users.php');
 
                 <!-- 로그인한 사용자에 대한 정보를 표시합니다. 사용자 정보를 클릭하면 프로필 수정, 할 일 목록 등을 확인할 수 있는 메뉴를 제공합니다. -->
                 <?php if(isset($_SESSION[$OJ_NAME.'_'.'user_id'])) { ?>
-                <a href="<?php echo $path_fix?>/userinfo.php?user=<?php echo $_SESSION[$OJ_NAME.'_'.'user_id']?>"
-                    style="color: inherit; ">
+                <a href="<?php echo $path_fix?>/userinfo.php?user=<?php echo $_SESSION[$OJ_NAME.'_'.'user_id']?>" style="color: inherit;">
                     <div class="ui simple dropdown item">
-                        <?php echo $_SESSION[$OJ_NAME.'_'.'user_id']; 
-                              if(!empty($_SESSION[$OJ_NAME.'_nick'])) echo "(".$_SESSION[$OJ_NAME.'_nick'].")";
-                              if(!empty($_SESSION[$OJ_NAME.'_group_name'])) echo "[".$_SESSION[$OJ_NAME.'_group_name']."]";
+                        <?php
+                            echo $_SESSION[$OJ_NAME.'_'.'user_id'];
+                            if(!empty($_SESSION[$OJ_NAME.'_nick'])) echo "(".$_SESSION[$OJ_NAME.'_nick'].")";
+                            if(!empty($_SESSION[$OJ_NAME.'_group_name'])) echo "[".$_SESSION[$OJ_NAME.'_group_name']."]";
                         ?>
                         <i class="dropdown icon"></i>
                         <div class="menu">
-                                <a class="item" href="modifypage.php"><i class="edit icon"></i><?php echo $MSG_REG_INFO;?></a>
-                                <a class="item" href="portal.php"><i class="tasks icon"></i><?php echo $MSG_TODO;?></a>
-                                <?php if ($OJ_SaaS_ENABLE){ ?>
-                                <?php if($_SERVER['HTTP_HOST']==$DOMAIN)
-                                        echo  "<a class='item' href='http://".  $_SESSION[$OJ_NAME.'_'.'user_id'].".$DOMAIN'><i class='globe icon' ></i>MyOJ</a>";?>
-                                <?php } ?>
-                            <?php if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'contest_creator'])||isset($_SESSION[$OJ_NAME.'_'.'user_adder'])||isset($_SESSION[$OJ_NAME.'_'.'password_setter'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])){ ?>
-                            <a class="item" href="admin/"><i class="settings icon"></i><?php echo $MSG_ADMIN;?></a>
-                            <?php }
-        if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
-        echo "<a class=item href='balloon.php'><i class='golf ball icon'></i>$MSG_BALLOON</a>";
-        }
-                                    if((isset($OJ_EXAM_CONTEST_ID)&&$OJ_EXAM_CONTEST_ID>0)||
-                                            (isset($OJ_ON_SITE_CONTEST_ID)&&$OJ_ON_SITE_CONTEST_ID>0)||
-                                            (isset($OJ_MAIL)&&!$OJ_MAIL)){
-                                            // mail can not use in contest or mail is turned off
-                                    }else{
-                                            $mail=checkmail();
-                                            if($mail) echo "<a class='item mail' href=".$path_fix."mail.php><i class='mail icon'></i>$MSG_MAIL$mail</a>";
-                                    }
-                                    ?>
-        <?php
-        if(isset($OJ_PRINTER) && $OJ_PRINTER)
-        {
-        ?>
-          <a  class="item"  href="printer.php">
-            <i class="print icon"></i> <?php echo $MSG_PRINTER?>
-          </a>
-        <?php
-        }
-        ?>
+                            <a class="item" href="modifypage.php"><i class="edit icon"></i><?php echo $MSG_REG_INFO;?></a>
+                            <a class="item" href="portal.php"><i class="tasks icon"></i><?php echo $MSG_TODO;?></a>
+                            <?php if ($OJ_SaaS_ENABLE) { ?>
+                                <?php if ($_SERVER['HTTP_HOST'] == $DOMAIN)
+                                    echo "<a class='item' href='http://".$_SESSION[$OJ_NAME.'_'.'user_id'].".$DOMAIN'><i class='globe icon'></i>MyOJ</a>";
+                                ?>
+                            <?php } ?>
+                            <?php if (isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'contest_creator']) || isset($_SESSION[$OJ_NAME.'_'.'user_adder']) || isset($_SESSION[$OJ_NAME.'_'.'password_setter']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])) { ?>
+                                <a class="item" href="admin/"><i class="settings icon"></i><?php echo $MSG_ADMIN;?></a>
+                            <?php } ?>
+
+                            <?php
+                                if (isset($_SESSION[$OJ_NAME.'_'.'balloon'])) {
+                                    echo "<a class='item' href='balloon.php'><i class='golf ball icon'></i>$MSG_BALLOON</a>";
+                                }
+
+                                if ((isset($OJ_EXAM_CONTEST_ID) && $OJ_EXAM_CONTEST_ID > 0) || 
+                                    (isset($OJ_ON_SITE_CONTEST_ID) && $OJ_ON_SITE_CONTEST_ID > 0) || 
+                                    (isset($OJ_MAIL) && !$OJ_MAIL)) {
+                                    // mail can't be used
+                                } else {
+                                    $mail = checkmail();
+                                    if ($mail) echo "<a class='item mail' href=".$path_fix."mail.php><i class='mail icon'></i>$MSG_MAIL$mail</a>";
+                                }
+                            ?>
+
+                            <?php if (isset($OJ_PRINTER) && $OJ_PRINTER) { ?>
+                                <a class="item" href="printer.php">
+                                    <i class="print icon"></i> <?php echo $MSG_PRINTER?>
+                                </a>
+                            <?php } ?>
+
                             <a class="item" href="logout.php"><i class="power icon"></i><?php echo $MSG_LOGOUT;?></a>
                         </div>
                     </div>
                 </a>
-                <?php } else { ?>
-
-
+            <?php } else { ?>
                 <div class="item">
-                    <a class="ui button" style="margin-right: 0.5em; " href="loginpage.php">
-                       <?php echo $MSG_LOGIN?>
+                    <a class="ui button" style="margin-right: 0.5em;" href="loginpage.php">
+                        <?php echo $MSG_LOGIN?>
                     </a>
-                    <?php if(isset($OJ_REGISTER)&&$OJ_REGISTER ){ ?>
-                    <a class="ui primary button" href="registerpage.php">
-                       <?php echo $MSG_REGISTER?>
-                    </a>
+                    <?php if(isset($OJ_REGISTER) && $OJ_REGISTER) { ?>
+                        <a class="ui primary button" href="registerpage.php">
+                            <?php echo $MSG_REGISTER?>
+                        </a>
                     <?php } ?>
                 </div>
-                <?php } ?>
+            <?php } ?>
             </div>
         </div>
     </div>
     <div style="margin-top: 49px; ">
-        <div id="main" class="ui main container">
+    <div id="main" class="ui main container">
 <?php } ?>
 
 <style>

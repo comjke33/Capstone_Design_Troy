@@ -176,7 +176,7 @@ if(file_exists($solution_file)){
           <!-- <span class=copy id=\"copyin\" data-clipboard-text=\"".($sinput)."\"><?php echo $MSG_COPY; ?></span> -->
           <div class="ui bottom attached segment font-content">
             <!-- <pre><?php echo ($sinput); ?></pre> -->
-            <pre style="margin-top: 0; margin-bottom: 0; background-color: #ffffff; border: none; box-shadow: none;"><code id='sinput' class="lang-plain"><?php echo ($sinput); ?></code></pre>
+            <pre style="margin-top: 0; margin-bottom: 0; background-color: #ffffff;"><code id='sinput' class="lang-plain"><?php echo ($sinput); ?></code></pre>
           </div>
         </div>
     </div>
