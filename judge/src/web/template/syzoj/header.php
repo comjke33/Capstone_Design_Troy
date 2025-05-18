@@ -177,57 +177,18 @@ include('allowed_users.php');
     <!-- 사이트 이름 표시, 메뉴 항목 링크제공 -->
     <div id="page-header" class="ui" style="position: fixed; height: 49px; z-index:99999">
         <div id="menu" class="menu-container">
-        <!-- 왼쪽: 로고 및 메뉴 -->
-        <div class="menu-left">
-            <a class="logo" href="/">
-            <span style="font-family: 'Exo 2'; font-size: 1.8em; font-weight: 700;">
-                <?php echo $domain == $DOMAIN ? $OJ_NAME : ucwords($OJ_NAME) . "'s OJ"; ?>
-            </span>
-            </a>
-
-            <?php
-            if (isset($OJ_AI_HTML) && $OJ_AI_HTML && !isset($OJ_ON_SITE_CONTEST_ID)) {
-                echo $OJ_AI_HTML;
-            } else {
-                echo '<a class="item" href="/"><i class="home icon"></i>홈</a>';
+            <a class="header item"  href="/"><span
+                    style="font-family: 'Exo 2'; font-size: 1.5em; font-weight: 600; "><?php echo $domain==$DOMAIN?$OJ_NAME:ucwords($OJ_NAME)."'s OJ"?></span></a>
+            
+          <?php
+            if(isset($OJ_AI_HTML)&&$OJ_AI_HTML && !isset($OJ_ON_SITE_CONTEST_ID) ) echo $OJ_AI_HTML;
+            else echo '<a class="desktop-only item" href="/"><i class="home icon"></i><span class="desktop-only">'.$MSG_HOME.'</span></a>';
+            if(file_exists("moodle"))  // Moodle 디렉토리가 있으면 자동으로 링크 추가
+            {
+              echo '<a class="item" href="moodle"><i class="group icon"></i><span class="desktop-only">Moodle</span></a>';
             }
-
-            if (file_exists("moodle")) {
-                echo '<a class="item" href="moodle"><i class="group icon"></i>Moodle</a>';
-            }
-
-            if (!isset($OJ_ON_SITE_CONTEST_ID) && (!isset($_GET['cid']) || $cid == 0)) {
-                echo '<a class="item" href="' . $path_fix . 'problemset.php"><i class="list icon"></i>문제</a>';
-                echo '<a class="item" href="' . $path_fix . 'contest.php' . (isset($_SESSION[$OJ_NAME . "_user_id"]) ? "?my" : "") . '"><i class="trophy icon"></i>대회</a>';
-                echo '<a class="item" href="' . $path_fix . 'status.php"><i class="tasks icon"></i>채점기록</a>';
-                echo '<a class="item" href="' . $path_fix . 'ranklist.php"><i class="signal icon"></i>순위</a>';
-            }
-            ?>
-        </div>
-
-        <!-- 오른쪽: 종 아이콘 및 사용자 정보 -->
-        <div class="right menu">
-            <?php if (in_array($_SESSION[$OJ_NAME . '_user_id'], $allowed_user_id)) { ?>
-            <a id="notification-link" class="item" href="#">
-                <span class="bell-wrapper"><i class="fa fa-bell"></i></span>
-                <?php if ($new_notification_count > 0) echo '<span class="notification-dot"></span>'; ?>
-            </a>
-            <?php } ?>
-
-            <div class="ui simple dropdown item">
-            <?php
-                echo $_SESSION[$OJ_NAME . '_user_id'];
-                if (!empty($_SESSION[$OJ_NAME . '_nick'])) echo "(" . $_SESSION[$OJ_NAME . '_nick'] . ")";
-            ?>
-            <i class="dropdown icon"></i>
-            <div class="menu">
-                <a class="item" href="modifypage.php"><i class="edit icon"></i>정보 수정</a>
-                <a class="item" href="logout.php"><i class="power icon"></i>로그아웃</a>
-            </div>
-            </div>
-        </div>
-        </div>
-
+             if( !isset($OJ_ON_SITE_CONTEST_ID) && (!isset($_GET['cid'])||$cid==0) ){
+          ?>
             <!-- 문제 -->
             <a class="item <?php if ($url=="problemset.php") echo "active";?>"
                 href="<?php echo $path_fix?>problemset.php"><i class="list icon"></i><span class="desktop-only"><?php echo $MSG_PROBLEMS?></span></a>
