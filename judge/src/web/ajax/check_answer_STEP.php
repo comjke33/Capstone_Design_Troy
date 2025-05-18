@@ -12,7 +12,6 @@ $codeFile = $tempDir . "code_" . uniqid() . ".c";
 $paramFilePath = $tempDir . "params_" . uniqid() . ".json";
 
 // 코드 내용을 파일로 저장
-// 역슬래시를 이스케이프 없이 그대로 저장
 file_put_contents($codeFile, $answer);
 
 // JSON 파라미터 파일 생성
@@ -20,6 +19,7 @@ $params = array(
     "problem_id" => $problemId,
     "step" => $step,
     "index" => $index,
+    "answer" => $answer,  // 수정: answer 필드 추가
     "code_file" => $codeFile
 );
 file_put_contents($paramFilePath, json_encode($params, JSON_UNESCAPED_UNICODE));

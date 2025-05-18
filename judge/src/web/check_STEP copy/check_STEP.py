@@ -141,21 +141,18 @@ def validate_code_output_full_io(code, test_in_path):
     try:
         env = os.environ.copy()
         env["PATH"] = "/usr/lib/gcc/x86_64-linux-gnu/11:/usr/bin:/bin:/usr/sbin:/sbin:" + env.get("PATH", "")
-        result = subprocess.run(
+        subprocess.run(
             ['gcc', temp_c_path, '-o', exe_path],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
+            check=True,
             env=env
         )
-        if result.returncode != 0:
-            print(f"[❌] 컴파일 실패:\n{result.stderr}")
-            return False
-    except Exception as e:
-        print(f"[❌] 컴파일 오류: {str(e)}")
+    except subprocess.CalledProcessError as e:
+        print(f"[❌] 컴파일 실패:\n{e.stderr}")
         return False
 
-    print("correct")
     return True
 
 def main():
@@ -167,22 +164,25 @@ def main():
 
     # JSON 파일에서 인자 읽기
     with open(param_file, 'r', encoding='utf-8') as f:
-        try:
-            params = json.load(f)
-        except json.JSONDecodeError as e:
-            print(f"[❌] JSON 파싱 오류: {e}")
-            sys.exit(1)
+        params = json.load(f)
 
     pid = params.get("problem_id", "unknown")
     step = params.get("step", "1")
     line_num = int(params.get("index", 0))
+    answer = params.get("answer", "")
     code_file = params.get("code_file")
 
-    # 코드 파일 읽기
-    user_code = read_code_lines(code_file)
+    # 코드 블록 교체
+    original_code_path = f"../tagged_code/{pid}_step{step}.txt"
+    code_lines = read_code_lines(original_code_path)
 
-    # 최종 코드로 조합
-    final_code = ''.join(user_code)
+    # 블록 교체
+    new_block = answer.splitlines(keepends=True)
+    if 0 <= line_num < len(code_lines):
+        code_lines[line_num] = ''.join(new_block)
+
+    # 최종 코드 작성
+    final_code = ''.join(code_lines)
 
     # 컴파일 및 실행
     test_in_path = f"../../../data/{pid}"
