@@ -267,7 +267,7 @@ include('allowed_users.php');
                 }
                     ?>
 
-                <!-- <a id="notification-link" class="item active" href="#">
+                <a id="notification-link" class="item active" href="#">
                     <span class="bell-wrapper">
                         <i class="fa fa-bell"></i>
                         <?php if(isset($new_notification_count) && $new_notification_count > 0){ ?>
@@ -275,7 +275,7 @@ include('allowed_users.php');
                         <?php } ?>
                     </span>
                     <span class="desktop-only"></span>
-                </a> -->
+                </a>
 
                 <script>
                 document.getElementById("notification-link").addEventListener("click", function(e) {
