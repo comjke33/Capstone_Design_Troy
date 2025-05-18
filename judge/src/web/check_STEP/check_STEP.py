@@ -83,9 +83,6 @@ def get_blocks(code_lines):
 def read_code_lines(filename):
     with open(filename, 'r') as f:
         return f.readlines()
-def decode_escape_sequences(text):
-    """이스케이프 시퀀스를 올바르게 변환"""
-    return bytes(text, "utf-8").decode("unicode_escape")
 
 def validate_code_output_full_io(code_lines, test_in_path):
     """코드 컴파일 및 테스트 케이스 실행"""
@@ -154,46 +151,38 @@ def main():
 
     param_file = sys.argv[1]
 
-    # JSON 파일에서 인자 읽기
     with open(param_file, 'r', encoding='utf-8') as f:
-        try:
-            params = json.load(f)
-        except json.JSONDecodeError as e:
-            print(f"[❌] JSON 파싱 오류: {e}")
-            sys.exit(1)
+        params = json.load(f)
 
-    pid = params.get("problem_id", "unknown")
-    step = params.get("step", "1")
-    line_num = int(params.get("index", 0))
-    answer = params.get("answer", None)
-    code_file = params.get("code_file", None)
+    pid = params["problem_id"]
+    step = params["step"]
+    line_num = int(params["index"])
+    student_code = params["answer"]
 
-    # 디버그: 파라미터 확인
-    print(f"Loaded parameters: {params}")
-
-    # answer 필드가 없는 경우 예외 처리
-    if answer is None:
-        print("[❌] 'answer' 필드가 누락되었습니다.")
-        sys.exit(1)
-
-    # 코드 파일이 없는 경우 예외 처리
-    if code_file is None or not os.path.exists(code_file):
-        print(f"[❌] 코드 파일을 찾을 수 없습니다: {code_file}")
-        sys.exit(1)
-
-    # 사용자 코드 불러오기 (파일로 직접 읽기)
-    with open(code_file, 'r') as f:
-        user_code = f.read()
-
-    # 이스케이프 해제 (핵심 수정 부분)
-    user_code = decode_escape_sequences(user_code)
-
-    # 최종 코드 컴파일 및 실행
+    filename = f"../tagged_code/{pid}_step{step}.txt"
     test_in_path = f"../../../data/{pid}"
-    if validate_code_output_full_io(user_code, test_in_path):
+
+    code_lines = read_code_lines(filename)
+
+    includes, blocks, closing_braces, all_blocks, block_indices = get_blocks(code_lines)
+
+    block_num = int(line_num)
+    new_code = student_code
+
+    if not (0 <= block_num < len(blocks)):
+        return
+
+    new_block = [line + '\n' for line in new_code.split('\\n')]
+    blocks[block_num] = new_block
+    all_blocks[block_indices[block_num][1]] = new_block
+
+    final_code = ''.join(line for block in all_blocks for line in block)
+    final_code = re.sub(r'\[[^\]]*\]', '', final_code)
+
+    if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
     else:
         print("no")
-        
+
 if __name__ == "__main__":
     main()
