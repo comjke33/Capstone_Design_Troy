@@ -19,10 +19,10 @@ $params = array(
     "problem_id" => $problemId,
     "step" => $step,
     "index" => $index,
-    "answer" => $answer,  // 수정: answer 필드 추가
+    "answer" => $answer,
     "code_file" => $codeFile
 );
-file_put_contents($paramFilePath, json_encode($params, JSON_UNESCAPED_UNICODE));
+file_put_contents($paramFilePath, json_encode($params, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 
 // 파이썬 실행 명령어
 $cmd = "cd ../check_STEP && python3 check_STEP.py " . escapeshellarg($paramFilePath) . " 2>&1";

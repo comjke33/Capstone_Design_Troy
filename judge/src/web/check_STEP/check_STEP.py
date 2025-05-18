@@ -144,6 +144,13 @@ def validate_code_output_full_io(code_lines, test_in_path):
 
     return True
 
+def decode_escape_sequences(text):
+    """이스케이프 시퀀스를 올바르게 변환"""
+    try:
+        return text.encode('utf-8').decode('unicode_escape')
+    except Exception:
+        return text
+
 def main():
     if len(sys.argv) != 2:
         print("Usage: python3 check_STEP.py <param_file>")
@@ -157,7 +164,7 @@ def main():
     pid = params["problem_id"]
     step = params["step"]
     line_num = int(params["index"])
-    student_code = params["answer"]
+    student_code = decode_escape_sequences(params["answer"])
 
     filename = f"../tagged_code/{pid}_step{step}.txt"
     test_in_path = f"../../../data/{pid}"
@@ -172,7 +179,8 @@ def main():
     if not (0 <= block_num < len(blocks)):
         return
 
-    new_block = [line + '\n' for line in new_code.split('\\n')]
+    # 올바르게 변환된 코드 블럭 교체
+    new_block = [line + '\n' for line in new_code.split('\n')]
     blocks[block_num] = new_block
     all_blocks[block_indices[block_num][1]] = new_block
 
