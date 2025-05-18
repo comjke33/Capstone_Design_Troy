@@ -385,7 +385,7 @@ include('allowed_users.php');
 
 .right.menu {
   margin-left: 400px !important;
-  padding-right: 2rem !important;      /* 우측 여백 확보 */
+  padding-right: 1rem !important;      /* 우측 여백 확보 */
   display: flex !important;
   align-items: center !important;
   gap: 1.5rem !important;
@@ -405,16 +405,6 @@ include('allowed_users.php');
   justify-content: center; /* 내부 요소 가운데 정렬 */
   align-items: center;     /* 수직 정렬 */
   /* background-color: #e7f0f7; 필요시 추가 */
-}
-
-/* 아이디 드롭다운 */
-.ui.dropdown.item .menu {
-  left: 0 !important;           /* 왼쪽 정렬 */
-  right: auto !important;
-  top: 100% !important;         /* 아래로 정확히 붙도록 */
-  margin-top: 0.5em !important; /* 약간의 여백 */
-  position: absolute !important;
-  z-index: 1000;
 }
 
 </style>
