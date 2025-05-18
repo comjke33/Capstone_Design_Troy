@@ -174,50 +174,6 @@ include('allowed_users.php');
    <body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay; background: url('../../image/bg.jpg') no-repeat center center fixed; background-size: cover !important;">
     
 
-    <!-- 사이트 이름 표시, 메뉴 항목 링크제공 -->
-    <div id="page-header" class="ui" style="position: fixed; height: 49px; z-index:99999">
-        <div id="menu" class="menu-container">
-        <!-- 왼쪽: 로고 -->
-        <div class="menu-logo">
-            <a href="/" class="logo">
-            <span style="font-family: 'Exo 2'; font-size: 2em; font-weight: 700; color: #003366;">
-                <?php echo $domain == $DOMAIN ? $OJ_NAME : ucwords($OJ_NAME) . "'s OJ"; ?>
-            </span>
-            </a>
-        </div>
-
-        <!-- 가운데: 메뉴 -->
-        <!-- <div class="menu-middle">
-            <a class="item" href="/"><i class="home icon"></i> 홈</a>
-            <a class="item" href="/problemset.php"><i class="list icon"></i> 문제</a>
-            <a class="item" href="/contest.php"><i class="trophy icon"></i> 대회</a>
-            <a class="item" href="/status.php"><i class="tasks icon"></i> 채점기록</a>
-            <a class="item" href="/ranklist.php"><i class="signal icon"></i> 순위</a>
-        </div> -->
-
-        <!-- 오른쪽: 알림 + 유저 -->
-        <div class="menu-right">
-            <?php if (in_array($_SESSION[$OJ_NAME . '_user_id'], $allowed_user_id)) { ?>
-            <a id="notification-link" class="item" href="#">
-                <span class="bell-wrapper"><i class="fa fa-bell"></i></span>
-                <?php if ($new_notification_count > 0) echo '<span class="notification-dot"></span>'; ?>
-            </a>
-            <?php } ?>
-
-            <div class="ui simple dropdown item">
-            <?php
-                echo $_SESSION[$OJ_NAME . '_user_id'];
-                if (!empty($_SESSION[$OJ_NAME . '_nick'])) echo "(" . $_SESSION[$OJ_NAME . '_nick'] . ")";
-            ?>
-            <i class="dropdown icon"></i>
-            <div class="menu">
-                <a class="item" href="modifypage.php"><i class="edit icon"></i>정보 수정</a>
-                <a class="item" href="logout.php"><i class="power icon"></i>로그아웃</a>
-            </div>
-            </div>
-        </div>
-        </div>
-
             
           <?php
             if(isset($OJ_AI_HTML)&&$OJ_AI_HTML && !isset($OJ_ON_SITE_CONTEST_ID) ) echo $OJ_AI_HTML;
@@ -407,7 +363,7 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
 <?php } ?>
 
 <style>
-
+/* 메뉴 전체 컨테이너 */
 .menu-container {
   display: flex;
   align-items: center;
@@ -418,10 +374,12 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
   width: 100%;
 }
 
+/* 왼쪽 로고 */
 .menu-logo {
   flex: 0 0 auto;
 }
 
+/* 가운데 메뉴 */
 .menu-middle {
   display: flex;
   align-items: center;
@@ -430,12 +388,14 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
   justify-content: center;
 }
 
+/* 오른쪽 메뉴 (알림, 사용자 드롭다운) */
 .menu-right {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
+/* 메뉴 내 링크 스타일 */
 .menu-container a {
   color: #003366;
   text-decoration: none;
@@ -448,6 +408,7 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
   color: #0078d7;
 }
 
+/* 알림 아이콘 스타일 */
 .bell-wrapper {
   position: relative;
 }
@@ -460,6 +421,16 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
   height: 6px;
   background-color: red;
   border-radius: 50%;
+}
+
+/* 모바일 대응 */
+@media (max-width: 991px) {
+  .mobile-only {
+    display: block !important;
+  }
+  .desktop-only {
+    display: none !important;
+  }
 }
 
 </style>
