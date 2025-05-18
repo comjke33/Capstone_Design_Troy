@@ -362,3 +362,60 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
         <div id="main" class="ui main container">
 <?php } ?>
 
+<style>
+
+.menu-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1.5rem;
+  background-color: #e7f0f7;
+  font-size: 16px;
+  width: 100%;
+}
+
+.menu-logo {
+  flex: 0 0 auto;
+}
+
+.menu-middle {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.menu-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.menu-container a {
+  color: #003366;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.menu-container a:hover {
+  color: #0078d7;
+}
+
+.bell-wrapper {
+  position: relative;
+}
+
+.notification-dot {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 6px;
+  height: 6px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+</style>
