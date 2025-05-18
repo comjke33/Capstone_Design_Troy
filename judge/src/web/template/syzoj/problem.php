@@ -190,7 +190,7 @@ if(file_exists($solution_file)){
           <!-- <span class=copy id=\"copyout\" data-clipboard-text=\"".($soutput)."\"><?php echo $MSG_COPY; ?></span> -->
           <div class="ui bottom attached segment font-content">
             <!-- <div class="ui existing segment"> -->
-              <pre style="margin-top: 0; margin-bottom: 0; background-color: #ffffff;><code id='soutput' class="lang-plain"><?php echo ($soutput); ?></code></pre>
+              <pre style="margin-top: 0; margin-bottom: 0; background-color: #ffffff;"><code id='soutput' class="lang-plain"><?php echo ($soutput); ?></code></pre>
             <!-- </div> -->
           </div>
         </div>
@@ -634,31 +634,35 @@ function admin_mod(){
   }
 </style>
 
-<script>
-var preIndex=1;
+<script>var preIndex = 1;
 $(document).ready(function () {
   $("pre").each(function () {
     $(this).wrap("<div class='pre-wrapper'></div>");
     $(this).attr("id", "pre" + preIndex);
-    $(this).before("<span class='copy' id='copyBtn" + preIndex + "'  data-clipboard-target='#pre" + preIndex + "' ><?php echo $MSG_COPY; ?></span>");
-    
+
+    // 💡 스타일 추가된 copy 버튼 삽입
+    $(this).before(
+      "<span class='copy' style='background-color: #ffffff; border: 1px solid #ccc; padding: 4px 8px; margin-bottom: 5px; border-radius: 5px; display: inline-block; cursor: pointer;' id='copyBtn" + preIndex + "' data-clipboard-target='#pre" + preIndex + "'><?php echo $MSG_COPY; ?></span>"
+    );
+
     let clipboardin = new Clipboard("#copyBtn" + preIndex);
-    clipboardin.on('success', function(e){
-      $(e.trigger).text("<?php echo $MSG_COPY.$MSG_SUCCESS; ?>!");
+    clipboardin.on('success', function (e) {
+      $(e.trigger).text("<?php echo $MSG_COPY . $MSG_SUCCESS; ?>!");
       setTimeout(function () {
         $(".copy").text("<?php echo $MSG_COPY; ?>");
       }, 1500);
     });
-    clipboardin.on('error', function(e){
-      $(e.trigger).text("<?php echo $MSG_COPY.$MSG_FAIL; ?>!");
+    clipboardin.on('error', function (e) {
+      $(e.trigger).text("<?php echo $MSG_COPY . $MSG_FAIL; ?>!");
       setTimeout(function () {
         $(".copy").text("<?php echo $MSG_COPY; ?>");
       }, 1500);
     });
-    
+
     preIndex++;
   });
 });
+
 </script>
 <?php if (isset($OJ_MATHJAX)&&$OJ_MATHJAX){?>
     <!--以下为了加载公式的使用而既加入-->
