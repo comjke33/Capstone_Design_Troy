@@ -401,7 +401,7 @@ include('allowed_users.php');
 
 #page-header {
   position: fixed;
-  top: 0;
+  top: 40px;
   left: 0;
   width: 100%;
   height: 49px;
