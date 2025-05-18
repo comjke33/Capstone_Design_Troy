@@ -69,12 +69,13 @@ if (false) {
   $spj = stripslashes($spj);
   $source = stripslashes($source);
 }
-
+/*
 $title = ($title);
 $description = ($description);
 $input = ($input);
 $output = ($output);
 $hint = ($hint);
+
 //echo "->".$OJ_DATA."<-"; 
 $pid = addproblem($title, $time_limit, $memory_limit, $description, $input, $output, $sample_input, $sample_output, $hint, $source, $spj, $OJ_DATA);
 $basedir = "$OJ_DATA/$pid";
@@ -95,7 +96,65 @@ foreach ($tag_ids as $tag_id) {
     $sql = "INSERT INTO problem_tag (problem_id, tag_id) VALUES (?, ?)";
     pdo_query($sql, $pid, intval($tag_id));
 }
+*/
 
+
+
+// HTML 특수문자 디코딩 함수
+function decode_html($str) {
+  return htmlspecialchars_decode($str, ENT_QUOTES);
+}
+
+// 문제 등록 시 HTML 엔티티 복구 (데이터 수신 직후 디코딩)
+$title = decode_html($_POST['title']);
+$title = str_replace(",", "&#44;", $title);
+$time_limit = $_POST['time_limit'];
+$memory_limit = $_POST['memory_limit'];
+
+$description = decode_html($_POST['description']);
+$description = str_replace(",", "&#44;", $description);
+
+$input = decode_html($_POST['input']);
+$input = str_replace(",", "&#44;", $input);
+
+$output = decode_html($_POST['output']);
+$output = str_replace(",", "&#44;", $output);
+
+$sample_input = decode_html($_POST['sample_input']);
+$sample_output = decode_html($_POST['sample_output']);
+$test_input = decode_html($_POST['test_input']);
+$test_output = decode_html($_POST['test_output']);
+
+$hint = decode_html($_POST['hint']);
+$hint = str_replace(",", "&#44;", $hint);
+
+$source = decode_html($_POST['source']);
+$exemplary_code = decode_html($_POST['exemplary_code']);
+$spj = $_POST['spj'];
+
+// 디코딩 확인 로그
+file_put_contents("/tmp/php_debug.log", "Decoded Title: " . $title . "\n", FILE_APPEND);
+file_put_contents("/tmp/php_debug.log", "Decoded Description: " . $description . "\n", FILE_APPEND);
+file_put_contents("/tmp/php_debug.log", "Decoded Input: " . $input . "\n", FILE_APPEND);
+file_put_contents("/tmp/php_debug.log", "Decoded Output: " . $output . "\n", FILE_APPEND);
+
+// 문제 추가 함수 호출
+$pid = addproblem($title, $time_limit, $memory_limit, $description, $input, $output, $sample_input, $sample_output, $hint, $source, $spj, $OJ_DATA);
+$basedir = "$OJ_DATA/$pid";
+mkdir($basedir);
+
+// 모범코드 DB 저장
+if (!empty($exemplary_code)) {
+  $sql = "INSERT INTO exemplary (problem_id, exemplary_code) VALUES (?, ?)";
+  pdo_query($sql, $pid, $exemplary_code);
+}
+
+// 문제 태그 DB 저장
+$tag_ids = isset($_POST['tag_ids']) ? $_POST['tag_ids'] : [];
+foreach ($tag_ids as $tag_id) {
+  $sql = "INSERT INTO problem_tag (problem_id, tag_id) VALUES (?, ?)";
+  pdo_query($sql, $pid, intval($tag_id));
+}
 
 
 if(strlen($sample_output) && !strlen($sample_input)) $sample_input = "0";
