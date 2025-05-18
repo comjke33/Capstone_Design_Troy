@@ -14,18 +14,14 @@ $paramFilePath = $tempDir . "params_" . uniqid() . ".json";
 // 코드 내용을 파일로 저장
 file_put_contents($codeFile, $answer);
 
-// JSON 파라미터 파일 생성 (디버그용 로그 추가)
+// JSON 파라미터 파일 생성
 $params = array(
     "problem_id" => $problemId,
     "step" => $step,
     "index" => $index,
-    "answer" => $answer,  // answer 필드를 명확하게 추가
+    "answer" => $answer,  // 수정: answer 필드 추가
     "code_file" => $codeFile
 );
-
-// 디버그: JSON 확인
-file_put_contents("/tmp/php_debug.log", "JSON Params: " . json_encode($params) . "\n", FILE_APPEND);
-
 file_put_contents($paramFilePath, json_encode($params, JSON_UNESCAPED_UNICODE));
 
 // 파이썬 실행 명령어

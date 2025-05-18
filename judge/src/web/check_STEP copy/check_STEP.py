@@ -134,12 +134,9 @@ def validate_code_output_full_io(code, test_in_path):
     exe_path = "/tmp/test_program"
     temp_c_path = "/tmp/final_code.c"
 
-    # 이스케이프를 해제하여 저장
-    decoded_code = decode_escape_sequences(code)
-
-    # 최종 코드 파일 작성
+    # 코드 파일 작성
     with open(temp_c_path, 'w') as temp_file:
-        temp_file.write(decoded_code)
+        temp_file.write(code)
 
     try:
         env = os.environ.copy()
@@ -156,7 +153,9 @@ def validate_code_output_full_io(code, test_in_path):
         print(f"[❌] 컴파일 실패:\n{e.stderr}")
         return False
 
+    print("correct")
     return True
+
 def main():
     if len(sys.argv) != 2:
         print("Usage: python3 check_STEP.py <param_file>")
@@ -166,41 +165,33 @@ def main():
 
     # JSON 파일에서 인자 읽기
     with open(param_file, 'r', encoding='utf-8') as f:
-        try:
-            params = json.load(f)
-        except json.JSONDecodeError as e:
-            print(f"[❌] JSON 파싱 오류: {e}")
-            sys.exit(1)
-
-    # 디버그: 파라미터 확인
-    print(f"Loaded parameters: {params}")
+        params = json.load(f)
 
     pid = params.get("problem_id", "unknown")
     step = params.get("step", "1")
     line_num = int(params.get("index", 0))
-    answer = params.get("answer", None)
-    code_file = params.get("code_file", None)
+    answer = params.get("answer", "")
+    code_file = params.get("code_file")
 
-    # answer 필드가 없는 경우 예외 처리
-    if answer is None:
-        print("[❌] 'answer' 필드가 누락되었습니다.")
-        sys.exit(1)
+    # 코드 블록 교체
+    original_code_path = f"../tagged_code/{pid}_step{step}.txt"
+    code_lines = read_code_lines(original_code_path)
 
-    # 코드 파일이 없는 경우 예외 처리
-    if code_file is None or not os.path.exists(code_file):
-        print(f"[❌] 코드 파일을 찾을 수 없습니다: {code_file}")
-        sys.exit(1)
+    # 블록 교체
+    new_block = answer.splitlines(keepends=True)
+    if 0 <= line_num < len(code_lines):
+        code_lines[line_num] = ''.join(new_block)
 
-    # 사용자 코드 불러오기 (파일로 직접 읽기)
-    with open(code_file, 'r') as f:
-        user_code = f.read()
+    # 최종 코드 작성
+    final_code = ''.join(code_lines)
 
-    # 최종 코드 컴파일 및 실행
+    # 컴파일 및 실행
     test_in_path = f"../../../data/{pid}"
-    if validate_code_output_full_io(user_code, test_in_path):
+    if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
     else:
         print("no")
 
 if __name__ == "__main__":
+    main()
     main()
