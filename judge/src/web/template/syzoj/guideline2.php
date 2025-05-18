@@ -207,18 +207,14 @@ function submitAnswer(index) {
     const btn = document.getElementById(`btn_${index}`);
     const check = document.getElementById(`check_${index}`);
     const input = ta.value.trim();
-    const correct = (correctAnswers[index]?.content || "").trim();
-    const step = new URLSearchParams(window.location.search).get("step") || "1";
-    const problemId = new URLSearchParams(window.location.search).get("problem_id") || "0";
-    const key = `answer_status_step${step}_q${index}_pid${problemId}`;
 
+    // URL 파라미터에서 step과 problem_id를 추출
+    const urlParams = new URLSearchParams(window.location.search);
+    const step = urlParams.get("step") || "1";  // step 값이 없는 경우 "1"로 설정
+    const problemId = urlParams.get("problem_id") || "0";  // problem_id 값이 없는 경우 "0"으로 설정
 
-    console.log("제출값:", input);
-    console.log("요청 데이터:", {
-        answer: input,
-        problem_id: problemId,
-        index: index
-    });
+    console.log("URL에서 가져온 step 값:", step);
+    console.log("URL에서 가져온 problem_id 값:", problemId);
 
     fetch("../../ajax/check_answer_STEP.php", {
         method: "POST",
@@ -226,60 +222,23 @@ function submitAnswer(index) {
         body: JSON.stringify({
             answer: input,
             problem_id: problemId,
-            index: index
+            index: index,
+            step: step  // 수정: step 값을 명시적으로 포함
         })
     })
-    .then(res => {
-        if (!res.ok) {
-            console.error("서버 오류:", res.status);
-            return Promise.reject("서버 오류");
-        }
-        return res.json();
-    })
+    .then(res => res.json())
     .then(data => {
-        console.log(data);
+        console.log("서버 응답 데이터:", data);
         if (data.result === "correct") {
-            localStorage.setItem(key, "correct");
-
-            ta.readOnly = true;
-            ta.style.backgroundColor = "#d4edda";
-            ta.style.border = "1px solid #d4edda";
-            ta.style.color = "#155724";
-            btn.style.display = "none";
-            check.style.display = "inline";
-
-                // 정답이 맞은 경우 버튼 숨기기
-            const answerBtn = document.getElementById(`answer_btn_${index}`);
-            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
-            const submitBtn = document.getElementById(`submit_btn_${index}`);
-
-            if($isCorrect) {// display: none을 사용하여 버튼 숨기기
-                answerBtn.style.display = "none";  // 답안 확인 버튼 숨기기
-                feedbackBtn.style.display = "none";  // 피드백 보기 버튼 숨기기
-                submitBtn.style.display = "none";  // 제출 버튼 숨기기
-            }
-
-            const nextIndex = index + 1;
-            const nextTa = document.getElementById(`ta_${nextIndex}`);
-            const nextBtn = document.getElementById(`btn_${nextIndex}`);
-
-            if (nextTa && nextBtn) {
-                nextTa.disabled = false;
-                nextBtn.disabled = false;
-                nextTa.focus();
-            }
+            console.log("정답입니다.");
         } else {
-            ta.style.backgroundColor = "#ffecec";
-            ta.style.border = "1px solid #e06060";
-            ta.style.color = "#c00";
+            console.log("오답입니다.");
         }
     })
     .catch(err => {
         console.error("서버 요청 실패:", err);
     });
-
 }
-
 //답안 보여주기
 function showAnswer(index) {
     const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
