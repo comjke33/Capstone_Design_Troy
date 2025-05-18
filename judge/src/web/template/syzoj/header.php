@@ -173,10 +173,10 @@ include('allowed_users.php');
    <!-- 워터마크 제거 후 배경화면 추가가  -->
    <body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay; background: url('../../image/bg.jpg') no-repeat center center fixed; background-size: cover !important;">
     
-   
+
     <!-- 사이트 이름 표시, 메뉴 항목 링크제공 -->
     <div id="page-header" class="ui" style="position: fixed; height: 49px; z-index:99999">
-        <div id="menu" class="ui stackable mobile ui container computer" style="margin-left:auto;margin-right:auto;">
+        <div id="menu" class="menu-container">
             <a class="header item"  href="/"><span
                     style="font-family: 'Exo 2'; font-size: 1.5em; font-weight: 600; "><?php echo $domain==$DOMAIN?$OJ_NAME:ucwords($OJ_NAME)."'s OJ"?></span></a>
             
@@ -365,3 +365,28 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
     <div style="margin-top: 49px; ">
         <div id="main" class="ui main container">
 <?php } ?>
+
+
+<style>
+.menu-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  font-size: 16px;
+}
+
+.menu-container a {
+  color: #003366;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em; /* 아이콘과 텍스트 간격 */
+}
+
+.menu-container a:hover {
+  color: #0078d7;
+}
+
+</style>
