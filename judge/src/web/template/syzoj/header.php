@@ -390,7 +390,7 @@ include('allowed_users.php');
 }
 
 .right.menu {
-  margin-left: 1000px !important;
+  margin-left: 500px !important;
   padding-right: 2rem !important;      /* 우측 여백 확보 */
   display: flex !important;
   align-items: center !important;
