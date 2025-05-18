@@ -187,13 +187,13 @@ include('allowed_users.php');
         </div>
 
         <!-- 가운데: 메뉴 -->
-        <div class="menu-middle">
+        <!-- <div class="menu-middle">
             <a class="item" href="/"><i class="home icon"></i> 홈</a>
             <a class="item" href="/problemset.php"><i class="list icon"></i> 문제</a>
             <a class="item" href="/contest.php"><i class="trophy icon"></i> 대회</a>
             <a class="item" href="/status.php"><i class="tasks icon"></i> 채점기록</a>
             <a class="item" href="/ranklist.php"><i class="signal icon"></i> 순위</a>
-        </div>
+        </div> -->
 
         <!-- 오른쪽: 알림 + 유저 -->
         <div class="menu-right">
@@ -219,7 +219,7 @@ include('allowed_users.php');
         </div>
 
             
-          <!-- <?php
+          <?php
             if(isset($OJ_AI_HTML)&&$OJ_AI_HTML && !isset($OJ_ON_SITE_CONTEST_ID) ) echo $OJ_AI_HTML;
             else echo '<a class="desktop-only item" href="/"><i class="home icon"></i><span class="desktop-only">'.$MSG_HOME.'</span></a>';
             if(file_exists("moodle"))  // Moodle 디렉토리가 있으면 자동으로 링크 추가
@@ -227,7 +227,7 @@ include('allowed_users.php');
               echo '<a class="item" href="moodle"><i class="group icon"></i><span class="desktop-only">Moodle</span></a>';
             }
              if( !isset($OJ_ON_SITE_CONTEST_ID) && (!isset($_GET['cid'])||$cid==0) ){
-          ?> -->
+          ?>
 
             <!-- 문제 -->
             <a class="item <?php if ($url=="problemset.php") echo "active";?>"
