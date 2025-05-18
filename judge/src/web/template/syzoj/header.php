@@ -390,7 +390,7 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
 
 .right.menu {
   margin-left: auto !important;
-  padding-right: 2rem !important;   /* 우측 내부 여백 추가 */
+  padding-right: 50rem !important;   /* 우측 내부 여백 추가 */
   display: flex !important;
   align-items: center !important;
   gap: 2rem !important;             /* 요소 간 간격 확장 */
