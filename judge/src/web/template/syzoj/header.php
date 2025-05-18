@@ -462,5 +462,4 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
   border-radius: 50%;
 }
 
-
 </style>
