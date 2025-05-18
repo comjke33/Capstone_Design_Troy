@@ -9,17 +9,19 @@ $step = $data["step"] ?? "1";
 // 임시 디렉토리 설정
 $tempDir = "/tmp/";
 $codeFile = $tempDir . "code_" . uniqid() . ".c";
+$answerFile = $tempDir . "answer_" . uniqid() . ".txt";
 $paramFilePath = $tempDir . "params_" . uniqid() . ".json";
 
 // 코드 내용을 파일로 저장
 file_put_contents($codeFile, $answer);
+file_put_contents($answerFile, $answer);  // answer 내용을 별도로 파일에 저장
 
 // JSON 파라미터 파일 생성
 $params = array(
     "problem_id" => $problemId,
     "step" => $step,
     "index" => $index,
-    "answer" => $answer,
+    "answer_file" => $answerFile,  // 수정: 파일 경로를 넘김
     "code_file" => $codeFile
 );
 file_put_contents($paramFilePath, json_encode($params, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));

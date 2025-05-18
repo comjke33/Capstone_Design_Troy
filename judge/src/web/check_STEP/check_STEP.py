@@ -152,6 +152,7 @@ def decode_escape_sequences(text):
         return text
 
 def main():
+    """메인 함수"""
     if len(sys.argv) != 2:
         print("Usage: python3 check_STEP.py <param_file>")
         sys.exit(1)
@@ -164,7 +165,10 @@ def main():
     pid = params["problem_id"]
     step = params["step"]
     line_num = int(params["index"])
-    student_code = decode_escape_sequences(params["answer"])
+    answer_file = params["answer_file"]
+
+    with open(answer_file, 'r', encoding='utf-8') as f:
+        student_code = f.read().strip()
 
     filename = f"../tagged_code/{pid}_step{step}.txt"
     test_in_path = f"../../../data/{pid}"
@@ -177,6 +181,7 @@ def main():
     new_code = student_code
 
     if not (0 <= block_num < len(blocks)):
+        print("no")
         return
 
     # 올바르게 변환된 코드 블럭 교체
