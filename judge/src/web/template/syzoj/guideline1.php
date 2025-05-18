@@ -45,7 +45,7 @@ include("../../guideline_common.php");
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
 
         <?php      
-                function render_tree_plain($blocks, &$answer_index = 0) {
+             function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
 
             foreach ($blocks as $block) {
@@ -57,32 +57,41 @@ include("../../guideline_common.php");
                     $raw = trim($block['content']);
                     if ($raw === '') continue;
 
-                    //렌더링 할 때 변환
-                    $line = htmlspecialchars($block['content'], ENT_QUOTES, 'UTF-8');
+                    // 디버깅용 주석 추가 (View Source에서 확인)
+                    $html .= "<!-- DEBUG raw line [{$answer_index}]: " . htmlentities($raw) . " -->\n";
+
+                    // 출력 시 안전하게 이스케이프 처리 (중복 방지)
+                    $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
+
                     $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
                     $disabled = $has_correct_answer ? "" : "disabled";
 
-                    // 출력되는 각 줄에 대해 이미지 업데이트 스크립트 삽입
+                    // 출력 영역
                     $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
-                    $html .= "<div class='code-line'>" . htmlspecialchars($block['content'], ENT_QUOTES, 'UTF-8') . "</div>";
 
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                    // 코드 출력 라인
+                    $html .= "<div class='code-line'>{$escaped_line}</div>";
 
-                    // 라인 번호에 맞는 이미지를 업데이트하기 위한 스크립트 추가
-                    // $html .= "<script>updateImageForTextarea({$answer_index + 1}, document.getElementById('ta_{$answer_index}'));</script>";  // 라인 번호에 맞춰 이미지 업데이트
+                    // textarea
+                    $default_value = $has_correct_answer ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') : "";
+$html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$default_value}</textarea>";
 
+
+                    // 버튼 출력
                     if(!$isCorrect){
-                    $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
-                    $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
-                    $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
+                        $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
+                        $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
+                        $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
                     }
 
+                    // 피드백 영역 + 정답 표시
                     $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                     $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
                     $html .= "</div>";
 
                     $answer_index++;
-                } else if (isset($block['children']) && is_array($block['children'])) {
+                } 
+                else if (isset($block['children']) && is_array($block['children'])) {
                     $html .= render_tree_plain($block['children'], $answer_index);
                 }
             }
@@ -222,8 +231,7 @@ function submitAnswer(index) {
     console.log("요청 데이터:", {
         answer: input,
         problem_id: problemId,
-        index: index,
-        step:step
+        index: index
     });
 
     fetch("../../ajax/check_answer_STEP.php", {
@@ -232,8 +240,7 @@ function submitAnswer(index) {
         body: JSON.stringify({
             answer: input,
             problem_id: problemId,
-            index: index,
-            step:step
+            index: index
         })
     })
     .then(res => {

@@ -1,6 +1,7 @@
 <?php
 function guidelineFilter($text) {
-    $lines = explode("\n", $text);
+    $lines = preg_split('/\r\n|\r|\n/', $text);  // 윈도우/리눅스 호환 줄바꿈 모두 대응
+
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
 
@@ -71,7 +72,8 @@ function guidelineFilter($text) {
 }
 
 function codeFilter($text) {
-    $lines = explode("\n", $text);
+    $lines = preg_split('/\r\n|\r|\n/', $text);  // 윈도우/리눅스 호환 줄바꿈 모두 대응
+
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
 

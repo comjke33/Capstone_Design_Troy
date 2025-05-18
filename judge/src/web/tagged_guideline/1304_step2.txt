@@ -1,0 +1,32 @@
+[func_def_start(0)]
+int형 함수 gcd(int a, int b)를 정의하세요.
+[self_start(1)]
+최소값을 구하기 위한 변수 min을 선언하세요. a가 b보다 작으면 a를, 그렇지 않으면 b를 할당하세요.
+또한 최대공약수를 의미하는 변수 gcd를 선언하고 1로 초기화하세요.
+[self_end(1)]
+[rep_start(1)]
+1부터 min까지 반복하는 for문을 작성하세요.
+[cond_start(2)]
+a와 b가 i로 나누어 떨어지는지 확인하세요. 나누어 떨어진다면 gcd 값을 i로 업데이트하세요.
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+최종 gcd 값을 반환하세요.
+[self_end(1)]
+[func_def_end(0)]
+
+[func_def_start(0)]
+int형 함수 lcm(int a, int b)를 정의하세요.
+[self_start(1)]
+a와 b의 최대공약수를 이용하여 최소공배수를 계산하는 과정을 작성하세요.
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main 함수를 작성하세요.
+[self_start(1)]
+정수형 변수 A와 B를 선언하고 사용자로부터 값을 입력받으세요.
+gcd 함수를 호출하여 최대공약수를 구하고, lcm 함수를 호출하여 최소공배수를 구하세요.
+결과를 출력하세요.
+[self_end(1)]
+[main_def_end(0)]
