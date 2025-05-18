@@ -365,7 +365,7 @@ include('allowed_users.php');
 .menu-container {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
   padding: 0.5rem 1rem;
   background-color: transparent;
   font-size: 16px;
