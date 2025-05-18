@@ -261,6 +261,7 @@ include('allowed_users.php');
                                 <span class="notification-dot"></span>
                             <?php } ?>
                         </span>
+                        <span class="desktop-only">알림</span>
                         <span class="desktop-only"></span>
                     </a>
                     <?php
@@ -390,11 +391,12 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
 
 .right.menu {
   margin-left: auto !important;
-  padding-right: 50rem !important;   /* 우측 내부 여백 추가 */
+  padding-right: 2rem !important;      /* 우측 여백 확보 */
   display: flex !important;
   align-items: center !important;
-  gap: 2rem !important;             /* 요소 간 간격 확장 */
-  min-width: 250px !important;      /* 우측 영역 최소 너비 확보 */
+  gap: 1.5rem !important;
+  justify-content: flex-end !important; /* 오른쪽 끝 정렬 */
+  flex-shrink: 0;
 }
 
 
