@@ -224,6 +224,8 @@ include('allowed_users.php');
                 <a class="item" href="modifypage.php"><i class="edit icon"></i>정보 수정</a>
                 <a class="item" href="logout.php"><i class="power icon"></i>로그아웃</a>
             </div>
+            </div>
+        </div>
         </div>
 
             <!-- 문제 -->
