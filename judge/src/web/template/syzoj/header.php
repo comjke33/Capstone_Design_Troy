@@ -261,7 +261,7 @@ include('allowed_users.php');
                                 <span class="notification-dot"></span>
                             <?php } ?>
                         </span>
-                        <span class="desktop-only">나의 취약 유형 리포트</span>
+                        <!-- <span class="desktop-only">나의 취약 유형 리포트</span> -->
                         <span class="desktop-only"></span>
                     </a>
                     <?php
