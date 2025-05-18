@@ -152,6 +152,7 @@ def validate_code_output_full_io(code, test_in_path):
 
     return True
 
+
 def main():
     if len(sys.argv) != 2:
         print("Usage: python3 check_STEP.py <param_file>")
@@ -166,15 +167,26 @@ def main():
     pid = params.get("problem_id")
     step = params.get("step")
     line_num = int(params.get("index"))
-    answer = params.get("answer")
     code_file = params.get("code_file")
 
-    # 사용자 코드 불러오기 (파일로 직접 읽기)
-    user_code = read_code_lines(code_file)
+    # 원본 코드 불러오기
+    original_code_path = f"../tagged_code/{pid}_step{step}.txt"
+    code_lines = read_code_lines(original_code_path)
+
+    # 사용자 코드 블럭 불러오기
+    with open(code_file, 'r') as f:
+        user_code = f.read()
+
+    # 코드 블럭 교체
+    new_block = user_code.splitlines(keepends=True)
+    code_lines = replace_block(code_lines, line_num, new_block)
+
+    # 최종 코드 파일로 저장
+    final_code = ''.join(code_lines)
 
     # 최종 코드 컴파일 및 실행
     test_in_path = f"../../../data/{pid}"
-    if validate_code_output_full_io(user_code, test_in_path):
+    if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
     else:
         print("no")
