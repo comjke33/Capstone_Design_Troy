@@ -123,21 +123,16 @@ def generate_unique_name():
     return f"test_program_{uuid.uuid4().hex}"
 
 
-def decode_escape_sequences(text):
-    """이스케이프 시퀀스를 올바르게 변환"""
-    return bytes(text, "utf-8").decode("unicode_escape")
+
 
 def validate_code_output_full_io(code, test_in_path):
     """코드 컴파일 및 테스트 케이스 실행"""
     exe_path = "/tmp/test_program"
     temp_c_path = "/tmp/final_code.c"
 
-    # 이스케이프를 해제하여 저장
-    decoded_code = decode_escape_sequences(code)
-
     # 최종 코드 파일 작성
     with open(temp_c_path, 'w') as temp_file:
-        temp_file.write(decoded_code)
+        temp_file.write(code)  # 수정: 이스케이프 처리 없이 저장
 
     try:
         env = os.environ.copy()
@@ -154,8 +149,9 @@ def validate_code_output_full_io(code, test_in_path):
         print(f"[❌] 컴파일 실패:\n{e.stderr}")
         return False
 
-    print("correct")
+
     return True
+
 def main():
     if len(sys.argv) != 2:
         print("Usage: python3 check_STEP.py <param_file>")
