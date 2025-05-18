@@ -9,10 +9,10 @@
 ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 
-<?php
+<!-- <?php
 //허가된 유저들만 사용가능하게
 include('/../../allowed_users.php');
-?>
+?> -->
 
 <style>
 .ace_cursor {
