@@ -187,16 +187,7 @@ $_SESSION[$OJ_NAME.'_'."p$pid"] = true;
 echo "&nbsp;&nbsp;- <a href='javascript:phpfm($pid);'>Add more TestData now!</a>";
 /*  */
 ?>
-<?php
-// HTML 특수문자 디코딩 함수
-function decode_html($str) {
-    return htmlspecialchars_decode($str, ENT_QUOTES | ENT_HTML401);
-}
 
-// JSON으로 전송할 데이터를 미리 디코딩
-$description = decode_html($description);
-$exemplary_code = decode_html($exemplary_code);
-?>
 <script src='../template/bs3/jquery.min.js' ></script>
 <script>
 function phpfm(pid){
