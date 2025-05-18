@@ -219,7 +219,15 @@ include('allowed_users.php');
         </div>
 
             
-
+          <!-- <?php
+            if(isset($OJ_AI_HTML)&&$OJ_AI_HTML && !isset($OJ_ON_SITE_CONTEST_ID) ) echo $OJ_AI_HTML;
+            else echo '<a class="desktop-only item" href="/"><i class="home icon"></i><span class="desktop-only">'.$MSG_HOME.'</span></a>';
+            if(file_exists("moodle"))  // Moodle 디렉토리가 있으면 자동으로 링크 추가
+            {
+              echo '<a class="item" href="moodle"><i class="group icon"></i><span class="desktop-only">Moodle</span></a>';
+            }
+             if( !isset($OJ_ON_SITE_CONTEST_ID) && (!isset($_GET['cid'])||$cid==0) ){
+          ?> -->
 
             <!-- 문제 -->
             <a class="item <?php if ($url=="problemset.php") echo "active";?>"
