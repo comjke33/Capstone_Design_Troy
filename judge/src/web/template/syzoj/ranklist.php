@@ -35,8 +35,9 @@
     </div>
   </div>
 
-  <!-- 랭킹 테이블 -->
-  <div class="ui segment" style="margin-top: 1em;">
+  <!-- 랭킹 테이블 -->  
+   <!-- ui segment -> ui 테두리 및 배경 제거 -->
+  <div class="ui" style="margin-top: 1em;">
     <table class="ui celled striped compact center aligned table">
       <thead>
         <tr>
