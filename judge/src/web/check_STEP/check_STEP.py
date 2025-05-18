@@ -78,7 +78,7 @@ def get_blocks(code_lines):
 
 
         if inside_block or not is_tag_line(line):
-            if line != "":
+            if line.strip() != "":
                 current_block.append(line)
 
     return includes, blocks, closing_braces, all_blocks, block_indices
