@@ -279,26 +279,21 @@ include('allowed_users.php');
                 </a> -->
 
                 <script>
-                document.getElementById("notification-link").addEventListener("click", function(e) {
+                const notificationLink = document.getElementById("notification-link");
+                if (notificationLink) {
+                notificationLink.addEventListener("click", function(e) {
                     e.preventDefault();  // 기본 이동 방지
-                    console.log("클릭됨");
-
-                    fetch("/check_notification.php")  // Python 실행 요청
+                    fetch("/check_notification.php")
                     .then(response => response.text())
                     .then(data => {
-                        console.log("데이터:", data)
                         window.location.href = "notifications.php";
-                        // Python 실행이 끝나면 이동
-                        // setTimeout(function() {
-                        //      window.location.href = "notifications.php";
-                        //  }, 20000);  // 0.5초 정도의 딜레이를 추가 (필요에 따라 조정)
                     })
                     .catch(error => {
                         alert("오류 발생: " + error);
                     });
                 });
+                }
                 </script>
-
 
                 <!-- 로그인한 사용자에 대한 정보를 표시합니다. 사용자 정보를 클릭하면 프로필 수정, 할 일 목록 등을 확인할 수 있는 메뉴를 제공합니다. -->
                 <?php if(isset($_SESSION[$OJ_NAME.'_'.'user_id'])) { ?>

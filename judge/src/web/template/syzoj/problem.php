@@ -29,8 +29,6 @@ div[class*=ace_br] {
     border-radius: 0 !important;
 }
 
-
-
 </style>
 <script src="<?php echo $OJ_CDN_URL.$path_fix."template/$OJ_TEMPLATE/"?>clipboard.min.js"></script>
 <script src="<?php echo $OJ_CDN_URL.$path_fix."template/bs3/"?>marked.min.js"></script>
