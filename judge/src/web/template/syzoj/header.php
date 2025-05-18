@@ -176,7 +176,8 @@ include('allowed_users.php');
 
     <!-- 사이트 이름 표시, 메뉴 항목 링크제공 -->
     <div id="page-header" class="ui" style="position: fixed; height: 49px; z-index:99999">
-        
+        <div id="menu" class="menu-container">
+            <a class="header item"  href="/"><span style="font-family: 'Exo 2'; font-size: 1.5em; font-weight: 600; "><?php echo $domain==$DOMAIN?$OJ_NAME:ucwords($OJ_NAME)."'s OJ"?></span></a>
             
           <?php
             if(isset($OJ_AI_HTML)&&$OJ_AI_HTML && !isset($OJ_ON_SITE_CONTEST_ID) ) echo $OJ_AI_HTML;
@@ -366,33 +367,13 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
 <?php } ?>
 
 <style>
-
 .menu-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.6rem 1.5rem;
-  background-color: #e7f0f7;
-  font-size: 16px;
-  width: 100%;
-}
-
-.menu-logo {
-  flex: 0 0 auto;
-}
-
-.menu-middle {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  flex-grow: 1;
-  justify-content: center;
-}
-
-.menu-right {
-  display: flex;
-  align-items: center;
   gap: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  font-size: 16px;
 }
 
 .menu-container a {
@@ -400,26 +381,11 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.4em;
+  gap: 0.4em; /* 아이콘과 텍스트 간격 */
 }
 
 .menu-container a:hover {
   color: #0078d7;
 }
-
-.bell-wrapper {
-  position: relative;
-}
-
-.notification-dot {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  width: 6px;
-  height: 6px;
-  background-color: red;
-  border-radius: 50%;
-}
-
 
 </style>
