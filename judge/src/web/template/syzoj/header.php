@@ -407,4 +407,14 @@ include('allowed_users.php');
   /* background-color: #e7f0f7; 필요시 추가 */
 }
 
+/* 아이디 드롭다운 */
+.ui.dropdown.item .menu {
+  left: 0 !important;           /* 왼쪽 정렬 */
+  right: auto !important;
+  top: 100% !important;         /* 아래로 정확히 붙도록 */
+  margin-top: 0.5em !important; /* 약간의 여백 */
+  position: absolute !important;
+  z-index: 1000;
+}
+
 </style>
