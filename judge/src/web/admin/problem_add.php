@@ -206,14 +206,11 @@ $.ajax({
     url: "../ajax/save_problem_run_python.php",
     dataType: "json",  // JSON으로 응답 받기
     data: {
-        description: <?php echo json_encode(htmlspecialchars_decode($description, ENT_QUOTES)); ?>,
+      description: <?php echo json_encode(htmlspecialchars_decode($description, ENT_QUOTES)); ?>,
         exemplary_code: <?php echo json_encode($exemplary_code); ?>,
         problem_id: <?php echo json_encode($pid); ?>,
         output_dir: <?php echo json_encode($output_dir); ?>,
         post_key: "<?php echo $_SESSION[$OJ_NAME . '_post_key']; ?>"
-    }, beforeSend: function(request, settings) {
-        // 🔍 전송할 데이터 확인
-        console.log("🚀 전송할 데이터:", settings.data);
     },
     success: function(response) {
         console.log("📜 Python Script Response:");
