@@ -641,7 +641,7 @@ $(document).ready(function () {
 
     // 💡 스타일 추가된 copy 버튼 삽입
     $(this).before(
-      "<span class='copy' style='background-color: #ffffff; border: 1px solid #ccc; padding: 4px 8px; margin-bottom: 5px; border-radius: 5px; display: inline-block; cursor: pointer;' id='copyBtn" + preIndex + "' data-clipboard-target='#pre" + preIndex + "'><?php echo $MSG_COPY; ?></span>"
+      "<span class='copy' style='background-color: #ffffff; border: 1px solid #ccc; padding: 4px 8px; margin-bottom: 5px; display: inline-block; cursor: pointer;' id='copyBtn" + preIndex + "' data-clipboard-target='#pre" + preIndex + "'><?php echo $MSG_COPY; ?></span>"
     );
 
     let clipboardin = new Clipboard("#copyBtn" + preIndex);
