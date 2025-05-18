@@ -1,0 +1,50 @@
+[func_def_start(0)]
+두 정수 a와 b를 인자로 받는 gcd 함수를 정의하세요.
+[self_start(1)]
+최소값을 구하기 위해 min 변수를 a와 b 중 작은 값으로 초기화하세요.
+[self_end(1)]
+[self_start(1)]
+최대공약수를 저장할 gcd 변수를 1로 초기화하세요.
+[self_end(1)]
+[rep_start(1)]
+1부터 min까지 i를 증가시키면서 반복하세요.
+[cond_start(2)]
+a와 b를 i로 나눈 나머지가 0일 때 동작하는 if문을 작성하세요. 즉, i가 a와 b의 공약수인지 검사합니다.
+[self_start(3)]
+gcd를 i로 업데이트하세요. 즉, 공약수를 찾으면 i 값을 gcd에 저장합니다.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+gcd를 반환하세요.
+[self_end(1)]
+[func_def_end(0)]
+
+[func_def_start(0)]
+두 정수 a와 b를 인자로 받는 lcm 함수를 정의하세요.
+[self_start(1)]
+최대공배수를 구하기 위해 a와 b의 곱을 gcd(a, b)로 나누어 반환하세요.
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main 함수를 작성하세요.
+[self_start(1)]
+두 정수형 변수 A와 B를 선언하세요.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 사용자로부터 A와 B의 값을 입력 받으세요.
+[self_end(1)]
+[self_start(1)]
+gcd 함수를 호출하여 A와 B의 최대공약수를 result_gcd에 저장하세요.
+[self_end(1)]
+[self_start(1)]
+lcm 함수를 호출하여 A와 B의 최소공배수를 result_lcm에 저장하세요.
+[self_end(1)]
+[self_start(1)]
+printf 함수를 사용하여 result_gcd와 result_lcm을 출력하세요.
+[self_end(1)]
+[self_start(1)]
+프로그램 종료를 위해 0을 반환하세요.
+[self_end(1)]
+[main_def_end(0)]

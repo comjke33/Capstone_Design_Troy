@@ -225,7 +225,8 @@ function submitAnswer(index) {
     console.log("요청 데이터:", {
         answer: input,
         problem_id: problemId,
-        index: index
+        index: index,
+        step:step
     });
 
     fetch("../../ajax/check_answer_STEP.php", {
@@ -234,7 +235,8 @@ function submitAnswer(index) {
         body: JSON.stringify({
             answer: input,
             problem_id: problemId,
-            index: index
+            index: index,
+            step:step
         })
     })
     .then(res => {
