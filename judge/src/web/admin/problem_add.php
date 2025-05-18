@@ -211,6 +211,9 @@ $.ajax({
         problem_id: <?php echo json_encode($pid); ?>,
         output_dir: <?php echo json_encode($output_dir); ?>,
         post_key: "<?php echo $_SESSION[$OJ_NAME . '_post_key']; ?>"
+    }, beforeSend: function(request, settings) {
+        // 🔍 전송할 데이터 확인
+        console.log("🚀 전송할 데이터:", settings.data);
     },
     success: function(response) {
         console.log("📜 Python Script Response:");
