@@ -267,7 +267,7 @@ include('allowed_users.php');
                 }
                     ?>
 
-                <a id="notification-link" class="item active" href="#">
+                <!-- <a id="notification-link" class="item active" href="#">
                     <span class="bell-wrapper">
                         <i class="fa fa-bell"></i>
                         <?php if(isset($new_notification_count) && $new_notification_count > 0){ ?>
@@ -275,7 +275,7 @@ include('allowed_users.php');
                         <?php } ?>
                     </span>
                     <span class="desktop-only"></span>
-                </a>
+                </a> -->
 
                 <script>
                 document.getElementById("notification-link").addEventListener("click", function(e) {
@@ -387,5 +387,13 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
 .menu-container a:hover {
   color: #0078d7;
 }
+
+.right_menu {
+  margin-left: auto;           /* 왼쪽 여백을 auto로 설정해서 오른쪽으로 밀어냄 */
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 
 </style>
