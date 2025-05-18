@@ -69,12 +69,12 @@ if (false) {
   $spj = stripslashes($spj);
   $source = stripslashes($source);
 }
-
 $title = ($title);
 $description = ($description);
 $input = ($input);
 $output = ($output);
 $hint = ($hint);
+
 //echo "->".$OJ_DATA."<-"; 
 $pid = addproblem($title, $time_limit, $memory_limit, $description, $input, $output, $sample_input, $sample_output, $hint, $source, $spj, $OJ_DATA);
 $basedir = "$OJ_DATA/$pid";
@@ -95,7 +95,6 @@ foreach ($tag_ids as $tag_id) {
     $sql = "INSERT INTO problem_tag (problem_id, tag_id) VALUES (?, ?)";
     pdo_query($sql, $pid, intval($tag_id));
 }
-
 
 
 if(strlen($sample_output) && !strlen($sample_input)) $sample_input = "0";
@@ -207,7 +206,7 @@ $.ajax({
     url: "../ajax/save_problem_run_python.php",
     dataType: "json",  // JSON으로 응답 받기
     data: {
-        description: <?php echo json_encode($description); ?>,
+        description: <?php echo json_encode(htmlspecialchars_decode($description, ENT_QUOTES)); ?>,
         exemplary_code: <?php echo json_encode($exemplary_code); ?>,
         problem_id: <?php echo json_encode($pid); ?>,
         output_dir: <?php echo json_encode($output_dir); ?>,
