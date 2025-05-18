@@ -220,7 +220,7 @@ function submitAnswer(index) {
         index: index
     });
 
-    fetch("../../ajax/check_answer_STEP2.php", {
+    fetch("../../ajax/check_answer_STEP.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -239,28 +239,40 @@ function submitAnswer(index) {
     .then(data => {
         console.log(data);
         if (data.result === "correct") {
-        localStorage.setItem(key, "correct");
+            localStorage.setItem(key, "correct");
 
-        ta.readOnly = true;
-        ta.style.backgroundColor = "#d4edda";
-        ta.style.border = "1px solid #d4edda";
-        ta.style.color = "#155724";
-        btn.style.display = "none";
-        check.style.display = "inline";
+            ta.readOnly = true;
+            ta.style.backgroundColor = "#d4edda";
+            ta.style.border = "1px solid #d4edda";
+            ta.style.color = "#155724";
+            btn.style.display = "none";
+            check.style.display = "inline";
 
-        const nextIndex = index + 1;
-        const nextTa = document.getElementById(`ta_${nextIndex}`);
-        const nextBtn = document.getElementById(`btn_${nextIndex}`);
-        if (nextTa && nextBtn) {
-            nextTa.disabled = false;
-            nextBtn.disabled = false;
-            nextTa.focus();
+                // 정답이 맞은 경우 버튼 숨기기
+            const answerBtn = document.getElementById(`answer_btn_${index}`);
+            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
+            const submitBtn = document.getElementById(`submit_btn_${index}`);
+
+            if($isCorrect) {// display: none을 사용하여 버튼 숨기기
+                answerBtn.style.display = "none";  // 답안 확인 버튼 숨기기
+                feedbackBtn.style.display = "none";  // 피드백 보기 버튼 숨기기
+                submitBtn.style.display = "none";  // 제출 버튼 숨기기
+            }
+
+            const nextIndex = index + 1;
+            const nextTa = document.getElementById(`ta_${nextIndex}`);
+            const nextBtn = document.getElementById(`btn_${nextIndex}`);
+
+            if (nextTa && nextBtn) {
+                nextTa.disabled = false;
+                nextBtn.disabled = false;
+                nextTa.focus();
+            }
+        } else {
+            ta.style.backgroundColor = "#ffecec";
+            ta.style.border = "1px solid #e06060";
+            ta.style.color = "#c00";
         }
-    } else {
-        ta.style.backgroundColor = "#ffecec";
-        ta.style.border = "1px solid #e06060";
-        ta.style.color = "#c00";
-    }
     })
     .catch(err => {
         console.error("서버 요청 실패:", err);
