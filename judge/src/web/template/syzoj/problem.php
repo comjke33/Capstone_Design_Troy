@@ -174,7 +174,8 @@ if(file_exists($solution_file)){
         <div class="column">
           <h4 class="ui top attached block header"><?php echo $MSG_Sample_Input?> 
           </h4>
-          <!-- <span class=copy id=\"copyin\" data-clipboard-text=\"".($sinput)."\"><?php echo $MSG_COPY; ?></span> -->
+          $(this).before("<span class='copy' id='copyBtn" + preIndex + "' data-clipboard-target='#pre" + preIndex + "' style='background-color: #ffffff;'><?php echo $MSG_COPY; ?></span>");
+
           <div class="ui bottom attached segment font-content">
             <!-- <pre><?php echo ($sinput); ?></pre> -->
             <pre style="margin-top: 0; margin-bottom: 0; background-color: #ffffff;"><code id='sinput' class="lang-plain"><?php echo ($sinput); ?></code></pre>
@@ -187,7 +188,8 @@ if(file_exists($solution_file)){
         <div class="column">
           <h4 class="ui top attached block header"><?php echo $MSG_Sample_Output?>
           </h4>
-          <!-- <span class=copy id=\"copyout\" data-clipboard-text=\"".($soutput)."\"><?php echo $MSG_COPY; ?></span> -->
+          $(this).before("<span class='copy' id='copyBtn" + preIndex + "' data-clipboard-target='#pre" + preIndex + "' style='background-color: #ffffff;'><?php echo $MSG_COPY; ?></span>");
+
           <div class="ui bottom attached segment font-content">
             <!-- <div class="ui existing segment"> -->
               <pre style="margin-top: 0; margin-bottom: 0; background-color: #ffffff;"><code id='soutput' class="lang-plain"><?php echo ($soutput); ?></code></pre>
