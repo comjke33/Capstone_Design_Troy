@@ -72,18 +72,18 @@ if(file_exists($solution_file)){
 </style>
           
 	      
-	  <span class="ui" problem_id="<?php echo $id?>" ><?php echo $MSG_Memory_Limit ?>：<span tb="problem" fd="memory_limit"><?php echo $row['memory_limit']; ?></span> MB</span>
+	  <span class="ui label" problem_id="<?php echo $id?>" ><?php echo $MSG_Memory_Limit ?>：<span tb="problem" fd="memory_limit"><?php echo $row['memory_limit']; ?></span> MB</span>
           <span class="ui" problem_id="<?php echo $id?>" ><?php echo $MSG_Time_Limit ?>：<span tb="problem" fd="time_limit"><?php echo $row['time_limit']; ?></span> S</span>
 
       </div>
       <div class="row" style="margin-top: -23px">
 
-          <span class="ui"><?php echo $MSG_JUDGE_STYLE ?>：<?php echo array($MSG_NJ,$MSG_SPJ,$MSG_RTJ)[$row['spj']] ; ?> </span>
-          <span class="ui"><?php echo $MSG_Creator ?>：<span id='creator'></span></span>
+          <span class="ui label"><?php echo $MSG_JUDGE_STYLE ?>：<?php echo array($MSG_NJ,$MSG_SPJ,$MSG_RTJ)[$row['spj']] ; ?> </span>
+          <span class="ui label"><?php echo $MSG_Creator ?>：<span id='creator'></span></span>
       </div>
       <div class="row" style="margin-top: -23px">
-          <span class="ui"><?php echo $MSG_SUBMIT ?>：<?php echo $row['submit']; ?></span>
-          <span class="ui"><?php echo $MSG_SOVLED ?>：<?php echo $row['accepted']; ?></span>
+          <span class="ui label"><?php echo $MSG_SUBMIT ?>：<?php echo $row['submit']; ?></span>
+          <span class="ui label"><?php echo $MSG_SOVLED ?>：<?php echo $row['accepted']; ?></span>
       </div>
 </div>  
 <div class="ui grid">
