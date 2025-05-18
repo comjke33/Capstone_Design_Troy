@@ -75,7 +75,7 @@ h3.pagenav div.active{
 }
 
 .padding {
-   background: #ffffff !important;
+   /* background: #ffffff !important; */
    backdrop-filter: none !important;
    box-shadow: none !important;
    border: none !important;
