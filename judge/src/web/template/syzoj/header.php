@@ -388,12 +388,13 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
   color: #0078d7;
 }
 
-.right_menu {
-  margin-left: auto;           /* 왼쪽 여백을 auto로 설정해서 오른쪽으로 밀어냄 */
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+.right.menu {
+  margin-left: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
 }
+
 
 
 </style>
