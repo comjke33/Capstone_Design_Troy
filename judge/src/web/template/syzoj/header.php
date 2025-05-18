@@ -176,7 +176,7 @@ include('allowed_users.php');
 
     <!-- 사이트 이름 표시, 메뉴 항목 링크제공 -->
     <div id="page-header" class="ui" style="position: fixed; height: 49px; z-index:99999">
-        <div id="menu" class="ui menu menu-container" style="width: 100%; justify-content: space-between;">
+        <div id="menu" class="menu-container">
             <a class="header item"  href="/"><span
                     style="font-family: 'Exo 2'; font-size: 1.5em; font-weight: 600; "><?php echo $domain==$DOMAIN?$OJ_NAME:ucwords($OJ_NAME)."'s OJ"?></span></a>
             
@@ -366,23 +366,14 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
         <div id="main" class="ui main container">
 <?php } ?>
 
-
-<style>
-.menu-container {
-  display: flex !important;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
-  background-color: transparent;
-  font-size: 16px;
-  width: 100%;
-}
-
-.right.menu {
-  margin-left: auto;
+<!-- <style>
+    .menu-container {
   display: flex;
   align-items: center;
   gap: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  font-size: 16px;
 }
 
 .menu-container a {
@@ -397,4 +388,4 @@ if(isset($_SESSION[$OJ_NAME.'_'.'balloon'])){
   color: #0078d7;
 }
 
-</style>
+</style> -->
