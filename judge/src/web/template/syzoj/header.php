@@ -385,7 +385,7 @@ include('allowed_users.php');
 
 .right.menu {
   margin-left: 400px !important;
-  padding-right: 1rem !important;      /* 우측 여백 확보 */
+  /* padding-right: 1rem !important;      우측 여백 확보 */
   display: flex !important;
   align-items: center !important;
   gap: 1.5rem !important;
