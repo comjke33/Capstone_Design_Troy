@@ -169,42 +169,33 @@ if(file_exists($solution_file)){
 
 
 
-  <?php if (strlen($sinput) > 0 && $sinput != "\n" || isset($_GET['spa'])) { ?>
-  <div class="row">
-    <div class="column">
-      <h4 class="ui top attached block header">
-        <?php echo $MSG_Sample_Input ?>
-        <span class="copy" id="copyin" data-clipboard-target="#sinput" style="background-color: #ffffff; border: 1px solid #ccc; padding: 4px 8px; margin-left: 10px; border-radius: 5px; cursor: pointer;">
-          <?php echo $MSG_COPY; ?>
-        </span>
-      </h4>
-      <div class="ui bottom attached segment font-content">
-        <pre style="margin-top: 0; margin-bottom: 0; background-color: #ffffff;">
-    <code id='sinput' class="lang-plain"><?php echo htmlspecialchars($sinput); ?></code>
-            </pre>
-          </div>
-        </div>
-      </div>
-    <?php } ?>
-
-    <?php if (strlen($soutput) > 0 && $soutput != "\n" || isset($_GET['spa'])) { ?>
-      <div class="row">
+  <?php if(strlen($sinput)>0 && $sinput!="\n"||isset($_GET['spa'])){ ?>
+    <div class="row">
         <div class="column">
-          <h4 class="ui top attached block header">
-            <?php echo $MSG_Sample_Output ?>
-            <span class="copy" id="copyout" data-clipboard-target="#soutput" style="background-color: #ffffff; border: 1px solid #ccc; padding: 4px 8px; margin-left: 10px; border-radius: 5px; cursor: pointer;">
-              <?php echo $MSG_COPY; ?>
-            </span>
+          <h4 class="ui top attached block header"><?php echo $MSG_Sample_Input?> 
           </h4>
+          <!-- <span class=copy id=\"copyin\" data-clipboard-text=\"".($sinput)."\"><?php echo $MSG_COPY; ?></span> -->
           <div class="ui bottom attached segment font-content">
-            <pre style="margin-top: 0; margin-bottom: 0; background-color: #ffffff;">
-    <code id='soutput' class="lang-plain"><?php echo htmlspecialchars($soutput); ?></code>
-            </pre>
+            <!-- <pre><?php echo ($sinput); ?></pre> -->
+            <pre style="margin-top: 0; margin-bottom: 0; "background-color: #ffffff;"><code id='sinput' class="lang-plain"><?php echo ($sinput); ?></code></pre>
           </div>
         </div>
-      </div>
-    <?php } ?>
-
+    </div>
+  <?php }?>
+  <?php if(strlen($soutput)>0 && $soutput!="\n"||isset($_GET['spa'])){ ?>
+    <div class="row">
+        <div class="column">
+          <h4 class="ui top attached block header"><?php echo $MSG_Sample_Output?>
+          </h4>
+          <!-- <span class=copy id=\"copyout\" data-clipboard-text=\"".($soutput)."\"><?php echo $MSG_COPY; ?></span> -->
+          <div class="ui bottom attached segment font-content">
+            <!-- <div class="ui existing segment"> -->
+              <pre style="margin-top: 0; margin-bottom: 0; background-color: #ffffff;><code id='soutput' class="lang-plain"><?php echo ($soutput); ?></code></pre>
+            <!-- </div> -->
+          </div>
+        </div>
+    </div>
+  <?php }?>
 
   <!-- 문제의 힌트 표시 -->
   <?php if($row['hint']||isset($_GET['spa'])){ ?>
