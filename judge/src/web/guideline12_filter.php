@@ -1,85 +1,56 @@
 <?php
-function codeFilter($text) {
+function guidelineFilter($text) {
+    //텍스트를 줄 단위로 읽기
     $lines = explode("\n", $text);
+
+    //루트 노드와 스택 초기화
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
 
-    $collectingCode = false;  // 코드 누적 여부
-    $blockBuffer = "";        // 블록 내용 누적
-
+    //우측 공백제거
     foreach ($lines as $line) {
         $line = rtrim($line);
 
-        // `#include` 라인은 무시
-        if (preg_match('/^#include\s+<.*>$/', trim($line))) {
-            continue;  // 해당 라인은 처리하지 않음
-        }
-
-        // `textarea` 부분이 `}` 또는 공백일 경우 무시
-        if (trim($line) === '}' || trim($line) === '') {
-            continue;  // 해당 라인은 처리하지 않음
-        }
-
-
-        // [start] 태그 감지
-        if (preg_match('/\[(\w+)_start\((\d+)\)\]/', $line, $m)) {
-            // 기존에 누적된 텍스트가 있으면 처리
-            if (!empty($blockBuffer)) {
-                // 이전 블록 내용이 있다면, 그것을 하나의 블록으로 처리
-                $stack[count($stack) - 1]['children'][] = [
-                    'type' => 'text',
-                    'content' => rtrim($blockBuffer),
-                    'depth' => count($stack) - 1
-                ];
-                $blockBuffer = "";  // 초기화
-            }
-
-            // 새 블록 시작
+        // 시작 태그일 경우 새 블록 생성 및 스택에 추가
+        if (preg_match('/\[(func_def|rep|cond|self|struct|construct|main_def)_start\((\d+)\)\]/', $line, $m)) {
             $block = [
-                'type' => 'block',
-                'tag' => $m[1], // 태그 이름
-                'index' => (int)$m[2], // 태그 번호
+                'type' => $m[1], // 태그 이름
+                'index' => $m[2], // 태그 번호
                 'depth' => count($stack) - 1,
                 'children' => []
             ];
+            //스택 맨 위 부모의 children 추가
             $stack[count($stack) - 1]['children'][] = &$block;
+            //새 블록 푸시(이 블록 안에 내용 쌓기)
             $stack[] = &$block;
+            //메모리 참조 해제
             unset($block);
             continue;
         }
 
-        // [end] 태그 처리
-        if (preg_match('/\[(\w+)_end\((\d+)\)\]/', $line, $m)) {
-            // 종료 태그를 만나면, 현재 블록에 누적된 텍스트를 처리하고 pop
-            if (!empty($blockBuffer)) {
-                $stack[count($stack) - 1]['children'][] = [
-                    'type' => 'text',
-                    'content' => rtrim($blockBuffer),
-                    'depth' => count($stack) - 1
-                ];
-                $blockBuffer = "";  // 초기화
+        // 종료 태그만나면 동일한 type, index가진 블록 찾아 pop
+        if (preg_match('/\[(func_def|rep|cond|self|struct|construct|main_def)_end\((\d+)\)\]/', $line, $m)) {
+            for ($i = count($stack) - 1; $i >= 1; $i--) {
+                if ($stack[$i]['type'] === $m[1] && $stack[$i]['index'] == $m[2]) {
+                    array_pop($stack);
+                    break;
+                }
             }
-            array_pop($stack);  // 스택에서 pop
             continue;
         }
 
-        // 코드 라인 누적
+        // 일반 텍스트는 현재 블록에 추가
         if (trim($line) !== '') {
-            $blockBuffer .= $line . "\n"; // 블록 내용 누적
+            $stack[count($stack) - 1]['children'][] = [
+                'type' => 'text',
+                'content' => $line,
+                'depth' => count($stack) - 1
+            ];
         }
     }
 
-    // 마지막으로 남은 텍스트가 있으면 처리
-    if (!empty($blockBuffer)) {
-        $stack[count($stack) - 1]['children'][] = [
-            'type' => 'text',
-            'content' => rtrim($blockBuffer),
-            'depth' => count($stack) - 1
-        ];
-    }
-
-    // 최종 트리 배열을 평탄화(flatten)해서 반환
-    return extractContentsFlat($root['children']);
+    //최종 결과를 반환(root는 제외)
+    return $root['children'];
 }
 
 
@@ -182,4 +153,3 @@ function extractContentsFlat($blocks) { //트리 구조
     }
     return $results; //평탄화된 tree -> array 배열 변환
 }
-
