@@ -218,7 +218,6 @@ function submitAnswer(index) {
         answer: input,
         problem_id: problemId,
         index: index
-        step: step;
     });
 
     fetch("../../ajax/check_answer_STEP.php", {
@@ -227,8 +226,7 @@ function submitAnswer(index) {
         body: JSON.stringify({
             answer: input,
             problem_id: problemId,
-            index: index;
-            step: step;
+            index: index
         })
     })
     .then(res => {
