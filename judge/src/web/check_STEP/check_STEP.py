@@ -64,16 +64,18 @@ def get_blocks(code_lines):
                 current_block = []
             current_block.append(line)
             inside_block = True
-            continue
+
 
         elif is_tag_line(line):
             if current_block:
                 blocks.append(current_block)
                 all_blocks.append(current_block)
                 block_indices.append((blocks_idx, all_idx))
+                blocks_idx += 1
+                all_idx += 1
                 current_block = []
             inside_block = False
-            continue
+
 
         if inside_block or not is_tag_line(line):
             current_block.append(line)
