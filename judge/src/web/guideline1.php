@@ -9,7 +9,7 @@ $file_path = "/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/{$proble
 $tagged_path = "/home/Capstone_Design_Troy/judge/src/web/tagged_code/{$problem_id}_step1.txt";
 
 $guideline_contents = file_get_contents($file_path);
-$tagged_contents = file_get_contents($tagged_path);
+// $tagged_contents = file_get_contents($tagged_path);
 $tagged_contents = mb_convert_encoding($tagged_path, 'UTF-8', 'auto');
 
 $OJ_BLOCK_TREE = guidelineFilter($guideline_contents);
