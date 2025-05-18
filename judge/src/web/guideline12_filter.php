@@ -1,6 +1,7 @@
 <?php
 function guidelineFilter($text) {
-    $lines = explode("\n", $text);
+    $lines = preg_split('/\r\n|\r|\n/', $text);  // 윈도우/리눅스 호환 줄바꿈 모두 대응
+
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
 
@@ -71,7 +72,8 @@ function guidelineFilter($text) {
 }
 
 function codeFilter($text) {
-    $lines = explode("\n", $text);
+    $lines = preg_split('/\r\n|\r|\n/', $text);  // 윈도우/리눅스 호환 줄바꿈 모두 대응
+
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
 
@@ -151,10 +153,6 @@ function codeFilter($text) {
 
     // 최종 트리 배열을 평탄화(flatten)해서 반환
     return extractContentsFlat($root['children']);
-
-    foreach ($stack[count($stack) - 1]['children'] as $child) {
-    echo "<!-- PARSED BLOCK: " . htmlentities($child['content']) . " -->\n";
-}
 }
 
 
