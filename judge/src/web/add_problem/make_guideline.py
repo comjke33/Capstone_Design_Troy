@@ -4,7 +4,7 @@ import sys
 if len(sys.argv) > 1:
     pid = sys.argv[1]
 
-HOST = '192.168.0.60'
+HOST = '192.168.0.85'
 PORT = 9966
 
 #파일에서 JSON 데이터 읽기

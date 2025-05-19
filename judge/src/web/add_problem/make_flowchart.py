@@ -39,19 +39,25 @@ def parse_guideline_blocks(text):
     current_function_blocks = []
 
     current_block = []
-    current_depth = None
+    current_depth = 0
     inside_function = False
 
     for line in lines:
-        func_start = re.search(r'\[func_def_start\((\d+)\)\]', line)
-        func_end = re.search(r'\[func_def_end\((\d+)\)\]', line)
+        # 함수 시작과 끝 태그 (func_def_start, main_def_start 모두 포함)
+        func_start = re.search(r'\[(func_def|main_def)_start\((\d+)\)\]', line)
+        func_end = re.search(r'\[(func_def|main_def)_end\((\d+)\)\]', line)
 
+        # 일반 블록 시작과 끝 태그
         start = re.search(r'\[(\w+)_start\((\d+)\)\]', line)
         end = re.search(r'\[(\w+)_end\((\d+)\)\]', line)
 
         if func_start:
             inside_function = True
             current_function_blocks = []
+
+            # 현재 라인이 함수 정의 라인이므로 별도로 저장
+            current_block = [line]
+            current_depth = 0
             continue
 
         if func_end:
@@ -59,7 +65,7 @@ def parse_guideline_blocks(text):
                 current_function_blocks.append((current_depth, current_block))
             functions.append(current_function_blocks)
             current_block = []
-            current_depth = None
+            current_depth = 0
             inside_function = False
             continue
 
@@ -105,11 +111,13 @@ def process_guideline(text):
     functions = parse_guideline_blocks(text)
     all_results = []
 
+    line_num = 0
+
     for func_idx, blocks in enumerate(functions):
         results = []
         for idx, (depth, block_lines) in enumerate(blocks):
-            if depth is None:
-                continue
+            # if depth is None:
+            #     continue
             filtered_lines = [line for line in block_lines if not line.strip().startswith('[') and line != '']
             role = classify_block(filtered_lines)
             block_text = "\n".join(filtered_lines)
@@ -119,8 +127,10 @@ def process_guideline(text):
                 "깊이": depth,
                 "역할": role,
                 "내용": block_text,
-                "index": idx
+                "index": line_num
             })
+            
+            line_num += 1
         all_results.append(results)
     return all_results  # 함수별 리스트
 
@@ -170,10 +180,12 @@ def generate_summary_gpt(buffer_lines, problem):
 
     block_texts = []
     for idx, block in enumerate(buffer_lines):
+        # block_texts.append(
+        #     f"블록 {idx+1} (역할: {block['역할']}) - {block['내용']}"
+        # )
         block_texts.append(
-            f"블록 {idx+1} (역할: {block['역할']}) - {block['내용']}"
+            f"{block['내용']}"
         )
-
     merged_blocks = "\n".join(block_texts)
 
     response = client.chat.completions.create(
@@ -388,7 +400,7 @@ if __name__ == "__main__":
         filename = os.path.join(output_dir, f"{problem_id}_{highlight_idx + 1}")
         dot.render(filename, cleanup=True)
 
-        print(flowcharts)
+        #print(flowcharts)
     # print(flowcharts)
 
     conn.commit()
