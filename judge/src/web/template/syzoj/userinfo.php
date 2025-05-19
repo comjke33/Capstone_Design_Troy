@@ -1,11 +1,19 @@
 <?php $show_title="$MSG_USERINFO - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 <style>
-#avatar_container:before {
-    content: "";
+#avatar_container {
+    margin: 2rem auto 1.5rem auto;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(33, 133, 208, 0.4);
+}
+#avatar_container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
-    height:80%;
-    width:80%;
 }
 </style>
 <?php 
