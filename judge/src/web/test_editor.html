@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>KindEditor Test</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script charset="utf-8" src="/kindeditor/kindeditor-all.js"></script>
+    <script charset="utf-8" src="/kindeditor/lang/ko.js"></script>
+    <script>
+        $(document).ready(function() {
+            console.log("Initializing KindEditor...");
+            KindEditor.ready(function(K) {
+                K.create('textarea[name="content"]', {
+                    width: '100%',
+                    height: '300px'
+                });
+                console.log("KindEditor initialized.");
+            });
+        });
+    </script>
+</head>
+<body>
+    <h3>KindEditor 테스트</h3>
+    <textarea name="content" style="width:100%;height:200px;"></textarea>
+</body>
+</html>
