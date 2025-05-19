@@ -21,6 +21,7 @@
 <style>
     #user_card {
         width: 100%;
+        max-width: 400px; /* 원하는 최대 가로 길이로 조정 */
         border-radius: 12px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
