@@ -74,7 +74,7 @@ include("../../guideline_common.php");
                     // 코드 출력 라인
                     $html .= "<div class='code-line'>{$escaped_line}</div>";
 
-                    // textarea
+                    // 답안을 textarea에 띄울 때
                     // $default_value = $has_correct_answer ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') : "";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$default_value}</textarea>";
 
@@ -108,7 +108,7 @@ include("../../guideline_common.php");
     </div>
 
     <!-- 오른쪽 패널 -->
-    <div class="right-panel" style="display:none;">
+    <div class="right-panel" >
 
     </div>
 </div>
