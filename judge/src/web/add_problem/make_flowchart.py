@@ -219,6 +219,21 @@ def generate_summary_gpt(buffer_lines, problem):
 ###########################
 # 메인
 ###########################
+
+"""
+>> 필요한 매개변수 <<
+- guideline_path : 생성된 가이드라인이 저장되어있는 txt 파일 경로
+- output_dir : 생성된 flowchart를 저장할 경로
+- problem_id : 생성할 문제 번호
+
+>> 변수 <<
+- problem : 문제 내용(description)
+
+>> 해야할 일 <<
+1. default로 설정된 부분 (TODO 표시) 제거
+2. 인자 제대로 들어오는지 확인 (디버깅할 때는 python make_flowchart.py로 하는 것이 빠름)
+"""
+
 if __name__ == "__main__":
 
 
@@ -232,7 +247,8 @@ if __name__ == "__main__":
         problem_id = sys.argv[3]
 
 
-
+    # TODO
+    # default로 설정된 부분 
     guideline_path = f"../tagged_guideline/{problem_id}_step1.txt"
     output_dir = "../flowcharts/"
 
@@ -242,9 +258,6 @@ if __name__ == "__main__":
     with open(guideline_path, "r", encoding="utf-8") as f:
         guideline_text = f.read()
 
-    # TODO
-    # SQL에서 problem 선언
-    # MySQL 연결 설정
     conn = mysql.connector.connect(
         host="localhost",
         user="hustoj",
@@ -252,6 +265,7 @@ if __name__ == "__main__":
         database="jol"
     )
 
+    # SQL에서 problem 문제 내용 가져오기기
     cursor = conn.cursor()
     cursor.execute("SELECT description FROM problem WHERE problem_id = %s", (problem_id,))
     problem = cursor.fetchall()
