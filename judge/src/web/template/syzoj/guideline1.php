@@ -7,7 +7,6 @@ include("../../guideline_common.php");
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
 
-
 <!-- 상단 툴바 -->
 <div class="top-toolbar">
   <!-- 뒤로가기 및 리셋 버튼 -->
@@ -35,7 +34,7 @@ include("../../guideline_common.php");
 <div class="main-layout">
     <!-- 좌측 패널 -->
     <div class="left-panel">
-        <!-- <img id="flowchart_image"> -->
+        <img id="flowchart_image">
     </div>
 
 
