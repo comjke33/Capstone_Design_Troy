@@ -139,14 +139,6 @@
 <div class="ui grid">
     <div class="row">
         <div class="five wide column">
-    <div class="ui card" id="user_card">
-        <div id="avatar_container" style="width:130px; height:130px; border-radius:50%; overflow:hidden; margin: 0 auto;">
-            <?php 
-                // 귀여운 강아지 이미지 구글에서 가져온 링크 (예시)
-                $grav_url = "https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=500&q=80";
-            ?>
-            <img src="<?php echo $grav_url; ?>" alt="User Avatar">
-        </div>
 
         <div class="content">
             <div class="header"><?php echo htmlspecialchars($nick); ?></div>
@@ -155,15 +147,22 @@
                 <a class="group"><?php echo htmlspecialchars($group_name); ?></a>
             </div>
         </div>
-        <table>
-            <tbody>
-                <tr>
-                    <th>티어</th>
-                    <td><?php echo htmlspecialchars($calsed); ?></td>
-                    <td>다음 티어: <?php echo htmlspecialchars($accall[$calledid+1]); ?> 남은 문제: <?php echo htmlspecialchars($acneed[$calledid+1]-$AC); ?> 문제</td>
-                </tr>
-            </tbody>
-        </table>
+            <table style="width: 100%; max-width: 400px; margin: 0 auto 1.5rem auto; border-collapse: separate; border-spacing: 0 12px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1rem; color: #333;">
+        <tbody>
+            <tr>
+                <th style="width: 25%; text-align: left; font-weight: 600; color: #2171c8; padding-left: 0.5rem; vertical-align: middle;">
+                    티어
+                </th>
+                <td style="color: #555; padding-left: 1rem; vertical-align: middle;">
+                    <?php echo htmlspecialchars($calsed); ?>
+                </td>
+                <td style="color: #777; font-style: italic; padding-left: 1rem; vertical-align: middle;">
+                    다음 티어: <?php echo htmlspecialchars($accall[$calledid+1]); ?> 남은 문제: <?php echo htmlspecialchars($acneed[$calledid+1] - $AC); ?> 문제
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
         <div class="extra content">
             <a><i class="check icon"></i>통과한 문제 <?php echo htmlspecialchars($AC); ?> 문제</a>
             <a style="float: right;">
