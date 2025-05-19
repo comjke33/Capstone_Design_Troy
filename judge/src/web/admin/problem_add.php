@@ -48,11 +48,6 @@ $hint = $_POST['hint'];
 //$hint = str_replace("</p>", "<br />", $hint); 
 //$hint = str_replace(",", "&#44;", $hint);
 
-$description = htmlspecialchars($description, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
-$input = htmlspecialchars($input, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
-$output = htmlspecialchars($output, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
-$hint = htmlspecialchars($hint, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
-$exemplary_code = htmlspecialchars($exemplary_code, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
 
 $source = $_POST['source'];
@@ -206,14 +201,20 @@ function phpfm(pid){
   });
 }
 </script>
-
+<?php
+$description = htmlspecialchars($description, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$input = htmlspecialchars($input, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$output = htmlspecialchars($output, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$hint = htmlspecialchars($hint, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+?>
 <script>
+    
 $.ajax({
     type: "POST",
     url: "../ajax/save_problem_run_python.php",
     dataType: "json",  // JSON으로 응답 받기
     data: {
-      description: <?php echo json_encode($description, ENT_QUOTES); ?>,
+        description: <?php echo json_encode($description, ENT_QUOTES); ?>,
         exemplary_code: <?php echo json_encode($exemplary_code); ?>,
         problem_id: <?php echo json_encode($pid); ?>,
         output_dir: <?php echo json_encode($output_dir); ?>,
