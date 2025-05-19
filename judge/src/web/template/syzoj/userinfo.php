@@ -18,55 +18,177 @@
     }
 ?>
 
+<style>
+    /* 카드 컨테이너 */
+    #user_card {
+        width: 100%;
+        max-width: 400px;
+        border-radius: 15px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #ffffff;
+        overflow: hidden;
+        margin: 0 auto;
+        padding-bottom: 1rem;
+    }
+
+    /* 아바타 */
+    #avatar_container {
+        margin: 2rem auto 1.5rem auto;
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 3px 12px rgba(33, 133, 208, 0.4);
+    }
+    #avatar_container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* 닉네임 */
+    #user_card .header {
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #2185d0;
+        margin-bottom: 0.3rem;
+    }
+
+    /* 학교 및 그룹명 */
+    #user_card .meta {
+        text-align: center;
+        font-size: 0.95rem;
+        color: #666;
+        margin-bottom: 1rem;
+    }
+    #user_card .meta a.group {
+        margin: 0 10px;
+        color: #666;
+        font-weight: 500;
+    }
+
+    /* 티어 테이블 */
+    #user_card table {
+        width: 90%;
+        margin: 0 auto 1rem auto;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+        font-size: 1rem;
+        color: #444;
+    }
+    #user_card th {
+        font-weight: 600;
+        width: 25%;
+        text-align: left;
+        color: #333;
+    }
+    #user_card td {
+        padding-left: 10px;
+        color: #555;
+    }
+
+    /* 하단 정보 영역 */
+    #user_card .extra.content {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 2rem;
+        font-size: 1rem;
+        color: #444;
+    }
+    #user_card .extra.content a {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #444;
+    }
+    #user_card .extra.content a i.check.icon {
+        color: #21ba45;
+        font-size: 1.2rem;
+    }
+    #user_card .extra.content a i.star.icon.active {
+        color: #fbbd08;
+        font-size: 1.3rem;
+    }
+
+    /* 이메일 */
+    #user_card .email-container {
+        text-align: center;
+        margin-top: 1rem;
+    }
+    #user_card .email-container a {
+        color: #2185d0;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 1rem;
+    }
+    #user_card .email-container a:hover {
+        text-decoration: underline;
+    }
+    #user_card .email-container i.icon.large.envelope {
+        font-size: 1.4rem;
+    }
+</style>
+
 <div class="padding">
 <div class="ui grid">
     <div class="row">
         <div class="five wide column">
-            <div class="ui card" style="width: 100%; " id="user_card">
-                <div class="blurring dimmable image" id="avatar_container">
-                    <?php $default = ""; $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=500"; ?>
-                    <?php  
-                        $qq=stripos($email,"@qq.com");
-                        if($qq>0){
-                             $qq=urlencode(substr($email,0,$qq));
-                             $grav_url="https://q1.qlogo.cn/g?b=qq&nk=$qq&s=5";
-                        };
+            <div class="ui card" id="user_card">
+                <div id="avatar_container">
+                    <?php 
+                        $default = ""; 
+                        $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . urlencode($default) . "&s=500";
+                        $qq = stripos($email,"@qq.com");
+                        if($qq > 0) {
+                            $qq_user = urlencode(substr($email,0,$qq));
+                            $grav_url = "https://q1.qlogo.cn/g?b=qq&nk=$qq_user&s=5";
+                        }
                     ?>
-
-                    <img src="<?php echo $grav_url; ?>">
+                    <img src="<?php echo $grav_url; ?>" alt="User Avatar">
                 </div>
+
                 <div class="content">
-                    <div class="header"><?php echo $nick?></div>
+                    <div class="header"><?php echo htmlspecialchars($nick); ?></div>
                     <div class="meta">
-                        <a class="group"><?php echo $school?></a>
-                        <a class="group"><?php echo $group_name?></a>
+                        <a class="group"><?php echo htmlspecialchars($school); ?></a>
+                        <a class="group"><?php echo htmlspecialchars($group_name); ?></a>
                     </div>
                 </div>
-                <table class="table table-hover" style="width:100%">
-                <tbody>
-                    <tr>
-                        <th width=20%>티어</th>
-                        <td width=20%><?php echo $calsed;?></td>
-                        <td width=55%>다음 티어: <?php echo $accall[$calledid+1];?> 남은 문제: <?php echo $acneed[$calledid+1]-$AC;?> 문제</td>
-                    </tr>
-                </tbody>
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>티어</th>
+                            <td><?php echo htmlspecialchars($calsed); ?></td>
+                            <td>다음 티어: <?php echo htmlspecialchars($accall[$calledid+1]); ?> 남은 문제: <?php echo htmlspecialchars($acneed[$calledid+1] - $AC); ?> 문제</td>
+                        </tr>
+                    </tbody>
                 </table>
+
                 <div class="extra content">
-                    <a><i class="check icon"></i>통과한 문제 <?php echo $AC ?> 문제</a>
-                    <a style="float: right;"><i class="star icon <?php if($starred) echo "active"?>" 
-                        title='동일한 이름의 계정으로 hustoj 프로젝트에 별을 추가하면 별이 활성화됩니다'></i>순위 <?php echo $Rank ?></a> <!-- ✅ 변경됨 -->
-                    
-                    <?php if ($email != "") { ?>
-                        <div style="margin-top:10px;margin-bottom:10px">
-                            <a href="mailto:<?php echo "Hello" ?>?body=CSPOJ">
-                                <i class="icon large envelope"></i>
-                                <span style="display:inline-block; vertical-align:middle"><?php echo $email?></span>
-                            </a>
-                        </div>
-                    <?php } ?>
+                    <a><i class="check icon"></i>통과한 문제 <?php echo htmlspecialchars($AC); ?> 문제</a>
+                    <a><i class="star icon <?php if($starred) echo "active"?>" 
+                        title="동일한 이름의 계정으로 hustoj 프로젝트에 별을 추가하면 별이 활성화됩니다"></i>순위 <?php echo htmlspecialchars($Rank); ?></a>
                 </div>
+
+                <?php if ($email != "") { ?>
+                    <div class="email-container">
+                        <a href="mailto:<?php echo htmlspecialchars($email); ?>?body=CSPOJ">
+                            <i class="icon large envelope"></i>
+                            <span><?php echo htmlspecialchars($email); ?></span>
+                        </a>
+                    </div>
+                <?php } ?>
             </div>
         </div>
+
+
         <div class="eleven wide column">
             <div class="ui grid" style="padding-left: 20px;">
                 <div class="row">
