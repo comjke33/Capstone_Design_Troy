@@ -21,25 +21,33 @@
     $calledid = -1;
         // 이미지 파일명 배열, 실제 이미지 경로에 맞게 경로 수정 필요
     $accall_img = [
-        "../../image/iron.png",
-        "../../image/bronze.png",
-        "../../image/silver.png",
-        "../../image/gold.png",
-        "../../image/platinum.png",
-        "../../image/emerald.png",
-        "../../image/diamond.png",
-        "../../image/master.png",
-        "../../image/grandmaster.png",
-        "../../image/challenger.png"
-    ];
+    "../../image/iron.png",
+    "../../image/bronze.png",
+    "../../image/silver.png",
+    "../../image/gold.png",
+    "../../image/platinum.png",
+    "../../image/emerald.png",
+    "../../image/diamond.png",
+    "../../image/master.png",
+    "../../image/grandmaster.png",
+    "../../image/challenger.png"
+];
 
-     for ($i = count($acneed)-1; $i >= 0; $i--) {
-        if ($AC >= $acneed[$i]) {
-            $calsed = $accall_img[$i];
-            $calledid = $i;
-            break;
-        }
+// 티어 결정 로직 (역순 검사)
+for ($i = count($acneed) - 1; $i >= 0; $i--) {
+    if ($AC >= $acneed[$i]) {
+        $calsed = $accall_img[$i];
+        $calledid = $i;
+        break;
     }
+}
+
+// 기본 티어가 없다면 최하위 설정
+if ($calledid == -1) {
+    $calledid = 0;
+    $calsed = $accall_img[0];
+}
+
 ?>
 
 <style>
