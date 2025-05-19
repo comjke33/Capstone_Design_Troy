@@ -208,7 +208,6 @@
                     </td>
 
                     <td>
-                        다음 티어: 
                         <?php 
                             $nextIndex = $calledid + 1;
                             if ($nextIndex < count($accall) && $nextIndex < count($acneed)) {
@@ -227,9 +226,7 @@
                                 echo '<div style="text-align:center;">';
                                 echo '<div>다음 티어:</div>';
                                 echo '<img src="' . htmlspecialchars($accall_img[$nextIndex]) . '" alt="' . htmlspecialchars($accall[$nextIndex]) . '" style="width:40px; height:40px;"><br>';
-                                echo '<span>' . htmlspecialchars($accall[$nextIndex]) . '</span>';
-                                echo '</div>';
-
+                                // echo '<span>' . htmlspecialchars($accall[$nextIndex]) . '</span>';
                                 echo '</div>';
 
                                 // echo "남은 문제: " . $remain . " 문제";
