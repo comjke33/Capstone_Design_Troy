@@ -19,10 +19,26 @@
 <?php 
     $calsed = '비단잉어';
     $calledid = -1;
-    $acneed = [10,20,30,50,80,100,200,300,500,800,1000];
-    $accall = ["🪨","브론즈","실버","골드","플래티넘","에메랄드","다이아몬드","마스터","그랜드마스터","챌린저"];
-    for ($i = count($accall);$i > 0; $i--) {
-        if ($AC < $acneed[$i]) {$calsed = $accall[$i - 1];$calledid=$i-1;}
+        // 이미지 파일명 배열, 실제 이미지 경로에 맞게 경로 수정 필요
+    $accall_img = [
+        "../../image/iron.png",
+        "../../image/bronze.png",
+        "../../image/silver.png",
+        "../../image/gold.png",
+        "../../image/platinum.png",
+        "../../image/emerald.png",
+        "../../image/diamond.png",
+        "../../image/master.png",
+        "../../image/grandmaster.png",
+        "../../image/challenger.png"
+    ];
+
+     for ($i = count($acneed)-1; $i >= 0; $i--) {
+        if ($AC >= $acneed[$i]) {
+            $calsed = $accall_img[$i];
+            $calledid = $i;
+            break;
+        }
     }
 ?>
 
