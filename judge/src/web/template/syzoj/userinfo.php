@@ -207,8 +207,8 @@
                         <?php echo htmlspecialchars($accall[$calledid]); ?>
                     </td>
 
+                    <th>다음 티어</th>
                     <td>
-                        다음 티어: 
                         <?php 
                             $nextIndex = $calledid + 1;
                             if ($nextIndex < count($accall) && $nextIndex < count($acneed)) {
