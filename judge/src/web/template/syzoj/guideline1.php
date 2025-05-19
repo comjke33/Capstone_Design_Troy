@@ -214,21 +214,21 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    const textareas = document.querySelectorAll(".styled-textarea");
+// document.addEventListener("DOMContentLoaded", function () {
+//     const textareas = document.querySelectorAll(".styled-textarea");
 
-    textareas.forEach((ta) => {
-        autoResize(ta); // 초기 렌더링 시 높이 조정
+//     textareas.forEach((ta) => {
+//         autoResize(ta); // 초기 렌더링 시 높이 조정
 
-        // 입력할 때마다 높이 자동 조정
-        ta.addEventListener("input", () => autoResize(ta));
-    });
+//         // 입력할 때마다 높이 자동 조정
+//         ta.addEventListener("input", () => autoResize(ta));
+//     });
 
-    function autoResize(textarea) {
-        textarea.style.height = "auto"; // 초기화
-        textarea.style.height = textarea.scrollHeight + "px"; // 내용에 따라 높이 설정
-    }
-});
+//     function autoResize(textarea) {
+//         textarea.style.height = "auto"; // 초기화
+//         textarea.style.height = textarea.scrollHeight + "px"; // 내용에 따라 높이 설정
+//     }
+// });
 
 //문제 맞았는지 여부 확인
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
