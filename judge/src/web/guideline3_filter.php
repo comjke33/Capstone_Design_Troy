@@ -4,12 +4,23 @@ function guidelineFilter($text) {
 
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
+    $textBuffer = "";
 
     foreach ($lines as $line) {
-        $line = trim($line);
+        $line = rtrim($line);
 
-        // 새로운 block 시작 ([blockN] 형식)
+        // ✅ [block0] 스타일 시작
         if (preg_match('/^\[block(\d+)\]$/', $line, $m)) {
+            // 기존 textBuffer 처리
+            if (trim($textBuffer) !== '') {
+                $stack[count($stack) - 1]['children'][] = [
+                    'type' => 'text',
+                    'content' => rtrim($textBuffer),
+                    'depth' => count($stack) - 1
+                ];
+                $textBuffer = "";
+            }
+
             $block = [
                 'type' => 'block',
                 'index' => (int)$m[1],
@@ -22,27 +33,39 @@ function guidelineFilter($text) {
             continue;
         }
 
-        // 빈 줄은 block 구분용 → 현재 블록 종료 처리
+        // ✅ 빈 줄 → blockN 블록 종료 처리
         if ($line === '') {
-            if (count($stack) > 1) {
-                array_pop($stack); // 현재 block 종료
+            if (trim($textBuffer) !== '') {
+                $stack[count($stack) - 1]['children'][] = [
+                    'type' => 'text',
+                    'content' => rtrim($textBuffer),
+                    'depth' => count($stack) - 1
+                ];
+                $textBuffer = "";
+            }
+
+            // blockN 블록만 스택 pop
+            if (isset($stack[count($stack) - 1]['type']) && $stack[count($stack) - 1]['type'] === 'block') {
+                array_pop($stack);
             }
             continue;
         }
 
-        // 일반 텍스트 줄 처리
-        if ($line !== '') {
-            $stack[count($stack) - 1]['children'][] = [
-                'type' => 'text',
-                'content' => $line,
-                'depth' => count($stack) - 1
-            ];
-        }
+        // ✅ 일반 줄 → 누적
+        $textBuffer .= $line . "\n";
+    }
+
+    // 마지막 누적 텍스트 처리
+    if (trim($textBuffer) !== '') {
+        $stack[count($stack) - 1]['children'][] = [
+            'type' => 'text',
+            'content' => rtrim($textBuffer),
+            'depth' => count($stack) - 1
+        ];
     }
 
     return $root['children'];
 }
-
 
 function codeFilter($text) {
     $lines = preg_split('/\r\n|\r|\n/', $text);  // 윈도우/리눅스 호환 줄바꿈 모두 대응
