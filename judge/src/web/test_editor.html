@@ -1,63 +1,21 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>KindEditor 테스트 페이지</title>
-
-    <!-- KindEditor 스타일 -->
-    <link rel="stylesheet" href="/kindeditor/themes/default/default.css">
-    <link rel="stylesheet" href="/kindeditor/plugins/code/prettify.css">
-
-    <!-- KindEditor 스크립트 -->
-    <script charset="utf-8" src="/kindeditor/kindeditor-all-min.js"></script>
-    <script charset="utf-8" src="/kindeditor/lang/en.js"></script>
-
-    <style>
-        .editor-container {
-            width: 80%;
-            margin: 20px auto;
-        }
-        .ke-container {
-            border: 1px solid #ccc;
-            min-height: 300px;
-        }
-        .ke-edit-iframe, .ke-edit-iframe textarea {
-            min-height: 250px;
-            width: 100%;
-        }
-        /* KindEditor 스타일 강제 적용 */
-        .ke-container, .ke-edit-iframe, .ke-edit-iframe textarea {
-            display: block !important;
-            visibility: visible !important;
-            background-color: white !important;
-            color: black !important;
-        }
-    </style>
-
+    <meta charset="utf-8">
+    <title>KindEditor 테스트</title>
+    <script charset="utf-8" src="/kindeditor/kindeditor-all.js"></script>
+    <script charset="utf-8" src="/kindeditor/lang/ko.js"></script>
     <script>
         KindEditor.ready(function(K) {
-            console.log("KindEditor 초기화 시작");
             K.create('textarea[name="content"]', {
                 width: '100%',
-                height: '300px',
-                themeType: 'default',
-                resizeType: 1,
-                allowPreviewEmoticons: true,
-                allowImageUpload: true,
-                items: ['source', '|', 'bold', 'italic', 'underline', '|', 'justifyleft', 'justifycenter', 'justifyright'],
-                cssPath: '/kindeditor/plugins/code/prettify.css',
-                uploadJson: '/kindeditor/php/upload_json.php',
-                fileManagerJson: '/kindeditor/php/file_manager_json.php',
-                allowFileManager: true
+                height: '300px'
             });
-            console.log("KindEditor 초기화 완료");
         });
     </script>
 </head>
 <body>
-    <div class="editor-container">
-        <h2>KindEditor 테스트</h2>
-        <textarea name="content" style="width: 100%; height: 300px;"></textarea>
-    </div>
+    <h3>KindEditor 테스트</h3>
+    <textarea name="content" style="width:100%;height:200px;"></textarea>
 </body>
 </html>
