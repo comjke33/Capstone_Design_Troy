@@ -42,10 +42,11 @@ include("../../guideline_common.php");
     <!-- 가운데 패널 -->
     <div class="center-panel">
         <h1>한 줄씩 풀기</h1>
-        <span></span>
-        
-        <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
 
+        <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
+        <br>
+        <br>
+        
         <?php      
              function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
