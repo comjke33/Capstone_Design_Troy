@@ -48,6 +48,19 @@ $hint = $_POST['hint'];
 //$hint = str_replace("</p>", "<br />", $hint); 
 //$hint = str_replace(",", "&#44;", $hint);
 
+
+$description = str_replace("\r\n", "\\n", $description);
+$description = str_replace("\n", "\\n", $description);
+$input = str_replace("\r\n", "\\n", $input);
+$input = str_replace("\n", "\\n", $input);
+$output = str_replace("\r\n", "\\n", $output);
+$output = str_replace("\n", "\\n", $output);
+$hint = str_replace("\r\n", "\\n", $hint);
+$hint = str_replace("\n", "\\n", $hint);
+
+
+
+
 $source = $_POST['source'];
 
 $spj = $_POST['spj'];
