@@ -30,7 +30,7 @@
                         if (in_array($line_number, $error_lines)) {
                             echo '<span style="color: red; font-weight: bold;">' . htmlspecialchars($line_number) . ': ' . htmlspecialchars($line) . "</span>\n";
                         } else {
-                            echo htmlspecialchars($line_number) . ': ' . htmlspecialchars($line) . "\n";
+                            echo htmlspecialchars($line_number) . ' ' . htmlspecialchars($line) . "\n";
                         }
                     }
                     echo '</pre>';
