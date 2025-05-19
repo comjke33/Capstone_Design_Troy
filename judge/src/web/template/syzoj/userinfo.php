@@ -208,27 +208,15 @@
                     </td>
 
                     <td>
+                        다음 티어: 
                         <?php 
                             $nextIndex = $calledid + 1;
                             if ($nextIndex < count($accall) && $nextIndex < count($acneed)) {
                                 $remain = $acneed[$nextIndex] - $AC;
                                 if ($remain < 0) $remain = 0;
                                 // 이미지 출력 (크기 30x30 고정)
-                                echo '<div style="display: flex; gap: 40px;">'; // 여러 티어 박스를 가로로 정렬할 때 사용
-
-                                // 현재 티어
-                                echo '<div style="text-align:center;">';
-                                echo '<img src="' . htmlspecialchars($accall_img[$currentIndex]) . '" alt="' . htmlspecialchars($accall[$currentIndex]) . '" style="width:40px; height:40px;"><br>';
-                                echo '<span>' . htmlspecialchars($accall[$currentIndex]) . '</span>';
-                                echo '</div>';
-
-                                // 다음 티어
-                                echo '<div style="text-align:center;">';
-                                echo '<div>다음 티어:</div>';
-                                echo '<img src="' . htmlspecialchars($accall_img[$nextIndex]) . '" alt="' . htmlspecialchars($accall[$nextIndex]) . '" style="width:40px; height:40px;"><br>';
-                                // echo '<span>' . htmlspecialchars($accall[$nextIndex]) . '</span>';
-                                echo '</div>';
-
+                                echo '<img src="' . htmlspecialchars($accall_img[$nextIndex]) . '" alt="' . htmlspecialchars($accall[$nextIndex]) . '" style="width:30px; height:30px; vertical-align:middle; margin-right:5px;">';
+                                echo htmlspecialchars($accall[$nextIndex]) . " ";
                                 // echo "남은 문제: " . $remain . " 문제";
                             } else {
                                 echo "최고 티어입니다!";
