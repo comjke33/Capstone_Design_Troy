@@ -1,31 +1,18 @@
 <?php
 function guidelineFilter($text) {
-    $lines = preg_split('/\r\n|\r|\n/', $text);  // 윈도우/리눅스 호환 줄바꿈 모두 대응
+    $lines = preg_split('/\r\n|\r|\n/', $text);  // 줄바꿈 대응
 
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
 
-    $textBuffer = ""; // 여러 줄 누적용
-
     foreach ($lines as $line) {
-        $line = rtrim($line);
+        $line = trim($line);
 
-        // 시작 태그: 누적 텍스트 먼저 처리
-        if (preg_match('/\[(func_def|rep|cond|self|struct|construct|main_def)_start\((\d+)\)\]/', $line, $m)) {
-            if (trim($textBuffer) !== '') { //비어있지 않은 경우
-                $stack[count($stack) - 1]['children'][] = [ 
-                //stack은 현재 트리구조, count(%stack)-1은 스택 맨 위(현재 작업중)
-                //children은 text or block이 담김
-                    'type' => 'text', 
-                    'content' => rtrim($textBuffer),
-                    'depth' => count($stack) - 1 //깊이 지정(들여쓰기 할 떄 사용)
-                ];
-                $textBuffer = "";
-            }
-
+        // 새로운 block 시작 ([blockN] 형식)
+        if (preg_match('/^\[block(\d+)\]$/', $line, $m)) {
             $block = [
-                'type' => $m[1],
-                'index' => $m[2],
+                'type' => 'block',
+                'index' => (int)$m[1],
                 'depth' => count($stack) - 1,
                 'children' => []
             ];
@@ -35,41 +22,27 @@ function guidelineFilter($text) {
             continue;
         }
 
-        // 종료 태그: 누적 텍스트 먼저 처리 후 pop
-        if (preg_match('/\[(func_def|rep|cond|self|struct|construct|main_def)_end\((\d+)\)\]/', $line, $m)) {
-            if (trim($textBuffer) !== '') {
-                $stack[count($stack) - 1]['children'][] = [
-                    'type' => 'text',
-                    'content' => rtrim($textBuffer),
-                    'depth' => count($stack) - 1
-                ];
-                $textBuffer = "";
-            }
-
-            for ($i = count($stack) - 1; $i >= 1; $i--) {
-                if ($stack[$i]['type'] === $m[1] && $stack[$i]['index'] == $m[2]) {
-                    array_pop($stack);
-                    break;
-                }
+        // 빈 줄은 block 구분용 → 현재 블록 종료 처리
+        if ($line === '') {
+            if (count($stack) > 1) {
+                array_pop($stack); // 현재 block 종료
             }
             continue;
         }
 
-        // 빈 줄 포함 텍스트 누적
-        $textBuffer .= $line . "\n";
-    }
-
-    // 마지막 남은 텍스트 처리
-    if (trim($textBuffer) !== '') {
-        $stack[count($stack) - 1]['children'][] = [
-            'type' => 'text',
-            'content' => rtrim($textBuffer),
-            'depth' => count($stack) - 1
-        ];
+        // 일반 텍스트 줄 처리
+        if ($line !== '') {
+            $stack[count($stack) - 1]['children'][] = [
+                'type' => 'text',
+                'content' => $line,
+                'depth' => count($stack) - 1
+            ];
+        }
     }
 
     return $root['children'];
 }
+
 
 function codeFilter($text) {
     $lines = preg_split('/\r\n|\r|\n/', $text);  // 윈도우/리눅스 호환 줄바꿈 모두 대응
