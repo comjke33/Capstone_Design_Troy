@@ -202,9 +202,12 @@
                 <tr>
                     <th>티어</th>
                     <td>
-                        <img src="<?php echo htmlspecialchars($calsed); ?>" alt="<?php echo htmlspecialchars($accall[$calledid]); ?>" 
-                            style="width: 30px; height: 30px; vertical-align: middle; margin-right: 8px;">
-                        <?php echo htmlspecialchars($accall[$calledid]); ?>
+                        <div style="display: inline-block; text-align: center;">
+                            <img src="<?php echo htmlspecialchars($calsed); ?>" 
+                                alt="<?php echo htmlspecialchars($accall[$calledid]); ?>" 
+                                style="width: 30px; height: 30px; display: block; margin: 0 auto;">
+                            <span><?php echo htmlspecialchars($accall[$calledid]); ?></span>
+                        </div>
                     </td>
 
                     <th>다음 티어</th>
@@ -214,15 +217,19 @@
                             if ($nextIndex < count($accall) && $nextIndex < count($acneed)) {
                                 $remain = $acneed[$nextIndex] - $AC;
                                 if ($remain < 0) $remain = 0;
-                                // 이미지 출력 (크기 30x30 고정)
-                                echo '<img src="' . htmlspecialchars($accall_img[$nextIndex]) . '" alt="' . htmlspecialchars($accall[$nextIndex]) . '" style="width:30px; height:30px; vertical-align:middle; margin-right:5px;">';
-                                echo htmlspecialchars($accall[$nextIndex]) . " ";
-                                // echo "남은 문제: " . $remain . " 문제";
+
+                                echo '<div style="display: inline-block; text-align: center;">';
+                                echo '<img src="' . htmlspecialchars($accall_img[$nextIndex]) . '" 
+                                            alt="' . htmlspecialchars($accall[$nextIndex]) . '" 
+                                            style="width:30px; height:30px; display: block; margin: 0 auto;">';
+                                echo '<span>' . htmlspecialchars($accall[$nextIndex]) . '</span>';
+                                echo '</div>';
                             } else {
                                 echo "최고 티어입니다!";
                             }
                         ?>
                     </td>
+
 
                 </tr>
             </tbody>
