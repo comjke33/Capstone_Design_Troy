@@ -19,36 +19,46 @@
 <?php 
     $calsed = '비단잉어';
     $calledid = -1;
-        // 이미지 파일명 배열, 실제 이미지 경로에 맞게 경로 수정 필요
+
+    // 티어별 문제수 기준
+    $acneed = [10,20,30,50,80,100,200,300,500,800,1000];
+
+    // 티어명 (텍스트용)
+    $accall = ["아이언","브론즈","실버","골드","플래티넘","에메랄드","다이아몬드","마스터","그랜드마스터","챌린저"];
+
+    // 티어별 이미지 경로 배열
     $accall_img = [
-    "../../image/iron.png",
-    "../../image/bronze.png",
-    "../../image/silver.png",
-    "../../image/gold.png",
-    "../../image/platinum.png",
-    "../../image/emerald.png",
-    "../../image/diamond.png",
-    "../../image/master.png",
-    "../../image/grandmaster.png",
-    "../../image/challenger.png"
-];
+        "../../image/iron.png",
+        "../../image/bronze.png",
+        "../../image/silver.png",
+        "../../image/gold.png",
+        "../../image/platinum.png",
+        "../../image/emerald.png",
+        "../../image/diamond.png",
+        "../../image/master.png",
+        "../../image/grandmaster.png",
+        "../../image/challenger.png"
+    ];
 
-// 티어 결정 로직 (역순 검사)
-for ($i = count($acneed) - 1; $i >= 0; $i--) {
-    if ($AC >= $acneed[$i]) {
-        $calsed = $accall_img[$i];
-        $calledid = $i;
-        break;
+    // $AC 값이 없다면 기본값 0으로 초기화
+    $AC = isset($AC) ? (int)$AC : 0;
+
+    // 티어 결정 로직 (내림차순으로 검사)
+    for ($i = count($acneed) - 1; $i >= 0; $i--) {
+        if ($AC >= $acneed[$i]) {
+            $calsed = $accall_img[$i];  // 이미지 경로 할당
+            $calledid = $i;
+            break;
+        }
     }
-}
 
-// 기본 티어가 없다면 최하위 설정
-if ($calledid == -1) {
-    $calledid = 0;
-    $calsed = $accall_img[0];
-}
-
+    // 만약 $AC가 가장 낮으면 첫번째 이미지 할당
+    if ($calledid == -1) {
+        $calledid = 0;
+        $calsed = $accall_img[0];
+    }
 ?>
+
 
 <style>
     /* 카드 컨테이너 */
@@ -171,65 +181,64 @@ if ($calledid == -1) {
 <div class="ui grid">
     <div class="row">
         <div class="five wide column">
-            <div class="ui card" id="user_card">
-                <div id="avatar_container" style="width:130px; height:130px; border-radius:50%; overflow:hidden; margin: 0 auto;">
-                    <?php 
-                        // 예시 아바타 URL (필요시 수정)
-                        $grav_url = isset($grav_url) ? $grav_url : "https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=500&q=80";
-                    ?>
-                    <img src="<?php echo htmlspecialchars($grav_url); ?>" alt="User Avatar">
-                </div>
+    <div class="ui card" id="user_card">
+        <div id="avatar_container" style="width:130px; height:130px; border-radius:50%; overflow:hidden; margin: 0 auto;">
+            <?php 
+                // 귀여운 강아지 이미지 구글에서 가져온 링크 (예시)
+                $grav_url = "https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=500&q=80";
+            ?>
+            <img src="<?php echo $grav_url; ?>" alt="User Avatar">
+        </div>
 
-                <div class="content">
-                    <div class="header"><?php echo isset($nick) ? htmlspecialchars($nick) : '닉네임 없음'; ?></div>
-                    <div class="meta">
-                        <!-- 학교 및 그룹명 필요시 주석 해제하고 변수 선언 필요 -->
-                        <!-- <a class="group"><?php echo htmlspecialchars($school); ?></a>
-                        <a class="group"><?php echo htmlspecialchars($group_name); ?></a> -->
-                    </div>
-                </div>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>티어</th>
-                            <td>
-                                <img src="<?php echo htmlspecialchars($calsed); ?>" alt="티어 이미지" style="width: 50px; vertical-align: middle;">
-                                <span style="margin-left:10px;"><?php echo htmlspecialchars($accall[$calledid]); ?></span>
-                            </td>
-                            <td>
-                                <?php 
-                                    $nextIndex = $calledid + 1;
-                                    if ($nextIndex < count($accall) && $nextIndex < count($acneed)) {
-                                        $remain = $acneed[$nextIndex] - $AC;
-                                        if ($remain < 0) $remain = 0;
-                                        echo "다음 티어: " . htmlspecialchars($accall[$nextIndex]) . " 남은 문제: " . $remain . " 문제";
-                                    } else {
-                                        echo "최고 티어입니다!";
-                                    }
-                                ?>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="extra content">
-                    <a><i class="check icon"></i>통과한 문제 <?php echo htmlspecialchars($AC); ?> 문제</a>
-                    <a style="float: right;">
-                        <i class="star icon <?php echo (isset($starred) && $starred) ? "active" : ""; ?>" 
-                           title="동일한 이름의 계정으로 hustoj 프로젝트에 별을 추가하면 별이 활성화됩니다"></i>
-                        순위 <?php echo isset($Rank) ? htmlspecialchars($Rank) : '-'; ?>
-                    </a>
-                </div>
-
-                <?php if (isset($email) && $email != "") { ?>
-                    <div class="email-container">
-                        <a href="mailto:<?php echo htmlspecialchars($email); ?>?body=CSPOJ" class="email-link">
-                            <i class="icon large envelope"></i>
-                            <span><?php echo htmlspecialchars($email); ?></span>
-                        </a>
-                    </div>
-                <?php } ?>
+        <div class="content">
+            <div class="header"><?php echo htmlspecialchars($nick); ?></div>
+            <div class="meta">
+                <!-- <a class="group"><?php echo htmlspecialchars($school); ?></a>
+                <a class="group"><?php echo htmlspecialchars($group_name); ?></a> -->
             </div>
         </div>
+        <table>
+            <tbody>
+                <tr>
+                    <th>티어</th>
+                    <td><?php echo htmlspecialchars($calsed); ?></td>
+                    <td>
+                        다음 티어: 
+                        <?php 
+                            $nextIndex = $calledid + 1;
+                            if ($nextIndex < count($accall) && $nextIndex < count($acneed)) {
+                                $remain = $acneed[$nextIndex] - $AC;
+                                if ($remain < 0) $remain = 0;
+                                // 이미지 출력
+                                echo '<img src="' . htmlspecialchars($accall_img[$nextIndex]) . '" alt="' . htmlspecialchars($accall[$nextIndex]) . '" style="width:30px; vertical-align:middle; margin-right:5px;">';
+                                echo htmlspecialchars($accall[$nextIndex]) . " ";
+                                echo "남은 문제: " . $remain . " 문제";
+                            } else {
+                                echo "최고 티어입니다!";
+                            }
+                        ?>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+        <div class="extra content">
+            <a><i class="check icon"></i>통과한 문제 <?php echo htmlspecialchars($AC); ?> 문제</a>
+            <a style="float: right;">
+                <i class="star icon <?php if($starred) echo "active"?>" 
+                   title="동일한 이름의 계정으로 hustoj 프로젝트에 별을 추가하면 별이 활성화됩니다"></i>
+                순위 <?php echo htmlspecialchars($Rank); ?>
+            </a>
+        </div>
+
+        <?php if ($email != "") { ?>
+            <a href="mailto:<?php echo htmlspecialchars($email); ?>?body=CSPOJ" class="email-link">
+                <i class="icon large envelope"></i>
+                <span><?php echo htmlspecialchars($email); ?></span>
+            </a>
+        <?php } ?>
+    </div>
+</div>
 
 
         <div class="eleven wide column">
