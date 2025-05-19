@@ -48,17 +48,11 @@ $hint = $_POST['hint'];
 //$hint = str_replace("</p>", "<br />", $hint); 
 //$hint = str_replace(",", "&#44;", $hint);
 
-
-$description = str_replace("\r\n", "\\n", $description);
-$description = str_replace("\n", "\\n", $description);
-$input = str_replace("\r\n", "\\n", $input);
-$input = str_replace("\n", "\\n", $input);
-$output = str_replace("\r\n", "\\n", $output);
-$output = str_replace("\n", "\\n", $output);
-$hint = str_replace("\r\n", "\\n", $hint);
-$hint = str_replace("\n", "\\n", $hint);
-
-
+$description = htmlspecialchars($description, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$input = htmlspecialchars($input, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$output = htmlspecialchars($output, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$hint = htmlspecialchars($hint, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$exemplary_code = htmlspecialchars($exemplary_code, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
 
 $source = $_POST['source'];
