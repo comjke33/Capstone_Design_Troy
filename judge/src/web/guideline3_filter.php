@@ -76,78 +76,54 @@ function guidelineFilter($text) {
 }
 
 function codeFilter($text) {
-    $lines = preg_split('/\r\n|\r|\n/', $text);  // 윈도우/리눅스 호환 줄바꿈 모두 대응
+    $lines = preg_split('/\r\n|\r|\n/', $text);
 
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
 
-    $collectingCode = false;  // 코드 누적 여부
-    $blockBuffer = "";        // 블록 내용 누적
+    $blockBuffer = "";
+    $insideBlock = false;
 
     foreach ($lines as $line) {
         $line = rtrim($line);
 
-        // `#include` 라인은 무시
-        if (preg_match('/^#include\s+<.*>$/', trim($line))) {
-            continue;  // 해당 라인은 처리하지 않음
+        // 무시할 줄
+        if (preg_match('/^#include\s+<.*>$/', $line) || trim($line) === '' || trim($line) === '}') {
+            continue;
         }
 
-        // `textarea` 부분이 `}` 또는 공백일 경우 무시
-        if (trim($line) === '}' || trim($line) === '') {
-            continue;  // 해당 라인은 처리하지 않음
-        }
-
-
-        // [start] 태그 감지
-        if (preg_match('/\[(\w+)_start\((\d+)\)\]/', $line, $m)) {
-            // 기존에 누적된 텍스트가 있으면 처리
-            if (!empty($blockBuffer)) {
-                // 이전 블록 내용이 있다면, 그것을 하나의 블록으로 처리
+        // [blockN] 태그 (추가 확장)
+        if (preg_match('/^\[block(\d+)\]$/', $line, $m)) {
+            if (trim($blockBuffer) !== '') {
                 $stack[count($stack) - 1]['children'][] = [
                     'type' => 'text',
                     'content' => rtrim($blockBuffer),
                     'depth' => count($stack) - 1
                 ];
-                $blockBuffer = "";  // 초기화
+                $blockBuffer = "";
             }
 
-            // 새 블록 시작
             $block = [
                 'type' => 'block',
-                'tag' => $m[1], // 태그 이름
-                'index' => (int)$m[2], // 태그 번호
+                'tag' => 'block',
+                'index' => (int)$m[1],
                 'depth' => count($stack) - 1,
                 'children' => []
             ];
             $stack[count($stack) - 1]['children'][] = &$block;
             $stack[] = &$block;
+            $insideBlock = true;
             unset($block);
             continue;
         }
 
-        // [end] 태그 처리
-        if (preg_match('/\[(\w+)_end\((\d+)\)\]/', $line, $m)) {
-            // 종료 태그를 만나면, 현재 블록에 누적된 텍스트를 처리하고 pop
-            if (!empty($blockBuffer)) {
-                $stack[count($stack) - 1]['children'][] = [
-                    'type' => 'text',
-                    'content' => rtrim($blockBuffer),
-                    'depth' => count($stack) - 1
-                ];
-                $blockBuffer = "";  // 초기화
-            }
-            array_pop($stack);  // 스택에서 pop
-            continue;
-        }
-
-        // 코드 라인 누적
-        if (trim($line) !== '') {
-            $blockBuffer .= $line . "\n"; // 블록 내용 누적
-        }
+        
+        // 일반 코드 누적
+        $blockBuffer .= $line . "\n";
     }
 
-    // 마지막으로 남은 텍스트가 있으면 처리
-    if (!empty($blockBuffer)) {
+    // 마지막 남은 buffer 처리
+    if (trim($blockBuffer) !== '') {
         $stack[count($stack) - 1]['children'][] = [
             'type' => 'text',
             'content' => rtrim($blockBuffer),
@@ -155,10 +131,8 @@ function codeFilter($text) {
         ];
     }
 
-    // 최종 트리 배열을 평탄화(flatten)해서 반환
     return extractContentsFlat($root['children']);
 }
-
 
 // 트리 형태로 저장된 코드 블록 구조를 1차원(flat) 배열로 변환
 function extractContentsFlat($blocks) { //트리 구조
