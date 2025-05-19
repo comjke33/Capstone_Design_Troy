@@ -141,8 +141,12 @@
         <div class="five wide column">
     <div class="ui card" id="user_card">
         <div id="avatar_container" style="width:130px; height:130px; border-radius:50%; overflow:hidden; margin: 0 auto;">
-        <img src="<?php echo $grav_url; ?>" alt="User Avatar" style="width:100%; height:100%; object-fit: cover; display: block;">
-    </div>
+            <?php 
+                // 귀여운 강아지 이미지 구글에서 가져온 링크 (예시)
+                $grav_url = "https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=500&q=80";
+            ?>
+            <img src="<?php echo $grav_url; ?>" alt="User Avatar">
+        </div>
 
         <div class="content">
             <div class="header"><?php echo htmlspecialchars($nick); ?></div>
