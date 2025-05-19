@@ -143,7 +143,7 @@
         <div id="avatar_container">
             <?php 
                 $default = ""; 
-                $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . urlencode($default) . "&s=500";
+                $grav_url = "https://postfiles.pstatic.net/20140919_246/synergymnc_1411105655784BuCGW_JPEG/%B0%AD2.jpg?type=w2" . md5(strtolower(trim($email))) . "?d=" . urlencode($default) . "&s=500";
                 $qq = stripos($email,"@qq.com");
                 if ($qq > 0) {
                     $qq_user = urlencode(substr($email,0,$qq));
