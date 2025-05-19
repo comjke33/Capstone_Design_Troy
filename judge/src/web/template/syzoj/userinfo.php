@@ -201,7 +201,11 @@
             <tbody>
                 <tr>
                     <th>티어</th>
-                    <td><?php echo htmlspecialchars($calsed); ?></td>
+                    <td>
+                    <img src="<?php echo htmlspecialchars($calsed); ?>" alt="<?php echo htmlspecialchars($accall[$calledid]); ?>" style="width: 50px; vertical-align: middle; margin-right: 8px;">
+                    <?php echo htmlspecialchars($accall[$calledid]); ?>
+                    </td>
+
                     <td>
                         다음 티어: 
                         <?php 
