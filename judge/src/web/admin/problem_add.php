@@ -202,22 +202,17 @@ function phpfm(pid){
 }
 </script>
 <?php
-function removeUnnecessaryTags($text) {
-    // 불필요한 <span> 태그와 빈 태그 제거
-    $pattern = '/&lt;span class=&quot;md auto_select&quot;&gt;(.*?)&lt;\/span&gt;/';
-    $emptySpanPattern = '/&lt;span class=&quot;md auto_select&quot;&gt;\s*&lt;\/span&gt;/';
-
-    // 빈 태그 먼저 제거
-    $text = preg_replace($emptySpanPattern, '', $text);
-    // <span> 태그와 그 안의 내용을 제거
-    $text = preg_replace($pattern, '$1', $text);
-
+function trimSpanTags($text) {
+    // 앞쪽의 <span> 태그 제거
+    $text = preg_replace('/^&lt;span class=&quot;md auto_select&quot;&gt;/', '', $text);
+    // 뒤쪽의 </span> 태그 제거
+    $text = preg_replace('/&lt;\/span&gt;$/', '', $text);
     return $text;
 }
-$description = removeUnnecessaryTags($description);
-$input = removeUnnecessaryTags($input);
-$output = removeUnnecessaryTags($output);
-$hint = removeUnnecessaryTags($hint);
+$description = trimSpanTags($description);
+$input = trimSpanTags($input);
+$output = trimSpanTags($output);
+$hint = trimSpanTags($hint);
 
 $description = htmlspecialchars($description, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 $input = htmlspecialchars($input, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
