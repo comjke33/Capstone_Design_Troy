@@ -119,6 +119,7 @@
       <th><?php echo $MSG_CODE_LENGTH ?></th>
       <th><?php echo $MSG_SUBMIT_TIME ?></th>
       <?php if (!isset($cid)) echo "<th>$MSG_FEEDBACK</th>"; ?>
+      <!-- 이 부분에서 none값이 안 나오게 -->
       <?php if (!isset($cid) && isset($_SESSION[$OJ_NAME.'_'.'administrator'])) echo "<th>$MSG_JUDGER</th>"; ?>
     </tr>
   </thead>
@@ -165,6 +166,20 @@
   var user_id = "<?php echo isset($_SESSION[$OJ_NAME.'_user_id']) && $OJ_FANCY_RESULT ? $_SESSION[$OJ_NAME.'_user_id'] : ''; ?>";
   var fancy_mp3 = "<?php echo isset($_SESSION[$OJ_NAME.'_user_id']) && $OJ_FANCY_RESULT ? $OJ_FANCY_MP3 : ''; ?>";
 </script>
+
+<!-- <script>
+function checkSimilarProblem(submit_id, cell) {
+  fetch(`/api/similar.php?sid=${submit_id}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.similar === true) {
+        cell.innerHTML = `<a class="ui blue button" href="similar.php?sid=${submit_id}">유사문제 추천</a>`;
+      } else {
+        setTimeout(() => checkSimilarProblem(submit_id, cell), 3000); // 3초 후 재시도
+      }
+    });
+}
+</script> -->
 
 <!-- 자동 새로고침 JS 로딩 -->
 <script src="template/<?php echo $OJ_TEMPLATE ?>/auto_refresh.js?v=0.522"></script>

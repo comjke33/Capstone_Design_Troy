@@ -214,6 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+//textarea 입력 줄에 따라 높이 조절
 document.addEventListener("DOMContentLoaded", function () {
     const textareas = document.querySelectorAll(".styled-textarea");
 
