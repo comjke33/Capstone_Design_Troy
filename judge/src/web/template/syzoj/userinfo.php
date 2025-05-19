@@ -139,54 +139,52 @@
 <div class="ui grid">
     <div class="row">
         <div class="five wide column">
-            <div class="ui card" id="user_card">
-                <div id="avatar_container">
-                    <?php 
-                        $default = ""; 
-                        $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . urlencode($default) . "&s=500";
-                        $qq = stripos($email,"@qq.com");
-                        if($qq > 0) {
-                            $qq_user = urlencode(substr($email,0,$qq));
-                            $grav_url = "https://q1.qlogo.cn/g?b=qq&nk=$qq_user&s=5";
-                        }
-                    ?>
-                    <img src="<?php echo $grav_url; ?>" alt="User Avatar">
-                </div>
-
-                <div class="content">
-                    <div class="header"><?php echo htmlspecialchars($nick); ?></div>
-                    <div class="meta">
-                        <a class="group"><?php echo htmlspecialchars($school); ?></a>
-                        <a class="group"><?php echo htmlspecialchars($group_name); ?></a>
-                    </div>
-                </div>
-
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>티어</th>
-                            <td><?php echo htmlspecialchars($calsed); ?></td>
-                            <td>다음 티어: <?php echo htmlspecialchars($accall[$calledid+1]); ?> 남은 문제: <?php echo htmlspecialchars($acneed[$calledid+1] - $AC); ?> 문제</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="extra content">
-                    <a><i class="check icon"></i>통과한 문제 <?php echo htmlspecialchars($AC); ?> 문제</a>
-                    <a><i class="star icon <?php if($starred) echo "active"?>" 
-                        title="동일한 이름의 계정으로 hustoj 프로젝트에 별을 추가하면 별이 활성화됩니다"></i>순위 <?php echo htmlspecialchars($Rank); ?></a>
-                </div>
-
-                <?php if ($email != "") { ?>
-                    <div class="email-container">
-                        <a href="mailto:<?php echo htmlspecialchars($email); ?>?body=CSPOJ">
-                            <i class="icon large envelope"></i>
-                            <span><?php echo htmlspecialchars($email); ?></span>
-                        </a>
-                    </div>
-                <?php } ?>
+    <div class="ui card" id="user_card">
+        <div id="avatar_container">
+            <?php 
+                $default = ""; 
+                $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . urlencode($default) . "&s=500";
+                $qq = stripos($email,"@qq.com");
+                if ($qq > 0) {
+                    $qq_user = urlencode(substr($email,0,$qq));
+                    $grav_url = "https://q1.qlogo.cn/g?b=qq&nk=$qq_user&s=5";
+                }
+            ?>
+            <img src="<?php echo $grav_url; ?>" alt="User Avatar">
+        </div>
+        <div class="content">
+            <div class="header"><?php echo htmlspecialchars($nick); ?></div>
+            <div class="meta">
+                <a class="group"><?php echo htmlspecialchars($school); ?></a>
+                <a class="group"><?php echo htmlspecialchars($group_name); ?></a>
             </div>
         </div>
+        <table>
+            <tbody>
+                <tr>
+                    <th>티어</th>
+                    <td><?php echo htmlspecialchars($calsed); ?></td>
+                    <td>다음 티어: <?php echo htmlspecialchars($accall[$calledid+1]); ?> 남은 문제: <?php echo htmlspecialchars($acneed[$calledid+1]-$AC); ?> 문제</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="extra content">
+            <a><i class="check icon"></i>통과한 문제 <?php echo htmlspecialchars($AC); ?> 문제</a>
+            <a style="float: right;">
+                <i class="star icon <?php if($starred) echo "active"?>" 
+                   title="동일한 이름의 계정으로 hustoj 프로젝트에 별을 추가하면 별이 활성화됩니다"></i>
+                순위 <?php echo htmlspecialchars($Rank); ?>
+            </a>
+        </div>
+
+        <?php if ($email != "") { ?>
+            <a href="mailto:<?php echo htmlspecialchars($email); ?>?body=CSPOJ" class="email-link">
+                <i class="icon large envelope"></i>
+                <span><?php echo htmlspecialchars($email); ?></span>
+            </a>
+        <?php } ?>
+    </div>
+</div>
 
 
         <div class="eleven wide column">
