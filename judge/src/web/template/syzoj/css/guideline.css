@@ -108,11 +108,11 @@
 
 /* 오른쪽 피드백 패널 */
 .right-panel {
-    width: auto;
+    width: 350px;       /* 고정 너비 지정 */
     height: 500px;
     right: 10px;
     position: fixed;
-    flex: 0 0 25%;
+    /* flex: 0 0 25%;  제거 또는 주석 처리 */
     max-width: 350px;
     padding: 20px;
     overflow-y: auto;
@@ -120,6 +120,7 @@
     box-sizing: border-box;
     border-left: 1px solid #ddd;
 }
+
 
 /* 코드 설명 라인 */
 .code-line {
