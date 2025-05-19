@@ -315,47 +315,45 @@ function showFeedback(index) {
     const blockCode = ta ? ta.value.trim() : "";
     const step = urlParams.get("step") || "1";
 
-
-
     const feedbackPanel = document.querySelector('.right-panel');
     feedbackPanel.innerHTML = `
-    <style>
-        .feedback-panel {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: #f9f9f9;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        padding: 16px 20px;
-        color: #333;
-        max-width: 320px;
-        }
-        .feedback-header {
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin-bottom: 12px;
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 8px;
-        color: #0078d4;
-        }
-        .feedback-content p {
-        font-size: 1rem;
-        line-height: 1.4;
-        color: #555;
-        margin: 0;
-        }
-    </style>
+        <style>
+            .feedback-panel {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: #f0f4f8;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                padding: 20px 25px;
+                max-width: 350px;
+                color: #2c3e50;
+                user-select: text;
+            }
+            .feedback-header {
+                font-size: 1.4rem;
+                font-weight: 700;
+                margin-bottom: 15px;
+                border-bottom: 2px solid #3498db;
+                padding-bottom: 8px;
+                color: #2980b9;
+            }
+            .feedback-content p {
+                font-size: 1rem;
+                line-height: 1.5;
+                margin: 8px 0;
+            }
+            .feedback-content strong {
+                color: #34495e;
+            }
+        </style>
 
-    <section class="feedback-panel">
-        <header class="feedback-header">📋 피드백 창</header>
-        <div class="feedback-content">
-        <p>피드백을 가져오는 중입니다...</p>
-        </div>
-    </section>
+        <section class="feedback-panel">
+            <header class="feedback-header">📋 피드백 창</header>
+            <div class="feedback-content">
+                <p>피드백을 가져오는 중입니다...</p>
+            </div>
+        </section>
     `;
-
     feedbackPanel.style.display = 'block';
-
-
 
     fetch("../../ajax/aifeedback_request.php", {
         method: "POST",
@@ -370,15 +368,45 @@ function showFeedback(index) {
     .then(response => response.json())
     .then(data => {
         const feedbackPanel = document.querySelector('.right-panel');
-        // 줄바꿈 처리
         const feedbackContent = data.result.replace(/\n/g, "<br>");
-        
+
         feedbackPanel.innerHTML = `
-            <h2>📋 피드백 창</h2>
-            <div class="feedback-content" style="white-space: pre-line;">
-                <p><strong>${index + 1}번 줄에 대한 피드백:</strong></p>
-                <p>${feedbackContent}</p>
-            </div>
+            <style>
+                .feedback-panel {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    background: #f0f4f8;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    padding: 20px 25px;
+                    max-width: 350px;
+                    color: #2c3e50;
+                    user-select: text;
+                }
+                .feedback-header {
+                    font-size: 1.4rem;
+                    font-weight: 700;
+                    margin-bottom: 15px;
+                    border-bottom: 2px solid #3498db;
+                    padding-bottom: 8px;
+                    color: #2980b9;
+                }
+                .feedback-content p {
+                    font-size: 1rem;
+                    line-height: 1.5;
+                    margin: 8px 0;
+                }
+                .feedback-content strong {
+                    color: #34495e;
+                }
+            </style>
+
+            <section class="feedback-panel">
+                <header class="feedback-header">📋 피드백 창</header>
+                <div class="feedback-content" style="white-space: pre-line;">
+                    <p><strong>${index + 1}번 줄에 대한 피드백:</strong></p>
+                    <p>${feedbackContent}</p>
+                </div>
+            </section>
         `;
         feedbackPanel.style.display = 'block';
     })
@@ -386,13 +414,42 @@ function showFeedback(index) {
         console.error("서버 요청 실패:", err);
         const feedbackPanel = document.querySelector('.right-panel');
         feedbackPanel.innerHTML = `
-            <h2>📋 피드백 창</h2>
-            <div class="feedback-content">
-                <p>서버 요청 오류: ${err.message}</p>
-            </div>
+            <style>
+                .feedback-panel {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    background: #f8d7da;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    padding: 20px 25px;
+                    max-width: 350px;
+                    color: #721c24;
+                    user-select: text;
+                }
+                .feedback-header {
+                    font-size: 1.4rem;
+                    font-weight: 700;
+                    margin-bottom: 15px;
+                    border-bottom: 2px solid #f5c6cb;
+                    padding-bottom: 8px;
+                    color: #a71d2a;
+                }
+                .feedback-content p {
+                    font-size: 1rem;
+                    line-height: 1.5;
+                    margin: 8px 0;
+                }
+            </style>
+
+            <section class="feedback-panel">
+                <header class="feedback-header">⚠️ 오류</header>
+                <div class="feedback-content">
+                    <p>서버 요청 오류: ${err.message}</p>
+                </div>
+            </section>
         `;
     });
 }
+
 
 /*
 function showFeedback(index) {
