@@ -214,6 +214,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const textareas = document.querySelectorAll(".styled-textarea");
+
+    textareas.forEach((ta) => {
+        autoResize(ta); // 초기 렌더링 시 높이 조정
+
+        // 입력할 때마다 높이 자동 조정
+        ta.addEventListener("input", () => autoResize(ta));
+    });
+
+    function autoResize(textarea) {
+        textarea.style.height = "auto"; // 초기화
+        textarea.style.height = textarea.scrollHeight + "px"; // 내용에 따라 높이 설정
+    }
+});
+
 //문제 맞았는지 여부 확인
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
@@ -495,46 +511,26 @@ let animationRunning = false;
 
 //flowchart렌더링 
 function updateImageForTextarea(index, ta) {
+    // 현재 textarea와 관련된 이미지 업데이트
     currentTextarea = ta;
-
+    
+    // 플로우차트 이미지를 가져오기 위한 API 호출
     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
-            // 이미지 컨테이너 확인 또는 생성
-            let container = document.getElementById("flowchart_image_container");
-            if (!container) {
-                container = document.createElement("div");
-                container.id = "flowchart_image_container";
-                // 스타일 직접 추가해도 되고, CSS 파일에 정의해도 됩니다.
-                container.style.cssText = `
-                    max-width: 360px;
-                    margin: 20px auto;
-                    padding: 12px;
-                    border: 1.5px solid #ccc;
-                    border-radius: 10px;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                    background: #fff;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                `;
-
-                document.body.appendChild(container);
-            }
-
-            // 이미지 확인 또는 생성
             let img = document.getElementById("flowchart_image");
+            
+            // 이미지가 없으면 동적으로 추가할 수 있지만, 여기서는 기존 이미지를 사용
             if (!img) {
                 img = document.createElement("img");
                 img.id = "flowchart_image";
-                img.style.maxWidth = "100%";
-                img.style.borderRadius = "8px";
-                container.appendChild(img);
+                document.body.appendChild(img);  // 필요에 따라 이미지 태그를 동적으로 생성
             }
 
-            img.src = data.url;
+            img.src = data.url;  // 서버에서 받은 이미지 URL로 설정
             console.log("서버 디버그 데이터:", data.debug);
 
+            // 애니메이션 시작 (이미지가 부드럽게 따라가게)
             if (!animationRunning) {
                 animationRunning = true;
             }
