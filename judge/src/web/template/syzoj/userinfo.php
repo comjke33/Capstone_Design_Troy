@@ -215,8 +215,11 @@
                                 $remain = $acneed[$nextIndex] - $AC;
                                 if ($remain < 0) $remain = 0;
                                 // 이미지 출력 (크기 30x30 고정)
-                                echo '<img src="' . htmlspecialchars($accall_img[$nextIndex]) . '" alt="' . htmlspecialchars($accall[$nextIndex]) . '" style="width:30px; height:30px; vertical-align:middle; margin-right:5px;">';
-                                echo htmlspecialchars($accall[$nextIndex]) . " ";
+                                echo '<div style="display:inline-block; text-align:center; margin-right:10px;">';
+                                echo '<img src="' . htmlspecialchars($accall_img[$nextIndex]) . '" alt="' . htmlspecialchars($accall[$nextIndex]) . '" style="width:30px; height:30px; display:block; margin: 0 auto;">';
+                                echo '<span>' . htmlspecialchars($accall[$nextIndex]) . '</span>';
+                                echo '</div>';
+
                                 // echo "남은 문제: " . $remain . " 문제";
                             } else {
                                 echo "최고 티어입니다!";
