@@ -20,18 +20,18 @@ $description = $_POST['description'];
 
 //$description = str_replace("<p>", "", $description); 
 //$description = str_replace("</p>", "<br />", $description);
-$description = str_replace(",", "&#44;", $description); 
+//$description = str_replace(",", "&#44;", $description); 
 
 
 $input = $_POST['input'];
 //$input = str_replace("<p>", "", $input); 
 //$input = str_replace("</p>", "<br />", $input); 
-$input = str_replace(",", "&#44;", $input);
+//$input = str_replace(",", "&#44;", $input);
 
 $output = $_POST['output'];
 //$output = str_replace("<p>", "", $output); 
 //$output = str_replace("</p>", "<br />", $output);
-$output = str_replace(",", "&#44;", $output); 
+//$output = str_replace(",", "&#44;", $output); 
 
 $sample_input = $_POST['sample_input'];
 $sample_output = $_POST['sample_output'];
@@ -46,7 +46,9 @@ if ($test_output=="") $test_output="\n";
 $hint = $_POST['hint'];
 //$hint = str_replace("<p>", "", $hint); 
 //$hint = str_replace("</p>", "<br />", $hint); 
-$hint = str_replace(",", "&#44;", $hint);
+//$hint = str_replace(",", "&#44;", $hint);
+
+
 
 $source = $_POST['source'];
 
@@ -199,14 +201,36 @@ function phpfm(pid){
   });
 }
 </script>
+<?php
+function trimSpanTags($text) {
+   // HTML 인코딩된 상태의 태그 제거 (앞쪽)
+   $text = preg_replace('/^(&lt;)?span class=(&quot;)?md auto_select(&quot;)?(&gt;)?/', '', $text);
+   // HTML 인코딩된 상태의 태그 제거 (뒤쪽)
+   $text = preg_replace('/(&lt;\/span&gt;)$/', '', $text);
+   // 일반 상태의 태그 제거 (앞쪽)
+   $text = preg_replace('/^<span class="md auto_select">/', '', $text);
+   // 일반 상태의 태그 제거 (뒤쪽)
+   $text = preg_replace('/<\/span>$/', '', $text);
+   return $text;
+}
+$description = trimSpanTags($description);
+$input = trimSpanTags($input);
+$output = trimSpanTags($output);
+$hint = trimSpanTags($hint);
 
+$description = htmlspecialchars($description, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$input = htmlspecialchars($input, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$output = htmlspecialchars($output, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$hint = htmlspecialchars($hint, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+?>
 <script>
+    
 $.ajax({
     type: "POST",
     url: "../ajax/save_problem_run_python.php",
     dataType: "json",  // JSON으로 응답 받기
     data: {
-      description: <?php echo json_encode(htmlspecialchars_decode($description, ENT_QUOTES)); ?>,
+        description: <?php echo json_encode($description, ENT_QUOTES); ?>,
         exemplary_code: <?php echo json_encode($exemplary_code); ?>,
         problem_id: <?php echo json_encode($pid); ?>,
         output_dir: <?php echo json_encode($output_dir); ?>,

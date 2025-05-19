@@ -35,14 +35,17 @@ include("../../guideline_common.php");
 <div class="main-layout">
     <!-- 좌측 패널 -->
     <div class="left-panel">
-        <img id="flowchart_image">
+        <!-- <img id="flowchart_image"> -->
     </div>
 
 
     <!-- 가운데 패널 -->
     <div class="center-panel">
         <h1>한 줄씩 풀기</h1>
+
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
+        <br>
+        <br>
 
         <?php      
              function render_tree_plain($blocks, &$answer_index = 0) {
@@ -73,8 +76,8 @@ include("../../guideline_common.php");
                     $html .= "<div class='code-line'>{$escaped_line}</div>";
 
                     // textarea
-                    $default_value = $has_correct_answer ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') : "";
-$html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$default_value}</textarea>";
+                    // $default_value = $has_correct_answer ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') : "";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$default_value}</textarea>";
 
 
                     // 버튼 출력

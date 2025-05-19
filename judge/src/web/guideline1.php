@@ -18,7 +18,6 @@ $OJ_CORRECT_ANSWERS = codeFilter($tagged_contents);
 $OJ_SID = "STEP 1";
 
 $index = isset($_GET['index']) ? intval($_GET['index']) : -1;
-// $default_img = "./image/basic.png";
 
 include("template/syzoj/guideline1.php");//렌더링 파일 불러오기
 ?>

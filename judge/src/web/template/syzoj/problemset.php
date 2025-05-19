@@ -127,8 +127,8 @@
              echo "<a style=\"vertical-align: middle; \" href=\"problem.php?id=".$row['problem_id']."\">";
              echo $row['title'];
              echo "</a>";
-             if($row['defunct']=='Y')
-              {echo "<a href=admin/problem_df_change.php?id=".$row['problem_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">".("<span class=\"ui tiny red label\">미공개</span>")."</a>";}
+             if ($row['defunct'] == 'Y' && isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
+              echo "<a href=admin/problem_df_change.php?id=".$row['problem_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">".("<span class=\"ui tiny red label\">미공개</span>")."</a>";}
 
               echo "<div class=\"show_tag_controled\" style=\"float: right; \">";
               //echo "<span class=\"ui header\">";

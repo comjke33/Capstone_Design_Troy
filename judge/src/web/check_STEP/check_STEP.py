@@ -65,6 +65,7 @@ def get_blocks(code_lines):
             current_block.append(line)
             inside_block = True
 
+
         elif is_tag_line(line):
             if current_block:
                 blocks.append(current_block)
@@ -75,8 +76,10 @@ def get_blocks(code_lines):
                 current_block = []
             inside_block = False
 
+
         if inside_block or not is_tag_line(line):
-            current_block.append(line)
+            if line.strip() != "":
+                current_block.append(line)
 
     return includes, blocks, closing_braces, all_blocks, block_indices
 
@@ -189,9 +192,9 @@ def main():
     blocks[block_num] = new_block
     all_blocks[block_indices[block_num][1]] = new_block
 
+
     final_code = ''.join(line for block in all_blocks for line in block)
     final_code = re.sub(r'\[[^\]]*\]', '', final_code)
-    print(final_code)
 
     if validate_code_output_full_io(final_code, test_in_path):
         print("correct")

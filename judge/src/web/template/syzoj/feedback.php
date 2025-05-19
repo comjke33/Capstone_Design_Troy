@@ -28,9 +28,9 @@
                     foreach ($code_lines as $index => $line) {
                         $line_number = $index + 1;
                         if (in_array($line_number, $error_lines)) {
-                            echo '<span style="color: red; font-weight: bold;">' . htmlspecialchars($line_number) . ': ' . htmlspecialchars($line) . "</span>\n";
+                            echo '<span style="color: red; font-weight: bold;">' . htmlspecialchars($line_number) . '   ' . htmlspecialchars($line) . "</span>\n";
                         } else {
-                            echo htmlspecialchars($line_number) . ': ' . htmlspecialchars($line) . "\n";
+                            echo htmlspecialchars($line_number) . '   ' . htmlspecialchars($line) . "\n";
                         }
                     }
                     echo '</pre>';
