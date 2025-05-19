@@ -171,48 +171,65 @@ if ($calledid == -1) {
 <div class="ui grid">
     <div class="row">
         <div class="five wide column">
-    <div class="ui card" id="user_card">
-        <div id="avatar_container" style="width:130px; height:130px; border-radius:50%; overflow:hidden; margin: 0 auto;">
-            <?php 
-                // 귀여운 강아지 이미지 구글에서 가져온 링크 (예시)
-                $grav_url = "https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=500&q=80";
-            ?>
-            <img src="<?php echo $grav_url; ?>" alt="User Avatar">
-        </div>
+            <div class="ui card" id="user_card">
+                <div id="avatar_container" style="width:130px; height:130px; border-radius:50%; overflow:hidden; margin: 0 auto;">
+                    <?php 
+                        // 예시 아바타 URL (필요시 수정)
+                        $grav_url = isset($grav_url) ? $grav_url : "https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=500&q=80";
+                    ?>
+                    <img src="<?php echo htmlspecialchars($grav_url); ?>" alt="User Avatar">
+                </div>
 
-        <div class="content">
-            <div class="header"><?php echo htmlspecialchars($nick); ?></div>
-            <div class="meta">
-                <!-- <a class="group"><?php echo htmlspecialchars($school); ?></a>
-                <a class="group"><?php echo htmlspecialchars($group_name); ?></a> -->
+                <div class="content">
+                    <div class="header"><?php echo isset($nick) ? htmlspecialchars($nick) : '닉네임 없음'; ?></div>
+                    <div class="meta">
+                        <!-- 학교 및 그룹명 필요시 주석 해제하고 변수 선언 필요 -->
+                        <!-- <a class="group"><?php echo htmlspecialchars($school); ?></a>
+                        <a class="group"><?php echo htmlspecialchars($group_name); ?></a> -->
+                    </div>
+                </div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>티어</th>
+                            <td>
+                                <img src="<?php echo htmlspecialchars($calsed); ?>" alt="티어 이미지" style="width: 50px; vertical-align: middle;">
+                                <span style="margin-left:10px;"><?php echo htmlspecialchars($accall[$calledid]); ?></span>
+                            </td>
+                            <td>
+                                <?php 
+                                    $nextIndex = $calledid + 1;
+                                    if ($nextIndex < count($accall) && $nextIndex < count($acneed)) {
+                                        $remain = $acneed[$nextIndex] - $AC;
+                                        if ($remain < 0) $remain = 0;
+                                        echo "다음 티어: " . htmlspecialchars($accall[$nextIndex]) . " 남은 문제: " . $remain . " 문제";
+                                    } else {
+                                        echo "최고 티어입니다!";
+                                    }
+                                ?>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="extra content">
+                    <a><i class="check icon"></i>통과한 문제 <?php echo htmlspecialchars($AC); ?> 문제</a>
+                    <a style="float: right;">
+                        <i class="star icon <?php echo (isset($starred) && $starred) ? "active" : ""; ?>" 
+                           title="동일한 이름의 계정으로 hustoj 프로젝트에 별을 추가하면 별이 활성화됩니다"></i>
+                        순위 <?php echo isset($Rank) ? htmlspecialchars($Rank) : '-'; ?>
+                    </a>
+                </div>
+
+                <?php if (isset($email) && $email != "") { ?>
+                    <div class="email-container">
+                        <a href="mailto:<?php echo htmlspecialchars($email); ?>?body=CSPOJ" class="email-link">
+                            <i class="icon large envelope"></i>
+                            <span><?php echo htmlspecialchars($email); ?></span>
+                        </a>
+                    </div>
+                <?php } ?>
             </div>
         </div>
-        <table>
-            <tbody>
-                <tr>
-                    <th>티어</th>
-                    <td><?php echo htmlspecialchars($calsed); ?></td>
-                    <td>다음 티어: <?php echo htmlspecialchars($accall[$calledid+1]); ?> 남은 문제: <?php echo htmlspecialchars($acneed[$calledid+1]-$AC); ?> 문제</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="extra content">
-            <a><i class="check icon"></i>통과한 문제 <?php echo htmlspecialchars($AC); ?> 문제</a>
-            <a style="float: right;">
-                <i class="star icon <?php if($starred) echo "active"?>" 
-                   title="동일한 이름의 계정으로 hustoj 프로젝트에 별을 추가하면 별이 활성화됩니다"></i>
-                순위 <?php echo htmlspecialchars($Rank); ?>
-            </a>
-        </div>
-
-        <?php if ($email != "") { ?>
-            <a href="mailto:<?php echo htmlspecialchars($email); ?>?body=CSPOJ" class="email-link">
-                <i class="icon large envelope"></i>
-                <span><?php echo htmlspecialchars($email); ?></span>
-            </a>
-        <?php } ?>
-    </div>
-</div>
 
 
         <div class="eleven wide column">
