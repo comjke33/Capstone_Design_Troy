@@ -73,7 +73,8 @@ KindEditor.plugin('insertfile', function(K) {
 				fieldName : filePostName,
 				url : K.addParam(uploadJson, 'dir=file'),
 				extraParams : extraParams,
-				afterUpload : function(data) {
+				afterUpload : function(dataArray) {
+				    for(const data of dataArray){
 					dialog.hideLoading();
 					if (data.error === 0) {
 						var url = data.url;
@@ -88,6 +89,7 @@ KindEditor.plugin('insertfile', function(K) {
 					} else {
 						alert(data.message);
 					}
+				    }
 				},
 				afterError : function(html) {
 					dialog.hideLoading();
@@ -131,6 +133,7 @@ KindEditor.plugin('insertfile', function(K) {
 		self.plugin.fileDialog({
 			clickFn : function(url, title) {
 				var html = '<a class="ke-insertfile" href="' + url + '" data-ke-src="' + url + '" target="_blank">' + title + '</a>';
+				if(url.endsWith('.pdf')) html="<iframe src='"+url+"'  width=\"100%\" height=\"800px\"  ></iframe>";
 				self.insertHtml(html).hideDialog().focus();
 			}
 		});
