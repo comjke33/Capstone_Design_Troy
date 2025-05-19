@@ -319,12 +319,42 @@ function showFeedback(index) {
 
     const feedbackPanel = document.querySelector('.right-panel');
     feedbackPanel.innerHTML = `
-        <h2>📋 피드백 창</h2>
+    <style>
+        .feedback-panel {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 16px 20px;
+        color: #333;
+        max-width: 320px;
+        }
+        .feedback-header {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 8px;
+        color: #0078d4;
+        }
+        .feedback-content p {
+        font-size: 1rem;
+        line-height: 1.4;
+        color: #555;
+        margin: 0;
+        }
+    </style>
+
+    <section class="feedback-panel">
+        <header class="feedback-header">📋 피드백 창</header>
         <div class="feedback-content">
-            <p>피드백을 가져오는 중입니다...</p>
+        <p>피드백을 가져오는 중입니다...</p>
         </div>
+    </section>
     `;
+
     feedbackPanel.style.display = 'block';
+
 
 
     fetch("../../ajax/aifeedback_request.php", {
