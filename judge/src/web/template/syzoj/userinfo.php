@@ -202,8 +202,9 @@
                 <tr>
                     <th>티어</th>
                     <td>
-                    <img src="<?php echo htmlspecialchars($calsed); ?>" alt="<?php echo htmlspecialchars($accall[$calledid]); ?>" style="width: 50px; vertical-align: middle; margin-right: 8px;">
-                    <?php echo htmlspecialchars($accall[$calledid]); ?>
+                        <img src="<?php echo htmlspecialchars($calsed); ?>" alt="<?php echo htmlspecialchars($accall[$calledid]); ?>" 
+                            style="width: 30px; height: 30px; vertical-align: middle; margin-right: 8px;">
+                        <?php echo htmlspecialchars($accall[$calledid]); ?>
                     </td>
 
                     <td>
@@ -213,8 +214,8 @@
                             if ($nextIndex < count($accall) && $nextIndex < count($acneed)) {
                                 $remain = $acneed[$nextIndex] - $AC;
                                 if ($remain < 0) $remain = 0;
-                                // 이미지 출력
-                                echo '<img src="' . htmlspecialchars($accall_img[$nextIndex]) . '" alt="' . htmlspecialchars($accall[$nextIndex]) . '" style="width:30px; vertical-align:middle; margin-right:5px;">';
+                                // 이미지 출력 (크기 30x30 고정)
+                                echo '<img src="' . htmlspecialchars($accall_img[$nextIndex]) . '" alt="' . htmlspecialchars($accall[$nextIndex]) . '" style="width:30px; height:30px; vertical-align:middle; margin-right:5px;">';
                                 echo htmlspecialchars($accall[$nextIndex]) . " ";
                                 echo "남은 문제: " . $remain . " 문제";
                             } else {
