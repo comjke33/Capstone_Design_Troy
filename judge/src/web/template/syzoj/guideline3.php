@@ -43,7 +43,9 @@ include("../../guideline_common.php");
     <div class="center-panel">
         <h1>기능별 풀기</h1>
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
-
+        <br>
+        <br>
+        
         <?php      
                 function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
