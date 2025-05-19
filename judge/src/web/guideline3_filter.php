@@ -1,17 +1,18 @@
 <?php
 function guidelineFilter($text) {
-    $lines = preg_split('/\r\n|\r|\n/', $text);  // 줄바꿈 대응
+    $lines = preg_split('/\r\n|\r|\n/', $text);
 
     $root = ['children' => [], 'depth' => -1];
     $stack = [ &$root ];
     $textBuffer = "";
 
+    $insideBlock = false;
+
     foreach ($lines as $line) {
         $line = rtrim($line);
 
-        // ✅ [block0] 스타일 시작
+        // ✅ [blockN] 스타일 시작
         if (preg_match('/^\[block(\d+)\]$/', $line, $m)) {
-            // 기존 textBuffer 처리
             if (trim($textBuffer) !== '') {
                 $stack[count($stack) - 1]['children'][] = [
                     'type' => 'text',
@@ -29,13 +30,14 @@ function guidelineFilter($text) {
             ];
             $stack[count($stack) - 1]['children'][] = &$block;
             $stack[] = &$block;
+            $insideBlock = true;
             unset($block);
             continue;
         }
 
-        // ✅ 빈 줄 → blockN 블록 종료 처리
+        // ✅ 빈 줄이면 block 종료 + flush buffer
         if ($line === '') {
-            if (trim($textBuffer) !== '') {
+            if ($insideBlock && trim($textBuffer) !== '') {
                 $stack[count($stack) - 1]['children'][] = [
                     'type' => 'text',
                     'content' => rtrim($textBuffer),
@@ -44,18 +46,24 @@ function guidelineFilter($text) {
                 $textBuffer = "";
             }
 
-            // blockN 블록만 스택 pop
-            if (isset($stack[count($stack) - 1]['type']) && $stack[count($stack) - 1]['type'] === 'block') {
+            if ($insideBlock && count($stack) > 1 && $stack[count($stack) - 1]['type'] === 'block') {
                 array_pop($stack);
+                $insideBlock = false;
             }
             continue;
         }
 
-        // ✅ 일반 줄 → 누적
+        // ✅ 일반 줄 → block 내부이면 누적
+        if ($insideBlock) {
+            $textBuffer .= $line . "\n";
+            continue;
+        }
+
+        // ✅ 블록 외부 일반 텍스트도 누적
         $textBuffer .= $line . "\n";
     }
 
-    // 마지막 누적 텍스트 처리
+    // 파일 끝까지 읽은 후 남은 내용 정리
     if (trim($textBuffer) !== '') {
         $stack[count($stack) - 1]['children'][] = [
             'type' => 'text',
