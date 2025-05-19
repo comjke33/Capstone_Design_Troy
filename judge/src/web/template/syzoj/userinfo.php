@@ -159,8 +159,8 @@
         <div class="content">
             <div class="header"><?php echo htmlspecialchars($nick); ?></div>
             <div class="meta">
-                <a class="group"><?php echo htmlspecialchars($school); ?></a>
-                <a class="group"><?php echo htmlspecialchars($group_name); ?></a>
+                <!-- <a class="group"><?php echo htmlspecialchars($school); ?></a>
+                <a class="group"><?php echo htmlspecialchars($group_name); ?></a> -->
             </div>
         </div>
         <table>
