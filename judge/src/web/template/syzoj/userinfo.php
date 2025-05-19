@@ -18,55 +18,157 @@
     }
 ?>
 
+<style>
+    #user_card {
+        width: 100%;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #fff;
+        overflow: hidden;
+    }
+    #avatar_container {
+        position: relative;
+        overflow: hidden;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        margin: 1.5rem auto 1rem auto;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    #avatar_container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    #user_card .content {
+        text-align: center;
+        padding: 0 1.5rem 1rem 1.5rem;
+    }
+    #user_card .header {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #2185d0;
+        margin-bottom: 0.25rem;
+    }
+    #user_card .meta a.group {
+        font-size: 0.9rem;
+        color: #666;
+        margin: 0 0.5rem;
+        display: inline-block;
+    }
+    #user_card table {
+        margin: 0 1rem 1rem 1rem;
+        width: calc(100% - 2rem);
+        border-collapse: separate;
+        border-spacing: 0 8px;
+    }
+    #user_card table th {
+        color: #555;
+        font-weight: 600;
+        text-align: left;
+        padding-right: 1rem;
+        width: 25%;
+        vertical-align: middle;
+    }
+    #user_card table td {
+        color: #333;
+        font-weight: 500;
+        vertical-align: middle;
+    }
+    #user_card .extra.content {
+        border-top: 1px solid #eee;
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.95rem;
+        color: #555;
+    }
+    #user_card .extra.content a {
+        color: #555;
+        cursor: default;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    #user_card .extra.content a i.icon {
+        color: #21ba45;
+    }
+    #user_card .extra.content a .star.icon.active {
+        color: #fbbd08;
+    }
+    #user_card .email-link {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+        color: #2185d0;
+        text-decoration: none;
+    }
+    #user_card .email-link:hover {
+        text-decoration: underline;
+    }
+    #user_card .email-link i.icon {
+        font-size: 1.3rem;
+    }
+</style>
+
 <div class="padding">
 <div class="ui grid">
     <div class="row">
         <div class="five wide column">
-            <div class="ui card" style="width: 100%; " id="user_card">
-                <div class="blurring dimmable image" id="avatar_container">
-                    <?php $default = ""; $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=500"; ?>
-                    <?php  
-                        $qq=stripos($email,"@qq.com");
-                        if($qq>0){
-                             $qq=urlencode(substr($email,0,$qq));
-                             $grav_url="https://q1.qlogo.cn/g?b=qq&nk=$qq&s=5";
-                        };
+            <div class="ui card" id="user_card">
+                <div id="avatar_container">
+                    <?php 
+                        $default = ""; 
+                        $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . urlencode($default) . "&s=500";
+                        $qq = stripos($email,"@qq.com");
+                        if ($qq > 0) {
+                            $qq_user = urlencode(substr($email,0,$qq));
+                            $grav_url = "https://q1.qlogo.cn/g?b=qq&nk=$qq_user&s=5";
+                        }
                     ?>
-
-                    <img src="<?php echo $grav_url; ?>">
+                    <img src="<?php echo $grav_url; ?>" alt="User Avatar">
                 </div>
                 <div class="content">
-                    <div class="header"><?php echo $nick?></div>
+                    <div class="header"><?php echo htmlspecialchars($nick); ?></div>
                     <div class="meta">
-                        <a class="group"><?php echo $school?></a>
-                        <a class="group"><?php echo $group_name?></a>
+                        <a class="group"><?php echo htmlspecialchars($school); ?></a>
+                        <a class="group"><?php echo htmlspecialchars($group_name); ?></a>
                     </div>
                 </div>
-                <table class="table table-hover" style="width:100%">
-                <tbody>
-                    <tr>
-                        <th width=20%>티어</th>
-                        <td width=20%><?php echo $calsed;?></td>
-                        <td width=55%>다음 티어: <?php echo $accall[$calledid+1];?> 남은 문제: <?php echo $acneed[$calledid+1]-$AC;?> 문제</td>
-                    </tr>
-                </tbody>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>티어</th>
+                            <td><?php echo htmlspecialchars($calsed); ?></td>
+                            <td>다음 티어: <?php echo htmlspecialchars($accall[$calledid+1]); ?> 남은 문제: <?php echo htmlspecialchars($acneed[$calledid+1]-$AC); ?> 문제</td>
+                        </tr>
+                    </tbody>
                 </table>
                 <div class="extra content">
-                    <a><i class="check icon"></i>통과한 문제 <?php echo $AC ?> 문제</a>
-                    <a style="float: right;"><i class="star icon <?php if($starred) echo "active"?>" 
-                        title='동일한 이름의 계정으로 hustoj 프로젝트에 별을 추가하면 별이 활성화됩니다'></i>순위 <?php echo $Rank ?></a> <!-- ✅ 변경됨 -->
-                    
-                    <?php if ($email != "") { ?>
-                        <div style="margin-top:10px;margin-bottom:10px">
-                            <a href="mailto:<?php echo "Hello" ?>?body=CSPOJ">
-                                <i class="icon large envelope"></i>
-                                <span style="display:inline-block; vertical-align:middle"><?php echo $email?></span>
-                            </a>
-                        </div>
-                    <?php } ?>
+                    <a><i class="check icon"></i>통과한 문제 <?php echo htmlspecialchars($AC); ?> 문제</a>
+                    <a style="float: right;">
+                        <i class="star icon <?php if($starred) echo "active"?>" 
+                        title="동일한 이름의 계정으로 hustoj 프로젝트에 별을 추가하면 별이 활성화됩니다"></i>
+                        순위 <?php echo htmlspecialchars($Rank); ?>
+                    </a>
                 </div>
+
+                <?php if ($email != "") { ?>
+                    <a href="mailto:<?php echo htmlspecialchars($email); ?>?body=CSPOJ" class="email-link">
+                        <i class="icon large envelope"></i>
+                        <span><?php echo htmlspecialchars($email); ?></span>
+                    </a>
+                <?php } ?>
             </div>
         </div>
+
+
         <div class="eleven wide column">
             <div class="ui grid" style="padding-left: 20px;">
                 <div class="row">
