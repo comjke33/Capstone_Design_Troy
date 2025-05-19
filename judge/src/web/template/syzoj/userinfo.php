@@ -142,6 +142,11 @@
     <div class="ui card" id="user_card">
         <div id="avatar_container">
             <?php 
+                // 귀여운 강아지 이미지 구글에서 가져온 링크 (예시)
+                $grav_url = "https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=500&q=80";
+
+                // 기존 이메일 기반 로직 삭제 또는 주석 처리해도 무방
+                /*
                 $default = ""; 
                 $grav_url = "https://postfiles.pstatic.net/20140919_246/synergymnc_1411105655784BuCGW_JPEG/%B0%AD2.jpg?type=w2" . md5(strtolower(trim($email))) . "?d=" . urlencode($default) . "&s=500";
                 $qq = stripos($email,"@qq.com");
@@ -149,9 +154,11 @@
                     $qq_user = urlencode(substr($email,0,$qq));
                     $grav_url = "https://q1.qlogo.cn/g?b=qq&nk=$qq_user&s=5";
                 }
+                */
             ?>
             <img src="<?php echo $grav_url; ?>" alt="User Avatar">
         </div>
+
         <div class="content">
             <div class="header"><?php echo htmlspecialchars($nick); ?></div>
             <div class="meta">
