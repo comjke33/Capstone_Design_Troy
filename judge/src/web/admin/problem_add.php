@@ -203,11 +203,15 @@ function phpfm(pid){
 </script>
 <?php
 function trimSpanTags($text) {
-    
-    // 일반 상태의 태그 제거
-    $text = preg_replace('/^<span class="md auto_select">/', '', $text);
-    $text = preg_replace('/^</span>/', '', $text);
-    return $text;
+   // HTML 인코딩된 상태의 태그 제거 (앞쪽)
+   $text = preg_replace('/^(&lt;)?span class=(&quot;)?md auto_select(&quot;)?(&gt;)?/', '', $text);
+   // HTML 인코딩된 상태의 태그 제거 (뒤쪽)
+   $text = preg_replace('/(&lt;\/span&gt;)$/', '', $text);
+   // 일반 상태의 태그 제거 (앞쪽)
+   $text = preg_replace('/^<span class="md auto_select">/', '', $text);
+   // 일반 상태의 태그 제거 (뒤쪽)
+   $text = preg_replace('/<\/span>$/', '', $text);
+   return $text;
 }
 $description = trimSpanTags($description);
 $input = trimSpanTags($input);
