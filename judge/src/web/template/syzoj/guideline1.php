@@ -419,10 +419,17 @@ function showFeedback(index) {
 
             <section class="feedback-panel">
                 <header class="feedback-header">📋 피드백 창</header>
-                <div class="feedback-content" style="white-space: pre-line;">
-                    <p><strong>${index + 1}번 줄에 대한 피드백:</strong></p>
-                    <p>${feedbackContent}</p>
+                <div class="feedback-content">
+            <div class="feedback-block">
+                    <strong>${index + 1}번 줄에 대한 피드백:</strong>
                 </div>
+                ${feedbackContent.split("<br><br>").map(paragraph => `
+                    <div class="feedback-block">
+                        ${paragraph}
+                    </div>
+                `).join("")}
+            </div>
+
             </section>
         `;
         feedbackPanel.style.display = 'block';
