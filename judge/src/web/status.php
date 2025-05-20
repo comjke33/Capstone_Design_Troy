@@ -519,7 +519,7 @@ for ($i=0; $i<$rows_cnt; $i++) {
     $sid = urlencode($row['solution_id']);
     $pid = urlencode($row['problem_id']);
       if ($row['result'] != 4) {  // Accepted가 아닌 경우
-          $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}&problem_id={$pid}\" class=\"ui orange mini button\">피드백 보기</a>";
+          $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}&problem_id={$pid}\" class=\"ui orange mini button\">문법 오류 확인</a>";
       } else { // Accepted인 경우
           $view_status[$i][10] = "
           <button class='toggle-similar ui blue mini button' data-sid='{$sid}'>유사문제 추천</button>
