@@ -3,6 +3,10 @@
 $rawData = file_get_contents("php://input");
 $data = json_decode($rawData, true);
 $answer = $data["answer"] ?? "";
+// 문자열이 아닐 경우 방지용 처리
+if (!is_string($answer)) {
+    $answer = json_encode($answer); // 배열이면 문자열로 변환
+}
 $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";
