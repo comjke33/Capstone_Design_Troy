@@ -3,7 +3,7 @@ import sys
 import re
 import json
 
-BASE_URL = "http://192.168.0.85/reference.php"
+BASE_URL = "https://ese.troy-oj.cloud:10957/reference.php"
 
 CONCEPT_LINKS = {
     # 변수 선언
