@@ -384,49 +384,50 @@ function showFeedback(index) {
     })
     .then(response => response.json())
     .then(data => {
-        const feedbackPanel = document.querySelector('.right-panel');
+    const feedbackPanel = document.querySelector('.right-panel');
 
-        let feedbackText = data.result;
+    let feedbackText = data.result;
 
-        // 문장이 끝난 후 줄바꿈 추가
-        feedbackText = feedbackText.replace(/([.?!])\s*/g, "$1<br>");
-        
-        const feedbackContent = data.result.replace(/\n/g, "<br>");
+    // 문장이 끝난 후 줄바꿈 추가
+    feedbackText = feedbackText.replace(/([.?!])\s*/g, "$1<br>");
 
-        feedbackPanel.innerHTML = `
-            <style>
-                .feedback-panel {
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    background: #f0f4f8;
-                    border-radius: 10px;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                    padding: 20px 25px;
-                    max-width: 350px;
-                    color: #2c3e50;
-                    user-select: text;
-                }
-                .feedback-header {
-                    font-size: 1.4rem;
-                    font-weight: 700;
-                    margin-bottom: 15px;
-                    border-bottom: 2px solid #3498db;
-                    padding-bottom: 8px;
-                    color: #2980b9;
-                }
-                .feedback-content p {
-                    font-size: 1rem;
-                    line-height: 1.5;
-                    margin: 8px 0;
-                }
-                .feedback-content strong {
-                    color: #34495e;
-                }
-            </style>
+    // 피드백 텍스트를 줄바꿈 기준으로 분할
+    const feedbackContent = feedbackText;
 
-            <section class="feedback-panel">
-                <header class="feedback-header">📋 피드백 창</header>
-                <div class="feedback-content">
-            <div class="feedback-block">
+    feedbackPanel.innerHTML = `
+        <style>
+            .feedback-panel {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: #f0f4f8;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                padding: 20px 25px;
+                max-width: 350px;
+                color: #2c3e50;
+                user-select: text;
+            }
+            .feedback-header {
+                font-size: 1.4rem;
+                font-weight: 700;
+                margin-bottom: 15px;
+                border-bottom: 2px solid #3498db;
+                padding-bottom: 8px;
+                color: #2980b9;
+            }
+            .feedback-content p {
+                font-size: 1rem;
+                line-height: 1.5;
+                margin: 8px 0;
+            }
+            .feedback-content strong {
+                color: #34495e;
+            }
+        </style>
+
+        <section class="feedback-panel">
+            <header class="feedback-header">📋 피드백 창</header>
+            <div class="feedback-content">
+                <div class="feedback-block">
                     <strong>${index + 1}번 줄에 대한 피드백:</strong>
                 </div>
                 ${feedbackContent.split("<br><br>").map(paragraph => `
@@ -435,11 +436,12 @@ function showFeedback(index) {
                     </div>
                 `).join("")}
             </div>
+        </section>
+    `;
+    feedbackPanel.style.display = 'block';
+})
 
-            </section>
-        `;
-        feedbackPanel.style.display = 'block';
-    })
+
     .catch(err => {
         console.error("서버 요청 실패:", err);
         const feedbackPanel = document.querySelector('.right-panel');
@@ -480,39 +482,6 @@ function showFeedback(index) {
     });
 }
 
-
-/*
-function showFeedback(index) {
-    const feedbackContent = getFeedbackContent(index);
-
-    // 오른쪽 패널에 피드백 표시
-    const feedbackPanel = document.querySelector('.right-panel');
-    
-    // 피드백 내용을 채워 넣기
-    feedbackPanel.innerHTML = `
-        <h2>📋 피드백 창</h2>
-        <div class="feedback-content">
-            <p><strong>${index + 1}번 줄에 대한 피드백:</strong></p>
-            <p>${feedbackContent}</p>
-        </div>
-    `;
-
-    // 숨겨진 패널을 보이게 하기
-    feedbackPanel.style.display = 'block';
-}
-
-// 테스트용 피드백 내용 (실제로는 문제 데이터에 따라 변경 가능)
-function getFeedbackContent(index) {
-    const feedbacks = [
-        "변수 선언 방식이 잘못되었습니다. var 대신 let을 사용해 보세요.",
-        "조건문이 항상 참입니다. 논리를 다시 확인해 보세요.",
-        "함수 호출 순서를 잘못 이해하신 것 같습니다.",
-        "루프 탈출 조건이 없어서 무한 루프가 발생할 수 있습니다."
-    ];
-    return feedbacks[index] || "피드백이 아직 준비되지 않았습니다.";
-}
-//===============================================================================================
-*/
 
 //화면 크기 재조절
 function autoResize(ta) {
