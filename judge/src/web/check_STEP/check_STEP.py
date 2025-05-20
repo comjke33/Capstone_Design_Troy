@@ -194,7 +194,11 @@ def main():
 
 
     final_code = ''.join(line for block in all_blocks for line in block)
-    final_code = re.sub(r'\[[^\]]*\]', '', final_code)
+    final_code = re.sub(
+    r'\[(func_def_start|func_def_end|rep_start|rep_end|cond_start|cond_end|self_start|self_end|main_def_start|main_def_end)\(\d+\)\]',
+    '',
+    final_code
+)
 
     if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
