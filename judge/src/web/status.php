@@ -513,6 +513,9 @@ for ($i=0; $i<$rows_cnt; $i++) {
   else
     $view_status[$i][8]= $row['in_date'];
 
+    $sid = urlencode($row['solution_id']);
+    $pid = urlencode($row['problem_id']);
+    
     // 예시로, 특정 user_id만 버튼을 보이게 하려면 
     if (!isset($cid) && in_array($_SESSION[$OJ_NAME . '_' . 'user_id'], $allowed_user_id)) { 
         // 대회 문제가 아닌 경우 또는 allowed_user_id에 포함되는 경우에만 버튼 출력
