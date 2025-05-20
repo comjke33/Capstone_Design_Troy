@@ -109,7 +109,7 @@
           $tcolor=0;
           $i=0;
           foreach ($result as $row){
-		echo "<tr>";
+		        echo "<tr>";
             if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
 
               if (isset($sub_arr[$row['problem_id']])){
@@ -127,7 +127,7 @@
              echo "<a style=\"vertical-align: middle; \" href=\"problem.php?id=".$row['problem_id']."\">";
              echo $row['title'];
              echo "</a>";
-             if ($row['defunct'] == 'Y' ) {
+             if ($row['defunct'] == 'Y' && isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {
               echo "<a href=admin/problem_df_change.php?id=".$row['problem_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">".("<span class=\"ui tiny red label\">미공개</span>")."</a>";}
 
               echo "<div class=\"show_tag_controled\" style=\"float: right; \">";
@@ -139,17 +139,15 @@
           echo "<td><a href=\"status.php?problem_id=".$row['problem_id']."&jresult=4\">".$row['accepted']."/".$row['submit']."</a></td>";
            // echo "<td><a href='status.php?problem_id=".$row['problem_id']."'>".$row['submit']."</a></td>";
             if ($row['submit'] == 0) {
-    echo '<td><div class="progress" style="margin-bottom:-20px; "><div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;">0.000%</div></div></td>';
-} else {
-    $percentage = round(100 * $row['accepted'] / $row['submit'], 3);
-    echo '<td><div class="progress" style="margin-bottom:-20px;"><div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="'.$percentage.'" aria-valuemin="0" aria-valuemax="100" style="width:'.$percentage.'%;">'.$percentage.'%</div></div></td>';
-}
+                echo '<td><div class="progress" style="margin-bottom:-20px; "><div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;">0.000%</div></div></td>';
+            } else {
+                $percentage = round(100 * $row['accepted'] / $row['submit'], 3);
+                echo '<td><div class="progress" style="margin-bottom:-20px;"><div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="'.$percentage.'" aria-valuemin="0" aria-valuemax="100" style="width:'.$percentage.'%;">'.$percentage.'%</div></div></td>';
+            }
             echo  "</tr>";
             $i++;
           }
         ?>
-
-
 
     </tbody>
   </table><br>
