@@ -514,25 +514,27 @@ for ($i=0; $i<$rows_cnt; $i++) {
     $view_status[$i][8]= $row['in_date'];
 
     // 예시로, 특정 user_id만 버튼을 보이게 하려면 
-    if (!isset($cid) && in_array($_SESSION[$OJ_NAME.'_'.'user_id'], $allowed_user_id)) { 
+    if (!isset($cid) && in_array($_SESSION[$OJ_NAME . '_user_id'], $allowed_user_id)) {
     $sid = urlencode($row['solution_id']);
     $pid = urlencode($row['problem_id']);
-    
+
     $result = $row['result'];
-    
+
     if ($result == 4) {  // Accepted
         $view_status[$i][10] = "
         <button class='toggle-similar ui blue mini button' data-sid='{$sid}'>유사문제 추천</button>
         <div id='similar-{$sid}' class='similar-box' style='display:none; margin-top:5px;'></div>
         ";
-    } elseif ($result < 4) {  // 아직 채점 중이거나 Pending, Running, etc.
-        $view_status[$i][10] = "<span class='ui grey text'>채점 중...</span>";
-    } else {  // 채점 완료지만 Accepted는 아님
+    } elseif (in_array($result, [5, 6, 7, 8, 9, 10, 11])) {
+        // 5~11은 주로 오답, 런타임 에러, 컴파일 에러 등 오류 상황
         $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}&problem_id={$pid}\" class=\"ui orange mini button\">문법 오류 확인</a>";
-    }
     } else {
+        // 기타 상태 (예: Pending, Judging 등 아직 확정적이지 않다면 - 표시 또는 생략 가능)
         $view_status[$i][10] = "-";
     }
+} else {
+    $view_status[$i][10] = "-";
+}
 
   
 }
