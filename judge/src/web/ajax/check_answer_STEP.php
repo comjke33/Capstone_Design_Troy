@@ -1,6 +1,7 @@
 <?php
 // JSON 데이터 수신
-$data = json_decode(file_get_contents("php://input"), true);
+$rawData = file_get_contents("php://input");
+$data = json_decode($rawData, true);
 $answer = $data["answer"] ?? "";
 $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
