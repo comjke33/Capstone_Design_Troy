@@ -123,7 +123,6 @@ def validate_code_output_full_io(code_lines, test_in_path):
             full_input = fin.read()
         with open(out_path, 'r') as fout:
             expected_output = fout.read().strip()
-        full_input = full_input if full_input.endswith('\n') else full_input + '\n'
         print(full_input)
 
         try:
@@ -145,9 +144,9 @@ def validate_code_output_full_io(code_lines, test_in_path):
         except subprocess.TimeoutExpired:
             print("[❌] 실행 시간 초과")
             return False
-        finally:
-            if os.path.exists(exe_name):
-                os.remove(exe_name)
+        # finally:
+        #     if os.path.exists(exe_name):
+        #         os.remove(exe_name)
 
     return True
 
