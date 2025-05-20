@@ -385,6 +385,12 @@ function showFeedback(index) {
     .then(response => response.json())
     .then(data => {
         const feedbackPanel = document.querySelector('.right-panel');
+
+        let feedbackText = data.result;
+
+        // 문장이 끝난 후 줄바꿈 추가
+        feedbackText = feedbackText.replace(/([.?!])\s*/g, "$1<br>");
+        
         const feedbackContent = data.result.replace(/\n/g, "<br>");
 
         feedbackPanel.innerHTML = `
