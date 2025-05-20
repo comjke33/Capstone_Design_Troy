@@ -518,16 +518,24 @@ for ($i=0; $i<$rows_cnt; $i++) {
     // 대회 문제가 아닌 경우 또는 allowed_user_id에 포함되는 경우에만 버튼 출력
     $sid = urlencode($row['solution_id']);
     $pid = urlencode($row['problem_id']);
-      if ($row['result'] != 4) {  // Accepted가 아닌 경우
-          $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}&problem_id={$pid}\" class=\"ui orange mini button\">문법 오류 확인</a>";
-      } else { // Accepted인 경우
-          $view_status[$i][10] = "
-          <button class='toggle-similar ui blue mini button' data-sid='{$sid}'>유사문제 추천</button>
-          <div id='similar-{$sid}' class='similar-box' style='display:none; margin-top:5px;'></div>
-          ";
-      }
+    $result = $row['result'];
+    
+
+    if (!isset($cid) && in_array($_SESSION[$OJ_NAME.'_'.'user_id'], $allowed_user_id)) {
+        if ($result < 4) {  // 채점 중: Waiting, Judging, Compiling 등
+            $view_status[$i][10] = "<span id='judge-status-{$sid}'>채점 중...</span>";
+            // 2초마다 자동 새로고침
+            echo "<script>setTimeout(function(){ location.reload(); }, 2000);</script>";
+        } elseif ($result == 4) {  // Accepted
+            $view_status[$i][10] = "
+            <button class='toggle-similar ui blue mini button' data-sid='{$sid}'>유사문제 추천</button>
+            <div id='similar-{$sid}' class='similar-box' style='display:none; margin-top:5px;'></div>
+            ";
+        } else {  // 틀렸거나 컴파일 에러, 런타임 에러 등
+            $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}&problem_id={$pid}\" class=\"ui orange mini button\">문법 오류 확인</a>";
+        }
     } else {
-        $view_status[$i][10] = "-"; // 대회 문제인 경우 출력 안 함
+        $view_status[$i][10] = "-";
     }
   
 }
