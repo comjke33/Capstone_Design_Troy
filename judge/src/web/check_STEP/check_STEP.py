@@ -123,6 +123,7 @@ def validate_code_output_full_io(code_lines, test_in_path):
             full_input = fin.read()
         with open(out_path, 'r') as fout:
             expected_output = fout.read().strip()
+        print(full_input)
 
         try:
             result = subprocess.run(
