@@ -94,6 +94,7 @@ def validate_code_output_full_io(code_lines, test_in_path):
         temp_file.write(''.join(code_lines))
         temp_file.flush()
         temp_c_path = temp_file.name
+    print(repr(code_lines))
 
     try:
         env = os.environ.copy()
@@ -198,7 +199,6 @@ def main():
 
     final_code = ''.join(line for block in all_blocks for line in block)
     final_code = re.sub(r'\[[^\]]*\]', '', final_code)
-    print(final_code)
 
     if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
