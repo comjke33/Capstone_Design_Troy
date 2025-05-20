@@ -117,7 +117,7 @@
 	$MSG_SCHOOL="소속/학교";
     $MSG_GROUP_NAME="그룹";
 	$MSG_EMAIL="E-mail";
-	$MSG_REG_INFO="등록정보";
+	$MSG_REG_INFO="회원가입입";
 	$MSG_VCODE="확인코드";
     $MSG_ACTIVE_YOUR_ACCOUNT="계정 활성화";
     $MSG_CLICK_COPY="링크 복사";
