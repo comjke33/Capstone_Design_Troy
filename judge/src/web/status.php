@@ -519,17 +519,17 @@ for ($i=0; $i<$rows_cnt; $i++) {
     $sid = urlencode($row['solution_id']);
     $pid = urlencode($row['problem_id']);
     
-      if ($result < 4) {
-    // 채점 중이면 빈 div에 ID만 부여
-    $view_status[$i][10] = "<div id='judge-status-{$sid}'>채점 중...</div>";
-    } elseif ($result == 4) {
-        $view_status[$i][10] = "
-        <button class='toggle-similar ui blue mini button' data-sid='{$sid}'>유사문제 추천</button>
-        <div id='similar-{$sid}' class='similar-box' style='display:none; margin-top:5px;'></div>";
+      if ($row['result'] != 4) {  // Accepted가 아닌 경우
+          $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}&problem_id={$pid}\" class=\"ui orange mini button\">문법 오류 확인</a>";
+      } else { // Accepted인 경우
+          $view_status[$i][10] = "
+          <button class='toggle-similar ui blue mini button' data-sid='{$sid}'>유사문제 추천</button>
+          <div id='similar-{$sid}' class='similar-box' style='display:none; margin-top:5px;'></div>
+          ";
+      }
     } else {
-        $view_status[$i][10] = "<a target='_self' href='feedback.php?solution_id={$sid}&problem_id={$pid}' class='ui orange mini button'>문법 오류 확인</a>";
+        $view_status[$i][10] = "-"; // 대회 문제인 경우 출력 안 함
     }
-
   
 }
 if($total_count>0) $avg_delay/= $total_count;
@@ -582,30 +582,4 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 });
-
-function checkResult(sid, pid) {
-    fetch(`check_result.php?sid=${sid}`)
-        .then(res => res.json())
-        .then(data => {
-            const container = document.getElementById('judge-status-' + sid);
-            if (data.result == 4) {
-                container.innerHTML = `
-                    <button class='toggle-similar ui blue mini button' data-sid='${sid}'>유사문제 추천</button>
-                    <div id='similar-${sid}' class='similar-box' style='display:none; margin-top:5px;'></div>
-                `;
-            } else if (data.result > 4) {
-                container.innerHTML = `<a target='_self' href='feedback.php?solution_id=${sid}&problem_id=${pid}' class='ui orange mini button'>문법 오류 확인</a>`;
-            }
-        });
-}
-
-setInterval(() => {
-    // 채점 중인 solution_id 리스트를 반복 확인
-    let checking = document.querySelectorAll("[id^='judge-status-']");
-    checking.forEach(el => {
-        let sid = el.id.replace('judge-status-', '');
-        let pid = el.getAttribute('data-pid'); // 필요 시 pid도 넘기기
-        checkResult(sid, pid);
-    });
-}, 2000); // 2초마다 확인
 </script>
