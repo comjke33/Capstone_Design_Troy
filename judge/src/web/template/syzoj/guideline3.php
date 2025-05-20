@@ -40,7 +40,7 @@ include("../../guideline_common.php");
 
     <!-- 가운데 패널 -->
     <div class="center-panel">
-        <h1>한 블록씩 풀기</h1>
+        <h1>한 블럭씩 풀기</h1>
 
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
         <br>
@@ -324,6 +324,7 @@ function showAnswer(index) {
     answerArea.style.display = 'block';
 }
 
+
 function showFeedback(index) {
     const urlParams = new URLSearchParams(window.location.search);
     const problemId = urlParams.get("problem_id") || "0";
@@ -444,44 +445,118 @@ function showFeedback(index) {
     feedbackPanel.style.display = 'block';
 })
 
-/*
-function showFeedback(index) {
-    const feedbackContent = getFeedbackContent(index);
 
-    // 오른쪽 패널에 피드백 표시
-    const feedbackPanel = document.querySelector('.right-panel');
-    
-    // 피드백 내용을 채워 넣기
-    feedbackPanel.innerHTML = `
-        <h2>📋 피드백 창</h2>
-        <div class="feedback-content">
-            <p><strong>${index + 1}번 줄에 대한 피드백:</strong></p>
-            <p>${feedbackContent}</p>
-        </div>
-    `;
+    .catch(err => {
+        console.error("서버 요청 실패:", err);
+        const feedbackPanel = document.querySelector('.right-panel');
+        feedbackPanel.innerHTML = `
+            <style>
+                .feedback-panel {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    background: #f8d7da;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    padding: 20px 25px;
+                    max-width: 350px;
+                    color: #721c24;
+                    user-select: text;
+                }
+                .feedback-header {
+                    font-size: 1.4rem;
+                    font-weight: 700;
+                    margin-bottom: 15px;
+                    border-bottom: 2px solid #f5c6cb;
+                    padding-bottom: 8px;
+                    color: #a71d2a;
+                }
+                .feedback-content p {
+                    font-size: 1rem;
+                    line-height: 1.5;
+                    margin: 8px 0;
+                }
+            </style>
 
-    // 숨겨진 패널을 보이게 하기
-    feedbackPanel.style.display = 'block';
+            <section class="feedback-panel">
+                <header class="feedback-header">⚠️ 오류</header>
+                <div class="feedback-content">
+                    <p>서버 요청 오류: ${err.message}</p>
+                </div>
+            </section>
+        `;
+    });
 }
 
-// 테스트용 피드백 내용 (실제로는 문제 데이터에 따라 변경 가능)
-function getFeedbackContent(index) {
-    const feedbacks = [
-        "변수 선언 방식이 잘못되었습니다. var 대신 let을 사용해 보세요.",
-        "조건문이 항상 참입니다. 논리를 다시 확인해 보세요.",
-        "함수 호출 순서를 잘못 이해하신 것 같습니다.",
-        "루프 탈출 조건이 없어서 무한 루프가 발생할 수 있습니다."
-    ];
-    return feedbacks[index] || "피드백이 아직 준비되지 않았습니다.";
-}
-//===============================================================================================
-*/
 
 //화면 크기 재조절
 function autoResize(ta) {
     ta.style.height = 'auto';
     ta.style.height = ta.scrollHeight + 'px';
 }
+
+let currentTextarea = null;
+let animationRunning = false;
+
+// //flowchart렌더링 
+// function updateImageForTextarea(index, ta) {
+//     // 현재 textarea와 관련된 이미지 업데이트
+//     currentTextarea = ta;
+    
+//     // 플로우차트 이미지를 가져오기 위한 API 호출
+//     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
+//         .then(res => res.json())
+//         .then(data => {
+//             let img = document.getElementById("flowchart_image");
+            
+//             // 이미지가 없으면 동적으로 추가할 수 있지만, 여기서는 기존 이미지를 사용
+//             if (!img) {
+//                 img = document.createElement("img");
+//                 img.id = "flowchart_image";
+//                 document.body.appendChild(img);  // 필요에 따라 이미지 태그를 동적으로 생성
+//             }
+
+//             img.src = data.url;  // 서버에서 받은 이미지 URL로 설정
+//             console.log("서버 디버그 데이터:", data.debug);
+
+//             // 애니메이션 시작 (이미지가 부드럽게 따라가게)
+//             if (!animationRunning) {
+//                 animationRunning = true;
+//             }
+//         });
+// }
+
+
+// //줄번호에 맞춰서 이미지 fetch(일단 보류)
+// function fetchImageByLineNumber(lineNumber) {
+//     const problemId = <?= json_encode($problem_id) ?>;
+//     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${lineNumber}`)
+//         .then(response => response.json())
+//         .then(data => {
+//             let img = document.getElementById("flowchart_image");
+//             if (data.url) {
+//                 // 이미지가 존재할 때만 보여주기
+//                 img.src = data.url;
+//                 img.style.display = "block";
+
+//                 console.log("이미지 업데이트:", data.url);
+
+//                 if (!animationRunning) {
+//                     animationRunning = true;
+//                 }
+//             } else {
+//                 // 이미지 없을 때 숨기기
+//                 img.style.display = "none";
+//                 console.log("이미지 없음. 숨김 처리됨.");
+//             }
+//         })
+//         .catch(error => console.error('Error:', error));
+// }
+
+// // textarea 클릭 시 이미지 로드
+// document.addEventListener("DOMContentLoaded", function () {
+//     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
+//     ta.addEventListener("focus", () => fetchImageByLineNumber(idx)); // +1로 라인번호 맞추기
+//     });
+// });
 
 </script>
 
