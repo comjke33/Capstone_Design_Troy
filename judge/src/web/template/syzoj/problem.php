@@ -104,9 +104,9 @@ if(file_exists($solution_file)){
         echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$problem_real_id&cid=$cid\">$MSG_SUBMIT_RECORD</a>";
       }
 
-      if (isset($OJ_DATA, $id) && !file_exists($OJ_DATA . "/$id/solution.name")) {
-        echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
-      }
+      // if (isset($OJ_DATA, $id) && !file_exists($OJ_DATA . "/$id/solution.name")) {
+      //   echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
+      // }
 
       //단계별 풀기 상단
       if (!isset($cid) && in_array($_SESSION[$OJ_NAME.'_'.'user_id'], $allowed_user_id)) {
@@ -250,7 +250,7 @@ if(file_exists($solution_file)){
               echo "<a id='submit'  class=\"small ui primary button\" href=\"submitpage.php?cid=$cid&pid=$pid&langmask=$langmask\">$MSG_SUBMIT</a>";
               echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$PID[$pid]&cid=$cid\">$MSG_SUBMIT_RECORD</a>";
             }
-            if(!file_exists($OJ_DATA."/".$id."/solution.name")) echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
+            // if(!file_exists($OJ_DATA."/".$id."/solution.name")) echo "<a class='small ui primary button' href='#' onclick='transform()' role='button'>$MSG_SHOW_OFF</a>";
 
             // 단계별 풀기(하단)
             if (!isset($cid) && in_array($_SESSION[$OJ_NAME.'_'.'user_id'], $allowed_user_id)) {
