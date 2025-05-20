@@ -124,6 +124,7 @@ def validate_code_output_full_io(code_lines, test_in_path):
         with open(out_path, 'r') as fout:
             expected_output = fout.read().strip()
         print(full_input)
+        full_input = full_input if full_input.endswith('\n') else full_input + '\n'
 
         try:
             result = subprocess.run(
