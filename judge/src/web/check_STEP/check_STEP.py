@@ -138,6 +138,7 @@ def validate_code_output_full_io(code_lines, test_in_path):
             if actual_output != expected_output:
                 print(f"[❌] 테스트 실패: {base_name}")
                 print(actual_output)
+                print(expected_output)
                 return False
         except subprocess.TimeoutExpired:
             print("[❌] 실행 시간 초과")
