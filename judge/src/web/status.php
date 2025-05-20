@@ -514,23 +514,28 @@ for ($i=0; $i<$rows_cnt; $i++) {
     $view_status[$i][8]= $row['in_date'];
 
     // 예시로, 특정 user_id만 버튼을 보이게 하려면 
-    if (!isset($cid) && in_array($_SESSION[$OJ_NAME.'_'.'user_id'], $allowed_user_id)) { 
-    // 대회 문제가 아닌 경우 또는 allowed_user_id에 포함되는 경우에만 버튼 출력
-    $sid = urlencode($row['solution_id']);
-    $pid = urlencode($row['problem_id']);
-    
-      if ($row['result'] != 4) {  // Accepted가 아닌 경우
-          $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}&problem_id={$pid}\" class=\"ui orange mini button\">문법 오류 확인</a>";
-      } else { // Accepted인 경우
-          $view_status[$i][10] = "
-          <button class='toggle-similar ui blue mini button' data-sid='{$sid}'>유사문제 추천</button>
-          <div id='similar-{$sid}' class='similar-box' style='display:none; margin-top:5px;'></div>
-          ";
-      }
+    if (!isset($cid) && in_array($_SESSION[$OJ_NAME . '_' . 'user_id'], $allowed_user_id)) { 
+        // 대회 문제가 아닌 경우 또는 allowed_user_id에 포함되는 경우에만 버튼 출력
+        $sid = urlencode($row['solution_id']);
+        $pid = urlencode($row['problem_id']);
+
+        // result가 4 이상일 때만 버튼 출력 (채점 완료된 상태)
+        if ($row['result'] >= 4) {
+            if ($row['result'] != 4) {  // Accepted가 아닌 경우
+                $view_status[$i][10] = "<a target=\"_self\" href=\"feedback.php?solution_id={$sid}&problem_id={$pid}\" class=\"ui orange mini button\">문법 오류 확인</a>";
+            } else { // Accepted인 경우
+                $view_status[$i][10] = "
+                <button class='toggle-similar ui blue mini button' data-sid='{$sid}'>유사문제 추천</button>
+                <div id='similar-{$sid}' class='similar-box' style='display:none; margin-top:5px;'></div>
+                ";
+            }
+        } else {
+            $view_status[$i][10] = "-"; // 채점 미완료 상태에는 아무것도 출력 안 함
+        }
     } else {
-        $view_status[$i][10] = "-"; // 대회 문제인 경우 출력 안 함
+        $view_status[$i][10] = "-"; // 대회 문제이거나 권한 없는 경우
     }
-  
+
 }
 if($total_count>0) $avg_delay/= $total_count;
 
