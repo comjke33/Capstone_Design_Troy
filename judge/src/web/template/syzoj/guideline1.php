@@ -389,7 +389,7 @@ function showFeedback(index) {
     let feedbackText = data.result;
 
     // 문장이 끝난 후 줄바꿈 추가
-    feedbackText = feedbackText.replace(/([.?!])\s*/g, "$1<br>");
+    feedbackText = feedbackText.replace(/([.?!])\s*/g, "$1<br><br>");
 
     // 피드백 텍스트를 줄바꿈 기준으로 분할
     const feedbackContent = feedbackText;
