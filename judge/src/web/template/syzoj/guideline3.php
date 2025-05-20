@@ -7,7 +7,6 @@ include("../../guideline_common.php");
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
 
-
 <!-- 상단 툴바 -->
 <div class="top-toolbar">
   <!-- 뒤로가기 및 리셋 버튼 -->
@@ -35,48 +34,66 @@ include("../../guideline_common.php");
 <div class="main-layout">
     <!-- 좌측 패널 -->
     <div class="left-panel">
-        <!-- <img id="flowchart_image" src="../../image/basic.png"> -->
+        <!-- <img id="flowchart_image"> -->
     </div>
 
 
     <!-- 가운데 패널 -->
     <div class="center-panel">
-        <h1>기능별 풀기</h1>
+        <h1>한 블록씩 풀기</h1>
+
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
         <br>
         <br>
-        
+
         <?php      
-                function render_tree_plain($blocks, &$answer_index = 0) {
+             function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
 
             foreach ($blocks as $block) {
                 $depth = $block['depth'];
-                $margin_left = $depth * 30;
+                $margin_left = $depth * 50;
+                $isCorrect = false;
 
                 if ($block['type'] === 'text') {
                     $raw = trim($block['content']);
                     if ($raw === '') continue;
 
-                    $line = htmlspecialchars($block['content']);
+                    // 디버깅용 주석 추가 (View Source에서 확인)
+                    $html .= "<!-- DEBUG raw line [{$answer_index}]: " . htmlentities($raw) . " -->\n";
+
+                    // 출력 시 안전하게 이스케이프 처리 (중복 방지)
+                    $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
+
                     $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
                     $disabled = $has_correct_answer ? "" : "disabled";
 
-                    // 출력되는 각 줄에 대해 이미지 업데이트 스크립트 삽입
+                    // 출력 영역
                     $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
-                    $html .= "<div class='code-line'>{$line}</div>";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
-                    $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
-                    $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>예제 확인</button>";
-                    $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
+                    // 코드 출력 라인
+                    $html .= "<div class='code-line'>{$escaped_line}</div>";
 
+                    // 답안을 textarea에 띄울 떄
+                    // $default_value = $has_correct_answer ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') : "";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$default_value}</textarea>";
+
+
+                    // 버튼 출력
+                    if(!$isCorrect){
+                        $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
+                        $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
+                        $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
+                    }
+
+                    // 피드백 영역 + 정답 표시
                     $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                     $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
                     $html .= "</div>";
 
                     $answer_index++;
-                } else if (isset($block['children']) && is_array($block['children'])) {
+                } 
+                else if (isset($block['children']) && is_array($block['children'])) {
                     $html .= render_tree_plain($block['children'], $answer_index);
                 }
             }
@@ -93,6 +110,7 @@ include("../../guideline_common.php");
     <!-- 오른쪽 패널 -->
     <div class="right-panel" style="display:none;">
 
+    </div>
 </div>
 
 <script>
@@ -196,6 +214,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+//textarea 입력 줄에 따라 높이 조절
+document.addEventListener("DOMContentLoaded", function () {
+    const textareas = document.querySelectorAll(".styled-textarea");
+
+    textareas.forEach((ta) => {
+        autoResize(ta); // 초기 렌더링 시 높이 조정
+
+        // 입력할 때마다 높이 자동 조정
+        ta.addEventListener("input", () => autoResize(ta));
+    });
+
+    function autoResize(textarea) {
+        textarea.style.height = "auto"; // 초기화
+        textarea.style.height = textarea.scrollHeight + "px"; // 내용에 따라 높이 설정
+    }
+});
+
 //문제 맞았는지 여부 확인
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
@@ -210,30 +245,72 @@ function submitAnswer(index) {
     const problemId = new URLSearchParams(window.location.search).get("problem_id") || "0";
     const key = `answer_status_step${step}_q${index}_pid${problemId}`;
 
-    if (input === correct) {
-        // ✅ 저장
-        localStorage.setItem(key, "correct");
 
-        ta.readOnly = true;
-        ta.style.backgroundColor = "#d4edda";
-        ta.style.border = "1px solid #d4edda";
-        ta.style.color = "#155724";
-        btn.style.display = "none";
-        check.style.display = "inline";
+    console.log("제출값:", input);
+    console.log("요청 데이터:", {
+        answer: input,
+        problem_id: problemId,
+        index: index
+    });
 
-        const nextIndex = index + 1;
-        const nextTa = document.getElementById(`ta_${nextIndex}`);
-        const nextBtn = document.getElementById(`btn_${nextIndex}`);
-        if (nextTa && nextBtn) {
-            nextTa.disabled = false;
-            nextBtn.disabled = false;
-            nextTa.focus();
+    fetch("../../ajax/check_answer_STEP.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            answer: input,
+            problem_id: problemId,
+            index: index
+        })
+    })
+    .then(res => {
+        if (!res.ok) {
+            console.error("서버 오류:", res.status);
+            return Promise.reject("서버 오류");
         }
-    } else {
-        ta.style.backgroundColor = "#ffecec";
-        ta.style.border = "1px solid #e06060";
-        ta.style.color = "#c00";
-    }
+        return res.json();
+    })
+    .then(data => {
+        console.log(data);
+        if (data.result === "correct") {
+            localStorage.setItem(key, "correct");
+
+            ta.readOnly = true;
+            ta.style.backgroundColor = "#d4edda";
+            ta.style.border = "1px solid #d4edda";
+            ta.style.color = "#155724";
+            btn.style.display = "none";
+            check.style.display = "inline";
+
+                // 정답이 맞은 경우 버튼 숨기기
+            const answerBtn = document.getElementById(`answer_btn_${index}`);
+            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
+            const submitBtn = document.getElementById(`submit_btn_${index}`);
+
+            if($isCorrect) {// display: none을 사용하여 버튼 숨기기
+                answerBtn.style.display = "none";  // 답안 확인 버튼 숨기기
+                feedbackBtn.style.display = "none";  // 피드백 보기 버튼 숨기기
+                submitBtn.style.display = "none";  // 제출 버튼 숨기기
+            }
+
+            const nextIndex = index + 1;
+            const nextTa = document.getElementById(`ta_${nextIndex}`);
+            const nextBtn = document.getElementById(`btn_${nextIndex}`);
+
+            if (nextTa && nextBtn) {
+                nextTa.disabled = false;
+                nextBtn.disabled = false;
+                nextTa.focus();
+            }
+        } else {
+            ta.style.backgroundColor = "#ffecec";
+            ta.style.border = "1px solid #e06060";
+            ta.style.color = "#c00";
+        }
+    })
+    .catch(err => {
+        console.error("서버 요청 실패:", err);
+    });
+
 }
 
 //답안 보여주기
@@ -247,6 +324,7 @@ function showAnswer(index) {
     answerArea.style.display = 'block';
 }
 
+
 function showFeedback(index) {
     const urlParams = new URLSearchParams(window.location.search);
     const problemId = urlParams.get("problem_id") || "0";
@@ -254,17 +332,45 @@ function showFeedback(index) {
     const blockCode = ta ? ta.value.trim() : "";
     const step = urlParams.get("step") || "1";
 
-
-
     const feedbackPanel = document.querySelector('.right-panel');
     feedbackPanel.innerHTML = `
-        <h2>📋 피드백 창</h2>
-        <div class="feedback-content">
-            <p>피드백을 가져오는 중입니다...</p>
-        </div>
+        <style>
+            .feedback-panel {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: #f0f4f8;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                padding: 20px 25px;
+                max-width: 350px;
+                color: #2c3e50;
+                user-select: text;
+            }
+            .feedback-header {
+                font-size: 1.4rem;
+                font-weight: 700;
+                margin-bottom: 15px;
+                border-bottom: 2px solid #3498db;
+                padding-bottom: 8px;
+                color: #2980b9;
+            }
+            .feedback-content p {
+                font-size: 1rem;
+                line-height: 1.5;
+                margin: 8px 0;
+            }
+            .feedback-content strong {
+                color: #34495e;
+            }
+        </style>
+
+        <section class="feedback-panel">
+            <header class="feedback-header">📋 피드백 창</header>
+            <div class="feedback-content">
+                <p>피드백을 가져오는 중입니다...</p>
+            </div>
+        </section>
     `;
     feedbackPanel.style.display = 'block';
-
 
     fetch("../../ajax/aifeedback_request.php", {
         method: "POST",
@@ -279,15 +385,45 @@ function showFeedback(index) {
     .then(response => response.json())
     .then(data => {
         const feedbackPanel = document.querySelector('.right-panel');
-        // 줄바꿈 처리
         const feedbackContent = data.result.replace(/\n/g, "<br>");
-        
+
         feedbackPanel.innerHTML = `
-            <h2>📋 피드백 창</h2>
-            <div class="feedback-content" style="white-space: pre-line;">
-                <p><strong>${index + 1}번 줄에 대한 피드백:</strong></p>
-                <p>${feedbackContent}</p>
-            </div>
+            <style>
+                .feedback-panel {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    background: #f0f4f8;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    padding: 20px 25px;
+                    max-width: 350px;
+                    color: #2c3e50;
+                    user-select: text;
+                }
+                .feedback-header {
+                    font-size: 1.4rem;
+                    font-weight: 700;
+                    margin-bottom: 15px;
+                    border-bottom: 2px solid #3498db;
+                    padding-bottom: 8px;
+                    color: #2980b9;
+                }
+                .feedback-content p {
+                    font-size: 1rem;
+                    line-height: 1.5;
+                    margin: 8px 0;
+                }
+                .feedback-content strong {
+                    color: #34495e;
+                }
+            </style>
+
+            <section class="feedback-panel">
+                <header class="feedback-header">📋 피드백 창</header>
+                <div class="feedback-content" style="white-space: pre-line;">
+                    <p><strong>${index + 1}번 줄에 대한 피드백:</strong></p>
+                    <p>${feedbackContent}</p>
+                </div>
+            </section>
         `;
         feedbackPanel.style.display = 'block';
     })
@@ -295,16 +431,45 @@ function showFeedback(index) {
         console.error("서버 요청 실패:", err);
         const feedbackPanel = document.querySelector('.right-panel');
         feedbackPanel.innerHTML = `
-            <h2>📋 피드백 창</h2>
-            <div class="feedback-content">
-                <p>서버 요청 오류: ${err.message}</p>
-            </div>
+            <style>
+                .feedback-panel {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    background: #f8d7da;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    padding: 20px 25px;
+                    max-width: 350px;
+                    color: #721c24;
+                    user-select: text;
+                }
+                .feedback-header {
+                    font-size: 1.4rem;
+                    font-weight: 700;
+                    margin-bottom: 15px;
+                    border-bottom: 2px solid #f5c6cb;
+                    padding-bottom: 8px;
+                    color: #a71d2a;
+                }
+                .feedback-content p {
+                    font-size: 1rem;
+                    line-height: 1.5;
+                    margin: 8px 0;
+                }
+            </style>
+
+            <section class="feedback-panel">
+                <header class="feedback-header">⚠️ 오류</header>
+                <div class="feedback-content">
+                    <p>서버 요청 오류: ${err.message}</p>
+                </div>
+            </section>
         `;
     });
 }
 
 
-/*function showFeedback(index) {
+/*
+function showFeedback(index) {
     const feedbackContent = getFeedbackContent(index);
 
     // 오른쪽 패널에 피드백 표시
@@ -323,7 +488,6 @@ function showFeedback(index) {
     feedbackPanel.style.display = 'block';
 }
 
-
 // 테스트용 피드백 내용 (실제로는 문제 데이터에 따라 변경 가능)
 function getFeedbackContent(index) {
     const feedbacks = [
@@ -334,110 +498,14 @@ function getFeedbackContent(index) {
     ];
     return feedbacks[index] || "피드백이 아직 준비되지 않았습니다.";
 }
-*/
 //===============================================================================================
+*/
 
 //화면 크기 재조절
 function autoResize(ta) {
     ta.style.height = 'auto';
     ta.style.height = ta.scrollHeight + 'px';
 }
-
-// let currentTextarea = null;
-// let animationRunning = false;
-
-//flowchart렌더링 
-// function updateImageForTextarea(index, ta) {
-//     // 현재 textarea와 관련된 이미지 업데이트
-//     currentTextarea = ta;
-    
-//     // 플로우차트 이미지를 가져오기 위한 API 호출
-//     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
-//         .then(res => res.json())
-//         .then(data => {
-//             let img = document.getElementById("flowchart_image");
-            
-//             // 이미지가 없으면 동적으로 추가할 수 있지만, 여기서는 기존 이미지를 사용
-//             if (!img) {
-//                 img = document.createElement("img");
-//                 img.id = "flowchart_image";
-//                 document.body.appendChild(img);  // 필요에 따라 이미지 태그를 동적으로 생성
-//             }
-
-//             img.src = data.url;  // 서버에서 받은 이미지 URL로 설정
-//             console.log("서버 디버그 데이터:", data.debug);
-
-//             // 애니메이션 시작 (이미지가 부드럽게 따라가게)
-//             if (!animationRunning) {
-//                 animationRunning = true;
-//                 smoothFollowImage(); // 이미지를 부드럽게 따라가기 시작
-//             }
-//         });
-// }
-
-
-// //줄번호에 맞춰서 이미지 fetch(일단 보류)
-// function fetchImageByLineNumber(lineNumber) {
-//     const problemId = <?= json_encode($problem_id) ?>;
-//     fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${lineNumber}`)
-//         .then(response => response.json())
-//         .then(data => {
-//             let img = document.getElementById("flowchart_image");
-//             if (data.url && data.url.trim() !== "") {
-//                 // 이미지가 존재할 때만 보여주기
-//                 img.src = data.url;
-//                 img.style.display = "block";
-
-//                 console.log("이미지 업데이트:", data.url);
-
-//                 if (!animationRunning) {
-//                     animationRunning = true;
-//                     smoothFollowImage();
-//                 }
-//             } else {
-//                 // 이미지 없을 때 숨기기
-//                 img.style.display = "none";
-//                 console.log("이미지 없음. 숨김 처리됨.");
-//             }
-//         })
-//         .catch(error => console.error('Error:', error));
-// }
-
-
-// //이미지 매끄러운 이동(일단 보류)
-// function smoothFollowImage() {
-//     const img = document.getElementById("flowchart_image");
-//     if (!img || !currentTextarea) {
-//         animationRunning = false;
-//         return;
-//     }
-
-//     const taRect = currentTextarea.getBoundingClientRect();
-//     const scrollY = window.scrollY || document.documentElement.scrollTop;
-
-//     let targetTop = taRect.top + scrollY - img.offsetHeight + 200;
-
-//     // 화면 기준 제한
-//     const minTop = scrollY + 200; // 화면 상단 + 여백
-//     const maxTop = scrollY + window.innerHeight - img.offsetHeight; // 화면 하단 - 이미지 높이
-
-//     // 제한된 위치로 보정
-//     targetTop = Math.max(minTop, Math.min(targetTop, maxTop));
-
-//     const currentTop = parseFloat(img.style.top) || 0;
-//     const nextTop = currentTop + (targetTop - currentTop) * 0.1;
-
-//     img.style.top = `${nextTop}px`;
-
-//     requestAnimationFrame(smoothFollowImage);
-// }
-
-// // textarea 클릭 시 이미지 로드
-// document.addEventListener("DOMContentLoaded", function () {
-//     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
-//     ta.addEventListener("focus", () => fetchImageByLineNumber(idx)); // +1로 라인번호 맞추기
-//     });
-// });
 
 </script>
 
