@@ -144,9 +144,9 @@ def validate_code_output_full_io(code_lines, test_in_path):
         except subprocess.TimeoutExpired:
             print("[❌] 실행 시간 초과")
             return False
-        # finally:
-        #     if os.path.exists(exe_name):
-        #         os.remove(exe_name)
+        finally:
+            if os.path.exists(exe_name):
+                os.remove(exe_name)
 
     return True
 
@@ -198,6 +198,7 @@ def main():
 
     final_code = ''.join(line for block in all_blocks for line in block)
     final_code = re.sub(r'\[[^\]]*\]', '', final_code)
+    print(final_code)
 
     if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
