@@ -430,11 +430,15 @@ function showFeedback(index) {
                 <div class="feedback-block">
                     <strong>${index + 1}번 줄에 대한 피드백:</strong>
                 </div>
-                ${feedbackText.split("<br><br>").map(paragraph => `
+                ${feedbackText
+                .split("<br><br>")
+                .filter(paragraph => paragraph.trim() !== "") // 빈 항목 제거
+                .map(paragraph => `
                     <div class="feedback-block">
                         ${paragraph.trim()}
                     </div>
                 `).join("")}
+
             </div>
         </section>
     `;
