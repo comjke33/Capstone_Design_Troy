@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 문제 데이터 받기
     $problem_title = $_POST['problem_title'] ?? '';
     $problem_description = $_POST['problem_description'] ?? '';
+    $problem_input = $_POST['problem_input'] ?? '';
 
     // 전략 데이터 받기
     $title = $_POST['title'];
@@ -20,14 +21,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $helper_function = $_POST['helper_function'];
     $solution_code = $_POST['solution_code'];
 
-    // 문제 먼저 저장 (created_at 제거)
-    $sql_insert_problem = "INSERT INTO problem (title, description) VALUES (?, ?)";
-    pdo_query($sql_insert_problem, $problem_title, $problem_description);
+    // 문제 먼저 저장 (input 포함)
+    $sql_insert_problem = "INSERT INTO problem (title, description, input) VALUES (?, ?, ?)";
+    pdo_query($sql_insert_problem, $problem_title, $problem_description, $problem_input);
 
     // 마지막으로 삽입된 문제 id 가져오기
     $problem_id = pdo_lastInsertId();
 
-    // 전략 저장 (created_at 제거)
+    // 전략 저장
     $sql_insert_strategy = "INSERT INTO strategy (problem_id, title, description, helper_function, solution_code, user_id) 
                             VALUES (?, ?, ?, ?, ?, ?)";
     pdo_query($sql_insert_strategy, $problem_id, $title, $description, $helper_function, $solution_code, $user_id);
@@ -50,6 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="field">
             <label>문제 설명</label>
             <textarea name="problem_description" rows="4" required></textarea>
+        </div>
+        <div class="field">
+            <label>문제 입력 예시</label>
+            <textarea name="problem_input" rows="4" required></textarea>
         </div>
 
         <h4 class="ui dividing header">전략 정보 입력</h4>
