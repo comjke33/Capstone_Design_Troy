@@ -10,14 +10,14 @@ $view_title = "문제 해결 전략 게시판";
 $action = $_GET['action'] ?? 'list';
 
 if ($action === 'list') {
-    // 문제 목록 쿼리 제거 - 리스트를 그냥 간단 메시지 등으로 대체하거나 빈 화면 처리
-    echo "<div class='ui container' style='margin-top:3em;'>";
-    echo "<h2 class='ui dividing header'>문제 목록 기능이 비활성화 되어 있습니다.</h2>";
-    echo "</div>";
-    // 또는 문제 목록이 필요하면 별도 테이블이나 다른 쿼리로 구현 필요
+    // 문제 목록 불러오기
+    // $sql = "SELECT id, title FROM strategy_problems ORDER BY id DESC";
+    $problems = pdo_query($sql);
+    include("template/$OJ_TEMPLATE/faqs.php");
+
 } else if ($action === 'detail' && isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $sql = "SELECT title, description, sample_code, helper_functions FROM strategy_problems WHERE id=?";
+    // $sql = "SELECT title, description, sample_code FROM strategy_problems WHERE id=?";
     $res = pdo_query($sql, $id);
     if (count($res) > 0) {
         $problem = $res[0];
@@ -30,7 +30,8 @@ if ($action === 'list') {
     $submitted_code = $_POST['code'] ?? '';
     $problem_id = intval($_POST['problem_id'] ?? 0);
 
-    $sql = "SELECT helper_functions FROM strategy_problems WHERE id=?";
+    // 기준 문제 보조 코드 로드
+    // $sql = "SELECT helper_functions FROM strategy_problems WHERE id=?";
     $res = pdo_query($sql, $problem_id);
 
     if (count($res) > 0) {
