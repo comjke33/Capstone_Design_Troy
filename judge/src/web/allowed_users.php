@@ -6,7 +6,7 @@ $allowed_user_id = [
     'end_to_end', 
     'ERRORMAN', 
     'ERRORMON', 
-    'ERRORDEMON'
+    'ERRORDEMON',
     'errortest', 
     'error_test', 
     'error_test1', 
