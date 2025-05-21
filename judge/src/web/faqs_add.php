@@ -1,10 +1,10 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
 require_once("./include/db_info.inc.php");
 require_once('./include/setlang.php');
-session_start();
+// session_start();
 $user_id = $_SESSION[$OJ_NAME . '_' . 'user_id'] ?? null;
 
 if (!$user_id) {
