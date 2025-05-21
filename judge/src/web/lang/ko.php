@@ -171,7 +171,7 @@
 	$MSG_GIVESOURCE="채점코드 소유자 변경";
 	$MSG_IMPORT="데이터 업로드";
 	$MSG_EXPORT="데이터 다운로드";
-	$MSG_UPDATE_DATABASE="데이터베이스 업데이트";
+	// $MSG_UPDATE_DATABASE="데이터베이스 업데이트";
 	$MSG_BACKUP_DATABASE="데이터베이스 백업";
 	$MSG_ONLINE="온라인";
 	$MSG_SET_LOGIN_IP="IP 변경";
