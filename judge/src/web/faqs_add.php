@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $solution_code = $_POST['solution_code'];
 
     // 문제 먼저 저장
-    $sql_insert_problem = "INSERT INTO problems (title, description, created_at) VALUES (?, ?, NOW())";
+    $sql_insert_problem = "INSERT INTO problem (title, description, created_at) VALUES (?, ?, NOW())";
     pdo_query($sql_insert_problem, $problem_title, $problem_description);
 
     // 마지막으로 삽입된 문제 id 가져오기
