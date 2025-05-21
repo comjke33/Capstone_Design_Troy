@@ -66,9 +66,9 @@ CONCEPT_LINKS = {
     },
 
     # 연산자 오류 (보완)
-    r"invalid operands to binary expression|comparison between|invalid operands to logical expression|expression is not assignable": {
-        "개념": "연산자 사용 오류",
-        "링크": f"{BASE_URL}#연산자-사용-오류"
+    r"invalid operands to binary expression|comparison between|invalid operands to logical expression|expression is not assignable|variable '.*' is incremented both in the loop header and in the loop body": {
+    "개념": "연산자 사용 오류",
+    "링크": f"{BASE_URL}#연산자-사용-오류"
     },
 
     # 비교 연산자 (보완)
