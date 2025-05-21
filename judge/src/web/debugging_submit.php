@@ -7,7 +7,7 @@ $problem_id = $_GET['problem_id'] ?? '';
 
 <script>
 window.onload = function() {
-    fetch(`get_random_defect_code.php?problem_id=<?php echo $problem_id; ?>&step=<?php echo $step; ?>`)
+    fetch(`get_random_defect_code.php?problem_id=<?php echo $problem_id; ?>`)
     .then(res => res.json())
     .then(data => {
         if (data.status === "ok") {
