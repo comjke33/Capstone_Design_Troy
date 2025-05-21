@@ -36,22 +36,22 @@ function guidelineFilter($text) {
         }
 
         // ✅ 빈 줄이면 block 종료 + flush buffer
-        if ($line === '') {
-            if ($insideBlock && trim($textBuffer) !== '') {
-                $stack[count($stack) - 1]['children'][] = [
-                    'type' => 'text',
-                    'content' => rtrim($textBuffer),
-                    'depth' => count($stack) - 1
-                ];
-                $textBuffer = "";
-            }
+        // if ($line === '') {
+        //     if ($insideBlock && trim($textBuffer) !== '') {
+        //         $stack[count($stack) - 1]['children'][] = [
+        //             'type' => 'text',
+        //             'content' => rtrim($textBuffer),
+        //             'depth' => count($stack) - 1
+        //         ];
+        //         $textBuffer = "";
+        //     }
 
-            if ($insideBlock && count($stack) > 1 && $stack[count($stack) - 1]['type'] === 'block') {
-                array_pop($stack);
-                $insideBlock = false;
-            }
-            continue;
-        }
+        //     if ($insideBlock && count($stack) > 1 && $stack[count($stack) - 1]['type'] === 'block') {
+        //         array_pop($stack);
+        //         $insideBlock = false;
+        //     }
+        //     continue;
+        // }
 
         // ✅ 일반 줄 → block 내부이면 누적
         if ($insideBlock) {
