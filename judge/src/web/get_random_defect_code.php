@@ -2,14 +2,13 @@
 header('Content-Type: application/json');
 
 $problem_id = $_GET['problem_id'] ?? '';
-$step = $_GET['step'] ?? '1';
 
 if (!$problem_id || !$step) {
     echo json_encode(["status" => "error", "message" => "문제 번호 또는 스텝이 없습니다."]);
     exit;
 }
 
-$pattern = "/tmp/complete_code_{$problem_id}_step{$step}_*.c";
+$pattern = "/tmp/complete_code_{$problem_id}_step2_*.c";
 $files = glob($pattern);
 
 if (!$files || count($files) === 0) {
