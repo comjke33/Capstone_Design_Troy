@@ -9,7 +9,7 @@
             </h2>
         </div>
         <div class="eight wide column" style="text-align: right; padding-top: 1.1em;">
-            <a href="strategy_add.php" class="ui teal labeled icon button">
+            <a href="faqs_add.php" class="ui teal labeled icon button">
                 <i class="plus icon"></i> 전략 추가
             </a>
         </div>
