@@ -259,7 +259,8 @@ function submitAnswer(index) {
         body: JSON.stringify({
             answer: input,
             problem_id: problemId,
-            index: index
+            index: index,
+            step: step
         })
     })
     .then(res => {
