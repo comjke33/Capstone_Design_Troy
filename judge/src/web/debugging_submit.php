@@ -6,6 +6,7 @@ $problem_id = $_GET['problem_id'] ?? '';
 ?>
 
 <script>
+console.log("문제 번호:", "<?php echo $problem_id; ?>");
 window.onload = function() {
     fetch(`get_random_defect_code.php?problem_id=<?php echo $problem_id; ?>`)
     .then(res => res.json())
