@@ -111,7 +111,7 @@ if(file_exists($solution_file)){
       //단계별 풀기 상단
       if (!isset($cid) && in_array($_SESSION[$OJ_NAME.'_'.'user_id'], $allowed_user_id)) {
             echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
-            echo "<a class=\"small ui black button\" href=\"debugging.php?problem_id=$id\">결함코드 풀기</a>";
+            echo "<a class=\"small ui black button\" href=\"debugging_submit.php?problem_id=$id\">결함코드 풀기</a>";
       }
 
     ?>
