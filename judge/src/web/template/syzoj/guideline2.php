@@ -1,6 +1,4 @@
 <?php
-$problem_id = $_GET['problem_id'] ?? '';
-$step = $_GET['step'] ?? '2';
 include("template/$OJ_TEMPLATE/header.php");
 include("../../guideline_common.php");
 ?>
