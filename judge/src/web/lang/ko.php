@@ -31,9 +31,9 @@
 	$MSG_Time_Limit_Exceed="시간제한 초과";
 	$MSG_Memory_Limit_Exceed="메모리제한 초과";
 	$MSG_Output_Limit_Exceed="출력제한 초과";
-	$MSG_Runtime_Error="실행중 에러";
+	$MSG_Runtime_Error="런타임 에러";
 	$MSG_Compile_Error="컴파일 에러";
-	$MSG_Runtime_Click="실행중 에러(클릭)";
+	$MSG_Runtime_Click="런타임 에러(클릭)";
 	$MSG_Compile_Click="컴파일 에러(클릭)";
 	$MSG_Compile_OK="컴파일 성공";
 	$MSG_MANUAL_CONFIRMATION="자동채점 후, 수동확인 대기중";
