@@ -3,7 +3,6 @@ require_once("../include/db_info.inc.php");
 require_once("template/syzoj/header.php");
 
 $problem_id = $_GET['problem_id'] ?? '';
-$step = $_GET['step'] ?? '1';
 ?>
 
 <script>
