@@ -20,16 +20,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $helper_function = $_POST['helper_function'];
     $solution_code = $_POST['solution_code'];
 
-    // 문제 먼저 저장
-    $sql_insert_problem = "INSERT INTO problem (title, description, created_at) VALUES (?, ?, NOW())";
+    // 문제 먼저 저장 (created_at 제거)
+    $sql_insert_problem = "INSERT INTO problem (title, description) VALUES (?, ?)";
     pdo_query($sql_insert_problem, $problem_title, $problem_description);
 
     // 마지막으로 삽입된 문제 id 가져오기
     $problem_id = pdo_lastInsertId();
 
-    // 전략 저장 (새 문제 ID 사용)
-    $sql_insert_strategy = "INSERT INTO strategy (problem_id, title, description, helper_function, solution_code, user_id, created_at) 
-                            VALUES (?, ?, ?, ?, ?, ?, NOW())";
+    // 전략 저장 (created_at 제거)
+    $sql_insert_strategy = "INSERT INTO strategy (problem_id, title, description, helper_function, solution_code, user_id) 
+                            VALUES (?, ?, ?, ?, ?, ?)";
     pdo_query($sql_insert_strategy, $problem_id, $title, $description, $helper_function, $solution_code, $user_id);
 
     header("Location: faqs.php");
