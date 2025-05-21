@@ -20,7 +20,7 @@ window.onload = function() {
 </script>
 
 <div class="ui container">
-    <h2>🛠 결함 코드 훈련 - 문제 <?php echo $problem_id; ?> STEP <?php echo $step; ?></h2>
+    <h2>🛠 결함 코드 훈련 - 문제 <?php echo $problem_id; ?></h2>
     <form method="post" action="submit.php">
         <input type="hidden" name="id" value="<?php echo $problem_id; ?>">
         <div class="field">
