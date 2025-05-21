@@ -1,20 +1,24 @@
 <?php
+header('Content-Type: application/json');
+
 $problem_id = $_GET['problem_id'] ?? '';
-$step = $_GET['step'] ?? '';
+$step = $_GET['step'] ?? '1';
+
+if (!$problem_id || !$step) {
+    echo json_encode(["status" => "error", "message" => "문제 번호 또는 스텝이 없습니다."]);
+    exit;
+}
 
 $pattern = "/tmp/complete_code_{$problem_id}_step{$step}_*.c";
 $files = glob($pattern);
 
 if (!$files || count($files) === 0) {
-    echo json_encode(["status" => "error", "message" => "결함 코드 없음"]);
+    echo json_encode(["status" => "error", "message" => "결함 코드가 존재하지 않습니다."]);
     exit;
 }
 
 $random_file = $files[array_rand($files)];
 $code = file_get_contents($random_file);
 
-echo json_encode([
-    "status" => "ok",
-    "code" => $code,
-    "filename" => basename($random_file)
-]);
+echo json_encode(["status" => "ok", "code" => $code]);
+?>
