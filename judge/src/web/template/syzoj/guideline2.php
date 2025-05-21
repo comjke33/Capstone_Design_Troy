@@ -260,6 +260,7 @@ function submitAnswer(index) {
             answer: input,
             problem_id: problemId,
             index: index
+            step: step
         })
     })
     .then(res => {
