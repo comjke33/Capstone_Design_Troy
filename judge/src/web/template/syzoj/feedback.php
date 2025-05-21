@@ -38,11 +38,11 @@
             </div>
         </div>
 
-        <!-- 오른쪽: 피드백 가이드 -->
+        <!-- 오른쪽: 문법 오류 확인 -->
         <div class="eight wide column">
             <div class="ui segment" style="box-shadow: 0 1px 4px rgba(0,0,0,0.1); border-radius: 10px; height: 100%;">
                 <h2 class="ui header" style="font-weight: 500; font-size: 1.5em; color: #2185d0;">
-                    📋 피드백 가이드
+                    ✏️ 문법 오류 확인
                 </h2>
                 <?php if (!empty($link_results)): ?>
                     <?php foreach ($link_results as $result): ?>
