@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once("./include/db_info.inc.php");
 require_once('./include/setlang.php');
 session_start();
