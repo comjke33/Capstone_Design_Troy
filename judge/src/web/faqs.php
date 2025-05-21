@@ -13,7 +13,7 @@ if ($action === 'list') {
     // 문제 목록 불러오기
     $sql = "SELECT id, title FROM strategy ORDER BY id DESC";
     $problems = pdo_query($sql);
-    include("template/$OJ_TEMPLATE/strategy.php");
+    include("template/$OJ_TEMPLATE/faqs.php");
 
 } else if ($action === 'detail' && isset($_GET['id'])) {
     $id = intval($_GET['id']);
