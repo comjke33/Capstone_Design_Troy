@@ -1,5 +1,5 @@
 <?php
-// strategy_add.php
+// faqs_add.php
 
 require_once("./include/db_info.inc.php");
 require_once('./include/setlang.php');
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             VALUES (?, ?, ?, ?, ?, ?, NOW())";
 
     pdo_query($sql, $problem_id, $title, $description, $helper_function, $solution_code, $user_id);
-    header("Location: strategy_board.php");
+    header("Location: faqs.php");
     exit;
 }
 ?>
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="ui container" style="margin-top: 3em;">
     <h2 class="ui dividing header">전략 추가</h2>
-    <form class="ui form" method="post" action="strategy_add.php">
+    <form class="ui form" method="post" action="faqs_add.php">
         <div class="field">
             <label>문제 ID</label>
             <input type="number" name="problem_id" required>
