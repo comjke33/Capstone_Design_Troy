@@ -203,13 +203,13 @@ def main():
     if validate_code_output_full_io(final_code, test_in_path):
         print("correct")
     else:
+        print("no")
+        
         unique_id = uuid.uuid4().hex[:6]  # 여기서부터 새로추가
-        output_code_path = f"/tmp/complete_code_{pid}_step2_{unique_id}.c"
+        output_code_path = f"/tmp/complete_code_{pid}_step{step}_{unique_id}.c"
         with open(output_code_path, 'w', encoding='utf-8') as out_f:
             out_f.write(f"// problem_id: {pid}\n")  # 문제번호 주석
             out_f.write(final_code)
-        print("no")
-        
 
 if __name__ == "__main__":
     main()
