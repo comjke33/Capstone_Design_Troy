@@ -107,7 +107,7 @@ def classify_block(block_lines):
         # 문장 끝 10글자 기준으로 분류
         tail = sentence[-10:]
 
-        if any(key in tail for key in ["입력", "입력받", "입력 받", "scanf", "사용자"]):
+        if any(key in tail for key in ["입력", "입력받", "입력 받", "scanf"]):
             return "입력"
         elif any(key in tail for key in ["출력", "printf", "보여주는"]):
             return "출력"
