@@ -6,6 +6,7 @@ $problem_id = $_GET['problem_id'] ?? '';
 ?>
 
 <script>
+console.log("문제 번호:", "<?php echo $problem_id; ?>");
 window.onload = function() {
     fetch(`get_random_defect_code.php?problem_id=<?php echo $problem_id; ?>`)
     .then(res => res.json())
@@ -20,7 +21,7 @@ window.onload = function() {
 </script>
 
 <div class="ui container">
-    <h2>🛠 결함 코드 훈련 - 문제 <?php echo $problem_id; ?> STEP <?php echo $step; ?></h2>
+    <h2>🛠 결함 코드 훈련 - 문제 <?php echo $problem_id; ?></h2>
     <form method="post" action="submit.php">
         <input type="hidden" name="id" value="<?php echo $problem_id; ?>">
         <div class="field">
