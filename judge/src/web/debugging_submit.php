@@ -51,34 +51,54 @@ window.onload = function () {
 };
 </script>
 
+
 <div class="ui container">
     <h2>🛠 결함 코드 훈련 - 문제 <?php echo htmlspecialchars($problem_id); ?>: <?php echo htmlspecialchars($title); ?></h2>
 
+    <div class="ui grid">
+  <!-- 📘 문제 설명 -->
+  <div class="eight wide column">
     <div class="ui segment">
-        <h3 class="ui header">문제 설명</h3>
-        <p><?php echo nl2br(htmlspecialchars($description)); ?></p>
+      <h3 class="ui dividing header"><?php echo $MSG_Description ?></h3>
+      <div class="font-content"><?php echo bbcode_to_html($row['description']); ?></div>
 
-        <h3 class="ui header">입력</h3>
-        <p><?php echo nl2br(htmlspecialchars($input)); ?></p>
+      <h4 class="ui header"><?php echo $MSG_Input ?></h4>
+      <div class="font-content"><?php echo bbcode_to_html($row['input']); ?></div>
 
-        <h3 class="ui header">출력</h3>
-        <p><?php echo nl2br(htmlspecialchars($output)); ?></p>
+      <h4 class="ui header"><?php echo $MSG_Output ?></h4>
+      <div class="font-content"><?php echo bbcode_to_html($row['output']); ?></div>
+
+      <?php if (strlen(trim($row['sample_input'])) > 0) { ?>
+      <h4 class="ui header"><?php echo $MSG_Sample_Input ?></h4>
+      <pre><?php echo htmlentities($row['sample_input']); ?></pre>
+      <?php } ?>
+
+      <?php if (strlen(trim($row['sample_output'])) > 0) { ?>
+      <h4 class="ui header"><?php echo $MSG_Sample_Output ?></h4>
+      <pre><?php echo htmlentities($row['sample_output']); ?></pre>
+      <?php } ?>
     </div>
+  </div>
 
-    <form method="post" action="submit.php" class="ui form">
-        <input type="hidden" name="id" value="<?php echo htmlspecialchars($problem_id); ?>">
+  <!-- 🛠 제출 영역 -->
+  <div class="eight wide column">
+    <div class="ui segment">
+      <form method="post" action="submit.php" class="ui form">
+        <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
         <div class="field">
-            <label>언어 선택:</label>
-            <select name="language">
-                <option value="0">C</option>
-            </select>
+          <label>언어 선택</label>
+          <select name="language" class="ui dropdown">
+            <option value="0">C</option>
+          </select>
         </div>
         <div class="field">
-            <label>코드 수정 후 제출:</label>
-            <textarea name="source" id="source" rows="20" style="width:100%; font-family:monospace;"></textarea>
+          <label>코드 입력</label>
+          <textarea name="source" rows="20" id="source" style="font-family:monospace;"></textarea>
         </div>
-        <button type="submit" class="ui primary button">제출하기</button>
-    </form>
+        <button class="ui primary button" type="submit">제출하기</button>
+      </form>
+    </div>
+  </div>
 </div>
 
 <?php require_once("template/syzoj/footer.php"); ?>
