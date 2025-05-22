@@ -320,6 +320,7 @@ function submitAnswer(index) {
 
 }
 
+//문제가 되는 특수문자 치환
 function escapeHtml(text) {
     return text
         .replace(/&/g, "&amp;")
