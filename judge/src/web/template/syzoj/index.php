@@ -27,7 +27,7 @@
       <?php } ?>
 
       <!-- 검색 -->
-    <h4 class="ui top attached block header">
+    <h4 class="ui top attached block header" style="color: white;">
       <i class="ui search icon"></i> 문제 검색
     </h4>
     <div class="ui bottom attached segment">
@@ -43,7 +43,7 @@
     </div>
 
       <!-- 최근 문제 -->
-      <h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM; ?> </h4>
+      <h4 class="ui top attached block header style="color: white;""><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM; ?> </h4>
       <div class="ui bottom attached segment">
         <table class="ui very basic center aligned table">
           <thead><tr><th><?php echo $MSG_TITLE; ?></th><th><?php echo $MSG_TIME; ?></th></tr></thead>
@@ -74,7 +74,7 @@
           $view_month_rank = mysql_query_cache("SELECT user_id,nick,COUNT(DISTINCT problem_id) ac FROM solution WHERE solution_id>$month_id AND problem_id>0 AND user_id NOT IN ($OJ_RANK_HIDDEN) AND result=4 GROUP BY user_id,nick ORDER BY ac DESC LIMIT 5"); //상위 5명만 출력
           if(!empty($view_month_rank)) {
       ?>
-            <h4 class="ui top attached block header"><i class="ui star icon"></i>이달의 우수생</h4>
+            <h4 class="ui top attached block header" style="color: white;"><i class="ui star icon"></i>이달의 우수생</h4>
                   <div class="ui bottom attached segment">
         <table class="ui very basic center aligned table">
           <thead>
