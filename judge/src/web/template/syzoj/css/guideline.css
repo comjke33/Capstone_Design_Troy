@@ -93,6 +93,18 @@
     transition: top 0.3s ease;
 }
 
+.flowchart-wrapper {
+    padding: 10px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.flowchart-wrapper.active {
+    border: 3px solid #4da3ff;
+    box-shadow: 0 0 15px rgba(77, 163, 255, 0.5);
+    background-color: #f0f8ff;
+}
+
 /* 가운데 코드 입력 영역 */
 .center-panel {
     position: relative;
