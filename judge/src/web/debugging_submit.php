@@ -28,28 +28,23 @@ if ($problem_id) {
 }
 ?>
 
-<!-- Ace Editor -->
+<!-- ACE Editor -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
 
-<style>
-    #editor {
-        width: 100%;
-        height: 600px;
-        font-size: 14px;
-        font-family: monospace;
-        border: 1px solid #ddd;
-    }
-</style>
-
 <script>
-let editor; // 전역 선언
-
 window.onload = function () {
-    editor = ace.edit("editor");
-    editor.setTheme("ace/theme/chrome");
-    editor.session.setMode("ace/mode/c_cpp");
-
     const pid = "<?php echo $problem_id; ?>";
+
+    // 에디터 초기화
+    const editor = ace.edit("editor");
+    editor.setTheme("ace/theme/github");
+    editor.session.setMode("ace/mode/c_cpp");
+    editor.setOptions({
+        fontSize: "14px",
+        showPrintMargin: false
+    });
+
+    // 코드 로드
     fetch(`get_random_defect_code.php?problem_id=${pid}`)
         .then(res => res.json())
         .then(data => {
@@ -63,19 +58,28 @@ window.onload = function () {
             console.error("❌ fetch 오류:", err);
         });
 
-    // 제출 시 내용 복사
+    // 제출 시 에디터 내용을 textarea로 복사
     document.querySelector("form").addEventListener("submit", function () {
         document.getElementById("source").value = editor.getValue();
     });
 };
 </script>
 
+<style>
+#editor {
+    width: 100%;
+    height: 600px;
+    font-family: monospace;
+    border: 1px solid #ccc;
+}
+</style>
+
 <div class="ui container">
     <h2 class="ui dividing header">🛠 결함 코드 훈련 - 문제 <?php echo htmlspecialchars($problem_id); ?>: <?php echo htmlspecialchars($title); ?></h2>
 
     <div class="ui stackable grid">
         <!-- 왼쪽: 문제 설명 -->
-        <div class="eight wide column">
+        <div class="six wide column">
             <div class="ui segments">
                 <div class="ui top attached block header"><?php echo $MSG_Description ?></div>
                 <div class="ui bottom attached segment font-content"><?php echo bbcode_to_html($description); ?></div>
@@ -99,7 +103,7 @@ window.onload = function () {
         </div>
 
         <!-- 오른쪽: 코드 제출 -->
-        <div class="eight wide column">
+        <div class="ten wide column">
             <div class="ui segment">
                 <form method="post" action="submit.php" class="ui form">
                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($problem_id); ?>">
