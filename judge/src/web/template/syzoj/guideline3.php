@@ -30,7 +30,6 @@ include("../../guideline_common.php");
   </div>
 </div>
 
-
 <div class="main-layout">
     <!-- 좌측 패널 -->
     <div class="left-panel">
