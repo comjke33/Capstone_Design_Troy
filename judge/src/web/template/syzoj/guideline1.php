@@ -293,11 +293,9 @@ function submitAnswer(index) {
             const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
             const submitBtn = document.getElementById(`submit_btn_${index}`);
 
-            if($isCorrect) {// display: none을 사용하여 버튼 숨기기
-                answerBtn.style.display = "none";  // 답안 확인 버튼 숨기기
-                feedbackBtn.style.display = "none";  // 피드백 보기 버튼 숨기기
-                submitBtn.style.display = "none";  // 제출 버튼 숨기기
-            }
+            if (answerBtn) answerBtn.style.display = "none";
+            if (feedbackBtn) feedbackBtn.style.display = "none";
+            if (submitBtn) submitBtn.style.display = "none";
 
             const nextIndex = index + 1;
             const nextTa = document.getElementById(`ta_${nextIndex}`);
