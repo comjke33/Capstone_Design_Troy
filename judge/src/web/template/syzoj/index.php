@@ -27,49 +27,72 @@
       <?php } ?>
     <!-- 시스템 설명서 안내 (전체 내용 포함) -->
 <div class="ui styled fluid accordion" style="margin-top: 2em;">
-  <div class="title active">
+  <div class="title active ui top attached block header blue">
     <i class="dropdown icon"></i>
-    📘 단계별 문제 풀이 가이드 및 시스템 안내
+    📘 TROY OJ 설명서
   </div>
-  <div class="content active" style="line-height: 1.8;">
-    <p><strong>✔ 단계별 풀기 버튼 안내</strong></p>
+  <div class="content active ui bottom attached segment" style="line-height: 2.0;">
+  <h3 class="ui top attached block header" style="font-size: 1.5em; background-color: #f4f4f4; color: #003366;">
+  📘 단계별 풀이 가이드</h3>
     <ol>
-      <li><strong>문제 페이지 상단의 '단계별 풀기'</strong> 버튼을 눌러 단계적 학습을 시작할 수 있습니다.</li>
-      <li><code>#include &lt;stdio.h&gt;</code>는 자동으로 포함되어 있으므로 별도로 작성하지 않아도 됩니다.</li>
-      <li><strong>조건문/반복문/함수 선언 시에는 여는 <code>{</code>만 작성하세요. 닫는 <code>}</code>는 내부에서 자동으로 처리됩니다.</strong></li>
-      <li><strong>Step1:</strong> 한 줄씩 작성하며, 코드 의미와 동작 원리를 중심으로 사고하세요.</li>
-      <li><strong>Step2:</strong> 문단 단위로 흐름을 파악하며 작성해보세요.</li>
-      <li><strong>Step3:</strong> 전체 블록을 자유롭게 구성합니다. 제출 버튼은 없으며, 자신만의 스타일로 완성합니다.</li>
-      <li>Step1 진행 시 <strong>좌측에 코드 흐름도(Flowchart)가 자동 생성</strong>됩니다. 현재 위치와 흐름을 이해하는 데 도움이 됩니다.</li>
-      <li><strong>피드백 보기 버튼</strong>을 통해 작성하기 어려운 코드에 대한 AI 힌트를 확인할 수 있습니다.</li>
-      <li>7. <strong>코드 스타일은 정답 기준에 영향을 미치지 않습니다.</strong> 단, 가이드라인에서 <strong>제시한 변수명이나 흐름을 벗어날 경우 오답 처리될 수 있습니다.</strong></li>
+      <li><b>문제 페이지의 [단계적 풀기]</b> 버튼을 눌러 학습을 시작합니다.</li>
+      <li><code>#include &lt;stdio.h&gt;</code>는 자동 포함되어 별도 선언이 필요 없습니다.</li>
+      <li style="color: #d72638; font-weight: bold;">
+        ⚠ <b>중요!</b> 조건문, 반복문, 함수 선언 시 <code>{</code>는 <u>직접 작성</u>해야 하며,
+        <code>}</code>는 <u>절대 작성하지 마세요!</u> (시스템이 자동 처리합니다)
+      </li>
+      <li><b>Step 1:</b> 한 줄씩 작성 – 의미와 동작 원리 중심 학습</li>
+      <li><b>Step 2:</b> 문단 단위 풀이 – 흐름과 구조 중심 학습</li>
+      <li><b>Step 3:</b> 전체 블록 작성 – 자신만의 스타일로 완성 (제출 없음)</li>
+      <li>
+        <b>Step 1 진행 시 좌측 Flowchart</b>가 생성되어 구조 파악에 도움을 줍니다.
+      </li>
+      <li>
+        <b>[피드백 보기]</b> 버튼을 통해 코드 이해가 어려울 경우 AI 힌트를 활용할 수 있습니다.
+      </li>
+      <li style="color: #d72638; font-weight: bold;">
+  ⚠ <b>주의!</b> 정답 기준은 <u>코드 스타일(들여쓰기, 줄바꿈 등)</u>에 영향을 받지 않지만,<br />
+  <span style="color: #c62828;">가이드라인에서 제시한 <u>변수명이나 흐름을 지키지 않으면 오답 처리</u>될 수 있습니다!</span>
+</li>
     </ol>
 
-    <p><strong>🧾 개인별 문법 오류 리포트 기능</strong></p>
+    <div class="ui divider"></div>
+
+    <h3 class="ui top attached block header" style="font-size: 1.5em; background-color: #f4f4f4; color: #003366;">
+    📊 개인별 문법 오류 리포트</h3>
     <ul>
-      <li><strong>우측 상단 종모양 버튼</strong>을 클릭하면 본인의 문법 오류 리포트를 확인할 수 있습니다.</li>
-      <li>최근 5일간 <strong>15회 이상 제출 시</strong> AI가 자주 틀리는 문법을 분석하고 취약 개념을 통계로 제공합니다.</li>
+      <li>
+        <b>우측 상단 종 아이콘</b> 클릭 → 본인의 문법 오류 리포트 확인
+      </li>
+      <li>
+        최근 <b>5일간 15회 이상 제출</b> 시 AI가 주요 문법 오류를 분석해 통계로 제공합니다.
+      </li>
+      <li>이 리포트를 통해 <b>자신의 취약 개념을 보완</b>할 수 있습니다.</li>
     </ul>
 
-    <p><strong>🔄 유사문제 풀이 / 문법 오류 확인 기능</strong></p>
+    <div class="ui divider"></div>
+
+    <h3 class="ui top attached block header" style="font-size: 1.5em; background-color: #f4f4f4; color: #003366;">
+    🔁 유사 문제 풀이 및 문법 오류 확인</h3>
     <ul>
-      <li><strong>정답 제출 시:</strong> Codeup 유사 문제 추천 링크가 나타납니다. 다양한 문제를 풀어보며 이해를 확장해보세요.</li>
-      <li><strong>오답 제출 시:</strong> 문법 오류 확인 버튼이 활성화되며, 관련 개념의 설명 링크로 연결됩니다.</li>
+      <li>
+        <b>정답 제출 시</b> → Codeup의 유사 문제 풀이 페이지로 이동
+      </li>
+      <li>
+        <b>오답 제출 시</b> → <b>[문법 오류 확인]</b> 버튼이 생성되어 관련 개념 링크로 연결됩니다.
+      </li>
     </ul>
+
+    <div class="ui divider"></div>
+    <p><b>이 기능들을 활용하여 실력을 체계적으로 쌓아보세요!</b></p>
   </div>
 </div>
 
-<!-- 반드시 jQuery와 Semantic UI JS가 로딩된 이후에 실행 -->
 <script>
-  $(document).ready(function() {
-    if (typeof $.fn.accordion === 'function') {
-      $('.ui.accordion').accordion();
-    } else {
-      console.warn('Semantic UI accordion() not available. Please load semantic.min.js');
-    }
+  $(document).ready(function () {
+    $('.ui.accordion').accordion();
   });
-</script>
-      <!-- 검색 -->
+</script>      <!-- 검색 -->
     <h4 class="ui top attached block header" style="color: white;">
       <i class="ui search icon"></i> 문제 검색
     </h4>
