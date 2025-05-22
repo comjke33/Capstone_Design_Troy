@@ -28,14 +28,25 @@ if ($problem_id) {
 }
 ?>
 
+<!-- ACE Editor -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+
 <script>
 window.onload = function () {
     const pid = "<?php echo $problem_id; ?>";
+    const editor = ace.edit("editor");
+    editor.setTheme("ace/theme/github");
+    editor.session.setMode("ace/mode/c_cpp");
+    editor.setOptions({
+        fontSize: "14px",
+        showPrintMargin: false
+    });
+
     fetch(`get_random_defect_code.php?problem_id=${pid}`)
         .then(res => res.json())
         .then(data => {
             if (data.status === "ok") {
-                document.getElementById("source").value = data.code;
+                editor.setValue(data.code, -1);
             } else {
                 alert(data.message);
             }
@@ -43,15 +54,35 @@ window.onload = function () {
         .catch(err => {
             console.error("❌ fetch 오류:", err);
         });
+
+    document.querySelector("form").addEventListener("submit", function () {
+        document.getElementById("source").value = editor.getValue();
+    });
 };
 </script>
 
-<div class="ui container">
+<style>
+#editor {
+    width: 100%;
+    height: 600px;
+    font-family: monospace;
+    border: 1px solid #ccc;
+}
+body {
+    padding: 0 !important;
+}
+.ui.container, .ui.fluid.container {
+    padding-left: 1em !important;
+    padding-right: 1em !important;
+}
+</style>
+
+<div class="ui fluid container">
     <h2 class="ui dividing header">🛠 결함 코드 훈련 - 문제 <?php echo htmlspecialchars($problem_id); ?>: <?php echo htmlspecialchars($title); ?></h2>
 
     <div class="ui stackable grid">
         <!-- 왼쪽: 문제 설명 -->
-        <div class="eight wide column">
+        <div class="seven wide column">
             <div class="ui segments">
                 <div class="ui top attached block header"><?php echo $MSG_Description ?></div>
                 <div class="ui bottom attached segment font-content"><?php echo bbcode_to_html($description); ?></div>
@@ -75,10 +106,11 @@ window.onload = function () {
         </div>
 
         <!-- 오른쪽: 코드 제출 -->
-        <div class="eight wide column">
+        <div class="nine wide column">
             <div class="ui segment">
                 <form method="post" action="submit.php" class="ui form">
                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($problem_id); ?>">
+                    <input type="hidden" name="source" id="source">
                     <div class="field">
                         <label>언어 선택</label>
                         <select name="language" class="ui dropdown">
@@ -87,7 +119,7 @@ window.onload = function () {
                     </div>
                     <div class="field">
                         <label>코드 입력</label>
-                        <textarea name="source" id="source" rows="20" style="width:100%; font-family:monospace;"></textarea>
+                        <div id="editor">/* 코드 로딩 중... */</div>
                     </div>
                     <button class="ui primary button" type="submit">제출하기</button>
                 </form>
