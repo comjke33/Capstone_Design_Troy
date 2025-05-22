@@ -25,7 +25,40 @@
           </div>
         </div>
       <?php } ?>
+    <!-- 📘 단계별 풀이 안내 (접기/펼치기 카드) -->
+<div class="ui styled fluid accordion" style="margin-top: 1em;">
+  <div class="title active">
+    <i class="dropdown icon"></i>
+    🧠 시스템 이용 가이드 (단계별 풀이 / 리포트 / 유사문제)
+  </div>
+  <div class="content active" style="line-height: 1.6;">
+    <p><strong>📌 단계별 풀이 기능</strong></p>
+    <ul>
+      <li><strong>Step 1:</strong> 한 줄씩 풀이 – 코드의 의미와 동작 이해</li>
+      <li><strong>Step 2:</strong> 문단 단위 풀이 – 흐름 중심의 학습</li>
+      <li><strong>Step 3:</strong> 전체 블록 직접 구현 – 자유로운 스타일 작성</li>
+      <li><span style="color:#0077cc;">※ 중괄호 `{}`는 여는 괄호만 작성하세요.</span></li>
+      <li>좌측에 흐름도(Flowchart)가 자동 생성되어 구조 이해에 도움을 줍니다.</li>
+      <li>피드백 보기 버튼으로 AI 힌트도 확인할 수 있습니다.</li>
+    </ul>
 
+    <p><strong>📊 개인별 문법 리포트</strong></p>
+    <ul>
+      <li>우측 상단 종 아이콘 클릭 시, 최근 자주 틀린 문법을 확인할 수 있습니다.</li>
+      <li>5일간 15회 이상 제출 시 자동 분석됩니다.</li>
+    </ul>
+
+    <p><strong>🔁 유사 문제 추천 / 문법 오류 확인</strong></p>
+    <ul>
+      <li>정답 제출 시, Codeup의 유사 문제 풀이 페이지로 연결됩니다.</li>
+      <li>오답 시, 문법 오류 분석과 함께 관련 개념 링크가 제공됩니다.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  $('.ui.accordion').accordion();  // Semantic UI accordion 초기화
+</script>
       <!-- 검색 -->
     <h4 class="ui top attached block header" style="color: white;">
       <i class="ui search icon"></i> 문제 검색
