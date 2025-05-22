@@ -94,7 +94,7 @@
 
       <!-- 검색 버튼과 평균 대기 시간 표시 -->
       <div class="sixteen wide column" style="margin-top: 1em;">
-        <button type="submit" style="background-color: #003366; color: white;>
+        <button type="submit" class="ui labeled icon button" style="background-color: #003366; color: white;">
           <i class="search icon"></i> <?php echo $MSG_SEARCH ?>
         </button>
         <span class="ui basic grey label">AWT: <?php echo round($avg_delay, 2) ?>s</span>
