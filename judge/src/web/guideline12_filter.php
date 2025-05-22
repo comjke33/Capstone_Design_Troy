@@ -93,7 +93,6 @@ function codeFilter($text) {
             continue;  // 해당 라인은 처리하지 않음
         }
 
-
         // [start] 태그 감지
         if (preg_match('/\[(\w+)_start\((\d+)\)\]/', $line, $m)) {
             // 기존에 누적된 텍스트가 있으면 처리
@@ -136,6 +135,13 @@ function codeFilter($text) {
             continue;
         }
 
+        // `if`, `while`, 삼항 연산자, `for`문 등의 괄호 포함된 코드 구문 처리
+        if (preg_match('/\b(?:if|for|while)\s*\(.*\)/', $line) || preg_match('/\?.*\:.*;/', $line)) {
+            // if/while/for/삼항 연산자 등 괄호가 포함된 라인 처리
+            $blockBuffer .= $line . "\n"; // 블록 내용 누적
+            continue;
+        }
+
         // 코드 라인 누적
         if (trim($line) !== '') {
             $blockBuffer .= $line . "\n"; // 블록 내용 누적
@@ -154,6 +160,7 @@ function codeFilter($text) {
     // 최종 트리 배열을 평탄화(flatten)해서 반환
     return extractContentsFlat($root['children']);
 }
+
 
 
 // 트리 형태로 저장된 코드 블록 구조를 1차원(flat) 배열로 변환
