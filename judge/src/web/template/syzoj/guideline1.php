@@ -81,7 +81,9 @@ include("../../guideline_common.php");
                 $html .= "<div class='code-line'>{$escaped_line}</div>";
 
                 // textarea 출력
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$default_value}</textarea>";
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>" . 
+                    htmlspecialchars($default_value ?? '', ENT_QUOTES, 'UTF-8') . 
+                    "</textarea>";
 
                 // 버튼 출력
                 if (!$isCorrect) {
