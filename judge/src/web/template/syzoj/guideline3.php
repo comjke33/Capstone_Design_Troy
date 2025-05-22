@@ -81,8 +81,8 @@ include("../../guideline_common.php");
 
                     // 버튼 출력
                     if(!$isCorrect){
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
-                        $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
+                        // $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
+                        // $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
                         $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
                     }
 
@@ -232,97 +232,97 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //문제 맞았는지 여부 확인
-const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
-const problemId = <?= json_encode($problem_id) ?>
+// const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
+// const problemId = <?= json_encode($problem_id) ?>
 
-function submitAnswer(index) {
-    const ta = document.getElementById(`ta_${index}`);
-    const btn = document.getElementById(`btn_${index}`);
-    const check = document.getElementById(`check_${index}`);
-    const input = ta.value.trim();
-    const correct = (correctAnswers[index]?.content || "").trim();
-    const step = new URLSearchParams(window.location.search).get("step") || "1";
-    const problemId = new URLSearchParams(window.location.search).get("problem_id") || "0";
-    const key = `answer_status_step${step}_q${index}_pid${problemId}`;
+// function submitAnswer(index) {
+//     const ta = document.getElementById(`ta_${index}`);
+//     const btn = document.getElementById(`btn_${index}`);
+//     const check = document.getElementById(`check_${index}`);
+//     const input = ta.value.trim();
+//     const correct = (correctAnswers[index]?.content || "").trim();
+//     const step = new URLSearchParams(window.location.search).get("step") || "1";
+//     const problemId = new URLSearchParams(window.location.search).get("problem_id") || "0";
+//     const key = `answer_status_step${step}_q${index}_pid${problemId}`;
 
 
-    console.log("제출값:", input);
-    console.log("요청 데이터:", {
-        answer: input,
-        problem_id: problemId,
-        index: index
-    });
+//     console.log("제출값:", input);
+//     console.log("요청 데이터:", {
+//         answer: input,
+//         problem_id: problemId,
+//         index: index
+//     });
 
-    fetch("../../ajax/check_answer_STEP.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            answer: input,
-            problem_id: problemId,
-            index: index
-        })
-    })
-    .then(res => {
-        if (!res.ok) {
-            console.error("서버 오류:", res.status);
-            return Promise.reject("서버 오류");
-        }
-        return res.json();
-    })
-    .then(data => {
-        console.log(data);
-        if (data.result === "correct") {
-            localStorage.setItem(key, "correct");
+//     fetch("../../ajax/check_answer_STEP.php", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//             answer: input,
+//             problem_id: problemId,
+//             index: index
+//         })
+//     })
+//     .then(res => {
+//         if (!res.ok) {
+//             console.error("서버 오류:", res.status);
+//             return Promise.reject("서버 오류");
+//         }
+//         return res.json();
+//     })
+//     .then(data => {
+//         console.log(data);
+//         if (data.result === "correct") {
+//             localStorage.setItem(key, "correct");
 
-            ta.readOnly = true;
-            ta.style.backgroundColor = "#d4edda";
-            ta.style.border = "1px solid #d4edda";
-            ta.style.color = "#155724";
-            // btn.style.display = "none";
-            check.style.display = "inline";
+//             ta.readOnly = true;
+//             ta.style.backgroundColor = "#d4edda";
+//             ta.style.border = "1px solid #d4edda";
+//             ta.style.color = "#155724";
+//             // btn.style.display = "none";
+//             check.style.display = "inline";
 
-                // 정답이 맞은 경우 버튼 숨기기
-            const answerBtn = document.getElementById(`answer_btn_${index}`);
-            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
-            const submitBtn = document.getElementById(`submit_btn_${index}`);
+//                 // 정답이 맞은 경우 버튼 숨기기
+//             const answerBtn = document.getElementById(`answer_btn_${index}`);
+//             const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
+//             const submitBtn = document.getElementById(`submit_btn_${index}`);
 
-            if($isCorrect) {// display: none을 사용하여 버튼 숨기기
-                answerBtn.style.display = "none";  // 답안 확인 버튼 숨기기
-                feedbackBtn.style.display = "none";  // 피드백 보기 버튼 숨기기
-                submitBtn.style.display = "none";  // 제출 버튼 숨기기
-            }
+//             if($isCorrect) {// display: none을 사용하여 버튼 숨기기
+//                 answerBtn.style.display = "none";  // 답안 확인 버튼 숨기기
+//                 feedbackBtn.style.display = "none";  // 피드백 보기 버튼 숨기기
+//                 submitBtn.style.display = "none";  // 제출 버튼 숨기기
+//             }
 
-            const nextIndex = index + 1;
-            const nextTa = document.getElementById(`ta_${nextIndex}`);
-            const nextBtn = document.getElementById(`btn_${nextIndex}`);
+//             const nextIndex = index + 1;
+//             const nextTa = document.getElementById(`ta_${nextIndex}`);
+//             const nextBtn = document.getElementById(`btn_${nextIndex}`);
 
-            if (nextTa && nextBtn) {
-                nextTa.disabled = false;
-                nextBtn.disabled = false;
-                nextTa.focus();
-            }
-        } else {
-            ta.style.backgroundColor = "#ffecec";
-            ta.style.border = "1px solid #e06060";
-            ta.style.color = "#c00";
-        }
-    })
-    .catch(err => {
-        console.error("서버 요청 실패:", err);
-    });
+//             if (nextTa && nextBtn) {
+//                 nextTa.disabled = false;
+//                 nextBtn.disabled = false;
+//                 nextTa.focus();
+//             }
+//         } else {
+//             ta.style.backgroundColor = "#ffecec";
+//             ta.style.border = "1px solid #e06060";
+//             ta.style.color = "#c00";
+//         }
+//     })
+//     .catch(err => {
+//         console.error("서버 요청 실패:", err);
+//     });
 
-}
+// }
 
-//답안 보여주기
-function showAnswer(index) {
-    const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
-    if (!correctCode) return;
+// //답안 보여주기
+// function showAnswer(index) {
+//     const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
+//     if (!correctCode) return;
 
-    const answerArea = document.getElementById(`answer_area_${index}`);
-    const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${correctCode}</pre>`;
-    answerArea.innerHTML = answerHtml;
-    answerArea.style.display = 'block';
-}
+//     const answerArea = document.getElementById(`answer_area_${index}`);
+//     const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${correctCode}</pre>`;
+//     answerArea.innerHTML = answerHtml;
+//     answerArea.style.display = 'block';
+// }
 
 
 function showFeedback(index) {
