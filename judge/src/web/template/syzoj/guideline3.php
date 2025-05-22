@@ -52,7 +52,7 @@ include("../../guideline_common.php");
 
             foreach ($blocks as $block) {
                 $depth = $block['depth'];
-                $margin_left = $depth * 50;
+                // $margin_left = $depth * 50;
                 $isCorrect = false;
 
                 if ($block['type'] === 'text') {
@@ -69,7 +69,7 @@ include("../../guideline_common.php");
                     $disabled = $has_correct_answer ? "" : "disabled";
 
                     // 출력 영역
-                    // $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
+                    $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
 
                     // 코드 출력 라인
                     $html .= "<div class='code-line'>{$escaped_line}</div>";
