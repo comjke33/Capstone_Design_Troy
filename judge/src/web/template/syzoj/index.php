@@ -36,7 +36,7 @@
     <ol>
       <li><strong>문제 페이지 상단의 '단계별 풀기'</strong> 버튼을 눌러 단계적 학습을 시작할 수 있습니다.</li>
       <li><code>#include &lt;stdio.h&gt;</code>는 자동으로 포함되어 있으므로 별도로 작성하지 않아도 됩니다.</li>
-      <li><strong>조건문/반복문/함수 선언 시</strong>에는 여는 <code>{</code>만 작성하세요. 닫는 <code>}</code>는 내부에서 자동으로 처리됩니다.</li>
+      <li><strong>조건문/반복문/함수 선언 시에는 여는 <code>{</code>만 작성하세요. 닫는 <code>}</code>는 내부에서 자동으로 처리됩니다.</strong></li>
       <li><strong>Step1:</strong> 한 줄씩 작성하며, 코드 의미와 동작 원리를 중심으로 사고하세요.</li>
       <li><strong>Step2:</strong> 문단 단위로 흐름을 파악하며 작성해보세요.</li>
       <li><strong>Step3:</strong> 전체 블록을 자유롭게 구성합니다. 제출 버튼은 없으며, 자신만의 스타일로 완성합니다.</li>
