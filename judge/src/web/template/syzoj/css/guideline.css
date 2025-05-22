@@ -103,7 +103,17 @@
   border-radius: 8px;
 }
 
-
+.flowchart-header-box {
+  border: 2px solid black;
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 12px;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 6px;
+  background-color: white;
+  text-align: center;
+}
 
 /* 가운데 코드 입력 영역 */
 .center-panel {
