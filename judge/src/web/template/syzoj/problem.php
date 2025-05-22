@@ -125,10 +125,10 @@ if(file_exists($solution_file)){
         require_once("include/set_get_key.php");
       ?>
       
-        <!-- <div class="ui buttons right floated">
+        <div class="ui buttons right floated">
             <a class="small ui button" href="admin/problem_edit.php?id=<?php echo $id?>&getkey=<?php echo $_SESSION[$OJ_NAME.'_'.'getkey']?>"><?php echo $MSG_EDIT.$MSG_PROBLEM?></a>
             <a class="small ui button" href='javascript:phpfm(<?php echo $row['problem_id'];?>)'><?php echo $MSG_TEST_DATA?></a>
-        </div> -->
+        </div>
       <?php }?>
     </div>
   </div>
@@ -206,7 +206,7 @@ if(file_exists($solution_file)){
         </div>
     </div>
   <?php }?>
-
+  
   <?php
     $color=array("blue","teal","orange","pink","olive","red","violet","yellow","green","purple");
     $tcolor=0;
