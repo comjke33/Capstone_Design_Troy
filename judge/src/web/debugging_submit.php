@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 
 require_once("include/db_info.inc.php");
 require_once("template/syzoj/header.php");
+require_once("include/bbcode.php");
 
 $problem_id = $_GET['problem_id'] ?? '';
 
