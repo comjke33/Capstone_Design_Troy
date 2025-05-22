@@ -279,7 +279,7 @@ function submitAnswer(index) {
             ta.style.backgroundColor = "#d4edda";
             ta.style.border = "1px solid #d4edda";
             ta.style.color = "#155724";
-            btn.style.display = "none";
+            // btn.style.display = "none";
             check.style.display = "inline";
 
                 // 정답이 맞은 경우 버튼 숨기기
