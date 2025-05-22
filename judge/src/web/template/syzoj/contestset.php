@@ -18,8 +18,8 @@
                     placeholder="<?php echo $MSG_CONTEST_NAME ?> 검색…" 
                     style="border-radius: 6px 0 0 6px;"
                   >
-                  <button type="submit" class="ui blue icon button" style="border-radius: 0 6px 6px 0;">
-                    <i class="search icon"></i>
+                  <button type="submit" class="ui icon button" style="border-radius: 0 6px 6px 0; background-color: #003366;">
+                    <i class="search icon" style="color: white;"></i>
                   </button>
                 </div>
               </div>
