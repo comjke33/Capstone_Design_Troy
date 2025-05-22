@@ -1,37 +1,53 @@
 <?php
-require_once("include/db_info.inc.php");
-require_once("template/syzoj/header.php");
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+require_once("include/db_info.inc.php");
+require_once("template/syzoj/header.php");
+
 $problem_id = $_GET['problem_id'] ?? '';
 
-// 문제 정보 가져오기
+// 기본값
 $title = $description = $input = $output = '';
+
+// 문제 내용 로딩 (mysql_query 방식)
 if ($problem_id) {
-    $sql = "SELECT title, description, input, output FROM problem WHERE problem_id = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$problem_id]);
-    if ($row = $stmt->fetch()) {
+    $sql = "SELECT title, description, input, output FROM problem WHERE problem_id = " . intval($problem_id);
+    $result = mysql_query($sql);
+    if ($result && mysql_num_rows($result)) {
+        $row = mysql_fetch_assoc($result);
         $title = $row['title'];
         $description = $row['description'];
         $input = $row['input'];
         $output = $row['output'];
+    } else {
+        $title = "문제를 찾을 수 없습니다.";
     }
 }
 ?>
 <script>
-console.log("문제 번호:", "<?php echo $problem_id; ?>");
-window.onload = function() {
-    fetch(`get_random_defect_code.php?problem_id=<?php echo $problem_id; ?>`)
-    .then(res => res.json())
-    .then(data => {
-        if (data.status === "ok") {
-            document.getElementById("source").value = data.code;
-        } else {
-            alert(data.message);
-        }
-    });
+window.onload = function () {
+    const pid = "<?php echo $problem_id; ?>";
+    console.log("문제 번호:", pid);
+
+    if (!pid) {
+        alert("❌ 문제 번호가 없습니다.");
+        return;
+    }
+
+    fetch(`get_random_defect_code.php?problem_id=${pid}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "ok") {
+                document.getElementById("source").value = data.code;
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(err => {
+            console.error("❌ fetch 오류:", err);
+        });
 };
 </script>
 
