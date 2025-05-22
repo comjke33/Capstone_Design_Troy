@@ -79,7 +79,7 @@ window.onload = function () {
 
     <div class="ui stackable grid">
         <!-- 왼쪽: 문제 설명 -->
-        <div class="six wide column">
+        <div class="ten wide column">
             <div class="ui segments">
                 <div class="ui top attached block header"><?php echo $MSG_Description ?></div>
                 <div class="ui bottom attached segment font-content"><?php echo bbcode_to_html($description); ?></div>
