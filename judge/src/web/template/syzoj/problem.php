@@ -125,10 +125,10 @@ if(file_exists($solution_file)){
         require_once("include/set_get_key.php");
       ?>
       
-        <div class="ui buttons right floated">
+        <!-- <div class="ui buttons right floated">
             <a class="small ui button" href="admin/problem_edit.php?id=<?php echo $id?>&getkey=<?php echo $_SESSION[$OJ_NAME.'_'.'getkey']?>"><?php echo $MSG_EDIT.$MSG_PROBLEM?></a>
             <a class="small ui button" href='javascript:phpfm(<?php echo $row['problem_id'];?>)'><?php echo $MSG_TEST_DATA?></a>
-        </div>
+        </div> -->
       <?php }?>
     </div>
   </div>
@@ -198,16 +198,15 @@ if(file_exists($solution_file)){
   <?php }?>
 
   <!-- 문제의 힌트 표시 -->
-  <!-- <?php if($row['hint']||isset($_GET['spa'])){ ?>
+  <?php if($row['hint']||isset($_GET['spa'])){ ?>
     <div class="row">
         <div class="column">
           <h4 class="ui top attached block header" style="color: #ffffff;"><?php echo $MSG_HINT?></h4>
           <div id='hint' class="ui bottom attached segment font-content hint"><?php echo bbcode_to_html($row['hint']); ?></div>
         </div>
     </div>
-  <?php }?> -->
+  <?php }?>
 
-  
   <?php
     $color=array("blue","teal","orange","pink","olive","red","violet","yellow","green","purple");
     $tcolor=0;
