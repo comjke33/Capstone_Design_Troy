@@ -31,13 +31,14 @@
       <i class="ui search icon"></i> 문제 검색
     </h4>
     <div class="ui bottom attached segment">
-      <form action="problem.php" method="get" class="ui form">
+      <form action="problem.php" method="get" class="ui form" onsubmit="return validateForm()">
         <div class="ui fluid action input">
-          <input type="text" name="id" placeholder="문제 ID 또는 번호를 입력하세요…" />
+          <input type="text" id="problemInput" name="id" placeholder="문제 ID 또는 번호를 입력하세요…" />
           <button type="submit" class="ui icon primary button">
             <i class="search icon"></i>
           </button>
         </div>
+        <div id="warningMessage" style="display:none; color:red; margin-top:10px;">재입력을 하세요</div>
       </form>
     </div>
 
@@ -123,6 +124,20 @@ const slides = document.querySelectorAll('.carousel-slide');
 const dots = document.querySelectorAll('.carousel-dot');
 let currentIndex = 0;
 let autoPlayInterval;
+
+//검색창 빈 제출 입력란 처리
+ function validateForm() {
+    const input = document.getElementById("problemInput").value.trim();
+    const warning = document.getElementById("warningMessage");
+    
+    if (input === "") {
+      warning.style.display = "block";
+      return false; // 제출 막기
+    } else {
+      warning.style.display = "none";
+      return true; // 정상 제출
+    }
+  }
 
 function showSlide(index) {
   slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
