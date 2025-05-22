@@ -30,9 +30,9 @@
 <div class="ui styled fluid accordion" style="margin-top: 2em;">
   <div class="title active ui top attached block header blue">
     <i class="dropdown icon"></i>
-    📘 개선된 OJ 기능 안내 (단계별 풀이 / 문법 리포트 / 유사 문제)
+    📘 TROY OJ 설명서
   </div>
-  <div class="content active ui bottom attached segment" style="line-height: 1.8;">
+  <div class="content active ui bottom attached segment" style="line-height: 1;">
     <h4 class="ui header">📘 단계별 풀이 가이드</h4>
     <ol>
       <li><b>문제 페이지의 [단계적 풀기]</b> 버튼을 눌러 학습을 시작합니다.</li>
