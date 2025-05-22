@@ -32,7 +32,7 @@
     <i class="dropdown icon"></i>
     📘 TROY OJ 설명서
   </div>
-  <div class="content active ui bottom attached segment" style="line-height: 1;">
+  <div class="content active ui bottom attached segment" style="line-height: 2.0;">
     <h4 class="ui header">📘 단계별 풀이 가이드</h4>
     <ol>
       <li><b>문제 페이지의 [단계적 풀기]</b> 버튼을 눌러 학습을 시작합니다.</li>
