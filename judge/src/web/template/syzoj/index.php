@@ -50,11 +50,9 @@
       <li>
         <b>[피드백 보기]</b> 버튼을 통해 코드 이해가 어려울 경우 AI 힌트를 활용할 수 있습니다.
       </li>
-      <li style="background-color: #fff3f3; border-left: 4px solid #e53935; padding: 10px; margin-top: 10px;">
-  <b style="color: #d32f2f;">정답 기준은 코드 스타일(들여쓰기, 줄바꿈 등)에 영향을 받지 않습니다.</b><br />
-  <span style="color: #c62828; font-weight: bold;">
-    단, <u>가이드라인의 변수명이나 흐름을 지키지 않으면 오답 처리될 수 있습니다.</u>
-  </span>
+      <li style="color: #d72638; font-weight: bold;">
+  ⚠ <b>주의!</b> 정답 기준은 <u>코드 스타일(들여쓰기, 줄바꿈 등)</u>에 영향을 받지 않지만,<br />
+  <span style="color: #c62828;">가이드라인에서 제시한 <u>변수명이나 흐름을 지키지 않으면 오답 처리</u>될 수 있습니다!</span>
 </li>
     </ol>
 
