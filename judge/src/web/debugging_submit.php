@@ -1,8 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 require_once("include/db_info.inc.php");
 require_once("include/bbcode.php");
 require_once("template/syzoj/header.php");
