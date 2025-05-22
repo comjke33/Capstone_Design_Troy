@@ -76,7 +76,7 @@ function problem_add_source(sp,pid){
 		console.log("new source:"+ns);
 		$.post("admin/ajax.php",p.find("form").serialize());
 		p.parent().append("<span class='label label-success'>"+ns+"</span>");
-		p.html("<span class='label label-success' pid='"+pid+"' onclick='problem_add_source(this,"+pid+");'>+</span>");
+		// p.html("<span class='label label-success' pid='"+pid+"' onclick='problem_add_source(this,"+pid+");'>+</span>");
 	});
 }
 
