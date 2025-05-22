@@ -9,7 +9,6 @@ require_once("template/syzoj/header.php");
 
 $problem_id = $_GET['problem_id'] ?? '';
 
-// 기본값
 $title = $description = $input = $output = $sample_input = $sample_output = '';
 
 if ($problem_id) {
@@ -53,29 +52,29 @@ window.onload = function () {
     <div class="ui stackable grid">
         <!-- 왼쪽: 문제 설명 -->
         <div class="eight wide column">
-            <div class="ui segment">
-                <h4 class="ui dividing header">문제 설명</h4>
-                <div class="font-content"><?php echo bbcode_to_html($description); ?></div>
+            <div class="ui segments">
+                <div class="ui top attached block header"><?php echo $MSG_Description ?></div>
+                <div class="ui bottom attached segment font-content"><?php echo bbcode_to_html($description); ?></div>
 
-                <h4 class="ui dividing header">입력</h4>
-                <div class="font-content"><?php echo bbcode_to_html($input); ?></div>
+                <div class="ui top attached block header"><?php echo $MSG_Input ?></div>
+                <div class="ui bottom attached segment font-content"><?php echo bbcode_to_html($input); ?></div>
 
-                <h4 class="ui dividing header">출력</h4>
-                <div class="font-content"><?php echo bbcode_to_html($output); ?></div>
+                <div class="ui top attached block header"><?php echo $MSG_Output ?></div>
+                <div class="ui bottom attached segment font-content"><?php echo bbcode_to_html($output); ?></div>
 
                 <?php if (trim($sample_input)) { ?>
-                    <h4 class="ui dividing header">입력 예시</h4>
-                    <pre><?php echo htmlentities($sample_input); ?></pre>
+                    <div class="ui top attached block header"><?php echo $MSG_Sample_Input ?></div>
+                    <div class="ui bottom attached segment font-content"><pre><?php echo htmlentities($sample_input); ?></pre></div>
                 <?php } ?>
 
                 <?php if (trim($sample_output)) { ?>
-                    <h4 class="ui dividing header">출력 예시</h4>
-                    <pre><?php echo htmlentities($sample_output); ?></pre>
+                    <div class="ui top attached block header"><?php echo $MSG_Sample_Output ?></div>
+                    <div class="ui bottom attached segment font-content"><pre><?php echo htmlentities($sample_output); ?></pre></div>
                 <?php } ?>
             </div>
         </div>
 
-        <!-- 오른쪽: 코드 작성 및 제출 -->
+        <!-- 오른쪽: 코드 제출 -->
         <div class="eight wide column">
             <div class="ui segment">
                 <form method="post" action="submit.php" class="ui form">
@@ -87,7 +86,7 @@ window.onload = function () {
                         </select>
                     </div>
                     <div class="field">
-                        <label>코드 수정 후 제출</label>
+                        <label>코드 입력</label>
                         <textarea name="source" id="source" rows="20" style="width:100%; font-family:monospace;"></textarea>
                     </div>
                     <button class="ui primary button" type="submit">제출하기</button>
