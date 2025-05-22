@@ -21,14 +21,10 @@
 
 /* Step 버튼 스타일 */
 .step-buttons .ui.button {
-  background-color: #2185d0 ;
+  background-color: #003366 ;
   color: #ffffff ;
   border-radius: 4px;
   min-width: 100px;
-}
-
-.step-buttons .ui.button.active {
-  background-color: #000080 ;
 }
 
 /* 공통 버튼 스타일 */
@@ -45,22 +41,22 @@
 
 /* 문제 가기 버튼 (왼쪽 ↩) */
 .ui.button.back {
-  background-color: #db2828;
+  background-color: #003366;
   color: white;
 }
 
 .ui.button.back:hover {
-  background-color: #c21818;
+  background-color: #001366;
 }
 
 /* 다시 풀기 버튼 (오른쪽 ↻) */
 .ui.button.again {
-  background-color: #32CD32;
+  background-color: #003366;
   color: white;
 }
 
 .ui.button.again:hover {
-  background-color: #228B22;
+  background-color: #001366;
 }
 
 
