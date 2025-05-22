@@ -73,106 +73,22 @@
   min-height: 100vh;
   align-items: flex-start;
   align-self: stretch;
-
-  .left-panel {
-    position: fixed;
-    top: 100px;
-    left: 30px;
-    width: 270px; /* flowchart 크기에 맞춰 수정 */
-    z-index: 9999;
 }
 
-/* flowchart-wrapper에 테두리/배경/둥근 모서리 적용 */
-.flowchart-wrapper {
-    padding: 10px;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    background-color: white;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
-    border: 1px solid #ccc;
-}
-
-/* 활성화 시 강조 효과 */
-.flowchart-wrapper.active {
-    border: 3px solid #4da3ff;
-    box-shadow: 0 0 15px rgba(77, 163, 255, 0.5);
-    background-color: #f0f8ff;
-}
-
-/* 이미지 크기 및 애니메이션 */
-#flowchart_image {
-    width: 100%;
-    max-height: 500px;
-    display: none; /* 기본은 숨김 */
-    transition: opacity 0.3s ease;
-}
+/* 좌측 flowchart 이미지 영역 */
 .left-panel {
-    position: fixed;
-    top: 100px;
+    position: fixed; /*이미지 고정 <- 이 부분을 통해 flowchart 위치 스크롤 내려도 고정*/
+    top: 100px; /* 초기 위치 */
     left: 30px;
-    width: 270px; /* flowchart 크기에 맞춰 수정 */
+    width: 150px;
     z-index: 9999;
 }
 
-/* flowchart-wrapper에 테두리/배경/둥근 모서리 적용 */
-.flowchart-wrapper {
-    padding: 10px;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    background-color: white;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
-    border: 1px solid #ccc;
-}
-
-/* 활성화 시 강조 효과 */
-.flowchart-wrapper.active {
-    border: 3px solid #4da3ff;
-    box-shadow: 0 0 15px rgba(77, 163, 255, 0.5);
-    background-color: #f0f8ff;
-}
-
-/* 이미지 크기 및 애니메이션 */
 #flowchart_image {
-    width: 100%;
+    position: absolute;
+    top: 88px;
+    width: 250px;
     max-height: 500px;
-    display: none; /* 기본은 숨김 */
-    transition: opacity 0.3s ease;
-}
-.left-panel {
-    position: fixed;
-    top: 100px;
-    left: 30px;
-    width: 270px; /* flowchart 크기에 맞춰 수정 */
-    z-index: 9999;
-}
-
-/* flowchart-wrapper에 테두리/배경/둥근 모서리 적용 */
-.flowchart-wrapper {
-    padding: 10px;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    background-color: white;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
-    border: 1px solid #ccc;
-}
-
-/* 활성화 시 강조 효과 */
-.flowchart-wrapper.active {
-    border: 3px solid #4da3ff;
-    box-shadow: 0 0 15px rgba(77, 163, 255, 0.5);
-    background-color: #f0f8ff;
-}
-
-/* 이미지 크기 및 애니메이션 */
-#flowchart_image {
-    width: 100%;
-    max-height: 500px;
-    display: none; /* 기본은 숨김 */
-    transition: opacity 0.3s ease;
-}
-
-}
-x;
     display: none;
     transition: top 0.3s ease;
 }
