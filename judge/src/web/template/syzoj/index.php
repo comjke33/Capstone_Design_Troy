@@ -43,7 +43,7 @@
     </div>
 
       <!-- 최근 문제 -->
-      <h4 class="ui top attached block header style="color: white;""><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM; ?> </h4>
+      <h4 class="ui top attached block header" style="color: white;"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM; ?> </h4>
       <div class="ui bottom attached segment">
         <table class="ui very basic center aligned table">
           <thead><tr><th><?php echo $MSG_TITLE; ?></th><th><?php echo $MSG_TIME; ?></th></tr></thead>
