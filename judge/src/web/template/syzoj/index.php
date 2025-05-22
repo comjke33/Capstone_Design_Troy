@@ -34,8 +34,8 @@
       <form action="problem.php" method="get" class="ui form" onsubmit="return validateForm()">
         <div class="ui fluid action input">
           <input type="text" id="problemInput" name="id" placeholder="문제 ID 또는 번호를 입력하세요…" />
-          <button type="submit" class="ui icon primary button">
-            <i class="search icon"></i>
+          <button type="submit" class="ui icon button" style="border-radius: 0 6px 6px 0; background-color: #003366;">
+            <i class="search icon" style="color: white;"></i>
           </button>
         </div>
         <div id="warningMessage" style="display:none; color:red; margin-top:10px;">재입력을 하세요</div>
