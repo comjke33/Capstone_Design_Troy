@@ -50,9 +50,8 @@
       <li>
         <b>[피드백 보기]</b> 버튼을 통해 코드 이해가 어려울 경우 AI 힌트를 활용할 수 있습니다.
       </li>
-      <li>
-    <div class="ui red segment" style="margin-top: 10px;">
-      <b>⚠ 정답 기준은 코드 스타일에 영향을 받지 않습니다.</b><br />
+      <li style="color: #d72638; font-weight: bold;">
+    <b>⚠ 정답 기준은 코드 스타일에 영향을 받지 않습니다.</b><br />
     단, <span style="color: #b30000;"><b>가이드라인의 변수명이나 흐름을 따르지 않을 경우</b></span> 
     <u><b>오답 처리될 수 있습니다.</b></u>
   </div>
