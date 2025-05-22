@@ -21,13 +21,17 @@
           <div class="field">
             <div class="ui action input">
               <input name="prefix" placeholder="<?= $MSG_USER ?>" type="text" value="<?= htmlentities($_GET['prefix'] ?? '', ENT_QUOTES, 'utf-8') ?>">
-              <button class="ui mini blue button" type="submit"><?= $MSG_SEARCH ?></button>
+              <button class="ui mini button" type="submit" style="background-color: #003366; color: white;">
+                <?= $MSG_SEARCH ?>
+              </button>
+
             </div>
           </div>
           <div class="field">
             <div class="ui action input">
               <input name="group_name" placeholder="<?= $MSG_GROUP_NAME ?>" type="text" value="<?= htmlentities($_GET['group_name'] ?? '', ENT_QUOTES, 'utf-8') ?>">
-              <button class="ui mini blue button" type="submit"><?= $MSG_SEARCH ?></button>
+              <button class="ui mini button" type="submit" style="background-color: #003366; color: white;"><?= $MSG_SEARCH ?>
+              </button>
             </div>
           </div>
         </div>
