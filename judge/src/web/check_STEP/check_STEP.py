@@ -141,9 +141,11 @@ def validate_code_output_full_io(code_lines, test_in_path):
         except subprocess.TimeoutExpired:
             print("[❌] 실행 시간 초과")
             return False
-        finally:
-            if os.path.exists(exe_name):
-                os.remove(exe_name)
+        
+
+
+    if os.path.exists(exe_name):
+        os.remove(exe_name)
 
     return True
 
