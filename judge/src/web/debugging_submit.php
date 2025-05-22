@@ -11,12 +11,12 @@ $problem_id = $_GET['problem_id'] ?? '';
 // 기본값
 $title = $description = $input = $output = '';
 
-// 문제 내용 로딩 (mysql_query 방식)
+// ✅ pdo_query 사용
 if ($problem_id) {
-    $sql = "SELECT title, description, input, output FROM problem WHERE problem_id = " . intval($problem_id);
-    $result = mysql_query($sql);
-    if ($result && mysql_num_rows($result)) {
-        $row = mysql_fetch_assoc($result);
+    $sql = "SELECT title, description, input, output FROM problem WHERE problem_id = ?";
+    $rows = pdo_query($sql, [$problem_id]);
+    if ($rows && count($rows)) {
+        $row = $rows[0];
         $title = $row['title'];
         $description = $row['description'];
         $input = $row['input'];
