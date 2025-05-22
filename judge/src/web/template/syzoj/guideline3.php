@@ -312,13 +312,25 @@ function submitAnswer(index) {
 
 }
 
+//문제가 되는 특수문자 치환
+function escapeHtml(text) {
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 //답안 보여주기
 function showAnswer(index) {
     const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
     if (!correctCode) return;
 
+    const escapedCode = escapeHtml(correctCode);  // ← 이걸로 HTML 무해화
+
     const answerArea = document.getElementById(`answer_area_${index}`);
-    const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${correctCode}</pre>`;
+    const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${escapedCode}</pre>`;
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }
