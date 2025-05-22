@@ -150,13 +150,14 @@
 
 /* 코드 설명 라인 */
 .code-line {
-  background-color: #003366;
+  background-color: #f8f8fa;
+  border: 1px solid #ddd;
   width: 100%;
   border-radius: 6px;
   padding: 12px 16px;
   margin-bottom: 8px;
   font-size: 18px;
-  color: #ffffff;
+  color: #333;
   white-space: pre-wrap;
   word-break: break-word;
   box-sizing: border-box;
