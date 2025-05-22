@@ -112,7 +112,7 @@
 /* 가운데 코드 입력 영역 */
 .center-panel {
     position: relative;
-    margin-left: 80px;
+    margin-left: 180px;
     margin-right: 200px;
     flex-grow: 2;
     padding: 20px;
