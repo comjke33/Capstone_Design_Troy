@@ -25,39 +25,49 @@
           </div>
         </div>
       <?php } ?>
-    <!-- 📘 단계별 풀이 안내 (접기/펼치기 카드) -->
-<div class="ui styled fluid accordion" style="margin-top: 1em;">
+    <!-- 시스템 설명서 안내 (전체 내용 포함) -->
+<div class="ui styled fluid accordion" style="margin-top: 2em;">
   <div class="title active">
     <i class="dropdown icon"></i>
-    🧠 시스템 이용 가이드 (단계별 풀이 / 리포트 / 유사문제)
+    📘 단계별 문제 풀이 가이드 및 시스템 안내
   </div>
-  <div class="content active" style="line-height: 1.6;">
-    <p><strong>📌 단계별 풀이 기능</strong></p>
+  <div class="content active" style="line-height: 1.8;">
+    <p><strong>✔ 단계별 풀기 버튼 안내</strong></p>
+    <ol>
+      <li><strong>문제 페이지 상단의 '단계별 풀기'</strong> 버튼을 눌러 단계적 학습을 시작할 수 있습니다.</li>
+      <li><code>#include &lt;stdio.h&gt;</code>는 자동으로 포함되어 있으므로 별도로 작성하지 않아도 됩니다.</li>
+      <li><strong>조건문/반복문/함수 선언 시</strong>에는 여는 <code>{</code>만 작성하세요. 닫는 <code>}</code>는 내부에서 자동으로 처리됩니다.</li>
+      <li><strong>Step1:</strong> 한 줄씩 작성하며, 코드 의미와 동작 원리를 중심으로 사고하세요.</li>
+      <li><strong>Step2:</strong> 문단 단위로 흐름을 파악하며 작성해보세요.</li>
+      <li><strong>Step3:</strong> 전체 블록을 자유롭게 구성합니다. 제출 버튼은 없으며, 자신만의 스타일로 완성합니다.</li>
+      <li>Step1 진행 시 <strong>좌측에 코드 흐름도(Flowchart)가 자동 생성</strong>됩니다. 현재 위치와 흐름을 이해하는 데 도움이 됩니다.</li>
+      <li><strong>피드백 보기 버튼</strong>을 통해 이해가 어려운 코드에 대한 AI 힌트를 확인할 수 있습니다.</li>
+      <li>답안 확인과 다르더라도, <strong>가이드라인을 따르면서 의미가 통하면 정답으로 인정</strong>됩니다.</li>
+    </ol>
+
+    <p><strong>🧾 개인별 문법 오류 리포트 기능</strong></p>
     <ul>
-      <li><strong>Step 1:</strong> 한 줄씩 풀이 – 코드의 의미와 동작 이해</li>
-      <li><strong>Step 2:</strong> 문단 단위 풀이 – 흐름 중심의 학습</li>
-      <li><strong>Step 3:</strong> 전체 블록 직접 구현 – 자유로운 스타일 작성</li>
-      <li><span style="color:#0077cc;">※ 중괄호 `{}`는 여는 괄호만 작성하세요.</span></li>
-      <li>좌측에 흐름도(Flowchart)가 자동 생성되어 구조 이해에 도움을 줍니다.</li>
-      <li>피드백 보기 버튼으로 AI 힌트도 확인할 수 있습니다.</li>
+      <li><strong>우측 상단 종모양 버튼</strong>을 클릭하면 본인의 문법 오류 리포트를 확인할 수 있습니다.</li>
+      <li>최근 5일간 <strong>15회 이상 제출 시</strong> AI가 자주 틀리는 문법을 분석하고 취약 개념을 통계로 제공합니다.</li>
     </ul>
 
-    <p><strong>📊 개인별 문법 리포트</strong></p>
+    <p><strong>🔄 유사문제 풀이 / 문법 오류 확인 기능</strong></p>
     <ul>
-      <li>우측 상단 종 아이콘 클릭 시, 최근 자주 틀린 문법을 확인할 수 있습니다.</li>
-      <li>5일간 15회 이상 제출 시 자동 분석됩니다.</li>
-    </ul>
-
-    <p><strong>🔁 유사 문제 추천 / 문법 오류 확인</strong></p>
-    <ul>
-      <li>정답 제출 시, Codeup의 유사 문제 풀이 페이지로 연결됩니다.</li>
-      <li>오답 시, 문법 오류 분석과 함께 관련 개념 링크가 제공됩니다.</li>
+      <li><strong>정답 제출 시:</strong> Codeup 유사 문제 추천 링크가 나타납니다. 다양한 문제를 풀어보며 이해를 확장해보세요.</li>
+      <li><strong>오답 제출 시:</strong> 문법 오류 확인 버튼이 활성화되며, 관련 개념의 설명 링크로 연결됩니다.</li>
     </ul>
   </div>
 </div>
 
+<!-- 반드시 jQuery와 Semantic UI JS가 로딩된 이후에 실행 -->
 <script>
-  $('.ui.accordion').accordion();  // Semantic UI accordion 초기화
+  $(document).ready(function() {
+    if (typeof $.fn.accordion === 'function') {
+      $('.ui.accordion').accordion();
+    } else {
+      console.warn('Semantic UI accordion() not available. Please load semantic.min.js');
+    }
+  });
 </script>
       <!-- 검색 -->
     <h4 class="ui top attached block header" style="color: white;">
@@ -150,6 +160,11 @@
 
 
 <?php include("template/$OJ_TEMPLATE/footer.php"); ?>
+<!-- jQuery 먼저 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Semantic UI JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 
 <?php if(file_exists("image/slide1.jpg")) { ?>
 <script>
