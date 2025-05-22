@@ -71,29 +71,26 @@ def get_blocks(code_lines):
     blocks = []
     blocks_idx = 0
     current_block = []
-    includes = []  # #include 블럭 저장
-    closing_braces = []  # 단독 } 블럭 저장
+    includes = []
+    closing_braces = []
     inside_block = False
     block_indices = []
 
     for line in code_lines:
-        # 헤더 선언 (#include)은 상수 블럭으로 처리
         if is_include_line(line):
             includes.append(line)
             all_blocks.append(includes)
             all_idx += 1
             includes = []
             continue
-        
-        # 단독 중괄호는 상수 블럭으로 처리
+
         if is_single_brace(line):
             closing_braces.append(line)
             all_blocks.append(closing_braces)
             all_idx += 1
             closing_braces = []
             continue
-        
-        # 블럭 시작 조건: start 태그를 만나면 새 블럭 시작
+
         if is_start_tag(line):
             if current_block:
                 blocks.append(current_block)
@@ -104,8 +101,8 @@ def get_blocks(code_lines):
                 current_block = []
             current_block.append(line)
             inside_block = True
-        
-        # 블럭 종료 조건: 다음 블럭의 시작 태그를 만나면 블럭 종료
+
+
         elif is_tag_line(line):
             if current_block:
                 blocks.append(current_block)
@@ -115,10 +112,11 @@ def get_blocks(code_lines):
                 all_idx += 1
                 current_block = []
             inside_block = False
-        
-        # 블럭 내부 코드 추가
+
+
         if inside_block or not is_tag_line(line):
-            current_block.append(line)
+            if line.strip() != "":
+                current_block.append(line)
 
     return includes, blocks, closing_braces, all_blocks, block_indices
 
