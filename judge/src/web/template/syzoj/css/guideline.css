@@ -77,48 +77,21 @@
 
 /* 좌측 flowchart 이미지 영역 */
 .left-panel {
-  position: fixed;       /* 스크롤해도 위치 고정 */
-  top: 100px;
-  left: 30px;
-  width: 180px;          /* 이미지보다 살짝 넓게 */
-  z-index: 9999;
-}
-
-.flowchart-wrapper {
-  padding: 0;
-}
-
-.flowchart-card {
-  position: relative;
-  width: 100%;
-  padding: 10px;
-  border: 2px solid #cbd5e1;  /* 연한 테두리 */
-  border-radius: 12px;
-  background: #f8fafc;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  display: none; /* 기본은 숨김 */
-  transition: all 0.3s ease;
-}
-
-.flowchart-wrapper.active .flowchart-card {
-  display: block;
-  border-color: #4da3ff;
-  box-shadow: 0 0 20px rgba(77, 163, 255, 0.4);
-  background-color: #eef6ff;
+    position: fixed; /*이미지 고정 <- 이 부분을 통해 flowchart 위치 스크롤 내려도 고정*/
+    top: 100px; /* 초기 위치 */
+    left: 30px;
+    width: 180px;
+    z-index: 9999;
 }
 
 #flowchart_image {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  display: block;
-  transition: transform 0.3s ease;
+    position: absolute;
+    top: 88px;
+    width: 250px;
+    max-height: 500px;
+    display: none;
+    transition: top 0.3s ease;
 }
-
-#flowchart_image:hover {
-  transform: scale(1.02);
-}
-
 
 /* 가운데 코드 입력 영역 */
 .center-panel {
