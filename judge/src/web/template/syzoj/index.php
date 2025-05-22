@@ -32,13 +32,14 @@
     <i class="dropdown icon"></i>
     📘 TROY OJ 설명서
   </div>
+  <div class="content active ui bottom attached segment" style="line-height: 2.0;">
     <h4 class="ui header">📘 단계별 풀이 가이드</h4>
     <ol>
       <li><b>문제 페이지의 [단계적 풀기]</b> 버튼을 눌러 학습을 시작합니다.</li>
       <li><code>#include &lt;stdio.h&gt;</code>는 자동 포함되어 별도 선언이 필요 없습니다.</li>
       <li style="color: #d72638; font-weight: bold;">
         ⚠ <b>중요!</b> 조건문, 반복문, 함수 선언 시 <code>{</code>는 <u>직접 작성</u>해야 하며,
-          <code>}</code>는 <u>절대 작성하지 마세요!</u> (시스템이 자동 처리합니다)
+        <code>}</code>는 <u>절대 작성하지 마세요!</u> (시스템이 자동 처리합니다)
       </li>
       <li><b>Step 1:</b> 한 줄씩 작성 – 의미와 동작 원리 중심 학습</li>
       <li><b>Step 2:</b> 문단 단위 풀이 – 흐름과 구조 중심 학습</li>
@@ -49,11 +50,11 @@
       <li>
         <b>[피드백 보기]</b> 버튼을 통해 코드 이해가 어려울 경우 AI 힌트를 활용할 수 있습니다.
       </li>
-      <li style="color: #d72638; font-weight: bold;">
-    <b>⚠ 정답 기준은 코드 스타일에 영향을 받지 않습니다.</b>
-    단, <span style="color: #b30000;"><b>가이드라인의 변수명이나 흐름을 따르지 않을 경우</b></span> 
-    <u><b>오답 처리될 수 있습니다.</b></u>
-  </div>
+      <li style="background-color: #fff3f3; border-left: 4px solid #e53935; padding: 10px; margin-top: 10px;">
+  <b style="color: #d32f2f;">정답 기준은 코드 스타일(들여쓰기, 줄바꿈 등)에 영향을 받지 않습니다.</b><br />
+  <span style="color: #c62828; font-weight: bold;">
+    단, <u>가이드라인의 변수명이나 흐름을 지키지 않으면 오답 처리될 수 있습니다.</u>
+  </span>
 </li>
     </ol>
 
