@@ -113,7 +113,8 @@
         $month_id = mysql_query_cache("SELECT solution_id FROM solution WHERE in_date<DATE_ADD(CURDATE(), INTERVAL -DAY(CURDATE())+1 DAY) ORDER BY solution_id DESC LIMIT 1;");
         $month_id = (!empty($month_id) && isset($month_id[0][0])) ? $month_id[0][0] : 0;
 
-        if(isset($NOIP_flag[0]) && $NOIP_flag[0]==0) {
+        //if(isset($NOIP_flag[0]) && $NOIP_flag[0]==0) {
+          if(true){
           $view_month_rank = mysql_query_cache("SELECT user_id,nick,COUNT(DISTINCT problem_id) ac FROM solution WHERE solution_id>$month_id AND problem_id>0 AND user_id NOT IN ($OJ_RANK_HIDDEN) AND result=4 GROUP BY user_id,nick ORDER BY ac DESC LIMIT 5"); //상위 5명만 출력
           if(!empty($view_month_rank)) {
       ?>
