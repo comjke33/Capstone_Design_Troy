@@ -11,13 +11,13 @@ $action = $_GET['action'] ?? 'list';
 
 if ($action === 'list') {
     // 문제 목록 불러오기
-    $sql = "SELECT id, title FROM strategy_problems ORDER BY id DESC";
+    $sql = "SELECT id, title FROM strategy ORDER BY id DESC";
     $problems = pdo_query($sql);
     include("template/$OJ_TEMPLATE/faqs.php");
 
 } else if ($action === 'detail' && isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $sql = "SELECT title, description, sample_code FROM strategy_problems WHERE id=?";
+    $sql = "SELECT title, description, sample_code FROM strategy WHERE id=?";
     $res = pdo_query($sql, $id);
     if (count($res) > 0) {
         $problem = $res[0];
@@ -31,7 +31,7 @@ if ($action === 'list') {
     $problem_id = intval($_POST['problem_id'] ?? 0);
 
     // 기준 문제 보조 코드 로드
-    $sql = "SELECT helper_functions FROM strategy_problems WHERE id=?";
+    $sql = "SELECT helper_functions FROM strategy WHERE id=?";
     $res = pdo_query($sql, $problem_id);
 
     if (count($res) > 0) {

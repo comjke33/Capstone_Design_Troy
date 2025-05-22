@@ -96,13 +96,25 @@ def parse_guideline_blocks(text):
 # 블록 역할 분류
 ###########################
 def classify_block(block_lines):
-    block_text = "\n".join(block_lines)
-    if re.search(r'scanf|입력|입력받|scanf', block_text):
-        return "입력"
-    elif re.search(r'printf|출력|print', block_text):
-        return "출력"
-    else:
-        return "처리"
+    sentences = [line.strip() for line in block_lines if line.strip()]
+
+    tag = "처리"
+    for sentence in sentences:
+        sentence = sentence.strip()
+        if not sentence:
+            continue
+
+        # 문장 끝 10글자 기준으로 분류
+        tail = sentence[-10:]
+
+        if any(key in tail for key in ["입력", "입력받", "입력 받", "scanf"]):
+            return "입력"
+        elif any(key in tail for key in ["출력", "printf", "보여주는"]):
+            return "출력"
+        else:
+            tag = "처리"
+
+    return "처리"
 
 ###########################
 # 함수별 블록 정보 처리

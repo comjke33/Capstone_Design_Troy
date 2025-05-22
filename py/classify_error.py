@@ -12,7 +12,7 @@ ERROR_PATTERN_MAP = {
     r"control reaches end of non-void function|non-void function.*should return|void function.*return|return with a value|should not return a value|returning .* from a function with incompatible return type|return type of 'main' is not 'int'": 3,
 
     # 4. 포인터 오류
-    r"incompatible pointer type|incompatible integer to pointer conversion|assignment makes pointer from integer|passing .* to parameter of incompatible type": 4,
+    r"incompatible pointer type|incompatible integer to pointer conversion|assignment makes pointer from integer|passing .* to parameter of incompatible type|called object type .* is not a function or function pointer": 4,
 
     # 5. 배열 인덱스 오류
     r"array index .* is past the end|subscripted value is not an array": 5,
@@ -21,13 +21,13 @@ ERROR_PATTERN_MAP = {
     r"format specifies type .* but the argument has type|format string is not a string literal|more '%' conversions than data arguments": 6,
 
     # 7. 연산자 사용 오류
-    r"invalid operands to binary expression|comparison between|invalid operands to .* operator": 7,
+    r"invalid operands to binary expression|comparison between|invalid operands to .* operator|expression is not assignable|variable '.*' is incremented both in the loop header and in the loop body": 7,
 
     # 8. 정수/실수 리터럴 오류
     r"invalid suffix|invalid digit .* in decimal constant|literal is too large": 8,
 
     # 9. 표현식 누락
-    r"expected expression|expected primary-expression|expected statement": 9,
+    r"expected expression|expected primary-expression|expected statement|'break' statement not in loop or switch statement": 9,
 
     # 10. 형 변환 오류
     r"implicit conversion from .* to .*|cannot initialize a variable of type .* with an .* of type .*|assignment makes .* without a cast": 10,
@@ -36,7 +36,7 @@ ERROR_PATTERN_MAP = {
     r"expected ';'": 11,
 
     # 12. 괄호 닫힘 오류
-    r"expected '\)'|expected '\]'|expected '\}'|expected '\(' after|expected identifier|expected parameter declarator": 12,
+    r"expected '\)'|expected '\]'|expected '\}'|expected '\(' after|expected identifier|expected parameter declarator|add explicit braces to avoid dangling else": 12,
 
     # 13. 함수 인자 개수/타입 오류
     r"too (few|many) arguments to function call|passing .* to parameter of incompatible type|incompatible type for argument": 13,
@@ -45,7 +45,7 @@ ERROR_PATTERN_MAP = {
     r"redefinition of .*": 14,
 
     # 15. 비교 연산자 오류
-    r"invalid operands to binary expression .*==.*|assignment makes integer from pointer|using the result of an assignment as a condition without parentheses": 15,
+    r"invalid operands to binary expression .*==.*|assignment makes integer from pointer|using the result of an assignment as a condition without parentheses|equality comparison result unused": 15,
     
     # 16. 표준 함수 오용
     r"implicitly declaring library function": 16,
@@ -55,6 +55,20 @@ ERROR_PATTERN_MAP = {
 
     # 18. 런타임 오류
     r"AddressSanitizer:.*": 18,
+    
+    
+    
+    
+
+
+    
+    
+
+   
+    
+
+   
+    
 }
 
 def classify_error(error_msg):

@@ -38,11 +38,11 @@
             </div>
         </div>
 
-        <!-- 오른쪽: 피드백 가이드 -->
+        <!-- 오른쪽: 문법 오류 확인 -->
         <div class="eight wide column">
             <div class="ui segment" style="box-shadow: 0 1px 4px rgba(0,0,0,0.1); border-radius: 10px; height: 100%;">
                 <h2 class="ui header" style="font-weight: 500; font-size: 1.5em; color: #2185d0;">
-                    📋 피드백 가이드
+                    ✏️ 문법 오류 확인
                 </h2>
                 <?php if (!empty($link_results)): ?>
                     <?php foreach ($link_results as $result): ?>
@@ -51,7 +51,7 @@
                             <?php foreach ($result['matches'] as $match): ?>
                                 <div style="margin-left: 1em;">
                                     <p><strong>개념:</strong> <?php echo htmlspecialchars($match['concepts']); ?></p>
-                                    <p><strong>코멘트:</strong> <?php echo htmlspecialchars($match['block']); ?></p>
+                                    <!-- <p><strong>코멘트:</strong> <?php echo htmlspecialchars($match['block']); ?></p> -->
                                     <a href="<?php echo htmlspecialchars($match['link']); ?>" target="_blank" style="font-weight: bold; color: #2185d0;">📚 문법 개념 링크</a>
                                 </div>
                                 <hr>

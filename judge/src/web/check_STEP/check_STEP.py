@@ -206,6 +206,21 @@ def main():
         print("correct")
     else:
         print("no")
+        
+        unique_id = uuid.uuid4().hex[:6]
+        output_code_path = f"/tmp/complete_code_{pid}_step{step}_{unique_id}.c"
+        print(f"[DEBUG] 파일 저장 시도: {output_code_path}")  # 디버그 로그 추가
+        try:
+            with open(output_code_path, 'w', encoding='utf-8') as out_f:
+                out_f.write(f"// problem_id: {pid}\n")
+                out_f.write(final_code)
+            print(f"[DEBUG] 파일 저장 완료")  # 디버그 로그 추가
+        except Exception as e:
+            print(f"[ERROR] 파일 저장 실패: {e}")
+        if os.path.exists(output_code_path):
+            print(f"[✅] 저장된 파일 확인됨: {output_code_path}")
+        else:
+            print(f"[❌] 저장 실패 (파일 없음): {output_code_path}")
 
 if __name__ == "__main__":
     main()

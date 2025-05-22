@@ -215,11 +215,12 @@ include('allowed_users.php');
             
             <!-- 문제해결 전략게시판 -->
 
-            <!-- <a class="item <?php if ($url=="faqs.php") echo "active";?>" href="<?php echo $path_fix?>faqs.php"><i
+            <a class="item <?php if ($url=="faqs.php") echo "active";?>" href="<?php echo $path_fix?>faqs.php"><i
                     class="help circle icon"></i><span class="desktop-only"> <?php echo $MSG_FAQ?></span></a>
 
-            <a class="item <?php if ($url=="troy_debugging.php") echo "active";?>" href="<?php echo $path_fix?>troy_debugging.php"><i
-            class="bug icon"></i><span class="desktop-only"> <?php echo "디버그용"?></span></a> -->
+            <!-- 디버그용 -->
+            <!-- <a class="item <?php if ($url=="troy_debugging.php") echo "active";?>" href="<?php echo $path_fix?>troy_debugging.php"><i
+            class="bug icon"></i><span class="desktop-only"> <?php echo "디버그용"?></span></a>  -->
             
 
             <!-- 토론 게시판 -->

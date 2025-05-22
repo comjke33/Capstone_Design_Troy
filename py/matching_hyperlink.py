@@ -34,8 +34,8 @@ CONCEPT_LINKS = {
         "링크": f"{BASE_URL}#세미콜론-누락"
     },
 
-    # 괄호 오류 (identifier 분리 고려)
-    r"expected '\)'|expected '\]'|expected '\}'|expected '\(' after": {
+     # 괄호 오류 (dangling else 포함)
+    r"expected '\)'|expected '\]'|expected '\}'|expected '\(' after|add explicit braces to avoid dangling else": {
         "개념": "괄호 닫힘 오류",
         "링크": f"{BASE_URL}#괄호-닫힘-오류"
     },
@@ -46,12 +46,8 @@ CONCEPT_LINKS = {
         "링크": f"{BASE_URL}#표현식-누락"
     },
 
-    # 포인터 오류
-    r"incompatible pointer type|incompatible integer to pointer conversion|passing .* to parameter of incompatible type": {
-        "개념": "포인터",
-        "링크": f"{BASE_URL}#포인터"
-    },
-    r"dereferencing a null pointer": {
+    # 포인터 오류 (보완)
+    r"incompatible pointer type|incompatible integer to pointer conversion|passing .* to parameter of incompatible type|called object type .* is not a function or function pointer|dereferencing a null pointer": {
         "개념": "포인터",
         "링크": f"{BASE_URL}#포인터"
     },
@@ -69,14 +65,14 @@ CONCEPT_LINKS = {
         "링크": f"{BASE_URL}#입출력-형식-지정자"
     },
 
-    # 연산자 오류
-    r"invalid operands to binary expression|comparison between|invalid operands to logical expression": {
-        "개념": "연산자 사용 오류",
-        "링크": f"{BASE_URL}#연산자-사용-오류"
+    # 연산자 오류 (보완)
+    r"invalid operands to binary expression|comparison between|invalid operands to logical expression|expression is not assignable|variable '.*' is incremented both in the loop header and in the loop body": {
+    "개념": "연산자 사용 오류",
+    "링크": f"{BASE_URL}#연산자-사용-오류"
     },
 
-    # 비교 연산자
-    r"using the result of an assignment as a condition without parentheses": {
+    # 비교 연산자 (보완)
+    r"using the result of an assignment as a condition without parentheses|equality comparison result unused": {
         "개념": "비교 연산자",
         "링크": f"{BASE_URL}#비교-연산자"
     },
@@ -99,14 +95,14 @@ CONCEPT_LINKS = {
         "링크": f"{BASE_URL}#함수-정의-중복"
     },
 
-    # 함수 인자
-    r"incompatible type for argument|too few arguments|too many arguments to function call|incompatible .* to .* conversion": {
+    # 함수 인자 순서 오류
+    r"incompatible type for argument|too (few|many) arguments to function call": {
         "개념": "함수 인자 순서 오류",
         "링크": f"{BASE_URL}#함수-인자-순서-오류"
     },
 
-    # 형 변환
-    r"implicit conversion from .* to .*|conversion from .* to .* changes value": {
+    # 형 변환 오류
+    r"implicit conversion from .* to .*|conversion from .* to .* changes value|incompatible .* to .* conversion": {
         "개념": "형 변환 오류",
         "링크": f"{BASE_URL}#형-변환-오류"
     },
@@ -121,6 +117,11 @@ CONCEPT_LINKS = {
     r"implicitly declaring library function|implicit declaration of library function": {
     "개념": "표준 함수 오용",
     "링크": f"{BASE_URL}#표준-함수-오용"
+    },
+    # 흐름 제어 오류 (신규)
+    r"'break' statement not in loop or switch statement": {
+        "개념": "흐름 제어 오류",
+        "링크": f"{BASE_URL}#흐름-제어-오류"
     }
 }
 

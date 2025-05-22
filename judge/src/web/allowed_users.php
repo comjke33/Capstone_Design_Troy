@@ -6,6 +6,7 @@ $allowed_user_id = [
     'end_to_end', 
     'ERRORMAN', 
     'ERRORMON', 
+    'errordemon',
     'errortest', 
     'error_test', 
     'error_test1', 
@@ -23,6 +24,7 @@ $allowed_user_id = [
     'test4', 
     'test5', 
     'zxccyh', 
-    'zxczxc'
+    'zxczxc',
+    'search_test'
 ];
 ?>

@@ -4,7 +4,7 @@ $data = json_decode(file_get_contents("php://input"), true);
 $answer = $data["answer"] ?? "";
 $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
-$step = $data["step"] ?? "1";
+$step = $data["step"] ?? "0";
 
 // 임시 디렉토리 설정
 $tempDir = "/tmp/";
