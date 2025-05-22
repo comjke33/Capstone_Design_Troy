@@ -26,14 +26,14 @@
         </div>
       <?php } ?>
     <!-- 시스템 설명서 안내 (전체 내용 포함) -->
-<!-- 개선된 OJ 기능 안내문 (첫 화면 안내 블록) -->
 <div class="ui styled fluid accordion" style="margin-top: 2em;">
   <div class="title active ui top attached block header blue">
     <i class="dropdown icon"></i>
     📘 TROY OJ 설명서
   </div>
   <div class="content active ui bottom attached segment" style="line-height: 2.0;">
-    <h4 class="ui header">📘 단계별 풀이 가이드</h4>
+  <h3 class="ui top attached block header" style="font-size: 1.5em; background-color: #f4f4f4; color: #003366;">
+  📘 단계별 풀이 가이드</h3>
     <ol>
       <li><b>문제 페이지의 [단계적 풀기]</b> 버튼을 눌러 학습을 시작합니다.</li>
       <li><code>#include &lt;stdio.h&gt;</code>는 자동 포함되어 별도 선언이 필요 없습니다.</li>
@@ -58,7 +58,8 @@
 
     <div class="ui divider"></div>
 
-    <h4 class="ui header">📊 개인별 문법 오류 리포트</h4>
+    <h3 class="ui top attached block header" style="font-size: 1.5em; background-color: #f4f4f4; color: #003366;">
+    📊 개인별 문법 오류 리포트</h3>
     <ul>
       <li>
         <b>우측 상단 종 아이콘</b> 클릭 → 본인의 문법 오류 리포트 확인
@@ -71,7 +72,8 @@
 
     <div class="ui divider"></div>
 
-    <h4 class="ui header">🔁 유사 문제 풀이 및 문법 오류 확인</h4>
+    <h3 class="ui top attached block header" style="font-size: 1.5em; background-color: #f4f4f4; color: #003366;">
+    🔁 유사 문제 풀이 및 문법 오류 확인</h3>
     <ul>
       <li>
         <b>정답 제출 시</b> → Codeup의 유사 문제 풀이 페이지로 이동
