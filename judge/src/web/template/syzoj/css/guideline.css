@@ -84,13 +84,39 @@
     z-index: 9999;
 }
 
+.flowchart-wrapper {
+  padding: 8px;
+}
+
+/* 카드형 UI */
+.flowchart-card {
+  border: 2px solid #e0e7ff;
+  border-radius: 16px;
+  background: linear-gradient(to bottom right, #f8fafc, #eef2ff);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  padding: 12px;
+  transition: all 0.3s ease;
+  display: none; /* 기본은 숨김 */
+}
+
+/* 이미지 스타일 */
 #flowchart_image {
-    position: absolute;
-    top: 88px;
-    width: 250px;
-    max-height: 500px;
-    display: none;
-    transition: top 0.3s ease;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+/* 활성화 시 강조 효과 */
+.flowchart-wrapper.active .flowchart-card {
+  border: 3px solid #4da3ff;
+  box-shadow: 0 0 20px rgba(77, 163, 255, 0.5);
+  background-color: #f0f8ff;
+  display: block;
+}
+
+#flowchart_image:hover {
+  transform: scale(1.02);
 }
 
 /* 가운데 코드 입력 영역 */
