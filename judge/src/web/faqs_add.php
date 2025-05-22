@@ -20,10 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $helper_function = $_POST['helper_function'];
     $solution_code = $_POST['solution_code'];
 
-    // 마지막으로 삽입된 문제 id 가져오기
-    global $pdo; // ✅ PDO 객체 접근
-    $problem_id = $pdo->lastInsertId(); // ✅ 정상적인 PDO 메서드 사용
-
     // 전략 저장
     $sql_insert_strategy = "INSERT INTO strategy (problem_id, title, description, helper_function, solution_code, user_id) 
                             VALUES (?, ?, ?, ?, ?, ?)";
@@ -40,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h2 class="ui dividing header">문제풀이 전략 추가</h2>
     <form class="ui form" method="post" action="faqs_add.php">
 
-        <h4 class="ui dividing header">전략 정보 입력</h4>
+        <h4 class="ui dividing header">풀이전략 정보 입력</h4>
         <div class="field">
             <label>전략 제목</label>
             <input type="text" name="title" required>
