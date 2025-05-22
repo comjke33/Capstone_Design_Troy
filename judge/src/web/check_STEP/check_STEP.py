@@ -136,7 +136,7 @@ def validate_code_output_full_io(code_lines, test_in_path):
             actual_output = result.stdout.strip()
 
             if actual_output != expected_output:
-                print(f"[❌] 테스트 실패: {base_name}")
+                print(f"[❌] 테스트 성공: {base_name}")
                 return False
             else:
                 print(f"[O] 테스트 실패: {base_name}")
