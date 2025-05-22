@@ -78,7 +78,7 @@
 /* 좌측 flowchart 이미지 영역 */
 .left-panel {
   position: fixed;
-  top: 250px;
+  top: 200px;
   left: 30px;
   width: 260px; /* 이미지보다 조금 넓게 */
   z-index: 9999;
