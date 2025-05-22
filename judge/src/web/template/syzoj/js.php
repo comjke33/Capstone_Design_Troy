@@ -55,10 +55,10 @@ $(document).ready(function(){
 <?php if(isset($_SESSION[$OJ_NAME."_administrator"]) ||isset($_SESSION[$OJ_NAME."_problem_editor"]) || isset($_SESSION[$OJ_NAME."_tag_adder"])  ){  ?>
 
   // 관리자가 문제의 소스 추가 버튼 표시
-	$("div[fd=source]").each(function(){
-		let pid=$(this).attr('pid');	
-		$(this).append("<span><span class='label label-success' pid='"+pid+"' onclick='problem_add_source(this,"+pid+");'>+</span></span>");
-	});
+	// $("div[fd=source]").each(function(){
+	// 	let pid=$(this).attr('pid');	
+	// 	$(this).append("<span><span class='label label-success' pid='"+pid+"' onclick='problem_add_source(this,"+pid+");'>+</span></span>");
+	// });
 
 <?php  } ?>
 
