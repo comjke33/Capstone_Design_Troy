@@ -33,11 +33,13 @@ include("../../guideline_common.php");
 
 <div class="main-layout">
     <!-- 좌측 패널 -->
-    <div class="left-panel">
+    <div class="left-panel" id="left-panel" style="display: none;">
     <div class="flowchart-wrapper active" id="flowchart-wrapper">
-        <img id="flowchart_image" style="display: none">
+        <div class="flowchart-header">Flowchart</div>
+        <img id="flowchart_image" style="width: 100%;">
     </div>
     </div>
+
 
 
 
