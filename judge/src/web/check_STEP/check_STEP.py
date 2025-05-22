@@ -144,8 +144,8 @@ def validate_code_output_full_io(code_lines, test_in_path):
         
 
 
-        if os.path.exists(exe_name):
-            os.remove(exe_name)
+    if os.path.exists(exe_name):
+        os.remove(exe_name)
 
     return True
 
