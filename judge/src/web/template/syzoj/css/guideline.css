@@ -80,7 +80,7 @@
     position: fixed; /*이미지 고정 <- 이 부분을 통해 flowchart 위치 스크롤 내려도 고정*/
     top: 100px; /* 초기 위치 */
     left: 30px;
-    width: 150px;
+    width: 180px;
     z-index: 9999;
 }
 
