@@ -77,47 +77,48 @@
 
 /* 좌측 flowchart 이미지 영역 */
 .left-panel {
-    position: fixed; /*이미지 고정 <- 이 부분을 통해 flowchart 위치 스크롤 내려도 고정*/
-    top: 100px; /* 초기 위치 */
-    left: 30px;
-    width: 180px;
-    z-index: 9999;
+  position: fixed;       /* 스크롤해도 위치 고정 */
+  top: 100px;
+  left: 30px;
+  width: 180px;          /* 이미지보다 살짝 넓게 */
+  z-index: 9999;
 }
 
 .flowchart-wrapper {
-  padding: 8px;
+  padding: 0;
 }
 
-/* 카드형 UI */
 .flowchart-card {
-  border: 2px solid #e0e7ff;
-  border-radius: 16px;
-  background: linear-gradient(to bottom right, #f8fafc, #eef2ff);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  padding: 12px;
-  transition: all 0.3s ease;
+  position: relative;
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #cbd5e1;  /* 연한 테두리 */
+  border-radius: 12px;
+  background: #f8fafc;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   display: none; /* 기본은 숨김 */
+  transition: all 0.3s ease;
 }
 
-/* 이미지 스타일 */
+.flowchart-wrapper.active .flowchart-card {
+  display: block;
+  border-color: #4da3ff;
+  box-shadow: 0 0 20px rgba(77, 163, 255, 0.4);
+  background-color: #eef6ff;
+}
+
 #flowchart_image {
   width: 100%;
   height: auto;
-  border-radius: 12px;
-  transition: transform 0.3s ease;
-}
-
-/* 활성화 시 강조 효과 */
-.flowchart-wrapper.active .flowchart-card {
-  border: 3px solid #4da3ff;
-  box-shadow: 0 0 20px rgba(77, 163, 255, 0.5);
-  background-color: #f0f8ff;
+  border-radius: 8px;
   display: block;
+  transition: transform 0.3s ease;
 }
 
 #flowchart_image:hover {
   transform: scale(1.02);
 }
+
 
 /* 가운데 코드 입력 영역 */
 .center-panel {
