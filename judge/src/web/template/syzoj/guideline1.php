@@ -43,9 +43,6 @@ include("../../guideline_common.php");
     </div>
 
 
-
-
-
     <!-- 가운데 패널 -->
     <div class="center-panel">
         <h1>한 줄씩 풀기</h1>
