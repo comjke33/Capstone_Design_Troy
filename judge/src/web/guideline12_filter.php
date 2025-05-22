@@ -162,7 +162,6 @@ function codeFilter($text) {
 }
 
 
-
 // 트리 형태로 저장된 코드 블록 구조를 1차원(flat) 배열로 변환
 function extractContentsFlat($blocks) { //트리 구조
     $results = []; //1차원 배열 
