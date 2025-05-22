@@ -35,7 +35,7 @@ window.onload = function () {
         .then(res => res.json())
         .then(data => {
             if (data.status === "ok") {
-                document.getElementById("source").value = data.code;
+                editor.setValue(data.code, -1); // Ace Editor로 직접 설정
             } else {
                 alert(data.message);
             }
@@ -50,8 +50,8 @@ window.onload = function () {
     <h2 class="ui dividing header">🛠 결함 코드 훈련 - 문제 <?php echo htmlspecialchars($problem_id); ?>: <?php echo htmlspecialchars($title); ?></h2>
 
     <div class="ui stackable grid">
-        <!-- 왼쪽: 문제 설명 -->
-        <div class="eight wide column">
+        <!-- 문제 설명 (왼쪽) -->
+        <div class="six wide column">
             <div class="ui segments">
                 <div class="ui top attached block header"><?php echo $MSG_Description ?></div>
                 <div class="ui bottom attached segment font-content"><?php echo bbcode_to_html($description); ?></div>
@@ -74,8 +74,8 @@ window.onload = function () {
             </div>
         </div>
 
-        <!-- 오른쪽: 코드 제출 -->
-        <div class="eight wide column">
+        <!-- 코드 입력 및 제출 (오른쪽) -->
+        <div class="ten wide column">
             <div class="ui segment">
                 <form method="post" action="submit.php" class="ui form">
                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($problem_id); ?>">
@@ -87,7 +87,10 @@ window.onload = function () {
                     </div>
                     <div class="field">
                         <label>코드 입력</label>
-                        <textarea name="source" id="source" rows="20" style="width:100%; font-family:monospace;"></textarea>
+                        <!-- 실제 코드는 Ace Editor -->
+                        <div id="editor" style="height: 400px; width: 100%; font-family: monospace;"></div>
+                        <!-- 제출용 숨겨진 textarea -->
+                        <textarea name="source" id="source" style="display: none;"></textarea>
                     </div>
                     <button class="ui primary button" type="submit">제출하기</button>
                 </form>
@@ -95,5 +98,18 @@ window.onload = function () {
         </div>
     </div>
 </div>
+
+<!-- Ace Editor 스크립트 및 연동 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js" integrity="sha512-G5TtS78o5gB/ZI6O3hO++0cF/6a3zi6O3cbU1tz4Qs6EJ2Z9lHREac1vKpTCwVhV7i3PXgA+j38AkbKMGKaZDg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+let editor = ace.edit("editor");
+editor.setTheme("ace/theme/chrome");
+editor.session.setMode("ace/mode/c_cpp");
+
+// 제출 시 Ace editor 내용을 숨겨진 textarea에 복사
+document.querySelector("form").addEventListener("submit", function () {
+    document.getElementById("source").value = editor.getValue();
+});
+</script>
 
 <?php require_once("template/syzoj/footer.php"); ?>
