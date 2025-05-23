@@ -106,12 +106,15 @@
 
 /* ✅ 이미지 감싸는 영역에 스크롤 */
 .flowchart-scroll {
-  overflow-y: auto; /* 세로 스크롤 활성화 */
-  height: 500px;     /* 스크롤을 만들 높이 지정 */
+  overflow-y: auto;         /* 세로 스크롤 가능하게 */
+  flex: 1;                  /* 남은 공간 모두 차지 */
   border-radius: 8px;
-  border: 1px solid #ccc; /* 선택사항: 시각적으로 구분 */
-  padding: 10px;     /* 선택사항: 내부 여백 */
+  border: 1px solid #ccc;
+  padding: 10px;
+  height: 100%;             /* 또는 고정값: 예: 500px */
+  box-sizing: border-box;
 }
+
 
 
 /* ✅ 이미지 자체는 100% 너비 */
