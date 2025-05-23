@@ -44,7 +44,7 @@ include("../../guideline_common.php");
 
 
     <!-- 가운데 패널 -->
-<div class="center-panel">
+    <div class="center-panel">
     <h1>기초 풀기</h1>
 
     <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
@@ -63,9 +63,6 @@ include("../../guideline_common.php");
                 $raw = trim($block['content']);
                 if ($raw === '') continue;
 
-                // 디버깅용 주석
-                $html .= "<!-- DEBUG raw line [{$answer_index}]: " . htmlentities($raw) . " -->\n";
-
                 // 안전하게 이스케이프
                 $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
 
@@ -73,9 +70,15 @@ include("../../guideline_common.php");
                 $disabled = $has_correct_answer ? "" : "disabled";
 
                 // 정답 내용 가져오기
-                // $default_value = $has_correct_answer 
-                //     ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') 
-                //     : "";
+                $correct_value = $has_correct_answer ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') : "";
+
+                $readonly = "";
+                $show_buttons = true;
+
+                if ($depth == 0) {
+                    $readonly = "readonly";
+                    $show_buttons = false;
+                }
 
                 // 출력 블록 시작
                 $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
