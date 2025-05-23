@@ -68,13 +68,12 @@ include("../../guideline_common.php");
                     $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
                     $disabled = $has_correct_answer ? "" : "disabled";
 
+                    //$depth ==1, 기초 문장인 경우
+                    $is_depth_one = ($depth == 1); // ✅ depth 판단
+
                     $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
                     $code_line_style = ($is_depth_one) ? "background-color: #D4EDDA;" : "";
                     $html .= "<div class='code-line' style='{$code_line_style}'>{$escaped_line}</div>";
-
-
-                    //$depth ==1, 기초 문장인 경우
-                    $is_depth_one = ($depth == 1); // ✅ depth 판단
 
                     if(!$is_depth_one) {
                         $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
