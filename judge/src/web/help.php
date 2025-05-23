@@ -7,6 +7,42 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+  <style>
+    .code-example {
+      background-color: #f0f8f0 !important;
+      border: 2px solid #4CAF50 !important;
+      border-radius: 8px !important;
+      padding: 15px !important;
+      margin: 15px 0 !important;
+      font-family: 'Consolas', 'Monaco', monospace !important;
+    }
+    .code-example pre {
+      margin: 0 !important;
+      white-space: pre-wrap !important;
+      font-size: 14px !important;
+      line-height: 1.5 !important;
+    }
+    .highlight-warning {
+      background-color: #fff8f6 !important;
+      border-left: 4px solid #d72638 !important;
+      padding: 12px 15px !important;
+      margin: 10px 0 !important;
+      border-radius: 0 5px 5px 0 !important;
+    }
+    .guideline-box {
+      background-color: #e8f4fd !important;
+      padding: 12px !important;
+      border-radius: 5px !important;
+      margin-bottom: 15px !important;
+      border-left: 4px solid #2185d0 !important;
+    }
+    .example-title {
+      color: #2185d0 !important;
+      font-weight: bold !important;
+      margin-bottom: 10px !important;
+      font-size: 16px !important;
+    }
+  </style>
 </head>
 <body>
 <div class="ui container" style="margin-top: 5vh;">
@@ -19,10 +55,32 @@
       <div class="ui list" style="font-size: 1.1em; line-height: 1.8;">
         <div class="item">문제 페이지의 <b>[단계적 풀기]</b> 버튼으로 학습을 시작하세요.</div>
         <div class="item">단계적 풀기에서는 <code>#include &lt;stdio.h&gt;</code>는 자동 포함되므로 따로 선언하지 않아도 됩니다.</div>
-        <div class="item">단계적 풀기가아닌 문제를 풀때 에는 <code>#include &lt;stdio.h&gt;</code>는 넣어주어야합니다.</div>
-        <div class="item ui warning message" style="color:#d72638; background-color: #fff8f6;">
-          ⚠ <b>중요:</b> 조건문/반복문/함수 선언 시 <code>{</code>는 <u>직접 작성</u>, <code>}</code>는 <u>작성 금지</u> (자동 처리)
+        <div class="item">단계적 풀기가 아닌 문제를 풀 때는 <code>#include &lt;stdio.h&gt;</code>는 넣어주어야 합니다.</div>
+        
+        <div class="highlight-warning">
+          <div style="color:#d72638; font-weight: bold; margin-bottom: 15px;">
+            ⚠ <b>중요:</b> 조건문/반복문/함수 선언 시 <code>{</code>는 <u>직접 작성</u>, <code>}</code>는 <u>작성 금지</u> (자동 처리)
+          </div>
+          
+          <div class="guideline-box">
+            <div style="color: #1e88e5; font-weight: bold; margin-bottom: 8px;">📋 가이드라인:</div>
+            <div style="color: #333; line-height: 1.6;">
+              문자가 숫자인지 확인하고 맞다면 product에 해당 숫자를 곱하세요.<br>
+              has_digit을 1로 설정하여 숫자가 존재함을 표시하세요.
+            </div>
+          </div>
+          
+          <div class="example-title">💡 예시:</div>
+          <div class="code-example">
+            <pre>if ('0' <=str[i] &&str[i] <='9') {
+    product *=(str[i] -'0');
+    has_digit =1;</pre>
+          </div>
+          <div style="color: #666; font-size: 0.95em; margin-top: 8px;">
+            위와 같이 <code>{</code>는 직접 입력하고, <code>}</code>는 시스템이 자동으로 처리합니다.
+          </div>
         </div>
+        
         <div class="item"><b>Step 1:</b> 한 줄씩 입력 – 코드 의미 및 동작 이해</div>
         <div class="item"><b>Step 2:</b> 문단 단위 – 흐름 중심 연습</div>
         <div class="item"><b>Step 3:</b> 전체 구성 – 자신만의 스타일로 완성 (제출 없음)</div>
