@@ -63,6 +63,7 @@ include("../../guideline_common.php");
                 $raw = trim($block['content']);
                 if ($raw === '') continue;
 
+            
                 // 안전하게 이스케이프
                 $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
 
@@ -70,15 +71,14 @@ include("../../guideline_common.php");
                 $disabled = $has_correct_answer ? "" : "disabled";
 
                 // 정답 내용 가져오기
-                $correct_value = $has_correct_answer ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') : "";
+                // $default_value = $has_correct_answer 
+                //     ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') 
+                //     : "";
 
-                $readonly = "";
-                $show_buttons = true;
+                $is_depth_zero = ($depth === 0);
+                $readonly = $is_depth_zero ? "readonly" : "";
+                $show_buttons = !$is_depth_zero;
 
-                if ($depth == 0) {
-                    $readonly = "readonly";
-                    $show_buttons = false;
-                }
 
                 // 출력 블록 시작
                 $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
@@ -91,7 +91,7 @@ include("../../guideline_common.php");
 
 
                 // 버튼 출력
-                if (!$isCorrect) {
+                if (!$isCorrect && $is_depth_zero) {
                     $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
                     $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
                     $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
