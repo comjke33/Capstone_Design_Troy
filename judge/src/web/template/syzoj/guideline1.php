@@ -183,31 +183,35 @@ document.addEventListener("DOMContentLoaded", function () {
         const savedValue = localStorage.getItem(key);
         const savedStatus = localStorage.getItem(statusKey);
 
+        // textarea에 저장된 값 불러오기
         if (savedValue !== null) {
             textarea.value = savedValue;
         }
 
+        // 정답을 맞춘 경우
         if (savedStatus === "correct") {
             textarea.readOnly = true;
             textarea.style.backgroundColor = "#d4edda";
             textarea.style.border = "1px solid #d4edda";
             textarea.style.color = "#155724";
+
+            // 정답을 맞춘 경우 체크 표시
             const checkMark = document.getElementById(`check_${index}`);
             if (checkMark) checkMark.style.display = "inline";
 
-            // ✅ 이 부분이 누락되어 있어서 버튼이 계속 보이는 겁니다!
-            document.getElementById(`submitBtn_${index}`).style.display = "none";
-            document.getElementById(`checkBtn_${index}`).style.display = "none";
-            document.getElementById(`feedbackBtn_${index}`).style.display = "none";
+            // 정답이 맞은 경우 버튼 숨기기
+            document.getElementById(`submit_btn_${index}`).style.display = "none";
+            document.getElementById(`answer_btn_${index}`).style.display = "none";
+            document.getElementById(`feedback_btn_${index}`).style.display = "none";
         }
 
-
+        // textarea 입력값이 변경되면 localStorage에 저장
         textarea.addEventListener("input", () => {
             localStorage.setItem(key, textarea.value);
         });
     });
 
-    // 버튼 클릭 시 저장 후 이동
+    // Step1, Step2, Step3 버튼 클릭 시 이동
     buttons.forEach(btn => {
         btn.addEventListener("click", () => {
             const nextStep = btn.getAttribute("data-step");
