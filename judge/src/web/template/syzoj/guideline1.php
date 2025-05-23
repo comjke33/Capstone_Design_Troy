@@ -74,6 +74,9 @@ include("../../guideline_common.php");
 
 
                     //$depth ==1, 기초 문장인 경우
+                    $is_depth_one = ($depth == 1); // ✅ depth 판단
+
+                    if(!$is_depth_one) {
                         $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
                         if (!$isCorrect) {
@@ -81,7 +84,7 @@ include("../../guideline_common.php");
                             $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
                             $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
                         }
-            
+                    }
 
                     $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                     $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
