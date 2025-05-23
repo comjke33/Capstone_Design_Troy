@@ -37,7 +37,7 @@ include("../../guideline_common.php");
     <div class="flowchart-wrapper active" id="flowchart-wrapper">
         <div class="flowchart-title">Flowchart</div>
         <div class="flowchart-scroll">
-        <img id="flowchart_image" src="flowchart.png" alt="Flowchart" />
+        <!-- <img id="flowchart_image" src="flowchart.png" alt="Flowchart" /> -->
         </div>
     </div>
     </div>

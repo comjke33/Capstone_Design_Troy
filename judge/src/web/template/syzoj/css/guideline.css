@@ -109,11 +109,11 @@
   overflow-y: auto;          /* ✅ 내부만 스크롤 */
 }
 
-#flowchart_image {
+/* #flowchart_image {
   width: 100%;
   display: block;
   border-radius: 8px;
-}
+} */
 
 
 /* 가운데 코드 입력 영역 */
