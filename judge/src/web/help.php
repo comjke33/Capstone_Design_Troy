@@ -81,9 +81,9 @@
           </div>
         </div>
         
-        <div class="item"><b>Step 1:</b> 한 줄씩 입력 – 코드 의미 및 동작 이해</div>
-        <div class="item"><b>Step 2:</b> 문단 단위 – 흐름 중심 연습</div>
-        <div class="item"><b>Step 3:</b> 전체 구성 – 자신만의 스타일로 완성 (제출 없음)</div>
+        <div class="item"><b>Step 1:</b> 한 줄씩 입력 – 이 코드가 왜 필요할까 생각하면서 풀어보세요.</div>
+        <div class="item"><b>Step 2:</b> 문단 단위 – 어떤 코드들이 들어가야 할지 생각하면서 풀어보세요.</div>
+        <div class="item"><b>Step 3:</b> 전체 구성 – 약간의 힌트만으로 자신만의 스타일로 코드를 완성해보세요. (제출 없음)</div>
         <div class="item">Step 1·2 진행 시 좌측 <b>Flowchart</b>로 구조를 시각화합니다.</div>
         <div class="item"><b>[피드백 보기]</b> 버튼으로 AI 힌트를 받을 수 있습니다.</div>
         <div class="item ui negative message" style="background-color: #fff6f6;">
@@ -101,7 +101,7 @@
       </div>
 
       <!-- 유사 문제 추천 -->
-      <h4 class="ui dividing header">🔁 채점 기록 </h4>
+      <h4 class="ui dividing header">🔁 채점 기록 페이지 </h4>
       <div class="ui list" style="font-size: 1.1em; line-height: 1.8;">
         <div class="item"><b>정답 제출 시</b> → Codeup 유사 문제 풀이 페이지로 이동</div>
         <div class="item"><b>오답 제출 시</b> → <b>[문법 오류 확인]</b> 버튼 생성, 개념 링크 제공</div>
