@@ -33,12 +33,12 @@ include("../../guideline_common.php");
 
 <div class="main-layout">
     <!-- 좌측 패널 -->
-    <!-- <div class="left-panel">
+    <div class="left-panel">
     <div class="flowchart-wrapper active" id="flowchart-wrapper">
         <div class="flowchart-title">Flowchart</div>
         <img id="flowchart_image">
     </div>
-    </div> -->
+    </div>
 
     <!-- 가운데 패널 -->
 <div class="center-panel">
@@ -508,6 +508,71 @@ function autoResize(ta) {
     ta.style.height = ta.scrollHeight + 'px';
 }
 
+
+let currentTextarea = null;
+let animationRunning = false;
+
+//flowchart렌더링 
+function updateImageForTextarea(index, ta) {
+    // 현재 textarea와 관련된 이미지 업데이트
+    currentTextarea = ta;
+    
+    // 플로우차트 이미지를 가져오기 위한 API 호출
+    fetch(`../../get_flowchart2_image.php?problem_id=${problemId}&index=${index}`)
+        .then(res => res.json())
+        .then(data => {
+            let img = document.getElementById("flowchart_image");
+            
+            // 이미지가 없으면 동적으로 추가할 수 있지만, 여기서는 기존 이미지를 사용
+            if (!img) {
+                img = document.createElement("img");
+                img.id = "flowchart_image";
+                document.body.appendChild(img);  // 필요에 따라 이미지 태그를 동적으로 생성
+            }
+
+            img.src = data.url;  // 서버에서 받은 이미지 URL로 설정
+            console.log("서버 디버그 데이터:", data.debug);
+
+            // 애니메이션 시작 (이미지가 부드럽게 따라가게)
+            if (!animationRunning) {
+                animationRunning = true;
+            }
+        });
+}
+
+
+//줄번호에 맞춰서 이미지 fetch(일단 보류)
+function fetchImageByLineNumber(lineNumber) {
+    const problemId = <?= json_encode($problem_id) ?>;
+    fetch(`../../get_flowchart2_image.php?problem_id=${problemId}&index=${lineNumber}`)
+        .then(response => response.json())
+        .then(data => {
+            let img = document.getElementById("flowchart_image");
+            if (data.url) {
+                // 이미지가 존재할 때만 보여주기
+                img.src = data.url;
+                img.style.display = "block";
+
+                console.log("이미지 업데이트:", data.url);
+
+                if (!animationRunning) {
+                    animationRunning = true;
+                }
+            } else {
+                // 이미지 없을 때 숨기기
+                img.style.display = "none";
+                console.log("이미지 없음. 숨김 처리됨.");
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+// textarea 클릭 시 이미지 로드
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
+    ta.addEventListener("focus", () => fetchImageByLineNumber(idx)); 
+    });
+});
 
 </script>
 

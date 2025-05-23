@@ -572,7 +572,7 @@ function updateImageForTextarea(index, ta) {
     currentTextarea = ta;
     
     // 플로우차트 이미지를 가져오기 위한 API 호출
-    fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
+    fetch(`../../get_flowchart1_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
             let img = document.getElementById("flowchart_image");
@@ -598,7 +598,7 @@ function updateImageForTextarea(index, ta) {
 //줄번호에 맞춰서 이미지 fetch(일단 보류)
 function fetchImageByLineNumber(lineNumber) {
     const problemId = <?= json_encode($problem_id) ?>;
-    fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${lineNumber}`)
+    fetch(`../../get_flowchart1_image.php?problem_id=${problemId}&index=${lineNumber}`)
         .then(response => response.json())
         .then(data => {
             let img = document.getElementById("flowchart_image");

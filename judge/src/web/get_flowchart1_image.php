@@ -6,7 +6,6 @@ header("Content-Type: application/json");
 $problem_id = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
 
 $index = isset($_GET['index']) ? intval($_GET['index']) : -1;
-// 디버깅 용 default 이미지 설정
 
 // 문제 ID와 인덱스가 잘못된 경우
 if ($problem_id <= 0) {
