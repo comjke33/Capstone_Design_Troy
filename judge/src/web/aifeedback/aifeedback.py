@@ -146,6 +146,7 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     6. 문단 시작에는 번호를 붙이지 마세요.
     7. (중요)전체 출력은 최대 3줄 이내여야 합니다.
     8. 문장 호흡은 짧게 해주세요.
+    9. 같은 내용을 주저리주저리 말하지 마.
 
     학생이 제출한 코드:
     {block_code}
