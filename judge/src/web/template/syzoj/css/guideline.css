@@ -87,11 +87,39 @@
   border: 2px solid black;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  height: 600px;               /* 전체 높이 고정 */
+  max-height: 90vh;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
+
+/* 중간 크기 화면 (태블릿 등) */
+@media (max-width: 1024px) {
+  .flowchart-wrapper {
+    padding: 10px;
+    max-height: 85vh;
+  }
+}
+
+/* 작은 화면 (모바일 등) */
+@media (max-width: 768px) {
+  .flowchart-wrapper {
+    padding: 8px;
+    max-height: 80vh;
+    flex-direction: column; /* 필요시 row로 변경 가능 */
+  }
+}
+
+/* 매우 작은 화면 (소형 모바일 등) */
+@media (max-width: 480px) {
+  .flowchart-wrapper {
+    padding: 6px;
+    max-height: 75vh;
+    flex-direction: column;
+  }
+}
+
 
 .flowchart-title {
   font-size: 18px;
