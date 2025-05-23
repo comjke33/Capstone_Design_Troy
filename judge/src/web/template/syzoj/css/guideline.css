@@ -167,17 +167,18 @@
 .styled-textarea {
   border: 1px solid #ccc;
   border-radius: 6px;
-  padding: 7px;
-  font-family: 'Fira Code', 'JetBrains Mono', Consolas, monospace; /* ✅ 변경됨 */
+  padding: 6px 10px; /* 🔧 위아래 패딩을 줄여서 높이도 낮춤 */
+  font-family: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
   font-size: 18px;
   background-color: #fff;
   line-height: 1.5;
   resize: none;
   width: 100%;
   box-sizing: border-box;
-  min-height: 20px;
-  margin-bottom: 10px;
+  height: calc(1em * 1.5 + 12px); /* 🔧 한 줄 높이 + 위아래 padding */
+  overflow: hidden; /* 줄 넘침 방지 */
 }
+
 
 
 /* 제출 버튼 및 보기 버튼 */
