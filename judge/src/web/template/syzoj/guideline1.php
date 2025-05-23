@@ -81,8 +81,7 @@ include("../../guideline_common.php");
                 $html .= "<div class='code-line'>{$escaped_line}</div>";
 
                 // textarea 출력
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
-
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>" . "</textarea>";
 
 
                 // 버튼 출력
