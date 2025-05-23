@@ -73,7 +73,10 @@ include("../../guideline_common.php");
 
                     $is_depth_one = ($depth == 1); // ✅ depth 판단
 
-                    if(!$is_depth_one) {
+                    if ($is_depth_one) {
+                        // ✅ 정답은 JS에서 showAnswer()로 삽입될 예정
+                        // $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='background-color: #f0f0f0;'></textarea>";
+                    } else {
                         $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
                         if (!$isCorrect) {
