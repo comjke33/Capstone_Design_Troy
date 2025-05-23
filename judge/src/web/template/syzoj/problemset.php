@@ -25,7 +25,7 @@
 
       <!-- 검색 폼 -->
       <form class="ui form" method="get" action="">
-        <div class="ui action input" style="width: 400px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
+        <div class="ui action input" style="width: 500px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
           <input 
             type="text" 
             name="search" 
@@ -41,7 +41,7 @@
 
       <!-- ID 이동 폼 -->
       <form class="ui form" method="get" action="">
-        <div class="ui action input" style="width: 400px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
+        <div class="ui action input" style="width: 500px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-radius: 6px;">
           <input 
             type="text" 
             name="id" 
