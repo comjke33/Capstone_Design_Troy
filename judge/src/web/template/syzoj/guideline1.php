@@ -69,15 +69,11 @@ include("../../guideline_common.php");
                     $disabled = $has_correct_answer ? "" : "disabled";
 
                     $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
-                    $html .= "<div class='code-line'>{$escaped_line}</div>";
+                    $code_line_style = ($is_depth_one) ? "background-color: #D4EDDA;" : "";
+                    $html .= "<div class='code-line' style='{$code_line_style}'>{$escaped_line}</div>";
+
 
                     //$depth ==1, 기초 문장인 경우
-                    $is_depth_one = ($depth == 1); // ✅ depth 판단
-
-                    if ($is_depth_one) {
-                        // ✅ 정답은 JS에서 showAnswer()로 삽입될 예정
-                        // $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='background-color: #f0f0f0;'></textarea>";
-                    } else {
                         $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
                         if (!$isCorrect) {
@@ -85,9 +81,9 @@ include("../../guideline_common.php");
                             $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
                             $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
                         }
-                    }
+            
 
-                    $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='background-color:#D4EDDA'; margin-top: 10px;'></div>";
+                    $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                     $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
                     $html .= "</div>";
 
