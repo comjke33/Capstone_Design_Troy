@@ -25,17 +25,15 @@
           </div>
         </div>
       <?php } ?>
-   <!-- 시스템 설명서 안내 (리팩토링 UI 적용) -->
-   <div class="ui grid">
-  <div class="sixteen wide column">
-<div class="ui raised very padded text container segment" style="margin-top: 2em;">
-  <h2 class="ui header" style="color:#003366;">
+   <!-- 시스템 설명서 안내 (리팩토링 UI 적용, container 제거) -->
+<div class="ui raised very padded segment" style="margin-top: 2em;">
+  <h4 class="ui header" style="color:#003366;">
     <i class="book icon"></i>
     <div class="content">
       TROY OJ 사용 가이드
       <div class="sub header">단계별 풀이 · 문법 리포트 · 유사 문제 추천</div>
     </div>
-  </h2>
+  </h4>
 
   <div class="ui styled fluid accordion">
     <!-- 단계별 풀이 -->
