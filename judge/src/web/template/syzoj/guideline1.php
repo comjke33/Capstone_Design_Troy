@@ -183,46 +183,57 @@ document.addEventListener("DOMContentLoaded", function () {
         const savedValue = localStorage.getItem(key);
         const savedStatus = localStorage.getItem(statusKey);
 
+        // textarea에 저장된 값 불러오기
         if (savedValue !== null) {
             textarea.value = savedValue;
         }
 
+        // 정답을 맞춘 경우
         if (savedStatus === "correct") {
             textarea.readOnly = true;
             textarea.style.backgroundColor = "#d4edda";
             textarea.style.border = "1px solid #d4edda";
             textarea.style.color = "#155724";
+
+            // 정답을 맞춘 경우 체크 표시
             const checkMark = document.getElementById(`check_${index}`);
             if (checkMark) checkMark.style.display = "inline";
 
-            // ✅ 이 부분이 누락되어 있어서 버튼이 계속 보이는 겁니다!
-            document.getElementById(`submitBtn_${index}`).style.display = "none";
-            document.getElementById(`checkBtn_${index}`).style.display = "none";
-            document.getElementById(`feedbackBtn_${index}`).style.display = "none";
+            // 정답이 맞은 경우 버튼 숨기기
+            const submitBtn = document.getElementById(`submit_btn_${index}`);
+            const answerBtn = document.getElementById(`answer_btn_${index}`);
+            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
+
+            if (submitBtn) submitBtn.style.display = "none";
+            if (answerBtn) answerBtn.style.display = "none";
+            if (feedbackBtn) feedbackBtn.style.display = "none";
         }
 
-
+        // textarea 입력값이 변경되면 localStorage에 저장
         textarea.addEventListener("input", () => {
             localStorage.setItem(key, textarea.value);
         });
     });
 
-    // 버튼 클릭 시 저장 후 이동
+    // Step1, Step2, Step3 버튼 클릭 시 이동
     buttons.forEach(btn => {
         btn.addEventListener("click", () => {
             const nextStep = btn.getAttribute("data-step");
             const nextProblemId = btn.getAttribute("data-problem-id") || problemId;
 
+            // 입력값을 localStorage에 저장
             document.querySelectorAll("textarea").forEach((textarea, index) => {
                 const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
                 localStorage.setItem(key, textarea.value);
             });
 
+            // 이동
             const baseUrl = window.location.pathname;
             window.location.href = `${baseUrl}?step=${nextStep}&problem_id=${nextProblemId}`;
         });
     });
 });
+
 
 //textarea 입력 줄에 따라 높이 조절
 document.addEventListener("DOMContentLoaded", function () {
@@ -265,16 +276,16 @@ document.addEventListener("DOMContentLoaded", function () {
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
 
+
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
-    const btn = document.getElementById(`btn_${index}`);
+    const btn = document.getElementById(`submit_btn_${index}`);
     const check = document.getElementById(`check_${index}`);
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
     const step = new URLSearchParams(window.location.search).get("step") || "1";
     const problemId = new URLSearchParams(window.location.search).get("problem_id") || "0";
     const key = `answer_status_step${step}_q${index}_pid${problemId}`;
-
 
     console.log("제출값:", input);
     console.log("요청 데이터:", {
@@ -283,6 +294,24 @@ function submitAnswer(index) {
         index: index
     });
 
+    // 로딩 중 메시지 생성
+    const loadingMessage = document.createElement('div');
+    loadingMessage.id = `loading_message_${index}`;
+    loadingMessage.innerText = "로딩 중...";
+    loadingMessage.style.marginTop = "10px";
+    loadingMessage.style.fontSize = "14px";
+    loadingMessage.style.color = "gray";
+    loadingMessage.style.textAlign = "center";
+
+    // 제출 버튼 바로 아래에 로딩 메시지를 추가
+    const submissionLine = document.getElementById(`submission-line_${index}`);
+    if (submissionLine) {
+        submissionLine.appendChild(loadingMessage);
+    } else {
+        console.error(`submission-line_${index} 요소를 찾을 수 없습니다.`);
+    }
+
+    // 서버에 제출된 답안 보내기
     fetch("../../ajax/check_answer_STEP.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -302,35 +331,31 @@ function submitAnswer(index) {
     })
     .then(data => {
         console.log(data);
-        if (data.result === "correct") {
-            localStorage.setItem(key, "correct");
 
+        // 로딩 중 메시지 숨기기
+        const loadingMessage = document.getElementById(`loading_message_${index}`);
+        if (loadingMessage) loadingMessage.style.display = 'none';
+
+        // 서버 응답에 맞춰 UI 처리
+        if (data.result === "correct") {
+            // 정답 맞은 경우
+            check.style.display = "inline";
             ta.readOnly = true;
             ta.style.backgroundColor = "#d4edda";
             ta.style.border = "1px solid #d4edda";
             ta.style.color = "#155724";
-            // btn.style.display = "none";
-            check.style.display = "inline";
-
-                // 정답이 맞은 경우 버튼 숨기기
+            
+            // 제출 버튼, 답안 확인 버튼, 피드백 보기 버튼 숨기기
+            if (btn) btn.style.display = "none";
             const answerBtn = document.getElementById(`answer_btn_${index}`);
-            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
-            const submitBtn = document.getElementById(`submit_btn_${index}`);
-
             if (answerBtn) answerBtn.style.display = "none";
+            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
             if (feedbackBtn) feedbackBtn.style.display = "none";
-            if (submitBtn) submitBtn.style.display = "none";
 
-            const nextIndex = index + 1;
-            const nextTa = document.getElementById(`ta_${nextIndex}`);
-            const nextBtn = document.getElementById(`btn_${nextIndex}`);
-
-            if (nextTa && nextBtn) {
-                nextTa.disabled = false;
-                nextBtn.disabled = false;
-                nextTa.focus();
-            }
+            // 상태 저장
+            localStorage.setItem(key, "correct");
         } else {
+            // 틀린 경우
             ta.style.backgroundColor = "#ffecec";
             ta.style.border = "1px solid #e06060";
             ta.style.color = "#c00";
@@ -338,9 +363,14 @@ function submitAnswer(index) {
     })
     .catch(err => {
         console.error("서버 요청 실패:", err);
-    });
 
+        // 로딩 중 메시지 숨기기
+        const loadingMessage = document.getElementById(`loading_message_${index}`);
+        if (loadingMessage) loadingMessage.style.display = 'none';
+    });
 }
+
+
 
 //문제가 되는 특수문자 치환
 function escapeHtml(text) {
@@ -542,7 +572,7 @@ function updateImageForTextarea(index, ta) {
     currentTextarea = ta;
     
     // 플로우차트 이미지를 가져오기 위한 API 호출
-    fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${index}`)
+    fetch(`../../get_flowchart1_image.php?problem_id=${problemId}&index=${index}`)
         .then(res => res.json())
         .then(data => {
             let img = document.getElementById("flowchart_image");
@@ -557,10 +587,6 @@ function updateImageForTextarea(index, ta) {
             img.src = data.url;  // 서버에서 받은 이미지 URL로 설정
             console.log("서버 디버그 데이터:", data.debug);
 
-            // 애니메이션 시작 (이미지가 부드럽게 따라가게)
-            if (!animationRunning) {
-                animationRunning = true;
-            }
         });
 }
 
@@ -568,7 +594,7 @@ function updateImageForTextarea(index, ta) {
 //줄번호에 맞춰서 이미지 fetch(일단 보류)
 function fetchImageByLineNumber(lineNumber) {
     const problemId = <?= json_encode($problem_id) ?>;
-    fetch(`../../get_flowchart_image.php?problem_id=${problemId}&index=${lineNumber}`)
+    fetch(`../../get_flowchart1_image.php?problem_id=${problemId}&index=${lineNumber}`)
         .then(response => response.json())
         .then(data => {
             let img = document.getElementById("flowchart_image");
