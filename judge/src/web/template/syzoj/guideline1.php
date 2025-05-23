@@ -188,18 +188,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (savedStatus === "correct") {
-            // ✅ 이전에 정답 제출한 경우 스타일 복원
             textarea.readOnly = true;
             textarea.style.backgroundColor = "#d4edda";
             textarea.style.border = "1px solid #d4edda";
             textarea.style.color = "#155724";
-
             const checkMark = document.getElementById(`check_${index}`);
             if (checkMark) checkMark.style.display = "inline";
 
-            document.getElementById(`submit_Btn_${index}`).style.display = "none";
-            document.getElementById(`answer_Btn_${index}`).style.display = "none";
-            document.getElementById(`feedback_Btn_${index}`).style.display = "none";
+            // ✅ 이 부분이 누락되어 있어서 버튼이 계속 보이는 겁니다!
+            document.getElementById(`submitBtn_${index}`).style.display = "none";
+            document.getElementById(`checkBtn_${index}`).style.display = "none";
+            document.getElementById(`feedbackBtn_${index}`).style.display = "none";
         }
 
 
