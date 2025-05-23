@@ -54,12 +54,12 @@
       <h4 class="ui dividing header">📘 단계별 풀이 가이드</h4>
       <div class="ui list" style="font-size: 1.1em; line-height: 1.8;">
         <div class="item">문제 페이지의 <b>[단계적 풀기]</b> 버튼으로 학습을 시작하세요.</div>
-        <div class="item">단계적 풀기에서는 <code>#include &lt;stdio.h&gt;</code>는 자동 포함되므로 따로 선언하지 않아도 됩니다.</div>
+        <div class="item">단계적 풀기에서는 <code>#include &lt;stdio.h&gt;</code>는 자동 포함되므로 따로 선언하지 않아도 됩니다!</div>
         <div class="item">단계적 풀기가 아닌 문제를 풀 때는 <code>#include &lt;stdio.h&gt;</code>는 넣어주어야 합니다.</div>
         
         <div class="highlight-warning">
           <div style="color:#d72638; font-weight: bold; margin-bottom: 15px;">
-            ⚠ <b>중요:</b> 조건문/반복문/함수 선언 시 <code>여는 중괄호 ( { )</code>는 <u>직접 작성</u>, <code>닫는 중괄호 ( } )</code>는 <u>작성 금지</u> (자동 처리)
+            ⚠ <b>중요:</b> 조건문/반복문/함수 선언 시 <code>여는 중괄호 ( { )</code>는 <u>직접 작성</u>, <code> 닫는 중괄호 ( } )</code>는 <u>작성 금지</u> (자동 처리)
           </div>
           
           <div class="guideline-box">
@@ -77,7 +77,7 @@
     has_digit =1;</pre>
           </div>
           <div style="color: #666; font-size: 0.95em; margin-top: 8px;">
-            위와 같이 <code>{</code>는 직접 입력하고, <code>}</code>는 시스템이 자동으로 처리합니다.
+            위와 같이 <code> { </code>는 직접 입력하고, <code> } </code>는 시스템이 자동으로 처리합니다.
           </div>
         </div>
         
@@ -101,7 +101,7 @@
       </div>
 
       <!-- 유사 문제 추천 -->
-      <h4 class="ui dividing header">🔁 유사 문제 추천 및 문법 오류 확인</h4>
+      <h4 class="ui dividing header">🔁 채점 기록 </h4>
       <div class="ui list" style="font-size: 1.1em; line-height: 1.8;">
         <div class="item"><b>정답 제출 시</b> → Codeup 유사 문제 풀이 페이지로 이동</div>
         <div class="item"><b>오답 제출 시</b> → <b>[문법 오류 확인]</b> 버튼 생성, 개념 링크 제공</div>
