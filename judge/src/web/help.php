@@ -19,7 +19,7 @@
       <div class="ui list" style="font-size: 1.1em; line-height: 1.8;">
         <div class="item">문제 페이지의 <b>[단계적 풀기]</b> 버튼으로 학습을 시작하세요.</div>
         <div class="item">단계적 풀기에서는 <code>#include &lt;stdio.h&gt;</code>는 자동 포함되므로 따로 선언하지 않아도 됩니다.</div>
-        <div class="item">단계적 풀기가아닌 문제를 풀때 에는 <ode>#include &lt;stdio.h&gt;</code>는 넣어주어야합니다.</div>
+        <div class="item">단계적 풀기가아닌 문제를 풀때 에는 <code>#include &lt;stdio.h&gt;</code>는 넣어주어야합니다.</div>
         <div class="item ui warning message" style="color:#d72638; background-color: #fff8f6;">
           ⚠ <b>중요:</b> 조건문/반복문/함수 선언 시 <code>{</code>는 <u>직접 작성</u>, <code>}</code>는 <u>작성 금지</u> (자동 처리)
         </div>
