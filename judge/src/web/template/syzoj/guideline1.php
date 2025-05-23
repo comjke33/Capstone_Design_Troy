@@ -72,10 +72,10 @@ include("../../guideline_common.php");
                 $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
                 $disabled = $has_correct_answer ? "" : "disabled";
 
-                // 정답 내용 가져오기
-                // $default_value = $has_correct_answer 
-                //     ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') 
-                //     : "";
+                정답 내용 가져오기
+                $default_value = $has_correct_answer 
+                    ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') 
+                    : "";
 
                 // 출력 블록 시작
                 $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
