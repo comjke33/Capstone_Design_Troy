@@ -76,8 +76,8 @@ include("../../guideline_common.php");
                 // 코드 라인
                 $html .= "<div class='code-line'>{$escaped_line}</div>";
 
-                // textarea 출력
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>" . "</textarea>";
+                // // textarea 출력
+                // $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>" . "</textarea>";
 
                 $is_depth_zero = ($depth === 0);
 
