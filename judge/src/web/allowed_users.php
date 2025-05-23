@@ -25,6 +25,8 @@ $allowed_user_id = [
     'test5', 
     'zxccyh', 
     'zxczxc',
-    'search_test'
+    'search_test',
+    'Troy' //교수님 ID
+
 ];
 ?>
