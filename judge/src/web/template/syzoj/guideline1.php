@@ -294,7 +294,7 @@ function submitAnswer(index) {
         index: index
     });
 
-    // 로딩 중 표시
+    // 로딩 중 메시지 생성
     const loadingMessage = document.createElement('div');
     loadingMessage.id = `loading_message_${index}`;
     loadingMessage.innerText = "로딩 중...";
@@ -302,11 +302,11 @@ function submitAnswer(index) {
     loadingMessage.style.fontSize = "14px";
     loadingMessage.style.color = "gray";
     loadingMessage.style.textAlign = "center";
-    
-    // submission-line_${index}가 존재하는지 확인
+
+    // 제출 버튼 바로 아래에 로딩 메시지를 추가
     const submissionLine = document.getElementById(`submission-line_${index}`);
     if (submissionLine) {
-        submissionLine.appendChild(loadingMessage);  // 로딩 중 메시지 추가
+        submissionLine.appendChild(loadingMessage);
     } else {
         console.error(`submission-line_${index} 요소를 찾을 수 없습니다.`);
     }
@@ -331,11 +331,11 @@ function submitAnswer(index) {
     })
     .then(data => {
         console.log(data);
-        
+
         // 로딩 중 메시지 숨기기
         const loadingMessage = document.getElementById(`loading_message_${index}`);
         if (loadingMessage) loadingMessage.style.display = 'none';
-        
+
         // 서버 응답에 맞춰 UI 처리
         if (data.result === "correct") {
             // 정답 맞은 경우
@@ -363,6 +363,8 @@ function submitAnswer(index) {
     })
     .catch(err => {
         console.error("서버 요청 실패:", err);
+
+        // 로딩 중 메시지 숨기기
         const loadingMessage = document.getElementById(`loading_message_${index}`);
         if (loadingMessage) loadingMessage.style.display = 'none';
     });
