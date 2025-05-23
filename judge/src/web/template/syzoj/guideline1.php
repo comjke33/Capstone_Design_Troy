@@ -197,9 +197,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const checkMark = document.getElementById(`check_${index}`);
             if (checkMark) checkMark.style.display = "inline";
 
-            // ✅ 버튼 숨기기
-            const submitBtn = document.getElementById(`submitBtn_${index}`);
-            if (submitBtn) submitBtn.style.display = "none";
+            document.getElementById(`submitBtn_${index}`).style.display = "none";
+            document.getElementById(`checkBtn_${index}`).style.display = "none";
+            document.getElementById(`feedbackBtn_${index}`).style.display = "none";
         }
 
 
