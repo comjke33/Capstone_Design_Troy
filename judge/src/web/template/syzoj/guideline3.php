@@ -86,9 +86,9 @@ include("../../guideline_common.php");
                     // }
 
                     // 피드백 영역 + 정답 표시
-                    $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
-                    $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
-                    $html .= "</div>";
+                    // $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
+                    // $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
+                    // $html .= "</div>";
 
                     $answer_index++;
                 } 
@@ -231,8 +231,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // 문제 맞았는지 여부 확인
-const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
-const problemId = <?= json_encode($problem_id) ?>
+// const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
+// const problemId = <?= json_encode($problem_id) ?>
 
 // function submitAnswer(index) {
 //     const ta = document.getElementById(`ta_${index}`);
@@ -309,7 +309,6 @@ const problemId = <?= json_encode($problem_id) ?>
 //     .catch(err => {
 //         console.error("서버 요청 실패:", err);
 //     });
-
 // }
 
 //문제가 되는 특수문자 치환
@@ -322,7 +321,7 @@ function escapeHtml(text) {
         .replace(/'/g, "&#039;");
 }
 
-// //답안 보여주기
+//답안 보여주기
 // function showAnswer(index) {
 //     const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
 //     if (!correctCode) return;
