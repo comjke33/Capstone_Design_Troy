@@ -81,6 +81,7 @@
     <i class="info icon"></i>
     <b>이 기능들을 활용하여 실력을 체계적으로 쌓아보세요!</b>
   </div>
+</div>
 <script>
   $(document).ready(function () {
     $('.ui.accordion').accordion();
