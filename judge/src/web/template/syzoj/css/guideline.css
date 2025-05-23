@@ -87,10 +87,13 @@
   border: 2px solid black;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  height: 600px;               /* 전체 높이 고정 */
+
+  /* 고정 높이 제거하고 화면 기준 최대 높이 설정 */
+  max-height: 90vh;  /* 화면 높이의 90%까지 허용 */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  overflow: hidden; /* 넘치는 부분 숨김 */
 }
 
 .flowchart-title {
