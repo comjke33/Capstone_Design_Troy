@@ -91,7 +91,7 @@ include("../../guideline_common.php");
 
 
                 // 버튼 출력
-                if (!$isCorrect && $is_depth_zero) {
+                if (!$isCorrect || $is_depth_zero) {
                     $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
                     $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
                     $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
