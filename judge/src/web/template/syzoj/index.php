@@ -206,8 +206,16 @@ document.getElementById('searchButton').addEventListener('click', function () {
     const input = document.getElementById('problemInput').value.trim();
     const errorMsg = document.getElementById('errorMsg');
 
+    errorMsg.style.display = "none"; // 이전 메시지 숨기기
+
     if (!input) {
         errorMsg.textContent = "문제 ID를 입력해주세요.";
+        errorMsg.style.display = "block";
+        return;
+    }
+
+    if (!/^\d+$/.test(input)) {
+        errorMsg.textContent = "문제 ID는 숫자만 입력 가능합니다.";
         errorMsg.style.display = "block";
         return;
     }
@@ -215,7 +223,7 @@ document.getElementById('searchButton').addEventListener('click', function () {
     fetch(`check_problem_exists.php?id=${encodeURIComponent(input)}`)
         .then(response => response.json())
         .then(data => {
-            if (data.exists) {
+            if (data.exists === true) {
                 // 문제 존재 → 이동
                 window.location.href = `problem.php?id=${encodeURIComponent(input)}`;
             } else {
