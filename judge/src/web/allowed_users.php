@@ -24,6 +24,7 @@ $allowed_user_id = [
     'test4', 
     'test5', 
     'zxccyh', 
-    'zxczxc'
+    'zxczxc',
+    'search_test'
 ];
 ?>

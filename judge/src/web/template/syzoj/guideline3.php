@@ -30,7 +30,6 @@ include("../../guideline_common.php");
   </div>
 </div>
 
-
 <div class="main-layout">
     <!-- 좌측 패널 -->
     <div class="left-panel">
@@ -52,7 +51,7 @@ include("../../guideline_common.php");
 
             foreach ($blocks as $block) {
                 $depth = $block['depth'];
-                $margin_left = $depth * 50;
+                // $margin_left = $depth * 50;
                 $isCorrect = false;
 
                 if ($block['type'] === 'text') {
@@ -231,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-//문제 맞았는지 여부 확인
+// 문제 맞았는지 여부 확인
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
 
@@ -278,7 +277,7 @@ function submitAnswer(index) {
             ta.style.backgroundColor = "#d4edda";
             ta.style.border = "1px solid #d4edda";
             ta.style.color = "#155724";
-            btn.style.display = "none";
+            // btn.style.display = "none";
             check.style.display = "inline";
 
                 // 정답이 맞은 경우 버튼 숨기기
@@ -313,13 +312,25 @@ function submitAnswer(index) {
 
 }
 
+//문제가 되는 특수문자 치환
+function escapeHtml(text) {
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 //답안 보여주기
 function showAnswer(index) {
     const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
     if (!correctCode) return;
 
+    const escapedCode = escapeHtml(correctCode);  // ← 이걸로 HTML 무해화
+
     const answerArea = document.getElementById(`answer_area_${index}`);
-    const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${correctCode}</pre>`;
+    const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${escapedCode}</pre>`;
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }

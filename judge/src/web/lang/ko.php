@@ -171,7 +171,7 @@
 	$MSG_GIVESOURCE="채점코드 소유자 변경";
 	$MSG_IMPORT="데이터 업로드";
 	$MSG_EXPORT="데이터 다운로드";
-	$MSG_UPDATE_DATABASE="데이터베이스 업데이트";
+	// $MSG_UPDATE_DATABASE="데이터베이스 업데이트";
 	$MSG_BACKUP_DATABASE="데이터베이스 백업";
 	$MSG_ONLINE="온라인";
 	$MSG_SET_LOGIN_IP="IP 변경";
@@ -284,7 +284,7 @@
 	$MSG_HELP_GIVESOURCE="특정 사용자 채점코드 밀어주기. 부진학생 도움용";
 	$MSG_HELP_EXPORT_PROBLEM="fps.xml 파일로 문제 다운로드";
 	$MSG_HELP_IMPORT_PROBLEM="fps.xml 파일로 문제 업로드";
-	$MSG_HELP_UPDATE_DATABASE="hustoj 업데이트(sudo update-hustoj) 후, 데이터베이스를 업데이트 합니다. 업데이트 후 한 번만 실행해주세요!";
+	// $MSG_HELP_UPDATE_DATABASE="hustoj 업데이트(sudo update-hustoj) 후, 데이터베이스를 업데이트 합니다. 업데이트 후 한 번만 실행해주세요!";
 	$MSG_HELP_ONLINE="현재 접속자";
 	$MSG_HELP_AC="모두 정답을 출력했습니다.";
 	$MSG_HELP_PE="출력된 형식이 다릅니다. 출력형식/공백/줄바꿈 등을 다시 확인해주세요."; 

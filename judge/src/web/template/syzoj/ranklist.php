@@ -7,10 +7,10 @@
 <div class="ui stackable grid">
   <div class="eight wide column">
     <div class="ui mini buttons">
-      <a href="ranklist.php?scope=d" class="ui button" style="background-color: #FFFFFF; color: #000000;"><?= $MSG_DAY ?></a>
-      <a href="ranklist.php?scope=w" class="ui button" style="background-color: #FFFFFF; color: #000000;"><?= $MSG_WEEK ?></a>
-      <a href="ranklist.php?scope=m" class="ui button" style="background-color: #FFFFFF; color: #000000;"><?= $MSG_MONTH ?></a>
-      <a href="ranklist.php?scope=y" class="ui button" style="background-color: #FFFFFF; color: #000000;"><?= $MSG_YEAR ?></a>
+      <a href="ranklist.php?scope=d" class="ui button" style="background-color: #003366; color: #ffffff;"><?= $MSG_DAY ?></a>
+      <a href="ranklist.php?scope=w" class="ui button" style="background-color: #003366; color: #ffffff;"><?= $MSG_WEEK ?></a>
+      <a href="ranklist.php?scope=m" class="ui button" style="background-color: #003366; color: #ffffff;"><?= $MSG_MONTH ?></a>
+      <a href="ranklist.php?scope=y" class="ui button" style="background-color: #003366; color: #ffffff;"><?= $MSG_YEAR ?></a>
     </div>
   </div>
 
@@ -21,13 +21,17 @@
           <div class="field">
             <div class="ui action input">
               <input name="prefix" placeholder="<?= $MSG_USER ?>" type="text" value="<?= htmlentities($_GET['prefix'] ?? '', ENT_QUOTES, 'utf-8') ?>">
-              <button class="ui mini blue button" type="submit"><?= $MSG_SEARCH ?></button>
+              <button class="ui mini button" type="submit" style="background-color: #003366; color: white;">
+                <?= $MSG_SEARCH ?>
+              </button>
+
             </div>
           </div>
           <div class="field">
             <div class="ui action input">
               <input name="group_name" placeholder="<?= $MSG_GROUP_NAME ?>" type="text" value="<?= htmlentities($_GET['group_name'] ?? '', ENT_QUOTES, 'utf-8') ?>">
-              <button class="ui mini blue button" type="submit"><?= $MSG_SEARCH ?></button>
+              <button class="ui mini button" type="submit" style="background-color: #003366; color: white;"><?= $MSG_SEARCH ?>
+              </button>
             </div>
           </div>
         </div>

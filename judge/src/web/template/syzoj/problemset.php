@@ -17,8 +17,8 @@
             value="<?php if (isset($_GET['search'])) echo htmlentities($_GET['search'], ENT_QUOTES, 'UTF-8'); ?>"
             style="border-radius: 6px 0 0 6px; width: calc(100% - 44px);"
           >
-          <button type="submit" class="ui blue icon button" style="border-radius: 0 6px 6px 0; width: 44px;">
-            <i class="search icon"></i>
+          <button type="submit" class="ui icon button" style="border-radius: 0 6px 6px 0; background-color: #003366;">
+            <i class="search icon" style="color: white;"></i>
           </button>
         </div>
       </form>
@@ -33,8 +33,8 @@
             value="<?php if (isset($_GET['id'])) echo htmlentities($_GET['id'], ENT_QUOTES, 'UTF-8'); ?>"
             style="border-radius: 6px 0 0 6px; width: calc(100% - 44px);"
           >
-          <button type="submit" class="ui blue icon button" style="border-radius: 0 6px 6px 0; width: 44px;">
-            <i class="arrow right icon"></i>
+          <button type="submit" class="ui icon button" style="border-radius: 0 6px 6px 0; background-color: #003366;">
+            <i class="search icon" style="color: white;"></i>
           </button>
         </div>
       </form>

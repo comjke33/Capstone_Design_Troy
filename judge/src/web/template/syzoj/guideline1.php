@@ -34,78 +34,83 @@ include("../../guideline_common.php");
 <div class="main-layout">
     <!-- 좌측 패널 -->
     <div class="left-panel">
+    <div class="flowchart-wrapper active" id="flowchart-wrapper">
+        <div class="flowchart-title">Flowchart</div>
         <img id="flowchart_image">
     </div>
-
+    </div>
 
     <!-- 가운데 패널 -->
-    <div class="center-panel">
-        <h1>한 줄씩 풀기</h1>
+<div class="center-panel">
+    <h1>한 줄씩 풀기</h1>
 
-        <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
-        <br>
-        <br>
+    <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
+    <br><br>
 
-        <?php      
-             function render_tree_plain($blocks, &$answer_index = 0) {
-            $html = "";
+    <?php      
+    function render_tree_plain($blocks, &$answer_index = 0) {
+        $html = "";
 
-            foreach ($blocks as $block) {
-                $depth = $block['depth'];
-                $margin_left = $depth * 50;
-                $isCorrect = false;
+        foreach ($blocks as $block) {
+            $depth = $block['depth'];
+            $margin_left = $depth * 50;
+            $isCorrect = false;
 
-                if ($block['type'] === 'text') {
-                    $raw = trim($block['content']);
-                    if ($raw === '') continue;
+            if ($block['type'] === 'text') {
+                $raw = trim($block['content']);
+                if ($raw === '') continue;
 
-                    // 디버깅용 주석 추가 (View Source에서 확인)
-                    $html .= "<!-- DEBUG raw line [{$answer_index}]: " . htmlentities($raw) . " -->\n";
+                // 디버깅용 주석
+                $html .= "<!-- DEBUG raw line [{$answer_index}]: " . htmlentities($raw) . " -->\n";
 
-                    // 출력 시 안전하게 이스케이프 처리 (중복 방지)
-                    $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
+                // 안전하게 이스케이프
+                $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
 
-                    $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
-                    $disabled = $has_correct_answer ? "" : "disabled";
+                $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
+                $disabled = $has_correct_answer ? "" : "disabled";
 
-                    // 출력 영역
-                    $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
+                // 정답 내용 가져오기
+                // $default_value = $has_correct_answer 
+                //     ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') 
+                //     : "";
 
-                    // 코드 출력 라인
-                    $html .= "<div class='code-line'>{$escaped_line}</div>";
+                // 출력 블록 시작
+                $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
 
-                    // 답안을 textarea에 띄울 떄
-                    // $default_value = $has_correct_answer ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') : "";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$default_value}</textarea>";
+                // 코드 라인
+                $html .= "<div class='code-line'>{$escaped_line}</div>";
+
+                // textarea 출력
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>" . "</textarea>";
 
 
-                    // 버튼 출력
-                    if(!$isCorrect){
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
-                        $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
-                        $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
-                    }
-
-                    // 피드백 영역 + 정답 표시
-                    $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
-                    $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
-                    $html .= "</div>";
-
-                    $answer_index++;
-                } 
-                else if (isset($block['children']) && is_array($block['children'])) {
-                    $html .= render_tree_plain($block['children'], $answer_index);
+                // 버튼 출력
+                if (!$isCorrect) {
+                    $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
+                    $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
+                    $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
                 }
-            }
 
-            return $html;
+                // 정답/피드백 영역
+                $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
+                $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
+
+                $html .= "</div>"; // .submission-line
+                $answer_index++;
+            } 
+            else if (isset($block['children']) && is_array($block['children'])) {
+                $html .= render_tree_plain($block['children'], $answer_index);
+            }
         }
 
+        return $html;
+    }
 
-        $answer_index = 0;
-        echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
-        ?>
-    </div>
+    $answer_index = 0;
+    echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
+    ?>
+</div>
+
 
     <!-- 오른쪽 패널 -->
     <div class="right-panel" style="display:none;">
@@ -183,14 +188,19 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (savedStatus === "correct") {
-            // ✅ 이전에 정답 제출한 경우 스타일 복원
             textarea.readOnly = true;
             textarea.style.backgroundColor = "#d4edda";
             textarea.style.border = "1px solid #d4edda";
             textarea.style.color = "#155724";
             const checkMark = document.getElementById(`check_${index}`);
             if (checkMark) checkMark.style.display = "inline";
+
+            // ✅ 이 부분이 누락되어 있어서 버튼이 계속 보이는 겁니다!
+            document.getElementById(`submitBtn_${index}`).style.display = "none";
+            document.getElementById(`checkBtn_${index}`).style.display = "none";
+            document.getElementById(`feedbackBtn_${index}`).style.display = "none";
         }
+
 
         textarea.addEventListener("input", () => {
             localStorage.setItem(key, textarea.value);
@@ -230,6 +240,26 @@ document.addEventListener("DOMContentLoaded", function () {
         textarea.style.height = textarea.scrollHeight + "px"; // 내용에 따라 높이 설정
     }
 });
+
+// textarea에서 tab을 누르면 들여쓰기가 적용되게([    ])
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('textarea').forEach((textarea) => {
+      textarea.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+          e.preventDefault(); // 기본 Tab 동작 막기
+
+          const start = this.selectionStart;
+          const end = this.selectionEnd;
+
+          // 현재 위치에 '\t' 삽입
+          this.value = this.value.substring(0, start) + '\t' + this.value.substring(end);
+
+          // 커서 위치 조정
+          this.selectionStart = this.selectionEnd = start + 1;
+        }
+      });
+    });
+  });
 
 //문제 맞았는지 여부 확인
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
@@ -279,7 +309,7 @@ function submitAnswer(index) {
             ta.style.backgroundColor = "#d4edda";
             ta.style.border = "1px solid #d4edda";
             ta.style.color = "#155724";
-            btn.style.display = "none";
+            // btn.style.display = "none";
             check.style.display = "inline";
 
                 // 정답이 맞은 경우 버튼 숨기기
@@ -287,11 +317,9 @@ function submitAnswer(index) {
             const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
             const submitBtn = document.getElementById(`submit_btn_${index}`);
 
-            if($isCorrect) {// display: none을 사용하여 버튼 숨기기
-                answerBtn.style.display = "none";  // 답안 확인 버튼 숨기기
-                feedbackBtn.style.display = "none";  // 피드백 보기 버튼 숨기기
-                submitBtn.style.display = "none";  // 제출 버튼 숨기기
-            }
+            if (answerBtn) answerBtn.style.display = "none";
+            if (feedbackBtn) feedbackBtn.style.display = "none";
+            if (submitBtn) submitBtn.style.display = "none";
 
             const nextIndex = index + 1;
             const nextTa = document.getElementById(`ta_${nextIndex}`);
@@ -314,17 +342,28 @@ function submitAnswer(index) {
 
 }
 
+//문제가 되는 특수문자 치환
+function escapeHtml(text) {
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 //답안 보여주기
 function showAnswer(index) {
     const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
     if (!correctCode) return;
 
+    const escapedCode = escapeHtml(correctCode);  // ← 이걸로 HTML 무해화
+
     const answerArea = document.getElementById(`answer_area_${index}`);
-    const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${correctCode}</pre>`;
+    const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${escapedCode}</pre>`;
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }
-
 
 function showFeedback(index) {
     const urlParams = new URLSearchParams(window.location.search);
@@ -555,7 +594,7 @@ function fetchImageByLineNumber(lineNumber) {
 // textarea 클릭 시 이미지 로드
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
-    ta.addEventListener("focus", () => fetchImageByLineNumber(idx)); // +1로 라인번호 맞추기
+    ta.addEventListener("focus", () => fetchImageByLineNumber(idx)); 
     });
 });
 

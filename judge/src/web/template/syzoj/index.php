@@ -1,5 +1,11 @@
 <?php $show_title="$MSG_HOME - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php"); ?>
+<?php
+session_start();
+if (!isset($_COOKIE['troy_help_read']) && !isset($_SESSION['user_id'])) {
+  echo "<script>if (!localStorage.getItem('troy_help_read')) location.href='help.php';</script>";
+}
+?>
 
 <!-- 외부 CSS 링크 (중복 head 제거) -->
 <link rel="stylesheet" href="<?php echo "template/$OJ_TEMPLATE"; ?>/css/slide.css">
@@ -25,24 +31,24 @@
           </div>
         </div>
       <?php } ?>
-
       <!-- 검색 -->
-    <h4 class="ui top attached block header">
+    <h4 class="ui top attached block header" style="color: white;">
       <i class="ui search icon"></i> 문제 검색
     </h4>
     <div class="ui bottom attached segment">
-      <form action="problem.php" method="get" class="ui form">
+      <form action="problem.php" method="get" class="ui form" onsubmit="return validateForm()">
         <div class="ui fluid action input">
-          <input type="text" name="id" placeholder="문제 ID 또는 번호를 입력하세요…" />
-          <button type="submit" class="ui icon primary button">
-            <i class="search icon"></i>
+          <input type="text" id="problemInput" name="id" placeholder="문제 ID 또는 번호를 입력하세요…" />
+          <button type="submit" class="ui icon button" style="border-radius: 0 6px 6px 0; background-color: #003366;">
+            <i class="search icon" style="color: white;"></i>
           </button>
         </div>
+        <div id="warningMessage" style="display:none; color:red; margin-top:10px;">재입력을 하세요</div>
       </form>
     </div>
 
       <!-- 최근 문제 -->
-      <h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM; ?> </h4>
+      <h4 class="ui top attached block header" style="color: white;"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM; ?> </h4>
       <div class="ui bottom attached segment">
         <table class="ui very basic center aligned table">
           <thead><tr><th><?php echo $MSG_TITLE; ?></th><th><?php echo $MSG_TIME; ?></th></tr></thead>
@@ -69,11 +75,12 @@
         $month_id = mysql_query_cache("SELECT solution_id FROM solution WHERE in_date<DATE_ADD(CURDATE(), INTERVAL -DAY(CURDATE())+1 DAY) ORDER BY solution_id DESC LIMIT 1;");
         $month_id = (!empty($month_id) && isset($month_id[0][0])) ? $month_id[0][0] : 0;
 
-        if(isset($NOIP_flag[0]) && $NOIP_flag[0]==0) {
+        //if(isset($NOIP_flag[0]) && $NOIP_flag[0]==0) {
+          if(true){
           $view_month_rank = mysql_query_cache("SELECT user_id,nick,COUNT(DISTINCT problem_id) ac FROM solution WHERE solution_id>$month_id AND problem_id>0 AND user_id NOT IN ($OJ_RANK_HIDDEN) AND result=4 GROUP BY user_id,nick ORDER BY ac DESC LIMIT 5"); //상위 5명만 출력
           if(!empty($view_month_rank)) {
       ?>
-            <h4 class="ui top attached block header"><i class="ui star icon"></i>이달의 우수생</h4>
+            <h4 class="ui top attached block header" style="color: white;"><i class="ui star icon"></i>이달의 우수생</h4>
                   <div class="ui bottom attached segment">
         <table class="ui very basic center aligned table">
           <thead>
@@ -116,6 +123,11 @@
 
 
 <?php include("template/$OJ_TEMPLATE/footer.php"); ?>
+<!-- jQuery 먼저 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Semantic UI JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 
 <?php if(file_exists("image/slide1.jpg")) { ?>
 <script>
@@ -123,6 +135,20 @@ const slides = document.querySelectorAll('.carousel-slide');
 const dots = document.querySelectorAll('.carousel-dot');
 let currentIndex = 0;
 let autoPlayInterval;
+
+//검색창 빈 제출 입력란 처리
+ function validateForm() {
+    const input = document.getElementById("problemInput").value.trim();
+    const warning = document.getElementById("warningMessage");
+    
+    if (input === "") {
+      warning.style.display = "block";
+      return false; // 제출 막기
+    } else {
+      warning.style.display = "none";
+      return true; // 정상 제출
+    }
+  }
 
 function showSlide(index) {
   slides.forEach((slide, i) => slide.classList.toggle('active', i === index));

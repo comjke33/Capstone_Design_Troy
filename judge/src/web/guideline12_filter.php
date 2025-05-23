@@ -93,7 +93,6 @@ function codeFilter($text) {
             continue;  // 해당 라인은 처리하지 않음
         }
 
-
         // [start] 태그 감지
         if (preg_match('/\[(\w+)_start\((\d+)\)\]/', $line, $m)) {
             // 기존에 누적된 텍스트가 있으면 처리
@@ -133,6 +132,13 @@ function codeFilter($text) {
                 $blockBuffer = "";  // 초기화
             }
             array_pop($stack);  // 스택에서 pop
+            continue;
+        }
+
+        // `if`, `while`, 삼항 연산자, `for`문 등의 괄호 포함된 코드 구문 처리
+        if (preg_match('/\b(?:if|for|while)\s*\(.*\)/', $line) || preg_match('/\?.*\:.*;/', $line)) {
+            // if/while/for/삼항 연산자 등 괄호가 포함된 라인 처리
+            $blockBuffer .= $line . "\n"; // 블록 내용 누적
             continue;
         }
 

@@ -111,7 +111,7 @@ if(file_exists($solution_file)){
       //단계별 풀기 상단
       if (!isset($cid) && in_array($_SESSION[$OJ_NAME.'_'.'user_id'], $allowed_user_id)) {
             echo "<a class=\"small ui red button\" href=\"guideline.php?problem_id=$id\">단계별 풀기</a>";
-            echo "<a class=\"small ui black button\" href=\"debugging_submit.php?problem_id=$id\">결함코드 풀기</a>";
+            // echo "<a class=\"small ui black button\" href=\"debugging_submit.php?problem_id=$id\">결함코드 풀기</a>";
       }
 
     ?>
@@ -135,7 +135,7 @@ if(file_exists($solution_file)){
 
   <div class="row">
     <div class="column">
-      <h4 class="ui top attached block header"><?php echo $MSG_Description?></h4>
+      <h4 class="ui top attached block header" style="color: #ffffff;"><?php echo $MSG_Description?></h4>
       <div id="description" class="ui bottom attached segment font-content">
 
       <!-- bbcode_to_html() 함수를 사용하여 마크다운 형식을 HTML로 변환 -->
@@ -145,7 +145,7 @@ if(file_exists($solution_file)){
   <?php if($row['input']||isset($_GET['spa'])){ ?>
     <div class="row">
       <div class="column">
-          <h4 class="ui top attached block header"><?php echo $MSG_Input?></h4>
+          <h4 class="ui top attached block header" style="color: #ffffff;"><?php echo $MSG_Input?></h4>
           <div id='input' class="ui bottom attached segment font-content"><?php echo bbcode_to_html($row['input']); ?></div>
       </div>
     </div>
@@ -153,7 +153,7 @@ if(file_exists($solution_file)){
   <?php if($row['output']||isset($_GET['spa'])){ ?>
     <div class="row">
         <div class="column">
-          <h4 class="ui top attached block header"><?php echo $MSG_Output?></h4>
+          <h4 class="ui top attached block header" style="color: #ffffff;"><?php echo $MSG_Output?></h4>
           <div id='output' class="ui bottom attached segment font-content"><?php echo bbcode_to_html($row['output']); ?></div>
         </div>
     </div>
@@ -172,7 +172,7 @@ if(file_exists($solution_file)){
   <?php if(strlen($sinput)>0 && $sinput!="\n"||isset($_GET['spa'])){ ?>
     <div class="row">
         <div class="column">
-          <h4 class="ui top attached block header"><?php echo $MSG_Sample_Input?> 
+          <h4 class="ui top attached block header" style="color: #ffffff;"><?php echo $MSG_Sample_Input?> 
           </h4>
           <!-- <span class=copy id=\"copyin\" data-clipboard-text=\"".($sinput)."\"><?php echo $MSG_COPY; ?></span> -->
           <div class="ui bottom attached segment font-content">
@@ -185,7 +185,7 @@ if(file_exists($solution_file)){
   <?php if(strlen($soutput)>0 && $soutput!="\n"||isset($_GET['spa'])){ ?>
     <div class="row">
         <div class="column">
-          <h4 class="ui top attached block header"><?php echo $MSG_Sample_Output?>
+          <h4 class="ui top attached block header" style="color: #ffffff;"><?php echo $MSG_Sample_Output?>
           </h4>
           <!-- <span class=copy id=\"copyout\" data-clipboard-text=\"".($soutput)."\"><?php echo $MSG_COPY; ?></span> -->
           <div class="ui bottom attached segment font-content">
@@ -201,11 +201,12 @@ if(file_exists($solution_file)){
   <?php if($row['hint']||isset($_GET['spa'])){ ?>
     <div class="row">
         <div class="column">
-          <h4 class="ui top attached block header"><?php echo $MSG_HINT?></h4>
+          <h4 class="ui top attached block header" style="color: #ffffff;"><?php echo $MSG_HINT?></h4>
           <div id='hint' class="ui bottom attached segment font-content hint"><?php echo bbcode_to_html($row['hint']); ?></div>
         </div>
     </div>
   <?php }?>
+  
   <?php
     $color=array("blue","teal","orange","pink","olive","red","violet","yellow","green","purple");
     $tcolor=0;

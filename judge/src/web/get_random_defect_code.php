@@ -8,7 +8,7 @@ if (!$problem_id) {
     exit;
 }
 
-$pattern = "/tmp/complete_code_{$problem_id}_step*_*.c";  // step 없이 전체 매칭
+$pattern = "/tmp/complete_code_{$problem_id}_step2_*.c";  // step 없이 전체 매칭
 $files = glob($pattern);
 
 if (!$files || count($files) === 0) {

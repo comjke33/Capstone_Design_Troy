@@ -215,8 +215,8 @@ include('allowed_users.php');
             
             <!-- 문제해결 전략게시판 -->
 
-            <a class="item <?php if ($url=="faqs.php") echo "active";?>" href="<?php echo $path_fix?>faqs.php"><i
-                    class="help circle icon"></i><span class="desktop-only"> <?php echo $MSG_FAQ?></span></a>
+            <!-- <a class="item <?php if ($url=="faqs.php") echo "active";?>" href="<?php echo $path_fix?>faqs.php"><i
+                    class="help circle icon"></i><span class="desktop-only"> <?php echo $MSG_FAQ?></span></a> -->
 
             <!-- 디버그용 -->
             <!-- <a class="item <?php if ($url=="troy_debugging.php") echo "active";?>" href="<?php echo $path_fix?>troy_debugging.php"><i
@@ -315,6 +315,9 @@ include('allowed_users.php');
                         </a>
 
                         <a class="item" href="modifypage.php"><i class="edit icon"></i><?php echo $MSG_REG_INFO;?></a>
+                        <a class="item" href="help.php" target="_blank">
+                            <i class="book icon"></i> 사용 가이드 다시 보기
+                            </a>
                         <a class="item" href="portal.php"><i class="tasks icon"></i><?php echo $MSG_TODO;?></a>
 
                         <?php if ($OJ_SaaS_ENABLE) {

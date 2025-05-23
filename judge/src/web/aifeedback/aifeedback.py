@@ -71,29 +71,26 @@ def get_blocks(code_lines):
     blocks = []
     blocks_idx = 0
     current_block = []
-    includes = []  # #include 블럭 저장
-    closing_braces = []  # 단독 } 블럭 저장
+    includes = []
+    closing_braces = []
     inside_block = False
     block_indices = []
 
     for line in code_lines:
-        # 헤더 선언 (#include)은 상수 블럭으로 처리
         if is_include_line(line):
             includes.append(line)
             all_blocks.append(includes)
             all_idx += 1
             includes = []
             continue
-        
-        # 단독 중괄호는 상수 블럭으로 처리
+
         if is_single_brace(line):
             closing_braces.append(line)
             all_blocks.append(closing_braces)
             all_idx += 1
             closing_braces = []
             continue
-        
-        # 블럭 시작 조건: start 태그를 만나면 새 블럭 시작
+
         if is_start_tag(line):
             if current_block:
                 blocks.append(current_block)
@@ -104,8 +101,8 @@ def get_blocks(code_lines):
                 current_block = []
             current_block.append(line)
             inside_block = True
-        
-        # 블럭 종료 조건: 다음 블럭의 시작 태그를 만나면 블럭 종료
+
+
         elif is_tag_line(line):
             if current_block:
                 blocks.append(current_block)
@@ -115,10 +112,11 @@ def get_blocks(code_lines):
                 all_idx += 1
                 current_block = []
             inside_block = False
-        
-        # 블럭 내부 코드 추가
+
+
         if inside_block or not is_tag_line(line):
-            current_block.append(line)
+            if line.strip() != "":
+                current_block.append(line)
 
     return includes, blocks, closing_braces, all_blocks, block_indices
 
@@ -139,14 +137,18 @@ def read_code_lines(filename):
 def generate_hint(block_code, block_number, guideline, model_answer):
     """OpenAI API를 이용하여 코드 블럭에 대한 힌트 생성"""
     prompt = f"""
-    학생 코드와 가이드라인, 모범 코드를 참고하여 문제점을 간단히 분석해주세요.
+   학생 코드와 가이드라인, 모범 코드를 참고하여 문제점을 간단히 분석해주세요.
+    •   오직 학생이 작성한 라인만 판단하세요.
+    •   해당 라인이 요구된 형식 또는 선언/정의의 조건을 만족하는지만 평가합니다.
+    •   함수 내부의 구현 내용은 이 판단에서 제외됩니다.
+    •   가이드라인에 있는 해당 줄의 기대 양식만 보고 판단하세요.
+    •   다른 줄이나 함수 전체 구조, 본문 내부 로직은 절대 고려하지 마세요.
 
     1. 학생 코드가 가이드라인과 다른 부분을 간단히 지적하고 이유를 설명하세요.
-    2. 가이드라인에 맞게 수정하려면 어떤 방향으로 수정해야 하는지 제안해주세요. 단, 가이드라인에 있는 내용만을 이용하여 답변해주세요. 다른 영역의 코드는 영향을 미치지않습니다. 헤더는 선언되었다고 가정합니다
-    3. 답변은 문제점, 수정방향 2가지에 대하여만 간단하고 호흡이 짧은 문장으로 언급해주세요. 
-    4. 마크업은 하지말아주세요.
-    5. 글 문단 시작에 번호를 붙이지 말아주세요
-    
+    2. 가이드라인에 맞게 수정하려면 어떤 방향으로 수정해야 하는지 제안해주세요.
+    3. 답변은 문제점, 수정방향 2가지에 대하여만 간단하고 호흡이 짧은 문장으로 언급해주세요.
+    4. 마크업은 하지 말아주세요.
+    5. 문단 시작에는 번호를 붙이지 마세요.    
 
     학생이 제출한 코드 (블록번호 : {block_number}):
     {block_code}
@@ -157,6 +159,16 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     모범 코드:
     {model_answer}
     """
+
+    # 💡 디버그 로그로 프롬프트 출력
+    try:
+        with open("/tmp/prompt_debug.log", "a") as f:
+            f.write("==== OpenAI Prompt ====\n")
+            f.write(prompt)
+            f.write("\n=======================\n\n")
+    except Exception as log_error:
+        pass  # 로그 실패 시 무시
+
     try:
         client = openai.OpenAI()
         response = client.chat.completions.create(
@@ -171,8 +183,6 @@ def generate_hint(block_code, block_number, guideline, model_answer):
         return response.choices[0].message.content.strip()
     except Exception as e:
         return f"AI 피드백 생성 오류: {str(e)}"
-
-
 
 
 def main():
