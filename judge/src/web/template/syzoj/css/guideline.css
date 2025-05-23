@@ -103,10 +103,11 @@
 }
 
 #flowchart_image {
-  width: 100%;
-  max-height: 500px;
+  width: auto;
+  height: auto;
+  max-width: 100%;      /* 가로는 부모 기준으로 제한 */
   display: block;
-  border-radius: 8px;
+  margin: 0 auto;
 }
 
 .flowchart-header-box {
