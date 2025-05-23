@@ -263,8 +263,6 @@ const problemId = <?= json_encode($problem_id) ?>
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
-    const btn = document.getElementById(`btn_${index}`);
-    const check = document.getElementById(`check_${index}`);
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
     const step = new URLSearchParams(window.location.search).get("step") || "1";
@@ -274,8 +272,13 @@ function submitAnswer(index) {
     const answerBtn = document.getElementById(`answer_btn_${index}`);
     const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
     const submitBtn = document.getElementById(`submit_btn_${index}`);
+    const check = document.getElementById(`check_${index}`);
 
-    // ✅ 클라이언트에서 먼저 정답 확인
+    const nextIndex = index + 1;
+    const nextTa = document.getElementById(`ta_${nextIndex}`);
+    const nextBtn = document.getElementById(`btn_${nextIndex}`);
+
+    // ⭐ 1. 즉시 처리 (클라이언트 예측 정답 기준)
     if (input === correct) {
         localStorage.setItem(key, "correct");
 
@@ -283,27 +286,20 @@ function submitAnswer(index) {
         ta.style.backgroundColor = "#d4edda";
         ta.style.border = "1px solid #d4edda";
         ta.style.color = "#155724";
-
         check.style.display = "inline";
 
         if (answerBtn) answerBtn.style.display = "none";
         if (feedbackBtn) feedbackBtn.style.display = "none";
         if (submitBtn) submitBtn.style.display = "none";
 
-        const nextIndex = index + 1;
-        const nextTa = document.getElementById(`ta_${nextIndex}`);
-        const nextBtn = document.getElementById(`btn_${nextIndex}`);
-
         if (nextTa && nextBtn) {
             nextTa.disabled = false;
             nextBtn.disabled = false;
             nextTa.focus();
         }
-
-        return; // 서버 요청 안 함
     }
 
-    // ✅ 정답이 아닌 경우만 서버에 요청
+    // ⭐ 2. 서버에 실제로 정답 요청
     fetch("../../ajax/check_answer_STEP.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -314,18 +310,32 @@ function submitAnswer(index) {
             step: step
         })
     })
-    .then(res => res.json())
+    .then(res => {
+        if (!res.ok) throw new Error("서버 오류");
+        return res.json();
+    })
     .then(data => {
-        if (data.result === "correct") {
-            // 같은 처리 (중복되므로 위로 옮길 수도 있음)
-        } else {
+        if (data.result !== "correct") {
+            // ❌ 서버에서 틀렸다고 판단한 경우 되돌리기
+            localStorage.removeItem(key);
+            ta.readOnly = false;
             ta.style.backgroundColor = "#ffecec";
             ta.style.border = "1px solid #e06060";
             ta.style.color = "#c00";
+            check.style.display = "none";
+
+            if (answerBtn) answerBtn.style.display = "inline";
+            if (feedbackBtn) feedbackBtn.style.display = "inline";
+            if (submitBtn) submitBtn.style.display = "inline";
+
+            if (nextTa && nextBtn) {
+                nextTa.disabled = true;
+                nextBtn.disabled = true;
+            }
         }
     })
     .catch(err => {
-        console.error("서버 요청 실패:", err);
+        console.error("요청 실패:", err);
     });
 }
 
