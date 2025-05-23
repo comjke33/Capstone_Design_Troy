@@ -203,40 +203,51 @@ $(function () {
 
 // 검색 바 있는 값만 가져오기
 document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById('searchButton').addEventListener('click', function () {
-    const input = document.getElementById('problemInput').value.trim();
-    const errorMsg = document.getElementById('errorMsg');
+  const inputField = document.getElementById('problemInput');
+  const searchBtn = document.getElementById('searchButton');
+  const errorMsg = document.getElementById('errorMsg');
 
+  searchBtn.addEventListener('click', function () {
+    const input = inputField.value.trim();
     errorMsg.style.display = "none";
 
     if (!input) {
-        errorMsg.textContent = "문제 ID를 입력해주세요.";
-        errorMsg.style.display = "block";
-        return;
+      errorMsg.textContent = "문제 ID를 입력해주세요.";
+      errorMsg.style.display = "block";
+      inputField.focus();
+      return;
     }
 
     if (!/^\d+$/.test(input)) {
-        errorMsg.textContent = "문제 ID는 숫자만 입력 가능합니다.";
-        errorMsg.style.display = "block";
-        return;
+      errorMsg.textContent = "문제 ID는 숫자만 입력 가능합니다.";
+      errorMsg.style.display = "block";
+      inputField.focus();
+      return;
     }
 
+    // 문제 ID 확인 요청
     fetch(`../../check_problem_exists.php?id=${encodeURIComponent(input)}`)
       .then(response => response.json())
       .then(data => {
-          if (data.exists === true) {
-              window.location.href = `problem.php?id=${encodeURIComponent(input)}`;
-          } else {
-              errorMsg.textContent = "없는 문제의 ID입니다.";
-              errorMsg.style.display = "block";
-          }
+        if (data.exists === true) {
+          // 문제 존재 시 이동
+          window.location.href = `problem.php?id=${encodeURIComponent(input)}`;
+        } else {
+          // 문제 없음: 에러 메시지 출력 + 입력칸 초기화 + 포커스
+          errorMsg.textContent = "없는 문제의 ID입니다. 다시 입력해주세요.";
+          errorMsg.style.display = "block";
+          inputField.value = "";
+          inputField.focus();
+        }
       })
       .catch(err => {
-          console.error("서버 오류:", err);
-          errorMsg.textContent = "서버 오류가 발생했습니다.";
-          errorMsg.style.display = "block";
+        console.error("서버 오류:", err);
+        errorMsg.textContent = "서버 오류가 발생했습니다.";
+        errorMsg.style.display = "block";
+        inputField.focus();
       });
   });
 });
+
 
 </script>
