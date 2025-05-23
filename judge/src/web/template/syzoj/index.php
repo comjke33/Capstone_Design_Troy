@@ -26,7 +26,9 @@
         </div>
       <?php } ?>
    <!-- 시스템 설명서 안내 (리팩토링 UI 적용) -->
-   <div class="ui raised very padded text container segment" style="margin-top: 2em;">
+   <div class="ui grid">
+  <div class="sixteen wide column">
+<div class="ui raised very padded text container segment" style="margin-top: 2em;">
   <h2 class="ui header" style="color:#003366;">
     <i class="book icon"></i>
     <div class="content">
