@@ -46,7 +46,7 @@
   font-size: 1.8em !important;
   font-weight: bold !important;
   color: #1e70bf !important;
-  margin-top: 2em !important;
+  margin-top: 1.5em !important;
 }
   </style>
 </head>
