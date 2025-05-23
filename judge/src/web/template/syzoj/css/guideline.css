@@ -270,3 +270,15 @@
   box-sizing: border-box;
 }
 
+/* depth==1 */
+.basic-sentence {
+    background-color: #e7fbe7 !important;
+    border: none;
+    color: #333;
+    font-style: italic;
+    resize: none;
+    font-family: monospace;
+    outline: none;
+    padding: 8px;
+    opacity: 0.95;
+}

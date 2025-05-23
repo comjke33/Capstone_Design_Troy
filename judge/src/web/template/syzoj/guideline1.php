@@ -71,6 +71,7 @@ include("../../guideline_common.php");
                     $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
                     $html .= "<div class='code-line'>{$escaped_line}</div>";
 
+                    //$depth ==1, 기초 문장인 경우
                     $is_depth_one = ($depth == 1); // ✅ depth 판단
 
                     if ($is_depth_one) {
@@ -137,9 +138,14 @@ include("../../guideline_common.php");
                 const textarea = document.getElementById(`ta_${i}`);
                 if (textarea && textarea.hasAttribute('readonly')) {
                     showAnswer(i);
+
+                    // ✅ 시각적으로 명확하게 강조
+                    textarea.classList.add('basic-sentence'); // 스타일 강조용 클래스
+                    textarea.title = "이 문장은 예시로 제공된 정답입니다."; // 마우스 오버시 힌트
                 }
             }
         });
+
         </script>
     </div>
 
