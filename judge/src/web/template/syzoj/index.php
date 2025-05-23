@@ -37,73 +37,58 @@
     </div>
   </h2>
 
-  <!-- 설명서 요약 및 펼치기 버튼 -->
-<div class="ui info message" style="margin-top: 2em;">
-  <i class="book icon"></i>
-  <strong>처음이신가요?</strong> 단계별 풀이, 문법 리포트, 유사 문제 추천 기능을 안내드립니다.
-  <button class="ui tiny button blue" onclick="$('#ojGuide').slideToggle()">자세히 보기</button>
-</div>
-
-<!-- 전체 설명서: 처음에는 숨겨짐 -->
-<div id="ojGuide" style="display: none; margin-bottom: 2em;">
-  <div class="ui three stackable cards">
-    
-    <!-- 카드 1: 단계별 풀이 -->
-    <div class="card">
-      <div class="content">
-        <div class="header">📘 단계별 풀이 가이드</div>
-        <div class="description" style="margin-top: 1em;">
-          <ul style="line-height: 1.8;">
-            <li><strong>[단계적 풀기]</strong> 버튼으로 학습을 시작하세요</li>
-            <li><code>#include &lt;stdio.h&gt;</code>는 자동 포함</li>
-            <li style="color:#d72638;"><strong>⚠ 조건문 등은 <u>{만 작성</u>하고 }는 <u>작성 금지!</u></strong></li>
-            <li>Step1 → 한 줄씩<br/>Step2 → 문단 단위<br/>Step3 → 전체 구성 (제출 없음)</li>
-            <li>진행 중 <strong>좌측 Flowchart</strong>로 구조 파악</li>
-            <li><strong>[피드백 보기]</strong>로 AI 힌트 확인 가능</li>
-            <li style="color:#c62828;"><strong>⚠ 변수명·흐름 미준수 시 오답 처리 가능</strong></li>
-          </ul>
+  <div class="ui styled fluid accordion">
+    <!-- 단계별 풀이 -->
+    <div class="title active"><i class="dropdown icon"></i><b>📘 단계별 풀이 가이드</b></div>
+    <div class="content active">
+      <div class="ui list" style="font-size: 1.1em; line-height: 1.8;">
+        <div class="item">문제 페이지의 <b>[단계적 풀기]</b> 버튼으로 학습을 시작하세요.</div>
+        <div class="item"><code>#include &lt;stdio.h&gt;</code>는 자동 포함되므로 따로 선언하지 않아도 됩니다.</div>
+        <div class="item ui warning message" style="color:#d72638; background-color: #fff8f6;">
+          ⚠ <b>중요:</b> 조건문/반복문/함수 선언 시 <code>{</code>는 <u>직접 작성</u>, <code>}</code>는 <u>작성 금지</u> (자동 처리)
+        </div>
+        <div class="item"><b>Step 1:</b> 한 줄씩 입력 – 코드 의미 및 동작 이해</div>
+        <div class="item"><b>Step 2:</b> 문단 단위 – 흐름 중심 연습</div>
+        <div class="item"><b>Step 3:</b> 전체 구성 – 자신만의 스타일로 완성 (제출 없음)</div>
+        <div class="item">Step 1·2 진행 시 좌측 <b>Flowchart</b>로 구조를 시각화합니다.</div>
+        <div class="item"><b>[피드백 보기]</b> 버튼으로 AI 힌트를 받을 수 있습니다.</div>
+        <div class="item ui negative message" style="background-color: #fff6f6;">
+          ⚠ <b>주의:</b> <u>코드 스타일(들여쓰기, 줄바꿈 등)</u>은 정답 기준이 아니지만,<br />
+          <span style="color: #c62828;">가이드라인의 <u>변수명 및 흐름을 따르지 않으면 오답 처리될 수 있습니다.</u></span>
         </div>
       </div>
     </div>
 
-    <!-- 카드 2: 문법 리포트 -->
-    <div class="card">
-      <div class="content">
-        <div class="header">📊 문법 오류 리포트</div>
-        <div class="description" style="margin-top: 1em;">
-          <ul style="line-height: 1.8;">
-            <li>우측 상단 <strong>종 아이콘</strong> 클릭</li>
-            <li>5일간 <strong>15회 이상 제출</strong> → AI가 오류 통계 분석</li>
-            <li><strong>자신의 취약 개념 파악</strong>에 유용</li>
-          </ul>
-        </div>
+    <!-- 문법 오류 리포트 -->
+    <div class="title"><i class="dropdown icon"></i><b>📊 개인별 문법 오류 리포트</b></div>
+    <div class="content">
+      <div class="ui list" style="font-size: 1.1em; line-height: 1.8;">
+        <div class="item">우측 상단의 <b>종 아이콘</b> 클릭 → 문법 오류 리포트 확인</div>
+        <div class="item">5일간 <b>15회 이상 제출</b> 시 AI가 주요 오류를 분석해 통계 제공합니다.</div>
+        <div class="item">이 기능으로 <b>자신의 약한 개념을 파악하고 학습하세요.</b></div>
       </div>
     </div>
 
-    <!-- 카드 3: 유사 문제 추천 -->
-    <div class="card">
-      <div class="content">
-        <div class="header">🔁 유사 문제 & 문법 확인</div>
-        <div class="description" style="margin-top: 1em;">
-          <ul style="line-height: 1.8;">
-            <li><strong>정답 제출</strong> → Codeup 유사 문제 자동 추천</li>
-            <li><strong>오답 제출</strong> → <strong>[문법 오류 확인]</strong> 버튼 제공</li>
-            <li>관련 개념으로 <strong>직접 학습 연결</strong></li>
-          </ul>
-        </div>
+    <!-- 유사 문제 -->
+    <div class="title"><i class="dropdown icon"></i><b>🔁 유사 문제 추천 및 문법 오류 확인</b></div>
+    <div class="content">
+      <div class="ui list" style="font-size: 1.1em; line-height: 1.8;">
+        <div class="item"><b>정답 제출 시</b> → Codeup 유사 문제 풀이 페이지로 이동</div>
+        <div class="item"><b>오답 제출 시</b> → <b>[문법 오류 확인]</b> 버튼 생성, 개념 링크 제공</div>
       </div>
     </div>
+  </div>
 
+  <div class="ui info message" style="margin-top: 2em;">
+    <i class="info icon"></i>
+    <b>이 기능들을 활용하여 실력을 체계적으로 쌓아보세요!</b>
   </div>
 </div>
-
-<!-- Slide toggle script -->
 <script>
-  $(document).ready(function() {
-    $('#ojGuide').hide();
+  $(document).ready(function () {
+    $('.ui.accordion').accordion();
   });
-</script>
-    <!-- 검색 -->
+</script>      <!-- 검색 -->
     <h4 class="ui top attached block header" style="color: white;">
       <i class="ui search icon"></i> 문제 검색
     </h4>
