@@ -57,13 +57,14 @@ include("../../guideline_common.php");
         foreach ($blocks as $block) {
             $depth = $block['depth'];
             $margin_left = $depth * 50;
-            $isCorrect = false;
+
+            // 기존: 항상 false였음 -> 실제 정답 비교 결과로 설정해야 함 (임시 유지)
+            $isCorrect = false; // TODO: 실제 사용자 입력 비교 후 수정 필요
 
             if ($block['type'] === 'text') {
                 $raw = trim($block['content']);
                 if ($raw === '') continue;
 
-            
                 // 안전하게 이스케이프
                 $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
 
@@ -76,19 +77,22 @@ include("../../guideline_common.php");
                 // 코드 라인
                 $html .= "<div class='code-line'>{$escaped_line}</div>";
 
-                // // textarea 출력
-                // $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>" . "</textarea>";
+                // 수정 전: 문법 오류 발생
+                // $is_depth_one= if ($depth==1) ? 1 : 0; 
+
+                // 수정 후: 삼항 연산자 대입으로 정상 처리
+                $is_depth_one = ($depth == 1); // ✅ 수정됨
 
                 // 정답이 존재하면 미리 가져오기
                 $default_value = $has_correct_answer
                     ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8')
                     : "";
 
-                if ($is_depth_zero) {
-                    // depth 0일 때: readonly textarea, 버튼 제거, 정답 자동 표시
+                if ($is_depth_one) {
+                    // depth가 1일 때: readonly textarea로 출력
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly>{$default_value}</textarea>";
                 } else {
-                    // 그 외: 입력 가능 textarea, 제출/답안 확인/피드백 버튼 출력
+                    // 그 외의 경우: 사용자 입력 가능 + 버튼 출력
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
                     if (!$isCorrect) {
@@ -98,11 +102,10 @@ include("../../guideline_common.php");
                     }
                 }
 
+                // 불필요한 중복 주석 삭제 또는 유지 보수용 정리 필요
                 // // 버튼 출력
                 // if (!$isCorrect || $is_depth_zero) {
-                //     $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
-                //     $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
-                //     $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
+                //     ...
                 // }
 
                 // 정답/피드백 영역
@@ -124,6 +127,7 @@ include("../../guideline_common.php");
     echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
     ?>
 </div>
+
 
 
     <!-- 오른쪽 패널 -->
