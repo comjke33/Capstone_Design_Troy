@@ -78,14 +78,15 @@ include("../../guideline_common.php");
                 // 코드 라인
                 $html .= "<div class='code-line'>{$escaped_line}</div>";
 
-                                // depth == 1 이면 readonly + 정답 자동 표시
+                // depth == 1 이면 readonly + 정답 자동 표시
                 if ($depth == 1 && $has_correct_answer) {
+                    // ✅ depth == 1이면, 정답만 보여주고 버튼은 출력 안함
                     $answer_content = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8');
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='background-color: #D4EDDA; color: #155724; border: 1px solid #c3e6cb;'>{$answer_content}</textarea>";
                 } else {
+                    // ✅ depth != 1이면, 입력 가능 textarea 및 버튼 출력
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
-                    // 버튼 출력
                     if (!$isCorrect) {
                         $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
                         $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
