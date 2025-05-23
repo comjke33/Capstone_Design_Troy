@@ -278,14 +278,13 @@ const problemId = <?= json_encode($problem_id) ?>
 
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
-    const btn = document.getElementById(`btn_${index}`);
+    const btn = document.getElementById(`submit_btn_${index}`);
     const check = document.getElementById(`check_${index}`);
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
     const step = new URLSearchParams(window.location.search).get("step") || "1";
     const problemId = new URLSearchParams(window.location.search).get("problem_id") || "0";
     const key = `answer_status_step${step}_q${index}_pid${problemId}`;
-
 
     console.log("제출값:", input);
     console.log("요청 데이터:", {
@@ -294,6 +293,13 @@ function submitAnswer(index) {
         index: index
     });
 
+    // 로딩 중 표시
+    const loadingMessage = document.createElement('div');
+    loadingMessage.id = `loading_message_${index}`;
+    loadingMessage.innerText = "로딩 중...";
+    document.getElementById(`submission-line_${index}`).appendChild(loadingMessage);
+
+    // 서버에 제출된 답안 보내기
     fetch("../../ajax/check_answer_STEP.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -313,35 +319,31 @@ function submitAnswer(index) {
     })
     .then(data => {
         console.log(data);
+        
+        // 로딩 중 메시지 숨기기
+        const loadingMessage = document.getElementById(`loading_message_${index}`);
+        if (loadingMessage) loadingMessage.style.display = 'none';
+        
+        // 서버 응답에 맞춰 UI 처리
         if (data.result === "correct") {
-            localStorage.setItem(key, "correct");
-
+            // 정답 맞은 경우
+            check.style.display = "inline";
             ta.readOnly = true;
             ta.style.backgroundColor = "#d4edda";
             ta.style.border = "1px solid #d4edda";
             ta.style.color = "#155724";
-            // btn.style.display = "none";
-            check.style.display = "inline";
-
-                // 정답이 맞은 경우 버튼 숨기기
+            
+            // 제출 버튼, 답안 확인 버튼, 피드백 보기 버튼 숨기기
+            if (btn) btn.style.display = "none";
             const answerBtn = document.getElementById(`answer_btn_${index}`);
-            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
-            const submitBtn = document.getElementById(`submit_btn_${index}`);
-
             if (answerBtn) answerBtn.style.display = "none";
+            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
             if (feedbackBtn) feedbackBtn.style.display = "none";
-            if (submitBtn) submitBtn.style.display = "none";
 
-            const nextIndex = index + 1;
-            const nextTa = document.getElementById(`ta_${nextIndex}`);
-            const nextBtn = document.getElementById(`btn_${nextIndex}`);
-
-            if (nextTa && nextBtn) {
-                nextTa.disabled = false;
-                nextBtn.disabled = false;
-                nextTa.focus();
-            }
+            // 상태 저장
+            localStorage.setItem(key, "correct");
         } else {
+            // 틀린 경우
             ta.style.backgroundColor = "#ffecec";
             ta.style.border = "1px solid #e06060";
             ta.style.color = "#c00";
@@ -349,9 +351,11 @@ function submitAnswer(index) {
     })
     .catch(err => {
         console.error("서버 요청 실패:", err);
+        const loadingMessage = document.getElementById(`loading_message_${index}`);
+        if (loadingMessage) loadingMessage.style.display = 'none';
     });
-
 }
+
 
 //문제가 되는 특수문자 치환
 function escapeHtml(text) {
