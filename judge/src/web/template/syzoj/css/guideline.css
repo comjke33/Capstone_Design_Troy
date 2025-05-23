@@ -83,16 +83,13 @@
 .flowchart-wrapper {
   padding: 12px;
   border-radius: 12px;
+  overflow-y: auto;           /* 세로 스크롤 활성화 */
+  max-height: 600px;          /* 최대 높이 설정 (원하는 크기로 조정 가능) */
   background-color: #fff;
-  border: 2px solid black;
+  border: 2px solid black;    /* 검은 테두리 */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  max-height: 600px;
-  overflow-y: auto;
-  box-sizing: border-box;       /* ✅ padding 포함되게 */
-  overflow: hidden;  /* 외곽 반올림 유지 */
 }
-
 
 .flowchart-title {
   font-size: 18px;
