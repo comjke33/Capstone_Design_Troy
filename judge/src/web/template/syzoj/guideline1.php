@@ -276,6 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
 
+
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
     const btn = document.getElementById(`submit_btn_${index}`);
@@ -297,7 +298,18 @@ function submitAnswer(index) {
     const loadingMessage = document.createElement('div');
     loadingMessage.id = `loading_message_${index}`;
     loadingMessage.innerText = "로딩 중...";
-    document.getElementById(`submission-line_${index}`).appendChild(loadingMessage);
+    loadingMessage.style.marginTop = "10px";
+    loadingMessage.style.fontSize = "14px";
+    loadingMessage.style.color = "gray";
+    loadingMessage.style.textAlign = "center";
+    
+    // submission-line_${index}가 존재하는지 확인
+    const submissionLine = document.getElementById(`submission-line_${index}`);
+    if (submissionLine) {
+        submissionLine.appendChild(loadingMessage);  // 로딩 중 메시지 추가
+    } else {
+        console.error(`submission-line_${index} 요소를 찾을 수 없습니다.`);
+    }
 
     // 서버에 제출된 답안 보내기
     fetch("../../ajax/check_answer_STEP.php", {
@@ -355,6 +367,7 @@ function submitAnswer(index) {
         if (loadingMessage) loadingMessage.style.display = 'none';
     });
 }
+
 
 
 //문제가 되는 특수문자 치환
