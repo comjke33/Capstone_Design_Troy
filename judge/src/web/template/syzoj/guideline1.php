@@ -237,6 +237,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+//textarea Tab 누르면 다음 textarea 이동
+  document.addEventListener('DOMContentLoaded', () => {
+    const textareas = document.querySelectorAll('textarea');
+
+    textareas.forEach((textarea, index) => {
+      textarea.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab' && !e.shiftKey) {
+          e.preventDefault(); // 기본 탭 동작 막기
+          const next = textareas[index + 1];
+          if (next) next.focus();
+        }
+      });
+    });
+  });
+
 //문제 맞았는지 여부 확인
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
