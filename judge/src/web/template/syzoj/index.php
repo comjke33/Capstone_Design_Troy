@@ -25,69 +25,64 @@
           </div>
         </div>
       <?php } ?>
-    <!-- 시스템 설명서 안내 (전체 내용 포함) -->
-<div class="ui styled fluid accordion" style="margin-top: 2em;">
-  <div class="title active ui top attached block header blue">
-    <i class="dropdown icon"></i>
-    📘 TROY OJ 설명서
+   <!-- 시스템 설명서 안내 (리팩토링 UI 적용) -->
+<div class="ui raised very padded text container segment" style="margin-top: 2em;">
+  <h2 class="ui header" style="color:#003366">
+    <i class="book icon"></i>
+    <div class="content">
+      TROY OJ 사용 가이드
+      <div class="sub header" style="color:#666">단계별 풀이 · 문법 리포트 · 유사 문제 추천</div>
+    </div>
+  </h2>
+
+  <div class="ui styled fluid accordion">
+    <!-- 단계별 풀이 -->
+    <div class="title active"><i class="dropdown icon"></i>📘 단계별 풀이 가이드</div>
+    <div class="content active">
+      <ol class="ui list">
+        <li>문제 페이지의 <b>[단계적 풀기]</b> 버튼을 눌러 학습을 시작합니다.</li>
+        <li><code>#include &lt;stdio.h&gt;</code>는 자동 포함되어 별도 선언이 필요 없습니다.</li>
+        <li style="color: #d72638; font-weight: bold;">
+          ⚠ <b>중요!</b> 조건문, 반복문, 함수 선언 시 <code>{</code>는 <u>직접 작성</u>해야 하며,
+          <code>}</code>는 <u>절대 작성하지 마세요!</u> (시스템이 자동 처리)
+        </li>
+        <li><b>Step 1:</b> 한 줄씩 작성 – 의미와 동작 원리 중심 학습</li>
+        <li><b>Step 2:</b> 문단 단위 풀이 – 흐름과 구조 중심 학습</li>
+        <li><b>Step 3:</b> 전체 블록 작성 – 자신만의 스타일로 완성 (제출 없음)</li>
+        <li>Step 1, 2 진행 시 좌측 <b>Flowchart</b>가 자동 생성되어 구조 파악에 도움</li>
+        <li><b>[피드백 보기]</b> 버튼을 통해 AI 힌트 확인 가능</li>
+        <li style="color: #d72638; font-weight: bold;">
+          ⚠ <b>주의!</b> <u>정답은 코드 스타일(들여쓰기, 줄바꿈 등)에 영향을 받지 않습니다</u>.<br />
+          <span style="color: #c62828;">단, <u>가이드라인의 변수명/흐름을 지키지 않으면 오답 처리</u>될 수 있습니다.</span>
+        </li>
+      </ol>
+    </div>
+
+    <!-- 문법 오류 리포트 -->
+    <div class="title"><i class="dropdown icon"></i>📊 개인별 문법 오류 리포트</div>
+    <div class="content">
+      <ul class="ui list">
+        <li>우측 상단 <b>종 아이콘</b> 클릭 → 본인의 문법 오류 리포트를 확인</li>
+        <li>최근 <b>5일간 15회 이상 제출</b> 시 AI가 주요 문법 오류를 분석해 통계 제공</li>
+        <li>리포트를 통해 <b>자신의 취약 개념 보완</b> 가능</li>
+      </ul>
+    </div>
+
+    <!-- 유사 문제 추천 -->
+    <div class="title"><i class="dropdown icon"></i>🔁 유사 문제 풀이 및 문법 오류 확인</div>
+    <div class="content">
+      <ul class="ui list">
+        <li><b>정답 제출 시</b> → Codeup 유사 문제 풀이 페이지로 이동</li>
+        <li><b>오답 제출 시</b> → <b>[문법 오류 확인]</b> 버튼이 생성되며 개념 설명 링크로 연결</li>
+      </ul>
+    </div>
   </div>
-  <div class="content active ui bottom attached segment" style="line-height: 2.0;">
-  <h3 class="ui top attached block header" style="font-size: 1.5em; background-color: #f4f4f4; color: #003366;">
-  📘 단계별 풀이 가이드</h3>
-    <ol>
-      <li><b>문제 페이지의 [단계적 풀기]</b> 버튼을 눌러 학습을 시작합니다.</li>
-      <li><code>#include &lt;stdio.h&gt;</code>는 자동 포함되어 별도 선언이 필요 없습니다.</li>
-      <li style="color: #d72638; font-weight: bold;">
-        ⚠ <b>중요!</b> 조건문, 반복문, 함수 선언 시 <code>{</code>는 <u>직접 작성</u>해야 하며,
-        <code>}</code>는 <u>절대 작성하지 마세요!</u> (시스템이 자동 처리합니다)
-      </li>
-      <li><b>Step 1:</b> 한 줄씩 작성 – 의미와 동작 원리 중심 학습</li>
-      <li><b>Step 2:</b> 문단 단위 풀이 – 흐름과 구조 중심 학습</li>
-      <li><b>Step 3:</b> 전체 블록 작성 – 자신만의 스타일로 완성 (제출 없음)</li>
-      <li>
-        <b>Step 1 진행 시 좌측 Flowchart</b>가 생성되어 구조 파악에 도움을 줍니다.
-      </li>
-      <li>
-        <b>[피드백 보기]</b> 버튼을 통해 코드 이해가 어려울 경우 AI 힌트를 활용할 수 있습니다.
-      </li>
-      <li style="color: #d72638; font-weight: bold;">
-  ⚠ <b>주의!</b> 정답 기준은 <u>코드 스타일(들여쓰기, 줄바꿈 등)</u>에 영향을 받지 않지만,<br />
-  <span style="color: #c62828;">가이드라인에서 제시한 <u>변수명이나 흐름을 지키지 않으면 오답 처리</u>될 수 있습니다!</span>
-</li>
-    </ol>
 
-    <div class="ui divider"></div>
-
-    <h3 class="ui top attached block header" style="font-size: 1.5em; background-color: #f4f4f4; color: #003366;">
-    📊 개인별 문법 오류 리포트</h3>
-    <ul>
-      <li>
-        <b>우측 상단 종 아이콘</b> 클릭 → 본인의 문법 오류 리포트 확인
-      </li>
-      <li>
-        최근 <b>5일간 15회 이상 제출</b> 시 AI가 주요 문법 오류를 분석해 통계로 제공합니다.
-      </li>
-      <li>이 리포트를 통해 <b>자신의 취약 개념을 보완</b>할 수 있습니다.</li>
-    </ul>
-
-    <div class="ui divider"></div>
-
-    <h3 class="ui top attached block header" style="font-size: 1.5em; background-color: #f4f4f4; color: #003366;">
-    🔁 유사 문제 풀이 및 문법 오류 확인</h3>
-    <ul>
-      <li>
-        <b>정답 제출 시</b> → Codeup의 유사 문제 풀이 페이지로 이동
-      </li>
-      <li>
-        <b>오답 제출 시</b> → <b>[문법 오류 확인]</b> 버튼이 생성되어 관련 개념 링크로 연결됩니다.
-      </li>
-    </ul>
-
-    <div class="ui divider"></div>
-    <p><b>이 기능들을 활용하여 실력을 체계적으로 쌓아보세요!</b></p>
+  <div class="ui blue message" style="margin-top: 2em;">
+    <i class="info icon"></i>
+    <b>이 기능들을 활용하여 실력을 체계적으로 쌓아보세요!</b>
   </div>
 </div>
-
 <script>
   $(document).ready(function () {
     $('.ui.accordion').accordion();
