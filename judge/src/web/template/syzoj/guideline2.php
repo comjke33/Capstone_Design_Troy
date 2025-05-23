@@ -315,7 +315,6 @@ function submitAnswer(index) {
     .catch(err => {
         console.error("서버 요청 실패:", err);
     });
-
 }
 
 //문제가 되는 특수문자 치환
