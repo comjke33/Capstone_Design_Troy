@@ -39,7 +39,7 @@ include("../../guideline_common.php");
 
     <!-- 가운데 패널 -->
     <div class="center-panel">
-        <h1>한 블럭씩 풀기</h1>
+        <h1>심화 풀기</h1>
 
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
         <br>
