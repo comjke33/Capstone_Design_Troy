@@ -75,8 +75,6 @@ include("../../guideline_common.php");
                 // 출력 블록 시작
                 $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
 
-                // 코드 라인
-                $html .= "<div class='code-line'>{$escaped_line}</div>";
 
                 // depth == 1 이면 readonly + 정답 자동 표시
                  if ($depth == 1 && $has_correct_answer) {
@@ -84,6 +82,7 @@ include("../../guideline_common.php");
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='background-color: #D4EDDA; color: #155724; border: 1px solid #c3e6cb;'>{$answer_content}</textarea>";
                 } else {
                     $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
+                    //코드라인 부분
                     $html .= "<div class='code-line'>{$escaped_line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
