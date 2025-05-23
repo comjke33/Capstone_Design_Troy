@@ -50,7 +50,7 @@ include("../../guideline_common.php");
         <br><br>
 
         <?php      
-        function render_tree_plain($blocks, &$answer_index = 0) {
+    function render_tree_plain($blocks, &$answer_index = 0) {
         $html = "";
 
         foreach ($blocks as $block) {
@@ -62,14 +62,18 @@ include("../../guideline_common.php");
                 $raw = trim($block['content']);
                 if ($raw === '') continue;
 
+                // 디버깅용 주석
                 $html .= "<!-- DEBUG raw line [{$answer_index}]: " . htmlentities($raw) . " -->\n";
+
+                // 안전하게 이스케이프
+                $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
 
                 $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
                 $disabled = $has_correct_answer ? "" : "disabled";
-                $answer_content = $has_correct_answer ? $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'] : "";
 
                 // 출력 블록 시작
                 $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
+
 
                 // depth == 1 이면 readonly + 정답 자동 표시
                  if ($depth == 1 && $has_correct_answer) {
@@ -88,19 +92,20 @@ include("../../guideline_common.php");
                     }
                 }
 
+                // 정답/피드백 영역
                 $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                 $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
-                $html .= "</div>"; // .submission-line
 
+                $html .= "</div>"; // .submission-line
                 $answer_index++;
-            } else if (isset($block['children']) && is_array($block['children'])) {
+            } 
+            else if (isset($block['children']) && is_array($block['children'])) {
                 $html .= render_tree_plain($block['children'], $answer_index);
             }
         }
 
         return $html;
     }
-
 
     $answer_index = 0;
     echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
