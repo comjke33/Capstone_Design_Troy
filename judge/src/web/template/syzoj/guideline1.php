@@ -262,14 +262,14 @@ const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
 
 function submitAnswer(index) {
-    const ta = document.getElementById(ta_${index});
-    const btn = document.getElementById(btn_${index});
-    const check = document.getElementById(check_${index});
+    const ta = document.getElementById(`ta_${index}`);
+    const btn = document.getElementById(`btn_${index}`);
+    const check = document.getElementById(`check_${index}`);
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
     const step = new URLSearchParams(window.location.search).get("step") || "1";
     const problemId = new URLSearchParams(window.location.search).get("problem_id") || "0";
-    const key = answer_status_step${step}_q${index}_pid${problemId};
+    const key = `answer_status_step${step}_q${index}_pid${problemId}`;
 
 
     console.log("제출값:", input);
@@ -309,17 +309,17 @@ function submitAnswer(index) {
             check.style.display = "inline";
 
                 // 정답이 맞은 경우 버튼 숨기기
-            const answerBtn = document.getElementById(answer_btn_${index});
-            const feedbackBtn = document.getElementById(feedback_btn_${index});
-            const submitBtn = document.getElementById(submit_btn_${index});
+            const answerBtn = document.getElementById(`answer_btn_${index}`);
+            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
+            const submitBtn = document.getElementById(`submit_btn_${index}`);
 
             if (answerBtn) answerBtn.style.display = "none";
             if (feedbackBtn) feedbackBtn.style.display = "none";
             if (submitBtn) submitBtn.style.display = "none";
 
             const nextIndex = index + 1;
-            const nextTa = document.getElementById(ta_${nextIndex});
-            const nextBtn = document.getElementById(btn_${nextIndex});
+            const nextTa = document.getElementById(`ta_${nextIndex}`);
+            const nextBtn = document.getElementById(`btn_${nextIndex}`);
 
             if (nextTa && nextBtn) {
                 nextTa.disabled = false;
@@ -336,8 +336,7 @@ function submitAnswer(index) {
         console.error("서버 요청 실패:", err);
     });
 
-} 
-
+}
 
 //문제가 되는 특수문자 치환
 function escapeHtml(text) {
