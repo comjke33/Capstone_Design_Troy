@@ -275,11 +275,35 @@ function submitAnswer(index) {
     const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
     const submitBtn = document.getElementById(`submit_btn_${index}`);
 
-    // ✅ 바로 버튼 숨기기
-    if (answerBtn) answerBtn.style.display = "none";
-    if (feedbackBtn) feedbackBtn.style.display = "none";
-    if (submitBtn) submitBtn.style.display = "none";
+    // ✅ 클라이언트에서 먼저 정답 확인
+    if (input === correct) {
+        localStorage.setItem(key, "correct");
 
+        ta.readOnly = true;
+        ta.style.backgroundColor = "#d4edda";
+        ta.style.border = "1px solid #d4edda";
+        ta.style.color = "#155724";
+
+        check.style.display = "inline";
+
+        if (answerBtn) answerBtn.style.display = "none";
+        if (feedbackBtn) feedbackBtn.style.display = "none";
+        if (submitBtn) submitBtn.style.display = "none";
+
+        const nextIndex = index + 1;
+        const nextTa = document.getElementById(`ta_${nextIndex}`);
+        const nextBtn = document.getElementById(`btn_${nextIndex}`);
+
+        if (nextTa && nextBtn) {
+            nextTa.disabled = false;
+            nextBtn.disabled = false;
+            nextTa.focus();
+        }
+
+        return; // 서버 요청 안 함
+    }
+
+    // ✅ 정답이 아닌 경우만 서버에 요청
     fetch("../../ajax/check_answer_STEP.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -290,46 +314,21 @@ function submitAnswer(index) {
             step: step
         })
     })
-    .then(res => {
-        if (!res.ok) throw new Error("서버 오류");
-        return res.json();
-    })
+    .then(res => res.json())
     .then(data => {
         if (data.result === "correct") {
-            localStorage.setItem(key, "correct");
-            ta.readOnly = true;
-            ta.style.backgroundColor = "#d4edda";
-            ta.style.border = "1px solid #d4edda";
-            ta.style.color = "#155724";
-            check.style.display = "inline";
-
-            const nextIndex = index + 1;
-            const nextTa = document.getElementById(`ta_${nextIndex}`);
-            const nextBtn = document.getElementById(`btn_${nextIndex}`);
-            if (nextTa && nextBtn) {
-                nextTa.disabled = false;
-                nextBtn.disabled = false;
-                nextTa.focus();
-            }
+            // 같은 처리 (중복되므로 위로 옮길 수도 있음)
         } else {
-            // ❗ 오답일 경우 다시 버튼 보이게
             ta.style.backgroundColor = "#ffecec";
             ta.style.border = "1px solid #e06060";
             ta.style.color = "#c00";
-
-            if (answerBtn) answerBtn.style.display = "inline-block";
-            if (feedbackBtn) feedbackBtn.style.display = "inline-block";
-            if (submitBtn) submitBtn.style.display = "inline-block";
         }
     })
     .catch(err => {
         console.error("서버 요청 실패:", err);
-        // ❗ 서버 에러 발생시 버튼 복원
-        if (answerBtn) answerBtn.style.display = "inline-block";
-        if (feedbackBtn) feedbackBtn.style.display = "inline-block";
-        if (submitBtn) submitBtn.style.display = "inline-block";
     });
 }
+
 
 //문제가 되는 특수문자 치환
 function escapeHtml(text) {
