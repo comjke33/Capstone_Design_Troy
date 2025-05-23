@@ -200,9 +200,13 @@ document.addEventListener("DOMContentLoaded", function () {
             if (checkMark) checkMark.style.display = "inline";
 
             // 정답이 맞은 경우 버튼 숨기기
-            document.getElementById(`submit_btn_${index}`).style.display = "none";
-            document.getElementById(`answer_btn_${index}`).style.display = "none";
-            document.getElementById(`feedback_btn_${index}`).style.display = "none";
+            const submitBtn = document.getElementById(`submit_btn_${index}`);
+            const answerBtn = document.getElementById(`answer_btn_${index}`);
+            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
+
+            if (submitBtn) submitBtn.style.display = "none";
+            if (answerBtn) answerBtn.style.display = "none";
+            if (feedbackBtn) feedbackBtn.style.display = "none";
         }
 
         // textarea 입력값이 변경되면 localStorage에 저장
@@ -217,16 +221,19 @@ document.addEventListener("DOMContentLoaded", function () {
             const nextStep = btn.getAttribute("data-step");
             const nextProblemId = btn.getAttribute("data-problem-id") || problemId;
 
+            // 입력값을 localStorage에 저장
             document.querySelectorAll("textarea").forEach((textarea, index) => {
                 const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
                 localStorage.setItem(key, textarea.value);
             });
 
+            // 이동
             const baseUrl = window.location.pathname;
             window.location.href = `${baseUrl}?step=${nextStep}&problem_id=${nextProblemId}`;
         });
     });
 });
+
 
 //textarea 입력 줄에 따라 높이 조절
 document.addEventListener("DOMContentLoaded", function () {
