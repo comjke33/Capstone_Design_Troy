@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // 문제 ID 확인 요청
-    fetch(`../../check_problem_exists.php?id=${encodeURIComponent(input)}`)
+    fetch(`../check_problem_exists.php?id=${encodeURIComponent(input)}`)
       .then(response => response.json())
       .then(data => {
         if (data.exists === true) {
