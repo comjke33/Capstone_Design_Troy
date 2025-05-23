@@ -27,13 +27,13 @@
 
             </div>
           </div>
-          <div class="field">
+          <!-- <div class="field">
             <div class="ui action input">
               <input name="group_name" placeholder="<?= $MSG_GROUP_NAME ?>" type="text" value="<?= htmlentities($_GET['group_name'] ?? '', ENT_QUOTES, 'utf-8') ?>">
               <button class="ui mini button" type="submit" style="background-color: #003366; color: white;"><?= $MSG_SEARCH ?>
               </button>
             </div>
-          </div>
+          </div> -->
         </div>
       </form>
     </div>
@@ -48,7 +48,7 @@
           <th style="width: 60px;"><?= $MSG_NUMBER ?></th>
           <th style="width: 160px;"><?= $MSG_USER ?></th>
           <th><?= $MSG_NICK ?></th>
-          <th><?= $MSG_GROUP_NAME ?></th>
+          <!-- <th><?= $MSG_GROUP_NAME ?></th> -->
           <th style="width: 100px;"><?= $MSG_SOVLED ?></th>
           <th style="width: 100px;"><?= $MSG_SUBMIT ?></th>
           <th style="width: 100px;"><?= $MSG_RATIO ?></th>
