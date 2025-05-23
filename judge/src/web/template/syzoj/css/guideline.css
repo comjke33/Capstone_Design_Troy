@@ -167,7 +167,7 @@
 .styled-textarea {
   border: 1px solid #ccc;
   border-radius: 6px;
-  padding: 7px;
+  padding: 0px;
   font-family: 'Fira Code', 'JetBrains Mono', Consolas, monospace; /* ✅ 변경됨 */
   font-size: 18px;
   background-color: #fff;
