@@ -79,12 +79,12 @@ include("../../guideline_common.php");
                 $html .= "<div class='code-line'>{$escaped_line}</div>";
 
                 // depth == 1 이면 readonly + 정답 자동 표시
-                if ($depth == 1 && $has_correct_answer) {
-                    // ✅ depth == 1이면, 정답만 보여주고 버튼은 출력 안함
+                 if ($depth == 1 && $has_correct_answer) {
                     $answer_content = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8');
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='background-color: #D4EDDA; color: #155724; border: 1px solid #c3e6cb;'>{$answer_content}</textarea>";
                 } else {
-                    // ✅ depth != 1이면, 입력 가능 textarea 및 버튼 출력
+                    $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
+                    $html .= "<div class='code-line'>{$escaped_line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
                     if (!$isCorrect) {
