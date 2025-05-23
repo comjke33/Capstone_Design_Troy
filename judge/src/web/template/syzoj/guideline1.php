@@ -197,9 +197,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const checkMark = document.getElementById(`check_${index}`);
             if (checkMark) checkMark.style.display = "inline";
 
-            document.getElementById(`submitBtn_${index}`).style.display = "none";
-            document.getElementById(`checkBtn_${index}`).style.display = "none";
-            document.getElementById(`feedbackBtn_${index}`).style.display = "none";
+            document.getElementById(`submit_Btn_${index}`).style.display = "none";
+            document.getElementById(`answer_Btn_${index}`).style.display = "none";
+            document.getElementById(`feedback_Btn_${index}`).style.display = "none";
         }
 
 
