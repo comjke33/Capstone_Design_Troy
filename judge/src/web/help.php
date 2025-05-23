@@ -42,6 +42,12 @@
       margin-bottom: 10px !important;
       font-size: 16px !important;
     }
+    h4.ui.dividing.header {
+  font-size: 1.8em !important;
+  font-weight: bold !important;
+  color: #1e70bf !important;
+  margin-top: 2em !important;
+}
   </style>
 </head>
 <body>
