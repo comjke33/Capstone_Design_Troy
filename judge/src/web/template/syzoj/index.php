@@ -38,7 +38,7 @@ if (!isset($_COOKIE['troy_help_read']) && !isset($_SESSION['user_id'])) {
     <div class="ui bottom attached segment">
       <form action="problem.php" method="get" class="ui form" onsubmit="return validateForm()">
         <div class="ui fluid action input">
-          <input type="text" id="problemInput" name="id" placeholder="문제 ID 또는 번호를 입력하세요…" />
+          <input type="text" id="problemInput" name="id" placeholder="문제 ID를 입력하세요" />
           <button type="button" class="ui icon button" id="searchButton" style="border-radius: 0 6px 6px 0; background-color: #003366;">
             <i class="search icon" style="color: white;"></i>
           </button>
@@ -201,12 +201,13 @@ $(function () {
   }
 });
 
-//문제의 ID가 있을 떄만 가져오게
-document.getElementById('searchButton').addEventListener('click', function () {
+// 검색 바 있는 값만 가져오기
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById('searchButton').addEventListener('click', function () {
     const input = document.getElementById('problemInput').value.trim();
     const errorMsg = document.getElementById('errorMsg');
 
-    errorMsg.style.display = "none"; // 이전 메시지 숨기기
+    errorMsg.style.display = "none";
 
     if (!input) {
         errorMsg.textContent = "문제 ID를 입력해주세요.";
@@ -220,23 +221,22 @@ document.getElementById('searchButton').addEventListener('click', function () {
         return;
     }
 
-    fetch(`check_problem_exists.php?id=${encodeURIComponent(input)}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.exists === true) {
-                // 문제 존재 → 이동
-                window.location.href = `problem.php?id=${encodeURIComponent(input)}`;
-            } else {
-                // 문제 없음
-                errorMsg.textContent = "없는 문제의 ID입니다.";
-                errorMsg.style.display = "block";
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            errorMsg.textContent = "서버 오류가 발생했습니다.";
-            errorMsg.style.display = "block";
-        });
+    fetch(`../../check_problem_exists.php?id=${encodeURIComponent(input)}`)
+      .then(response => response.json())
+      .then(data => {
+          if (data.exists === true) {
+              window.location.href = `problem.php?id=${encodeURIComponent(input)}`;
+          } else {
+              errorMsg.textContent = "없는 문제의 ID입니다.";
+              errorMsg.style.display = "block";
+          }
+      })
+      .catch(err => {
+          console.error("서버 오류:", err);
+          errorMsg.textContent = "서버 오류가 발생했습니다.";
+          errorMsg.style.display = "block";
+      });
+  });
 });
 
 </script>
