@@ -1,5 +1,24 @@
   <?php $show_title="$MSG_PROBLEMS - $OJ_NAME"; ?>
   <?php include("template/$OJ_TEMPLATE/header.php");?>
+
+  
+  <?php
+  if (isset($_GET['id']) && ctype_digit($_GET['id'])) {
+    $id = $_GET['id'];
+    // 예: 해당 ID만 필터링해서 출력
+    $sql = "SELECT * FROM problem WHERE problem_id = ?";
+    $result = pdo_query($sql, $id);
+
+    if (!empty($result)) {
+        // 문제 표시
+    } else {
+        echo "<div class='ui red message'>문제 ID {$id}는 존재하지 않습니다.</div>";
+    }
+
+  }
+  ?>
+
+
   <div class="ui container" style="margin-top: 3em;">
     <div class="ui center aligned">
       <div style="display: inline-flex; gap: 10em;"> <!-- 두 폼 사이 간격 설정 -->
