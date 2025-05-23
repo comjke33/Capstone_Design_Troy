@@ -90,6 +90,7 @@
   max-height: 600px;
   overflow-y: auto;
   box-sizing: border-box;       /* ✅ padding 포함되게 */
+  overflow: hidden;  /* 외곽 반올림 유지 */
 }
 
 
