@@ -90,7 +90,7 @@ include("../../guideline_common.php");
 
                 if ($is_depth_one) {
                     // depth가 1일 때: readonly textarea로 출력
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly>{$default_value}</textarea>";
+                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='background-color: #f0f0f0;'>{$default_value}</textarea>";
                 } else {
                     // 그 외의 경우: 사용자 입력 가능 + 버튼 출력
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
