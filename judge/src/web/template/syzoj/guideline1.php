@@ -87,7 +87,7 @@ include("../../guideline_common.php");
                         }
                     }
 
-                    $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
+                    $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='background-color:#D4EDDA'; margin-top: 10px;'></div>";
                     $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
                     $html .= "</div>";
 
