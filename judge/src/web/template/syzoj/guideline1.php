@@ -70,16 +70,6 @@ include("../../guideline_common.php");
                 $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
                 $disabled = $has_correct_answer ? "" : "disabled";
 
-                // 정답 내용 가져오기
-                // $default_value = $has_correct_answer 
-                //     ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') 
-                //     : "";
-
-                $is_depth_zero = ($depth === 0);
-                $readonly = $is_depth_zero ? "readonly" : "";
-                $show_buttons = !$is_depth_zero;
-
-
                 // 출력 블록 시작
                 $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
 
@@ -89,6 +79,18 @@ include("../../guideline_common.php");
                 // textarea 출력
                 $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>" . "</textarea>";
 
+                $is_depth_zero = ($depth === 0);
+
+                if ($is_depth_zero) {
+                    // 정답 자동 표시 (depth 0일 때만)
+                    $default_value = $has_correct_answer
+                        ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8')
+                        : "";
+
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly>" . $default_value . "</textarea>";
+                } else {
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                }
 
                 // 버튼 출력
                 if (!$isCorrect || $is_depth_zero) {
