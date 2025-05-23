@@ -59,7 +59,7 @@
         
         <div class="highlight-warning">
           <div style="color:#d72638; font-weight: bold; margin-bottom: 15px;">
-            ⚠ <b>중요:</b> 조건문/반복문/함수 선언 시 <code>{</code>는 <u>직접 작성</u>, <code>}</code>는 <u>작성 금지</u> (자동 처리)
+            ⚠ <b>중요:</b> 조건문/반복문/함수 선언 시 <code>여는 중괄호 ( { )</code>는 <u>직접 작성</u>, <code>닫는 중괄호 ( } )</code>는 <u>작성 금지</u> (자동 처리)
           </div>
           
           <div class="guideline-box">
