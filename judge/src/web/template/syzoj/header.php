@@ -315,6 +315,9 @@ include('allowed_users.php');
                         </a>
 
                         <a class="item" href="modifypage.php"><i class="edit icon"></i><?php echo $MSG_REG_INFO;?></a>
+                        <a class="item" href="help.php" target="_blank">
+                            <i class="book icon"></i> 사용 가이드 다시 보기
+                            </a>
                         <a class="item" href="portal.php"><i class="tasks icon"></i><?php echo $MSG_TODO;?></a>
 
                         <?php if ($OJ_SaaS_ENABLE) {
