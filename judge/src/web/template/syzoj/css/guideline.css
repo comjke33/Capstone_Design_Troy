@@ -82,17 +82,15 @@
 
 .flowchart-wrapper {
   padding: 12px;
-  padding-bottom: 16px;         /* ✅ 하단 여백 확보 */
   border-radius: 12px;
   background-color: #fff;
   border: 2px solid black;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
   max-height: 600px;
-  /* overflow-y: auto; */
+  overflow-y: auto;
   box-sizing: border-box;       /* ✅ padding 포함되게 */
 }
-
 
 
 .flowchart-title {
