@@ -73,16 +73,12 @@ include("../../guideline_common.php");
                     // 코드 출력 라인
                     $html .= "<div class='code-line'>{$escaped_line}</div>";
 
-                    // 답안을 textarea에 띄울 떄
-                    // $default_value = $has_correct_answer ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') : "";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$default_value}</textarea>";
 
 
                     // 버튼 출력
                     if(!$isCorrect){
-                        // $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
                         $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
-                        // $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
                     }
 
                     // 피드백 영역 + 정답 표시
@@ -234,84 +230,6 @@ document.addEventListener("DOMContentLoaded", function () {
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
 
-// function submitAnswer(index) {
-//     const ta = document.getElementById(`ta_${index}`);
-//     const btn = document.getElementById(`btn_${index}`);
-//     const check = document.getElementById(`check_${index}`);
-//     const input = ta.value.trim();
-//     const correct = (correctAnswers[index]?.content || "").trim();
-//     const step = new URLSearchParams(window.location.search).get("step") || "1";
-//     const problemId = new URLSearchParams(window.location.search).get("problem_id") || "0";
-//     const key = `answer_status_step${step}_q${index}_pid${problemId}`;
-
-
-//     console.log("제출값:", input);
-//     console.log("요청 데이터:", {
-//         answer: input,
-//         problem_id: problemId,
-//         index: index
-//     });
-
-//     fetch("../../ajax/check_answer_STEP.php", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({
-//             answer: input,
-//             problem_id: problemId,
-//             index: index
-//         })
-//     })
-//     .then(res => {
-//         if (!res.ok) {
-//             console.error("서버 오류:", res.status);
-//             return Promise.reject("서버 오류");
-//         }
-//         return res.json();
-//     })
-//     .then(data => {
-//         console.log(data);
-//         if (data.result === "correct") {
-//             localStorage.setItem(key, "correct");
-
-//             ta.readOnly = true;
-//             ta.style.backgroundColor = "#d4edda";
-//             ta.style.border = "1px solid #d4edda";
-//             ta.style.color = "#155724";
-//             // btn.style.display = "none";
-//             check.style.display = "inline";
-
-//                 // 정답이 맞은 경우 버튼 숨기기
-//             const answerBtn = document.getElementById(`answer_btn_${index}`);
-//             const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
-//             const submitBtn = document.getElementById(`submit_btn_${index}`);
-
-//             if($isCorrect) {// display: none을 사용하여 버튼 숨기기
-//                 answerBtn.style.display = "none";  // 답안 확인 버튼 숨기기
-//                 feedbackBtn.style.display = "none";  // 피드백 보기 버튼 숨기기
-//                 submitBtn.style.display = "none";  // 제출 버튼 숨기기
-//             }
-
-//             const nextIndex = index + 1;
-//             const nextTa = document.getElementById(`ta_${nextIndex}`);
-//             const nextBtn = document.getElementById(`btn_${nextIndex}`);
-
-//             if (nextTa && nextBtn) {
-//                 nextTa.disabled = false;
-//                 nextBtn.disabled = false;
-//                 nextTa.focus();
-//             }
-//         } else {
-//             ta.style.backgroundColor = "#ffecec";
-//             ta.style.border = "1px solid #e06060";
-//             ta.style.color = "#c00";
-//         }
-//     })
-//     .catch(err => {
-//         console.error("서버 요청 실패:", err);
-//     });
-
-// }
-
 //문제가 되는 특수문자 치환
 function escapeHtml(text) {
     return text
@@ -324,178 +242,26 @@ function escapeHtml(text) {
 
 //답안 보여주기
 function showAnswer(index) {
-    const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
-    if (!correctCode) return;
-
-    const escapedCode = escapeHtml(correctCode);  // ← 이걸로 HTML 무해화
-
+    const correctCode = correctAnswers[index]?.content?.trim();
     const answerArea = document.getElementById(`answer_area_${index}`);
+
+    if (!correctCode) {
+        answerArea.innerHTML = "<em>정답이 등록되지 않았습니다.</em>";
+        answerArea.style.display = 'block';
+        return;
+    }
+
+    // 이미 표시 중이면 숨기기 (toggle 기능)
+    if (answerArea.style.display === 'block') {
+        answerArea.style.display = 'none';
+        return;
+    }
+
+    const escapedCode = escapeHtml(correctCode);
     const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${escapedCode}</pre>`;
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }
-
-
-// function showFeedback(index) {
-//     const urlParams = new URLSearchParams(window.location.search);
-//     const problemId = urlParams.get("problem_id") || "0";
-//     const ta = document.getElementById(`ta_${index}`);
-//     const blockCode = ta ? ta.value.trim() : "";
-//     const step = urlParams.get("step") || "1";
-
-//     const feedbackPanel = document.querySelector('.right-panel');
-//     feedbackPanel.innerHTML = `
-//         <style>
-//             .feedback-panel {
-//                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-//                 background: #f0f4f8;
-//                 border-radius: 10px;
-//                 box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-//                 padding: 20px 25px;
-//                 max-width: 350px;
-//                 color: #2c3e50;
-//                 user-select: text;
-//             }
-//             .feedback-header {
-//                 font-size: 1.4rem;
-//                 font-weight: 700;
-//                 margin-bottom: 15px;
-//                 border-bottom: 2px solid #3498db;
-//                 padding-bottom: 8px;
-//                 color: #2980b9;
-//             }
-//             .feedback-content p {
-//                 font-size: 1rem;
-//                 line-height: 1.5;
-//                 margin: 8px 0;
-//             }
-//             .feedback-content strong {
-//                 color: #34495e;
-//             }
-//         </style>
-
-//         <section class="feedback-panel">
-//             <header class="feedback-header">📋 피드백 창</header>
-//             <div class="feedback-content">
-//                 <p>피드백을 가져오는 중입니다...</p>
-//             </div>
-//         </section>
-//     `;
-//     feedbackPanel.style.display = 'block';
-
-//     fetch("../../ajax/aifeedback_request.php", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({
-//             problem_id: problemId,
-//             index: index,
-//             block_code: blockCode,
-//             step: step
-//         })
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//     const feedbackPanel = document.querySelector('.right-panel');
-
-//     let feedbackText = data.result;
-
-//     // 문장이 끝난 후 줄바꿈 추가
-//     feedbackText = feedbackText.replace(/([.?!])\s*/g, "$1<br><br>");
-
-//     // 피드백 텍스트를 줄바꿈 기준으로 분할
-//     const feedbackContent = feedbackText;
-
-//     feedbackPanel.innerHTML = `
-//         <style>
-//             .feedback-panel {
-//                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-//                 background: #f0f4f8;
-//                 border-radius: 10px;
-//                 box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-//                 padding: 20px 25px;
-//                 max-width: 350px;
-//                 color: #2c3e50;
-//                 user-select: text;
-//             }
-//             .feedback-header {
-//                 font-size: 1.4rem;
-//                 font-weight: 700;
-//                 margin-bottom: 15px;
-//                 border-bottom: 2px solid #3498db;
-//                 padding-bottom: 8px;
-//                 color: #2980b9;
-//             }
-//             .feedback-content p {
-//                 font-size: 1rem;
-//                 line-height: 1.5;
-//                 margin: 8px 0;
-//             }
-//             .feedback-content strong {
-//                 color: #34495e;
-//             }
-//         </style>
-
-//         <section class="feedback-panel">
-//             <header class="feedback-header">📋 피드백 창</header>
-//             <div class="feedback-content">
-//                 <div class="feedback-block">
-//                     <strong>${index + 1}번 줄에 대한 피드백:</strong>
-//                 </div>
-//                 ${feedbackText
-//                 .split("<br><br>")
-//                 .filter(paragraph => paragraph.trim() !== "") // 빈 항목 제거
-//                 .map(paragraph => `
-//                     <div class="feedback-block">
-//                         ${paragraph.trim()}
-//                     </div>
-//                 `).join("")}
-
-//             </div>
-//         </section>
-//     `;
-//     feedbackPanel.style.display = 'block';
-// })
-
-
-//     .catch(err => {
-//         console.error("서버 요청 실패:", err);
-//         const feedbackPanel = document.querySelector('.right-panel');
-//         feedbackPanel.innerHTML = `
-//             <style>
-//                 .feedback-panel {
-//                     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-//                     background: #f8d7da;
-//                     border-radius: 10px;
-//                     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-//                     padding: 20px 25px;
-//                     max-width: 350px;
-//                     color: #721c24;
-//                     user-select: text;
-//                 }
-//                 .feedback-header {
-//                     font-size: 1.4rem;
-//                     font-weight: 700;
-//                     margin-bottom: 15px;
-//                     border-bottom: 2px solid #f5c6cb;
-//                     padding-bottom: 8px;
-//                     color: #a71d2a;
-//                 }
-//                 .feedback-content p {
-//                     font-size: 1rem;
-//                     line-height: 1.5;
-//                     margin: 8px 0;
-//                 }
-//             </style>
-
-//             <section class="feedback-panel">
-//                 <header class="feedback-header">⚠️ 오류</header>
-//                 <div class="feedback-content">
-//                     <p>서버 요청 오류: ${err.message}</p>
-//                 </div>
-//             </section>
-//         `;
-//     });
-// }
 
 
 //화면 크기 재조절
