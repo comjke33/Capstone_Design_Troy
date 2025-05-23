@@ -193,9 +193,15 @@ document.addEventListener("DOMContentLoaded", function () {
             textarea.style.backgroundColor = "#d4edda";
             textarea.style.border = "1px solid #d4edda";
             textarea.style.color = "#155724";
+
             const checkMark = document.getElementById(`check_${index}`);
             if (checkMark) checkMark.style.display = "inline";
+
+            // ✅ 버튼 숨기기
+            const submitBtn = document.getElementById(`submitBtn_${index}`);
+            if (submitBtn) submitBtn.style.display = "none";
         }
+
 
         textarea.addEventListener("input", () => {
             localStorage.setItem(key, textarea.value);
@@ -359,9 +365,6 @@ function showAnswer(index) {
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }
-
-
-
 
 function showFeedback(index) {
     const urlParams = new URLSearchParams(window.location.search);
