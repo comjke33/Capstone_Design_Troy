@@ -587,10 +587,6 @@ function updateImageForTextarea(index, ta) {
             img.src = data.url;  // 서버에서 받은 이미지 URL로 설정
             console.log("서버 디버그 데이터:", data.debug);
 
-            // 애니메이션 시작 (이미지가 부드럽게 따라가게)
-            if (!animationRunning) {
-                animationRunning = true;
-            }
         });
 }
 
