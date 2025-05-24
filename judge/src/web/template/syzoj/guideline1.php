@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (savedStatus === "correct") {
             textarea.readOnly = true;
             // textarea.style.backgroundColor = "#d4edda";
-            textarea.style.border = "1px solid #d4edda";
+            // textarea.style.border = "1px solid #d4edda";
             textarea.style.color = "#155724";
 
             // 정답을 맞춘 경우 체크 표시
@@ -344,7 +344,7 @@ function submitAnswer(index) {
             check.style.display = "inline";
             ta.readOnly = true;
             // ta.style.backgroundColor = "#d4edda";
-            ta.style.border = "1px solid #d4edda";
+            // ta.style.border = "1px solid #d4edda";
             ta.style.color = "#155724";
             
             // 제출 버튼, 답안 확인 버튼, 피드백 보기 버튼 숨기기
