@@ -26,7 +26,16 @@ $allowed_user_id = [
     'zxccyh', 
     'zxczxc',
     'search_test',
-    'Troy' //교수님 ID
+    'Troy', //교수님 
+    'ft-2',
+    'ft-14',
+    'ft-5',
+    'ft-11',
+    'ft-6',
+    'ft-10',
+    'ft-16',
+    'ft-9'
+
 
 ];
 ?>
