@@ -94,6 +94,12 @@ include("../../guideline_common.php");
                     $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
                 }
 
+                // 정답/피드백 영역
+                $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
+                $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
+
+                $html .= "</div>"; // .submission-line
+                $answer_index++;
             } 
             else if (isset($block['children']) && is_array($block['children'])) {
                 $html .= render_tree_plain($block['children'], $answer_index);
