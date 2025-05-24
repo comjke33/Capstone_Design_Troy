@@ -64,7 +64,7 @@ include("../../guideline_common.php");
 
                 $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
                 $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
-                $isTopLevelText = ($depth == 1);
+                $isTopLevelText = ($depth === 1);
                 $readonlyStyle = "background-color: #D4EDDA; color: #155724; border: 1px solid #c3e6cb;";
                 $disabled = $has_correct_answer ? "" : "disabled";
 
@@ -183,15 +183,15 @@ document.addEventListener("DOMContentLoaded", function () {
             textarea.value = savedValue;
         }
 
-        // if (savedStatus === "correct") {
-        //     // ✅ 이전에 정답 제출한 경우 스타일 복원
-        //     textarea.readOnly = true;
-        //     textarea.style.backgroundColor = "#d4edda";
-        //     textarea.style.border = "1px solid #d4edda";
-        //     textarea.style.color = "#155724";
-        //     const checkMark = document.getElementById(`check_${index}`);
-        //     if (checkMark) checkMark.style.display = "inline";
-        // }
+        if (savedStatus === "correct") {
+            // ✅ 이전에 정답 제출한 경우 스타일 복원
+            textarea.readOnly = true;
+            textarea.style.backgroundColor = "#d4edda";
+            textarea.style.border = "1px solid #d4edda";
+            textarea.style.color = "#155724";
+            const checkMark = document.getElementById(`check_${index}`);
+            if (checkMark) checkMark.style.display = "inline";
+        }
 
         textarea.addEventListener("input", () => {
             localStorage.setItem(key, textarea.value);
