@@ -55,55 +55,38 @@ include("../../guideline_common.php");
 
         foreach ($blocks as $block) {
             $depth = $block['depth'];
-           
             $margin_left = $depth * 50;
             $isCorrect = false;
 
             if ($block['type'] === 'text') {
-            $raw = trim($block['content']);
-            if ($raw === '') continue;
+                $raw = trim($block['content']);
+                if ($raw === '') continue;
 
-            $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
-            $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
-            $isTopLevelText = ($depth === 0);
-            $readonlyStyle = "background-color: #D4EDDA; color: #155724; border: 1px solid #c3e6cb;";
-            $disabled = $has_correct_answer ? "" : "disabled";
+                $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
+                $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
+                $isTopLevelText = ($depth === 0);
+                $readonlyStyle = "background-color: #D4EDDA; color: #155724; border: 1px solid #c3e6cb;";
+                $disabled = $has_correct_answer ? "" : "disabled";
 
-            $html .= "<div class='submission-line' id='submission-line_{$answer_index}' style='margin-left: {$margin_left}px;'>";
+                $html .= "<div class='submission-line' id='submission-line_{$answer_index}' style='margin-left: {$margin_left}px;'>";
 
-            if ($isTopLevelText) {
-                // 🔒 depth==0: 설명글 또는 안내문
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$escaped_line}</textarea>";
-            } else if ($has_correct_answer) {
-                // 🔒 정답이 있는 경우 readonly
-                $answer_content = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8');
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$answer_content}</textarea>";
-            } else {
-                // 📝 일반 입력 영역
-                $html .= "<div class='code-line'>{$escaped_line}</div>";
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                if ($isTopLevelText) {
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$escaped_line}</textarea>";
+                } else if ($has_correct_answer) {
+                    $answer_content = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8');
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$answer_content}</textarea>";
+                } else {
+                    $html .= "<div class='code-line'>{$escaped_line}</div>";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
-                if (!$isCorrect) {
-                    $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
-                    $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
-                    $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
+                    if (!$isCorrect) {
+                        $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
+                        $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
+                        $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
+                    }
                 }
-            }
 
-            // 정답/피드백 영역
-            $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
-            $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
-
-            $html .= "</div>"; // .submission-line
-            $answer_index++;
-        } 
-        else if (isset($block['children']) && is_array($block['children'])) {
-            $html .= render_tree_plain($block['children'], $answer_index);
-        }
-
-                
-
-                // 정답/피드백 영역
+                // 정답/피드백 영역 (단 한 번만 출력)
                 $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                 $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
 
@@ -117,6 +100,7 @@ include("../../guideline_common.php");
 
         return $html;
     }
+
 
     $answer_index = 0;
     echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
