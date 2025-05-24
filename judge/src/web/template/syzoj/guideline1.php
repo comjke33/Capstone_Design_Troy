@@ -275,6 +275,27 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+// textarea에서 tab을 누르면 들여쓰기가 적용되게([    ])
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('textarea').forEach((textarea) => {
+      textarea.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+          e.preventDefault(); // 기본 Tab 동작 막기
+
+          const start = this.selectionStart;
+          const end = this.selectionEnd;
+
+          // 현재 위치에 '\t' 삽입
+          this.value = this.value.substring(0, start) + '\t' + this.value.substring(end);
+
+          // 커서 위치 조정
+          this.selectionStart = this.selectionEnd = start + 1;
+        }
+      });
+    });
+  });
+
+
 //문제 맞았는지 여부 확인
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
