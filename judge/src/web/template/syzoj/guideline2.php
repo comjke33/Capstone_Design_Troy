@@ -189,14 +189,23 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (savedStatus === "correct") {
-            // ✅ 이전에 정답 제출한 경우 스타일 복원
-            textarea.readOnly = true;
-            textarea.style.backgroundColor = "#d4edda";
-            textarea.style.border = "1px solid #d4edda";
-            textarea.style.color = "#155724";
-            const checkMark = document.getElementById(`check_${index}`);
-            if (checkMark) checkMark.style.display = "inline";
+        // ✅ 이전에 정답 제출한 경우 스타일 복원
+        textarea.readOnly = true;
+        textarea.style.backgroundColor = "#d4edda";
+        textarea.style.border = "1px solid #d4edda";
+        textarea.style.color = "#155724";
+
+        // 저장된 정답 내용도 복원
+        const savedAnswer = localStorage.getItem(`answer_${index}`);
+        if (savedAnswer !== null) {
+            textarea.value = savedAnswer;
         }
+
+        // 체크 표시 보여주기
+        const checkMark = document.getElementById(`check_${index}`);
+        if (checkMark) checkMark.style.display = "inline";
+    }
+
 
         textarea.addEventListener("input", () => {
             localStorage.setItem(key, textarea.value);
@@ -478,7 +487,7 @@ function showFeedback(index) {
         </section>
     `;
     feedbackPanel.style.display = 'block';
-})
+    })
 
 
     .catch(err => {
