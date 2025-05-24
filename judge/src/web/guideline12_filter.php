@@ -178,10 +178,3 @@ function extractContentsFlat($blocks) { //트리 구조
     }
     return $results; //평탄화된 tree -> array 배열 변환
 }
-
-//함수 선언 줄 판별하는 함수
-function isFunctionDeclaration($line) {
-    $line = trim($line);
-    return preg_match('/^\s*(int|void|char|double|float|unsigned)\s+\w+\s*\([^)]*\)\s*\{\s*$/', $line) &&
-           !preg_match('/^\s*(for|if|while|switch|return)\b/', $line);
-}
