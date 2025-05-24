@@ -183,15 +183,15 @@ document.addEventListener("DOMContentLoaded", function () {
             textarea.value = savedValue;
         }
 
-        if (savedStatus === "correct") {
-            // ✅ 이전에 정답 제출한 경우 스타일 복원
-            textarea.readOnly = true;
-            textarea.style.backgroundColor = "#d4edda";
-            textarea.style.border = "1px solid #d4edda";
-            textarea.style.color = "#155724";
-            const checkMark = document.getElementById(`check_${index}`);
-            if (checkMark) checkMark.style.display = "inline";
-        }
+        // if (savedStatus === "correct") {
+        //     // ✅ 이전에 정답 제출한 경우 스타일 복원
+        //     textarea.readOnly = true;
+        //     textarea.style.backgroundColor = "#d4edda";
+        //     textarea.style.border = "1px solid #d4edda";
+        //     textarea.style.color = "#155724";
+        //     const checkMark = document.getElementById(`check_${index}`);
+        //     if (checkMark) checkMark.style.display = "inline";
+        // }
 
         textarea.addEventListener("input", () => {
             localStorage.setItem(key, textarea.value);
