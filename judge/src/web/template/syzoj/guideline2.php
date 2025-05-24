@@ -71,11 +71,10 @@ include("../../guideline_common.php");
                 $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
                 $disabled = $has_correct_answer ? "" : "disabled";
 
-                if ($depth == 1 && $has_correct_answer) {
-                    $answer_content = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8');
-                    $html .= "<textarea ... readonly>{$answer_content}</textarea>";
-                }
-
+                // 정답 내용 가져오기
+                // $default_value = $has_correct_answer 
+                //     ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') 
+                //     : "";
 
                 // 출력 블록 시작
                 $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
