@@ -55,6 +55,8 @@ include("../../guideline_common.php");
 
         foreach ($blocks as $block) {
             $depth = $block['depth'];
+            echo "<script>console.log('depth at index {$answer_index}: {$depth}');</script>";
+
             $margin_left = $depth * 50;
             $isCorrect = false;
 
