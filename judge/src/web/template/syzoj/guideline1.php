@@ -193,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // 정답을 맞춘 경우
         if (savedStatus === "correct") {
             textarea.readOnly = true;
-            textarea.style.backgroundColor = "#d4edda";
+            // textarea.style.backgroundColor = "#d4edda";
             textarea.style.border = "1px solid #d4edda";
             textarea.style.color = "#155724";
 
@@ -343,7 +343,7 @@ function submitAnswer(index) {
             // 정답 맞은 경우
             check.style.display = "inline";
             ta.readOnly = true;
-            ta.style.backgroundColor = "#d4edda";
+            // ta.style.backgroundColor = "#d4edda";
             ta.style.border = "1px solid #d4edda";
             ta.style.color = "#155724";
             
