@@ -177,37 +177,46 @@ document.addEventListener("DOMContentLoaded", function () {
             textarea.value = savedValue;
         }
 
-        if (savedStatus === "correct") {
-            // ✅ 이전에 정답 제출한 경우 스타일 복원
-            textarea.readOnly = true;
-            textarea.style.backgroundColor = "#d4edda";
-            textarea.style.border = "1px solid #d4edda";
-            textarea.style.color = "#155724";
-            const checkMark = document.getElementById(`check_${index}`);
-            if (checkMark) checkMark.style.display = "inline";
-        }
-
         textarea.addEventListener("input", () => {
             localStorage.setItem(key, textarea.value);
         });
     });
 
-    // 버튼 클릭 시 저장 후 이동
+    // ✅ 버튼 클릭 시 저장 후 이동 + 스타일 토글
     buttons.forEach(btn => {
         btn.addEventListener("click", () => {
             const nextStep = btn.getAttribute("data-step");
             const nextProblemId = btn.getAttribute("data-problem-id") || problemId;
 
+            // 👉 모든 버튼에서 'active' 클래스 제거
+            buttons.forEach(b => b.classList.remove("active"));
+
+            // 👉 클릭한 버튼에만 'active' 클래스 추가
+            btn.classList.add("active");
+
+            // 값 저장
             document.querySelectorAll("textarea").forEach((textarea, index) => {
                 const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
                 localStorage.setItem(key, textarea.value);
             });
 
+            // 페이지 이동
             const baseUrl = window.location.pathname;
             window.location.href = `${baseUrl}?step=${nextStep}&problem_id=${nextProblemId}`;
         });
     });
+
+    // ✅ 초기 로딩 시 URL의 step 값을 기준으로 버튼 강조
+    buttons.forEach(btn => {
+        const step = btn.getAttribute("data-step");
+        if (step === currentStep) {
+            btn.classList.add("active");
+        } else {
+            btn.classList.remove("active");
+        }
+    });
 });
+
 
 // textarea에서 tab을 누르면 들여쓰기가 적용되게([    ])
   document.addEventListener('DOMContentLoaded', () => {

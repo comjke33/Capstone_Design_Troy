@@ -186,54 +186,47 @@ document.addEventListener("DOMContentLoaded", function () {
         const savedValue = localStorage.getItem(key);
         const savedStatus = localStorage.getItem(statusKey);
 
-        // textarea에 저장된 값 불러오기
         if (savedValue !== null) {
             textarea.value = savedValue;
         }
 
-        // 정답을 맞춘 경우
-        if (savedStatus === "correct") {
-            textarea.readOnly = true;
-            textarea.style.backgroundColor = "#d4edda";
-            textarea.style.border = "1px solid #d4edda";
-            textarea.style.color = "#155724";
-
-            // 정답을 맞춘 경우 체크 표시
-            const checkMark = document.getElementById(`check_${index}`);
-            if (checkMark) checkMark.style.display = "inline";
-
-            // 정답이 맞은 경우 버튼 숨기기
-            const submitBtn = document.getElementById(`submit_btn_${index}`);
-            const answerBtn = document.getElementById(`answer_btn_${index}`);
-            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
-
-            if (submitBtn) submitBtn.style.display = "none";
-            if (answerBtn) answerBtn.style.display = "none";
-            if (feedbackBtn) feedbackBtn.style.display = "none";
-        }
-
-        // textarea 입력값이 변경되면 localStorage에 저장
         textarea.addEventListener("input", () => {
             localStorage.setItem(key, textarea.value);
         });
     });
 
-    // Step1, Step2, Step3 버튼 클릭 시 이동
+    // ✅ 버튼 클릭 시 저장 후 이동 + 스타일 토글
     buttons.forEach(btn => {
         btn.addEventListener("click", () => {
             const nextStep = btn.getAttribute("data-step");
             const nextProblemId = btn.getAttribute("data-problem-id") || problemId;
 
-            // 입력값을 localStorage에 저장
+            // 👉 모든 버튼에서 'active' 클래스 제거
+            buttons.forEach(b => b.classList.remove("active"));
+
+            // 👉 클릭한 버튼에만 'active' 클래스 추가
+            btn.classList.add("active");
+
+            // 값 저장
             document.querySelectorAll("textarea").forEach((textarea, index) => {
                 const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
                 localStorage.setItem(key, textarea.value);
             });
 
-            // 이동
+            // 페이지 이동
             const baseUrl = window.location.pathname;
             window.location.href = `${baseUrl}?step=${nextStep}&problem_id=${nextProblemId}`;
         });
+    });
+
+    // ✅ 초기 로딩 시 URL의 step 값을 기준으로 버튼 강조
+    buttons.forEach(btn => {
+        const step = btn.getAttribute("data-step");
+        if (step === currentStep) {
+            btn.classList.add("active");
+        } else {
+            btn.classList.remove("active");
+        }
     });
 });
 
