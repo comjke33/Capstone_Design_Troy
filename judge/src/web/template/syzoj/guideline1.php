@@ -387,16 +387,16 @@ function escapeHtml(text) {
 
 //답안 보여주기
 function showAnswer(index) {
-    
-    if (!correctCode) return;
+    const correct = (correctAnswers[index]?.content || "").trim();
+    if (!correct) return;
 
-    const escapedCode = escapeHtml(correctCode);  // ← 이걸로 HTML 무해화
-
+    const escapedCode = escapeHtml(correct);
     const answerArea = document.getElementById(`answer_area_${index}`);
     const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${escapedCode}</pre>`;
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }
+
 
 function showFeedback(index) {
     const urlParams = new URLSearchParams(window.location.search);
