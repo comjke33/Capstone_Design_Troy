@@ -1,0 +1,52 @@
+[block0]
+
+double get_average (int arr[], int size ) {
+
+    int sum =0;
+
+
+    for (int i =0; i <size; i++) {
+
+        sum +=arr[i];
+
+
+    }
+
+    return (double ) sum /size;
+
+
+
+
+[block1]
+int main (void ) {
+
+    int n;
+
+
+    int arr[100];
+
+
+    scanf ("%d", &n );
+
+
+
+[block2]
+
+    for (int i =0; i <n; i++) {
+
+        scanf ("%d", &arr[i] );
+
+
+
+
+[block3]
+}
+
+    double avg =get_average (arr, n );
+
+
+    printf ("%.2f", avg );
+
+
+    return 0;
+

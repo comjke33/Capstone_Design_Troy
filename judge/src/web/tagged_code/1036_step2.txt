@@ -1,0 +1,48 @@
+#include <stdio.h>
+[func_def_start(0)]
+int digit_count_lcm (int a, int b ) {
+[self_start(1)]
+    int max =(a >b ) ? a : b;
+[self_end(1)]
+[rep_start(1)]
+    while (1 ) {
+[cond_start(2)]
+        if (max %a ==0 &&max %b ==0 ) {
+
+            break;
+
+[cond_end(2)]
+        }
+[self_start(2)]
+        max++;
+[self_end(2)]
+[rep_end(1)]
+    }
+[self_start(1)]
+    int count =0;
+    int result =max;
+[self_end(1)]
+[rep_start(1)]
+    while (result >0 ) {
+
+        result /=10;
+        count++;
+
+[rep_end(1)]
+    }
+[self_start(1)]
+    return count;
+[self_end(1)]
+[func_def_end(0)]
+}
+
+[main_def_start(0)]
+int main (void ) {
+[self_start(1)]
+    int a, b;
+    scanf ("%d %d", &a, &b );
+    printf ("%d", digit_count_lcm (a, b ) );
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

@@ -1,0 +1,38 @@
+#include <stdio.h>
+[main_def_start(0)]
+int main (void ) {
+[self_start(1)]
+    int n;
+    int arr[100];
+    int odd_sum =0;
+    int even_sum =0;
+    scanf ("%d", &n );
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; i <n; i++) {
+[self_start(2)]
+        scanf ("%d", &arr[i] );
+[self_end(2)]
+[cond_start(2)]
+        if (arr[i] %2 ==0 ) {
+
+            even_sum +=arr[i];
+
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else {
+
+            odd_sum +=arr[i];
+
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    printf ("%d\n", odd_sum );
+    printf ("%d", even_sum );
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

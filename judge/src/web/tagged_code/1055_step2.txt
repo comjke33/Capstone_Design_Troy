@@ -1,0 +1,102 @@
+#include <stdio.h>
+#include <string.h>
+[main_def_start(0)]
+int main () {
+[self_start(1)]
+    const int MAX =10000;
+    int stack[10000];
+    int top_index =-1;
+    int N;
+    scanf ("%d", &N );
+    char command[10];
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; i <N; i++) {
+[self_start(2)]
+        scanf ("%s", command );
+[self_end(2)]
+[cond_start(2)]
+        if (strcmp (command, "push" ) ==0 ) {
+[self_start(3)]
+            int x;
+            scanf ("%d", &x );
+[self_end(3)]
+[cond_start(3)]
+            if (top_index +1 <MAX ) {
+
+                top_index =top_index +1;
+                stack[top_index] =x;
+
+[cond_end(3)]
+            }
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else if (strcmp (command, "pop" ) ==0 ) {
+[cond_start(3)]
+            if (top_index ==-1 ) {
+
+                printf ("-1\n" );
+
+[cond_end(3)]
+            }
+[cond_start(3)]
+            else {
+
+                printf ("%d\n", stack[top_index] );
+                top_index =top_index -1;
+
+[cond_end(3)]
+            }
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else if (strcmp (command, "size" ) ==0 ) {
+
+            printf ("%d\n", top_index +1 );
+
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else if (strcmp (command, "empty" ) ==0 ) {
+[cond_start(3)]
+            if (top_index ==-1 ) {
+
+                printf ("1\n" );
+
+[cond_end(3)]
+            }
+[cond_start(3)]
+            else {
+
+                printf ("0\n" );
+
+[cond_end(3)]
+            }
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else if (strcmp (command, "top" ) ==0 ) {
+[cond_start(3)]
+            if (top_index ==-1 ) {
+
+                printf ("-1\n" );
+
+[cond_end(3)]
+            }
+[cond_start(3)]
+            else {
+
+                printf ("%d\n", stack[top_index] );
+
+[cond_end(3)]
+            }
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

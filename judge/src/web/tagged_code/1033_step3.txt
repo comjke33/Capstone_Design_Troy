@@ -1,0 +1,73 @@
+[block0]
+
+int count_odd (int arr[], int size ) {
+
+    int count =0;
+
+
+    for (int i =0; i <size; i++) {
+
+        if (arr[i] %2 !=0 ) {
+
+            count++;
+
+
+        }
+
+    }
+
+    return count;
+
+
+
+
+[block1]
+
+int count_even (int arr[], int size ) {
+
+    int count =0;
+
+
+    for (int i =0; i <size; i++) {
+
+        if (arr[i] %2 ==0 ) {
+
+            count++;
+
+
+        }
+
+    }
+
+    return count;
+
+
+
+
+[block2]
+int main (void ) {
+
+    int arr[10];
+
+
+
+[block3]
+
+    for (int i =0; i <10; i++) {
+
+        scanf ("%d", &arr[i] );
+
+
+
+
+[block4]
+}
+
+    printf ("%d\n", count_odd (arr, 10 ) );
+
+
+    printf ("%d", count_even (arr, 10 ) );
+
+
+    return 0;
+

@@ -1,0 +1,143 @@
+[block0]
+int main () {
+
+    int queue[2000000];
+
+
+    int front =0;
+
+
+    int rear =-1;
+
+
+    int size =0;
+
+
+    int n;
+
+
+    scanf ("%d", &n );
+
+
+    char command[10];
+
+
+    int x;
+
+
+
+[block1]
+
+    for (int i =0; i <n; i++) {
+
+        scanf ("%s", command );
+
+
+        if (strcmp (command, "push" ) ==0 ) {
+
+            scanf ("%d", &x );
+
+
+            rear =(rear +1 ) %2000000;
+
+
+            queue[rear] =x;
+
+
+            size++;
+
+
+        }
+
+        else if (strcmp (command, "pop" ) ==0 ) {
+
+            if (size ==0 ) {
+
+                printf ("-1\n" );
+
+
+            }
+
+            else {
+
+                printf ("%d\n", queue[front] );
+
+
+                front =(front +1 ) %2000000;
+
+
+                size--;
+
+
+            }
+
+        }
+
+        else if (strcmp (command, "size" ) ==0 ) {
+
+            printf ("%d\n", size );
+
+
+        }
+
+        else if (strcmp (command, "empty" ) ==0 ) {
+
+            if (size ==0 ) {
+
+                printf ("1\n" );
+
+
+            }
+
+            else {
+
+                printf ("0\n" );
+
+
+            }
+
+        }
+
+        else if (strcmp (command, "front" ) ==0 ) {
+
+            if (size ==0 ) {
+
+                printf ("-1\n" );
+
+
+            }
+
+            else {
+
+                printf ("%d\n", queue[front] );
+
+
+            }
+
+        }
+
+        else if (strcmp (command, "back" ) ==0 ) {
+
+            if (size ==0 ) {
+
+                printf ("-1\n" );
+
+
+            }
+
+            else {
+
+                printf ("%d\n", queue[rear] );
+
+
+            }
+
+        }
+
+
+
+[block2]
+}
+
+    return 0;
+

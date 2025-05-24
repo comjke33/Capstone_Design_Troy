@@ -1,0 +1,27 @@
+#include <stdio.h>
+[func_def_start(0)]
+int fibonacci (int n ) {
+[cond_start(1)]
+if (n ==1 ||n ==2 ) {
+
+return 1;
+
+[cond_end(1)]
+}
+[self_start(1)]
+    return fibonacci (n -1 ) +fibonacci (n -2 );
+[self_end(1)]
+[func_def_end(0)]
+}
+
+[main_def_start(0)]
+int main (void ) {
+[self_start(1)]
+    int n;
+    scanf ("%d", &n );
+    int result =fibonacci (n );
+    printf ("%d", result );
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

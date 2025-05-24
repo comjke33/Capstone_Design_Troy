@@ -44,7 +44,7 @@ include("../../guideline_common.php");
 
 
     <!-- 가운데 패널 -->
-    <div class="center-panel">
+<div class="center-panel">
     <h1>기초 풀기</h1>
 
     <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
@@ -72,25 +72,26 @@ include("../../guideline_common.php");
                 $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
                 $disabled = $has_correct_answer ? "" : "disabled";
 
+                // 정답 내용 가져오기
+                // $default_value = $has_correct_answer 
+                //     ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') 
+                //     : "";
+
                 // 출력 블록 시작
                 $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
 
+                // 코드 라인
+                $html .= "<div class='code-line'>{$escaped_line}</div>";
 
-                // depth == 1 이면 readonly + 정답 자동 표시
-                 if ($depth == 1 && $has_correct_answer) {
-                    $answer_content = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8');
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='background-color: #D4EDDA; color: #155724; border: 1px solid #c3e6cb;'>{$answer_content}</textarea>";
-                } else {
-                    $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
-                    //코드라인 부분
-                    $html .= "<div class='code-line'>{$escaped_line}</div>";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                // textarea 출력
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>" . "</textarea>";
 
-                    if (!$isCorrect) {
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
-                        $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
-                        $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
-                    }
+
+                // 버튼 출력
+                if (!$isCorrect) {
+                    $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
+                    $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
+                    $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
                 }
 
                 // 정답/피드백 영역
@@ -273,6 +274,27 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   });
+
+// textarea에서 tab을 누르면 들여쓰기가 적용되게([    ])
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('textarea').forEach((textarea) => {
+      textarea.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+          e.preventDefault(); // 기본 Tab 동작 막기
+
+          const start = this.selectionStart;
+          const end = this.selectionEnd;
+
+          // 현재 위치에 '\t' 삽입
+          this.value = this.value.substring(0, start) + '\t' + this.value.substring(end);
+
+          // 커서 위치 조정
+          this.selectionStart = this.selectionEnd = start + 1;
+        }
+      });
+    });
+  });
+
 
 //문제 맞았는지 여부 확인
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;

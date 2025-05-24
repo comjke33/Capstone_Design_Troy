@@ -1,0 +1,65 @@
+#include <stdio.h>
+[func_def_start(0)]
+int count_all_odd_digits (int arr[], int size ) {
+[self_start(1)]
+    int count =0;
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; i <size; i++) {
+[self_start(2)]
+        int n =arr[i];
+        int all_odd =1;
+[self_end(2)]
+[rep_start(2)]
+        while (n >0 ) {
+[self_start(3)]
+            int digit =n %10;
+[self_end(3)]
+[cond_start(3)]
+            if (digit %2 ==0 ) {
+
+                all_odd =0;
+                break;
+
+[cond_end(3)]
+            }
+[self_start(3)]
+            n /=10;
+[self_end(3)]
+[rep_end(2)]
+        }
+[cond_start(2)]
+        if (all_odd ) {
+
+            count++;
+
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    return count;
+[self_end(1)]
+[func_def_end(0)]
+}
+
+[main_def_start(0)]
+int main (void ) {
+[self_start(1)]
+    int n;
+    scanf ("%d", &n );
+    int arr[100];
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; i <n; i++) {
+
+        scanf ("%d", &arr[i] );
+
+[rep_end(1)]
+    }
+[self_start(1)]
+    printf ("%d", count_all_odd_digits (arr, n ) );
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

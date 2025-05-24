@@ -1,0 +1,41 @@
+#include <stdio.h>
+[main_def_start(0)]
+int main (void ) {
+[self_start(1)]
+    char str[101];
+[self_end(1)]
+[self_start(1)]
+    int upper =0, lower =0;
+[self_end(1)]
+[self_start(1)]
+    scanf ("%s", str );
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; str[i] !='\0'; i++) {
+[cond_start(2)]
+        if ('A' <=str[i] &&str[i] <='Z' ) {
+[self_start(3)]
+            upper++;
+[self_end(3)]
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else if ('a' <=str[i] &&str[i] <='z' ) {
+[self_start(3)]
+            lower++;
+[self_end(3)]
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    printf ("%d\n", upper );
+[self_end(1)]
+[self_start(1)]
+    printf ("%d", lower );
+[self_end(1)]
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

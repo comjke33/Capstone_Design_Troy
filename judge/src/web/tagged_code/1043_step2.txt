@@ -1,0 +1,49 @@
+#include <stdio.h>
+[func_def_start(0)]
+void reverse_copy (int src[], int dest[], int size ) {
+[rep_start(1)]
+    for (int i =0; i <size; i++) {
+
+        dest[i] =src[size -1 -i];
+
+[rep_end(1)]
+    }
+[func_def_end(0)]
+}
+
+[main_def_start(0)]
+int main (void ) {
+[self_start(1)]
+    int n;
+    int src[100], dest[100];
+    scanf ("%d", &n );
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; i <n; i++) {
+
+        scanf ("%d", &src[i] );
+
+[rep_end(1)]
+    }
+[self_start(1)]
+    reverse_copy (src, dest, n );
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; i <n; i++) {
+[self_start(2)]
+        printf ("%d", dest[i] );
+[self_end(2)]
+[cond_start(2)]
+if (i <n -1 ) {
+
+printf (" " );
+
+[cond_end(2)]
+}
+[rep_end(1)]
+    }
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

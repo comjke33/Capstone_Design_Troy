@@ -1,0 +1,43 @@
+[block0]
+int main (void ) {
+
+    int n;
+
+
+    scanf ("%d", &n );
+
+
+    int hundreds =n /100;
+
+
+    int tens =(n /10 ) %10;
+
+
+    int ones =n %10;
+
+
+    int max =hundreds;
+
+[block1]
+if (tens >max ) {
+
+max =tens;
+
+
+}
+
+[block2]
+
+if (ones >max ) {
+
+max =ones;
+
+
+}
+
+[block3]
+    printf ("%d", max );
+
+
+    return 0;
+

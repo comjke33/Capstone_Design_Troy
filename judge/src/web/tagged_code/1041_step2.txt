@@ -1,0 +1,33 @@
+#include <stdio.h>
+[main_def_start(0)]
+int main (void ) {
+[self_start(1)]
+    char str[101];
+    char c;
+    fgets (str, sizeof (str ), stdin );
+    getchar ();
+    scanf ("%c", &c );
+    char c_lower =(c >='A' &&c <='Z' ) ? c +32 : c;
+    char c_upper =(c >='a' &&c <='z' ) ? c -32 : c;
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; str[i] !='\0'; i++) {
+[cond_start(2)]
+        if (str[i] ==c_lower ||str[i] ==c_upper ) {
+[cond_start(3)]
+            if ('a' <=str[i] &&str[i] <='z' ) {
+
+                str[i] -=32;
+
+[cond_end(3)]
+            }
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    printf ("%s", str );
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

@@ -1,0 +1,76 @@
+[block0]
+
+unsigned int utf8_to_codepoint (const unsigned char*utf8 ) {
+
+    return ((utf8[0] &0x0F ) <<12 ) |
+
+
+    ((utf8[1] &0x3F ) <<6 ) |
+
+
+    (utf8[2] &0x3F );
+
+
+
+
+[block1]
+int main () {
+
+    char input[301];
+
+
+    fgets (input, sizeof (input ), stdin );
+
+
+
+[block2]
+
+    for (int i =0; input[i] !='\0'; ) {
+
+        unsigned char*ptr =(unsigned char*) &input[i];
+
+
+        if ((ptr[0] &0xF0 ) ==0xE0 ) {
+
+            unsigned int code =utf8_to_codepoint (ptr );
+
+
+            if (code >=0xAC00 &&code <=0xD7A3 ) {
+
+                int s_index =code -0xAC00;
+
+
+                int cho =s_index /(21 *28 );
+
+
+                int jung =(s_index %(21 *28 ) ) /28;
+
+
+                int jong =s_index %28;
+
+
+                printf ("%s %s %s\n", choseong[cho], jungseong[jung],
+                jongseong[jong][0] ? jongseong[jong] : "(없음)" );
+
+
+            }
+
+            i +=3;
+
+
+        }
+
+        else {
+
+            i +=1;
+
+
+        }
+
+
+
+[block3]
+}
+
+    return 0;
+
