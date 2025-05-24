@@ -55,7 +55,11 @@ include("../../guideline_common.php");
 
         foreach ($blocks as $block) {
             $depth = $block['depth'];
-            echo "<script>console.log('depth at index {$answer_index}: {$depth}');</script>";
+
+            $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
+                $disabled = $has_correct_answer ? "" : "disabled";
+
+            if(!disabled)echo "<script>console.log('depth at index {$answer_index}: {$depth}');</script>";
 
             $margin_left = $depth * 50;
             $isCorrect = false;
@@ -70,8 +74,8 @@ include("../../guideline_common.php");
                 // 안전하게 이스케이프
                 $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
 
-                $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
-                $disabled = $has_correct_answer ? "" : "disabled";
+                // $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
+                // $disabled = $has_correct_answer ? "" : "disabled";
 
                 // 정답 내용 가져오기
                 // $default_value = $has_correct_answer 
