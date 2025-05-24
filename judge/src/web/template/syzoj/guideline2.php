@@ -64,7 +64,7 @@ include("../../guideline_common.php");
 
             $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
             $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
-            $isTopLevelText = ($depth === 0);
+            $isTopLevelText = ($depth == 1);
             $readonlyStyle = "background-color: #D4EDDA; color: #155724; border: 1px solid #c3e6cb;";
             $disabled = $has_correct_answer ? "" : "disabled";
 
