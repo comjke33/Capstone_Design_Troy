@@ -63,37 +63,30 @@ include("../../guideline_common.php");
                 $raw = trim($block['content']);
                 if ($raw === '') continue;
 
-                // 디버깅용 주석
-                $html .= "<!-- DEBUG raw line [{$answer_index}]: " . htmlentities($raw) . " -->\n";
-
-                // 안전하게 이스케이프
                 $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
+            $isTopLevelText = ($depth == 0);  // 🔥 핵심 조건
+            $readonlyStyle = "background-color: #D4EDDA; color: #155724; border: 1px solid #c3e6cb;";
 
-                $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
-                $disabled = $has_correct_answer ? "" : "disabled";
+            $html .= "<div class='submission-line' id='submission-line_{$answer_index}' style='margin-left: {$margin_left}px;'>";
 
-                // 정답 내용 가져오기
-                // $default_value = $has_correct_answer 
-                //     ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') 
-                //     : "";
-
-                // 출력 블록 시작
-                $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
-
-                // 코드 라인
+            if ($isTopLevelText) {
+                // 🔒 depth==0: 설명글 또는 안내문으로 자동 readonly
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$escaped_line}</textarea>";
+            } else if ($has_correct_answer) {
+                $answer_content = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8');
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$answer_content}</textarea>";
+            } else {
                 $html .= "<div class='code-line'>{$escaped_line}</div>";
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
-                // textarea 출력
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>" . 
-                htmlspecialchars($default_value ?? '', ENT_QUOTES, 'UTF-8') . 
-                "</textarea>";
-
-                // 버튼 출력
                 if (!$isCorrect) {
                     $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
                     $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
                     $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
                 }
+            }
+
+                
 
                 // 정답/피드백 영역
                 $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
