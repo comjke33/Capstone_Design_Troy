@@ -1,0 +1,51 @@
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+길이가 101인 char 배열 str를 선언하세요.
+[self_end(1)]
+[self_start(1)]
+문자 c를 저장할 char형 변수를 선언하세요.
+[self_end(1)]
+[self_start(1)]
+fgets 함수를 사용하여 str에 문자열을 입력 받으세요.
+이때 최대 100자까지 입력받고 마지막에 null 문자가 자동으로 추가됩니다.
+[self_end(1)]
+[self_start(1)]
+getchar 함수를 사용하여 입력 버퍼에 남아 있는 개행 문자를 제거하세요.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 c를 입력 받으세요.
+c는 변환할 대상 문자가 됩니다.
+[self_end(1)]
+[self_start(1)]
+char형 변수 c_lower를 선언하고, c가 대문자라면 소문자로 바꾸는 삼항 연산자를 사용하여 초기화하세요.
+대문자는 32만큼 더해 소문자로 변환합니다.
+[self_end(1)]
+[self_start(1)]
+char형 변수 c_upper를 선언하고, c가 소문자라면 대문자로 바꾸는 삼항 연산자를 사용하여 초기화하세요.
+소문자는 32만큼 빼서 대문자로 변환합니다.
+[self_end(1)]
+[rep_start(1)]
+i를 0부터 시작하여 str[i]가 null이 아닐 때까지 1씩 증가하며 반복하는 for문을 작성하세요.
+이 반복문은 문자열 str를 하나씩 검사하는 역할을 합니다.
+[cond_start(2)]
+str[i]가 c_lower 또는 c_upper와 같다면 동작하는 if문을 작성하세요.
+이 조건문은 str[i]가 대소문자 구분 없이 입력된 문자 c와 동일한지를 판단합니다.
+[cond_start(3)]
+str[i]가 a부터 z까지의 범위에 있을 때 동작하는 if문을 작성하세요.
+소문자인 경우에만 대문자로 변환할 필요가 있습니다.
+[self_start(4)]
+문자 str[i]를 대문자로 변환하기 위해 32를 빼는 연산을 수행하세요.
+이 작업으로 소문자를 대문자로 변경합니다.
+[self_end(4)]
+[cond_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+printf 함수를 사용하여 변환된 문자열 str을 출력하세요.
+대문자로 바꾼 후의 문자열이 화면에 표시됩니다.
+[self_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

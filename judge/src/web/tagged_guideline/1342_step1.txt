@@ -1,0 +1,23 @@
+[main_def_start(0)]
+main 함수를 정의하세요.
+[main_def_end(0)]
+
+[self_start(1)]
+정수형 변수 N을 선언하고 0으로 초기화하세요.
+[self_end(1)]
+
+[self_start(1)]
+scanf 함수를 사용하여 N의 값을 입력받으세요.
+입력받은 값은 정수형입니다.
+[self_end(1)]
+
+[rep_start(1)]
+i가 1부터 9까지 1씩 증가하면서 반복하는 for문을 작성하세요.
+[self_start(2)]
+N과 i를 곱한 결과를 출력하는 구구단을 작성하세요.
+출력 형식은 N * i = N * i입니다.
+[self_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]

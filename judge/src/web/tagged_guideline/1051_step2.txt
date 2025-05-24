@@ -1,0 +1,28 @@
+[main_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+양의 정수 n을 저장할 unsigned int형 변수 n과 0으로 초기화된 빈도 배열 count[10]을 선언하고 n을 입력받으세요.
+[self_end(1)]
+[cond_start(1)]
+n이 0일 경우 count[0]을 1 증가시키세요.
+[cond_end(1)]
+[cond_start(1)]
+그렇지 않다면, n이 0보다 클 때까지 반복하는 while문을 작성하세요.
+[rep_start(2)]
+각 반복에서 n의 마지막 자릿수를 구하고, 해당 숫자에 해당하는 count 배열의 값을 증가시키세요.
+n을 10으로 나누어 다음 자릿수를 준비하세요.
+[rep_end(2)]
+[cond_end(1)]
+[rep_start(1)]
+0부터 9까지 반복하여 각 숫자의 빈도를 출력하세요.
+[self_start(2)]
+각 숫자의 횟수를 출력하세요.
+[self_end(2)]
+[cond_start(2)]
+마지막 숫자가 아닐 경우 공백을 출력하세요.
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

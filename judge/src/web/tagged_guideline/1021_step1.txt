@@ -1,0 +1,50 @@
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+길이가 101인 char 배열 str을 선언하세요.
+[self_end(1)]
+[self_start(1)]
+숫자들의 곱을 저장할 int형 변수 product를 1로 초기화하세요.
+[self_end(1)]
+[self_start(1)]
+숫자가 포함되어 있는지를 확인할 int형 변수 has_digit을 0으로 초기화하세요.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 str에 문자열을 입력 받으세요.
+[self_end(1)]
+[rep_start(1)]
+i가 0부터 str[i]가 널 문자가 아닐 때까지 1씩 증가하는 for문을 작성하세요.
+문자열의 각 문자를 순회하는 과정입니다.
+[cond_start(2)]
+str[i]가 '0' 이상이면서 '9' 이하일 때 동작하는 if문을 작성하세요.
+문자열의 i번째 문자가 숫자인지를 확인하는 조건문입니다.
+[self_start(3)]
+product에 str[i]에서 '0'을 뺀 값을 곱하세요.
+이것은 str[i]의 문자형을 정수형으로 변환하는 과정입니다.
+[self_end(3)]
+[self_start(3)]
+has_digit을 1로 설정하세요.
+문자열에 숫자가 있음을 표시하는 과정입니다.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[cond_start(1)]
+has_digit이 참이면 동작하는 if문을 작성하세요.
+문자열에 숫자가 포함되어 있음을 확인하는 조건문입니다.
+[self_start(2)]
+product의 값을 출력하세요.
+모든 숫자의 곱을 출력하는 과정입니다.
+[self_end(2)]
+[cond_end(1)]
+[cond_start(1)]
+else를 사용하여 숫자가 없는 경우를 처리하세요.
+문자열에 숫자가 없음을 확인하는 분기입니다.
+[self_start(2)]
+0을 출력하세요.
+숫자가 없으므로 곱을 0으로 간주하는 과정입니다.
+[self_end(2)]
+[cond_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

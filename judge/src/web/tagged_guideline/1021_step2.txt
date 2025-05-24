@@ -1,0 +1,23 @@
+[main_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+문자열을 저장할 char 배열 str, 곱을 저장할 변수 product(1로 초기화), 숫자의 존재 여부를 나타낼 변수 has_digit(0으로 초기화)를 선언하고 문자열을 입력받으세요.
+[self_end(1)]
+[rep_start(1)]
+str의 각 문자에 대해 반복하는 for문을 작성하세요. 
+문자열의 끝이 아닐 때까지 반복합니다.
+[cond_start(2)]
+문자가 숫자인지 확인하고 맞다면 product에 해당 숫자를 곱하세요.
+has_digit를 1로 설정하여 숫자가 존재함을 표시하세요.
+[cond_end(2)]
+[rep_end(1)]
+[cond_start(1)]
+has_digit가 참이면 product를 출력하세요.
+[cond_end(1)]
+[cond_start(1)]
+그렇지 않으면 0을 출력하세요.
+[cond_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

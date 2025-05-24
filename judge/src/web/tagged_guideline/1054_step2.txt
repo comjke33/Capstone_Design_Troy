@@ -1,0 +1,50 @@
+[func_def_start(0)]
+const char형 포인터 a와 b를 매개변수로 받는 int 반환형 `is_same` 함수를 정의하세요.
+두 문자열이 같은지 비교하는 함수입니다.
+[rep_start(1)]
+a나 b가 null이 아닐 때 동작하는 while문을 작성하세요.
+[cond_start(2)]
+문자 a와 b의 현재 문자가 다르면 false(0)를 반환하세요.
+[cond_end(2)]
+[self_start(2)]
+a와 b의 포인터를 각각 다음 문자로 이동시키세요.
+[self_end(2)]
+[rep_end(1)]
+[self_start(1)]
+두 문자열이 끝까지 같다면 true(1)를 반환하세요.
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main함수입니다.
+[self_start(1)]
+정수 N을 입력받기 위한 상수 MAX와 정수형 배열 stack을 선언하세요.
+스택의 현재 인덱스를 나타내는 top_index(초기값 -1), 그리고 명령을 저장할 char 배열 command를 선언하세요.
+[self_end(1)]
+[rep_start(1)]
+N만큼 반복할 for문을 작성하세요.
+명령어를 입력받고 처리하는 과정입니다.
+[rep_end(1)]
+[self_start(2)]
+각 반복에서 command를 입력받으세요.
+[self_end(2)]
+[cond_start(2)]
+`push` 명령어라면, 정수 x를 입력받아 top_index를 증가시키고 stack에 값을 넣으세요.
+[cond_end(2)]
+[cond_start(2)]
+`pop` 명령어라면, top_index가 -1인 경우 -1을 출력하고, 아니라면 스택의 top 값을 출력 후 top_index를 감소시키세요.
+[cond_end(2)]
+[cond_start(2)]
+`size` 명령어라면, 스택의 크기(top_index + 1)를 출력하세요.
+[cond_end(2)]
+[cond_start(2)]
+`empty` 명령어라면, 스택이 비어있으면 1, 아니면 0을 출력하세요.
+[cond_end(2)]
+[cond_start(2)]
+`top` 명령어라면, top_index가 -1인 경우 -1을 출력하고, 아니라면 스택의 top 값을 출력하세요.
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

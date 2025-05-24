@@ -1,0 +1,18 @@
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+정수형 변수 N을 선언하세요.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 N에 값을 입력받으세요.
+[self_end(1)]
+[rep_start(1)]
+1부터 9까지의 i를 반복하면서 구구단을 출력하세요.
+[self_start(2)]
+printf 함수를 사용하여 N * i 의 결과를 출력하세요.
+[self_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

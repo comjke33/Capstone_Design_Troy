@@ -1,0 +1,41 @@
+[main_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+정수를 저장할 크기 10,000의 배열 stack과 스택의 현재 인덱스를 나타낼 int형 변수 top(-1로 초기화), 명령어 수를 받을 int형 변수 N, 명령어를 저장할 char 배열 command를 선언하고, N을 입력받으세요.
+[self_end(1)]
+[rep_start(1)]
+N번 만큼 반복하는 for문을 작성하세요.
+[self_start(2)]
+각 반복에서 명령어를 입력받으세요.
+[self_end(2)]
+[cond_start(2)]
+명령어가 "push"인 경우,입력받아  배열 stack에 저장하고 top을 증가시키세요.
+[cond_end(2)]
+[cond_start(2)]
+명령어가 "pop"인 경우의 조건문을 작성하세요.
+[cond_start(3)]
+ top이 -1이면 -1을 출력하세요.
+[cond_end(3)]
+[cond_start(3)]
+아니면 top의 값을 출력한 후 top을 감소시키세요.
+[cond_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+명령어가 "size"인 경우,스택의 크기(top + 1)를 출력하세요.
+[cond_end(2)]
+[cond_start(2)]
+명령어가 "empty"인 경우의 조건문을 작성하세요.
+[cond_start(3)]
+top이 -1이면 1을 출력하세요.
+[cond_end(3)]
+[cond_start(3)]
+아니면 0을 출력하세요.
+[cond_end(3)]
+[cond_start(2)]
+명령어가 "top"인 경우, top이 -1이면 -1을 출력하고, 아니면 top의 값을 출력하세요.
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

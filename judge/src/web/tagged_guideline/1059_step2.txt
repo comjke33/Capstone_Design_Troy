@@ -1,0 +1,40 @@
+[func_def_start(0)]
+float형 배열 x와 y, size, sum_x, sum_y, sum_xy, sum_x2 포인터를 매개변수로 받는 void 반환형 `inputData` 함수를 정의하세요.
+주어진 x, y 값을 입력받고 각 합계를 계산하는 함수입니다.
+[rep_start(1)]
+size만큼 반복하는 for문을 작성하세요.
+각 x, y 값을 입력받고 합계를 업데이트하세요.
+[rep_end(1)]
+[func_def_end(0)]
+
+[func_def_start(0)]
+float형 sum_x, sum_y, sum_xy, sum_x2, int형 size, float 포인터 a, b를 매개변수로 받는 void 반환형 `calculateCoefficients` 함수를 정의하세요.
+회귀 계수 a와 b를 계산하는 함수입니다.
+[self_start(1)]
+주어진 수식으로 a와 b를 계산하여 저장하세요.
+[self_end(1)]
+[func_def_end(0)]
+
+[func_def_start(0)]
+float형 a, b와 test_x를 매개변수로 받는 float 반환형 `predict` 함수를 정의하세요.
+주어진 a, b 값을 이용해 예상 y값을 계산하는 함수입니다.
+[self_start(1)]
+a와 b를 이용해 test_x에 대한 예측 값을 반환하세요.
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main함수입니다.
+[self_start(1)]
+float형 배열 x와 y, 초기값 0인 sum_x, sum_y, sum_xy, sum_x2, a, b 변수를 선언하고, size를 10으로 설정하세요.
+입력 데이터를 inputData 함수로 불러오세요.
+[self_end(1)]
+[self_start(1)]
+calculateCoefficients 함수를 호출하여 a와 b를 계산하세요.
+입력받을 test_x 변수를 선언하고 값을 입력받으세요.
+[self_end(1)]
+[self_start(1)]
+predict 함수를 사용하여 예측값을 구하고 소수점 둘째 자리까지 출력하세요.
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

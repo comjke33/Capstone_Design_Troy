@@ -6,3 +6,155 @@ Traceback (most recent call last):
   File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
     chunk = s.recv(buffer_size)
 ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 28, in <module>
+    s.connect((HOST, PORT))
+TimeoutError: [Errno 110] Connection timed out
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 28, in <module>
+    s.connect((HOST, PORT))
+OSError: [Errno 113] No route to host
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Traceback (most recent call last):
+  File "/home/Capstone_Design_Troy/judge/src/web/add_problem/make_guideline.py", line 38, in <module>
+    chunk = s.recv(buffer_size)
+ConnectionResetError: [Errno 104] Connection reset by peer

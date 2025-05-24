@@ -1,0 +1,54 @@
+[func_def_start(0)]
+`count_common_divisors` 함수를 정의하세요.
+매개변수로 두 개의 정수형 변수 a와 b를 받습니다.
+이 함수는 a와 b의 공통 약수의 개수를 반환합니다.
+[self_start(1)]
+`count`라는 정수형 변수를 선언하고 0으로 초기화하세요.
+공통 약수를 세기 위한 변수입니다.
+[self_end(1)]
+[self_start(1)]
+`min`이라는 정수형 변수를 선언하고 a와 b 중 작은 값을 저장하세요.
+공통 약수를 찾기 위해 두 수 중 더 작은 수를 기준으로 반복할 것입니다.
+[self_end(1)]
+[rep_start(1)]
+1부터 min까지 반복하는 for문을 작성하세요.
+이 loop는 가능한 모든 약수를 검사하는 과정입니다.
+[cond_start(2)]
+a를 i로 나누었을 때 나머지가 0이고, b를 i로 나누었을 때 나머지가 0인 경우에 해당하는 if문을 작성하세요.
+이 조건은 i가 a와 b의 공통 약수인지 확인합니다.
+[self_start(3)]
+조건이 참이라면 count를 1 증가시키세요.
+공통 약수가 발견되었으므로 count 값을 1 증가시킵니다.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+count 변수를 반환하세요.
+공통 약수의 총 개수를 반환합니다.
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+정수형 변수 a와 b를 선언하세요.
+사용자가 입력한 두 개의 숫자를 저장할 것입니다.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 a와 b에 값을 입력 받으세요.
+사용자로부터 두 양의 정수를 입력 받는 과정입니다.
+[self_end(1)]
+[self_start(1)]
+`result`라는 정수형 변수를 선언하고 count_common_divisors 함수를 호출하세요.
+매개변수로 a와 b를 전달하십시오.
+공통 약수의 개수를 계산합니다.
+[self_end(1)]
+[self_start(1)]
+`result`를 출력하세요.
+공통 약수의 개수를 화면에 표시합니다.
+[self_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+정상적으로 프로그램이 끝나는 절차입니다.
+[self_end(1)]
+[main_def_end(0)]

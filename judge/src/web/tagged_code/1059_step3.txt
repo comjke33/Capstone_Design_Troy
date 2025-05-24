@@ -1,0 +1,75 @@
+[block0]
+
+void inputData (float x[], float y[], int size, float*sum_x, float*sum_y, float*sum_xy, float*sum_x2 ) {
+
+    for (int i =0; i <size; i++) {
+
+        scanf ("%f %f", &x[i], &y[i] );
+
+
+        *sum_x +=x[i];
+
+
+        *sum_y +=y[i];
+
+
+        *sum_xy +=x[i] *y[i];
+
+
+        *sum_x2 +=x[i] *x[i];
+
+
+    }
+
+
+
+[block1]
+
+void calculateCoefficients (float sum_x, float sum_y, float sum_xy, float sum_x2, int size, float*a, float*b ) {
+
+    *a =(size *sum_xy -sum_x *sum_y ) /(size *sum_x2 -sum_x *sum_x );
+
+
+    *b =(sum_y -(*a ) *sum_x ) /size;
+
+
+
+
+[block2]
+
+float predict (float a, float b, float test_x ) {
+
+    return a *test_x +b;
+
+
+
+
+[block3]
+int main () {
+
+    float x[10], y[10], sum_x =0, sum_y =0, sum_xy =0, sum_x2 =0, a, b;
+
+
+    int size =10;
+
+
+    inputData (x, y, size, &sum_x, &sum_y, &sum_xy, &sum_x2 );
+
+
+    calculateCoefficients (sum_x, sum_y, sum_xy, sum_x2, size, &a, &b );
+
+
+    float test_x;
+
+
+    scanf ("%f", &test_x );
+
+
+    float pred =predict (a, b, test_x );
+
+
+    printf ("%.2f", pred );
+
+
+    return 0;
+

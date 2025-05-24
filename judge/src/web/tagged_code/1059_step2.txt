@@ -1,0 +1,49 @@
+#include <stdio.h>
+[func_def_start(0)]
+void inputData (float x[], float y[], int size, float*sum_x, float*sum_y, float*sum_xy, float*sum_x2 ) {
+[rep_start(1)]
+    for (int i =0; i <size; i++) {
+
+        scanf ("%f %f", &x[i], &y[i] );
+        *sum_x +=x[i];
+        *sum_y +=y[i];
+        *sum_xy +=x[i] *y[i];
+        *sum_x2 +=x[i] *x[i];
+
+[rep_end(1)]
+    }
+[func_def_end(0)]
+}
+
+[func_def_start(0)]
+void calculateCoefficients (float sum_x, float sum_y, float sum_xy, float sum_x2, int size, float*a, float*b ) {
+[self_start(1)]
+    *a =(size *sum_xy -sum_x *sum_y ) /(size *sum_x2 -sum_x *sum_x );
+    *b =(sum_y -(*a ) *sum_x ) /size;
+[self_end(1)]
+[func_def_end(0)]
+}
+
+[func_def_start(0)]
+float predict (float a, float b, float test_x ) {
+[self_start(1)]
+    return a *test_x +b;
+[self_end(1)]
+[func_def_end(0)]
+}
+
+[main_def_start(0)]
+int main () {
+[self_start(1)]
+    float x[10], y[10], sum_x =0, sum_y =0, sum_xy =0, sum_x2 =0, a, b;
+    int size =10;
+    inputData (x, y, size, &sum_x, &sum_y, &sum_xy, &sum_x2 );
+    calculateCoefficients (sum_x, sum_y, sum_xy, sum_x2, size, &a, &b );
+    float test_x;
+    scanf ("%f", &test_x );
+    float pred =predict (a, b, test_x );
+    printf ("%.2f", pred );
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

@@ -1,0 +1,11 @@
+[block0]
+The `read_data` function is designed to read an array of `x` and `y` values from the user to calculate certain sums.
+
+[block1]
+The `calculate_coefficients` function calculates the coefficients `a` and `b` based on the calculated sums from `read_data`.
+
+[block2]
+The `predict_value` function takes coefficients `a` and `b` and an input value `input_x` to predict the output value.
+
+[block3]
+The `main` function initializes the data and calls the relevant functions to read data, calculate coefficients, and make a prediction.

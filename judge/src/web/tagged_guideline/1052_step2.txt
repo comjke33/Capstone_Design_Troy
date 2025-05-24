@@ -1,0 +1,49 @@
+[main_def_start(0)]
+main함수입니다.
+[self_start(1)]
+스택의 최대 크기를 상수 MAX로 정의하고, 정수를 저장할 배열 stack과 스택의 현재 인덱스를 나타낼 top_index(초기값 -1)를 선언하세요.
+또한, 명령의 수를 저장할 변수 N을 선언하고 입력을 받으세요.
+[self_end(1)]
+[rep_start(1)]
+N 번 반복하는 for문을 작성하세요.
+각 반복에서 명령어를 입력받고, 해당 명령어에 따라 동작을 처리합니다.
+[self_start(2)]
+명령어를 저장할 char 배열 command를 선언하고, 이를 입력받으세요.
+[self_end(2)]
+[cond_start(2)]
+"push" 명령어인지 확인하세요.
+[self_start(3)]
+정수 x를 선언하고 입력받아 스택에 추가하세요. 단, 스택의 최대 크기를 초과하지 않도록 조건을 적어주세요.
+[self_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+"pop" 명령어인지 확인하세요.
+[cond_start(3)]
+스택이 비어있는지 확인하고, 비어있다면 -1을 출력하세요.
+[cond_end(3)]
+[cond_start(3)]
+비어있지 않다면, 가장 위에 있는 요소를 출력하고 top_index를 감소시키세요.
+[cond_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+"size" 명령어인지 확인하세요.
+스택에 있는 요소의 개수를 출력하세요.
+[cond_end(2)]
+[cond_start(2)]
+"empty" 명령어인지 확인하세요.
+스택이 비어있으면 1, 아니면 0을 출력하세요.
+[cond_end(2)]
+[cond_start(2)]
+"top" 명령어인지 확인하세요.
+[cond_start(3)]
+스택이 비어있다면 -1을 출력하세요.
+[cond_end(3)]
+[cond_start(3)]
+비어있지 않다면, 가장 위에 있는 요소를 출력하세요.
+[cond_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

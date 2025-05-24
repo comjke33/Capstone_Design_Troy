@@ -1,0 +1,18 @@
+[main_def_start(0)]
+main함수입니다.
+[self_start(1)]
+세 개의 정수 a, b, c를 선언하고 사용자로부터 입력받으세요. 중간값을 저장할 변수를 middle 선언하세요.
+[self_end(1)]
+[cond_start(1)]
+a가 b와 c 사이에 있는지 확인하는 조건문을 작성하세요. 이 경우 middle에 a의 값을 저장하세요.
+[cond_end(1)]
+[cond_start(1)]
+b가 a와 c 사이에 있는지 확인하고, 이 경우 middle에 b의 값을 저장하세요.
+[cond_end(1)]
+[cond_start(1)]
+그 외의 경우에 middle에 c의 값을 저장하세요.
+[cond_end(1)]
+[self_start(1)]
+중간값인 middle을 출력하세요. 프로그램을 성공적으로 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

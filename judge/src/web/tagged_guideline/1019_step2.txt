@@ -1,0 +1,23 @@
+[main_def_start(0)]
+main함수입니다.
+[self_start(1)]
+문자열을 저장할 문자 배열 str을 선언하고, 대문자 개수를 저장할 upper변수와 소문자 개수를 저장할 lower변수를 0으로 초기화하여 선언합니다.
+[self_end(1)]
+[rep_start(1)]
+str을 입력받을때까지 반복하는 for문을 작성합니다.
+[cond_start(2)]
+문자열의 i번째 문자가 대문자인지 확인하는 조건문을 작성합니다.
+[cond_end(2)]
+upper변수를 1 증가시킵니다.
+[cond_start(2)]
+문자열의 i번째 문자가 소문자인지 확인하는 조건문을 작성합니다.
+[cond_end(2)]
+lower변수를 1 증가시킵니다.
+[rep_end(1)]
+[self_start(1)]
+upper와 lower를 출력하는 printf문을 작성합니다.
+[self_end(1)]
+[self_start(1)]
+프로그램을 종료하는 return 0을 작성합니다.
+[self_end(1)]
+[main_def_end(0)]

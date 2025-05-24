@@ -1,0 +1,69 @@
+[func_def_start(0)]
+`read_data` 함수를 정의하세요. x, y 값을 저장하는 배열, 그리고 로그 값의 합, 총 y 값, 로그 x 제곱의 합, 로그 y * 로그 x의 합을 계산하는 함수를 받아 처리하는 역할을 합니다.
+[rep_start(1)]
+i가 0부터 n까지 반복하는 for문을 작성하세요. n은 데이터 쌍의 개수입니다.
+[self_start(2)]
+scanf 함수를 사용하여 x[i]와 y[i]를 입력 받으세요. 각각의 입력 값은 x와 y의 값을 저장합니다.
+[self_end(2)]
+[self_start(2)]
+lx = log(x[i]) 계산하세요. x[i]의 로그 값을 계산하여 저장합니다.
+[self_end(2)]
+[self_start(2)]
+*sum_logx에 lx를 더하세요. 로그 x 값의 합을 누적합니다.
+[self_end(2)]
+[self_start(2)]
+*sum_y에 y[i]를 더하세요. 총 y 값의 합을 누적합니다.
+[self_end(2)]
+[self_start(2)]
+*sum_logx2에 lx * lx를 더하세요. 로그 x 제곱 값의 합을 누적합니다.
+[self_end(2)]
+[self_start(2)]
+*sum_ylogx에 y[i] * lx를 더하세요. 로그 y * 로그 x 값의 합을 누적합니다.
+[self_end(2)]
+[rep_end(1)]
+[func_def_end(0)]
+
+[func_def_start(0)]
+`calculate_coefficients` 함수를 정의하세요. 로그 x 값의 합, 총 y 값, 로그 x 제곱의 합, 로그 y * 로그 x의 합을 입력받아 a와 b 계수를 계산하는 역할을 합니다.
+[self_start(1)]
+b 값을 계산하세요. 공식에 따라 b = (5 * sum_ylogx - sum_logx * sum_y) / (5 * sum_logx2 - sum_logx * sum_logx) 입니다.
+[self_end(1)]
+[self_start(1)]
+a 값을 계산하세요. 공식에 따라 a = (sum_y - b * sum_logx) / 5 입니다.
+[self_end(1)]
+[func_def_end(0)]
+
+[func_def_start(0)]
+`predict_value` 함수를 정의하세요. a와 b 계수를 입력받아 입력 x에 대한 예측값을 계산하는 함수입니다.
+[self_start(1)]
+a + b * log(input_x)를 반환하세요. 계산된 예측값을 반환합니다.
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main 함수를 정의하세요. 프로그램의 시작점입니다.
+[self_start(1)]
+x[5], y[5], sum_logx, sum_y, sum_logx2, sum_ylogx를 선언하세요. 5개의 x, y 값 배열과 합계를 저장할 변수를 선언합니다.
+[self_end(1)]
+[self_start(1)]
+`read_data` 함수를 호출하여 x와 y 값을 읽어와 sum_logx, sum_y, sum_logx2, sum_ylogx에 저장하세요.
+[self_end(1)]
+[self_start(1)]
+a와 b를 선언하세요. a와 b 계수를 저장할 변수를 선언합니다.
+[self_end(1)]
+[self_start(1)]
+`calculate_coefficients` 함수를 호출하여 a와 b를 계산하세요.
+[self_end(1)]
+[self_start(1)]
+input_x를 선언하세요. 예측을 위한 입력값을 저장할 변수를 선언합니다.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 input_x를 입력 받으세요.
+[self_end(1)]
+[self_start(1)]
+`predict_value` 함수를 호출하여 a, b, input_x를 인자로 받아 예측값을 출력하세요.
+[self_end(1)]
+[self_start(1)]
+프로그램 종료를 위한 return 0문을 작성하세요.
+[self_end(1)]
+[main_def_end(0)]

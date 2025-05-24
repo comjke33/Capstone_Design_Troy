@@ -1,0 +1,26 @@
+[main_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+정수를 저장할 변수 n을 선언하고 사용자로부터 입력받으세요. 초기값은 필요하지 않습니다.
+is_prime을 선언하고 1로 초기화하세요.
+[self_end(1)]
+[cond_start(1)]
+n이 2보다 작은지 확인하세요. 
+소수가 아닌 경우 is_prime을 0으로 설정하세요.
+[cond_end(1)]
+[cond_start(1)]
+그렇지 않으면 다음 단계를 진행하세요.
+[rep_start(2)]
+2부터 시작하여 n의 제곱근 이하까지 반복하는 for문을 작성하세요.
+이 단계에서 i는 n의 약수를 찾기 위한 반복 제어 변수입니다.
+[cond_start(3)]
+n을 i로 나누어 떨어지는지 확인하세요. 
+사실을 발견하면 is_prime을 0으로 변경하고 반복문을 종료하세요.
+[cond_end(3)]
+[rep_end(2)]
+[cond_end(1)]
+[self_start(1)]
+결과로 is_prime 값을 출력하세요. 
+소수이면 1, 아니면 0을 출력합니다.
+[self_end(1)]
+[main_def_end(0)]

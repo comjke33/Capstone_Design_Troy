@@ -1,0 +1,38 @@
+[func_def_start(0)]
+정수형 변수 n을 매개변수로 받는 함수 is_prime을 정의하세요.
+
+[cond_start(1)]
+n이 1보다 작거나 같으면 0을 반환하세요.
+
+[cond_end(1)]
+[rep_start(1)]
+2부터 시작하여 i*i가 n보다 작거나 같을 때까지 반복하는 for문을 작성하세요.
+
+[cond_start(2)]
+n이 i로 나누어 떨어지면 0을 반환하세요.
+
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+n이 소수이면 1을 반환하세요.
+
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+정수형 변 num을 선언하고 사용자로부터 값을 입력받으세요.
+
+[self_end(1)]
+[rep_start(1)]
+num보다 작거나 같은 숫자 i에 대해 반복하는 for문을 작성하세요.
+
+[cond_start(2)]
+is_prime(i) 함수를 호출하여 i가 소수인지 확인하고, 소수이면 해당 값을 출력하세요.
+
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하고 0을 반환하세요.
+
+[self_end(1)]
+[main_def_end(0)]
