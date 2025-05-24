@@ -281,3 +281,10 @@
     padding: 8px;
     opacity: 0.95;
 }
+
+/* STEP BTN */
+.step-buttons .ui.button.active {
+    background-color: #007BFF;  /* 하이라이트 색상 */
+    color: white;
+    font-weight: bold;
+}
