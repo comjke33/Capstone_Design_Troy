@@ -1,0 +1,63 @@
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+unsigned int형 변수 n을 선언하세요.
+이 변수는 입력받을 양의 정수를 저장하는 데 사용됩니다.
+[self_end(1)]
+[self_start(1)]
+길이가 10인 int형 배열 count를 선언하고 모두 0으로 초기화 하세요.
+이 배열은 각 숫자의 발생 횟수를 저장하는 데 사용됩니다.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 n에 양의 정수를 입력 받으세요.
+입력된 숫자의 빈도를 세기 위한 준비입니다.
+[self_end(1)]
+[cond_start(1)]
+n이 0일 때 동작하는 if문을 작성하세요.
+0이 입력된 경우 처리하는 특별한 조건입니다.
+[self_start(2)]
+count[0]을 1 증가시키세요.
+0이 나타났음을 기록합니다.
+[self_end(2)]
+[cond_end(1)]
+[cond_start(1)]
+그렇지 않다면, else 블록을 시작하세요.
+n이 0이 아닐 때 실행되는 블록입니다.
+[rep_start(2)]
+n이 0보다 클 때 동작하는 while문을 작성하세요.
+n의 각 자릿수를 처리하기 위한 반복입니다.
+[self_start(3)]
+int형 변수 digit을 선언하고 n을 10으로 나눈 나머지로 초기화하세요.
+n의 마지막 자릿수(0-9)를 추출합니다.
+[self_end(3)]
+[self_start(3)]
+count[digit]을 1 증가시키세요.
+추출한 자릿수의 발생 횟수를 기록합니다.
+[self_end(3)]
+[self_start(3)]
+n을 10으로 나누어 업데이트하세요.
+다음 자릿수를 처리하기 위해 n의 값을 줄입니다.
+[self_end(3)]
+[rep_end(2)]
+[cond_end(1)]
+[rep_start(1)]
+int형 변수를 i로 선언하고 0부터 9까지 반복하는 for문을 작성하세요.
+각 숫자의 발생 빈도를 출력하기 위한 반복입니다.
+[self_start(2)]
+printf 함수를 사용하여 count[i]의 값을 출력하세요.
+i 번째 숫자의 발생 횟수를 출력합니다.
+[self_end(2)]
+[cond_start(2)]
+i가 9보다 작을 때 동작하는 if문을 작성하세요.
+마지막 숫자 뒤에는 공백을 출력하지 않기 위한 조건문입니다.
+[self_start(3)]
+printf 함수를 사용하여 공백을 출력하세요.
+다음 숫자와의 구분을 위해 공백을 추가합니다.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+return 0;로 프로그램을 종료하세요.
+프로그램의 정상 종료를 나타냅니다.
+[self_end(1)]
+[main_def_end(0)]

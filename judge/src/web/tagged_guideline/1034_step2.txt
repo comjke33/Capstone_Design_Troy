@@ -1,0 +1,46 @@
+[func_def_start(0)]
+정수 배열 arr와 배열의 크기 size를 매개변수로 받는 int 반환형 `count_all_odd_digits` 함수를 정의하세요.
+배열의 각 요소에서 홀수 자리 숫자만 있는 수의 개수를 세는 함수입니다.
+[self_start(1)]
+정수형 변수 count를 0으로 초기화하여 선언하세요.
+[self_end(1)]
+[rep_start(1)]
+size만큼 반복하는 for문을 작성하여 각 배열 요소를 순회하세요.
+[self_start(2)]
+현재 배열 요소를 n에 저장하고, all_odd 변수를 1로 초기화하세요.
+[self_end(2)]
+[rep_start(2)]
+n이 0보다 큰 동안 반복하는 while문을 작성하세요.
+[self_start(3)]
+n의 마지막 자리 숫자를 digit에 저장하세요.
+[self_end(3)]
+[cond_start(3)]
+digit이 짝수라면 all_odd를 0으로 설정하고 반복문을 종료하세요.
+[cond_end(3)]
+[self_start(3)]
+n을 10으로 나누어 다음 자리 숫자를 준비하세요.
+[self_end(3)]
+[rep_end(2)]
+[cond_start(2)]
+all_odd가 참이라면 count를 1 증가시키세요.
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+count를 반환하세요.
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main함수입니다.
+[self_start(1)]
+정수를 저장할 변수 n을 선언하고 입력받으세요.
+배열 arr를 선언하세요.
+[self_end(1)]
+[rep_start(1)]
+n만큼 반복하는 for문을 작성하여 각 정수를 입력받아 arr에 저장하세요.
+[rep_end(1)]
+[self_start(1)]
+count_all_odd_digits 함수를 호출하여 결과를 출력하세요.
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

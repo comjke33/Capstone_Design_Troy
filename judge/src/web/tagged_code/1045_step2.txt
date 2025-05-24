@@ -1,0 +1,40 @@
+#include <stdio.h>
+[func_def_start(0)]
+double get_average (int arr[], int size ) {
+[self_start(1)]
+    int sum =0;
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; i <size; i++) {
+
+        sum +=arr[i];
+
+[rep_end(1)]
+    }
+[self_start(1)]
+    return (double ) sum /size;
+[self_end(1)]
+[func_def_end(0)]
+}
+
+[main_def_start(0)]
+int main (void ) {
+[self_start(1)]
+    int n;
+    int arr[100];
+    scanf ("%d", &n );
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; i <n; i++) {
+
+        scanf ("%d", &arr[i] );
+
+[rep_end(1)]
+    }
+[self_start(1)]
+    double avg =get_average (arr, n );
+    printf ("%.2f", avg );
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

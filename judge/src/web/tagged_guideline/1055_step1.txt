@@ -1,0 +1,93 @@
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+MAX 변수를 선언하여 스택의 최대 크기를 정의하세요.
+[self_end(1)]
+스택을 저장하기 위한 정수형 배열 stack을 선언하세요.
+[self_start(1)]
+top_index 변수를 선언하여 스택의 최상위 요소의 인덱스를 저장하세요.
+[self_end(1)]
+N을 입력받아 스택에 처리할 명령의 개수를 저장하세요.
+[self_start(1)]
+command 변수를 선언하여 명령어를 저장하세요.
+[self_end(1)]
+N개의 명령어를 처리하기 위한 for문을 작성하세요.
+[self_start(2)]
+scanf 함수를 사용하여 명령어를 입력받으세요.
+[self_end(2)]
+[cond_start(2)]
+strcmp 함수를 사용하여 "push" 명령인지 확인하세요.
+[self_start(3)]
+push 명령을 처리하기 위한 변수 x를 선언하세요.
+[self_end(3)]
+scanf 함수를 사용하여 x에 정수를 입력 받으세요.
+[cond_start(3)]
+top_index가 MAX보다 작으면 동작하는 조건문을 작성하세요.
+[self_start(4)]
+top_index를 1 증가시켜 스택의 최상위에 새로운 값을 저장하세요.
+[self_end(4)]
+[self_start(4)]
+stack의 top_index에 해당하는 인덱스에 x를 저장하세요.
+[self_end(4)]
+[cond_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+팝 명령을 처리하기 위한 조건문을 작성하세요.
+[cond_start(3)]
+top_index가 -1이면 동작하는 조건문을 작성하세요.
+[self_start(4)]
+-1을 출력하세요.
+[self_end(4)]
+[cond_end(3)]
+[cond_start(3)]
+그렇지 않으면 동작하는 조건문을 작성하세요.
+[self_start(4)]
+stack의 top_index에 해당하는 인덱스에 저장된 값을 출력하세요.
+[self_end(4)]
+[self_start(4)]
+top_index를 1 감소시켜 스택의 최상위를 제거하세요.
+[self_end(4)]
+[cond_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+크기 명령을 처리하는 조건문을 작성하세요.
+[self_start(3)]
+top_index에 저장된 스택의 크기를 출력하세요.
+[self_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+비어있는지 확인하는 조건문을 작성하세요.
+[cond_start(3)]
+top_index가 -1이면 동작하는 조건문을 작성하세요.
+[self_start(4)]
+1을 출력하세요.
+[self_end(4)]
+[cond_end(3)]
+[cond_start(3)]
+그렇지 않으면 동작하는 조건문을 작성하세요.
+[self_start(4)]
+0을 출력하세요.
+[self_end(4)]
+[cond_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+top 명령을 처리하는 조건문을 작성하세요.
+[cond_start(3)]
+top_index가 -1이면 동작하는 조건문을 작성하세요.
+[self_start(4)]
+-1을 출력하세요.
+[self_end(4)]
+[cond_end(3)]
+[cond_start(3)]
+그렇지 않으면 동작하는 조건문을 작성하세요.
+[self_start(4)]
+stack의 top_index에 해당하는 인덱스에 저장된 값을 출력하세요.
+[self_end(4)]
+[cond_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+스택의 크기를 저장한 N의 반복문을 종료하세요.
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

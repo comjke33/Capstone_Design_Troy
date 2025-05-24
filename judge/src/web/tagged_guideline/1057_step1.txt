@@ -1,0 +1,81 @@
+[func_def_start(0)]
+UTF-8 문자열을 코드 포인트로 변환하는 `utf8_to_codepoint` 함수를 정의하세요.
+unsigned char형 포인터 `utf8`를 매개변수로 받습니다.
+이 포인터는 UTF-8로 인코딩된 문자열을 가리킵니다.
+[self_start(1)]
+3바이트 UTF-8 문자에 대한 코드 포인트를 계산하여 반환합니다.
+[self_end(1)]
+[self_start(1)]
+첫 번째 바이트의 상위 4비트를 추출하여 왼쪽으로 12비트 이동시키세요.
+[self_end(1)]
+[self_start(1)]
+두 번째 바이트의 하위 6비트를 추출하여 왼쪽으로 6비트 이동시키세요.
+[self_end(1)]
+[self_start(1)]
+마지막으로 세 번째 바이트의 하위 6비트를 더하세요.
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+길이가 301인 char 배열 `input`을 선언하세요.
+이 배열은 사용자로부터 입력받는 문자열을 저장합니다.
+[self_end(1)]
+[self_start(1)]
+fgets 함수를 사용하여 `input`에 문자열을 입력받으세요.
+입력의 최대 길이는 300자입니다.
+[self_end(1)]
+[rep_start(1)]
+i 변수를 0으로 초기화하고, `input[i]`가 널 문자가 아닐 때까지 반복하는 for문을 작성하세요.
+문자열의 각 문자에 대해 처리하기 위한 루프입니다.
+[self_start(2)]
+unsigned char형 포인터 `ptr`을 선언하고 `input[i]`의 주소를 할당하세요.
+`ptr`은 현재 문자에 대한 UTF-8 포인터입니다.
+[self_end(2)]
+[cond_start(2)]
+첫 번째 바이트의 상위 4비트가 0xE0인지 확인하는 if문을 작성하세요.
+이 조건은 현재 문자가 3바이트 UTF-8 문자임을 확인합니다.
+[self_start(3)]
+UTF-8 코드를 `utf8_to_codepoint` 함수에 전달하여 변수 `code`에 할당하세요.
+현재 문자의 코드 포인트를 얻기 위한 단계입니다.
+[self_end(3)]
+[cond_start(3)]
+`code`가 0xAC00 이상이고 0xD7A3 이하인지 확인하는 if문을 작성하세요.
+이 범위는 유효한 한글 완성형 문자를 나타냅니다.
+[self_start(4)]
+변수 `s_index`를 선언하고, `code`에서 0xAC00을 뺀 값을 할당하세요.
+이 값은 초성, 중성, 종성을 계산하는 데 사용됩니다.
+[self_end(4)]
+[double_start(4)]
+변수 `cho`를 선언하고 `s_index`를 21배와 28로 나누어 정수값을 할당하세요.
+이 값은 초성을 찾기 위한 인덱스를 나타냅니다.
+[self_end(4)]
+[self_start(4)]
+변수 `jung`을 선언하고 `(s_index를 21배와 28로 나눈 나머지)`를 28로 나눈 값을 할당하세요.
+이 값은 중성을 찾기 위한 인덱스를 나타냅니다.
+[self_end(4)]
+[self_start(4)]
+변수 `jong`을 선언하고 `s_index`를 28로 나눈 나머지를 할당하세요.
+이 값은 종성을 찾기 위한 인덱스를 나타냅니다.
+[self_end(4)]
+printf 함수를 사용하여 초성, 중성, 종성을 공백으로 구분하여 출력하세요.
+종성이 없는 경우 `(없음)`을 출력해야 합니다.
+[self_end(4)]
+[cond_end(3)]
+[self_start(3)]
+i를 3 증가시켜 다음 문자로 이동하세요.
+[self_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+현재 문자가 3바이트 UTF-8 문자가 아닌 경우 else 문을 작성하세요.
+이 조건에서는 단일 바이트 문자를 처리합니다.
+[self_start(3)]
+i를 1 증가시켜 다음 문자로 이동하세요.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

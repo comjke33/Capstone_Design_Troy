@@ -1,0 +1,72 @@
+[block0]
+
+int count_all_odd_digits (int arr[], int size ) {
+
+    int count =0;
+
+    for (int i =0; i <size; i++) {
+
+        int n =arr[i];
+
+
+        int all_odd =1;
+
+
+        while (n >0 ) {
+
+            int digit =n %10;
+
+
+            if (digit %2 ==0 ) {
+
+                all_odd =0;
+
+
+                break;
+
+
+            }
+
+            n /=10;
+
+
+        }
+
+        if (all_odd ) {
+
+            count++;
+
+
+        }
+
+    }
+
+    return count;
+
+[block1]
+int main (void ) {
+
+    int n;
+
+
+    scanf ("%d", &n );
+
+
+    int arr[100];
+
+
+
+[block2]
+
+    for (int i =0; i <n; i++) {
+
+        scanf ("%d", &arr[i] );
+
+}
+
+[block3]
+    printf ("%d", count_all_odd_digits (arr, n ) );
+
+
+    return 0;
+

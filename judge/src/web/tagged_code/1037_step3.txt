@@ -1,0 +1,43 @@
+[block0]
+int main (void ) {
+
+    int n;
+
+
+    scanf ("%d", &n );
+
+
+    int is_prime =1;
+
+[block1]
+    if (n <2 ) {
+
+        is_prime =0;
+
+
+    }
+[block2]
+    else {
+
+        for (int i =2; i *i <=n; i++) {
+
+            if (n %i ==0 ) {
+
+                is_prime =0;
+
+
+                break;
+
+
+            }
+
+        }
+
+    }
+
+[block3]
+    printf ("%d", is_prime );
+
+
+    return 0;
+

@@ -1,0 +1,66 @@
+[func_def_start(0)]
+remove_element 함수를 정의하세요.  
+int형 배열 arr를 매개변수로 받습니다.  
+정수형 변수 size를 매개변수로 받아 배열의 크기를 나타냅니다.  
+정수형 변수 target을 매개변수로 받아 변경할 특정 정수를 나타냅니다.  
+[rep_start(1)]
+size보다 작은 i를 가진 변수를 0부터 시작하여 1씩 증가하며 반복하는 for문을 작성하세요.  
+배열의 각 요소를 확인하기 위한 반복문입니다.  
+[cond_start(2)]
+arr[i]와 target이 같을 때 동작하는 if문을 작성하세요.  
+현재 배열 요소가 target과 일치하는지 확인하는 조건문입니다.  
+[self_start(3)]
+현재 배열 요소를 -1로 변경하세요.  
+target 변수와 일치하는 요소를 -1로 설정합니다.  
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main 함수를 정의하세요.  
+[self_start(1)]
+정수형 변수 n과 x를 선언하세요.  
+배열의 크기와 특정 정수를 저장하기 위한 변수입니다.  
+[self_end(1)]
+[self_start(1)]
+길이가 100인 int형 배열 arr를 선언하세요.  
+최대 100개의 정수를 저장하기 위한 배열입니다.  
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 n을 입력 받으세요.  
+배열의 크기를 사용자로부터 입력 받습니다.  
+[self_end(1)]
+[rep_start(1)]
+i가 0부터 n보다 작을 때까지 1씩 증가하며 반복하는 for문을 작성하세요.  
+배열에 사용자로부터 입력된 정수를 저장하기 위한 반복문입니다.  
+[self_start(2)]
+해당 인덱스에 배열의 값을 입력 받으세요.  
+사용자가 입력한 정수를 배열 arr[i]에 저장합니다.  
+[self_end(2)]
+[rep_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 x를 입력 받으세요.  
+변경할 특정 정수를 사용자로부터 입력 받습니다.  
+[self_end(1)]
+[self_start(1)]
+remove_element(arr, n, x)를 호출하세요.  
+remove_element 함수에 arr, n, x를 인자로 전달하여 특정 정수를 -1로 변경합니다.  
+[self_end(1)]
+[rep_start(1)]
+i가 0부터 n보다 작을 때까지 1씩 증가하며 반복하는 for문을 작성하세요.  
+변경된 배열의 요소를 출력하기 위한 반복문입니다.  
+[cond_start(2)]
+arr[i]가 -1이 아닐 때 동작하는 if문을 작성하세요.  
+현재 배열 요소가 -1이 아닐 때만 출력하기 위한 조건문입니다.  
+[self_start(3)]
+배열 요소를 출력하세요.  
+-1로 변경되지 않은 배열 요소를 공백과 함께 출력합니다.  
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.  
+main 함수가 끝나는 지점입니다.  
+[self_end(1)]
+[main_def_end(0)]

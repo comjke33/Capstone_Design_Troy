@@ -1,0 +1,19 @@
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+문자열을 저장할 char 배열 str(101 크기), 대문자와 소문자 개수를 저장할 int 변수 upper와 lower(둘 다 0으로 초기화) 를 선언하고 문자열을 입력받으세요.
+[self_end(1)]
+[rep_start(1)]
+str 배열의 각 문자를 확인하기 위해 i 변수를 사용하여 반복하는 for문을 작성하세요.
+[cond_start(2)]
+현재 문자가 대문자인지 확인하고, 대문자라면 upper를 1 증가시키세요.
+[cond_end(2)]
+[cond_start(2)]
+현재 문자가 소문자인지 확인하고, 소문자라면 lower를 1 증가시키세요.
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+대문자 개수를 출력하고, 줄을 바꾼 후 소문자 개수를 출력하세요.
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

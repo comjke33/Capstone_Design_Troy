@@ -1,0 +1,45 @@
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+정수형 변수 n과 count를 선언하세요. count는 소수의 개수를 셀 변수입니다.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 사용자로부터 정수 n을 입력 받으세요.
+[self_end(1)]
+[rep_start(1)]
+i가 2부터 n까지 증가하는 for문을 작성하세요.
+여기서 i는 확인하고자 하는 소수 후보입니다.
+[self_start(2)]
+정수형 변수 is_prime을 1로 초기화하세요. 이 변수는 해당 i가 소수인지 여부를 표시합니다.
+[self_end(2)]
+[rep_start(2)]
+j가 2부터 j * j가 i보다 작거나 같을 때까지 증가하는 for문을 작성하세요.
+j는 소수인지를 판단하기 위한 나누는 수입니다.
+[cond_start(3)]
+i를 j로 나눴을 때 나머지가 0이면 동작하는 if문을 작성하세요.
+i가 j로 나누어떨어지면 소수가 아님을 의미합니다.
+[self_start(4)]
+is_prime을 0으로 설정하세요. 즉, 해당 i는 소수가 아닙니다.
+[self_end(4)]
+[self_start(4)]
+반복문을 종료하도록 break 문을 작성하세요.
+[self_end(4)]
+[cond_end(3)]
+[rep_end(2)]
+[cond_start(2)]
+is_prime이 참이면 동작하는 if문을 작성하세요.
+해당 i가 소수라는 의미입니다.
+[self_start(3)]
+count를 1 증가시키세요.
+소수가 발견되었으므로 count를 업데이트합니다.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+printf 함수를 사용하여 count를 출력하세요.
+소수의 개수를 출력합니다.
+[self_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

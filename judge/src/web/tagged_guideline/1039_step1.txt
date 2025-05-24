@@ -1,0 +1,46 @@
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+정수형 변수 n을 선언하세요.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 사용자가 입력한 세 자리 양의 정수를 n에 저장하세요.
+[self_end(1)]
+[self_start(1)]
+정수형 변수 hundreds를 선언하고 n을 100으로 나눈 값으로 초기화하세요.
+백의 자리를 구하는 과정입니다.
+[self_end(1)]
+[self_start(1)]
+정수형 변수 tens를 선언하고 n을 10으로 나눈 후 10으로 나눈 나머지로 초기화하세요.
+십의 자리를 구하는 과정입니다.
+[self_end(1)]
+[self_start(1)]
+정수형 변수 ones를 선언하고 n을 10으로 나눈 나머지로 초기화하세요.
+일의 자리를 구하는 과정입니다.
+[self_end(1)]
+[self_start(1)]
+정수형 변수 max를 선언하고 hundreds로 초기화하세요.
+현재까지 구한 가장 큰 수를 저장하기 위한 변수입니다.
+[self_end(1)]
+[cond_start(1)]
+tens가 max보다 클 때 동작하는 if문을 작성하세요.
+십의 자리가 max보다 크면 업데이트할 수 있습니다.
+[self_start(2)]
+max를 tens로 업데이트하세요.
+[self_end(2)]
+[cond_end(1)]
+[cond_start(1)]
+ones가 max보다 클 때 동작하는 if문을 작성하세요.
+일의 자리가 max보다 크면 업데이트할 수 있습니다.
+[self_start(2)]
+max를 ones로 업데이트하세요.
+[self_end(2)]
+[cond_end(1)]
+[self_start(1)]
+max 값을 출력하세요.
+세 자리 양의 정수에서 가장 큰 자릿수를 출력하는 과정입니다.
+[self_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

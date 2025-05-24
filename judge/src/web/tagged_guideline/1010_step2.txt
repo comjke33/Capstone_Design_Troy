@@ -1,0 +1,35 @@
+[main_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+N을 입력받아 N*N 크기의 행렬 A, B, 합을 저장할 행렬 sum을 선언하세요.
+[self_end(1)]
+[rep_start(1)]
+N만큼 반복하여 A 행렬의 값을 입력받으세요.
+[rep_start(2)]
+N만큼 반복하여 A 행렬의 각 요소를 입력받으세요.
+[rep_end(2)]
+[rep_end(1)]
+[rep_start(1)]
+N만큼 반복하여 B 행렬의 값을 입력받으세요.
+[rep_start(2)]
+N만큼 반복하여 B 행렬의 각 요소를 입력받으세요.
+[rep_end(2)]
+[rep_end(1)]
+[rep_start(1)]
+N만큼 반복하여 sum 행렬의 각 요소를 A 행렬과 B 행렬을 더한 값으로 초기화하세요.
+[rep_start(2)]
+N만큼 반복하여 sum 행렬의 각 요소를 A 행렬과 B 행렬의 해당 요소를 더한 값으로 초기화하세요.
+[rep_end(2)]
+[rep_end(1)]
+[rep_start(1)]
+N만큼 반복하여 sum 행렬의 각 요소를 출력하세요.
+[rep_start(2)]
+N만큼 반복하여 sum 행렬의 각 요소를 출력하세요.
+[rep_end(2)]
+[self_start(2)]
+줄바꿈을 출력하세요.
+[self_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]

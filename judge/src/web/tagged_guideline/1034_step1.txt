@@ -1,0 +1,81 @@
+[func_def_start(0)]
+정수형 배열과 정수형 변수(size)를 매개변수로 받는 count_all_odd_digits 함수를 정의하세요.
+int형 포인터 배열 arr은 입력된 정수 배열을 나타냅니다.
+int형 변수 size는 배열의 크기를 나타냅니다.
+[self_start(1)]
+정수를 세기 위한 변수 count를 0으로 초기화하세요.
+[self_end(1)]
+[rep_start(1)]
+i가 0부터 size보다 작을 때까지 1씩 증가하면서 반복하는 for문을 작성하세요.
+각 원소에 대한 검사를 위한 반복문입니다.
+[self_start(2)]
+배열의 i번째 원소를 n에 저장하세요.
+[self_end(2)]
+[self_start(2)]
+모든 자릿수가 홀수임을 나타내기 위해 all_odd 변수를 1로 초기화하세요.
+[self_end(2)]
+[rep_start(2)]
+n이 0보다 클 때 동작하는 while문을 작성하세요.
+n의 각 자릿수를 검사하기 위한 반복문입니다.
+[self_start(3)]
+n을 10으로 나눈 나머지를 digit 변수에 저장하세요.
+각 자릿수를 분리하기 위한 과정입니다.
+[self_end(3)]
+[cond_start(3)]
+digit이 2로 나눈 나머지가 0이면 동작하는 if문을 작성하세요.
+digit이 짝수인지 검사하는 조건문입니다.
+[self_start(4)]
+all_odd 변수를 0으로 설정하세요.
+홀수가 아닐 때 상태 플래그를 변경합니다.
+[self_end(4)]
+[self_start(4)]
+반복문을 중단하기 위해 break 문을 사용하세요.
+[self_end(4)]
+[cond_end(3)]
+[self_start(3)]
+n을 10으로 나누어 n의 값을 줄이세요.
+각 자릿수를 처리하기 위한 과정입니다.
+[self_end(3)]
+[rep_end(2)]
+[cond_start(2)]
+all_odd이 참일 때 동작하는 if문을 작성하세요.
+이 조건은 n의 모든 자릿수가 홀수인지를 검사하는 용도입니다.
+[self_start(3)]
+count를 1 증가시켜 홀수인 숫자의 개수를 세세요.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+count를 반환하세요.
+이 함수가 세고 있는 홀수 자릿수 숫자의 총 개수입니다.
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+입력 받을 정수 n을 저장할 변수 n을 선언하세요.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 사용자로부터 n 값(전체 입력 수)을 받아 저장하세요.
+[self_end(1)]
+[self_start(1)]
+길이가 100인 int형 배열 arr을 선언하세요.
+입력할 정수를 저장하기 위한 배열입니다.
+[self_end(1)]
+[rep_start(1)]
+i가 0부터 n보다 적을 때까지 1씩 증가하면서 반복하는 for문을 작성하세요.
+n만큼의 정수를 입력 받기 위한 반복문입니다.
+[self_start(2)]
+arr의 i번째 위치에 사용자로부터 입력된 정수를 저장하세요.
+각 정수를 배열에 차례로 저장하는 과정입니다.
+[self_end(2)]
+[rep_end(1)]
+[self_start(1)]
+count_all_odd_digits 함수를 호출하여 arr과 n을 인자로 넘겨 반환 값을 출력하세요.
+홀수 자릿수 숫자의 개수를 출력하는 과정입니다.
+[self_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

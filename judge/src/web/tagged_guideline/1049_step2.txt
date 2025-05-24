@@ -1,0 +1,18 @@
+[func_def_start(0)]
+정수 n을 매개변수로 받는 int 반환형 `fibonacci` 함수를 정의하세요.
+피보나치 수열의 n번째 항을 계산하는 함수입니다.
+[cond_start(1)]
+만약 n이 1 또는 2라면, 1을 반환하도록 조건을 설정하세요.
+[cond_end(1)]
+[self_start(1)]
+재귀적으로 n-1과 n-2 항의 합을 반환하세요.
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+정수를 저장할 변수 n과 그 결과를 저장할 변수 result를 선언하고 n을 입력받으세요. result는 fibonacci 함수의 반환값으로 초기화합니다.
+결과를 출력하고 프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

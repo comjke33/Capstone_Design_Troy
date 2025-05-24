@@ -1,0 +1,62 @@
+[block0]
+int main (void ) {
+
+    int a, b, c;
+
+
+    scanf ("%d %d %d", &a, &b, &c );
+
+
+    int max, side1, side2;
+
+[block1]
+    if (a >=b &&a >=c ) {
+
+        max =a;
+
+
+        side1 =b;
+
+
+        side2 =c;
+
+
+    }
+
+[block2]
+    else if (b >=a &&b >=c ) {
+
+        max =b;
+
+
+        side1 =a;
+
+
+        side2 =c;
+
+
+    }
+
+[block3]
+    else {
+
+        max =c;
+
+
+        side1 =a;
+
+
+        side2 =b;
+
+
+    }
+
+[block4]
+    int is_right =(side1 *side1 +side2 *side2 ==max *max ) ? 1 : 0;
+
+
+    printf ("%d", is_right );
+
+
+    return 0;
+

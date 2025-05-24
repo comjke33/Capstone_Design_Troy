@@ -1,0 +1,36 @@
+#include <stdio.h>
+[main_def_start(0)]
+int main (void ) {
+[self_start(1)]
+    char str[101];
+    int product =1;
+    int has_digit =0;
+    scanf ("%s", str );
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; str[i] !='\0'; i++) {
+[cond_start(2)]
+        if ('0' <=str[i] &&str[i] <='9' ) {
+
+            product *=(str[i] -'0' );
+            has_digit =1;
+
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[cond_start(1)]
+    if (has_digit ) {
+    printf ("%d", product );
+[cond_end(1)]
+}
+[cond_start(1)]
+    else {
+    printf ("0" );
+[cond_end(1)]
+}
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

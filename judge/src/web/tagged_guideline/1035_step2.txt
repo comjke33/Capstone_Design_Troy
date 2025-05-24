@@ -1,0 +1,24 @@
+[func_def_start(0)]
+int형 변수 a와 b를 매개변수로 받는 int 반환형 `count_common_divisors` 함수를 정의하세요.
+두 수의 공통 약수의 개수를 세는 함수입니다.
+[self_start(1)]
+count를 0으로 초기화 하고 두 수 중 작은 값을 min에 저장하세요.
+[self_end(1)]
+[rep_start(1)]
+min 이하의 모든 자연수를 반복하는 for문을 작성하세요.
+[cond_start(2)]
+a와 b의 i로 나누었을 때 나머지가 0인지 확인하여 두 수 모두의 약수라면 count를 1 증가하세요.
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+count를 반환하세요.
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main함수입니다.
+[self_start(1)]
+int형 변수 a와 b를 선언하고, 두 정수를 입력받으세요.
+count_common_divisors 함수를 호출하여 결과를 저장하고 출력해야 합니다.
+[self_end(1)]
+[main_def_end(0)]

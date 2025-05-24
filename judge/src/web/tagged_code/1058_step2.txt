@@ -1,0 +1,117 @@
+#include <stdio.h>
+#include <string.h>
+[main_def_start(0)]
+int main () {
+[self_start(1)]
+    int queue[2000000];
+    int front =0;
+    int rear =-1;
+    int size =0;
+    int n;
+    scanf ("%d", &n );
+    char command[10];
+    int x;
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; i <n; i++) {
+[self_start(2)]
+        scanf ("%s", command );
+[self_end(2)]
+[cond_start(2)]
+        if (strcmp (command, "push" ) ==0 ) {
+
+            scanf ("%d", &x );
+            rear =(rear +1 ) %2000000;
+            queue[rear] =x;
+            size++;
+
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else if (strcmp (command, "pop" ) ==0 ) {
+[cond_start(3)]
+            if (size ==0 ) {
+
+                printf ("-1\n" );
+
+[cond_end(3)]
+            }
+[cond_start(3)]
+            else {
+
+                printf ("%d\n", queue[front] );
+                front =(front +1 ) %2000000;
+                size--;
+
+[cond_end(3)]
+            }
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else if (strcmp (command, "size" ) ==0 ) {
+
+            printf ("%d\n", size );
+
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else if (strcmp (command, "empty" ) ==0 ) {
+[cond_start(3)]
+            if (size ==0 ) {
+
+                printf ("1\n" );
+
+[cond_end(3)]
+            }
+[cond_start(3)]
+            else {
+
+                printf ("0\n" );
+
+[cond_end(3)]
+            }
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else if (strcmp (command, "front" ) ==0 ) {
+[cond_start(3)]
+            if (size ==0 ) {
+
+                printf ("-1\n" );
+
+[cond_end(3)]
+            }
+[cond_start(3)]
+            else {
+
+                printf ("%d\n", queue[front] );
+
+[cond_end(3)]
+            }
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else if (strcmp (command, "back" ) ==0 ) {
+[cond_start(3)]
+            if (size ==0 ) {
+
+                printf ("-1\n" );
+
+[cond_end(3)]
+            }
+[cond_start(3)]
+            else {
+
+                printf ("%d\n", queue[rear] );
+
+[cond_end(3)]
+            }
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

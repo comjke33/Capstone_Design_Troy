@@ -1,0 +1,59 @@
+[func_def_start(0)]
+`reverse_copy`라는 이름의 void 함수 정의를 시작하세요.
+정수형 배열 src[], 배열 dest[], 그리고 정수형 변수 size를 매개변수로 받습니다.
+[rep_start(1)]
+size만큼 반복하는 for문을 작성하세요.
+이 반복문은 src 배열의 요소들을 dest 배열에 역순으로 복사하는 역할을 합니다.
+[self_start(2)]
+dest 배열의 i번째 요소에 src 배열의 size-1-i번째 요소를 할당하세요.
+src의 마지막 요소부터 첫 번째 요소까지 순서대로 복사하는 작업입니다.
+[self_end(2)]
+[rep_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+정수형 변수 n을 선언하여 배열의 크기를 저장할 공간을 만드세요.
+[self_end(1)]
+[self_start(1)]
+사이즈가 100인 정수형 배열 src와 dest를 선언하세요.
+첫 번째 배열은 입력받을 값을 저장하고, 두 번째 배열은 복사 결과를 담습니다.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 n의 값을 입력받으세요.
+입력받은 n은 배열의 크기를 나타냅니다.
+[self_end(1)]
+[rep_start(1)]
+0부터 n-1까지 반복하면서 정수를 입력받는 for문을 작성하세요.
+배열 src에 n개의 정수를 입력받는 과정입니다.
+[self_start(2)]
+각각의 i 인덱스에 해당하는 src 배열 요소에 스캔한 값을 저장하세요.
+입력한 정수를 src[i]에 저장합니다.
+[self_end(2)]
+[rep_end(1)]
+[self_start(1)]
+`reverse_copy` 함수를 호출하여 src 배열의 내용을 dest 배열에 역순으로 복사하세요.
+src에는 입력값이, dest에는 역순 저장 결과가 담깁니다.
+[self_end(1)]
+[rep_start(1)]
+0부터 n-1까지 반복하는 for문을 작성하세요.
+dest 배열의 요소를 출력하는 과정입니다.
+[self_start(2)]
+각각의 i 인덱스에 해당하는 dest 배열 요소를 출력하세요.
+복사한 결과를 출력하는 작업입니다.
+[self_end(2)]
+[cond_start(2)]
+i가 n-1보다 작을 때 동작하는 if문을 작성하세요.
+출력하는 숫자 사이에 공간을 추가하는 조건입니다.
+[self_start(3)]
+공백을 출력하세요.
+숫자 사이에 공백을 두기 위한 코드입니다.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 정상적으로 종료하는 return 0;을 작성하세요.
+이 코드는 main 함수의 끝을 나타냅니다.
+[self_end(1)]
+[main_def_end(0)]

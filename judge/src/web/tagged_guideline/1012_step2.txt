@@ -1,0 +1,43 @@
+[self_start(0)]
+정휘는 후배들이 재귀 함수를 잘 다루는 재귀의 귀재인지 알아보기 위해 재귀 함수와 관련된 문제를 출제하기로 했습니다.
+[self_end(0)]
+
+[func_def_start(0)]
+[self_start(1)]
+정휘는 문자열이 팰린드롬인지 판별하는 것을 목표로 합니다.
+[self_end(1)]
+[self_start(1)]
+[cond_start(1)]
+문자열의 시작과 끝을 비교하여 같은지 확인하는 조건입니다.
+[cond_end(1)]
+[self_end(1)]
+[self_start(1)]
+[func_def_start(1)]
+[self_start(2)]
+s[l] != s[r] 조건에서 비활성 상태입니다.
+[self_end(2)]
+[func_def_end(0)]
+
+[func_def_start(0)]
+[self_start(1)]
+isPalindrome 함수입니다.
+[self_end(1)]
+[self_start(1)]
+정휘가 작성한 재귀 함수를 호출하여 팰린드롬 여부를 판별합니다.
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+[self_start(1)]
+프로그램을 실행할 때 T를 입력받습니다.
+[self_end(1)]
+[cond_start(1)]
+입력받은 T의 개수가 1개가 아니라면 프로그램을 종료합니다.
+[cond_end(1)]
+[rep_start(1)]
+입력받은 T만큼 반복하며 문자열을 받고 isPalindrome 함수를 호출하여 결과를 출력합니다.
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료합니다.
+[self_end(1)]
+[main_def_end(0)]

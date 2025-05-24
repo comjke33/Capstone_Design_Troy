@@ -1,0 +1,44 @@
+#include <stdio.h>
+[func_def_start(0)]
+int find_min (int arr[], int size ) {
+[self_start(1)]
+    int min =arr[0];
+[self_end(1)]
+[rep_start(1)]
+    for (int i =1; i <size; i++) {
+[cond_start(2)]
+        if (arr[i] <min ) {
+
+            min =arr[i];
+
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    return min;
+[self_end(1)]
+[func_def_end(0)]
+}
+
+[main_def_start(0)]
+int main (void ) {
+[self_start(1)]
+    int n;
+    int arr[100];
+    scanf ("%d", &n );
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; i <n; i++) {
+
+        scanf ("%d", &arr[i] );
+
+[rep_end(1)]
+    }
+[self_start(1)]
+    int result =find_min (arr, n );
+    printf ("%d", result );
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

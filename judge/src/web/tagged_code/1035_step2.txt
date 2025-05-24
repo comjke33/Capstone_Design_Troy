@@ -1,0 +1,35 @@
+#include <stdio.h>
+[func_def_start(0)]
+int count_common_divisors (int a, int b ) {
+[self_start(1)]
+    int count =0;
+    int min =(a <b ) ? a : b;
+[self_end(1)]
+[rep_start(1)]
+    for (int i =1; i <=min; i++) {
+[cond_start(2)]
+        if (a %i ==0 &&b %i ==0 ) {
+
+            count++;
+
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    return count;
+[self_end(1)]
+[func_def_end(0)]
+}
+
+[main_def_start(0)]
+int main (void ) {
+[self_start(1)]
+    int a, b;
+    scanf ("%d %d", &a, &b );
+    int result =count_common_divisors (a, b );
+    printf ("%d", result );
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

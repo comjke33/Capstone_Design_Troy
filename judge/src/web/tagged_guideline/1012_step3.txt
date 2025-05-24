@@ -1,0 +1,8 @@
+[block0]
+The program starts by reading an integer `T` from the input.  It also includes error checking to ensure that the input for `T` was successfully read.
+
+[block1]
+The program reads a string `S` from the input. It then calls the function `isPalindrome` to determine if the string is a palindrome and stores the result in the variable `result`.  It also initializes a variable `cnt` and prints the values of `result` and `cnt` to the console.
+
+[block2]
+The program terminates by returning 0.

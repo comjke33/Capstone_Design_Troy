@@ -1,0 +1,155 @@
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+길이가 2000000인 int형 배열 queue를 선언하세요.
+이 배열은 큐에 저장된 정수값들을 저장하기 위해 사용됩니다.
+[self_end(1)]
+[self_start(1)]
+정수를 저장할 front 변수를 0으로 초기화하여 앞쪽 인덱스를 나타냅니다.
+[self_end(1)]
+[self_start(1)]
+정수를 저장할 rear 변수를 -1로 초기화하여 큐의 뒤쪽 인덱스를 나타냅니다.
+[self_end(1)]
+[self_start(1)]
+현재 큐에 저장된 정수의 개수를 나타내는 size 변수를 0으로 초기화합니다.
+[self_end(1)]
+[self_start(1)]
+입력을 받을 n 변수를 선언합니다.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 n에 정수값을 입력 받습니다.
+이 값은 총 명령의 개수입니다.
+[self_end(1)]
+[self_start(1)]
+길이가 10인 char 배열 command를 선언하세요.
+명령어를 저장하기 위해 사용됩니다.
+[self_end(1)]
+[self_start(1)]
+정수를 저장할 x 변수를 선언합니다.
+push 명령 시 사용할 값을 저장합니다.
+[self_end(1)]
+[rep_start(1)]
+i가 0부터 n보다 작을 때까지 1씩 증가하면서 반복하는 for문을 작성하세요.
+명령을 처리하기 위한 반복문입니다.
+[self_start(2)]
+scanf 함수를 사용하여 command에 문자열을 입력 받습니다.
+입력 명령어를 확인합니다.
+[self_end(2)]
+[cond_start(2)]
+command가 "push"와 같다면 동작하는 if문을 작성하세요.
+queue에 값을 추가하기 위한 명령입니다.
+[self_start(3)]
+scanf 함수를 사용하여 x에 정수를 입력 받습니다.
+사용자가 추가할 값을 저장합니다.
+[self_end(3)]
+[self_start(3)]
+rear 값을 1 증가시키고 2000000으로 나눈 나머지를 구하여 값을 저장합니다.
+큐가 순환형이기 때문에 rear를 적절하게 조정합니다.
+[self_end(3)]
+[self_start(3)]
+queue[rear]에 x 값을 저장하여 큐에 정수를 추가합니다.
+[self_end(3)]
+[self_start(3)]
+size를 1 증가시켜 현재 큐의 크기를 업데이트합니다.
+[self_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+command가 "pop"와 같다면 동작하는 else if문을 작성하세요.
+큐의 가장 앞에 있는 정수를 빼고 출력을 위한 명령입니다.
+[cond_start(3)]
+size가 0이면 동작하는 if문을 작성하세요.
+큐가 비어있을 때의 상황입니다.
+[self_start(4)]
+printf 함수를 사용하여 "-1"을 출력하세요.
+큐가 비어있음을 나타냅니다.
+[self_end(4)]
+[cond_end(3)]
+[cond_start(3)]
+그렇지 않다면 동작하는 else 블록을 작성하세요.
+큐에 정수가 존재할 경우의 처리입니다.
+[self_start(4)]
+printf 함수를 사용하여 queue[front]의 값을 출력하세요.
+큐의 앞쪽 값입니다.
+[self_end(4)]
+[self_start(4)]
+front 값을 1 증가시키고 2000000으로 나눈 나머지를 구하여 값을 저장합니다.
+큐가 순환형이기 때문에 front를 적절하게 조정합니다.
+[self_end(4)]
+[self_start(4)]
+size를 1 감소시켜 현재 큐의 크기를 업데이트합니다.
+[self_end(4)]
+[cond_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+command가 "size"와 같다면 동작하는 else if문을 작성하세요.
+큐의 크기를 출력하기 위한 명령입니다.
+[self_start(3)]
+printf 함수를 사용하여 size 값을 출력하세요.
+큐에 저장된 정수의 개수입니다.
+[self_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+command가 "empty"와 같다면 동작하는 else if문을 작성하세요.
+큐가 비어있는지를 확인하는 명령입니다.
+[cond_start(3)]
+size가 0이면 동작하는 if문을 작성하세요.
+큐가 비어있는 경우입니다.
+[self_start(4)]
+printf 함수를 사용하여 "1"을 출력하세요.
+큐가 비어있음을 나타냅니다.
+[self_end(4)]
+[cond_end(3)]
+[cond_start(3)]
+그렇지 않다면 동작하는 else 블록을 작성하세요.
+큐에 정수가 존재하는 경우입니다.
+[self_start(4)]
+printf 함수를 사용하여 "0"을 출력하세요.
+큐에 정수가 존재함을 나타냅니다.
+[self_end(4)]
+[cond_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+command가 "front"와 같다면 동작하는 else if문을 작성하세요.
+큐의 가장 앞쪽 값을 확인하는 명령입니다.
+[cond_start(3)]
+size가 0이면 동작하는 if문을 작성하세요.
+큐가 비어있을 때의 상황입니다.
+[self_start(4)]
+printf 함수를 사용하여 "-1"을 출력하세요.
+큐가 비어있음을 나타냅니다.
+[self_end(4)]
+[cond_end(3)]
+[cond_start(3)]
+그렇지 않다면 동작하는 else 블록을 작성하세요.
+큐에 정수가 존재할 경우의 처리입니다.
+[self_start(4)]
+printf 함수를 사용하여 queue[front]의 값을 출력하세요.
+큐의 앞쪽 값입니다.
+[self_end(4)]
+[cond_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+command가 "back"와 같다면 동작하는 else if문을 작성하세요.
+큐의 가장 뒤쪽 값을 확인하는 명령입니다.
+[cond_start(3)]
+size가 0이면 동작하는 if문을 작성하세요.
+큐가 비어있을 때의 상황입니다.
+[self_start(4)]
+printf 함수를 사용하여 "-1"을 출력하세요.
+큐가 비어있음을 나타냅니다.
+[self_end(4)]
+[cond_end(3)]
+[cond_start(3)]
+그렇지 않다면 동작하는 else 블록을 작성하세요.
+큐에 정수가 존재할 경우의 처리입니다.
+[self_start(4)]
+printf 함수를 사용하여 queue[rear]의 값을 출력하세요.
+큐의 뒤쪽 값입니다.
+[self_end(4)]
+[cond_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+return 0을 사용하여 프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

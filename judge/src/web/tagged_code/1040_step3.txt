@@ -1,0 +1,41 @@
+[block0]
+int main (void ) {
+
+    int a, b, c;
+
+
+    scanf ("%d %d %d", &a, &b, &c );
+
+
+    int middle;
+
+[block1]
+    if ((a >=b &&a <=c ) ||(a <=b &&a >=c ) ) {
+
+        middle =a;
+
+
+    }
+
+[block2]
+    else if ((b >=a &&b <=c ) ||(b <=a &&b >=c ) ) {
+
+        middle =b;
+
+
+    }
+
+[block3]
+    else {
+
+        middle =c;
+
+
+    }
+
+[block4]
+    printf ("%d", middle );
+
+
+    return 0;
+

@@ -1,0 +1,39 @@
+#include <stdio.h>
+[main_def_start(0)]
+int main (void ) {
+[self_start(1)]
+    int n, count =0;
+    scanf ("%d", &n );
+[self_end(1)]
+[rep_start(1)]
+    for (int i =2; i <=n; i++) {
+[self_start(2)]
+        int is_prime =1;
+[self_end(2)]
+[rep_start(2)]
+        for (int j =2; j *j <=i; j++) {
+[cond_start(3)]
+            if (i %j ==0 ) {
+
+                is_prime =0;
+                break;
+
+[cond_end(3)]
+            }
+[rep_end(2)]
+        }
+[cond_start(2)]
+        if (is_prime ) {
+
+            count++;
+
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    printf ("%d", count );
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

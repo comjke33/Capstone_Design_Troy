@@ -1,0 +1,31 @@
+#include <stdio.h>
+[main_def_start(0)]
+int main (void ) {
+[self_start(1)]
+    int n;
+    scanf ("%d", &n );
+    int hundreds =n /100;
+    int tens =(n /10 ) %10;
+    int ones =n %10;
+    int max =hundreds;
+[self_end(1)]
+[cond_start(1)]
+if (tens >max ) {
+
+max =tens;
+
+[cond_end(1)]
+}
+[cond_start(1)]
+if (ones >max ) {
+
+max =ones;
+
+[cond_end(1)]
+}
+[self_start(1)]
+    printf ("%d", max );
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

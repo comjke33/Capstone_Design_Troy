@@ -1,0 +1,43 @@
+[func_def_start(0)]
+char 타입의 kth 함수를 정의하세요.
+[self_start(1)]
+초기 len을 1로 설정하세요.
+[self_end(1)]
+[rep_start(1)]
+len이 k보다 작을 때, len을 2배로 증가시키세요.
+[rep_end(1)]
+[cond_start(1)]
+k가 1일 때 '0'을 반환하세요.
+[cond_end(1)]
+[cond_start(1)]
+k가 (len/2)보다 작거나 같으면, k번째 문자를 반환하는 함수를 재귀적으로 호출하세요.
+[cond_end(1)]
+[cond_start(1)]
+k가 (len/2)보다 크면, k번째 문자를 반환하는 함수를 재귀적으로 호출하세요.
+[self_start(2)]
+k번째 문자를 구하기 위해 k - (len/2)번째 문자를 구하세요.
+[self_end(2)]
+[cond_start(2)]
+k번째 문자가 '0'일 때 '1'을 반환하세요.
+[cond_end(2)]
+[cond_start(2)]
+k번째 문자가 '1'일 때 '0'을 반환하세요.
+[cond_end(2)]
+[cond_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+k를 입력받으세요.
+[self_end(1)]
+[cond_start(1)]
+k를 입력받은 것이 맞는지 확인하세요.
+[cond_end(1)]
+[self_start(1)]
+k번째 문자를 출력하세요.
+[self_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

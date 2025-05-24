@@ -1,0 +1,56 @@
+#include <stdio.h>
+[func_def_start(0)]
+int gcd (int a, int b ) {
+[self_start(1)]
+    int min =(a <b ) ? a : b;
+[self_end(1)]
+[self_start(1)]
+    int gcd =1;
+[self_end(1)]
+[rep_start(1)]
+    for (int i =1; i <=min; i++) {
+[cond_start(2)]
+        if (a %i ==0 &&b %i ==0 ) {
+[self_start(3)]
+            gcd =i;
+[self_end(3)]
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    return gcd;
+[self_end(1)]
+[func_def_end(0)]
+}
+
+[func_def_start(0)]
+int lcm (int a, int b ) {
+[self_start(1)]
+    return a *b /gcd (a, b );
+[self_end(1)]
+[func_def_end(0)]
+}
+
+[main_def_start(0)]
+int main () {
+[self_start(1)]
+    int A, B;
+[self_end(1)]
+[self_start(1)]
+    scanf ("%d %d", &A, &B );
+[self_end(1)]
+[self_start(1)]
+    int result_gcd =gcd (A, B );
+[self_end(1)]
+[self_start(1)]
+    int result_lcm =lcm (A, B );
+[self_end(1)]
+[self_start(1)]
+    printf ("%d %d\n", result_gcd, result_lcm );
+[self_end(1)]
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

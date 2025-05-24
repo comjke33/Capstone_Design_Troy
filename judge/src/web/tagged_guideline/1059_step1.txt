@@ -1,0 +1,80 @@
+[func_def_start(0)]
+`inputData` 함수를 정의하세요.
+float형 배열 x와 y를 매개변수로 받습니다.
+int형 변수 size를 매개변수로 받습니다.
+float형 포인터 변수 sum_x, sum_y, sum_xy, sum_x2를 매개변수로 받습니다.
+[rep_start(1)]
+size만큼 반복하는 for문을 작성하세요.
+각 반복에서 사용자로부터 x[i]와 y[i]를 입력 받기 위한 scanf 함수를 사용하세요.
+[self_start(2)]
+입력받은 x[i]와 y[i]를 각각의 배열에 저장하세요.
+[self_end(2)]
+sum_x에 x[i]를 더하세요.
+[self_start(2)]
+sum_y에 y[i]를 더하세요.
+[self_end(2)]
+sum_xy에 x[i]และy[i]의 곱을 더하세요.
+[self_start(2)]
+sum_x2에 x[i]의 제곱을 더하세요.
+[self_end(2)]
+[rep_end(1)]
+[func_def_end(0)]
+
+[func_def_start(0)]
+`calculateCoefficients` 함수를 정의하세요.
+float형 변수를 sum_x, sum_y, sum_xy, sum_x2, 각 1개씩을 매개변수로 받습니다.
+int형 변수를 size를 매개변수로 받습니다.
+float형 포인터 변수 a와 b를 매개변수로 받습니다.
+[self_start(1)]
+선형 회귀의 기울기 a를 계산하세요.
+아래 식을 기준으로 계산합니다: (size * sum_xy - sum_x * sum_y) / (size * sum_x2 - sum_x * sum_x).
+[self_end(1)]
+[self_start(1)]
+절편 b를 계산하세요.
+아래 식을 기준으로 계산합니다: (sum_y - (*a) * sum_x) / size.
+[self_end(1)]
+[func_def_end(0)]
+
+[func_def_start(0)]
+`predict` 함수를 정의하세요.
+float형 변수를 a, b 각각 1개씩을 매개변수로 받습니다.
+float형 변수를 test_x를 매개변수로 받습니다.
+[self_start(1)]
+a와 test_x에 b를 더한 결과를 반환하세요.
+선형 회귀 예측 형식인 y = ax + b 입니다.
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+길이가 10인 두 개의 float형 배열 x와 y를 선언하세요.
+[self_end(1)]
+[self_start(1)]
+이 데이터를 저장할 거나 저장할 크기인 size 변수는 10입니다.
+[self_end(1)]
+[self_start(1)]
+inputData 함수를 호출하세요.
+매개변수로 x, y, size, sum_x, sum_y, sum_xy, sum_x2의 주소를 전달하세요.
+[self_end(1)]
+[self_start(1)]
+calculateCoefficients 함수를 호출하세요. 
+sum_x, sum_y, sum_xy, sum_x2, size, a와 b의 주소를 전달하세요.
+[self_end(1)]
+[self_start(1)]
+임의의 x값을 받을 변수 test_x를 선언하세요.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 test_x에 값을 입력 받으세요.
+[self_end(1)]
+[self_start(1)]
+predict 함수를 호출하여 예측된 y값을 pred에 저장하세요.
+매개변수로 a, b 그리고 test_x를 전달하세요.
+[self_end(1)]
+[self_start(1)]
+pred 값을 소수점 둘째 자리까지 출력하세요.
+[self_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

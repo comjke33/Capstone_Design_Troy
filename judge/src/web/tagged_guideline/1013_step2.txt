@@ -1,0 +1,19 @@
+[func_def_start(0)]
+정수 a와 b가 주어졌을 때, a의 b제곱을 정확하게 계산하는 recursion 함수입니다.
+[cond_start(1)]
+b가 1이면, a를 반환하는 조건입니다.
+[cond_end(1)]
+[self_start(1)]
+a를 b-1만큼 줄이고 recursion(a, b-1)을 호출하여 곱하는 로직입니다.
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+정수 x와 y를 입력받고, recursion 함수를 호출하여 결과를 저장하는 과정입니다.
+[self_end(1)]
+[self_start(1)]
+결과를 출력하고 프로그램을 종료하는 코드입니다.
+[self_end(1)]
+[main_def_end(0)]

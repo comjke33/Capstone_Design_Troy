@@ -1,0 +1,19 @@
+[main_def_start(0)]
+main 함수 시작입니다.
+[self_start(1)]
+int형 변수 a, b, c를 선언하고, 세 변의 길이를 입력받기 위한 scanf를 작성하세요. max, side1, side2 변수를 추가로 선언하세요.
+[self_end(1)]
+[cond_start(1)]
+a, b, c 중 a가 가장 크다면 max를 a로 설정하고, side1과 side2에 b와 c를 저장하세요.
+[cond_end(1)]
+[cond_start(1)]
+b가 가장 크다면 max를 b로 설정하고, side1과 side2에 a와 c를 저장하세요.
+[cond_end(1)]
+[cond_start(1)]
+나머지 경우에는 max를 c로 설정하고, side1과 side2에 a와 b를 저장하세요.
+[cond_end(1)]
+[self_start(1)]
+is_right 변수에 피타고라스 정리를 이용하여 직각 삼각형 여부를 저장하세요.
+결과를 출력하기 위해 printf를 사용하세요.
+[self_end(1)]
+[main_def_end(0)]
