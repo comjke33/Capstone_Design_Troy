@@ -1,0 +1,141 @@
+#include <stdio.h>
+#include <string.h>
+[main_def_start(0)]
+int main () {
+[self_start(1)]
+    int queue[2000000];
+[self_end(1)]
+[self_start(1)]
+    int front =0;
+[self_end(1)]
+[self_start(1)]
+    int rear =-1;
+[self_end(1)]
+[self_start(1)]
+    int size =0;
+[self_end(1)]
+[self_start(1)]
+    int n;
+[self_end(1)]
+[self_start(1)]
+    scanf ("%d", &n );
+[self_end(1)]
+[self_start(1)]
+    char command[10];
+[self_end(1)]
+[self_start(1)]
+    int x;
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; i <n; i++) {
+[self_start(2)]
+        scanf ("%s", command );
+[self_end(2)]
+[cond_start(2)]
+        if (strcmp (command, "push" ) ==0 ) {
+[self_start(3)]
+            scanf ("%d", &x );
+[self_end(3)]
+[self_start(3)]
+            rear =(rear +1 ) %2000000;
+[self_end(3)]
+[self_start(3)]
+            queue[rear] =x;
+[self_end(3)]
+[self_start(3)]
+            size++;
+[self_end(3)]
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else if (strcmp (command, "pop" ) ==0 ) {
+[cond_start(3)]
+            if (size ==0 ) {
+[self_start(4)]
+                printf ("-1\n" );
+[self_end(4)]
+[cond_end(3)]
+            }
+[cond_start(3)]
+            else {
+[self_start(4)]
+                printf ("%d\n", queue[front] );
+[self_end(4)]
+[self_start(4)]
+                front =(front +1 ) %2000000;
+[self_end(4)]
+[self_start(4)]
+                size--;
+[self_end(4)]
+[cond_end(3)]
+            }
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else if (strcmp (command, "size" ) ==0 ) {
+[self_start(3)]
+            printf ("%d\n", size );
+[self_end(3)]
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else if (strcmp (command, "empty" ) ==0 ) {
+[cond_start(3)]
+            if (size ==0 ) {
+[self_start(4)]
+                printf ("1\n" );
+[self_end(4)]
+[cond_end(3)]
+            }
+[cond_start(3)]
+            else {
+[self_start(4)]
+                printf ("0\n" );
+[self_end(4)]
+[cond_end(3)]
+            }
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else if (strcmp (command, "front" ) ==0 ) {
+[cond_start(3)]
+            if (size ==0 ) {
+[self_start(4)]
+                printf ("-1\n" );
+[self_end(4)]
+[cond_end(3)]
+            }
+[cond_start(3)]
+            else {
+[self_start(4)]
+                printf ("%d\n", queue[front] );
+[self_end(4)]
+[cond_end(3)]
+            }
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else if (strcmp (command, "back" ) ==0 ) {
+[cond_start(3)]
+            if (size ==0 ) {
+[self_start(4)]
+                printf ("-1\n" );
+[self_end(4)]
+[cond_end(3)]
+            }
+[cond_start(3)]
+            else {
+[self_start(4)]
+                printf ("%d\n", queue[rear] );
+[self_end(4)]
+[cond_end(3)]
+            }
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

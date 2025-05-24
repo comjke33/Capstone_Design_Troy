@@ -1,0 +1,56 @@
+[block0]
+
+int find_min (int arr[], int size ) {
+
+    int min =arr[0];
+
+
+    for (int i =1; i <size; i++) {
+
+        if (arr[i] <min ) {
+
+            min =arr[i];
+
+
+        }
+
+    }
+
+    return min;
+
+
+
+
+[block1]
+int main (void ) {
+
+    int n;
+
+
+    int arr[100];
+
+
+    scanf ("%d", &n );
+
+
+
+[block2]
+
+    for (int i =0; i <n; i++) {
+
+        scanf ("%d", &arr[i] );
+
+
+
+
+[block3]
+}
+
+    int result =find_min (arr, n );
+
+
+    printf ("%d", result );
+
+
+    return 0;
+

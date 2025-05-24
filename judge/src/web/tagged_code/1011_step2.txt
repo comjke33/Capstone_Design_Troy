@@ -1,0 +1,70 @@
+#include <stdio.h>
+[func_def_start(0)]
+char kth (unsigned long long k )
+{
+[self_start(1)]
+    unsigned long long len =1;
+[self_end(1)]
+[rep_start(1)]
+    while (len <k ) {
+
+        len =len *2;
+
+[rep_end(1)]
+    }
+[cond_start(1)]
+    if (k ==1 ) {
+
+        return '0';
+
+[cond_end(1)]
+    }
+[cond_start(1)]
+    if (k <=(len /2 ) ) {
+
+        return kth (k );
+
+[cond_end(1)]
+    }
+[cond_start(1)]
+    else {
+[self_start(2)]
+        char c =kth (k -(len /2 ) );
+[self_end(2)]
+[cond_start(2)]
+        if (c =='0' ) {
+
+            return '1';
+
+[cond_end(2)]
+        }
+[cond_start(2)]
+        else {
+
+            return '0';
+
+[cond_end(2)]
+        }
+[cond_end(1)]
+    }
+[func_def_end(0)]
+}
+
+[main_def_start(0)]
+int main ()
+{
+[self_start(1)]
+    unsigned long long k;
+[self_end(1)]
+[cond_start(1)]
+    if (scanf ("%llu", &k ) ==1 ) {
+
+        putchar (kth (k ) );
+
+[cond_end(1)]
+    }
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

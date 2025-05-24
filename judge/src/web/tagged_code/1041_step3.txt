@@ -1,0 +1,50 @@
+[block0]
+int main (void ) {
+
+    char str[101];
+
+
+    char c;
+
+
+    fgets (str, sizeof (str ), stdin );
+
+
+    getchar ();
+
+
+    scanf ("%c", &c );
+
+
+    char c_lower =(c >='A' &&c <='Z' ) ? c +32 : c;
+
+
+    char c_upper =(c >='a' &&c <='z' ) ? c -32 : c;
+
+
+
+[block1]
+
+    for (int i =0; str[i] !='\0'; i++) {
+
+        if (str[i] ==c_lower ||str[i] ==c_upper ) {
+
+            if ('a' <=str[i] &&str[i] <='z' ) {
+
+                str[i] -=32;
+
+
+            }
+
+        }
+
+
+
+[block2]
+}
+
+    printf ("%s", str );
+
+
+    return 0;
+

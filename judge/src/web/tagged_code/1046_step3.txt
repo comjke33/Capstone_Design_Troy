@@ -1,0 +1,67 @@
+[block0]
+
+void remove_element (int arr[], int size, int target ) {
+
+    for (int i =0; i <size; i++) {
+
+        if (arr[i] ==target ) {
+
+            arr[i] =-1;
+
+
+        }
+
+    }
+
+
+
+[block1]
+int main (void ) {
+
+    int n, x;
+
+
+    int arr[100];
+
+
+    scanf ("%d", &n );
+
+
+
+[block2]
+
+    for (int i =0; i <n; i++) {
+
+        scanf ("%d", &arr[i] );
+
+
+
+
+[block3]
+}
+
+    scanf ("%d", &x );
+
+
+    remove_element (arr, n, x );
+
+
+
+[block4]
+
+    for (int i =0; i <n; i++) {
+
+        if (arr[i] !=-1 ) {
+
+            printf ("%d ", arr[i] );
+
+
+        }
+
+
+
+[block5]
+}
+
+    return 0;
+

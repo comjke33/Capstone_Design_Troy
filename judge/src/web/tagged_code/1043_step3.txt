@@ -1,0 +1,63 @@
+[block0]
+
+void reverse_copy (int src[], int dest[], int size ) {
+
+    for (int i =0; i <size; i++) {
+
+        dest[i] =src[size -1 -i];
+
+
+    }
+
+
+
+[block1]
+int main (void ) {
+
+    int n;
+
+
+    int src[100], dest[100];
+
+
+    scanf ("%d", &n );
+
+
+
+[block2]
+
+    for (int i =0; i <n; i++) {
+
+        scanf ("%d", &src[i] );
+
+
+
+
+[block3]
+}
+
+    reverse_copy (src, dest, n );
+
+
+
+[block4]
+
+    for (int i =0; i <n; i++) {
+
+        printf ("%d", dest[i] );
+
+
+if (i <n -1 ) {
+
+printf (" " );
+
+
+}
+
+
+
+[block5]
+}
+
+    return 0;
+

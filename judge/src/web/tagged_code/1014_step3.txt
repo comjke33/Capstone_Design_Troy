@@ -1,0 +1,35 @@
+#include<stdio.h>
+[func_def_start(0)]
+int recursion (int a, int b ) {
+[cond_start(1)]
+    if (b ==1 ) {
+[self_start(2)]
+        return a;
+[self_end(2)]
+[cond_end(1)]
+    }
+[self_start(1)]
+    return a *recursion (a, b -1 );
+[self_end(1)]
+[func_def_end(0)]
+}
+
+[main_def_start(0)]
+int main () {
+[self_start(1)]
+    int x, y;
+[self_end(1)]
+[self_start(1)]
+    scanf ("%d %d", &x, &y );
+[self_end(1)]
+[self_start(1)]
+    int result =recursion (x, y );
+[self_end(1)]
+[self_start(1)]
+    printf ("%d", result );
+[self_end(1)]
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

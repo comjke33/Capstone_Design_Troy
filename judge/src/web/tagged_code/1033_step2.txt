@@ -1,0 +1,64 @@
+#include <stdio.h>
+[func_def_start(0)]
+int count_odd (int arr[], int size ) {
+[self_start(1)]
+    int count =0;
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; i <size; i++) {
+[cond_start(2)]
+        if (arr[i] %2 !=0 ) {
+
+            count++;
+
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    return count;
+[self_end(1)]
+[func_def_end(0)]
+}
+
+[func_def_start(0)]
+int count_even (int arr[], int size ) {
+[self_start(1)]
+    int count =0;
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; i <size; i++) {
+[cond_start(2)]
+        if (arr[i] %2 ==0 ) {
+
+            count++;
+
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    return count;
+[self_end(1)]
+[func_def_end(0)]
+}
+
+[main_def_start(0)]
+int main (void ) {
+[self_start(1)]
+    int arr[10];
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; i <10; i++) {
+
+        scanf ("%d", &arr[i] );
+
+[rep_end(1)]
+    }
+[self_start(1)]
+    printf ("%d\n", count_odd (arr, 10 ) );
+    printf ("%d", count_even (arr, 10 ) );
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

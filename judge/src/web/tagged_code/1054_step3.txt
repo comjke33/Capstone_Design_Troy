@@ -1,0 +1,142 @@
+[block0]
+
+int is_same (const char*a, const char*b ) {
+
+    while (*a &&*b ) {
+
+if (*a !=*b ) {
+
+return 0;
+
+
+}
+
+        a++;
+
+
+        b++;
+
+
+    }
+
+    return (*a =='\0' &&*b =='\0' );
+
+
+
+
+[block1]
+int main () {
+
+    const int MAX =10000;
+
+
+    int stack[10000];
+
+
+    int top_index =-1;
+
+
+    int N;
+
+
+    scanf ("%d", &N );
+
+
+    char command[6];
+
+
+
+[block2]
+
+    for (int i =0; i <N; i++) {
+
+        scanf ("%s", command );
+
+
+        if (is_same (command, "push" ) ) {
+
+            int x;
+
+
+            scanf ("%d", &x );
+
+
+            top_index++;
+
+
+            stack[top_index] =x;
+
+
+        }
+
+        else if (is_same (command, "pop" ) ) {
+
+            if (top_index ==-1 ) {
+
+                printf ("-1\n" );
+
+
+            }
+
+            else {
+
+                printf ("%d\n", stack[top_index] );
+
+
+                top_index--;
+
+
+            }
+
+        }
+
+        else if (is_same (command, "size" ) ) {
+
+            printf ("%d\n", top_index +1 );
+
+
+        }
+
+        else if (is_same (command, "empty" ) ) {
+
+            if (top_index ==-1 ) {
+
+                printf ("1\n" );
+
+
+            }
+
+            else {
+
+                printf ("0\n" );
+
+
+            }
+
+        }
+
+        else if (is_same (command, "top" ) ) {
+
+            if (top_index ==-1 ) {
+
+                printf ("-1\n" );
+
+
+            }
+
+            else {
+
+                printf ("%d\n", stack[top_index] );
+
+
+            }
+
+        }
+
+
+
+[block3]
+}
+
+    return 0;
+

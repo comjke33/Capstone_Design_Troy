@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <math.h>
+[func_def_start(0)]
+void read_data (float x[], float y[], int n, float *sum_logx, float *sum_y, float *sum_logx2, float *sum_ylogx ) {
+[rep_start(1)]
+    for (int i =0; i <n; i++) {
+[self_start(2)]
+        scanf ("%f %f", &x[i], &y[i] );
+[self_end(2)]
+[self_start(2)]
+        float lx =log (x[i] );
+[self_end(2)]
+[self_start(2)]
+        *sum_logx +=lx;
+[self_end(2)]
+[self_start(2)]
+        *sum_y +=y[i];
+[self_end(2)]
+[self_start(2)]
+        *sum_logx2 +=lx *lx;
+[self_end(2)]
+[self_start(2)]
+        *sum_ylogx +=y[i] *lx;
+[self_end(2)]
+[rep_end(1)]
+    }
+[func_def_end(0)]
+}
+
+[func_def_start(0)]
+void calculate_coefficients (float sum_logx, float sum_y, float sum_logx2, float sum_ylogx, float *a, float *b ) {
+[self_start(1)]
+    *b =(5 *sum_ylogx -sum_logx *sum_y ) /(5 *sum_logx2 -sum_logx *sum_logx );
+[self_end(1)]
+[self_start(1)]
+    *a =(sum_y -(*b ) *sum_logx ) /5;
+[self_end(1)]
+[func_def_end(0)]
+}
+
+[func_def_start(0)]
+float predict_value (float a, float b, float input_x ) {
+[self_start(1)]
+    return a +b *log (input_x );
+[self_end(1)]
+[func_def_end(0)]
+}
+
+[main_def_start(0)]
+int main () {
+[self_start(1)]
+    float x[5], y[5], sum_logx =0, sum_y =0, sum_logx2 =0, sum_ylogx =0;
+[self_end(1)]
+[self_start(1)]
+    read_data (x, y, 5, &sum_logx, &sum_y, &sum_logx2, &sum_ylogx );
+[self_end(1)]
+[self_start(1)]
+    float a, b;
+[self_end(1)]
+[self_start(1)]
+    calculate_coefficients (sum_logx, sum_y, sum_logx2, sum_ylogx, &a, &b );
+[self_end(1)]
+[self_start(1)]
+    float input_x;
+[self_end(1)]
+[self_start(1)]
+    scanf ("%f", &input_x );
+[self_end(1)]
+[self_start(1)]
+    printf ("%.2f", predict_value (a, b, input_x ) );
+[self_end(1)]
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

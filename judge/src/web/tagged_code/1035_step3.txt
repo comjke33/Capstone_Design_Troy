@@ -1,0 +1,43 @@
+[block0]
+
+int count_common_divisors (int a, int b ) {
+
+    int count =0;
+
+
+    int min =(a <b ) ? a : b;
+
+
+    for (int i =1; i <=min; i++) {
+
+        if (a %i ==0 &&b %i ==0 ) {
+
+            count++;
+
+
+        }
+
+    }
+
+    return count;
+
+
+
+
+[block1]
+int main (void ) {
+
+    int a, b;
+
+
+    scanf ("%d %d", &a, &b );
+
+
+    int result =count_common_divisors (a, b );
+
+
+    printf ("%d", result );
+
+
+    return 0;
+

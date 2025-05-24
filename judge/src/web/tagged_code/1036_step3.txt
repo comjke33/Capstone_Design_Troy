@@ -1,0 +1,56 @@
+[block0]
+
+int digit_count_lcm (int a, int b ) {
+
+    int max =(a >b ) ? a : b;
+
+
+    while (1 ) {
+
+        if (max %a ==0 &&max %b ==0 ) {
+
+            break;
+
+
+        }
+
+        max++;
+
+
+    }
+
+    int count =0;
+
+
+    int result =max;
+
+
+    while (result >0 ) {
+
+        result /=10;
+
+
+        count++;
+
+
+    }
+
+    return count;
+
+
+
+
+[block1]
+int main (void ) {
+
+    int a, b;
+
+
+    scanf ("%d %d", &a, &b );
+
+
+    printf ("%d", digit_count_lcm (a, b ) );
+
+
+    return 0;
+
