@@ -194,8 +194,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // 정답을 맞춘 경우
         if (savedStatus === "correct") {
             textarea.readOnly = true;
-            // textarea.style.backgroundColor = "#d4edda";
-            // textarea.style.border = "1px solid #d4edda";
+            textarea.style.backgroundColor = "#d4edda";
+            textarea.style.border = "1px solid #d4edda";
             textarea.style.color = "#155724";
 
             // 정답을 맞춘 경우 체크 표시
