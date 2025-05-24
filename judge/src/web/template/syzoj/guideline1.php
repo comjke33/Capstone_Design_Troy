@@ -80,7 +80,7 @@ include("../../guideline_common.php");
 
 
                 // depth == 1 이면 readonly + 정답 자동 표시
-                 if ($depth == 0 && $has_correct_answer) {
+                 if ($depth == 0 || $has_correct_answer) {
                     $answer_content = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8');
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='background-color: #D4EDDA; color: #155724; border: 1px solid #c3e6cb;'>{$answer_content}</textarea>";
                 } else {
