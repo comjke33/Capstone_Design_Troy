@@ -44,7 +44,7 @@ include("../../guideline_common.php");
 
 
     <!-- 가운데 패널 -->
-    <div class="center-panel">
+<div class="center-panel">
     <h1>기초 풀기</h1>
 
     <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
@@ -56,8 +56,6 @@ include("../../guideline_common.php");
 
         foreach ($blocks as $block) {
             $depth = $block['depth'];
-            echo "<script>console.log('depth: {$depth}');</script>";
-
             $margin_left = $depth * 50;
             $isCorrect = false;
 
@@ -74,26 +72,26 @@ include("../../guideline_common.php");
                 $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
                 $disabled = $has_correct_answer ? "" : "disabled";
 
+                // 정답 내용 가져오기
+                // $default_value = $has_correct_answer 
+                //     ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') 
+                //     : "";
+
                 // 출력 블록 시작
-                $html .= "<div class='submission-line' id='submission-line_{$answer_index}' style='margin-left: {$margin_left}px;'>";
+                $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
+
+                // 코드 라인
+                $html .= "<div class='code-line'>{$escaped_line}</div>";
+
+                // textarea 출력
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>" . "</textarea>";
 
 
-
-                // depth == 1 이면 readonly + 정답 자동 표시
-                 if ($depth == 1 && $has_correct_answer) {
-                    $answer_content = htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8');
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='background-color: #D4EDDA; color: #155724; border: 1px solid #c3e6cb;'>{$answer_content}</textarea>";
-                } else {
-                    $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
-                    //코드라인 부분
-                    $html .= "<div class='code-line'>{$escaped_line}</div>";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
-
-                    if (!$isCorrect) {
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
-                        $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
-                        $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
-                    }
+                // 버튼 출력
+                if (!$isCorrect) {
+                    $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
+                    $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
+                    $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
                 }
 
                 // 정답/피드백 영역
@@ -346,8 +344,8 @@ function submitAnswer(index) {
             // 정답 맞은 경우
             check.style.display = "inline";
             ta.readOnly = true;
-            // ta.style.backgroundColor = "#d4edda";
-            // ta.style.border = "1px solid #d4edda";
+            ta.style.backgroundColor = "#d4edda";
+            ta.style.border = "1px solid #d4edda";
             ta.style.color = "#155724";
             
             // 제출 버튼, 답안 확인 버튼, 피드백 보기 버튼 숨기기
@@ -389,10 +387,11 @@ function escapeHtml(text) {
 
 //답안 보여주기
 function showAnswer(index) {
-    const correct = (correctAnswers[index]?.content || "").trim();
-    if (!correct) return;
+    const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
+    if (!correctCode) return;
 
-    const escapedCode = escapeHtml(correct);
+    const escapedCode = escapeHtml(correctCode);  // ← 이걸로 HTML 무해화
+
     const answerArea = document.getElementById(`answer_area_${index}`);
     const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${escapedCode}</pre>`;
     answerArea.innerHTML = answerHtml;
