@@ -73,7 +73,8 @@ include("../../guideline_common.php");
                 $disabled = $has_correct_answer ? "" : "disabled";
 
                 // 출력 블록 시작
-                $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
+                $html .= "<div class='submission-line' id='submission-line_{$answer_index}' style='margin-left: {$margin_left}px;'>";
+
 
 
                 // depth == 1 이면 readonly + 정답 자동 표시
