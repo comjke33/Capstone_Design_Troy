@@ -387,7 +387,7 @@ function escapeHtml(text) {
 
 //답안 보여주기
 function showAnswer(index) {
-    const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
+    
     if (!correctCode) return;
 
     const escapedCode = escapeHtml(correctCode);  // ← 이걸로 HTML 무해화
