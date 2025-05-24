@@ -302,7 +302,7 @@ function submitAnswer(index) {
             localStorage.setItem(key, "correct");
 
             ta.readOnly = true;
-            // ta.style.backgroundColor = "#d4edda";
+            ta.style.backgroundColor = "#d4edda";
             ta.style.border = "1px solid #d4edda";
             ta.style.color = "#155724";
             // btn.style.display = "none";
