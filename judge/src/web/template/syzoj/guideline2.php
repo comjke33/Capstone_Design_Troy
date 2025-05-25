@@ -72,7 +72,7 @@ include("../../guideline_common.php");
 
             // ✅ Depth 1인 경우: 설명형 안내 블록
             if ($depth === 1) {
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$escaped_line}</textarea>";
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}; color:#155724;'>{$escaped_line}</textarea>";
             } else {
                 // 일반 입력 블록
                 $html .= "<div class='code-line'>{$escaped_line}</div>";
