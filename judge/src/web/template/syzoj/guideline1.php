@@ -42,7 +42,6 @@ include("../../guideline_common.php");
     </div>
     </div>
 
-
     <!-- 가운데 패널 -->
 <div class="center-panel">
     <h1>기초 풀기</h1>
@@ -51,9 +50,8 @@ include("../../guideline_common.php");
     <br><br>
 
     <?php      
-    function render_tree_plain($blocks, &$answer_index = 0) {
+        function render_tree_plain($blocks, &$answer_index = 0) {
         $html = "";
-
         foreach ($blocks as $block) {
             $depth = $block['depth'];
             $margin_left = $depth * 50;
@@ -63,51 +61,47 @@ include("../../guideline_common.php");
                 $raw = trim($block['content']);
                 if ($raw === '') continue;
 
-                // 디버깅용 주석
                 $html .= "<!-- DEBUG raw line [{$answer_index}]: " . htmlentities($raw) . " -->\n";
+                $html .= "<script>console.log('Block index {$answer_index} - Depth: {$depth}');</script>";
 
-                // 안전하게 이스케이프
-                $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
+                // 정답 가져오기
+                $default_value = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index])
+                    ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8')
+                    : '';
 
-                $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
+                $has_correct_answer = !empty($default_value);
                 $disabled = $has_correct_answer ? "" : "disabled";
-
-                // 정답 내용 가져오기
-                // $default_value = $has_correct_answer 
-                //     ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') 
-                //     : "";
-
-                // 출력 블록 시작
+                $readonlyStyle = "background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;";
                 $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
 
-                // 코드 라인
-                $html .= "<div class='code-line'>{$escaped_line}</div>";
+                // ✅ Depth 1: 읽기 전용 정답 표시용 블록
+                if ($depth === 1) {
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$default_value}</textarea>";
+                } else {
+                    // 일반 입력 블록
+                    $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
+                    $html .= "<div class='code-line'>{$escaped_line}</div>";
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
-                // textarea 출력
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>" . "</textarea>";
-
-
-                // 버튼 출력
-                if (!$isCorrect) {
-                    $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
-                    $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
-                    $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
+                    if (!$isCorrect) {
+                        $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
+                        $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
+                        $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
+                    }
                 }
 
-                // 정답/피드백 영역
                 $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                 $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
-
-                $html .= "</div>"; // .submission-line
+                $html .= "</div>";
                 $answer_index++;
-            } 
-            else if (isset($block['children']) && is_array($block['children'])) {
+            } elseif (isset($block['children']) && is_array($block['children'])) {
                 $html .= render_tree_plain($block['children'], $answer_index);
             }
         }
 
         return $html;
     }
+
 
     $answer_index = 0;
     echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
@@ -138,7 +132,9 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("reset-button")?.addEventListener("click", () => {
         if (confirm("모든 입력을 초기화하고 다시 푸시겠습니까?")) {
             document.querySelectorAll("textarea").forEach((textarea, index) => {
-                // localStorage에서 삭제
+                // readonly 태그는 유지 (depth == 1 블록은 readonly임)
+                if (textarea.hasAttribute('readonly')) return;
+
                 const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
                 const statusKey = `answer_status_step${currentStep}_q${index}_pid${problemId}`;
                 localStorage.removeItem(key);
@@ -168,6 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     });
+
 });
 
 
@@ -180,18 +177,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
+    //이 부분에서 오류발생
     document.querySelectorAll("textarea").forEach((textarea, index) => {
         const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
         const statusKey = `answer_status_step${currentStep}_q${index}_pid${problemId}`;
         const savedValue = localStorage.getItem(key);
         const savedStatus = localStorage.getItem(statusKey);
 
-        if (savedValue !== null) {
+        // ✅ readonly 아닌 경우에만 저장된 값 덧씌우기
+        if (!textarea.hasAttribute('readonly') && savedValue !== null) {
             textarea.value = savedValue;
         }
 
+        // ✅ 입력값이 바뀔 때만 저장
         textarea.addEventListener("input", () => {
-            localStorage.setItem(key, textarea.value);
+            if (!textarea.hasAttribute('readonly')) {
+                localStorage.setItem(key, textarea.value);
+            }
         });
     });
 
@@ -242,67 +244,35 @@ document.addEventListener("DOMContentLoaded", function () {
         ta.addEventListener("input", () => autoResize(ta));
     });
 
+     // ✅ 추가: readonly 안내 텍스트 재지정
+    textareas.forEach((ta) => {
+        if (ta.hasAttribute("readonly")) {
+            ta.style.backgroundColor = "#d4edda";
+            ta.style.color = "#155724";
+            ta.style.border = "1px solid #c3e6cb";
+        }
+    });
+
     function autoResize(textarea) {
         textarea.style.height = "auto"; // 초기화
         textarea.style.height = textarea.scrollHeight + "px"; // 내용에 따라 높이 설정
     }
 });
 
-// textarea에서 tab을 누르면 들여쓰기가 적용되게([    ])
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('textarea').forEach((textarea) => {
-      textarea.addEventListener('keydown', function(e) {
-        if (e.key === 'Tab') {
-          e.preventDefault(); // 기본 Tab 동작 막기
-
-          const start = this.selectionStart;
-          const end = this.selectionEnd;
-
-          // 현재 위치에 '\t' 삽입
-          this.value = this.value.substring(0, start) + '\t' + this.value.substring(end);
-
-          // 커서 위치 조정
-          this.selectionStart = this.selectionEnd = start + 1;
-        }
-      });
-    });
-  });
-
-// textarea에서 tab을 누르면 들여쓰기가 적용되게([    ])
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('textarea').forEach((textarea) => {
-      textarea.addEventListener('keydown', function(e) {
-        if (e.key === 'Tab') {
-          e.preventDefault(); // 기본 Tab 동작 막기
-
-          const start = this.selectionStart;
-          const end = this.selectionEnd;
-
-          // 현재 위치에 '\t' 삽입
-          this.value = this.value.substring(0, start) + '\t' + this.value.substring(end);
-
-          // 커서 위치 조정
-          this.selectionStart = this.selectionEnd = start + 1;
-        }
-      });
-    });
-  });
-
-
 //문제 맞았는지 여부 확인
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 const problemId = <?= json_encode($problem_id) ?>
 
-
 function submitAnswer(index) {
     const ta = document.getElementById(`ta_${index}`);
-    const btn = document.getElementById(`submit_btn_${index}`);
+    const btn = document.getElementById(`btn_${index}`);
     const check = document.getElementById(`check_${index}`);
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
     const step = new URLSearchParams(window.location.search).get("step") || "1";
     const problemId = new URLSearchParams(window.location.search).get("problem_id") || "0";
     const key = `answer_status_step${step}_q${index}_pid${problemId}`;
+
 
     console.log("제출값:", input);
     console.log("요청 데이터:", {
@@ -311,24 +281,6 @@ function submitAnswer(index) {
         index: index
     });
 
-    // 로딩 중 메시지 생성
-    const loadingMessage = document.createElement('div');
-    loadingMessage.id = `loading_message_${index}`;
-    loadingMessage.innerText = "로딩 중...";
-    loadingMessage.style.marginTop = "10px";
-    loadingMessage.style.fontSize = "14px";
-    loadingMessage.style.color = "gray";
-    loadingMessage.style.textAlign = "center";
-
-    // 제출 버튼 바로 아래에 로딩 메시지를 추가
-    const submissionLine = document.getElementById(`submission-line_${index}`);
-    if (submissionLine) {
-        submissionLine.appendChild(loadingMessage);
-    } else {
-        console.error(`submission-line_${index} 요소를 찾을 수 없습니다.`);
-    }
-
-    // 서버에 제출된 답안 보내기
     fetch("../../ajax/check_answer_STEP.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -348,31 +300,35 @@ function submitAnswer(index) {
     })
     .then(data => {
         console.log(data);
-
-        // 로딩 중 메시지 숨기기
-        const loadingMessage = document.getElementById(`loading_message_${index}`);
-        if (loadingMessage) loadingMessage.style.display = 'none';
-
-        // 서버 응답에 맞춰 UI 처리
         if (data.result === "correct") {
-            // 정답 맞은 경우
-            check.style.display = "inline";
+            localStorage.setItem(key, "correct");
+
             ta.readOnly = true;
             ta.style.backgroundColor = "#d4edda";
             ta.style.border = "1px solid #d4edda";
             ta.style.color = "#155724";
-            
-            // 제출 버튼, 답안 확인 버튼, 피드백 보기 버튼 숨기기
-            if (btn) btn.style.display = "none";
-            const answerBtn = document.getElementById(`answer_btn_${index}`);
-            if (answerBtn) answerBtn.style.display = "none";
-            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
-            if (feedbackBtn) feedbackBtn.style.display = "none";
+            // btn.style.display = "none";
+            check.style.display = "inline";
 
-            // 상태 저장
-            localStorage.setItem(key, "correct");
+                // 정답이 맞은 경우 버튼 숨기기
+            const answerBtn = document.getElementById(`answer_btn_${index}`);
+            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
+            const submitBtn = document.getElementById(`submit_btn_${index}`);
+
+            if (answerBtn) answerBtn.style.display = "none";
+            if (feedbackBtn) feedbackBtn.style.display = "none";
+            if (submitBtn) submitBtn.style.display = "none";
+
+            const nextIndex = index + 1;
+            const nextTa = document.getElementById(`ta_${nextIndex}`);
+            const nextBtn = document.getElementById(`btn_${nextIndex}`);
+
+            if (nextTa && nextBtn) {
+                nextTa.disabled = false;
+                nextBtn.disabled = false;
+                nextTa.focus();
+            }
         } else {
-            // 틀린 경우
             ta.style.backgroundColor = "#ffecec";
             ta.style.border = "1px solid #e06060";
             ta.style.color = "#c00";
@@ -380,14 +336,8 @@ function submitAnswer(index) {
     })
     .catch(err => {
         console.error("서버 요청 실패:", err);
-
-        // 로딩 중 메시지 숨기기
-        const loadingMessage = document.getElementById(`loading_message_${index}`);
-        if (loadingMessage) loadingMessage.style.display = 'none';
     });
 }
-
-
 
 //문제가 되는 특수문자 치환
 function escapeHtml(text) {
@@ -580,6 +530,7 @@ function autoResize(ta) {
     ta.style.height = ta.scrollHeight + 'px';
 }
 
+
 let currentTextarea = null;
 let animationRunning = false;
 
@@ -611,7 +562,7 @@ function updateImageForTextarea(index, ta) {
 //줄번호에 맞춰서 이미지 fetch(일단 보류)
 function fetchImageByLineNumber(lineNumber) {
     const problemId = <?= json_encode($problem_id) ?>;
-    fetch(`../../get_flowchart1_image.php?problem_id=${problemId}&index=${lineNumber}`)
+    fetch(`../../get_flowchart1_image.php?problem_id=${problemId}&index=${lineNumber-1}`) //값을 -1 해줘야 라인이 알맞음
         .then(response => response.json())
         .then(data => {
             let img = document.getElementById("flowchart_image");
