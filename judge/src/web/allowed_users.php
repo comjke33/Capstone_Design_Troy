@@ -33,8 +33,8 @@ $allowed_user_id = [
     'ft-11',
     'ft-6',
     'ft-10',
-    'ft-16',
-    'ft-9'
+    'ft-9',
+    'ft-4'
 
 
 ];
