@@ -29,7 +29,7 @@
     </div>
 
     <div style="text-align:right;">
-        <a href="strategy_board.php" class="ui button">← 전략 목록으로</a>
+        <a href="faqs.php" class="ui button">← 전략 목록으로</a>
     </div>
 </div>
 
