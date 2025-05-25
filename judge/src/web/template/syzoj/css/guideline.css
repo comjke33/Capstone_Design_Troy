@@ -148,11 +148,11 @@
 }
 
 /* styled-textarea 클래스 정의에 추가 */
-textarea[readonly] {
+/* textarea[readonly] {
     background-color: #d4edda !important;
     color: #155724 !important;
     border: 1px solid #c3e6cb !important;
-}
+} */
 
 
 /* 오른쪽 피드백 패널 */
