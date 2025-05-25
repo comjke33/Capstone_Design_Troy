@@ -5,36 +5,50 @@ ini_set('display_errors', 1);
 require_once("./include/db_info.inc.php");
 require_once('./include/setlang.php');
 
-// 로그인 사용자 ID 가져오기
 $user_id = $_SESSION[$OJ_NAME . '_' . 'user_id'] ?? null;
+$now = date("Y-m-d H:i", time());
 
-// 문제 번호 가져오기 (GET 또는 POST)
-$problem_id = $_GET['problem_id'] ?? $_POST['problem_id'] ?? null;
-$problem_id = is_numeric($problem_id) ? (int)$problem_id : null;
+$problem_id = null;
 
+// ✅ 연습 문제일 경우: /faqs_add.php?id=123
+if (isset($_GET['id'])) {
+    $problem_id = intval($_GET['id']);
+}
+// ✅ 대회 문제일 경우: /faqs_add.php?cid=1&pid=0
+elseif (isset($_GET['cid']) && isset($_GET['pid'])) {
+    $cid = intval($_GET['cid']);
+    $pid = intval($_GET['pid']);
+    $sql = "SELECT `problem_id` FROM `contest_problem` WHERE `contest_id` = ? AND `num` = ?";
+    $res = pdo_query($sql, $cid, $pid);
+    if ($res && count($res)) {
+        $problem_id = intval($res[0]['problem_id']);
+    }
+}
+
+// POST에서 전달된 경우 우선순위 높음
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // POST 데이터 수신
+    $problem_id = $_POST['problem_id'] ?? $problem_id;
+    $problem_id = is_numeric($problem_id) ? (int)$problem_id : null;
+
     $title = trim($_POST['title'] ?? '');
     $description = trim($_POST['description'] ?? '');
     $helper_function = trim($_POST['helper_function'] ?? '');
     $solution_code = trim($_POST['solution_code'] ?? '');
 
-    // 필수값 확인
-    if (!$user_id || $title === '' || $description === '') {
+    if (!$user_id || !$problem_id || $title === '' || $description === '') {
         echo "<script>alert('입력값이 부족하거나 로그인되지 않았습니다.'); history.back();</script>";
         exit;
     }
 
-    // INSERT 쿼리 실행
-    $sql = "INSERT INTO strategy (problem_id, title, description, helper_function, solution_code, user_id) 
+    $sql = "INSERT INTO strategy (problem_id, title, description, helper_function, solution_code, user_id)
             VALUES (?, ?, ?, ?, ?, ?)";
     pdo_query($sql, $problem_id, $title, $description, $helper_function, $solution_code, $user_id);
 
-    // 등록 완료 후 페이지 이동
     header("Location: faqs.php");
     exit;
 }
 ?>
+
 
 <?php include("template/$OJ_TEMPLATE/header.php"); ?>
 
