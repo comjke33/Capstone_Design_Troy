@@ -87,40 +87,18 @@
   border: 2px solid black;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+
   max-height: 90vh;
+  max-width: 100%;
   box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
+  align-items: center;
   overflow: hidden;
 }
 
-/* 중간 크기 화면 (태블릿 등) */
-@media (max-width: 1024px) {
-  .flowchart-wrapper {
-    padding: 10px;
-    max-height: 85vh;
-  }
-}
-
-/* 작은 화면 (모바일 등) */
-@media (max-width: 768px) {
-  .flowchart-wrapper {
-    padding: 8px;
-    max-height: 80vh;
-    flex-direction: column; /* 필요시 row로 변경 가능 */
-  }
-}
-
-/* 매우 작은 화면 (소형 모바일 등) */
-@media (max-width: 480px) {
-  .flowchart-wrapper {
-    padding: 6px;
-    max-height: 75vh;
-    flex-direction: column;
-  }
-}
-
-
+/* 제목 영역 스타일 */
 .flowchart-title {
   font-size: 18px;
   font-weight: bold;
@@ -130,23 +108,30 @@
   padding: 6px 12px;
   border-radius: 6px;
   text-align: center;
-}
-
-/* ✅ 이미지 감싸는 영역에 스크롤 */
-.flowchart-scroll {
-  overflow-y: auto; /* 세로 스크롤 활성화 */
-  height: 500px;     /* 스크롤을 만들 높이 지정 */
-  border-radius: 8px;
-  border: 1px solid #ccc; /* 선택사항: 시각적으로 구분 */
-  padding: 10px;     /* 선택사항: 내부 여백 */
-}
-
-/* ✅ 이미지 자체는 100% 너비 */
-#flowchart_image {
   width: 100%;
+  box-sizing: border-box;
+}
+
+/* 이미지 감싸는 영역 (스크롤 허용) */
+.flowchart-scroll {
+  overflow-y: auto;
+  height: 60vh;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* 반응형 이미지 */
+#flowchart_image {
+  max-width: 100%;
+  height: auto;
   display: block;
   border-radius: 8px;
+  object-fit: contain;
 }
+
 
 /* 가운데 코드 입력 영역 */
 .center-panel {

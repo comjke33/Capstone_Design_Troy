@@ -38,5 +38,5 @@
 </div>
 
 <!-- 렌더링 파일 불러오기 -->
-<?php include("template/syzoj/guideline1.php"); ?>
+
 <?php include("template/$OJ_TEMPLATE/footer.php"); ?>
