@@ -329,11 +329,7 @@ include('allowed_users.php');
                             if ((isset($OJ_EXAM_CONTEST_ID) && $OJ_EXAM_CONTEST_ID > 0) ||
                                 (isset($OJ_ON_SITE_CONTEST_ID) && $OJ_ON_SITE_CONTEST_ID > 0) ||
                                 (isset($OJ_MAIL) && !$OJ_MAIL)) {
-                                // mail can't be used
-                            } else {
-                                $mail = checkmail();
-                                if ($mail) echo "<a class='item mail' href=".$path_fix."mail.php><i class='mail icon'></i>$MSG_MAIL$mail</a>";
-                            }
+
                         ?>
 
                         <?php if (isset($OJ_PRINTER) && $OJ_PRINTER) { ?>
