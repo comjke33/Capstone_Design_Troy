@@ -16,10 +16,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $helper_function = $_POST['helper_function'];
     $solution_code = $_POST['solution_code'];
 
-    if (!$user_id || !$problem_id || empty($title)) {
-        echo "필수 항목이 누락되었습니다.";
-        exit;
-    }
+    // if (!$user_id || !$problem_id || empty($title)) {
+    //     echo "필수 항목이 누락되었습니다.";
+    //     exit;
+    // }
 
     $sql = "INSERT INTO strategy (problem_id, title, description, helper_function, solution_code, user_id) 
             VALUES (?, ?, ?, ?, ?, ?)";
