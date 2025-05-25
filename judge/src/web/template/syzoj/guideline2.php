@@ -562,7 +562,7 @@ function updateImageForTextarea(index, ta) {
 //줄번호에 맞춰서 이미지 fetch(일단 보류)
 function fetchImageByLineNumber(lineNumber) {
     const problemId = <?= json_encode($problem_id) ?>;
-    fetch(`../../get_flowchart2_image.php?problem_id=${problemId}&index=${lineNumber+1}`)
+    fetch(`../../get_flowchart2_image.php?problem_id=${problemId}&index=${lineNumber-1}`)
         .then(response => response.json())
         .then(data => {
             let img = document.getElementById("flowchart_image");
