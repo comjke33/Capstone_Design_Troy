@@ -327,8 +327,11 @@ include('allowed_users.php');
                             }
 
                             if ((isset($OJ_EXAM_CONTEST_ID) && $OJ_EXAM_CONTEST_ID > 0) ||
-                                (isset($OJ_ON_SITE_CONTEST_ID) && $OJ_ON_SITE_CONTEST_ID > 0) ||
-                                (isset($OJ_MAIL) && !$OJ_MAIL)) {
+                                (isset($OJ_ON_SITE_CONTEST_ID) && $OJ_ON_SITE_CONTEST_ID > 0)) {
+                                // mail can't be used (메일 기능 제한됨)
+                            } else {
+                                // mail 관련 항목 제거됨
+                            }
 
                         ?>
 
