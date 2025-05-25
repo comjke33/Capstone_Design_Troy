@@ -72,7 +72,7 @@ include("../../guideline_common.php");
 
             // ✅ Depth 1인 경우: 설명형 안내 블록
             if ($depth === 1) {
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly </textarea>";
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$escaped_line}</textarea>";
             } else {
                 // 일반 입력 블록
                 $html .= "<div class='code-line'>{$escaped_line}</div>";
@@ -129,7 +129,9 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("reset-button")?.addEventListener("click", () => {
         if (confirm("모든 입력을 초기화하고 다시 푸시겠습니까?")) {
             document.querySelectorAll("textarea").forEach((textarea, index) => {
-                // localStorage에서 삭제
+                // readonly 태그는 유지 (depth == 1 블록은 readonly임)
+                if (textarea.hasAttribute('readonly')) return;
+
                 const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
                 const statusKey = `answer_status_step${currentStep}_q${index}_pid${problemId}`;
                 localStorage.removeItem(key);
@@ -159,6 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     });
+
 });
 
 
