@@ -52,7 +52,6 @@ include("../../guideline_common.php");
     <?php      
     function render_tree_plain($blocks, &$answer_index = 0) {
         $html = "";
-
         foreach ($blocks as $block) {
             $depth = $block['depth'];
             $margin_left = $depth * 50;
@@ -77,13 +76,18 @@ include("../../guideline_common.php");
                 //     : "";
 
                 // 출력 블록 시작
+                // 출력 블록 시작
                 $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
+
+                // ✅ 콘솔에 depth 출력
+                $html .= "<script>console.log('Block index {$answer_index} - Depth: {$depth}');</script>";
 
                 // 코드 라인
                 $html .= "<div class='code-line'>{$escaped_line}</div>";
 
                 // textarea 출력
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>" . "</textarea>";
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+
 
 
                 // 버튼 출력

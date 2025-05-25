@@ -81,6 +81,7 @@
 }
 
 .flowchart-wrapper {
+  width: auto;
   padding: 12px;
   border-radius: 12px;
   background-color: #fff;
