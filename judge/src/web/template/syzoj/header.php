@@ -1,19 +1,21 @@
 <?php
         require_once(dirname(__FILE__)."/../../include/memcache.php");
 
-        function checknoti(){
-            global $OJ_NAME;
-            $sql = "SELECT EXISTS (
-                SELECT 1 
-                FROM user_weakness 
-                WHERE user_id = ? 
-                  AND mistake_count >= 15
-            ) AS has_high_mistake;";
-            $result=pdo_query($sql, $_SESSION[$OJ_NAME.'_'.'user_id']);
-            $new_notification_count = $result[0]['has_high_mistake'];
-            if(empty($result)) return false;
-            return $new_notification_count;
+        if (!function_exists('checknoti')) {
+            function checknoti(){
+                global $OJ_NAME;
+                $sql = "SELECT EXISTS (
+                    SELECT 1 
+                    FROM user_weakness 
+                    WHERE user_id = ? 
+                    AND mistake_count >= 15
+                ) AS has_high_mistake;";
+                $result = pdo_query($sql, $_SESSION[$OJ_NAME.'_'.'user_id']);
+                if (empty($result)) return false;
+                return $result[0]['has_high_mistake'];
+            }
         }
+
 
         $new_notification_count = checknoti();
 
@@ -328,7 +330,6 @@ include('allowed_users.php');
 
                             if ((isset($OJ_EXAM_CONTEST_ID) && $OJ_EXAM_CONTEST_ID > 0) ||
                                 (isset($OJ_ON_SITE_CONTEST_ID) && $OJ_ON_SITE_CONTEST_ID > 0)) {
-                                // mail can't be used (메일 기능 제한됨)
                             } else {
                                 // mail 관련 항목 제거됨
                             }
