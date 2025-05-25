@@ -15,3 +15,5 @@ if (!$strategy) {
     exit;
 }
 ?>
+
+<?php include("template/syzoj/faqs_view.php"); ?>

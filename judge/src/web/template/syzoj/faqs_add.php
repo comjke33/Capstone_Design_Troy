@@ -1,4 +1,5 @@
 
+
 <?php include("template/$OJ_TEMPLATE/header.php"); ?>
 
 <div class="ui container" style="margin-top: 3em;">
@@ -36,4 +37,6 @@
     </form>
 </div>
 
+<!-- 렌더링 파일 불러오기 -->
+<?php include("template/syzoj/guideline1.php"); ?>
 <?php include("template/$OJ_TEMPLATE/footer.php"); ?>

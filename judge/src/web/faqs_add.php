@@ -44,4 +44,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
+<?php include("template/syzoj/faqs_add.php"); ?>
 
