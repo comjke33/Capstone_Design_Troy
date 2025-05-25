@@ -67,7 +67,7 @@ include("../../guideline_common.php");
             $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
             $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
             $disabled = $has_correct_answer ? "" : "disabled";
-            $readonlyStyle = "background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;";
+            // $readonlyStyle = "background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;";
             $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
 
             // ✅ Depth 1인 경우: 설명형 안내 블록
@@ -581,17 +581,6 @@ function fetchImageByLineNumber(lineNumber) {
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
     ta.addEventListener("focus", () => fetchImageByLineNumber(idx)); 
-    });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll("textarea[readonly]").forEach(ta => {
-        ta.style.backgroundColor = "#d4edda";
-        ta.style.color = "#155724";
-        ta.style.border = "1px solid #c3e6cb";
-        ta.style.fontSize = "14px";
-        ta.style.padding = "8px";
-        ta.style.lineHeight = "1.5";
     });
 });
 
