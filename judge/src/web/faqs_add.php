@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $solution_code = trim($_POST['solution_code'] ?? '');
 
     // 필수값 확인
-    if ($title === '' || $description === '') {
+    if (!$user_id || $title === '' || $description === '') {
         echo "<script>alert('입력값이 부족하거나 로그인되지 않았습니다.'); history.back();</script>";
         exit;
     }
