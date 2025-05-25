@@ -174,20 +174,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
-    document.querySelectorAll("textarea").forEach((textarea, index) => {
-        const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
-        const statusKey = `answer_status_step${currentStep}_q${index}_pid${problemId}`;
-        const savedValue = localStorage.getItem(key);
-        const savedStatus = localStorage.getItem(statusKey);
+    // document.querySelectorAll("textarea").forEach((textarea, index) => {
+    //     const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
+    //     const statusKey = `answer_status_step${currentStep}_q${index}_pid${problemId}`;
+    //     const savedValue = localStorage.getItem(key);
+    //     const savedStatus = localStorage.getItem(statusKey);
 
-        if (savedValue !== null) {
-            textarea.value = savedValue;
-        }
+    //     if (savedValue !== null) {
+    //         textarea.value = savedValue;
+    //     }
 
-        textarea.addEventListener("input", () => {
-            localStorage.setItem(key, textarea.value);
-        });
-    });
+    //     textarea.addEventListener("input", () => {
+    //         localStorage.setItem(key, textarea.value);
+    //     });
+    // });
 
     // ✅ 버튼 클릭 시 저장 후 이동 + 스타일 토글
     buttons.forEach(btn => {
