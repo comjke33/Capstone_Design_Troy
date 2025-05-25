@@ -236,6 +236,15 @@ document.addEventListener("DOMContentLoaded", function () {
         ta.addEventListener("input", () => autoResize(ta));
     });
 
+     // ✅ 추가: readonly 안내 텍스트 재지정
+    textareas.forEach((ta) => {
+        if (ta.hasAttribute("readonly")) {
+            ta.style.backgroundColor = "#d4edda";
+            ta.style.color = "#155724";
+            ta.style.border = "1px solid #c3e6cb";
+        }
+    });
+
     function autoResize(textarea) {
         textarea.style.height = "auto"; // 초기화
         textarea.style.height = textarea.scrollHeight + "px"; // 내용에 따라 높이 설정
