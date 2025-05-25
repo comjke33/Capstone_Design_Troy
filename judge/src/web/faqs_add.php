@@ -7,28 +7,29 @@ require_once('./include/setlang.php');
 
 $user_id = $_SESSION[$OJ_NAME . '_' . 'user_id'] ?? null;
 
-if (!$user_id) {
-    header("Location: loginpage.php");
-    exit;
-}
+// ✨ 문제 번호를 URL 파라미터 또는 hidden 필드에서 받음
+$problem_id = $_GET['problem_id'] ?? $_POST['problem_id'] ?? null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    // 전략 데이터 받기
     $title = $_POST['title'];
     $description = $_POST['description'];
     $helper_function = $_POST['helper_function'];
     $solution_code = $_POST['solution_code'];
 
-    // 전략 저장
-    $sql_insert_strategy = "INSERT INTO strategy (problem_id, title, description, helper_function, solution_code, user_id) 
-                            VALUES (?, ?, ?, ?, ?, ?)";
-    pdo_query($sql_insert_strategy, $problem_id, $title, $description, $helper_function, $solution_code, $created_at);
+    if (!$user_id || !$problem_id || empty($title)) {
+        echo "필수 항목이 누락되었습니다.";
+        exit;
+    }
+
+    $sql = "INSERT INTO strategy (problem_id, title, description, helper_function, solution_code, user_id) 
+            VALUES (?, ?, ?, ?, ?, ?)";
+    pdo_query($sql, $problem_id, $title, $description, $helper_function, $solution_code, $user_id);
 
     header("Location: faqs.php");
     exit;
 }
 ?>
+
 
 <?php include("template/$OJ_TEMPLATE/header.php"); ?>
 
