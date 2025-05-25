@@ -43,9 +43,6 @@ $list = pdo_query($sql, ...$params);  // pdo_query는 유틸 함수
             <div class="field">
                 <button class="ui primary button" type="submit">검색</button>
             </div>
-            <div class="field">
-                <a href="strategy_board.php" class="ui button">전체 보기</a>
-            </div>
         </div>
     </form>
 
