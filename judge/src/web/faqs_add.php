@@ -1,33 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-require_once("./include/db_info.inc.php");
-require_once('./include/setlang.php');
-
-$user_id = $_SESSION[$OJ_NAME . '_' . 'user_id'] ?? null;
-$now = date("Y-m-d H:i", time());
-
-$problem_id = null;
-
-// ✅ 연습 문제일 경우: /faqs_add.php?id=123
-if (isset($_GET['id'])) {
-    $problem_id = intval($_GET['id']);
-}
-// ✅ 대회 문제일 경우: /faqs_add.php?cid=1&pid=0
-elseif (isset($_GET['cid']) && isset($_GET['pid'])) {
-    $cid = intval($_GET['cid']);
-    $pid = intval($_GET['pid']);
-    $sql = "SELECT `problem_id` FROM `contest_problem` WHERE `contest_id` = ? AND `num` = ?";
-    $res = pdo_query($sql, $cid, $pid);
-    if ($res && count($res)) {
-        $problem_id = intval($res[0]['problem_id']);
-    }
-}
-
-// POST에서 전달된 경우 우선순위 높음
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $problem_id = $_POST['problem_id'] ?? $problem_id;
+    $problem_id = $_POST['problem_id'] ?? null;
     $problem_id = is_numeric($problem_id) ? (int)$problem_id : null;
 
     $title = trim($_POST['title'] ?? '');
@@ -40,6 +13,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    // 문제 존재 여부 검사
+    $check_sql = "SELECT 1 FROM problem WHERE problem_id = ?";
+    $check_res = pdo_query($check_sql, $problem_id);
+    if (empty($check_res)) {
+        echo "<script>alert('❌ 존재하지 않는 문제 ID입니다.'); history.back();</script>";
+        exit;
+    }
+
+    // INSERT
     $sql = "INSERT INTO strategy (problem_id, title, description, helper_function, solution_code, user_id)
             VALUES (?, ?, ?, ?, ?, ?)";
     pdo_query($sql, $problem_id, $title, $description, $helper_function, $solution_code, $user_id);
@@ -47,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: faqs.php");
     exit;
 }
+
 ?>
 
 
@@ -56,10 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h2 class="ui dividing header">문제풀이 전략 추가</h2>
     <form class="ui form" method="post" action="faqs_add.php">
 
-        <!-- 문제 번호 hidden으로 전달 -->
-        <input type="hidden" name="problem_id" value="<?= htmlspecialchars($problem_id) ?>">
-
-        <h4 class="ui dividing header">풀이전략 정보 입력</h4>
+        <div class="field">
+            <label>문제 번호</label>
+            <input type="text" name="problem_id" required>
+        </div>
 
         <div class="field">
             <label>전략 제목</label>
@@ -82,7 +65,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <button class="ui primary button" type="submit">등록</button>
+        
     </form>
+
 </div>
 
 <?php include("template/$OJ_TEMPLATE/footer.php"); ?>
