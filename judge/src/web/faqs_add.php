@@ -5,8 +5,6 @@ ini_set('display_errors', 1);
 require_once("./include/db_info.inc.php");
 require_once('./include/setlang.php');
 
-$user_id = $_SESSION[$OJ_NAME . '_' . 'user_id'] ?? null;
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 사용자 입력 수신
     $problem_id = $_POST['problem_id'] ?? null;
@@ -18,8 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $solution_code = trim($_POST['solution_code'] ?? '');
 
     // 유효성 검사
-    if (!$user_id || !$problem_id || $title === '' || $description === '') {
-        echo "<script>alert('입력값이 부족하거나 로그인되지 않았습니다.'); history.back();</script>";
+    if (!$problem_id || $title === '' || $description === '') {
+        echo "<script>alert('입력값이 부족합니다.'); history.back();</script>";
         exit;
     }
 
@@ -32,12 +30,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // DB 저장
-    $sql = "INSERT INTO strategy (problem_id, title, description, helper_function, solution_code, user_id)
-            VALUES (?, ?, ?, ?, ?, ?)";
-    pdo_query($sql, $problem_id, $title, $description, $helper_function, $solution_code, $user_id);
+    try {
+        $sql = "INSERT INTO strategy (problem_id, title, description, helper_function, solution_code)
+                VALUES (?, ?, ?, ?, ?)";
+        pdo_query($sql, $problem_id, $title, $description, $helper_function, $solution_code);
 
-    header("Location: faqs.php");
-    exit;
+        echo "<script>alert('✅ 전략이 등록되었습니다.'); location.href='faqs.php';</script>";
+        exit;
+    } catch (Exception $e) {
+        echo "<script>alert('DB 오류: " . addslashes($e->getMessage()) . "'); history.back();</script>";
+        exit;
+    }
 }
 ?>
 
