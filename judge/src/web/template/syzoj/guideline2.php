@@ -88,34 +88,14 @@ include("../../guideline_common.php");
                 // textarea 출력
                 $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
-                $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
-
-// 콘솔 출력
-$html .= "<script>console.log('Block index {$answer_index} - Depth: {$depth}');</script>";
-
-// 코드 라인
-$html .= "<div class='code-line'>{$escaped_line}</div>";
-
-// Depth가 1인 경우: readonly, green style
-if ($depth === 1) {
-    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$escaped_line}</textarea>";
-} else {
-    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
-
-    if (!$isCorrect) {
-        $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
-        $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
-        $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
-    }
-}
 
 
                 // 버튼 출력
-                // if (!$isCorrect) {
-                //     $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
-                //     $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
-                //     $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
-                // }
+                if (!$isCorrect) {
+                    $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
+                    $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
+                    $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
+                }
 
                 // 정답/피드백 영역
                 $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
