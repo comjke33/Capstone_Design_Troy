@@ -174,20 +174,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
 
-    // document.querySelectorAll("textarea").forEach((textarea, index) => {
-    //     const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
-    //     const statusKey = `answer_status_step${currentStep}_q${index}_pid${problemId}`;
-    //     const savedValue = localStorage.getItem(key);
-    //     const savedStatus = localStorage.getItem(statusKey);
+    //이 부분에서 오류발생
+    document.querySelectorAll("textarea").forEach((textarea, index) => {
+        const key = `answer_step${currentStep}_q${index}_pid${problemId}`;
+        const statusKey = `answer_status_step${currentStep}_q${index}_pid${problemId}`;
+        const savedValue = localStorage.getItem(key);
+        const savedStatus = localStorage.getItem(statusKey);
 
-    //     if (savedValue !== null) {
-    //         textarea.value = savedValue;
-    //     }
+        // ✅ readonly 아닌 경우에만 저장된 값 덧씌우기
+        if (!textarea.hasAttribute('readonly') && savedValue !== null) {
+            textarea.value = savedValue;
+        }
 
-    //     textarea.addEventListener("input", () => {
-    //         localStorage.setItem(key, textarea.value);
-    //     });
-    // });
+        // ✅ 입력값이 바뀔 때만 저장
+        textarea.addEventListener("input", () => {
+            if (!textarea.hasAttribute('readonly')) {
+                localStorage.setItem(key, textarea.value);
+            }
+        });
+    });
 
     // ✅ 버튼 클릭 시 저장 후 이동 + 스타일 토글
     buttons.forEach(btn => {
