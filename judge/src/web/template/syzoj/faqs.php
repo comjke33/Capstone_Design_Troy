@@ -87,7 +87,7 @@ $list = pdo_query($sql, ...$params);  // pdo_query는 유틸 함수
                             </div>
                         </td>
                         <td class="center aligned">
-                            <a href="strategy_view.php?id=<?= intval($item['id']) ?>" class="ui mini blue icon button" title="상세 보기">
+                            <a href="faqs_view.php?id=<?= intval($item['id']) ?>" class="ui mini blue icon button" title="상세 보기">
                                 <i class="eye icon"></i>
                             </a>
                         </td>
