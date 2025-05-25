@@ -1,6 +1,4 @@
 <?php
-ini_set("display_errors", "Off");  //set this to "On" for debugging  ,especially when no reason blank shows up.
-error_reporting(E_ALL);
 require_once ("admin-header.php");
 //require_once("../include/check_post_key.php");
 
