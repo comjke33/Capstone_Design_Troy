@@ -147,14 +147,6 @@
     min-width: 0;
 }
 
-/* styled-textarea 클래스 정의에 추가 */
-/* textarea[readonly] {
-    background-color: #d4edda !important;
-    color: #155724 !important;
-    border: 1px solid #c3e6cb !important;
-} */
-
-
 /* 오른쪽 피드백 패널 */
 .right-panel {
     width: 350px;       /* 고정 너비 지정 */
@@ -200,6 +192,15 @@
   box-sizing: border-box;
   height: calc(1em * 1.2 + 8px); /* 줄 높이 + padding top/bottom */
   overflow: hidden;
+}
+
+textarea[readonly] {
+  background-color: #d4edda !important;
+  color: #155724 !important;
+  border: 1px solid #c3e6cb !important;
+  font-size: 14px !important;
+  padding: 8px !important;
+  line-height: 1.5 !important;
 }
 
 

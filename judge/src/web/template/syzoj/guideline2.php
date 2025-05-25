@@ -584,6 +584,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("textarea[readonly]").forEach(ta => {
+        ta.style.backgroundColor = "#d4edda";
+        ta.style.color = "#155724";
+        ta.style.border = "1px solid #c3e6cb";
+        ta.style.fontSize = "14px";
+        ta.style.padding = "8px";
+        ta.style.lineHeight = "1.5";
+    });
+});
+
 </script>
 
 <?php include("template/$OJ_TEMPLATE/footer.php");?>
