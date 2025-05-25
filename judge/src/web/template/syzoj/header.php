@@ -1,39 +1,34 @@
 <?php
         require_once(dirname(__FILE__)."/../../include/memcache.php");
 
-        if (!function_exists('checknoti')) {
-            function checknoti(){
-                global $OJ_NAME;
-                $sql = "SELECT EXISTS (
-                    SELECT 1 
-                    FROM user_weakness 
-                    WHERE user_id = ? 
-                    AND mistake_count >= 15
-                ) AS has_high_mistake;";
-                $result = pdo_query($sql, $_SESSION[$OJ_NAME.'_'.'user_id']);
-                if (empty($result)) return false;
-                return $result[0]['has_high_mistake'];
-            }
+        function checknoti(){
+            global $OJ_NAME;
+            $sql = "SELECT EXISTS (
+                SELECT 1 
+                FROM user_weakness 
+                WHERE user_id = ? 
+                  AND mistake_count >= 15
+            ) AS has_high_mistake;";
+            $result=pdo_query($sql, $_SESSION[$OJ_NAME.'_'.'user_id']);
+            $new_notification_count = $result[0]['has_high_mistake'];
+            if(empty($result)) return false;
+            return $new_notification_count;
         }
-
 
         $new_notification_count = checknoti();
 
         // 사이트 표시될 최신 뉴스 표시
-        if (!function_exists('get_menu_news')) {
-            function get_menu_news() {
-                $result = "";
-                $sql_news_menu = "select `news_id`,`title` FROM `news` WHERE `menu`=1 AND `title`!='faqs.cn' ORDER BY `importance` ASC,`time` DESC LIMIT 10";
-                $sql_news_menu_result = mysql_query_cache( $sql_news_menu );
-                if ( $sql_news_menu_result ) {
-                    foreach ( $sql_news_menu_result as $row ) {
-                        $result .= '<a class="item" href="/viewnews.php?id=' . $row['news_id'] . '">' ."<i class='star icon'></i>" . $row['title'] . '</a>';
-                    }
+        function get_menu_news() {
+            $result = "";
+            $sql_news_menu = "select `news_id`,`title` FROM `news` WHERE `menu`=1 AND `title`!='faqs.cn' ORDER BY `importance` ASC,`time` DESC LIMIT 10";
+            $sql_news_menu_result = mysql_query_cache( $sql_news_menu );
+            if ( $sql_news_menu_result ) {
+                foreach ( $sql_news_menu_result as $row ) {
+                    $result .= '<a class="item" href="/viewnews.php?id=' . $row['news_id'] . '">' ."<i class='star icon'></i>" . $row['title'] . '</a>';
                 }
-                return $result;
             }
+            return $result;
         }
-        
         $url=basename($_SERVER['REQUEST_URI']);
         $dir=basename(getcwd());
         if($dir=="discuss3") $path_fix="../";
