@@ -51,66 +51,53 @@ include("../../guideline_common.php");
 
     <?php      
     function render_tree_plain($blocks, &$answer_index = 0) {
-        $html = "";
-        foreach ($blocks as $block) {
-            $depth = $block['depth'];
-            $margin_left = $depth * 50;
-            $isCorrect = false;
+    $html = "";
+    foreach ($blocks as $block) {
+        $depth = $block['depth'];
+        $margin_left = $depth * 50;
+        $isCorrect = false;
 
-            if ($block['type'] === 'text') {
-                $raw = trim($block['content']);
-                if ($raw === '') continue;
+        if ($block['type'] === 'text') {
+            $raw = trim($block['content']);
+            if ($raw === '') continue;
 
-                // 디버깅용 주석
-                $html .= "<!-- DEBUG raw line [{$answer_index}]: " . htmlentities($raw) . " -->\n";
+            $html .= "<!-- DEBUG raw line [{$answer_index}]: " . htmlentities($raw) . " -->\n";
+            $html .= "<script>console.log('Block index {$answer_index} - Depth: {$depth}');</script>";
 
-                // 안전하게 이스케이프
-                $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
+            $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
+            $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
+            $disabled = $has_correct_answer ? "" : "disabled";
+            $readonlyStyle = "background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;";
+            $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
 
-                $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
-                $disabled = $has_correct_answer ? "" : "disabled";
-
-                // 정답 내용 가져오기
-                // $default_value = $has_correct_answer 
-                //     ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8') 
-                //     : "";
-
-                // 출력 블록 시작
-                // 출력 블록 시작
-                $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
-
-                // ✅ 콘솔에 depth 출력
-                $html .= "<script>console.log('Block index {$answer_index} - Depth: {$depth}');</script>";
-
-                // 코드 라인
+            // ✅ Depth 1인 경우: 설명형 안내 블록
+            if ($depth === 1) {
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$escaped_line}</textarea>";
+            } else {
+                // 일반 입력 블록
                 $html .= "<div class='code-line'>{$escaped_line}</div>";
-
-                // textarea 출력
                 $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
-
-
-                // 버튼 출력
                 if (!$isCorrect) {
                     $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
                     $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
                     $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
                 }
-
-                // 정답/피드백 영역
-                $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
-                $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
-
-                $html .= "</div>"; // .submission-line
-                $answer_index++;
-            } 
-            else if (isset($block['children']) && is_array($block['children'])) {
-                $html .= render_tree_plain($block['children'], $answer_index);
             }
-        }
 
-        return $html;
+            $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
+            $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
+            $html .= "</div>"; // .submission-line
+            $answer_index++;
+        } 
+        else if (isset($block['children']) && is_array($block['children'])) {
+            $html .= render_tree_plain($block['children'], $answer_index);
+        }
     }
+
+    return $html;
+}
+
 
 
     $answer_index = 0;
