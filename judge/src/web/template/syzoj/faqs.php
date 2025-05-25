@@ -1,3 +1,21 @@
+<?php
+require_once("./include/db_info.inc.php");
+require_once('./include/setlang.php');
+
+// 문제 ID가 GET으로 전달된 경우 필터링 조건 생성
+$filter = "";
+$params = [];
+
+if (!empty($_GET['problem_id']) && is_numeric($_GET['problem_id'])) {
+    $filter = "WHERE problem_id = ?";
+    $params[] = intval($_GET['problem_id']);
+}
+
+// strategy 테이블에서 목록 조회
+$sql = "SELECT * FROM strategy $filter ORDER BY created_at DESC";
+$list = pdo_query($sql, ...$params);  // pdo_query는 유틸 함수
+?>
+
 <?php include("template/$OJ_TEMPLATE/header.php"); ?>
 
 <div class="ui container" style="margin-top: 3em; margin-bottom: 4em;">
