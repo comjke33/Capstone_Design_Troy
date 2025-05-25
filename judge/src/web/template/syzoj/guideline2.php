@@ -107,20 +107,6 @@ include("../../guideline_common.php");
 
 
 
-            $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
-            $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
-            $html .= "</div>"; // .submission-line
-            $answer_index++;
-        } 
-        else if (isset($block['children']) && is_array($block['children'])) {
-            $html .= render_tree_plain($block['children'], $answer_index);
-        }
-    }
-
-    return $html;
-}
-
-
 
     $answer_index = 0;
     echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
