@@ -194,14 +194,15 @@
   overflow: hidden;
 }
 
-textarea[readonly] {
+/* textarea[readonly] {
+   font-family: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
   background-color: #d4edda !important;
   color: #155724 !important;
   border: 1px solid #c3e6cb !important;
   font-size: 14px !important;
   padding: 8px !important;
   line-height: 1.5 !important;
-}
+} */
 
 
 /* 제출 버튼 및 보기 버튼 */
