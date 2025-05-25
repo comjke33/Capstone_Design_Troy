@@ -20,17 +20,20 @@
         $new_notification_count = checknoti();
 
         // 사이트 표시될 최신 뉴스 표시
-        function get_menu_news() {
-            $result = "";
-            $sql_news_menu = "select `news_id`,`title` FROM `news` WHERE `menu`=1 AND `title`!='faqs.cn' ORDER BY `importance` ASC,`time` DESC LIMIT 10";
-            $sql_news_menu_result = mysql_query_cache( $sql_news_menu );
-            if ( $sql_news_menu_result ) {
-                foreach ( $sql_news_menu_result as $row ) {
-                    $result .= '<a class="item" href="/viewnews.php?id=' . $row['news_id'] . '">' ."<i class='star icon'></i>" . $row['title'] . '</a>';
+        if (!function_exists('get_menu_news')) {
+            function get_menu_news() {
+                $result = "";
+                $sql_news_menu = "select `news_id`,`title` FROM `news` WHERE `menu`=1 AND `title`!='faqs.cn' ORDER BY `importance` ASC,`time` DESC LIMIT 10";
+                $sql_news_menu_result = mysql_query_cache( $sql_news_menu );
+                if ( $sql_news_menu_result ) {
+                    foreach ( $sql_news_menu_result as $row ) {
+                        $result .= '<a class="item" href="/viewnews.php?id=' . $row['news_id'] . '">' ."<i class='star icon'></i>" . $row['title'] . '</a>';
+                    }
                 }
+                return $result;
             }
-            return $result;
         }
+        
         $url=basename($_SERVER['REQUEST_URI']);
         $dir=basename(getcwd());
         if($dir=="discuss3") $path_fix="../";
