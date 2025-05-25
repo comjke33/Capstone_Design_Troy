@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".step-buttons .ui.button");
     const urlParams = new URLSearchParams(window.location.search);
-    const currentStep = urlParams.get("step") || "1";
+    const currentStep = urlParams.get("step") || "2";
     const problemId = urlParams.get("problem_id") || "0";
 
     const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
