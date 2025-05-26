@@ -368,7 +368,7 @@ function escapeHtml(text) {
         .replace(/'/g, "&#039;");
 }
 
-//답안 보여주기
+//답안 보여주기 (좌측 밀착)
 function showAnswer(index) {
     const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
     if (!correctCode) return;
@@ -376,16 +376,13 @@ function showAnswer(index) {
     // 줄 단위로 분할
     const lines = correctCode.split('\n');
 
-    // 각 줄에서 앞 공백 제거 + HTML 이스케이프 후, 탭을 4칸 스페이스로 변경
+    // 각 줄에서 HTML 이스케이프 후, 탭을 4칸 스페이스로 변경
     const processedLines = lines.map(line => {
-        // 앞 공백 제거
-        const trimmedLine = line.replace(/^\s+/, '');
-
-        // HTML 이스케이프
-        let escapedLine = escapeHtml(trimmedLine);
-
         // 탭을 4칸 스페이스로 변환
-        escapedLine = escapedLine.replace(/\t/g, '    ');
+        let replacedTabs = line.replace(/\t/g, '    ');
+        
+        // HTML 이스케이프
+        let escapedLine = escapeHtml(replacedTabs);
 
         return escapedLine;
     });
