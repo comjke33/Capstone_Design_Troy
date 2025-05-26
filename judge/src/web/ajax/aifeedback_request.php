@@ -3,7 +3,7 @@
 
 // JSON 데이터 수신 및 파싱
 $data = json_decode(file_get_contents("php://input"), true);
-$blockCode = $data["block_code"] ?? "작성못함";
+$blockCode = isset($data["block_code"]) && trim($data["block_code"]) !== "" ? $data["block_code"] : "작성못함";
 $problemId = $data["problem_id"] ?? "0";
 $index = $data["index"] ?? "0";
 $step = $data["step"] ?? "1";
