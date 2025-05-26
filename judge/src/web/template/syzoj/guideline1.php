@@ -373,17 +373,20 @@ function showAnswer(index) {
     let correctCode = correctAnswers[index]?.content;
     if (!correctCode) return;
 
+    // 탭을 공백 4칸으로 변환 (언제나 동일한 기준 적용을 위해)
+    correctCode = correctCode.replace(/\t/g, '    ');
+
     // 줄 단위로 나누기
     const lines = correctCode.split('\n');
 
     // 실제 내용이 있는 줄에서 최소 들여쓰기 계산
     const indentLengths = lines
         .filter(line => line.trim().length > 0)
-        .map(line => line.match(/^ */)[0].length); // 줄 맨 앞 공백 수
+        .map(line => line.match(/^ */)[0].length); // 앞쪽 공백 개수 계산
 
     const minIndent = Math.min(...indentLengths);
 
-    // 최소 들여쓰기만큼 제거
+    // 모든 줄에서 최소 들여쓰기만큼 제거
     const cleanedLines = lines.map(line => line.slice(minIndent));
 
     const cleanedCode = cleanedLines.join('\n');
@@ -394,6 +397,7 @@ function showAnswer(index) {
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }
+
 
 function showFeedback(index) {
     const urlParams = new URLSearchParams(window.location.search);
