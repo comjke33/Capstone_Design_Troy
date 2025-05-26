@@ -57,28 +57,33 @@ include("../../guideline_common.php");
             $margin_left = $depth * 50;
             $isCorrect = false;
 
-            if ($depth === 1) {
-                // 줄 단위로 나눔 + 앞 공백 제거
-                $cleaned_lines = array_map(function($line) {
-                    return ltrim($line); // ← 이게 핵심
-                }, explode("\n", $default_value));
+            if ($block['type'] === 'text') {
+                $raw = trim($block['content']);
+                if ($raw === '') continue;
 
-                // 줄바꿈 유지하며 다시 붙임
-                $cleaned_code = implode("\n", $cleaned_lines);
+                $html .= "<!-- DEBUG raw line [{$answer_index}]: " . htmlentities($raw) . " -->\n";
+                $html .= "<script>console.log('Block index {$answer_index} - Depth: {$depth}');</script>";
 
-                // HTML 특수문자 이스케이프
-                $escaped_code = htmlspecialchars($cleaned_code, ENT_QUOTES, 'UTF-8');
+                // 정답 가져오기
+                $default_value = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index])
+                    ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8')
+                    : '';
 
-                // 출력
-                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$escaped_code}</textarea>";
-            }
+                $has_correct_answer = !empty($default_value);
+                $disabled = $has_correct_answer ? "" : "disabled";
+                $readonlyStyle = "background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;";
+                $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
 
-                else {
+                // ✅ Depth 1: 읽기 전용 정답 표시용 블록
+                if ($depth === 1) {
+                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$default_value}</textarea>";
+                } else {
                     // 일반 입력 블록
 
-                    //탭, 띄어쓰기 제거
+                    //탭, 띄어쓰기
                     $trimmed_line = preg_replace('/^\s+/', '', $raw); // 맨 앞 공백 제거
                     $escaped_line = htmlspecialchars($trimmed_line, ENT_QUOTES, 'UTF-8');
+
 
                     $html .= "<div class='code-line'>{$escaped_line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
@@ -370,34 +375,16 @@ function escapeHtml(text) {
 
 //답안 보여주기
 function showAnswer(index) {
-    let correctCode = correctAnswers[index]?.content;
+    const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
     if (!correctCode) return;
 
-    // 탭을 공백 4칸으로 변환 (언제나 동일한 기준 적용을 위해)
-    correctCode = correctCode.replace(/\t/g, '    ');
-
-    // 줄 단위로 나누기
-    const lines = correctCode.split('\n');
-
-    // 실제 내용이 있는 줄에서 최소 들여쓰기 계산
-    const indentLengths = lines
-        .filter(line => line.trim().length > 0)
-        .map(line => line.match(/^ */)[0].length); // 앞쪽 공백 개수 계산
-
-    const minIndent = Math.min(...indentLengths);
-
-    // 모든 줄에서 최소 들여쓰기만큼 제거
-    const cleanedLines = lines.map(line => line.slice(minIndent));
-
-    const cleanedCode = cleanedLines.join('\n');
-    const escapedCode = escapeHtml(cleanedCode);
+    const escapedCode = escapeHtml(correctCode);  // ← 이걸로 HTML 무해화
 
     const answerArea = document.getElementById(`answer_area_${index}`);
     const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${escapedCode}</pre>`;
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }
-
 
 function showFeedback(index) {
     const urlParams = new URLSearchParams(window.location.search);
