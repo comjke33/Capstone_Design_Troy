@@ -43,7 +43,7 @@ include("../../guideline_common.php");
     </div>
 
     <!-- 가운데 패널 -->
-<div class="center-panel">
+    <div class="center-panel">
     <h1>기초 풀기</h1>
 
     <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
@@ -51,70 +51,76 @@ include("../../guideline_common.php");
 
     <?php      
         function render_tree_plain($blocks, &$answer_index = 0) {
-        $html = "";
-        foreach ($blocks as $block) {
-            $depth = $block['depth'];
-            $margin_left = $depth * 50;
-            $isCorrect = false;
+            $html = "";
+            foreach ($blocks as $block) {
+                $depth = $block['depth'];
+                $margin_left = $depth * 50;
+                $isCorrect = false;
 
-            if ($block['type'] === 'text') {
-                $raw = trim($block['content']);
-                if ($raw === '') continue;
+                if ($block['type'] === 'text') {
+                    $raw = trim($block['content']);
+                    if ($raw === '') continue;
 
-                $html .= "<!-- DEBUG raw line [{$answer_index}]: " . htmlentities($raw) . " -->\n";
-                $html .= "<script>console.log('Block index {$answer_index} - Depth: {$depth}');</script>";
+                    $html .= "<!-- DEBUG raw line [{$answer_index}]: " . htmlentities($raw) . " -->\n";
+                    $html .= "<script>console.log('Block index {$answer_index} - Depth: {$depth}');</script>";
 
-                // 정답 가져오기
-                $default_raw = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index])
-                    ? $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content']
-                    : '';
+                    // 정답 가져오기
+                    $default_raw = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index])
+                        ? $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content']
+                        : '';
 
-                $default_trimmed = preg_replace('/^\s+/m', '', $default_raw); // 각 줄의 맨 앞 공백 제거
-                $default_value = htmlspecialchars($default_trimmed, ENT_QUOTES, 'UTF-8');
+                    // 줄 단위로 나눠서 각 줄 앞의 공백 제거 (정답 textarea 용)
+                    $default_lines = explode("\n", $default_raw);
+                    $default_trimmed_lines = array_map(function($line) {
+                        return preg_replace('/^\s+/', '', $line);
+                    }, $default_lines);
+                    $default_trimmed = implode("\n", $default_trimmed_lines);
+                    $default_value = htmlspecialchars($default_trimmed, ENT_QUOTES, 'UTF-8');
 
+                    $has_correct_answer = !empty($default_value);
+                    $disabled = $has_correct_answer ? "" : "disabled";
+                    $readonlyStyle = "background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;";
+                    $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
 
-                $has_correct_answer = !empty($default_value);
-                $disabled = $has_correct_answer ? "" : "disabled";
-                $readonlyStyle = "background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;";
-                $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
+                    if ($depth === 1) {
+                        // 정답 블록은 readonly textarea
+                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$default_value}</textarea>";
+                    } else {
+                        // 일반 입력 블록: 코드 라인도 줄 단위로 나눠서 앞 공백 제거
+                        $raw_lines = explode("\n", $raw);
+                        $cleaned_lines = array_map(function($line) {
+                            return preg_replace('/^\s+/', '', $line);
+                        }, $raw_lines);
+                        $cleaned_code = implode("\n", $cleaned_lines);
+                        $escaped_line = htmlspecialchars($cleaned_code, ENT_QUOTES, 'UTF-8');
 
-                // ✅ Depth 1: 읽기 전용 정답 표시용 블록
-                if ($depth === 1) {
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$default_value}</textarea>";
-                } else {
-                    // 일반 입력 블록
+                        $html .= "<div class='code-line' style='white-space: pre;'>{$escaped_line}</div>";
+                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
-                    //탭, 띄어쓰기 제거
-                    $trimmed_line = preg_replace('/^\s+/', '', $raw); // 맨 앞 공백 제거
-                    $escaped_line = htmlspecialchars($trimmed_line, ENT_QUOTES, 'UTF-8');
-
-                    $html .= "<div class='code-line'>{$escaped_line}</div>";
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
-
-                    if (!$isCorrect) {
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
-                        $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
-                        $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
+                        if (!$isCorrect) {
+                            $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
+                            $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
+                            $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
+                        }
                     }
-                }
 
-                $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
-                $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
-                $html .= "</div>";
-                $answer_index++;
-            } elseif (isset($block['children']) && is_array($block['children'])) {
-                $html .= render_tree_plain($block['children'], $answer_index);
+                    $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
+                    $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
+                    $html .= "</div>";
+                    $answer_index++;
+                } elseif (isset($block['children']) && is_array($block['children'])) {
+                    $html .= render_tree_plain($block['children'], $answer_index);
+                }
             }
+
+            return $html;
         }
 
-        return $html;
-    }
-
-
-    $answer_index = 0;
-    echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
+        $answer_index = 0;
+        echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
     ?>
 </div>
+
 
 
     <!-- 오른쪽 패널 -->
