@@ -69,7 +69,7 @@ include("../../guideline_common.php");
                     ? $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content']
                     : '';
 
-                $default_trimmed = preg_replace('/^\s+/m', '', $default_raw); // 각 줄 앞 들여쓰기 제거
+                $default_trimmed = preg_replace('/^\s+/m', '', $default_raw); // 각 줄의 맨 앞 공백 제거
                 $default_value = htmlspecialchars($default_trimmed, ENT_QUOTES, 'UTF-8');
 
 
