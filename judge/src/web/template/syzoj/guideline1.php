@@ -385,7 +385,7 @@ function showFeedback(index) {
     const urlParams = new URLSearchParams(window.location.search);
     const problemId = urlParams.get("problem_id") || "0";
     const ta = document.getElementById(`ta_${index}`);
-    const blockCode = ta ? ta.value.trim() : "";
+    const blockCode = ta ? ta.value.trim() : "작성못함";
     const step = urlParams.get("step") || "1";
 
     const feedbackPanel = document.querySelector('.right-panel');

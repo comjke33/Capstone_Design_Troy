@@ -122,7 +122,7 @@ def get_blocks(code_lines):
 
 def get_guideline(problem_id, block_index, step):
     """가이드라인 파일에서 특정 블럭을 추출 (step 가변)"""
-    guideline_path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_code/{problem_id}_step{step}.txt"
+    guideline_path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_guideline/{problem_id}_step{step}.txt"
     if os.path.exists(guideline_path):
         code_lines = read_code_lines(guideline_path)
         _, blocks, _, _, _ = get_blocks(code_lines)
