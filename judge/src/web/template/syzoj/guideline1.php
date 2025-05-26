@@ -384,16 +384,17 @@ function escapeHtml(text) {
 
 //답안 보여주기
 function showAnswer(index) {
-    const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
-    if (!correctCode) return;
-
-    const escapedCode = escapeHtml(correctCode);  // ← 이걸로 HTML 무해화
+    const rawAnswer = OJ_CORRECT_ANSWERS[index]?.content || "";
+    const strippedAnswer = rawAnswer
+        .split('\n')
+        .map(line => line.replace(/^\s+/, '')) // 앞 공백 제거
+        .join('\n');
 
     const answerArea = document.getElementById(`answer_area_${index}`);
-    const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${escapedCode}</pre>`;
-    answerArea.innerHTML = answerHtml;
+    answerArea.innerHTML = `<pre style="background-color:#f8f9fa; padding:10px; border:1px solid #ccc;">${escapeHtml(strippedAnswer)}</pre>`;
     answerArea.style.display = 'block';
 }
+
 
 function showFeedback(index) {
     const urlParams = new URLSearchParams(window.location.search);
