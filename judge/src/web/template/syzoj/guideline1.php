@@ -57,35 +57,22 @@ include("../../guideline_common.php");
             $margin_left = $depth * 50;
             $isCorrect = false;
 
-            if ($block['type'] === 'text') {
-                $raw = trim($block['content']);
-                if ($raw === '') continue;
+            if ($depth === 1) {
+                // 줄 단위로 나눔 + 앞 공백 제거
+                $cleaned_lines = array_map(function($line) {
+                    return ltrim($line); // ← 이게 핵심
+                }, explode("\n", $default_value));
 
-                $html .= "<!-- DEBUG raw line [{$answer_index}]: " . htmlentities($raw) . " -->\n";
-                $html .= "<script>console.log('Block index {$answer_index} - Depth: {$depth}');</script>";
+                // 줄바꿈 유지하며 다시 붙임
+                $cleaned_code = implode("\n", $cleaned_lines);
 
-                // 정답 가져오기
-                $default_value = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index])
-                    ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8')
-                    : '';
+                // HTML 특수문자 이스케이프
+                $escaped_code = htmlspecialchars($cleaned_code, ENT_QUOTES, 'UTF-8');
 
-                $has_correct_answer = !empty($default_value);
-                $disabled = $has_correct_answer ? "" : "disabled";
-                $readonlyStyle = "background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;";
-                $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
+                // 출력
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$escaped_code}</textarea>";
+            }
 
-                // ✅ Depth 1: 읽기 전용 정답 표시용 블록
-                if ($depth === 1) {
-                    // 줄마다 앞 공백 제거 + HTML escape
-                    $cleaned_lines = array_map(function($line) {
-                        return ltrim($line);
-                    }, explode("\n", $default_value));
-                    $cleaned_code = implode("\n", $cleaned_lines);
-                    $escaped_code = htmlspecialchars($cleaned_code, ENT_QUOTES, 'UTF-8');
-
-                    // 출력
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$escaped_code}</textarea>";
-                }
                 else {
                     // 일반 입력 블록
 
