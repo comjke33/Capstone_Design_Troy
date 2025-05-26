@@ -376,18 +376,18 @@ function showAnswer(index) {
     // 줄 단위로 분할
     const lines = correctCode.split('\n');
 
-    // 각 줄에서 HTML 이스케이프 후, 탭을 4칸 스페이스로 변경
+    // 각 줄에서 탭을 4칸 스페이스로 바꾸고, HTML 이스케이프 처리
     const processedLines = lines.map(line => {
-        // 탭을 4칸 스페이스로 변환
+        // 탭 → 공백 4칸
         let replacedTabs = line.replace(/\t/g, '    ');
-        
+
         // HTML 이스케이프
         let escapedLine = escapeHtml(replacedTabs);
 
         return escapedLine;
     });
 
-    // 다시 줄바꿈으로 연결
+    // 줄 연결
     const finalCode = processedLines.join('\n');
 
     const answerArea = document.getElementById(`answer_area_${index}`);
@@ -395,6 +395,7 @@ function showAnswer(index) {
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }
+
 
 
 function showFeedback(index) {
