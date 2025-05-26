@@ -370,10 +370,24 @@ function escapeHtml(text) {
 
 //답안 보여주기
 function showAnswer(index) {
-    const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
+    let correctCode = correctAnswers[index]?.content;
     if (!correctCode) return;
 
-    const escapedCode = escapeHtml(correctCode);  // ← 이걸로 HTML 무해화
+    // 줄 단위로 나누기
+    const lines = correctCode.split('\n');
+
+    // 실제 내용이 있는 줄에서 최소 들여쓰기 계산
+    const indentLengths = lines
+        .filter(line => line.trim().length > 0)
+        .map(line => line.match(/^ */)[0].length); // 줄 맨 앞 공백 수
+
+    const minIndent = Math.min(...indentLengths);
+
+    // 최소 들여쓰기만큼 제거
+    const cleanedLines = lines.map(line => line.slice(minIndent));
+
+    const cleanedCode = cleanedLines.join('\n');
+    const escapedCode = escapeHtml(cleanedCode);
 
     const answerArea = document.getElementById(`answer_area_${index}`);
     const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${escapedCode}</pre>`;
