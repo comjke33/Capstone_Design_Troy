@@ -386,10 +386,23 @@ function escapeHtml(text) {
 function showAnswer(index) {
     const rawAnswer = OJ_CORRECT_ANSWERS[index]?.content || "";
 
-    // 줄마다 앞 공백 제거 (탭 포함)
-    const cleanedAnswer = rawAnswer
-        .split('\n')
-        .map(line => line.replace(/^\s+/, '')) // 각 줄의 맨 앞 공백 제거
+    // 들여쓰기 정리
+    const lines = rawAnswer.split('\n');
+
+    // 최소 들여쓰기 수를 찾음 (공백, 탭 혼합 지원)
+    let minIndent = Infinity;
+    for (const line of lines) {
+        if (line.trim() === "") continue; // 빈 줄은 무시
+        const match = line.match(/^(\s*)/);
+        if (match) {
+            const indent = match[1].length;
+            if (indent < minIndent) minIndent = indent;
+        }
+    }
+
+    // 최소 들여쓰기만큼 제거
+    const cleanedAnswer = lines
+        .map(line => line.slice(minIndent)) // 들여쓰기 제거
         .join('\n');
 
     const answerArea = document.getElementById(`answer_area_${index}`);
