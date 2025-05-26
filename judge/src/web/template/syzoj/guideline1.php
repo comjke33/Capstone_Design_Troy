@@ -65,9 +65,13 @@ include("../../guideline_common.php");
                 $html .= "<script>console.log('Block index {$answer_index} - Depth: {$depth}');</script>";
 
                 // 정답 가져오기
-                $default_value = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index])
-                    ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8')
+                $default_raw = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index])
+                    ? $GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content']
                     : '';
+
+                $default_trimmed = preg_replace('/^\s+/m', '', $default_raw); // 각 줄 앞 들여쓰기 제거
+                $default_value = htmlspecialchars($default_trimmed, ENT_QUOTES, 'UTF-8');
+
 
                 $has_correct_answer = !empty($default_value);
                 $disabled = $has_correct_answer ? "" : "disabled";
