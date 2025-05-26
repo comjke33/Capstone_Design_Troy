@@ -373,13 +373,32 @@ function showAnswer(index) {
     const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
     if (!correctCode) return;
 
-    const escapedCode = escapeHtml(correctCode);  // ← 이걸로 HTML 무해화
+    // 줄 단위로 분할
+    const lines = correctCode.split('\n');
+
+    // 각 줄에서 앞 공백 제거 + HTML 이스케이프 후, 탭을 4칸 스페이스로 변경
+    const processedLines = lines.map(line => {
+        // 앞 공백 제거
+        const trimmedLine = line.replace(/^\s+/, '');
+
+        // HTML 이스케이프
+        let escapedLine = escapeHtml(trimmedLine);
+
+        // 탭을 4칸 스페이스로 변환
+        escapedLine = escapedLine.replace(/\t/g, '    ');
+
+        return escapedLine;
+    });
+
+    // 다시 줄바꿈으로 연결
+    const finalCode = processedLines.join('\n');
 
     const answerArea = document.getElementById(`answer_area_${index}`);
-    const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${escapedCode}</pre>`;
+    const answerHtml = `<strong>정답:</strong><br><pre class='code-line' style="white-space: pre-wrap; font-family: monospace;">${finalCode}</pre>`;
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }
+
 
 function showFeedback(index) {
     const urlParams = new URLSearchParams(window.location.search);
