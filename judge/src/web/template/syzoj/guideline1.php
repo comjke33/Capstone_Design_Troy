@@ -385,13 +385,20 @@ function escapeHtml(text) {
 //답안 보여주기
 function showAnswer(index) {
     const rawAnswer = OJ_CORRECT_ANSWERS[index]?.content || "";
-    const strippedAnswer = rawAnswer
+
+    // 줄마다 앞 공백 제거 (탭 포함)
+    const cleanedAnswer = rawAnswer
         .split('\n')
-        .map(line => line.replace(/^\s+/, '')) // 앞 공백 제거
+        .map(line => line.replace(/^\s+/, '')) // 각 줄의 맨 앞 공백 제거
         .join('\n');
 
     const answerArea = document.getElementById(`answer_area_${index}`);
-    answerArea.innerHTML = `<pre style="background-color:#f8f9fa; padding:10px; border:1px solid #ccc;">${escapeHtml(strippedAnswer)}</pre>`;
+    answerArea.innerHTML = `
+        <div><strong>정답:</strong></div>
+        <pre style="background:#f8f9fa; border:1px solid #ccc; padding:10px;">
+${escapeHtml(cleanedAnswer)}
+        </pre>
+    `;
     answerArea.style.display = 'block';
 }
 
