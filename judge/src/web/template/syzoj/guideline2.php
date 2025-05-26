@@ -370,24 +370,21 @@ function escapeHtml(text) {
 
 //답안 보여주기 (좌측 밀착)
 function showAnswer(index) {
-    const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
+    const correctCode = correctAnswers[index]?.content.trim();
     if (!correctCode) return;
 
-    // 줄 단위로 분할
     const lines = correctCode.split('\n');
 
-    // 각 줄에서 탭을 4칸 스페이스로 바꾸고, HTML 이스케이프 처리
     const processedLines = lines.map(line => {
-        // 탭 → 공백 4칸
+        // ✅ 탭을 공백 4칸으로 바꾸기만 하고, 줄 앞 공백은 유지
         let replacedTabs = line.replace(/\t/g, '    ');
 
-        // HTML 이스케이프
+        // ✅ HTML 이스케이프
         let escapedLine = escapeHtml(replacedTabs);
 
         return escapedLine;
     });
 
-    // 줄 연결
     const finalCode = processedLines.join('\n');
 
     const answerArea = document.getElementById(`answer_area_${index}`);
@@ -395,6 +392,7 @@ function showAnswer(index) {
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }
+
 
 
 
