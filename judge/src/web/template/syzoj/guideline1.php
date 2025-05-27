@@ -632,12 +632,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 document.addEventListener("DOMContentLoaded", function () {
-    $('.term-tooltip').popup({
-        position: 'top center',
-        offset: 100,
-        hoverable: true,
-        delay: { show: 300, hide: 100 }
-    });
+  $('.term-tooltip').popup({
+    position: 'top center',
+    hoverable: true,
+    delay: { show: 300, hide: 100 },
+    onShow: function () {
+      $(this).css('cursor', 'none');
+    },
+    onHide: function () {
+      $(this).css('cursor', 'help'); // 원래대로 복원
+    }
+  });
 });
 
 </script>
