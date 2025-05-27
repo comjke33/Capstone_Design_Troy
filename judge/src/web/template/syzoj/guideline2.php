@@ -302,6 +302,14 @@ function submitAnswer(index) {
     const problemId = new URLSearchParams(window.location.search).get("problem_id") || "0";
     const key = `answer_status_step${step}_q${index}_pid${problemId}`;
 
+
+    console.log("제출값:", input);
+    console.log("요청 데이터:", {
+        answer: input,
+        problem_id: problemId,
+        index: index
+    });
+
     fetch("../../ajax/check_answer_STEP.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -320,6 +328,7 @@ function submitAnswer(index) {
         return res.json();
     })
     .then(data => {
+        console.log(data);
         if (data.result === "correct") {
             localStorage.setItem(key, "correct");
 
@@ -327,7 +336,17 @@ function submitAnswer(index) {
             ta.style.backgroundColor = "#d4edda";
             ta.style.border = "1px solid #d4edda";
             ta.style.color = "#155724";
+            // btn.style.display = "none";
             check.style.display = "inline";
+
+                // 정답이 맞은 경우 버튼 숨기기
+            const answerBtn = document.getElementById(`answer_btn_${index}`);
+            const feedbackBtn = document.getElementById(`feedback_btn_${index}`);
+            const submitBtn = document.getElementById(`submit_btn_${index}`);
+
+            if (answerBtn) answerBtn.style.display = "none";
+            if (feedbackBtn) feedbackBtn.style.display = "none";
+            if (submitBtn) submitBtn.style.display = "none";
 
             const nextIndex = index + 1;
             const nextTa = document.getElementById(`ta_${nextIndex}`);
@@ -337,12 +356,6 @@ function submitAnswer(index) {
                 nextTa.disabled = false;
                 nextBtn.disabled = false;
                 nextTa.focus();
-            }
-
-            // 정답 코드에 맞춰 textarea 높이 조정
-            const finalCode = correctAnswers[index]?.content.trim();
-            if (finalCode) {
-                adjustTextareaHeight(nextTa, finalCode);
             }
         } else {
             ta.style.backgroundColor = "#ffecec";
@@ -354,18 +367,6 @@ function submitAnswer(index) {
         console.error("서버 요청 실패:", err);
     });
 }
-
-function adjustTextareaHeight(textarea, content) {
-    if (!textarea) return;
-
-    // 정답 코드의 줄 수를 기준으로 높이 계산
-    const lines = content.split('\n').length;
-    const lineHeight = 20; // 줄 높이 (20px로 가정, 필요에 따라 조정 가능)
-
-    // 높이 설정
-    textarea.style.height = (lines * lineHeight) + 'px';
-}
-
 
 //문제가 되는 특수문자 치환
 function escapeHtml(text) {
@@ -408,21 +409,14 @@ function showAnswer(index) {
     }
 }
 
-function autoResize(textarea) {
-    // 텍스트의 높이를 기반으로 크기를 동적으로 설정합니다.
-    textarea.style.height = 'auto'; // 초기화
-    textarea.style.height = textarea.scrollHeight + 'px'; // 내용에 따라 높이 설정
+function autoResize(textarea, content) {
+    // 정답 코드의 줄 수에 맞춰 높이를 자동으로 조정
+    const lines = content.split('\n').length;
+    const lineHeight = 20; // 줄 높이 (20px로 가정, 필요에 따라 수정 가능)
+    
+    // 높이를 설정
+    textarea.style.height = (lines * lineHeight) + 'px';
 }
-
-// textarea 클릭 시 자동으로 크기를 맞추도록 설정
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll("textarea").forEach((ta) => {
-        autoResize(ta); // 초기 렌더링 시 높이 조정
-
-        // 입력할 때마다 높이 자동 조정
-        ta.addEventListener("input", () => autoResize(ta));
-    });
-});
 
 
 function showFeedback(index) {
