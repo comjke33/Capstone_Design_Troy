@@ -5,10 +5,6 @@ include("../../guideline_common.php");
 
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'></div>
 <link rel="stylesheet" href="/template/syzoj/css/guideline.css">
-<link
-  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
-  rel="stylesheet"
-/>
 
 
 <!-- 상단 툴바 -->
@@ -398,6 +394,8 @@ function showAnswer(index) {
 }
 
 
+
+
 function showFeedback(index) {
     const urlParams = new URLSearchParams(window.location.search);
     const problemId = urlParams.get("problem_id") || "0";
@@ -627,13 +625,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ta.addEventListener("focus", () => fetchImageByLineNumber(idx)); 
     });
 });
-document.addEventListener("DOMContentLoaded", function () {
-    $('.term-tooltip').popup({
-        position: 'top center',
-        hoverable: true,
-        delay: { show: 300, hide: 100 }
-    });
-});
+
 </script>
 
 <?php include("template/$OJ_TEMPLATE/footer.php");?>
