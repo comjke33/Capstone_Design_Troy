@@ -132,13 +132,11 @@ def get_guideline(problem_id, block_index, step):
 
 
 def get_model_block(problem_id, block_index, step):
-    model_path = f"/.../tagged_code/{problem_id}_step{step}.txt"
-    print(f"[DEBUG] model_block file = {model_path}")
+    """태그된 모범 코드에서 특정 블럭 추출"""
+    model_path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_code/{problem_id}_step{step}.txt"
     if os.path.exists(model_path):
         code_lines = read_code_lines(model_path)
-        print(f"[DEBUG] model_block code lines = {len(code_lines)}")
         _, blocks, _, _, _ = get_blocks(code_lines)
-        print(f"[DEBUG] model_block blocks = {len(blocks)}")
         if block_index < len(blocks):
             return ''.join(clean_block(blocks[block_index]))
     return "모범 코드 블럭 없음"
@@ -222,7 +220,7 @@ def main():
         # 모범 코드 및 가이드라인 불러오기
         model_answer = get_model_answer(problem_id)
         guideline = get_guideline(problem_id, block_index, step)
-        model_block = get_model_block(problem_id, block_index, step)
+        model_block = get_model_block(problem_id, 1, step)
 
         # 디버깅 정보 기록
         with open("/tmp/python_input_debug.log", "a") as log_file:
