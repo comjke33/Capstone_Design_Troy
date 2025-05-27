@@ -416,19 +416,20 @@ function autoResize(textarea) {
 
 // textarea 클릭 시 자동으로 크기를 맞추도록 설정
 document.addEventListener("DOMContentLoaded", function () {
-    // 모든 textarea에 대해 자동 크기 조정 적용
-    document.querySelectorAll(".styled-textarea").forEach((ta) => {
-        autoResize(ta); // 초기 렌더링 시 높이 조정
+  const lines = document.querySelectorAll(".submission-line");
 
-        // 입력할 때마다 높이 자동 조정
-        ta.addEventListener("input", () => autoResize(ta));
-    });
+  lines.forEach((line, index) => {
+    const codeLine = line.querySelector(".code-line");
+    const textarea = line.querySelector("textarea");
 
-    function autoResize(textarea) {
-        // 높이를 auto로 리셋하고, scrollHeight를 기준으로 높이를 설정합니다.
-        textarea.style.height = 'auto'; 
-        textarea.style.height = textarea.scrollHeight + 'px'; // 내용에 따라 높이 설정
+    // 둘 다 존재할 때만 실행
+    if (codeLine && textarea) {
+      // 실제 렌더링된 정답 블록의 높이를 가져와서 textarea에 설정
+      const codeHeight = codeLine.offsetHeight;
+
+      textarea.style.height = codeHeight + "px";
     }
+  });
 });
 
 
