@@ -398,7 +398,7 @@ function showAnswer(index) {
     const finalCode = processedLines.join('\n');
 
     const answerArea = document.getElementById(`answer_area_${index}`);
-    const answerHtml = `<strong>정답:</strong><br><pre class='code-line' style="white-space: pre-wrap; font-family: monospace;">${finalCode}</pre>`;
+    const answerHtml = `<strong>정답:</strong><br><pre class='code-line' style="white-space: pre-wrap;">${finalCode}</pre>`;
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 }
