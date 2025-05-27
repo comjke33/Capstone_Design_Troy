@@ -717,6 +717,7 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   $('.term-tooltip').popup({
     position: 'top center',
+    html: true,
     hoverable: true,
     distanceAway: 50,
     delay: { show: 300, hide: 100 },
