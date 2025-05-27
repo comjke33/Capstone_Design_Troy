@@ -52,34 +52,34 @@ include("../../guideline_common.php");
     <?php      
         function highlight_terms_with_tooltip($text) {
             $term_map = [
-                "초기화" => "변수에 처음으로 값을 할당하여 유효한 상태로 만드는 작업입니다. 예: int a = 10;",
-                "선언"   => "변수나 함수를 처음 정의하는 과정입니다. 예: int count;",
-                "변수"   => "데이터를 저장하는 이름 붙은 공간입니다. 예: int i;",
-                "널"     => "값이 없음을 나타내는 특수 상수입니다. 예: ptr = NULL;",
-                "순회"   => "배열이나 리스트를 처음부터 끝까지 접근하는 과정입니다. 예: for (int i = 0; i < n; i++)"
+                "초기화" => "변수에 처음으로 값을 할당하여 유효한 상태로 만드는 작업입니다.",
+                "선언"   => "변수나 함수를 처음 정의하는 과정입니다.",
+                "변수"   => "데이터를 저장하는 이름 붙은 공간입니다.",
+                "널"     => "값이 없음을 나타내는 특수 상수입니다.",
+                "순회"   => "배열이나 리스트를 처음부터 끝까지 접근하는 과정입니다."
             ];
         
-            // 1. 태그 먼저 넣기 (이스케이프 하지 않음)
+            $placeholders = [];
+            $i = 0;
+        
+            // 1단계: 특수 토큰으로 치환
             foreach ($term_map as $term => $desc) {
-                $escaped_desc = htmlspecialchars($desc, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-                $tooltip = '<span class="term-tooltip" data-content="' . $escaped_desc . '">' . $term . '</span>';
-                // 단어 경계에만 적용
-                $text = preg_replace('/\b' . preg_quote($term, '/') . '\b/u', $tooltip, $text);
+                $token = "__TERM_{$i}__";
+                $placeholders[$token] = '<span class="term-tooltip" data-content="' . htmlspecialchars($desc, ENT_QUOTES | ENT_HTML5, 'UTF-8') . '">' . $term . '</span>';
+        
+                // 조사 포함도 매칭 (예: 순회를, 선언하고)
+                $text = preg_replace('/' . preg_quote($term, '/') . '(?=[가-힣]{0,2})/u', $token, $text);
+                $i++;
             }
         
-            // 2. 툴팁 span을 제외한 나머지 텍스트만 이스케이프
-            return escape_except_spans($text);
-        }
+            // 2단계: 전체 escape
+            $escaped = htmlspecialchars($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
         
-        function escape_except_spans($input) {
-            return preg_replace_callback('/(<span[^>]*>.*?<\/span>)|([^<]+)/s', function($matches) {
-                if (!empty($matches[1])) {
-                    return $matches[1]; // span 태그는 그대로
-                }
-                return htmlspecialchars($matches[2], ENT_QUOTES | ENT_HTML5, 'UTF-8'); // 나머지만 escape
-            }, $input);
+            // 3단계: escape 후에 토큰을 실제 span 태그로 되돌림
+            $final = strtr($escaped, $placeholders);
+        
+            return $final;
         }
-
         
         function render_tree_plain($blocks, &$answer_index = 0) {
         $html = "";
@@ -112,7 +112,7 @@ include("../../guideline_common.php");
                     // 일반 입력 블록
                     //$escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
                     //$escaped_line = highlight_terms_with_tooltip(htmlspecialchars($raw, ENT_QUOTES, 'UTF-8'));
-                    $escaped_line = preserve_html_tags_during_escape(highlight_terms_with_tooltip($raw));
+                    $escaped_line = highlight_terms_with_tooltip($raw);
                     $html .= "<div class='code-line'>{$escaped_line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
