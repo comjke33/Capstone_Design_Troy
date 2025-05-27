@@ -59,24 +59,22 @@ include("../../guideline_common.php");
                 "순회" => "배열이나 리스트를 처음부터 끝까지 접근하는 과정입니다. 예: for (int i = 0; i < n; i++)"
             ];
         
+            // 1단계: 툴팁 span을 삽입
             foreach ($term_map as $term => $desc) {
-                $safe_desc = htmlspecialchars($desc, ENT_QUOTES, 'UTF-8');
-                // 정규식으로 단어 단위로만 일치 (HTML 깨짐 방지)
-                $text = preg_replace_callback('/\b' . preg_quote($term, '/') . '\b/u', function($matches) use ($safe_desc, $term) {
-                    return '<span class="term-tooltip" data-content="' . $safe_desc . '">' . htmlspecialchars($term, ENT_NOQUOTES, 'UTF-8') . '</span>';
-                }, $text);
+                $escaped_desc = htmlspecialchars($desc, ENT_QUOTES, 'UTF-8');
+                $tooltip = '<span class="term-tooltip" data-content="' . $escaped_desc . '">' . $term . '</span>';
+                $text = preg_replace('/\b' . preg_quote($term, '/') . '\b/u', $tooltip, $text);
             }
         
-            // span 태그는 그대로 두고 나머지만 escape
+            // 2단계: span 제외하고 escape
             return preserve_html_tags_during_escape($text);
         }
         
         function preserve_html_tags_during_escape($input) {
             return preg_replace_callback('/(<[^>]+>)|([^<]+)/s', function($matches) {
-                if (!empty($matches[1])) {
-                    return $matches[1]; // 태그는 그대로 유지
-                }
-                return htmlspecialchars($matches[2], ENT_NOQUOTES, 'UTF-8');
+                return isset($matches[1]) && $matches[1] !== '' 
+                    ? $matches[1]  // 태그는 그대로
+                    : htmlspecialchars($matches[2], ENT_NOQUOTES, 'UTF-8');  // 텍스트만 escape
             }, $input);
         }
 
