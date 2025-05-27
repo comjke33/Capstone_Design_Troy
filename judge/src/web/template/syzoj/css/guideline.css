@@ -173,7 +173,7 @@
   border: 1px solid #ddd;
   width: 100%;
   border-radius: 6px;
-  padding: 12px 20px 20px 20px; /* 아래쪽 패딩을 20px로 늘림 */
+  padding: 12px 20px 40px 40px; /* 아래쪽 패딩을 20px로 늘림 */
   margin-bottom: 8px;
   font-size: 18px;
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
