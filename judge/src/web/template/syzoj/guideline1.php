@@ -52,30 +52,36 @@ include("../../guideline_common.php");
     <?php      
         function highlight_terms_with_tooltip($text) {
             $term_map = [
-                "선언" => "변수나 함수를 처음 정의하여 이름과 자료형을 지정하는 과정입니다. 예: `int a;`",
-                "초기화" => "변수에 처음으로 값을 할당하여 유효한 상태로 만드는 작업입니다. 예: `int a = 10;`",
-                "변수" => "데이터를 저장하기 위해 이름을 붙인 메모리 공간입니다. 예: `char name[100];`",
-                "널" => "값이 없음을 의미하는 특수한 상수로, 포인터가 아무 것도 가리키지 않을 때 사용됩니다. 예: `ptr = NULL;`",
-                "순회" => "배열이나 리스트의 원소를 처음부터 끝까지 하나씩 접근하는 과정입니다. 예: `for (int i = 0; i < n; i++)`"
+                "선언" => "변수나 함수를 처음 정의하여 이름과 자료형을 지정하는 과정입니다. 예: int a;",
+                "초기화" => "변수에 처음으로 값을 할당하여 유효한 상태로 만드는 작업입니다. 예: int a = 10;",
+                "변수" => "데이터를 저장하기 위해 이름을 붙인 메모리 공간입니다. 예: char name[100];",
+                "널" => "값이 없음을 의미하는 특수한 상수로, 포인터가 아무 것도 가리키지 않을 때 사용됩니다. 예: ptr = NULL;",
+                "순회" => "배열이나 리스트의 원소를 처음부터 끝까지 하나씩 접근하는 과정입니다. 예: for (int i = 0; i < n; i++)"
             ];
         
-            // 먼저 기존 HTML 태그 깨짐 방지용 이스케이프
-            $escapedText = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
-        
+            // 단어 치환 먼저 (툴팁 태그 삽입)
             foreach ($term_map as $term => $desc) {
                 $tooltip = '<span class="term-tooltip" data-content="' . htmlspecialchars($desc, ENT_QUOTES, 'UTF-8') . '">' . $term . '</span>';
-        
-                // 이미 처리된 툴팁 안에는 또 삽입하지 않도록 정규식 필터
-                $escapedText = preg_replace_callback(
-                    '/(?<!["\'>])' . preg_quote($term, '/') . '(?!<\/span>)/u',
-                    function ($m) use ($tooltip) {
-                        return $tooltip;
-                    },
-                    $escapedText
-                );
+                // HTML 삽입 전 원문에서 단어만 치환 (중복 방지용 lookahead/lookbehind 생략)
+                $text = preg_replace('/\b' . preg_quote($term, '/') . '\b/u', $tooltip, $text);
             }
         
-            return $escapedText;
+            // 그 후 HTML 이스케이프 (툴팁 태그 제외)
+            // -> 기존 span은 유지하고 나머지만 이스케이프
+            return preserve_html_tags_during_escape($text);
+        }
+
+
+
+
+        function preserve_html_tags_during_escape($input) {
+            // HTML 태그 위치 추적 (툴팁 span만 제외)
+            return preg_replace_callback('/(<[^>]+>)|([^<]+)/s', function($matches) {
+                if (!empty($matches[1])) {
+                    return $matches[1]; // HTML 태그 그대로
+                }
+                return htmlspecialchars($matches[2], ENT_QUOTES, 'UTF-8'); // 텍스트만 이스케이프
+            }, $input);
         }
         
         function render_tree_plain($blocks, &$answer_index = 0) {
@@ -108,7 +114,8 @@ include("../../guideline_common.php");
                 } else {
                     // 일반 입력 블록
                     //$escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
-                    $escaped_line = highlight_terms_with_tooltip(htmlspecialchars($raw, ENT_QUOTES, 'UTF-8'));
+                    //$escaped_line = highlight_terms_with_tooltip(htmlspecialchars($raw, ENT_QUOTES, 'UTF-8'));
+                    $escaped_line = preserve_html_tags_during_escape(highlight_terms_with_tooltip($raw));
                     $html .= "<div class='code-line'>{$escaped_line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
