@@ -630,7 +630,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 document.addEventListener("DOMContentLoaded", function () {
     $('.term-tooltip').popup({
-        position: 'top center',
+        position: 'bottom center',
         hoverable: true,
         delay: { show: 300, hide: 100 }
     });
