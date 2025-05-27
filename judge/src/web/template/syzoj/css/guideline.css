@@ -234,6 +234,7 @@
 /* 정답 표시 영역 */
 .answer-area {
   font-size: 16px;
+  font-family: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
   color: #333;
   background-color: #f1f1f1;
   padding: 10px;
