@@ -632,7 +632,12 @@ document.addEventListener("DOMContentLoaded", function () {
     $('.term-tooltip').popup({
         position: 'top center',
         hoverable: true,
-        delay: { show: 300, hide: 100 }
+        delay: { show: 300, hide: 100 },
+        onShow: function () {
+            const popup = $(this).popup('get popup');
+            const currentTop = parseInt(popup.css('top'), 10);
+            popup.css('top', (currentTop - 100) + 'px'); // 원하는 만큼 위로
+        }
     });
 });
 
