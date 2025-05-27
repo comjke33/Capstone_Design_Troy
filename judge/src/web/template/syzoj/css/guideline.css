@@ -169,40 +169,69 @@
 
 /* 코드 설명 라인 */
 .code-line {
-  background-color: #f8f8fa;
-  border: 1px solid #ddd;
-  width: 100%;
-  border-radius: 6px;
-  padding: 25px 20px 25px 40px; /* 위 40px, 오른쪽 20px, 아래 40px, 왼쪽 40px */
-  margin-bottom: 8px;
-  font-size: 18px;
+  background-color: #f0f4f8;          /* 밝고 차분한 배경 */
+  border: 1.5px solid #cbd5e1;        /* 연한 회색 테두리 */
+  border-radius: 8px;                  /* 둥근 모서리 */
+  padding: 20px 24px;                  /* 충분한 안쪽 여백 */
+  margin-bottom: 12px;
+  font-size: 17px;                    /* 약간 키운 글자 크기 */
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
     Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
-  color: #333;
+  color: #2f3e4d;                     /* 진한 차콜 계열 색상 */
   white-space: pre-wrap;
   word-break: break-word;
   box-sizing: border-box;
-  line-height: 1.5; /* 필요에 따라 조절 */
+  line-height: 1.6;                  /* 좀 더 넉넉한 줄간격 */
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);  /* 은은한 그림자 */
+  transition: background-color 0.3s ease;
+}
+
+/* 코드 설명 라인 호버 시 살짝 강조 */
+.code-line:hover {
+  background-color: #e9f0fa;
 }
 
 /* 코드 입력창 */
 .styled-textarea {
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 4px 8px; /* 위아래 4px, 좌우 8px */
+  border: 1.5px solid #a0aec0;       /* 은은한 회색 테두리 */
+  border-radius: 10px;                /* 좀 더 둥글게 */
+  padding: 10px 14px;                 /* 넉넉한 패딩 */
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
     Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
-  font-size: 16px;
-  line-height: 1.2;
-  resize: none; /* 사용자가 직접 크기를 조정할 수 없도록 설정 */
+  font-size: 16.5px;                  /* 약간 키운 폰트 */
+  line-height: 1.5;
+  resize: vertical;                   /* 수직 방향만 조절 가능 */
   width: 100%;
   box-sizing: border-box;
-  overflow: hidden;
-  min-height: 50px; /* 최소 높이 설정 */
-  max-height: 500px; /* 최대 높이 설정 */
-  height: auto; /* 높이를 자동으로 설정 */
+  overflow-y: auto;                  /* 내용 많으면 세로 스크롤 */
+  min-height: 60px;                  /* 최소 높이 증가 */
+  max-height: 400px;                 /* 최대 높이 적절히 제한 */
+  background-color: #fafbfc;         /* 약간 밝은 배경 */
+  color: #2c3e50;                   /* 진한 텍스트 색 */
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  font-weight: 500;
+  outline-offset: 2px;
+  box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.05);
 }
 
+/* 포커스 시 강조 */
+.styled-textarea:focus {
+  border-color: #3182ce;
+  box-shadow: 0 0 8px rgba(49, 130, 206, 0.5);
+  background-color: #fff;
+  color: #1a202c;
+  outline: none;
+}
+
+/* readonly 상태일 때 스타일 */
+.styled-textarea[readonly] {
+  background-color: #e6f0e9;
+  color: #2f5233;
+  border-color: #a3c293;
+  box-shadow: none;
+  cursor: default;
+  font-weight: 600;
+}
 
 /* 제출 버튼 및 보기 버튼 */
 .submit-button, .answer-button, .feedback-button {
