@@ -52,7 +52,7 @@ include("../../guideline_common.php");
     <?php      
         function highlight_terms_with_tooltip($text) {
             $term_map = [
-                "매개변수" => "함수를 정의할 때 괄호 안에 선언하는 변수입니다. 외부에서 값을 넘겨받기 위해 사용됩니다.예: int sum(int a, int b)에서 a와 b가 매개변수입니다.",
+                "매개변수" => "함수를 정의할 때 괄호 안에 선언하는 변수입니다. 외부에서 값을 넘겨받기 위해 사용됩니다.>예: int sum(int a, int b)에서 a와 b가 매개변수입니다.",
             
                 "초기화" => "변수를 처음 사용할 때 값을 설정하는 것을 의미합니다.\n예: int x = 0;에서 x는 0으로 초기화되었습니다.",
             
@@ -726,7 +726,6 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   $('.term-tooltip').popup({
     position: 'top center',
-    html: true,
     hoverable: true,
     distanceAway: 50,
     delay: { show: 300, hide: 100 },
