@@ -630,8 +630,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 document.addEventListener("DOMContentLoaded", function () {
     $('.term-tooltip').popup({
-        position: 'top center',
-        offset: [-1, -1],  // X축: 0px, Y축: -10px 위로 이동
+        position: 'top center'+[1,1],
         hoverable: true,
         delay: { show: 300, hide: 100 }
     });
