@@ -1,0 +1,65 @@
+.main-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  padding: 20px;
+}
+
+/* 왼쪽 문제 패널 */
+.left-panel {
+  flex: 1;
+  background-color: #e7f1ff;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+/* 문제 박스 */
+.problem-box {
+  border: 2px solid red;
+  background-color: #f8f0ff;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  position: relative;
+}
+
+/* 문제 번호 동그라미 */
+.problem-box::before {
+  content: attr(data-index);
+  position: absolute;
+  top: -12px;
+  left: -12px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 4px 8px;
+  font-weight: bold;
+}
+
+/* 오른쪽 가이드라인 패널 */
+.right-panel {
+  flex: 0.8;
+  background-color: #e7f1ff;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+/* 가이드라인 텍스트 */
+.guideline-item {
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: red;
+  position: relative;
+  padding-left: 30px;
+}
+
+.guideline-item::before {
+  content: attr(data-index);
+  position: absolute;
+  left: 0;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 4px 8px;
+  font-weight: bold;
+}
