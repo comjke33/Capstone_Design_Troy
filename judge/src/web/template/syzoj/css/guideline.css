@@ -169,12 +169,11 @@
 
 /* 코드 설명 라인 */
 .code-line {
-  margin-left: 50px;
   background-color: #f8f8fa;
   border: 1px solid #ddd;
   width: 100%;
   border-radius: 6px;
-  padding: 25px 20px 25px 20px; /* 위 40px, 오른쪽 20px, 아래 40px, 왼쪽 40px */
+  padding: 25px 20px 25px 80px; /* 위 40px, 오른쪽 20px, 아래 40px, 왼쪽 40px */
   margin-bottom: 8px;
   font-size: 18px;
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
