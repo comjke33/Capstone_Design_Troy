@@ -7,6 +7,34 @@ body {
   padding: 0;
 }
 
+
+.step-buttons {
+  display: flex;
+  gap: 10px;                 /* Step1~3 버튼 간 gap 유지 */
+}
+
+
+/* Step 버튼 스타일 */
+.step-buttons .ui.button {
+  background-color: #003366 ;
+  color: #ffffff ;
+  border-radius: 4px;
+  min-width: 100px;
+}
+
+.step-buttons .ui.button.active {
+    background-color: #007BFF;  /* 하이라이트 색상 */
+    color: white;
+    font-weight: bold;
+}
+
+.step-buttons .ui.button {
+  background-color: #003366 ;
+  color: #ffffff ;
+  border-radius: 4px;
+  min-width: 100px;
+}
+
 .center-panel {
   background-color: white;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
