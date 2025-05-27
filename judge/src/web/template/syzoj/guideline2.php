@@ -399,7 +399,7 @@ function showFeedback(index) {
     const problemId = urlParams.get("problem_id") || "0";
     const ta = document.getElementById(`ta_${index}`);
     const blockCode = ta ? ta.value.trim() : "";
-    const step = urlParams.get("step") || "1";
+    const step = urlParams.get("step") || "0";
 
     const feedbackPanel = document.querySelector('.right-panel');
     feedbackPanel.innerHTML = `

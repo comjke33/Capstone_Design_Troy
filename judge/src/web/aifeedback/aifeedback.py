@@ -130,23 +130,36 @@ def get_guideline(problem_id, block_index, step):
             return ''.join(clean_block(blocks[block_index]))
     return "블럭 가이드라인 없음"
 
+
+def get_model_block(problem_id, block_index, step):
+    """태그된 모범 코드에서 특정 블럭 추출"""
+    model_path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_code/{problem_id}_step{step}.txt"
+    if os.path.exists(model_path):
+        code_lines = read_code_lines(model_path)
+        _, blocks, _, _, _ = get_blocks(code_lines)
+        if block_index < len(blocks):
+            return ''.join(clean_block(blocks[block_index]))
+    return "모범 코드 블럭 없음"
+
 def read_code_lines(filename):
     with open(filename, 'r') as f:
         return f.readlines()
 
-def generate_hint(block_code, block_number, guideline, model_answer):
+def generate_hint(block_code, block_number, guideline, model_block, model_answer):
     """OpenAI API를 이용하여 코드 블럭에 대한 힌트 생성"""
     prompt = f"""
-    학생 코드와 가이드라인, 모범 코드를 참고하여 문제점을 간단히 분석해주세요.
-    1. 학생이 제출한 코드는 전체 모범 코드의 일부분에 대한 가이드라인을 보고 작성한 것 입니다.
-    2. 학생 코드가 가이드라인과 다른 부분(문법적으로)을 1줄로 간단히 지적하고 이유를 설명하세요.
-    3. 또한 가이드라인에 맞게 수정하려면 어떻게 수정해야 하는지 1줄로 제안해주세요.
-    4. 마지막으로 "가이드라인의 내용"이 전체 코드에서 어떤 의미인지, 어떤 알고리즘인지 1줄로 간단히 설명해주세요.
-    5. 마크업은 하지 말아주세요.
-    7. (중요)전체 출력은 최대 3줄 이내여야 합니다.
-    8. 문장 호흡은 짧게 해주세요.
-    9. 같은 내용을 주저리주저리 말하지 마.
-    10. 정답을 제출한 경우 정답임을 간단히 알리고 끝내.
+    다음은 학생이 제출한 코드 블럭입니다. 이 블럭은 전체 프로그램의 특정 부분에 해당합니다.
+
+    - '해당 블럭의 모범 코드'와 '학생이 제출한 코드'를 비교하여, 기능상 의미 있는 차이 및 문법오류가 있는 경우 **반드시 모든 핵심적인 차이점(누락된 동작, 잘못된 변수명, 잘못된 흐름 등)을 두 줄이내** 로 지적하세요.
+    - 단순한 공백, 들여쓰기 등 **스타일만 다른 경우는 틀렸다고 하지 마세요**.
+    - 학생 코드가 '작성못함'인 경우에는 정답 코드나 '해당 블럭의 모범 코드'를 절대 포함하지 마세요. 대신 간접적인 힌트만 제공하세요.
+
+    - 두 번째 줄에는 이 블럭이 전체 코드 흐름에서 어떤 역할을 하는지를 간단히 설명하세요.
+    - 세 번째 줄에는 이 블럭이 어떤 로직이나 기능 흐름에 기여하는지를 설명하세요. (예: 입력 준비, 조건 분기, 반복 등)
+
+    - 출력은 반드시 4줄 이내로 제한하며, 번호는 붙이지 마세요.
+    - 문장은 짧고 단정하게. 반복하지 마세요.
+    - 마크업(강조, 줄바꿈, 인용 등)은 하지 마세요.
 
     학생이 제출한 코드:
     {block_code}
@@ -154,7 +167,10 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     가이드라인:
     {guideline}
 
-    모범 코드:
+    해당 블럭의 모범 코드:
+    {model_block}
+
+    전체 모범 코드:
     {model_answer}
     """
 
@@ -206,13 +222,15 @@ def main():
         # 모범 코드 및 가이드라인 불러오기
         model_answer = get_model_answer(problem_id)
         guideline = get_guideline(problem_id, block_index, step)
+        model_block = get_model_block(problem_id, block_index, step)
 
         # 디버깅 정보 기록
         with open("/tmp/python_input_debug.log", "a") as log_file:
-            log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}, guideline: {guideline}, model_answer: {model_answer}\n")
+            log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step},model_block:{model_block}, guideline: {guideline}, model_answer: {model_answer}\n")
 
         # 피드백 생성
-        hint = generate_hint(block_code, block_index, guideline, model_answer)
+        # 올바른 호출
+        hint = generate_hint(block_code, block_index, guideline, model_block, model_answer)
 
         # 피드백을 파일로 저장
         with open(feedback_file, 'w', encoding='utf-8') as f:
