@@ -66,7 +66,7 @@ include("../../guideline_common.php");
             }
         
             return escape_except_spans($text);
-        }}
+        }
         
         function escape_except_spans($input) {
             return preg_replace_callback('/(<span[^>]*>.*?<\/span>)|([^<]+)/s', function($matches) {
