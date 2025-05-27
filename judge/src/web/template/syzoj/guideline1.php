@@ -53,28 +53,30 @@ include("../../guideline_common.php");
         function highlight_terms_with_tooltip($text) {
             $term_map = [
                 "초기화" => "변수에 처음으로 값을 할당하여 유효한 상태로 만드는 작업입니다. 예: int a = 10;",
-                "선언" => "변수나 함수를 처음 정의하는 과정입니다. 예: int count;",
-                "변수" => "데이터를 저장하는 이름 붙은 공간입니다. 예: int i;",
-                "널" => "값이 없음을 나타내는 특수 상수입니다. 예: ptr = NULL;",
-                "순회" => "배열이나 리스트를 처음부터 끝까지 접근하는 과정입니다. 예: for (int i = 0; i < n; i++)"
+                "선언"   => "변수나 함수를 처음 정의하는 과정입니다. 예: int count;",
+                "변수"   => "데이터를 저장하는 이름 붙은 공간입니다. 예: int i;",
+                "널"     => "값이 없음을 나타내는 특수 상수입니다. 예: ptr = NULL;",
+                "순회"   => "배열이나 리스트를 처음부터 끝까지 접근하는 과정입니다. 예: for (int i = 0; i < n; i++)"
             ];
         
             // 1. 태그 먼저 넣기 (이스케이프 하지 않음)
             foreach ($term_map as $term => $desc) {
-                $escaped_desc = htmlspecialchars($desc, ENT_QUOTES, 'UTF-8');
+                $escaped_desc = htmlspecialchars($desc, ENT_QUOTES | ENT_HTML5, 'UTF-8');
                 $tooltip = '<span class="term-tooltip" data-content="' . $escaped_desc . '">' . $term . '</span>';
-                // 단어 단위 일치
+                // 단어 경계에만 적용
                 $text = preg_replace('/\b' . preg_quote($term, '/') . '\b/u', $tooltip, $text);
             }
         
-            // 2. 나머지만 escape (툴팁 태그 제외)
+            // 2. 툴팁 span을 제외한 나머지 텍스트만 이스케이프
             return escape_except_spans($text);
         }
         
         function escape_except_spans($input) {
-            return preg_replace_callback('/(<span[^>]+>.*?<\/span>)|([^<]+)/s', function($matches) {
-                if (!empty($matches[1])) return $matches[1]; // span 태그는 그대로
-                return htmlspecialchars($matches[2], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            return preg_replace_callback('/(<span[^>]*>.*?<\/span>)|([^<]+)/s', function($matches) {
+                if (!empty($matches[1])) {
+                    return $matches[1]; // span 태그는 그대로
+                }
+                return htmlspecialchars($matches[2], ENT_QUOTES | ENT_HTML5, 'UTF-8'); // 나머지만 escape
             }, $input);
         }
 
@@ -110,7 +112,7 @@ include("../../guideline_common.php");
                     // 일반 입력 블록
                     //$escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
                     //$escaped_line = highlight_terms_with_tooltip(htmlspecialchars($raw, ENT_QUOTES, 'UTF-8'));
-                    $escaped_line = highlight_terms_with_tooltip($raw);
+                    $escaped_line = preserve_html_tags_during_escape(highlight_terms_with_tooltip($raw));
                     $html .= "<div class='code-line'>{$escaped_line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
