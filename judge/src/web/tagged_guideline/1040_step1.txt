@@ -1,55 +1,67 @@
 [main_def_start(0)]
 목표: 세 정수를 입력받아 중간값을 찾는 프로그램을 만드세요.
+
 프로그램의 시작점인 main 함수를 정의하세요.
 반환 타입은 int이고 매개변수는 void로 설정하세요.
 이 프로그램은 세 정수를 입력받아 그 중 중간값(가장 크지도 작지도 않은 값)을 출력합니다.
 [self_start(1)]
 목표: 세 정수를 저장할 변수를 만드세요.
+
 int 타입 변수 a, b, c를 선언하세요.
 [self_end(1)]
 [self_start(1)]
 목표: 사용자로부터 세 정수를 입력받으세요.
+
 scanf 함수와 %d %d %d 형식 지정자를 사용해서 a, b, c에 저장하세요.
 주소 연산자(&)를 사용해야 합니다.
 [self_end(1)]
 [self_start(1)]
 목표: 중간값을 저장할 변수를 만드세요.
+
 int 타입 변수 middle을 선언하세요.
 [self_end(1]]
 [cond_start(1)]
 목표: a가 중간값인지 확인하세요.
+
 if (조건) {
 조건: a가 b와 c 사이에 있는지 확인하는 조건을 작성하세요.
 논리 OR 연산자를 사용해서 두 가지 경우를 모두 확인하세요.
 [self_start(2)]
 목표: a가 중간값이므로 middle에 저장하세요.
+
 middle 변수에 a 값을 대입하세요.
 [self_end(2)]
 [cond_end(1)]
 [cond_start(1)]
 목표: b가 중간값인지 확인하세요.
+
 else if (조건) {
 조건: b가 a와 c 사이에 있는지 확인하는 조건을 작성하세요.
 논리 OR 연산자를 사용해서 두 가지 경우를 모두 확인하세요.
 [self_start(2)]
 목표: b가 중간값이므로 middle에 저장하세요.
+
 middle 변수에 b 값을 대입하세요.
 [self_end(2)]
 [cond_end(1)]
 [cond_start(1)]
 목표: c가 중간값인 경우를 처리하세요.
+
 else 문을 사용하세요.
 [self_start(2)]
 목표: c가 중간값이므로 middle에 저장하세요.
+
 middle 변수에 c 값을 대입하세요.
 [self_end(2)]
 [cond_end(1)]
 [self_start(1)]
 목표: 중간값을 출력하세요.
+
 printf 함수와 %d 형식 지정자를 사용해서 middle 변수를 출력하세요.
 [self_end(1)]
 [self_start(1)]
 목표: 프로그램을 정상 종료하세요.
+
 return 0을 작성해서 성공적인 종료를 알리세요.
 [self_end(1)]
 [main_def_end(0)]
