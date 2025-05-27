@@ -1,3 +1,17 @@
+/* 입력창 제외한 모든 부분에 Pretendard 적용 */
+body, html, .main-layout, .top-toolbar, .action-buttons, .step-buttons,
+.left-panel, .flowchart-wrapper, .flowchart-title, .flowchart-scroll,
+.center-panel, .right-panel, .code-line, .submit-button, .answer-button,
+.feedback-button, .answer-area, .checkmark, .submission-line, .basic-sentence {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif !important;
+}
+
+/* 코드 입력창은 기존 폰트 유지 */
+.styled-textarea {
+  font-family: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+}
+
 .top-toolbar {
   width: 100%; 
   padding: 15px 30px;
