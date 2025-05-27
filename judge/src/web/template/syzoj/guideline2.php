@@ -271,7 +271,7 @@ document.addEventListener("DOMContentLoaded", function () {
         autoResize(ta); // 초기 렌더링 시 높이 조정
 
         // 입력할 때마다 높이 자동 조정
-        ta.addEventListener("input", () => autoResize(ta));
+        // ta.addEventListener("input", () => autoResize(ta));
     });
 
     // (2) readonly textarea 스타일 지정
