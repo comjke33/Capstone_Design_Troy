@@ -70,7 +70,7 @@ include("../../guideline_common.php");
             // 1단계: 특수 토큰으로 치환
             foreach ($term_map as $term => $desc) {
                 $token = "__TERM_{$i}__";
-                $placeholders[$token] = '<span class="term-tooltip" data-content="' . htmlspecialchars($desc, ENT_QUOTES | ENT_HTML5, 'UTF-8') . '">' . $term . '</span>';
+                $placeholders[$token] = '<span class="term-tooltip" data-html="' . htmlspecialchars($desc, ENT_QUOTES | ENT_HTML5, 'UTF-8') . '">' . $term . '</span>';
         
                 // 조사 포함도 매칭 (예: 순회를, 선언하고)
                 $text = preg_replace('/' . preg_quote($term, '/') . '(?=[가-힣]{0,2})/u', $token, $text);
