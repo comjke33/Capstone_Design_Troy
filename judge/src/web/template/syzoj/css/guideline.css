@@ -278,7 +278,7 @@
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
     Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif !important;
   color: #333;
-  background-color: #f1f1f1;
+  /* background-color: #f1f1f1; */
   padding: 10px;
   border-radius: 6px;
   margin-top: 8px;
