@@ -91,6 +91,7 @@ include("../../guideline_common.php");
                 } else {
                     // 일반 입력 블록
                     $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
+                    $escaped_line = preg_replace('/([.?!])\s*/u', '$1<br>', $escaped_line);
                     $html .= "<div class='code-line'>{$escaped_line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
@@ -104,7 +105,6 @@ include("../../guideline_common.php");
                 $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
                 $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
                 $html .= "</div>";
-                $html .= "<div style='height: 10px;'></div>";  // 블록 사이 줄바꿈 여백
                 $answer_index++;
             } elseif (isset($block['children']) && is_array($block['children'])) {
                 $html .= render_tree_plain($block['children'], $answer_index);
