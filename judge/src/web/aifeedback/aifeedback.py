@@ -130,14 +130,24 @@ def get_guideline(problem_id, block_index, step):
             return ''.join(clean_block(blocks[block_index]))
     return "블럭 가이드라인 없음"
 
+
+def get_model_block(problem_id, block_index, step):
+    """태그된 모범 코드에서 특정 블럭 추출"""
+    path = f"/home/Capstone_Design_Troy/judge/src/web/tagged_code/{problem_id}_step{step}.txt"
+    if os.path.exists(path):
+        code_lines = read_code_lines(path)
+        _, blocks, _, _, _ = get_blocks(code_lines)
+        if block_index < len(blocks):
+            return ''.join(clean_block(blocks[block_index]))
+    return "모범 코드 블럭 없음"
+
 def read_code_lines(filename):
     with open(filename, 'r') as f:
         return f.readlines()
 
-def generate_hint(block_code, block_number, guideline, model_answer):
+def generate_hint(block_code, block_number, guideline, model_block, model_answer):
     """OpenAI API를 이용하여 코드 블럭에 대한 힌트 생성"""
     prompt = f"""
-  
     학생 코드에 대해 간단히 분석하고, 가이드라인과 비교하여 피드백을 제공하세요.
 
     1. 이 코드는 전체 모범 코드 중 일부 블록에 해당합니다.
@@ -155,7 +165,10 @@ def generate_hint(block_code, block_number, guideline, model_answer):
     가이드라인:
     {guideline}
 
-    모범 코드:
+    해당 블럭의 모범 코드:
+    {model_block}
+
+    전체 모범 코드:
     {model_answer}
     """
 
@@ -207,13 +220,15 @@ def main():
         # 모범 코드 및 가이드라인 불러오기
         model_answer = get_model_answer(problem_id)
         guideline = get_guideline(problem_id, block_index, step)
+        model_block = get_model_block(problem_id, block_index, step)
 
         # 디버깅 정보 기록
         with open("/tmp/python_input_debug.log", "a") as log_file:
             log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}, guideline: {guideline}, model_answer: {model_answer}\n")
 
         # 피드백 생성
-        hint = generate_hint(block_code, block_index, guideline, model_answer)
+        # 올바른 호출
+        hint = generate_hint(block_code, block_index, guideline, model_block, model_answer)
 
         # 피드백을 파일로 저장
         with open(feedback_file, 'w', encoding='utf-8') as f:
