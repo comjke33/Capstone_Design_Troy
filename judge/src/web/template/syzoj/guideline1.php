@@ -62,7 +62,7 @@ include("../../guideline_common.php");
             foreach ($term_map as $term => $desc) {
                 $escaped_desc = htmlspecialchars($desc, ENT_QUOTES | ENT_HTML5, 'UTF-8');
                 $tooltip = '<span class="term-tooltip" data-content="' . $escaped_desc . '">' . $term . '</span>';
-                $text = preg_replace('/(?<![\p{L}0-9])' . preg_quote($term, '/') . '(?![\p{L}0-9])/u', $tooltip, $text);
+                preg_replace('/(?<![\p{L}0-9])' . preg_quote($term, '/') . '(?![\p{L}0-9])/u', $tooltip, $text);
             }
         
             return escape_except_spans($text);
