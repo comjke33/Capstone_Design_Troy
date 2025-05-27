@@ -272,29 +272,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //textarea 입력 줄에 따라 높이 조절
 document.addEventListener("DOMContentLoaded", function () {
-    const textareas = document.querySelectorAll(".styled-textarea");
-
-    textareas.forEach((ta) => {
+    // 모든 textarea에 대해 자동 크기 조정 적용
+    document.querySelectorAll(".styled-textarea").forEach((ta) => {
         autoResize(ta); // 초기 렌더링 시 높이 조정
 
         // 입력할 때마다 높이 자동 조정
         ta.addEventListener("input", () => autoResize(ta));
     });
 
-     // ✅ 추가: readonly 안내 텍스트 재지정
-    textareas.forEach((ta) => {
-        if (ta.hasAttribute("readonly")) {
-            ta.style.backgroundColor = "#d4edda";
-            ta.style.color = "#155724";
-            ta.style.border = "1px solid #c3e6cb";
-        }
-    });
-
     function autoResize(textarea) {
-        textarea.style.height = "auto"; // 초기화
-        textarea.style.height = textarea.scrollHeight + "px"; // 내용에 따라 높이 설정
+        // 높이를 auto로 리셋하고, scrollHeight를 기준으로 높이를 설정합니다.
+        textarea.style.height = 'auto'; 
+        textarea.style.height = textarea.scrollHeight + 'px'; // 내용에 따라 높이 설정
     }
+
+    // 답안 확인 버튼 클릭 시에도 높이를 유지하도록 처리
+    document.querySelectorAll(".answer-button").forEach((button, index) => {
+        button.addEventListener("click", function () {
+            // 답안 확인 시에도 이미 설정된 높이를 유지하도록 처리
+            const textarea = document.getElementById(`ta_${index}`);
+            if (textarea) {
+                textarea.style.height = `${textarea.scrollHeight}px`; // 높이 고정
+            }
+        });
+    });
 });
+
 
 //문제 맞았는지 여부 확인
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
