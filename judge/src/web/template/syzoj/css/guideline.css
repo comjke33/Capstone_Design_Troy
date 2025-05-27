@@ -1,4 +1,6 @@
 .top-toolbar {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+  Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
   width: 100%; 
   padding: 15px 30px;
   display: flex;
@@ -62,6 +64,8 @@
 
 /* 전체 레이아웃 */
 .main-layout {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+  Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
   display: flex;
   width: 100%;
   box-sizing: border-box;
@@ -200,6 +204,8 @@
 
 /* 제출 버튼 및 보기 버튼 */
 .submit-button, .answer-button, .feedback-button {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+  Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
   margin-top: 0;
   color: white !important;
   border: none !important;
