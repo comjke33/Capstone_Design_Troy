@@ -50,6 +50,23 @@ include("../../guideline_common.php");
     <br><br>
 
     <?php      
+        function highlight_terms_with_tooltip($text) {
+            $term_map = [
+                "포인터" => "메모리 주소를 저장하는 변수입니다.",
+                "배열" => "같은 자료형의 집합입니다.",
+                "조건문" => "조건에 따라 실행 흐름이 바뀝니다.",
+                "반복문" => "조건을 만족할 때까지 반복 실행합니다.",
+                "함수" => "특정 작업을 수행하는 코드 묶음입니다."
+            ];
+        
+            foreach ($term_map as $term => $desc) {
+                $pattern = '/\b(' . preg_quote($term, '/') . ')\b/u';
+                $replacement = '<span class="term-tooltip" data-content="' . htmlspecialchars($desc) . '">$1</span>';
+                $text = preg_replace($pattern, $replacement, $text);
+            }
+        
+            return $text;
+        }
         function render_tree_plain($blocks, &$answer_index = 0) {
         $html = "";
         foreach ($blocks as $block) {
@@ -79,7 +96,8 @@ include("../../guideline_common.php");
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$default_value}</textarea>";
                 } else {
                     // 일반 입력 블록
-                    $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
+                    //$escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
+                    $escaped_line = highlight_terms_with_tooltip(htmlspecialchars($raw, ENT_QUOTES, 'UTF-8'));
                     $html .= "<div class='code-line'>{$escaped_line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
@@ -608,6 +626,13 @@ function fetchImageByLineNumber(lineNumber) {
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("textarea[id^='ta_']").forEach((ta, idx) => {
     ta.addEventListener("focus", () => fetchImageByLineNumber(idx)); 
+    });
+});
+document.addEventListener("DOMContentLoaded", function () {
+    $('.term-tooltip').popup({
+        position: 'top center',
+        hoverable: true,
+        delay: { show: 300, hide: 100 }
     });
 });
 
