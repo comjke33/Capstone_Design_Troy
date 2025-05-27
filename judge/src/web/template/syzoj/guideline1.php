@@ -62,7 +62,7 @@ include("../../guideline_common.php");
             foreach ($term_map as $term => $desc) {
                 $escaped_desc = htmlspecialchars($desc, ENT_QUOTES, 'UTF-8');
         
-                $pattern = '/\b(' . preg_quote($term, '/') . ')\b/u';  // 단어 기준
+                $pattern = '/' . preg_quote($term, '/') . '/u';
                 $text = preg_replace_callback($pattern, function ($m) use ($escaped_desc) {
                     return '<span class="term-tooltip" data-content="' . $escaped_desc . '">' . $m[1] . '</span>';
                 }, $text);
