@@ -1,83 +1,126 @@
 [func_def_start(0)]
-`inputData` 함수를 정의하세요.
-float형 배열 x와 y를 매개변수로 받습니다.
-int형 변수 size를 매개변수로 받습니다.
-float형 포인터 변수 sum_x, sum_y, sum_xy, sum_x2를 매개변수로 받습니다.
+목표: 데이터를 입력받고 선형회귀에 필요한 합계들을 계산하는 함수를 만드세요.
+
+함수명은 inputData로 하고 반환 타입은 void로 설정하세요.
+매개변수는 float 배열 x, y, int 타입 size, float 포인터 sum_x, sum_y, sum_xy, sum_x2를 받도록 하세요.
+이 함수는 x, y 좌표를 입력받으면서 동시에 선형회귀 계산에 필요한 합계들을 구합니다.
 [rep_start(1)]
-size만큼 반복하는 for문을 작성하세요.
+목표: size개의 데이터 쌍을 입력받고 합계를 계산하는 반복문을 만드세요.
+
+예: for (초기값; 조건; 증감) {
+초기값: i를 0으로 시작, 조건: i가 size보다 작을 때까지, 반복: i를 1씩 증가
 [self_start(2)]
-x[i]와 y[i]를 입력받아 각각의 배열에 저장하세요.
+목표: x와 y 좌표를 입력받으세요.
+
+scanf 함수와 %f %f 형식 지정자를 사용해서 x[i]와 y[i]에 저장하세요.
+주소 연산자(&)를 사용해야 합니다.
 [self_end(2)]
 [self_start(2)]
-sum_x에 x[i]를 더하세요.
+목표: x 값들의 합을 누적하세요.
+
+*sum_x에 x[i] 값을 더해서 누적하세요.
+포인터를 통해 원본 변수에 접근합니다.
 [self_end(2)]
 [self_start(2)]
-sum_y에 y[i]를 더하세요.
+목표: y 값들의 합을 누적하세요.
+
+*sum_y에 y[i] 값을 더해서 누적하세요.
 [self_end(2)]
 [self_start(2)]
-sum_xy에 x[i]와y[i]의 곱을 더하세요.
+목표: x와 y의 곱들의 합을 누적하세요.
+
+*sum_xy에 x[i] * y[i] 값을 더해서 누적하세요.
 [self_end(2)]
 [self_start(2)]
-sum_x2에 x[i]의 제곱을 더하세요.
+목표: x의 제곱들의 합을 누적하세요.
+
+*sum_x2에 x[i] * x[i] 값을 더해서 누적하세요.
 [self_end(2)]
 [rep_end(1)]
 [func_def_end(0)]
-
 [func_def_start(0)]
-`calculateCoefficients` 함수를 정의하세요.
-float형 변수를 sum_x, sum_y, sum_xy, sum_x2, 각 1개씩을 매개변수로 받습니다.
-int형 변수를 size를 매개변수로 받습니다.
-float형 포인터 변수 a와 b를 매개변수로 받습니다.
+목표: 선형회귀의 기울기와 절편을 계산하는 함수를 만드세요.
+
+함수명은 calculateCoefficients로 하고 반환 타입은 void로 설정하세요.
+매개변수는 float 타입 sum_x, sum_y, sum_xy, sum_x2, int 타입 size, float 포인터 a, b를 받도록 하세요.
+이 함수는 최소제곱법 공식을 사용해서 y = ax + b에서 a와 b를 계산합니다.
 [self_start(1)]
-선형 회귀의 기울기 a를 계산하세요.
-아래 식을 기준으로 계산합니다: (size * sum_xy - sum_x * sum_y) / (size * sum_x2 - sum_x * sum_x).
+목표: 기울기 a를 계산하세요.
+
+*a에 (size * sum_xy - sum_x * sum_y) / (size * sum_x2 - sum_x * sum_x) 공식을 적용하세요.
+이는 최소제곱법의 기울기 공식입니다.
 [self_end(1)]
 [self_start(1)]
-절편 b를 계산하세요.
-아래 식을 기준으로 계산합니다: (sum_y - (*a) * sum_x) / size.
+목표: 절편 b를 계산하세요.
+
+*b에 (sum_y - (*a) * sum_x) / size 공식을 적용하세요.
+이는 최소제곱법의 절편 공식이며 포인터를 올바르게 사용해야 합니다.
 [self_end(1)]
 [func_def_end(0)]
-
 [func_def_start(0)]
-`predict` 함수를 정의하세요.
-float형 변수를 a, b 각각 1개씩을 매개변수로 받습니다.
-float형 변수를 test_x를 매개변수로 받습니다.
+목표: 주어진 x 값에 대한 y 값을 예측하는 함수를 만드세요.
+
+함수명은 predict로 하고 반환 타입은 float로 설정하세요.
+매개변수는 float 타입 a, b, test_x를 받도록 하세요.
+이 함수는 선형회귀 식 y = ax + b를 사용해서 예측값을 반환합니다.
 [self_start(1)]
-a와 test_x에 b를 더한 결과를 반환하세요.
-선형 회귀 예측 형식인 y = ax + b 입니다.
+목표: 선형회귀 식을 사용해서 예측값을 계산하고 반환하세요.
+
+return문을 사용해서 a * test_x + b를 반환하세요.
 [self_end(1)]
 [func_def_end(0)]
-
 [main_def_start(0)]
-main 함수를 정의하세요.
+목표: 10개의 데이터 점으로 선형회귀를 수행하고 새로운 x값에 대한 예측을 출력하는 프로그램을 만드세요.
+
+프로그램의 시작점인 main 함수를 정의하세요.
+이 프로그램은 10개의 (x, y) 좌표를 입력받아 선형회귀를 수행하고 새로운 x값에 대한 y값을 예측합니다.
 [self_start(1)]
-길이가 10인 두 개의 float형 배열 x와 y를 선언하세요.
+목표: 필요한 모든 변수들을 선언하고 초기화하세요.
+
+float 배열 x, y를 크기 10으로, float 변수 sum_x, sum_y, sum_xy, sum_x2를 0으로, a, b를 선언하세요.
+합계 변수들은 반드시 0으로 초기화해야 합니다.
 [self_end(1)]
 [self_start(1)]
-이 데이터를 저장할 거나 저장할 크기인 size 변수는 10입니다.
+목표: 데이터의 개수를 설정하세요.
+
+int 타입 변수 size를 선언하고 10으로 초기화하세요.
 [self_end(1)]
 [self_start(1)]
-inputData 함수를 호출하세요.
-매개변수로 x, y, size, sum_x, sum_y, sum_xy, sum_x2의 주소를 전달하세요.
+목표: inputData 함수를 호출해서 데이터를 입력받고 합계를 계산하세요.
+
+함수 호출 시 x, y, size, &sum_x, &sum_y, &sum_xy, &sum_x2를 매개변수로 전달하세요.
+포인터로 전달할 변수들에는 주소 연산자(&)를 사용하세요.
 [self_end(1)]
 [self_start(1)]
-calculateCoefficients 함수를 호출하세요. 
-sum_x, sum_y, sum_xy, sum_x2, size, a와 b의 주소를 전달하세요.
+목표: calculateCoefficients 함수를 호출해서 회귀계수를 계산하세요.
+
+함수 호출 시 sum_x, sum_y, sum_xy, sum_x2, size, &a, &b를 매개변수로 전달하세요.
 [self_end(1)]
 [self_start(1)]
-임의의 x값을 받을 변수 test_x를 선언하세요.
+목표: 예측할 x 값을 저장할 변수를 만드세요.
+
+float 타입 변수 test_x를 선언하세요.
 [self_end(1)]
 [self_start(1)]
-scanf 함수를 사용하여 test_x에 값을 입력 받으세요.
+목표: 예측할 x 값을 입력받으세요.
+
+scanf 함수와 %f 형식 지정자를 사용해서 test_x에 저장하세요.
+주소 연산자(&)를 사용해야 합니다.
 [self_end(1)]
 [self_start(1)]
-predict 함수를 호출하여 예측된 y값을 pred에 저장하세요.
-매개변수로 a, b 그리고 test_x를 전달하세요.
+목표: predict 함수를 호출해서 예측값을 구하세요.
+
+float 타입 변수 pred를 선언하고 predict 함수의 결과로 초기화하세요.
+함수 호출 시 a, b, test_x를 매개변수로 전달하세요.
 [self_end(1)]
 [self_start(1)]
-pred 값을 소수점 둘째 자리까지 출력하세요.
+목표: 예측값을 소수점 둘째 자리까지 출력하세요.
+
+printf 함수와 %.2f 형식 지정자를 사용해서 pred 변수를 출력하세요.
 [self_end(1)]
 [self_start(1)]
-프로그램을 종료하세요.
+목표: 프로그램을 정상 종료하세요.
+
+return 0을 작성해서 성공적인 종료를 알리세요.
 [self_end(1)]
 [main_def_end(0)]
