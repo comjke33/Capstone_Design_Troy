@@ -192,26 +192,28 @@
 
 /* 코드 입력창 */
 .styled-textarea {
-  border: 1.5px solid #a0aec0;       /* 은은한 회색 테두리 */
-  border-radius: 10px;                /* 좀 더 둥글게 */
-  padding: 10px 14px;                 /* 넉넉한 패딩 */
+  border: 1.5px solid #a0aec0;
+  border-radius: 10px;
+  padding: 10px 14px;
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
     Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
-  font-size: 16.5px;                  /* 약간 키운 폰트 */
+  font-size: 16.5px;
   line-height: 1.5;
-  resize: vertical;                   /* 수직 방향만 조절 가능 */
+  resize: vertical;       /* 수직 조절만 허용해도 됨, 필요 없으면 'none' 으로 변경 가능 */
   width: 100%;
   box-sizing: border-box;
-  overflow-y: auto;                  /* 내용 많으면 세로 스크롤 */
-  min-height: 60px;                  /* 최소 높이 증가 */
-  max-height: 400px;                 /* 최대 높이 적절히 제한 */
-  background-color: #fafbfc;         /* 약간 밝은 배경 */
-  color: #2c3e50;                   /* 진한 텍스트 색 */
+  /* overflow-y: auto;  삭제 또는 변경 */
+  min-height: 60px;
+  max-height: 400px;
+  background-color: #fafbfc;
+  color: #2c3e50;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
   font-weight: 500;
   outline-offset: 2px;
   box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.05);
+  overflow-y: visible;  /* 추가해서 스크롤 제거 */
 }
+
 
 /* 포커스 시 강조 */
 .styled-textarea:focus {
