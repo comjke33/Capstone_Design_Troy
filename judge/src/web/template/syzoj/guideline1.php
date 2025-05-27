@@ -60,8 +60,8 @@ include("../../guideline_common.php");
             ];
         
             foreach ($term_map as $term => $desc) {
-                $pattern = '/\b(' . preg_quote($term, '/') . ')\b/u';
-                $replacement = '<span class="term-tooltip" data-content="' . htmlspecialchars($desc) . '">$1</span>';
+                $pattern = '/' . preg_quote($term, '/') . '/u';  // \b 제거
+                $replacement = '<span class="term-tooltip" data-content="' . htmlspecialchars($desc) . '">' . $term . '</span>';
                 $text = preg_replace($pattern, $replacement, $text);
             }
         
