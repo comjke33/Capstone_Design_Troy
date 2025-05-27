@@ -220,7 +220,7 @@ def main():
         # 모범 코드 및 가이드라인 불러오기
         model_answer = get_model_answer(problem_id)
         guideline = get_guideline(problem_id, block_index, step)
-        model_block = get_model_block(problem_id, 1, step)
+        model_block = get_model_block(problem_id, 5, step)
 
         # 디버깅 정보 기록
         with open("/tmp/python_input_debug.log", "a") as log_file:
