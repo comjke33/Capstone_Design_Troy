@@ -57,13 +57,12 @@ include("../../guideline_common.php");
                 "변수" => "데이터를 저장하기 위해 이름을 붙인 메모리 공간입니다. 예: `char name[100];`",
                 "널" => "값이 없음을 의미하는 특수한 상수로, 포인터가 아무 것도 가리키지 않을 때 사용됩니다. 예: `ptr = NULL;`"
             ];
-            
+        
             foreach ($term_map as $term => $desc) {
-                // 단순 텍스트 매칭 (HTML 속성용 이스케이프 처리)
-                $escaped_desc = str_replace('"', '&quot;', $desc);
-                $replacement = '<span class="term-tooltip" data-content="' . htmlspecialchars($desc, ENT_QUOTES, 'UTF-8') . '">$1</span>';
-                
-                $text = str_replace($term, $replacement, $text);
+                $escaped_desc = htmlspecialchars($desc, ENT_QUOTES, 'UTF-8');
+                $pattern = '/\b(' . preg_quote($term, '/') . ')\b/u';
+                $replacement = '<span class="term-tooltip" data-content="' . $escaped_desc . '">$1</span>';
+                $text = preg_replace($pattern, $replacement, $text);
             }
         
             return $text;
