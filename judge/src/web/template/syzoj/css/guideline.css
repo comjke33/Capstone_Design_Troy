@@ -292,6 +292,6 @@
 
 .term-tooltip {
   border-bottom: 1px dotted #2185d0;
-  cursor: help;
+  cursor: default;
   color: #1b1c1d;
 }
