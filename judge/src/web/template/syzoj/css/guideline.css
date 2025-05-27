@@ -320,7 +320,6 @@
 }
 
 .term-tooltip {
-  border-bottom: 3px solid blue; /* 실선 + 빨간색 + 더 굵게 */
   cursor: default;
   color: #1e70bf;              /* 파란색 글씨 */
   font-weight: bold;           /* 굵게 */
