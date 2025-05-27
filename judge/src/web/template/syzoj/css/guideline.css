@@ -321,7 +321,7 @@
 
 .term-tooltip {
   cursor: default;
-  color: #1e70bf;              /* 파란색 글씨 */
+  color: #1e87bfe4;              /* 파란색 글씨 */
   font-weight: bold;           /* 굵게 */
 }
 .ui.popup {
