@@ -60,10 +60,8 @@ include("../../guideline_common.php");
             ];
         
             foreach ($term_map as $term => $desc) {
-                $escaped_desc = htmlspecialchars($desc, ENT_QUOTES, 'UTF-8');
-                $tooltip = '<span class="term-tooltip" data-content="' . $escaped_desc . '">' . $term . '</span>';
-                // 단어 경계 \b 사용 → 중간 문자열 깨짐 방지
-                $text = preg_replace('/\b' . preg_quote($term, '/') . '\b/u', $tooltip, $text);
+                $tooltip = '<span class="term-tooltip" data-content="' . htmlspecialchars($desc, ENT_QUOTES, 'UTF-8') . '">' . $term . '</span>';
+                $text = str_replace($term, $tooltip, $text); // ✅ 단순 치환으로 변경
             }
         
             return $text;
