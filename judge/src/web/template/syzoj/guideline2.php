@@ -81,7 +81,8 @@ include("../../guideline_common.php");
 
                 $has_correct_answer = !empty($default_value);
                 $disabled = $has_correct_answer ? "" : "disabled";
-                $readonlyStyle = "background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;";
+                $readonlyStyle = "background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; font-size: 18px;";
+
                 $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
 
                 // ✅ Depth 1: 읽기 전용 정답 표시용 블록
