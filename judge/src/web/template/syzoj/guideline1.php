@@ -651,6 +651,7 @@ document.addEventListener("DOMContentLoaded", function () {
   $('.term-tooltip').popup({
     position: 'top center',
     hoverable: true,
+    distanceAway: 50,
     delay: { show: 300, hide: 100 },
     onShow: function () {
       $(this).css('cursor', 'none');
