@@ -1,3 +1,13 @@
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+
+<style>
+/* header 내 텍스트에 Pretendard 적용 */
+#page-header, #page-header * {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif !important;
+}
+</style>
+
 <?php
 include("template/$OJ_TEMPLATE/header.php");
 include("../../guideline_common.php");
