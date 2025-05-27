@@ -219,12 +219,12 @@ def main():
 
         # 모범 코드 및 가이드라인 불러오기
         model_answer = get_model_answer(problem_id)
-        guideline = "a"
+        guideline = get_guideline(problem_id, block_index, step)
         model_block = get_model_block(problem_id, block_index, step)
 
         # 디버깅 정보 기록
         with open("/tmp/python_input_debug.log", "a") as log_file:
-            log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step}, guideline: {guideline}, model_answer: {model_answer}\n")
+            log_file.write(f"Received problem_id: {problem_id}, block_index: {block_index}, block_code: {block_code}, step: {step},model_block:{model_block}, guideline: {guideline}, model_answer: {model_answer}\n")
 
         # 피드백 생성
         # 올바른 호출
