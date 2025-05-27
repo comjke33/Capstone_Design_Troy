@@ -55,14 +55,17 @@ include("../../guideline_common.php");
                 "선언" => "변수나 함수를 처음 정의하여 이름과 자료형을 지정하는 과정입니다. 예: `int a;`",
                 "초기화" => "변수에 처음으로 값을 할당하여 유효한 상태로 만드는 작업입니다. 예: `int a = 10;`",
                 "변수" => "데이터를 저장하기 위해 이름을 붙인 메모리 공간입니다. 예: `char name[100];`",
-                "널" => "값이 없음을 의미하는 특수한 상수로, 포인터가 아무 것도 가리키지 않을 때 사용됩니다. 예: `ptr = NULL;`"
+                "널" => "값이 없음을 의미하는 특수한 상수로, 포인터가 아무 것도 가리키지 않을 때 사용됩니다. 예: `ptr = NULL;`",
+                "순회" => "배열이나 리스트 등의 각 원소를 차례로 접근하는 작업입니다. 예: `for (int i = 0; i < n; i++)`"
             ];
         
             foreach ($term_map as $term => $desc) {
                 $escaped_desc = htmlspecialchars($desc, ENT_QUOTES, 'UTF-8');
-                $pattern = '/\b(' . preg_quote($term, '/') . ')\b/u';
-                $replacement = '<span class="term-tooltip" data-content="' . $escaped_desc . '">$1</span>';
-                $text = preg_replace($pattern, $replacement, $text);
+        
+                $pattern = '/\b(' . preg_quote($term, '/') . ')\b/u';  // 단어 기준
+                $text = preg_replace_callback($pattern, function ($m) use ($escaped_desc) {
+                    return '<span class="term-tooltip" data-content="' . $escaped_desc . '">' . $m[1] . '</span>';
+                }, $text);
             }
         
             return $text;
