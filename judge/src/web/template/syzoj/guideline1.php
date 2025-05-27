@@ -629,11 +629,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 document.addEventListener("DOMContentLoaded", function () {
-    $('.term-tooltip').popup({
-        position: 'bottom center', // ← 여기 위치 조정
-        hoverable: true,
-        delay: { show: 300, hide: 100 }
-    });
+  $('.term-tooltip').popup({
+    position: 'top center',
+    hoverable: true,
+    delay: { show: 300, hide: 100 },
+    onShow: function () {
+      const popup = $(this).popup('get popup');
+      if (popup && popup.length) {
+        popup.css('transform', 'translateY(-12px)'); // 팝업 자체를 위로 이동
+      }
+    }
+  });
 });
 
 </script>
