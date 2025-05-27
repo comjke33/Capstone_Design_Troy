@@ -632,11 +632,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 document.addEventListener("DOMContentLoaded", function () {
-    $('.term-tooltip').popup({
-        position: ['px']+[0,0.5],
-        hoverable: true,
-        delay: { show: 300, hide: 100 }
-    });
+  $('.term-tooltip').popup({
+    position: 'top center',
+    hoverable: true,
+    delay: { show: 300, hide: 100 }
+  });
 });
 
 </script>
