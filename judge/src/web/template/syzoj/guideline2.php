@@ -87,6 +87,7 @@ include("../../guideline_common.php");
                 // ✅ Depth 1: 읽기 전용 정답 표시용 블록
                 if ($depth === 1) {
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$default_value}</textarea>";
+
                 } else {
                     // 일반 입력 블록
                     $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
@@ -408,19 +409,24 @@ function showAnswer(index) {
     }
 }
 
+// 높이를 scrollHeight 기준으로 자동 조절
 function autoResize(textarea) {
-    // 텍스트의 높이를 기반으로 크기를 동적으로 설정합니다.
+    if (!textarea) return;
     textarea.style.height = 'auto'; // 초기화
-    textarea.style.height = textarea.scrollHeight + 'px'; // 내용에 따라 높이 설정
+    textarea.style.height = textarea.scrollHeight + 'px'; // 실제 내용 높이 적용
 }
 
-// textarea 클릭 시 자동으로 크기를 맞추도록 설정
+// DOMContentLoaded 시 높이 자동 설정
 document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll("textarea").forEach((ta) => {
-        autoResize(ta); // 초기 렌더링 시 높이 조정
+    const textareas = document.querySelectorAll(".styled-textarea");
 
-        // 입력할 때마다 높이 자동 조정
-        ta.addEventListener("input", () => autoResize(ta));
+    textareas.forEach((ta) => {
+        autoResize(ta); // 첫 렌더링 시 자동 높이 조정
+
+        // 입력 시마다 높이 다시 계산
+        if (!ta.hasAttribute("readonly")) {
+            ta.addEventListener("input", () => autoResize(ta));
+        }
     });
 });
 
