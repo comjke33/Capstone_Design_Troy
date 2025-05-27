@@ -416,35 +416,11 @@ function autoResize(textarea) {
 
 // textarea 클릭 시 자동으로 크기를 맞추도록 설정
 document.addEventListener("DOMContentLoaded", function () {
-    // 모든 textarea에 대해 자동 크기 조정 적용
-    document.querySelectorAll(".styled-textarea").forEach((ta) => {
-        // 최초로 자동 크기 조정 적용
-        autoResize(ta); 
+    document.querySelectorAll("textarea").forEach((ta) => {
+        autoResize(ta); // 초기 렌더링 시 높이 조정
 
         // 입력할 때마다 높이 자동 조정
         ta.addEventListener("input", () => autoResize(ta));
-    });
-
-    function autoResize(textarea) {
-        // 처음 크기 계산 후 크기 고정
-        if (!textarea.dataset.resized) {
-            // 최초 크기를 계산하여 고정
-            textarea.style.height = 'auto'; // 높이를 자동으로 리셋
-            textarea.style.height = textarea.scrollHeight + 'px'; // 내용에 맞는 높이로 설정
-            textarea.dataset.resized = true; // 크기 수정 완료 표시
-        }
-    }
-
-    // 답안 확인 버튼 클릭 시에도 높이를 유지하도록 처리
-    document.querySelectorAll(".answer-button").forEach((button, index) => {
-        button.addEventListener("click", function () {
-            // 답안 확인 시에도 이미 설정된 높이를 유지하도록 처리
-            const textarea = document.getElementById(`ta_${index}`);
-            if (textarea) {
-                // 기존 높이 유지
-                textarea.style.height = `${textarea.scrollHeight}px`; // 높이 고정
-            }
-        });
     });
 });
 
