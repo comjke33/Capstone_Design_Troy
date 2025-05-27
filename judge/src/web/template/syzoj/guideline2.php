@@ -410,15 +410,27 @@ function escapeHtml(text) {
 //답안 보여주기 (좌측 밀착)
 function showAnswer(index) {
     const correctCode = correctAnswers[index]?.content.trim();
-    if (!correctCode) return;
+    const answerArea = document.getElementById(`answer_area_${index}`);
+
+    if (!correctCode) {
+        answerArea.innerHTML = "<em>정답이 등록되지 않았습니다.</em>";
+        answerArea.style.display = 'block';
+        return;
+    }
+
+    // 토글: 이미 보이면 숨기기
+    if (answerArea.style.display === 'block') {
+        answerArea.style.display = 'none';
+        return;
+    }
 
     const lines = correctCode.split('\n');
 
     const processedLines = lines.map(line => {
-        // ✅ 탭을 공백 4칸으로 바꾸기만 하고, 줄 앞 공백은 유지
+        // 탭을 공백 4칸으로 변환
         let replacedTabs = line.replace(/\t/g, '    ');
 
-        // ✅ HTML 이스케이프
+        // HTML 이스케이프
         let escapedLine = escapeHtml(replacedTabs);
 
         return escapedLine;
@@ -426,7 +438,6 @@ function showAnswer(index) {
 
     const finalCode = processedLines.join('\n');
 
-    const answerArea = document.getElementById(`answer_area_${index}`);
     const answerHtml = `<strong>정답:</strong><br><pre class='code-line' style="white-space: pre-wrap;">${finalCode}</pre>`;
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
@@ -436,10 +447,10 @@ function showAnswer(index) {
     if (ta) {
         const lineCount = correctCode.split('\n').length;
         const lineHeight = parseInt(window.getComputedStyle(ta).lineHeight) || 20; 
-        // 높이 = (줄 수 * 줄 높이) + 패딩 (약간 여유)
         ta.style.height = (lineCount * lineHeight + 16) + 'px'; 
     }
 }
+
 
 function autoResize(textarea) {
     // 내용에 맞게 textarea 높이 자동 조절
