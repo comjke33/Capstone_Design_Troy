@@ -118,6 +118,7 @@ include("../../guideline_common.php");
                     //$escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
                     //$escaped_line = highlight_terms_with_tooltip(htmlspecialchars($raw, ENT_QUOTES, 'UTF-8'));
                     $escaped_line = highlight_terms_with_tooltip($raw);
+                    $escaped_line = preg_replace('/([.?!])\s*/u', '$1<br>', $escaped_line);
                     $html .= "<div class='code-line'>{$escaped_line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
