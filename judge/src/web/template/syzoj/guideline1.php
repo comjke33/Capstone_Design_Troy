@@ -59,24 +59,26 @@ include("../../guideline_common.php");
                 "순회"   => "배열이나 리스트를 처음부터 끝까지 접근하는 과정입니다."
             ];
         
-            foreach ($term_map as $term => $desc) {
-                $escaped_desc = htmlspecialchars($desc, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-                $tooltip = '<span class="term-tooltip" data-content="' . $escaped_desc . '">' . $term . '</span>';
+            $placeholders = [];
+            $i = 0;
         
-                // 조사까지 매칭 (예: 순회를, 초기화하고)
-                $text = preg_replace_callback(
-                    '/' . preg_quote($term, '/') . '(?=[가-힣]*)/u',
-                    function ($matches) use ($term, $tooltip) {
-                        return str_replace($term, $tooltip, $matches[0]);
-                    },
-                    $text
-                );
+            // 1단계: 특수 토큰으로 치환
+            foreach ($term_map as $term => $desc) {
+                $token = "__TERM_{$i}__";
+                $placeholders[$token] = '<span class="term-tooltip" data-content="' . htmlspecialchars($desc, ENT_QUOTES | ENT_HTML5, 'UTF-8') . '">' . $term . '</span>';
+        
+                // 조사 포함도 매칭 (예: 순회를, 선언하고)
+                $text = preg_replace('/' . preg_quote($term, '/') . '(?=[가-힣]{0,2})/u', $token, $text);
+                $i++;
             }
         
-            // 전체 문자열 escape하되 span은 유지
-            return preg_replace_callback('/(<span[^>]*>.*?<\/span>)|([^<]+)/s', function($m) {
-                return isset($m[1]) && $m[1] ? $m[1] : htmlspecialchars($m[2], ENT_QUOTES | ENT_HTML5, 'UTF-8');
-            }, $text);
+            // 2단계: 전체 escape
+            $escaped = htmlspecialchars($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        
+            // 3단계: escape 후에 토큰을 실제 span 태그로 되돌림
+            $final = strtr($escaped, $placeholders);
+        
+            return $final;
         }
         
         function render_tree_plain($blocks, &$answer_index = 0) {
