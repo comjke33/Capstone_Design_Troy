@@ -1,12 +1,19 @@
-/* guideline3.css */
-
-body {
-  background-color: #f9fafb;
-  font-family: 'Noto Sans KR', sans-serif;
-  margin: 0;
-  padding: 0;
+.top-toolbar {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+  Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+  width: 100%; 
+  padding: 15px 30px;
+  display: flex;
+  justify-content: center;    /* 중앙 정렬로 변경 */
+  align-items: center;
+  box-sizing: border-box;
+  gap: 40px;                 /* 전체 그룹 간 gap 추가 */
 }
 
+.action-buttons {
+  display: flex;
+  align-items: center;
+}
 
 .step-buttons {
   display: flex;
@@ -22,18 +29,48 @@ body {
   min-width: 100px;
 }
 
-.step-buttons .ui.button.active {
-    background-color: #007BFF;  /* 하이라이트 색상 */
-    color: white;
-    font-weight: bold;
+/* 공통 버튼 스타일 */
+.ui.button.back,
+.ui.button.again {
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: background-color 0.2s ease;
+  font-size: 16px;
 }
 
-.step-buttons .ui.button {
-  background-color: #003366 ;
-  color: #ffffff ;
-  border-radius: 4px;
-  min-width: 100px;
+/* 문제 가기 버튼 (왼쪽 ↩) */
+.ui.button.back {
+  background-color: #003366;
+  color: white;
 }
+
+.ui.button.back:hover {
+  background-color: #001366;
+}
+
+/* 다시 풀기 버튼 (오른쪽 ↻) */
+.ui.button.again {
+  background-color: #003366;
+  color: white;
+}
+
+.ui.button.again:hover {
+  background-color: #001366;
+}
+
+
+
+body {
+  background-color: #f9fafb;
+  font-family: 'Noto Sans KR', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+
 
 .center-panel {
   background-color: white;
