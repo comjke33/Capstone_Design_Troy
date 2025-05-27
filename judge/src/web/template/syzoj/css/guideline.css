@@ -199,10 +199,8 @@
     Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
   font-size: 16.5px;
   line-height: 1.5;
-  /* resize: vertical;        */
   width: 100%;
   box-sizing: border-box;
-  /* overflow-y: auto;  삭제 또는 변경 */
   min-height: 60px;
   max-height: 400px;
   background-color: #fafbfc;
@@ -211,7 +209,7 @@
   font-weight: 500;
   outline-offset: 2px;
   box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.05);
-  /* overflow-y: visible;   */
+  resize: none;
 }
 
 
