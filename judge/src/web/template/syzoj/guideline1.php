@@ -78,11 +78,15 @@ include("../../guideline_common.php");
             }
         
             // 2단계: 전체 escape
+            // $escaped = htmlspecialchars($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            
+            // // 3단계: escape 후에 토큰을 실제 span 태그로 되돌림
+            // $final = strtr($escaped, $placeholders);
+        
+            // return $final;
             $escaped = htmlspecialchars($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        
-            // 3단계: escape 후에 토큰을 실제 span 태그로 되돌림
-            $final = strtr($escaped, $placeholders);
-        
+            $escaped_with_breaks = nl2br($escaped);  // 줄바꿈 반영
+            $final = strtr($escaped_with_breaks, $placeholders);
             return $final;
         }
         
