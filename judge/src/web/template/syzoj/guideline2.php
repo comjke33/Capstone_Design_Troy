@@ -408,14 +408,22 @@ function showAnswer(index) {
     }
 }
 
-function autoResize(textarea, content) {
-    // 정답 코드의 줄 수에 맞춰 높이를 자동으로 조정
-    const lines = content.split('\n').length;
-    const lineHeight = 20; // 줄 높이 (20px로 가정, 필요에 따라 수정 가능)
-    
-    // 높이를 설정
-    textarea.style.height = (lines * lineHeight) + 'px';
+function autoResize(textarea) {
+    // 텍스트의 높이를 기반으로 크기를 동적으로 설정합니다.
+    textarea.style.height = 'auto'; // 초기화
+    textarea.style.height = textarea.scrollHeight + 'px'; // 내용에 따라 높이 설정
 }
+
+// textarea 클릭 시 자동으로 크기를 맞추도록 설정
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("textarea").forEach((ta) => {
+        autoResize(ta); // 초기 렌더링 시 높이 조정
+
+        // 입력할 때마다 높이 자동 조정
+        ta.addEventListener("input", () => autoResize(ta));
+    });
+});
+
 
 
 function showFeedback(index) {
