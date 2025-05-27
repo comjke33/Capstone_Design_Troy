@@ -52,19 +52,18 @@ include("../../guideline_common.php");
     <?php      
         function highlight_terms_with_tooltip($text) {
             $term_map = [
-                "초기화" => "변수에 처음으로 값을 할당하여 유효한 상태로 만드는 작업입니다. 예: int a = 10;",
-                "선언"   => "변수나 함수를 처음 정의하는 과정입니다. 예: int count;",
-                "변수"   => "데이터를 저장하는 이름 붙은 공간입니다. 예: int i;",
-                "널"     => "값이 없음을 나타내는 특수 상수입니다. 예: ptr = NULL;",
-                "순회"   => "배열이나 리스트를 처음부터 끝까지 접근하는 과정입니다. 예: for (int i = 0; i < n; i++)"
+                "초기화" => "변수에 처음으로 값을 할당하여 유효한 상태로 만드는 작업입니다.",
+                "변수" => "데이터를 저장하는 이름 붙은 공간입니다.",
+                "순회" => "배열이나 리스트를 처음부터 끝까지 접근하는 과정입니다."
             ];
         
             foreach ($term_map as $term => $desc) {
                 $escaped_desc = htmlspecialchars($desc, ENT_QUOTES | ENT_HTML5, 'UTF-8');
                 $tooltip = '<span class="term-tooltip" data-content="' . $escaped_desc . '">' . $term . '</span>';
         
+                // 한글 조사 붙는 경우에도 동작
                 $text = preg_replace_callback(
-                    '/' . preg_quote($term, '/') . '(?=[가-힣]{0,3})/u',
+                    '/' . preg_quote($term, '/') . '(?=[가-힣]{0,2})/u',
                     function($matches) use ($term, $tooltip) {
                         return str_replace($term, $tooltip, $matches[0]);
                     },
@@ -72,16 +71,10 @@ include("../../guideline_common.php");
                 );
             }
         
-            return escape_except_spans($text);
-        }
-        
-        function escape_except_spans($input) {
-            return preg_replace_callback('/(<span[^>]*>.*?<\/span>)|([^<]+)/s', function($matches) {
-                if (!empty($matches[1])) {
-                    return $matches[1]; // span 태그는 그대로
-                }
-                return htmlspecialchars($matches[2], ENT_QUOTES | ENT_HTML5, 'UTF-8'); // 나머지만 escape
-            }, $input);
+            // span을 제외한 나머지 escape
+            return preg_replace_callback('/(<span[^>]+>.*?<\/span>)|([^<]+)/s', function($matches) {
+                return !empty($matches[1]) ? $matches[1] : htmlspecialchars($matches[2], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            }, $text);
         }
 
         
