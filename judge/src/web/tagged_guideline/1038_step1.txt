@@ -98,5 +98,5 @@ printf 함수와 %d 형식 지정자를 사용해서 is_right 변수를 출력�
 목표: 프로그램을 정상 종료하세요.
 
 return 0을 작성해서 성공적인 종료를 알리세요.
-[self_end(1]]
+[self_end(1)]
 [main_def_end(0)]
