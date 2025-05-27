@@ -183,7 +183,8 @@
   border: 1px solid #ccc;
   border-radius: 6px;
   padding: 4px 8px; /* 위아래 4px, 좌우 8px */
-  font-family: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
   font-size: 16px;
   line-height: 1.2;
   /* background-color: #fff; */
@@ -211,7 +212,7 @@
 /* 피드백 창 style */
 .feedback-block {
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
-    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif !important;
+    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 12px;
@@ -266,7 +267,8 @@
     color: #333;
     font-style: italic;
     resize: none;
-    font-family: monospace;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
     outline: none;
     padding: 8px;
     opacity: 0.95;
