@@ -68,51 +68,51 @@ include("../../guideline_common.php");
             return $text;
         }
         function render_tree_plain($blocks, &$answer_index = 0) {
-            $html = "";
-            foreach ($blocks as $block) {
-                if ($block['type'] === 'text') {
-                    $raw = trim($block['content']);
-                    if ($raw === '') continue;
-        
-                    $depth = $block['depth'];
-                    $margin_left = $depth * 50;
-        
-                    $default_value = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index])
-                        ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8')
-                        : '';
-        
-                    $has_correct_answer = !empty($default_value);
-                    $disabled = $has_correct_answer ? "" : "disabled";
-                    $readonlyStyle = "background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;";
-        
-                    $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
-        
-                    if ($depth === 1) {
-                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$default_value}</textarea>";
-                    } else {
-                        $escaped_line = highlight_terms_with_tooltip(htmlspecialchars($raw, ENT_QUOTES, 'UTF-8'));
-                        $html .= "<div class='code-line'>{$escaped_line}</div>";
-                        $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
-                        $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
-                        $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
-                        $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
-                    }
-        
-                    $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
-                    $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
-                    $html .= "</div>";
-        
-                    $answer_index++;
-                }
-        
-                // ✅ main_def, func_def, rep 등 모든 블록 타입 재귀 처리
-                elseif (isset($block['children']) && is_array($block['children'])) {
-                    $html .= render_tree_plain($block['children'], $answer_index);
-                }
+    $html = "";
+    foreach ($blocks as $block) {
+        if ($block['type'] === 'text') {
+            $raw = trim($block['content']);
+            if ($raw === '') continue;
+
+            $depth = $block['depth'];
+            $margin_left = $depth * 50;
+
+            $default_value = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index])
+                ? htmlspecialchars($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]['content'], ENT_QUOTES, 'UTF-8')
+                : '';
+
+            $has_correct_answer = !empty($default_value);
+            $disabled = $has_correct_answer ? "" : "disabled";
+            $readonlyStyle = "background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;";
+
+            $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
+
+            if ($depth === 1) {
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$default_value}</textarea>";
+            } else {
+                $escaped_line = highlight_terms_with_tooltip(htmlspecialchars($raw, ENT_QUOTES, 'UTF-8'));
+                $html .= "<div class='code-line'>{$escaped_line}</div>";
+                $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
+                $html .= "<button onclick='submitAnswer({$answer_index})' id='submit_btn_{$answer_index}' class='submit-button'>제출</button>";
+                $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
+                $html .= "<button onclick='showFeedback({$answer_index})' id='feedback_btn_{$answer_index}' class='feedback-button'>피드백 보기</button>";
             }
-        
-            return $html;
+
+            $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
+            $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
+            $html .= "</div>";
+
+            $answer_index++;
         }
+
+        // ✅ main_def, func_def, rep 등 모든 블록 타입 재귀 처리
+        elseif (isset($block['children']) && is_array($block['children'])) {
+            $html .= render_tree_plain($block['children'], $answer_index);
+        }
+    }
+
+    return $html;
+}
 
 
     $answer_index = 0;
