@@ -1,0 +1,88 @@
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+정수형 변수 n과 x를 선언하세요. n은 명령의 개수를 저장합니다.
+[self_end(1)]
+[self_start(1)]
+길이가 10000인 정수형 배열 stack을 선언하세요. 스택의 데이터를 저장합니다.
+[self_end(1)]
+[self_start(1)]
+정수형 변수 top을 -1로 초기화하여 스택이 비어있음을 표시합니다.
+[self_end(1)]
+[self_start(1)]
+길이가 10인 char 배열 command를 선언하세요. 입력받은 명령어를 저장합니다.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 n에 명령 개수를 입력 받으세요.
+[self_end(1)]
+[rep_start(1)]
+i가 0부터 n보다 작을 때까지 1씩 증가하며 반복하는 for문을 작성하세요.
+각 명령을 처리하기 위한 반복문입니다.
+[self_start(2)]
+scanf 함수를 사용하여 command에 명령을 입력 받으세요.
+[self_end(2)]
+[cond_start(2)]
+command가 "push"일 때 동작하는 if문을 작성하세요.
+정수 X를 스택에 넣는 명령입니다.
+[self_start(3)]
+scanf 함수를 사용하여 x에 정수를 입력 받으세요.
+[self_end(3)]
+stack의 top 인덱스를 1 증가시킨 후 x를 stack[top]에 저장하세요.
+[self_start(3)]
+[self_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+command가 "pop"일 때 동작하는 else if문을 작성하세요.
+스택의 가장 위에 있는 정수를 빼고 출력하는 명령입니다.
+[cond_start(3)]
+top이 -1일 때 동작하는 if문을 작성하세요.
+스택이 비어있을 때의 처리입니다.
+[self_start(4)]
+printf 함수로 -1을 출력하세요.
+[self_end(4)]
+[cond_end(3)]
+[cond_start(3)]
+top이 -1이 아닐 때 동작하는 else문을 작성하세요.
+스택에서 값을 출력하는 과정입니다.
+[self_start(4)]
+printf 함수로 stack[top]을 출력한 후 top을 1 감소시키세요.
+[self_end(4)]
+[cond_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+command가 "size"일 때 동작하는 else if문을 작성하세요.
+스택에 있는 정수의 개수를 출력하는 명령입니다.
+[self_start(3)]
+printf 함수로 top + 1을 출력하세요.
+[self_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+command가 "empty"일 때 동작하는 else if문을 작성하세요.
+스택이 비어있는지 체크하고 결과를 출력하는 명령입니다.
+[self_start(3)]
+printf 함수로 (top이 -1인지 검토하여 1 또는 0을 출력하세요.
+[self_end(3)]
+[cond_end(2)]
+[cond_start(2)]
+command가 "top"일 때 동작하는 else if문을 작성하세요.
+스택의 가장 위에 있는 정수를 출력하는 명령입니다.
+[cond_start(3)]
+top이 -1일 때 동작하는 if문을 작성하세요.
+스택이 비어있을 때의 처리입니다.
+[self_start(4)]
+printf 함수로 -1을 출력하세요.
+[self_end(4)]
+[cond_end(3)]
+[cond_start(3)]
+top이 -1이 아닐 때 동작하는 else문을 작성하세요.
+스택에서 가장 위의 값을 출력하는 과정입니다.
+[self_start(4)]
+printf 함수로 stack[top]을 출력하세요.
+[self_end(4)]
+[cond_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

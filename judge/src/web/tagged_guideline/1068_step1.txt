@@ -1,0 +1,72 @@
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+정수형 변수 n을 선언하세요.
+입력 받은 정수를 저장하기 위한 변수입니다.
+[self_end(1)]
+[self_start(1)]
+길이가 10인 정수형 배열 count를 선언하고 모든 원소를 0으로 초기화하세요.
+각 숫자의 개수를 세기 위한 배열입니다.
+[self_end(1)]
+[self_start(1)]
+정수형 변수 digit을 선언하세요.
+각 자릿수를 저장하기 위한 변수입니다.
+[self_end(1)]
+[self_start(1)]
+정수형 변수 maxCount를 0으로 초기화하세요.
+가장 많이 등장한 숫자의 개수를 저장하기 위한 변수입니다.
+[self_end(1)]
+[self_start(1)]
+정수형 변수 result를 0으로 초기화하세요.
+가장 많이 등장한 숫자를 저장할 변수입니다.
+[self_end(1)]
+[self_start(1)]
+정수형 변수 i를 선언하세요.
+반복문에서 인덱스로 사용될 변수입니다.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 n에 정수를 입력 받으세요.
+사용자로부터 숫자를 입력받는 과정입니다.
+[self_end(1)]
+[rep_start(1)]
+n이 0보다 큰 동안 반복하는 while문을 작성하세요.
+입력된 숫자의 모든 자릿수를 처리하는 과정입니다.
+[self_start(2)]
+n의 가장 오른쪽 자릿수를 digit에 저장하세요.
+n % 10을 사용하여 마지막 자릿수를 얻습니다.
+[self_end(2)]
+[self_start(2)]
+count 배열의 digit번 인덱스의 값을 1 증가시키세요.
+해당 숫자의 등장 횟수를 세는 과정입니다.
+[self_end(2)]
+[self_start(2)]
+n을 10으로 나누어 마지막 자릿수를 제거하세요.
+다음 자릿수를 처리하기 위한 준비입니다.
+[self_end(2)]
+[rep_end(1)]
+[rep_start(1)]
+0부터 9까지 반복하는 for문을 작성하세요.
+모든 숫자의 등장 횟수를 확인하는 과정입니다.
+[self_start(2)]
+count 배열의 i번째 값이 maxCount보다 클 때 동작하는 if문을 작성하세요.
+자주 등장하는 숫자를 찾는 조건문입니다.
+[cond_start(2)]
+[self_start(3)]
+maxCount를 count[i]로 업데이트하세요.
+현재 등장 횟수가 최대인 숫자의 개수를 저장합니다.
+[self_end(3)]
+[self_start(3)]
+result를 i로 업데이트하세요.
+가장 많이 등장한 숫자를 저장하는 과정입니다.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+printf 함수를 사용하여 result 값을 출력하세요.
+가장 많이 등장한 숫자를 출력하는 과정입니다.
+[self_end(1)]
+[self_start(1)]
+프로그램을 정상 종료하기 위해 0을 반환하세요.
+모든 과정이 끝났음을 나타냅니다.
+[self_end(1)]
+[main_def_end(0)]

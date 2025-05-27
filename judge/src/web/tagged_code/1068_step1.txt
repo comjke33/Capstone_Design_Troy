@@ -1,0 +1,59 @@
+#include <stdio.h>
+[main_def_start(0)]
+int main () {
+[self_start(1)]
+    int n;
+[self_end(1)]
+[self_start(1)]
+int count[10] = { 0 };
+[self_end(1)]
+[self_start(1)]
+    int digit;
+[self_end(1)]
+[self_start(1)]
+    int maxCount =0;
+[self_end(1)]
+[self_start(1)]
+    int result =0;
+[self_end(1)]
+[self_start(1)]
+    int i;
+[self_end(1)]
+[self_start(1)]
+    scanf ("%d", &n );
+[self_end(1)]
+[rep_start(1)]
+    while (n >0 ) {
+[self_start(2)]
+        digit =n %10;
+[self_end(2)]
+[self_start(2)]
+        count[digit]++;
+[self_end(2)]
+[self_start(2)]
+        n =n /10;
+[self_end(2)]
+[rep_end(1)]
+    }
+[rep_start(1)]
+    for (i =0; i <10; i++) {
+[cond_start(2)]
+        if (count[i] >maxCount ) {
+[self_start(3)]
+            maxCount =count[i];
+[self_end(3)]
+[self_start(3)]
+            result =i;
+[self_end(3)]
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    printf ("%d\n", result );
+[self_end(1)]
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

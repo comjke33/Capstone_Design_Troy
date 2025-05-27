@@ -1,0 +1,28 @@
+#include <stdio.h>
+[main_def_start(0)]
+int main (void ) {
+[self_start(1)]
+    char str[101];
+[self_end(1)]
+[self_start(1)]
+    scanf ("%s", str );
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; str[i] !='\0'; i++) {
+[cond_start(2)]
+        if (str[i] >='A' &&str[i] <='Z' ) {
+[self_start(3)]
+            str[i] =str[i] +32;
+[self_end(3)]
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[self_start(1)]
+    printf ("%s", str );
+[self_end(1)]
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

@@ -1,0 +1,68 @@
+[block0]
+int main () {
+
+    int n;
+
+
+int count[10] = { 0 };
+
+
+    int digit;
+
+
+    int maxCount =0;
+
+
+    int result =0;
+
+
+    int i;
+
+
+    scanf ("%d", &n );
+
+
+
+[block1]
+
+    while (n >0 ) {
+
+        digit =n %10;
+
+
+        count[digit]++;
+
+
+        n =n /10;
+
+
+
+
+[block2]
+}
+
+
+[block3]
+
+    for (i =0; i <10; i++) {
+
+        if (count[i] >maxCount ) {
+
+            maxCount =count[i];
+
+
+            result =i;
+
+
+        }
+
+
+
+[block4]
+}
+
+    printf ("%d\n", result );
+
+
+    return 0;
+

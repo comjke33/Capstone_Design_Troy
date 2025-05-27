@@ -1,0 +1,36 @@
+#include <stdio.h>
+[func_def_start(0)]
+void reverse (char s[] ) {
+[self_start(1)]
+    int len =0;
+[self_end(1)]
+[rep_start(1)]
+    for (int i =0; s[i] !='\0'; i++) {
+
+        len++;
+
+[rep_end(1)]
+    }
+[rep_start(1)]
+    for (int i =0; i <len /2; i++) {
+
+        char temp =s[i];
+        s[i] =s[len -1 -i];
+        s[len -1 -i] =temp;
+
+[rep_end(1)]
+    }
+[func_def_end(0)]
+}
+
+[main_def_start(0)]
+int main () {
+[self_start(1)]
+    char str[101];
+    scanf ("%s", str );
+    reverse (str );
+    printf ("%s\n", str );
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

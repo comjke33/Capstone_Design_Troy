@@ -1,0 +1,89 @@
+[block0]
+
+int removeEven (int arr[], int result[], int size ) {
+
+    int i;
+
+
+    int count =0;
+
+
+    for (i =0; i <size; i++) {
+
+        if (arr[i] %2 ==1 ) {
+
+            result[count] =arr[i];
+
+
+            count++;
+
+
+        }
+
+    }
+
+    return count;
+
+
+
+
+[block1]
+int main () {
+
+    int n;
+
+
+    int arr[100];
+
+
+    int result[100];
+
+
+    int i, newSize;
+
+
+    scanf ("%d", &n );
+
+
+
+[block2]
+
+    for (i =0; i <n; i++) {
+
+        scanf ("%d", &arr[i] );
+
+
+
+
+[block3]
+}
+
+    newSize =removeEven (arr, result, n );
+
+
+    printf ("%d\n", newSize );
+
+
+    if (newSize >0 ) {
+
+        for (i =0; i <newSize; i++) {
+
+            printf ("%d", result[i] );
+
+
+if (i <newSize -1 ) {
+
+printf (" " );
+
+
+}
+
+        }
+
+        printf ("\n" );
+
+
+    }
+
+    return 0;
+

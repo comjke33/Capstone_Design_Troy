@@ -1,0 +1,45 @@
+[func_def_start(0)]
+reverse 함수를 정의하세요.
+char형 배열 s를 매개변수로 받습니다. 이 배열은 입력된 문자열을 저장합니다.
+[self_start(1)]
+정수형 변수 len을 선언하고, 초기값을 0으로 설정하세요. 이 변수는 문자열의 길이를 저장합니다.
+[self_end(1)]
+[rep_start(1)]
+s 배열의 각 문자를 반복하여 처리하는 for문을 작성하세요. i를 0부터 시작하고, s[i]가 null이 아닐 때까지 진행합니다.
+문자열의 길이를 구하는 과정입니다.
+[self_start(2)]
+len을 1 증가시키세요. 각 문자를 세기 위한 과정입니다.
+[self_end(2)]
+[rep_end(1)]
+[rep_start(1)]
+len / 2 만큼 반복하는 for문을 작성하세요. 이 반복문은 문자열을 뒤집기 위한 과정입니다.
+[self_start(2)]
+char형 변수 temp를 선언하고, s[i]의 값을 저장하세요. 이 변수는 교환할 문자를 임시로 저장하기 위해 사용됩니다.
+[self_end(2)]
+[self_start(2)]
+s[i]에 s[len - 1 - i]의 값을 저장하세요. 이는 문자열의 맨 끝부터 i번째 문자를 대입하는 과정입니다.
+[self_end(2)]
+[self_start(2)]
+s[len - 1 - i]에 temp의 값을 저장하세요. 임시로 저장했던 i번째 문자를 뒤의 문자 위치에 대입합니다.
+[self_end(2)]
+[rep_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+길이가 101인 char형 배열 str을 선언하세요. 이 배열은 입력받는 문자열을 저장합니다.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 이용하여 str에 문자열을 입력 받으세요.
+[self_end(1)]
+[self_start(1)]
+reverse 함수를 호출하여 str 배열을 매개변수로 넘기세요. 이는 입력받은 문자열을 뒤집는 역할을 합니다.
+[self_end(1)]
+[self_start(1)]
+str 배열을 출력하여 뒤집힌 문자열을 보여주세요.
+[self_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

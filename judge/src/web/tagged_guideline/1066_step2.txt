@@ -1,0 +1,43 @@
+[main_def_start(0)]
+main함수입니다.
+[self_start(1)]
+정수 n, 100개의 정수를 담을 배열 arr, 반복문 제어 변수 i를 선언하고 n을 입력받으세요.
+hasOdd와 hasEven 변수를 0으로 초기화하여 각각 홀수와 짝수가 있는지 기록하세요.
+[self_end(1)]
+[rep_start(1)]
+n 만큼 반복하여 정수를 arr 배열에 입력받는 for문을 작성하세요.
+[rep_end(1)]
+[rep_start(1)]
+n 만큼 반복하는 for문을 작성하여 홀수의 제곱을 출력하세요.
+[cond_start(2)]
+arr[i]가 홀수인지 확인하세요. 
+[cond_start(3)]
+hasOdd가 0보다 클 경우 출력 전에 공백을 추가하세요.
+[cond_end(3)]
+[self_start(3)]
+홀수의 제곱을 출력하고 hasOdd를 증가시키세요.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[cond_start(1)]
+홀수 출력 후 hasOdd가 0보다 큰 경우 개행을 출력하세요.
+[cond_end(1)]
+[rep_start(1)]
+짝수를 포함한 n 만큼의 반복문을 작성하여 짝수의 제곱을 출력하세요.
+[cond_start(2)]
+arr[i]가 짝수인지 확인하세요.
+[cond_start(3)]
+hasEven이 0보다 클 때 공백을 출력하세요.
+[cond_end(3)]
+[self_start(3)]
+짝수의 제곱을 출력하고 hasEven을 증가시키세요.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[cond_start(1)]
+짝수 출력 후 hasEven이 0보다 큰 경우 개행을 출력하세요.
+[cond_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]
