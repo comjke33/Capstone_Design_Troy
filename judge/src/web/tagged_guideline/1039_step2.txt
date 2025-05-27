@@ -1,17 +1,25 @@
 [main_def_start(0)]
-main 함수입니다.
+목표: 세 자리 수를 입력받아 가장 큰 자릿수를 찾는 프로그램을 만드세요.
+
+프로그램의 시작점인 main 함수를 정의하세요.
 [self_start(1)]
-양의 정수 n을 저장할 int형 변수를 선언하고, 사용자로부터 값을 입력받으세요.
-다음에 hundreds, tens, ones 변수를 선언하여 각각 백의 자리, 십의 자리, 일의 자리 숫자를 계산하세요.
-max 변수를 선언하고, hundreds로 초기값을 설정합니다.
+목표: 필요한 변수들을 선언하고 세 자리 수를 입력받으세요.
+
+변수 n을 선언하고 입력받은 후, 백의 자리 hundreds, 십의 자리 tens, 일의 자리 ones를 추출하고 max를 hundreds로 초기화하세요.
 [self_end(1)]
 [cond_start(1)]
-tens가 max보다 클 경우 max를 tens로 업데이트하는 조건문을 작성하세요.
+목표: 십의 자리가 현재 최댓값보다 큰지 확인하세요.
+
+tens가 max보다 클 때 max를 tens로 업데이트하세요.
 [cond_end(1)]
 [cond_start(1)]
-ones가 max보다 클 경우 max를 ones로 업데이트하는 조건문을 작성하세요.
+목표: 일의 자리가 현재 최댓값보다 큰지 확인하세요.
+
+ones가 max보다 클 때 max를 ones로 업데이트하세요.
 [cond_end(1)]
 [self_start(1)]
-최종적으로 max 값을 출력하고, 프로그램을 종료하세요.
+목표: 가장 큰 자릿수를 출력하세요.
+
+max 값을 출력하고 프로그램을 종료하세요.
 [self_end(1)]
 [main_def_end(0)]
