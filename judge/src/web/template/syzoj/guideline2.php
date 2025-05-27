@@ -266,6 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
     const textareas = document.querySelectorAll(".styled-textarea");
 
+    // (1) 기존 자동 높이 조정 및 입력 이벤트 등록
     textareas.forEach((ta) => {
         autoResize(ta); // 초기 렌더링 시 높이 조정
 
@@ -273,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ta.addEventListener("input", () => autoResize(ta));
     });
 
-     // ✅ 추가: readonly 안내 텍스트 재지정
+    // (2) readonly textarea 스타일 지정
     textareas.forEach((ta) => {
         if (ta.hasAttribute("readonly")) {
             ta.style.backgroundColor = "#d4edda";
@@ -282,11 +283,39 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // (3) 정답 내용 줄 수에 맞춰 textarea 높이 고정 (초기 세팅)
+    const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
+    correctAnswers.forEach((answer, index) => {
+        if (!answer || !answer.content) return;
+        const ta = document.getElementById(`ta_${index}`);
+        if (!ta) return;
+
+        // 정답 코드 줄 수 계산
+        const lineCount = answer.content.split('\n').length;
+
+        // textarea의 line-height 가져오기 (픽셀)
+        const lineHeightStr = window.getComputedStyle(ta).lineHeight;
+        const lineHeight = lineHeightStr.endsWith('px')
+            ? parseFloat(lineHeightStr)
+            : 20; // 기본 fallback 값
+
+        // 패딩 감안하여 높이 계산 (약간 여유)
+        const paddingExtra = 16;
+
+        // 높이 설정
+        ta.style.height = (lineCount * lineHeight + paddingExtra) + 'px';
+
+        // 높이 고정(자동 리사이즈 이벤트 무시하게 하려면 여기서 이벤트 해제 가능)
+        // ta.removeEventListener("input", () => autoResize(ta)); // 선택사항
+    });
+
+    // 자동 높이 조정 함수
     function autoResize(textarea) {
         textarea.style.height = "auto"; // 초기화
         textarea.style.height = textarea.scrollHeight + "px"; // 내용에 따라 높이 설정
     }
 });
+
 
 //문제 맞았는지 여부 확인
 const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
