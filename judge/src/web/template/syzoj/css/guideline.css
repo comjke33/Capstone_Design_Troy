@@ -297,3 +297,8 @@
   color: #1b1c1d;
   font-weight: bold; /* 글자도 살짝 더 강조 */
 }
+.ui.popup {
+  max-width: 300px !important;     /* 넓이 충분히 확보 */
+  white-space: normal !important;  /* 자동 줄바꿈 허용 */
+  word-break: break-word !important; /* 단어 단위 줄바꿈 허용 */
+}
