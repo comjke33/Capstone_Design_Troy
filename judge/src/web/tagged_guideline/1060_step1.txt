@@ -1,0 +1,38 @@
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+길이가 101인 char 배열 str를 선언하세요.
+[self_end(1)]
+[self_start(1)]
+문자 a와 b를 저장할 char형 변수를 선언하세요.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 str에 문자열을 입력 받으세요.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 문자 a를 입력 받으세요.
+여기서 &a는 변수 a의 주소를 의미합니다.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 문자 b를 입력 받으세요.
+여기서 &b는 변수 b의 주소를 의미합니다.
+[self_end(1)]
+[rep_start(1)]
+i를 0부터 시작하여 str[i]가 널 문자('\0')가 아닐 때까지 1씩 증가하는 for문을 작성하세요.
+문자열 내 모든 문자를 확인하기 위한 반복문입니다.
+[cond_start(2)]
+str[i]가 a와 같은 경우 동작하는 if문을 작성하세요.
+현재 검사 중인 문자가 문자 a와 같은지를 비교합니다.
+[self_start(3)]
+문자 str[i]를 b로 바꾸세요.
+a가 발견된 위치의 문자를 b로 교체하는 과정입니다.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+printf 함수를 사용하여 최종적으로 수정된 문자열 str을 출력하세요.
+[self_end(1)]
+[self_start(1)]
+프로그램을 정상적으로 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

@@ -1,0 +1,15 @@
+[main_def_start(0)]
+main 함수입니다.
+[self_start(1)]
+문자열을 저장할 char 배열 str, 변경할 문자 a, b를 선언하고 문자열과 두 개의 문자를 입력받으세요.
+[self_end(1)]
+[rep_start(1)]
+str의 끝에 도달할 때까지 반복하는 for문을 작성하세요.
+[cond_start(2)]
+현재 문자가 a와 같다면, 해당 문자를 b로 변경하세요.
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+변경된 문자열 str을 출력하고 프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

@@ -1,0 +1,74 @@
+#include <stdio.h>
+[main_def_start(0)]
+int main () {
+[self_start(1)]
+    int n;
+    int arr[100];
+    int i;
+    int hasOdd =0, hasEven =0;
+    scanf ("%d", &n );
+[self_end(1)]
+[rep_start(1)]
+    for (i =0; i <n; i++) {
+
+        scanf ("%d", &arr[i] );
+
+[rep_end(1)]
+    }
+[rep_start(1)]
+    for (i =0; i <n; i++) {
+[cond_start(2)]
+        if (arr[i] %2 ==1 ) {
+[cond_start(3)]
+if (hasOdd >0 ) {
+
+printf (" " );
+
+[cond_end(3)]
+}
+[self_start(3)]
+            printf ("%d", arr[i] *arr[i] );
+            hasOdd++;
+[self_end(3)]
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[cond_start(1)]
+if (hasOdd >0 ) {
+
+printf ("\n" );
+
+[cond_end(1)]
+}
+[rep_start(1)]
+    for (i =0; i <n; i++) {
+[cond_start(2)]
+        if (arr[i] %2 ==0 ) {
+[cond_start(3)]
+if (hasEven >0 ) {
+
+printf (" " );
+
+[cond_end(3)]
+}
+[self_start(3)]
+            printf ("%d", arr[i] *arr[i] );
+            hasEven++;
+[self_end(3)]
+[cond_end(2)]
+        }
+[rep_end(1)]
+    }
+[cond_start(1)]
+if (hasEven >0 ) {
+
+printf ("\n" );
+
+[cond_end(1)]
+}
+[self_start(1)]
+    return 0;
+[self_end(1)]
+[main_def_end(0)]
+}

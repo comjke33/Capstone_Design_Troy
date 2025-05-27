@@ -1,0 +1,28 @@
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+길이가 101인 char 배열 str을 선언하세요.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 str에 문자열을 입력 받으세요.
+[self_end(1)]
+[rep_start(1)]
+i가 0부터 str[i]가 '\0' (null 문자)일 때까지 1씩 증가하며 반복하는 for문을 작성하세요.
+문자열의 각 문자에 대해 반복하는 과정입니다.
+[cond_start(2)]
+str[i]가 'A' 이상이면서 'Z' 이하일 때 동작하는 if문을 작성하세요.
+대문자 알파벳인지 확인하는 조건문입니다.
+[self_start(3)]
+조건이 참이라면 str[i]에 32를 더해 소문자로 변경하세요.
+대문자를 소문자로 변환하는 과정입니다.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+str을 출력하세요.
+변경된 문자열을 출력하는 과정입니다.
+[self_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

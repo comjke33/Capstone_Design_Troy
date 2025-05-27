@@ -1,0 +1,52 @@
+[func_def_start(0)]
+isPrime이라는 이름의 함수를 정의하세요.
+int형 변수 n을 매개변수로 받습니다.
+[cond_start(1)]
+n이 2보다 작으면 동작하는 if문을 작성하세요.
+소수가 1보다 큰 자연수이기 때문에 2보다 작은 경우를 검사합니다.
+[self_start(2)]
+조건이 참이라면 소수가 아니므로 0을 반환하세요.
+[self_end(2)]
+[cond_end(1)]
+[rep_start(1)]
+i를 2부터 시작하여 i * i가 n보다 작거나 같을 때까지 1씩 증가하는 for문을 작성하세요.
+정수 n의 약수를 찾기 위한 반복문입니다.
+[cond_start(2)]
+n이 i로 나누어 떨어지면 동작하는 if문을 작성하세요.
+n이 i로 나누어 떨어진다면 n은 소수가 아닙니다.
+[self_start(3)]
+조건이 참이라면 소수가 아니므로 0을 반환하세요.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[self_start(1)]
+모든 조건을 통과했다면 소수라는 의미로 1을 반환하세요.
+[self_end(1)]
+[func_def_end(0)]
+
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+정수형 변수 n을 선언하세요.
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 n에 정수를 입력 받으세요.
+[self_end(1)]
+[cond_start(1)]
+isPrime(n)의 결과가 참일 때 동작하는 if문을 작성하세요.
+입력된 n이 소수인지 검사하는 조건문입니다.
+[self_start(2)]
+소수인 경우 "YES"를 출력하세요.
+[self_end(2)]
+[cond_end(1)]
+[cond_start(1)]
+그렇지 않은 경우 else 문을 작성하세요.
+소수가 아닐 경우를 처리합니다.
+[self_start(2)]
+소수가 아닌 경우 "NO"를 출력하세요.
+[self_end(2)]
+[cond_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]

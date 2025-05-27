@@ -5,15 +5,18 @@ int형 변수 size를 매개변수로 받습니다.
 float형 포인터 변수 sum_x, sum_y, sum_xy, sum_x2를 매개변수로 받습니다.
 [rep_start(1)]
 size만큼 반복하는 for문을 작성하세요.
-각 반복에서 사용자로부터 x[i]와 y[i]를 입력 받기 위한 scanf 함수를 사용하세요.
 [self_start(2)]
-입력받은 x[i]와 y[i]를 각각의 배열에 저장하세요.
+x[i]와 y[i]를 입력받아 각각의 배열에 저장하세요.
 [self_end(2)]
+[self_start(2)]
 sum_x에 x[i]를 더하세요.
+[self_end(2)]
 [self_start(2)]
 sum_y에 y[i]를 더하세요.
 [self_end(2)]
-sum_xy에 x[i]และy[i]의 곱을 더하세요.
+[self_start(2)]
+sum_xy에 x[i]와y[i]의 곱을 더하세요.
+[self_end(2)]
 [self_start(2)]
 sum_x2에 x[i]의 제곱을 더하세요.
 [self_end(2)]

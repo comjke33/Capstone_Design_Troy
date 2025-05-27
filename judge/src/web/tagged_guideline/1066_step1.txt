@@ -1,0 +1,77 @@
+[main_def_start(0)]
+main 함수를 정의하세요.
+[self_start(1)]
+정수형 변수 n을 선언하세요. 
+[self_end(1)]
+[self_start(1)]
+길이가 100인 정수형 배열 arr를 선언하세요. 
+[self_end(1)]
+[self_start(1)]
+정수형 변수 i를 선언하세요. 
+[self_end(1)]
+[self_start(1)]
+홀수의 존재 여부를 확인할 정수형 변수 hasOdd를 0으로 초기화하여 선언하세요. 
+[self_end(1)]
+[self_start(1)]
+짝수의 존재 여부를 확인할 정수형 변수 hasEven을 0으로 초기화하여 선언하세요. 
+[self_end(1)]
+[self_start(1)]
+scanf 함수를 사용하여 n에 정수를 입력 받으세요. 
+[self_end(1)]
+[rep_start(1)]
+i가 0부터 n보다 작을 때까지 1씩 증가하는 for문을 작성하세요. 
+사용자가 입력한 정수를 배열에 저장하는 과정입니다.
+[self_start(2)]
+각각의 정수를 arr 배열의 i번째 요소에 입력 받으세요. 
+[self_end(2)]
+[rep_end(1)]
+[rep_start(1)]
+i가 0부터 n보다 작을 때까지 1씩 증가하는 for문을 작성하세요. 
+배열 요소를 통해 홀수의 제곱을 출력하는 과정입니다.
+[cond_start(2)]
+arr[i]가 홀수인지 검사하는 if문을 작성하세요. 
+배열의 i번째 요소가 홀수인지 확인하는 조건문입니다.
+[self_start(3)]
+조건이 참이라면 arr[i]의 제곱을 출력하세요. 
+홀수의 제곱을 출력하는 과정입니다.
+[self_end(3)]
+[self_start(3)]
+hasOdd 변수를 1 증가시키세요. 
+홀수의 개수를 세기 위한 변수입니다.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[cond_start(1)]
+hasOdd가 0보다 클 때 줄바꿈을 출력하세요. 
+홀수를 출력한 후 줄바꿈을 위해 사용합니다.
+[self_start(2)]
+printf("\n");
+[self_end(2)]
+[cond_end(1)]
+[rep_start(1)]
+i가 0부터 n보다 작을 때까지 1씩 증가하는 for문을 작성하세요. 
+배열 요소를 통해 짝수의 제곱을 출력하는 과정입니다.
+[cond_start(2)]
+arr[i]가 짝수인지 검사하는 if문을 작성하세요. 
+배열의 i번째 요소가 짝수인지 확인하는 조건문입니다.
+[self_start(3)]
+조건이 참이라면 arr[i]의 제곱을 출력하세요. 
+짝수의 제곱을 출력하는 과정입니다.
+[self_end(3)]
+[self_start(3)]
+hasEven 변수를 1 증가시키세요. 
+짝수의 개수를 세기 위한 변수입니다.
+[self_end(3)]
+[cond_end(2)]
+[rep_end(1)]
+[cond_start(1)]
+hasEven가 0보다 클 때 줄바꿈을 출력하세요. 
+짝수를 출력한 후 줄바꿈을 위해 사용합니다.
+[self_start(2)]
+printf("\n");
+[self_end(2)]
+[cond_end(1)]
+[self_start(1)]
+프로그램을 종료하세요.
+[self_end(1)]
+[main_def_end(0)]
