@@ -631,7 +631,7 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
     $('.term-tooltip').popup({
         position: 'top center',
-        offset: [0, -10],  // X축: 0px, Y축: -10px 위로 이동
+        offset: [10, 0],  // X축: 0px, Y축: -10px 위로 이동
         hoverable: true,
         delay: { show: 300, hide: 100 }
     });
