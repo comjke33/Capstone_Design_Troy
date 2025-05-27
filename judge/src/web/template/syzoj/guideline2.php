@@ -329,7 +329,7 @@ function submitAnswer(index) {
     const check = document.getElementById(`check_${index}`);
     const input = ta.value.trim();
     const correct = (correctAnswers[index]?.content || "").trim();
-    const step = new URLSearchParams(window.location.search).get("step") || "1";
+    const step = new URLSearchParams(window.location.search).get("step") || "0";
     const problemId = new URLSearchParams(window.location.search).get("problem_id") || "0";
     const key = `answer_status_step${step}_q${index}_pid${problemId}`;
 
