@@ -8,9 +8,7 @@ int digit_count_lcm (int a, int b ) {
     while (1 ) {
 [cond_start(2)]
         if (max %a ==0 &&max %b ==0 ) {
-
             break;
-
 [cond_end(2)]
         }
 [self_start(2)]
