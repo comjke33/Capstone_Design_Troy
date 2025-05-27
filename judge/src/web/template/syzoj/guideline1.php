@@ -59,9 +59,10 @@ include("../../guideline_common.php");
             ];
             
             foreach ($term_map as $term => $desc) {
-                // 한글 용어에 맞는 정규표현식 사용
-                // 용어 앞뒤로 공백, 문장부호, 또는 문자열 시작/끝이 있는 경우만 매칭
-                $pattern = '/(?<=^|[\s\p{P}\p{Z}])(' . preg_quote($term, '/') . ')(?=[\s\p{P}\p{Z}]|$)/u';
+                // 한글 용어의 경우 뒤에 조사나 어미가 올 수 있으므로 이를 고려
+                // 용어 앞: 공백, 문장부호, 또는 문자열 시작
+                // 용어 뒤: 공백, 문장부호, 문자열 끝, 또는 한글 조사/어미 (하, 를, 을, 이, 가, 에, 의, 로, 으로, 와, 과, 도, 만, 까지, 부터, 에서, 하세요 등)
+                $pattern = '/(?<=^|[\s\p{P}\p{Z}])(' . preg_quote($term, '/') . ')(?=[\s\p{P}\p{Z}]|$|[하를을이가에의로와과도만까지부터에서세요며면고])/u';
                 
                 $replacement = '<span class="term-tooltip" data-content="' . 
                               htmlspecialchars($desc, ENT_QUOTES, 'UTF-8') . 
@@ -72,6 +73,7 @@ include("../../guideline_common.php");
         
             return $text;
         }
+        
         function render_tree_plain($blocks, &$answer_index = 0) {
         $html = "";
         foreach ($blocks as $block) {
