@@ -1,65 +1,80 @@
-.main-layout {
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
-  padding: 20px;
+/* guideline3.css */
+
+body {
+  background-color: #f9fafb;
+  font-family: 'Noto Sans KR', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-/* 왼쪽 문제 패널 */
-.left-panel {
-  flex: 1;
-  background-color: #e7f1ff;
-  padding: 20px;
+.center-panel {
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   border-radius: 12px;
+  padding: 32px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-/* 문제 박스 */
-.problem-box {
-  border: 2px solid red;
-  background-color: #f8f0ff;
-  padding: 12px;
+.submission-line {
+  background-color: #f1f5f9;
+  border-radius: 10px;
+  padding: 16px;
   margin-bottom: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.code-line {
+  font-family: 'Source Code Pro', monospace;
+  background: #e2e8f0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  font-size: 15px;
+}
+
+.styled-textarea {
+  width: 100%;
+  min-height: 100px;
+  border: 1px solid #cbd5e1;
   border-radius: 8px;
-  position: relative;
+  padding: 10px;
+  resize: vertical;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 14px;
+  background-color: #fff;
+  transition: border-color 0.2s ease;
 }
 
-/* 문제 번호 동그라미 */
-.problem-box::before {
-  content: attr(data-index);
-  position: absolute;
-  top: -12px;
-  left: -12px;
-  background-color: red;
+.styled-textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.answer-button {
+  background-color: #3b82f6;
   color: white;
-  border-radius: 50%;
-  padding: 4px 8px;
-  font-weight: bold;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-/* 오른쪽 가이드라인 패널 */
-.right-panel {
-  flex: 0.8;
-  background-color: #e7f1ff;
-  padding: 20px;
-  border-radius: 12px;
+.answer-button:hover {
+  background-color: #2563eb;
 }
 
-/* 가이드라인 텍스트 */
-.guideline-item {
-  margin-bottom: 20px;
-  font-weight: bold;
-  color: red;
-  position: relative;
-  padding-left: 30px;
-}
-
-.guideline-item::before {
-  content: attr(data-index);
-  position: absolute;
-  left: 0;
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  padding: 4px 8px;
-  font-weight: bold;
+.answer-area {
+  background-color: #fef9c3;
+  border-left: 4px solid #facc15;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
+  white-space: pre-wrap;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 14px;
 }
