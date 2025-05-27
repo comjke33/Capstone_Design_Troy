@@ -50,33 +50,33 @@ include("../../guideline_common.php");
     <br><br>
 
     <?php      
-        function highlight_terms_with_tooltip($text) {
-            $term_map = [
-                "선언" => "변수나 함수를 처음 정의하여 이름과 자료형을 지정하는 과정입니다. 예: `int a;`",
-                "초기화" => "변수에 처음으로 값을 할당하여 유효한 상태로 만드는 작업입니다. 예: `int a = 10;`",
-                "변수" => "데이터를 저장하기 위해 이름을 붙인 메모리 공간입니다. 예: `char name[100];`",
-                "널" => "값이 없음을 의미하는 특수한 상수로, 포인터가 아무 것도 가리키지 않을 때 사용됩니다. 예: `ptr = NULL;`",
-                "순회" => "배열이나 리스트의 원소를 처음부터 끝까지 하나씩 접근하는 과정입니다. 예: `for (int i = 0; i < n; i++)`"
-            ];
+        // function highlight_terms_with_tooltip($text) {
+        //     $term_map = [
+        //         "선언" => "변수나 함수를 처음 정의하여 이름과 자료형을 지정하는 과정입니다. 예: `int a;`",
+        //         "초기화" => "변수에 처음으로 값을 할당하여 유효한 상태로 만드는 작업입니다. 예: `int a = 10;`",
+        //         "변수" => "데이터를 저장하기 위해 이름을 붙인 메모리 공간입니다. 예: `char name[100];`",
+        //         "널" => "값이 없음을 의미하는 특수한 상수로, 포인터가 아무 것도 가리키지 않을 때 사용됩니다. 예: `ptr = NULL;`",
+        //         "순회" => "배열이나 리스트의 원소를 처음부터 끝까지 하나씩 접근하는 과정입니다. 예: `for (int i = 0; i < n; i++)`"
+        //     ];
         
-            // 먼저 기존 HTML 태그 깨짐 방지용 이스케이프
-            $escapedText = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+        //     // 먼저 기존 HTML 태그 깨짐 방지용 이스케이프
+        //     $escapedText = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
         
-            foreach ($term_map as $term => $desc) {
-                $tooltip = '<span class="term-tooltip" data-content="' . htmlspecialchars($desc, ENT_QUOTES, 'UTF-8') . '">' . $term . '</span>';
+        //     foreach ($term_map as $term => $desc) {
+        //         $tooltip = '<span class="term-tooltip" data-content="' . htmlspecialchars($desc, ENT_QUOTES, 'UTF-8') . '">' . $term . '</span>';
         
-                // 이미 처리된 툴팁 안에는 또 삽입하지 않도록 정규식 필터
-                $escapedText = preg_replace_callback(
-                    '/(?<!["\'>])' . preg_quote($term, '/') . '(?!<\/span>)/u',
-                    function ($m) use ($tooltip) {
-                        return $tooltip;
-                    },
-                    $escapedText
-                );
-            }
+        //         // 이미 처리된 툴팁 안에는 또 삽입하지 않도록 정규식 필터
+        //         $escapedText = preg_replace_callback(
+        //             '/(?<!["\'>])' . preg_quote($term, '/') . '(?!<\/span>)/u',
+        //             function ($m) use ($tooltip) {
+        //                 return $tooltip;
+        //             },
+        //             $escapedText
+        //         );
+        //     }
         
-            return $escapedText;
-        }
+        //     return $escapedText;
+        // }
         
         function render_tree_plain($blocks, &$answer_index = 0) {
         $html = "";
