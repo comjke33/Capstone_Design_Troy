@@ -55,18 +55,20 @@ include("../../guideline_common.php");
                 "선언" => "변수나 함수를 처음 정의하여 이름과 자료형을 지정하는 과정입니다. 예: int a;",
                 "초기화" => "변수에 처음으로 값을 할당하여 유효한 상태로 만드는 작업입니다. 예: int a = 10;",
                 "변수" => "데이터를 저장하기 위해 이름을 붙인 메모리 공간입니다. 예: char name[100];",
-                "널" => "값이 없음을 의미하는 특수한 상수입니다. 예: ptr = NULL;",
-                "순회" => "배열이나 리스트를 처음부터 끝까지 접근하는 과정입니다. 예: for (int i = 0; i < n; i++)"
+                "널" => "값이 없음을 의미하는 특수한 상수로, 포인터가 아무 것도 가리키지 않을 때 사용됩니다. 예: ptr = NULL;",
+                "순회" => "배열이나 리스트의 원소를 처음부터 끝까지 하나씩 접근하는 과정입니다. 예: for (int i = 0; i < n; i++)"
             ];
         
+            // 단어 치환 먼저 (툴팁 태그 삽입)
             foreach ($term_map as $term => $desc) {
-                $escaped_desc = htmlspecialchars($desc, ENT_QUOTES, 'UTF-8');
-                $tooltip = '<span class="term-tooltip" data-content="' . $escaped_desc . '">' . $term . '</span>';
-                // 단어 경계 \b 사용 → 중간 문자열 깨짐 방지
+                $tooltip = '<span class="term-tooltip" data-content="' . htmlspecialchars($desc, ENT_QUOTES, 'UTF-8') . '">' . $term . '</span>';
+                // HTML 삽입 전 원문에서 단어만 치환 (중복 방지용 lookahead/lookbehind 생략)
                 $text = preg_replace('/\b' . preg_quote($term, '/') . '\b/u', $tooltip, $text);
             }
         
-            return $text;
+            // 그 후 HTML 이스케이프 (툴팁 태그 제외)
+            // -> 기존 span은 유지하고 나머지만 이스케이프
+            return preserve_html_tags_during_escape($text);
         }
 
 
