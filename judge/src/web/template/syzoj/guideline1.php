@@ -63,9 +63,11 @@ include("../../guideline_common.php");
                 $escaped_desc = htmlspecialchars($desc, ENT_QUOTES | ENT_HTML5, 'UTF-8');
                 $tooltip = '<span class="term-tooltip" data-content="' . $escaped_desc . '">' . $term . '</span>';
         
-                // '순회', '순회하는', '순회를', '순회한다' 등 조사나 어미 포함한 단어에도 매칭
-                $pattern = '/(' . preg_quote($term, '/') . ')([가-힣]*)/u';
-                $text = preg_replace($pattern, $tooltip, $text);
+                // '순회', '순회를', '순회하는'에서 '순회'만 하이라이팅
+                $pattern = '/(' . preg_quote($term, '/') . ')(?=[가-힣]*)/u';
+                $text = preg_replace_callback($pattern, function ($matches) use ($tooltip, $term) {
+                    return str_replace($term, $tooltip, $matches[0]);
+                }, $text);
             }
         
             return escape_except_spans($text);
