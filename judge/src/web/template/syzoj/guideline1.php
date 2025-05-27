@@ -631,6 +631,7 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
     $('.term-tooltip').popup({
         position: 'top center',
+        offset: 100,
         hoverable: true,
         delay: { show: 300, hide: 100 }
     });
