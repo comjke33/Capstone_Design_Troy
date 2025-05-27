@@ -402,21 +402,22 @@ function showAnswer(index) {
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
 
-    // 정답 코드의 길이에 맞춰 textarea 높이 자동 조정
+    // 정답 줄 수에 맞게 textarea 높이 조절
     const ta = document.getElementById(`ta_${index}`);
     if (ta) {
-        autoResize(ta, finalCode);
+        const lineCount = correctCode.split('\n').length;
+        const lineHeight = parseInt(window.getComputedStyle(ta).lineHeight) || 20; 
+        // 높이 = (줄 수 * 줄 높이) + 패딩 (약간 여유)
+        ta.style.height = (lineCount * lineHeight + 16) + 'px'; 
     }
 }
 
-function autoResize(textarea, content) {
-    // 정답 코드의 줄 수에 맞춰 높이를 자동으로 조정
-    const lines = content.split('\n').length;
-    const lineHeight = 20; // 줄 높이 (20px로 가정, 필요에 따라 수정 가능)
-    
-    // 높이를 설정
-    textarea.style.height = (lines * lineHeight) + 'px';
+function autoResize(textarea) {
+    // 내용에 맞게 textarea 높이 자동 조절
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
 }
+
 
 
 function showFeedback(index) {
