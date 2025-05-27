@@ -645,7 +645,7 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
     $('.term-tooltip').popup({
         position: 'top center',
-        distanceAway: 20,  // 기본값보다 더 멀리 떨어뜨림 (위쪽으로)
+        distanceAway: 200,  // 기본값보다 더 멀리 떨어뜨림 (위쪽으로)
         hoverable: true,
         delay: { show: 300, hide: 100 },
         onShow: function () {
