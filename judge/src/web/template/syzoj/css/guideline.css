@@ -199,7 +199,7 @@
     Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
   font-size: 16.5px;
   line-height: 1.5;
-  resize: vertical;       /* 수직 조절만 허용해도 됨, 필요 없으면 'none' 으로 변경 가능 */
+  /* resize: vertical;        */
   width: 100%;
   box-sizing: border-box;
   /* overflow-y: auto;  삭제 또는 변경 */
