@@ -636,7 +636,7 @@ document.addEventListener("DOMContentLoaded", function () {
     onShow: function () {
       const popup = $(this).popup('get popup');
       if (popup && popup.length) {
-        popup.css('transform', 'translateY(-100px)'); // 팝업 자체를 위로 이동
+        popup.css('transform', 'translateY(-50px)'); // 팝업 자체를 위로 이동
       }
     }
   });
