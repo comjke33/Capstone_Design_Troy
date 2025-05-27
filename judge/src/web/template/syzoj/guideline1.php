@@ -50,55 +50,86 @@ include("../../guideline_common.php");
     <br><br>
 
     <?php      
+        // function highlight_terms_with_tooltip($text) {
+        //     $term_map = [
+        //         "매개변수" => "함수를 정의할 때 괄호 안에 선언하는 변수입니다. 외부에서 값을 넘겨받기 위해 사용됩니다.\n예: int sum(int a, int b)에서 a와 b가 매개변수입니다.",
+            
+        //         "초기화" => "변수를 처음 사용할 때 값을 설정하는 것을 의미합니다.\n예: int x = 0;에서 x는 0으로 초기화되었습니다.",
+            
+        //         "선언" => "변수나 함수를 처음으로 알려주는 작업입니다. 메모리를 예약하거나 함수의 존재를 알립니다.\n예: int age; 또는 void greet();",
+            
+        //         "변수" => "값을 저장할 수 있는 이름이 붙은 공간입니다. 숫자, 문자, 문자열 등을 저장할 수 있습니다.\n예: int score = 100;에서 score가 변수입니다.",
+            
+        //         "널" => "어떤 것도 가리키지 않는 '비어 있음'을 나타냅니다. C에서 NULL로 표현되며 주로 포인터가 아무 것도 가리키지 않을 때 사용됩니다.\n예: char* ptr = NULL;",
+            
+        //         "순회" => "배열이나 리스트처럼 여러 값을 가진 구조를 처음부터 끝까지 하나씩 확인하는 과정입니다.\n예: for (int i = 0; i < n; i++) 배열[i]를 확인합니다.",
+            
+        //         "인자" => "함수를 호출할 때 전달하는 실제 값입니다. 매개변수와 짝을 이룹니다.\n예: sum(3, 4);에서 3과 4가 인자입니다.",
+            
+        //         "호출" => "정의된 함수를 실행하는 것을 의미합니다.\n예: printf(\"Hello\");는 printf 함수를 호출한 것입니다.",
+            
+        //         "삼항 연산자" => "조건에 따라 두 값 중 하나를 선택하는 연산자입니다. if/else의 축약형입니다.\n형식: 조건 ? 참일 때 값 : 거짓일 때 값\n예: int max = (a > b) ? a : b;",
+            
+        //         "인덱스" => "배열의 각 요소를 구분하는 번호로, C에서는 항상 0부터 시작합니다.\n예: arr[2]는 배열의 세 번째 요소를 의미합니다."
+        //     ];
+        
+        //     $placeholders = [];
+        //     $i = 0;
+        
+        //     // 1단계: 특수 토큰으로 치환
+        //     foreach ($term_map as $term => $desc) {
+        //         $token = "__TERM_{$i}__";
+        //         $placeholders[$token] = '<span class="term-tooltip" data-content="' . htmlspecialchars($desc, ENT_QUOTES | ENT_HTML5, 'UTF-8') . '">' . $term . '</span>';
+        
+        //         // 조사 포함도 매칭 (예: 순회를, 선언하고)
+        //         $text = preg_replace('/' . preg_quote($term, '/') . '(?=[가-힣]{0,2})/u', $token, $text);
+        //         $i++;
+        //     }
+        
+        //     // 2단계: 전체 escape
+        //     // $escaped = htmlspecialchars($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            
+        //     // // 3단계: escape 후에 토큰을 실제 span 태그로 되돌림
+        //     // $final = strtr($escaped, $placeholders);
+        
+        //     // return $final;
+        //     $escaped = htmlspecialchars($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        //     $escaped_with_breaks = nl2br($escaped);  // 줄바꿈 반영
+        //     $final = strtr($escaped_with_breaks, $placeholders);
+        //     return $final;
+        // }
         function highlight_terms_with_tooltip($text) {
             $term_map = [
                 "매개변수" => "함수를 정의할 때 괄호 안에 선언하는 변수입니다. 외부에서 값을 넘겨받기 위해 사용됩니다.\n예: int sum(int a, int b)에서 a와 b가 매개변수입니다.",
-            
                 "초기화" => "변수를 처음 사용할 때 값을 설정하는 것을 의미합니다.\n예: int x = 0;에서 x는 0으로 초기화되었습니다.",
-            
                 "선언" => "변수나 함수를 처음으로 알려주는 작업입니다. 메모리를 예약하거나 함수의 존재를 알립니다.\n예: int age; 또는 void greet();",
-            
                 "변수" => "값을 저장할 수 있는 이름이 붙은 공간입니다. 숫자, 문자, 문자열 등을 저장할 수 있습니다.\n예: int score = 100;에서 score가 변수입니다.",
-            
                 "널" => "어떤 것도 가리키지 않는 '비어 있음'을 나타냅니다. C에서 NULL로 표현되며 주로 포인터가 아무 것도 가리키지 않을 때 사용됩니다.\n예: char* ptr = NULL;",
-            
                 "순회" => "배열이나 리스트처럼 여러 값을 가진 구조를 처음부터 끝까지 하나씩 확인하는 과정입니다.\n예: for (int i = 0; i < n; i++) 배열[i]를 확인합니다.",
-            
                 "인자" => "함수를 호출할 때 전달하는 실제 값입니다. 매개변수와 짝을 이룹니다.\n예: sum(3, 4);에서 3과 4가 인자입니다.",
-            
                 "호출" => "정의된 함수를 실행하는 것을 의미합니다.\n예: printf(\"Hello\");는 printf 함수를 호출한 것입니다.",
-            
                 "삼항 연산자" => "조건에 따라 두 값 중 하나를 선택하는 연산자입니다. if/else의 축약형입니다.\n형식: 조건 ? 참일 때 값 : 거짓일 때 값\n예: int max = (a > b) ? a : b;",
-            
                 "인덱스" => "배열의 각 요소를 구분하는 번호로, C에서는 항상 0부터 시작합니다.\n예: arr[2]는 배열의 세 번째 요소를 의미합니다."
             ];
         
             $placeholders = [];
             $i = 0;
         
-            // 1단계: 특수 토큰으로 치환
             foreach ($term_map as $term => $desc) {
+                $escaped = htmlspecialchars($desc, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                $with_br = str_replace('&#10;', '<br>', $escaped); // ONLY 줄바꿈만 복원
                 $token = "__TERM_{$i}__";
-                //$placeholders[$token] = '<span class="term-tooltip" data-content="' . htmlspecialchars($desc, ENT_QUOTES | ENT_HTML5, 'UTF-8') . '">' . $term . '</span>';
-                $escaped = htmlspecialchars($desc, ENT_QUOTES | ENT_HTML5, 'UTF-8'); // 안전하게 escape
-                $escaped = str_replace('&#10;', '<br>', $escaped); // 오직 툴팁 내부 줄바꿈만 <br>로 변환
-                $placeholders[$token] = '<span class="term-tooltip" data-html="true" data-content="' . $escaped . '">' . $term . '</span>';
-                // 조사 포함도 매칭 (예: 순회를, 선언하고)
+        
+                // ✅ HTML 툴팁 전용 span
+                $placeholders[$token] = '<span class="term-tooltip" data-html="true" data-content="' . $with_br . '">' . $term . '</span>';
+        
+                // ✅ 조사 포함도 매칭 (예: 변수로, 선언을)
                 $text = preg_replace('/' . preg_quote($term, '/') . '(?=[가-힣]{0,2})/u', $token, $text);
                 $i++;
             }
         
-            // 2단계: 전체 escape
-            // $escaped = htmlspecialchars($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-            
-            // // 3단계: escape 후에 토큰을 실제 span 태그로 되돌림
-            // $final = strtr($escaped, $placeholders);
-        
-            // return $final;
-            $escaped = htmlspecialchars($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-            $escaped_with_breaks = nl2br($escaped);  // 줄바꿈 반영
-            $final = strtr($escaped_with_breaks, $placeholders);
-            return $final;
+            // ✅ 본문 전체는 escape 하지 않음 → 줄바꿈도 유지됨 → 문제 없음
+            return strtr($text, $placeholders);
         }
         
         function render_tree_plain($blocks, &$answer_index = 0) {
