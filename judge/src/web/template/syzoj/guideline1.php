@@ -112,7 +112,7 @@ include("../../guideline_common.php");
                     // 일반 입력 블록
                     //$escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
                     //$escaped_line = highlight_terms_with_tooltip(htmlspecialchars($raw, ENT_QUOTES, 'UTF-8'));
-                    $escaped_line = preserve_html_tags_during_escape(highlight_terms_with_tooltip($raw));
+                    $escaped_line = highlight_terms_with_tooltip($raw);
                     $html .= "<div class='code-line'>{$escaped_line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
