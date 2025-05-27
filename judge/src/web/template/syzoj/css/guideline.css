@@ -190,16 +190,17 @@
   border: 1px solid #ccc;
   border-radius: 6px;
   padding: 4px 8px; /* 위아래 4px, 좌우 8px */
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
     Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
   font-size: 16px;
   line-height: 1.2;
-  /* background-color: #fff; */
-  resize: none;
+  resize: none; /* 사용자가 직접 크기를 조정할 수 없도록 설정 */
   width: 100%;
   box-sizing: border-box;
-  height: calc(1em * 1.2 + 8px); /* 줄 높이 + padding top/bottom */
   overflow: hidden;
+  min-height: 50px; /* 최소 높이 설정 */
+  max-height: 500px; /* 최대 높이 설정 */
+  height: auto; /* 높이를 자동으로 설정 */
 }
 
 
