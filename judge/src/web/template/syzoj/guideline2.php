@@ -90,8 +90,8 @@ include("../../guideline_common.php");
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' readonly style='{$readonlyStyle}'>{$default_value}</textarea>";
                 } else {
                     // 일반 입력 블록
-                    $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
-                    $escaped_line = preg_replace('/([.?!])\s*/u', '$1<br>', $escaped_line);
+                    //$escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
+                    $escaped_line = nl2br(htmlspecialchars($raw, ENT_QUOTES, 'UTF-8'));
                     $html .= "<div class='code-line'>{$escaped_line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
