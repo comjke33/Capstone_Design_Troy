@@ -210,6 +210,8 @@
 
 /* 피드백 창 style */
 .feedback-block {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif !important;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 12px;
@@ -234,7 +236,8 @@
 /* 정답 표시 영역 */
 .answer-area {
   font-size: 16px;
-  font-family: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif !important;
   color: #333;
   background-color: #f1f1f1;
   padding: 10px;
