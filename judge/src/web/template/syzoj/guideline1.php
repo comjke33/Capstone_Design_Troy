@@ -59,15 +59,19 @@ include("../../guideline_common.php");
                 "순회"   => "배열이나 리스트를 처음부터 끝까지 접근하는 과정입니다. 예: for (int i = 0; i < n; i++)"
             ];
         
-            // 1. 태그 먼저 넣기 (이스케이프 하지 않음)
             foreach ($term_map as $term => $desc) {
                 $escaped_desc = htmlspecialchars($desc, ENT_QUOTES | ENT_HTML5, 'UTF-8');
                 $tooltip = '<span class="term-tooltip" data-content="' . $escaped_desc . '">' . $term . '</span>';
-                // 단어 경계에만 적용
-                $text = preg_replace('/\b' . preg_quote($term, '/') . '\b/u', $tooltip, $text);
+        
+                $text = preg_replace_callback(
+                    '/' . preg_quote($term, '/') . '(?=[가-힣]{0,3})/u',
+                    function($matches) use ($term, $tooltip) {
+                        return str_replace($term, $tooltip, $matches[0]);
+                    },
+                    $text
+                );
             }
         
-            // 2. 툴팁 span을 제외한 나머지 텍스트만 이스케이프
             return escape_except_spans($text);
         }
         
@@ -112,7 +116,7 @@ include("../../guideline_common.php");
                     // 일반 입력 블록
                     //$escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
                     //$escaped_line = highlight_terms_with_tooltip(htmlspecialchars($raw, ENT_QUOTES, 'UTF-8'));
-                    $escaped_line = preserve_html_tags_during_escape(highlight_terms_with_tooltip($raw));
+                    $escaped_line = highlight_terms_with_tooltip($raw);
                     $html .= "<div class='code-line'>{$escaped_line}</div>";
                     $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}></textarea>";
 
