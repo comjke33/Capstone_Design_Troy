@@ -288,3 +288,9 @@ body, html, .main-layout, .top-toolbar, .action-buttons, .step-buttons,
     color: white;
     font-weight: bold;
 }
+
+.term-tooltip {
+  border-bottom: 1px dotted #2185d0;
+  cursor: help;
+  color: #1b1c1d;
+}

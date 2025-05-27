@@ -627,7 +627,13 @@ document.addEventListener("DOMContentLoaded", function () {
     ta.addEventListener("focus", () => fetchImageByLineNumber(idx)); 
     });
 });
-
+document.addEventListener("DOMContentLoaded", function () {
+    $('.term-tooltip').popup({
+        position: 'top center',
+        hoverable: true,
+        delay: { show: 300, hide: 100 }
+    });
+});
 </script>
 
 <?php include("template/$OJ_TEMPLATE/footer.php");?>
