@@ -294,32 +294,59 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+
 //textarea 입력 줄에 따라 높이 조절
 document.addEventListener("DOMContentLoaded", function () {
-    // 모든 textarea에 대해 자동 크기 조정 적용
-    document.querySelectorAll(".styled-textarea").forEach((ta) => {
+    const textareas = document.querySelectorAll(".styled-textarea");
+
+    // (1) 기존 자동 높이 조정 및 입력 이벤트 등록
+    textareas.forEach((ta) => {
         autoResize(ta); // 초기 렌더링 시 높이 조정
 
         // 입력할 때마다 높이 자동 조정
-        ta.addEventListener("input", () => autoResize(ta));
+        // ta.addEventListener("input", () => autoResize(ta));
     });
 
+    // (2) readonly textarea 스타일 지정
+    textareas.forEach((ta) => {
+        if (ta.hasAttribute("readonly")) {
+            ta.style.backgroundColor = "#d4edda";
+            ta.style.color = "#155724";
+            ta.style.border = "1px solid #c3e6cb";
+        }
+    });
+
+    // (3) 정답 내용 줄 수에 맞춰 textarea 높이 고정 (초기 세팅)
+    const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
+    correctAnswers.forEach((answer, index) => {
+        if (!answer || !answer.content) return;
+        const ta = document.getElementById(`ta_${index}`);
+        if (!ta) return;
+
+        // 정답 코드 줄 수 계산
+        const lineCount = answer.content.split('\n').length;
+
+        // textarea의 line-height 가져오기 (픽셀)
+        const lineHeightStr = window.getComputedStyle(ta).lineHeight;
+        const lineHeight = lineHeightStr.endsWith('px')
+            ? parseFloat(lineHeightStr)
+            : 20; // 기본 fallback 값
+
+        // 패딩 감안하여 높이 계산 (약간 여유)
+        const paddingExtra = 16;
+
+        // 높이 설정
+        ta.style.height = (lineCount * lineHeight + paddingExtra) + 'px';
+
+        // 높이 고정(자동 리사이즈 이벤트 무시하게 하려면 여기서 이벤트 해제 가능)
+        // ta.removeEventListener("input", () => autoResize(ta)); // 선택사항
+    });
+
+    // 자동 높이 조정 함수
     function autoResize(textarea) {
-        // 높이를 auto로 리셋하고, scrollHeight를 기준으로 높이를 설정합니다.
-        textarea.style.height = 'auto'; 
-        textarea.style.height = textarea.scrollHeight + 'px'; // 내용에 따라 높이 설정
+        textarea.style.height = "auto"; // 초기화
+        textarea.style.height = textarea.scrollHeight + "px"; // 내용에 따라 높이 설정
     }
-
-    // 답안 확인 버튼 클릭 시에도 높이를 유지하도록 처리
-    document.querySelectorAll(".answer-button").forEach((button, index) => {
-        button.addEventListener("click", function () {
-            // 답안 확인 시에도 이미 설정된 높이를 유지하도록 처리
-            const textarea = document.getElementById(`ta_${index}`);
-            if (textarea) {
-                textarea.style.height = `${textarea.scrollHeight}px`; // 높이 고정
-            }
-        });
-    });
 });
 
 
@@ -413,18 +440,50 @@ function escapeHtml(text) {
         .replace(/'/g, "&#039;");
 }
 
-//답안 보여주기
+//답안 보여주기 (좌측 정렬)
 function showAnswer(index) {
-    const correctCode = correctAnswers[index]?.content.trim();  // 정답 추출
-    if (!correctCode) return;
-
-    const escapedCode = escapeHtml(correctCode);  // ← 이걸로 HTML 무해화
-
+    const correctCode = correctAnswers[index]?.content.trim();
     const answerArea = document.getElementById(`answer_area_${index}`);
-    const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${escapedCode}</pre>`;
+
+    if (!correctCode) {
+        answerArea.innerHTML = "<em>정답이 등록되지 않았습니다.</em>";
+        answerArea.style.display = 'block';
+        return;
+    }
+
+    // 토글: 이미 보이면 숨기기
+    if (answerArea.style.display === 'block') {
+        answerArea.style.display = 'none';
+        return;
+    }
+
+    const lines = correctCode.split('\n');
+
+    const processedLines = lines.map(line => {
+        // 탭을 공백 4칸으로 변환
+        let replacedTabs = line.replace(/\t/g, '    ');
+
+        // HTML 이스케이프
+        let escapedLine = escapeHtml(replacedTabs);
+
+        return escapedLine;
+    });
+
+    const finalCode = processedLines.join('\n');
+
+    const answerHtml = `<strong>정답:</strong><br><pre class='code-line' style="white-space: pre-wrap;">${finalCode}</pre>`;
     answerArea.innerHTML = answerHtml;
     answerArea.style.display = 'block';
+
+    // 정답 줄 수에 맞게 textarea 높이 조절
+    const ta = document.getElementById(`ta_${index}`);
+    if (ta) {
+        const lineCount = correctCode.split('\n').length;
+        const lineHeight = parseInt(window.getComputedStyle(ta).lineHeight) || 20; 
+        ta.style.height = (lineCount * lineHeight + 16) + 'px'; 
+    }
 }
+
 
 function showFeedback(index) {
     const urlParams = new URLSearchParams(window.location.search);

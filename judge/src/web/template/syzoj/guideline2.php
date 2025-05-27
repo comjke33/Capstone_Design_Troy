@@ -409,7 +409,7 @@ function escapeHtml(text) {
         .replace(/'/g, "&#039;");
 }
 
-//답안 보여주기 (좌측 밀착)
+//답안 보여주기 (좌측 정렬)
 function showAnswer(index) {
     const correctCode = correctAnswers[index]?.content.trim();
     const answerArea = document.getElementById(`answer_area_${index}`);
