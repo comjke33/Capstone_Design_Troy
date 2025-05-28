@@ -1,3 +1,5 @@
+
+
 .top-toolbar {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
   Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
@@ -62,84 +64,270 @@
 }
 
 
-
-body {
-  background-color: #f9fafb;
-  font-family: 'Noto Sans KR', sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-
-
-.center-panel {
-  background-color: white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  border-radius: 12px;
-  padding: 32px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.submission-line {
-  background-color: #f1f5f9;
-  border-radius: 10px;
-  padding: 16px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.code-line {
-  font-family: 'Source Code Pro', monospace;
-  background: #e2e8f0;
-  padding: 8px 12px;
-  border-radius: 6px;
-  margin-bottom: 10px;
-  white-space: pre-wrap;
-  font-size: 15px;
-}
-
-.styled-textarea {
+/* 전체 레이아웃 */
+.main-layout {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+  Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+  display: flex;
   width: 100%;
-  min-height: 100px;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  padding: 10px;
-  resize: vertical;
-  font-family: 'Source Code Pro', monospace;
-  font-size: 14px;
-  background-color: #fff;
-  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+  height: auto;
+  min-height: 100vh;
+  align-items: flex-start;
+  align-self: stretch;
 }
 
+/* 좌측 flowchart 이미지 영역 */
+.left-panel {
+  position: fixed;
+  top: 180px;
+  left: 30px;
+  width: 260px; /* 이미지보다 조금 넓게 */
+  z-index: 9999;
+}
+
+.flowchart-wrapper {
+  width: auto;
+  padding: 12px;
+  border-radius: 12px;
+  background-color: #fff;
+  border: 2px solid black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  max-height: 90vh;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* 제목 영역 스타일 */
+.flowchart-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #ffffff;
+  background-color: #003366;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 이미지 감싸는 영역 (스크롤 허용) */
+.flowchart-scroll {
+  overflow-y: auto;
+  height: 60vh;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* 반응형 이미지 */
+#flowchart_image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+
+/* 가운데 코드 입력 영역 */
+.center-panel {
+    position: relative;
+    margin-left: 180px;
+    margin-right: 200px;
+    flex-grow: 2;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+/* 오른쪽 피드백 패널 */
+.right-panel {
+    width: 350px;       /* 고정 너비 지정 */
+    height: 500px;
+    right: 10px;
+    position: fixed;
+    /* flex: 0 0 25%;  제거 또는 주석 처리 */
+    max-width: 350px;
+    padding: 20px;
+    overflow-y: auto;
+    /* background-color: #ffffff; */
+    box-sizing: border-box;
+    border-left: 1px solid #ddd;
+}
+
+
+/* 코드 설명 라인 */
+.code-line {
+  background-color: #f0f4f8;          /* 밝고 차분한 배경 */
+  border: 1.5px solid #cbd5e1;        /* 연한 회색 테두리 */
+  border-radius: 8px;                  /* 둥근 모서리 */
+  padding: 20px 24px;                  /* 충분한 안쪽 여백 */
+  margin-bottom: 12px;
+  font-size: 17px;                    /* 약간 키운 글자 크기 */
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+  color: #2f3e4d;                     /* 진한 차콜 계열 색상 */
+  word-break: break-word;
+  box-sizing: border-box;
+  line-height: 1.6;                  /* 좀 더 넉넉한 줄간격 */
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);  /* 은은한 그림자 */
+  transition: background-color 0.3s ease;
+}
+
+/* 코드 설명 라인 호버 시 살짝 강조 */
+.code-line:hover {
+  background-color: #e9f0fa;
+}
+
+/* 코드 입력창 */
+.styled-textarea {
+  border: 1.5px solid #a0aec0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+  font-size: 16.5px;
+  line-height: 1.5;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 60px;
+  max-height: 400px;
+  background-color: #fafbfc;
+  color: #2c3e50;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  font-weight: 500;
+  outline-offset: 2px;
+  box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.05);
+  resize: none;
+}
+
+
+/* 포커스 시 강조 */
 .styled-textarea:focus {
+  border-color: #3182ce;
+  box-shadow: 0 0 8px rgba(49, 130, 206, 0.5);
+  background-color: #fff;
+  color: #1a202c;
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* readonly 상태일 때 스타일 */
+.styled-textarea[readonly] {
+  background-color: #e6f0e9;
+  color: #2f5233;
+  border-color: #a3c293;
+  box-shadow: none;
+  cursor: default;
+  font-weight: 600;
+}
+
+/* 제출 버튼 및 보기 버튼 */
+.submit-button, .answer-button, .feedback-button {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+  Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+  margin-top: 0;
+  color: white !important;
+  border: none !important;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+}
+
+/* 피드백 창 style */
+.feedback-block {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+    background-color: #ffffff;
+}
+
+
+.submit-button {
+  background-color: #4a90e2;
 }
 
 .answer-button {
-  background-color: #3b82f6;
-  color: white;
-  border: none;
-  padding: 6px 14px;
-  border-radius: 6px;
-  margin-top: 10px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+  background-color: #009900;
 }
 
-.answer-button:hover {
-  background-color: #2563eb;
+.feedback-button {
+  background-color: #ff8c00;
 }
 
+
+/* 정답 표시 영역 */
 .answer-area {
-  background-color: #fef9c3;
-  border-left: 4px solid #facc15;
+  font-size: 16px;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif !important;
+  color: #333;
+  /* background-color: #f1f1f1; */
   padding: 10px;
   border-radius: 6px;
-  margin-top: 10px;
-  white-space: pre-wrap;
-  font-family: 'Source Code Pro', monospace;
-  font-size: 14px;
+  margin-top: 8px;
+  word-break: break-word;
+}
+
+/* 체크 아이콘 */
+.checkmark {
+  font-size: 20px;
+  color: #2ecc71;
+  margin-top: 8px;
+}
+
+/* 들여쓰기 기반 depth 시각화 */
+.submission-line {
+  display: block;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.basic-sentence {
+    background-color: #e7fbe7 !important;
+    border: none;
+    color: #333;
+    font-style: italic;
+    resize: none;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+    outline: none;
+    padding: 8px;
+    opacity: 0.95;
+}
+
+/* STEP BTN */
+.step-buttons .ui.button.active {
+    background-color: #007BFF;  /* 하이라이트 색상 */
+    color: white;
+    font-weight: bold;
+}
+
+.term-tooltip {
+  cursor: default;
+  color: #0b94f6fc;              /* 파란색 글씨 */
+  font-weight: bold;           /* 굵게 */
+}
+.ui.popup {
+  max-width: 300px !important;     /* 넓이 충분히 확보 */
+  white-space: normal !important;  /* 자동 줄바꿈 허용 */
+  word-break: break-word !important; /* 단어 단위 줄바꿈 허용 */
 }
