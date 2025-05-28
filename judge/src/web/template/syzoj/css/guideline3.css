@@ -1,8 +1,5 @@
-
-
 .top-toolbar {
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
-  Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
   width: 100%; 
   padding: 15px 30px;
   display: flex;
@@ -66,8 +63,7 @@
 
 /* 전체 레이아웃 */
 .main-layout {
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
-  Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
   display: flex;
   width: 100%;
   box-sizing: border-box;
@@ -76,69 +72,6 @@
   align-items: flex-start;
   align-self: stretch;
 }
-
-/* 좌측 flowchart 이미지 영역 */
-.left-panel {
-  position: fixed;
-  top: 180px;
-  left: 30px;
-  width: 260px; /* 이미지보다 조금 넓게 */
-  z-index: 9999;
-}
-
-.flowchart-wrapper {
-  width: auto;
-  padding: 12px;
-  border-radius: 12px;
-  background-color: #fff;
-  border: 2px solid black;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-
-  max-height: 90vh;
-  max-width: 100%;
-  box-sizing: border-box;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: hidden;
-}
-
-/* 제목 영역 스타일 */
-.flowchart-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #ffffff;
-  background-color: #003366;
-  padding: 6px 12px;
-  border-radius: 6px;
-  text-align: center;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* 이미지 감싸는 영역 (스크롤 허용) */
-.flowchart-scroll {
-  overflow-y: auto;
-  height: 60vh;
-  width: 100%;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  padding: 10px;
-  box-sizing: border-box;
-}
-
-/* 반응형 이미지 */
-#flowchart_image {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 8px;
-  object-fit: contain;
-}
-
 
 /* 가운데 코드 입력 영역 */
 .center-panel {
@@ -153,21 +86,6 @@
     min-width: 0;
 }
 
-/* 오른쪽 피드백 패널 */
-.right-panel {
-    width: 350px;       /* 고정 너비 지정 */
-    height: 500px;
-    right: 10px;
-    position: fixed;
-    /* flex: 0 0 25%;  제거 또는 주석 처리 */
-    max-width: 350px;
-    padding: 20px;
-    overflow-y: auto;
-    /* background-color: #ffffff; */
-    box-sizing: border-box;
-    border-left: 1px solid #ddd;
-}
-
 
 /* 코드 설명 라인 */
 .code-line {
@@ -177,8 +95,7 @@
   padding: 20px 24px;                  /* 충분한 안쪽 여백 */
   margin-bottom: 12px;
   font-size: 17px;                    /* 약간 키운 글자 크기 */
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
-    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
   color: #2f3e4d;                     /* 진한 차콜 계열 색상 */
   word-break: break-word;
   box-sizing: border-box;
@@ -197,8 +114,7 @@
   border: 1.5px solid #a0aec0;
   border-radius: 10px;
   padding: 10px 14px;
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
-    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
   font-size: 16.5px;
   line-height: 1.5;
   width: 100%;
@@ -236,8 +152,7 @@
 
 /* 제출 버튼 및 보기 버튼 */
 .submit-button, .answer-button, .feedback-button {
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
-  Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
   margin-top: 0;
   color: white !important;
   border: none !important;
@@ -247,17 +162,6 @@
   cursor: pointer;
   display: inline-block;
   text-align: center;
-}
-
-/* 피드백 창 style */
-.feedback-block {
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
-    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 12px;
-    margin-bottom: 12px;
-    background-color: #ffffff;
 }
 
 
@@ -277,8 +181,7 @@
 /* 정답 표시 영역 */
 .answer-area {
   font-size: 16px;
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
-    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif !important;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
   color: #333;
   /* background-color: #f1f1f1; */
   padding: 10px;
@@ -307,8 +210,7 @@
     color: #333;
     font-style: italic;
     resize: none;
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
-    Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
     outline: none;
     padding: 8px;
     opacity: 0.95;
