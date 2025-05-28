@@ -108,6 +108,8 @@ include("../../guideline_common.php");
     </div>
 </div>
 
+
+
 <script>
 
 //뒤로가기 & 다시 풀기 버튼
