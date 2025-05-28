@@ -91,7 +91,7 @@
 <html lang="ko">
 
 <head>
-
+    <!-- pretendar font apply -->
     <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
 
     <meta charset="utf-8">
@@ -100,8 +100,8 @@
     <title><?php echo $show_title ?></title>
 
     <!-- css.php를 추가시키는 부분 -->
-    
 <style>
+    
 @media (max-width: 991px) {
         .mobile-only {
                 display:block !important;
@@ -186,7 +186,9 @@ include('allowed_users.php');
             <!-- 문제 -->
             <a class="item <?php if ($url=="problemset.php") echo "active";?>"
                 href="<?php echo $path_fix?>problemset.php"><i class="list icon"></i><span class="desktop-only"><?php echo $MSG_PROBLEMS?></span></a>
-
+            <!--//////////////////////////-->
+            <!-- 소스/카테고리 제거-->
+            <!--//////////////////////////-->
             <!-- 경진대회-->
             <a class="item <?php if ($url=="contest.php") echo "active";?>" href="<?php echo $path_fix?>contest.php<?php if(isset($_SESSION[$OJ_NAME."_user_id"])) echo "?my" ?>" ><i
                     class="trophy icon"></i><span class="desktop-only"> <?php echo $MSG_CONTEST?></span></a>
