@@ -91,7 +91,7 @@
 <html lang="ko">
 
 <head>
-    <!-- pretendar font apply -->
+    
     <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
 
     <meta charset="utf-8">
@@ -99,8 +99,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=0.5">
     <title><?php echo $show_title ?></title>
 
-    <!-- css.php를 추가시키는 부분 -->
-    <!-- <?php include(dirname(__FILE__)."/css.php");?> -->
+    
         <style>
 @media (max-width: 991px) {
         .mobile-only {
@@ -256,7 +255,7 @@ include('allowed_users.php');
                                 <span class="notification-dot"></span>
                             <?php } ?>
                         </span>
-                        <!-- <span class="desktop-only">나의 취약 유형 리포트</span> -->
+
                         <span class="desktop-only"></span>
                     </a>
                     <?php
