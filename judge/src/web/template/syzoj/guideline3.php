@@ -39,67 +39,33 @@ include("../../guideline_common.php");
 
     <!-- 가운데 패널 -->
     <div class="center-panel">
-        <h1>심화 풀기</h1>
+    <h1>심화 풀기</h1>
+    <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
+    <br><br>
 
-        <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
-        <br>
-        <br>
+    <div class="guideline-layout">
+        <!-- 풀이 입력 영역 -->
+        <div class="submission-column">
+            <?= render_tree_plain($OJ_BLOCK_TREE, $answer_index) ?>
+        </div>
 
-        <?php      
-        function render_tree_plain($blocks, &$answer_index = 0) {
-            $html = "";
-
-            foreach ($blocks as $block) {
-                $depth = $block['depth'];
-                $isCorrect = false;
-
+        <!-- 가이드라인 영역 -->
+        <div class="guideline-column">
+            <?php
+            foreach ($OJ_BLOCK_TREE as $i => $block) {
                 if ($block['type'] === 'text') {
-                    $raw = trim($block['content']);
-                    if ($raw === '') continue;
-
-                    $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
-                    $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
-                    $disabled = $has_correct_answer ? "" : "disabled";
-                    $default_value = ""; // 필요시 기본값 채우기
-
-                    $html .= "<!-- DEBUG raw line [{$answer_index}]: " . htmlentities($raw) . " -->\n";
-
-                    // ✅ 새로운 플렉스 레이아웃 구조
-                    $html .= "<div class='submission-line'>";
-
-                    // 코드 라인 (왼쪽)
-                    $html .= "<div class='code-col'><pre class='code-line'>{$escaped_line}</pre></div>";
-
-                    // 텍스트 입력창 (가운데)
-                    $html .= "<div class='textarea-col'><textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$default_value}</textarea></div>";
-
-                    // 버튼 + 체크마크 (오른쪽)
-                    $html .= "<div class='button-col'>";
-                    if (!$isCorrect) {
-                        $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
-                    }
-                    $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 8px;'></div>";
-                    $html .= "<div class='check-col'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
-                    $html .= "</div>"; // button-col
-
-                    $html .= "</div>"; // submission-line
-
-                    $answer_index++;
-                } else if (isset($block['children']) && is_array($block['children'])) {
-                    $html .= render_tree_plain($block['children'], $answer_index);
+                    echo "<div class='guide-item'><span>" . ($i + 1) . "</span> 가이드라인</div>";
                 }
             }
-
-            return $html;
-        }
-
-        $answer_index = 0;
-        echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
-        ?>
+            ?>
+        </div>
     </div>
 
-    <!-- 오른쪽 패널 -->
-    <div class="right-panel" style="display:none;">
+        <div class="check-button-wrapper">
+            <button class="final-check-button">정답확인</button>
+        </div>
+    </div>
+
 
     </div>
 </div>
