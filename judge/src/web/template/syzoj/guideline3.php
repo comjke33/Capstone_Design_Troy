@@ -46,55 +46,54 @@ include("../../guideline_common.php");
         <br>
 
         <?php      
-             function render_tree_plain($blocks, &$answer_index = 0) {
+        function render_tree_plain($blocks, &$answer_index = 0) {
             $html = "";
 
             foreach ($blocks as $block) {
                 $depth = $block['depth'];
-                // $margin_left = $depth * 50;
                 $isCorrect = false;
 
                 if ($block['type'] === 'text') {
                     $raw = trim($block['content']);
                     if ($raw === '') continue;
 
-                    // 디버깅용 주석 추가 (View Source에서 확인)
-                    $html .= "<!-- DEBUG raw line [{$answer_index}]: " . htmlentities($raw) . " -->\n";
-
-                    // 출력 시 안전하게 이스케이프 처리 (중복 방지)
                     $escaped_line = htmlspecialchars($raw, ENT_QUOTES, 'UTF-8');
-
                     $has_correct_answer = isset($GLOBALS['OJ_CORRECT_ANSWERS'][$answer_index]);
                     $disabled = $has_correct_answer ? "" : "disabled";
+                    $default_value = ""; // 필요시 기본값 채우기
 
-                    // 출력 영역
-                    $html .= "<div class='submission-line' style='margin-left: {$margin_left}px;'>";
+                    $html .= "<!-- DEBUG raw line [{$answer_index}]: " . htmlentities($raw) . " -->\n";
 
-                    // 코드 출력 라인
-                    $html .= "<div class='code-line'>{$escaped_line}</div>";
+                    // ✅ 새로운 플렉스 레이아웃 구조
+                    $html .= "<div class='submission-line'>";
 
-                    $html .= "<textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$default_value}</textarea>";
+                    // 코드 라인 (왼쪽)
+                    $html .= "<div class='code-col'><pre class='code-line'>{$escaped_line}</pre></div>";
 
+                    // 텍스트 입력창 (가운데)
+                    $html .= "<div class='textarea-col'><textarea id='ta_{$answer_index}' class='styled-textarea' data-index='{$answer_index}' {$disabled}>{$default_value}</textarea></div>";
 
-                    // 버튼 출력
-                    if(!$isCorrect){
+                    // 버튼 + 체크마크 (오른쪽)
+                    $html .= "<div class='button-col'>";
+                    if (!$isCorrect) {
                         $html .= "<button onclick='showAnswer({$answer_index})' id='answer_btn_{$answer_index}' class='answer-button'>답안 확인</button>";
                     }
+                    $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 8px;'></div>";
+                    $html .= "<div class='check-col'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
+                    $html .= "</div>"; // button-col
 
-                    // 피드백 영역 + 정답 표시
-                    $html .= "<div id='answer_area_{$answer_index}' class='answer-area' style='display:none; margin-top: 10px;'></div>";
-                    $html .= "<div style='width: 50px; text-align: center; margin-top: 10px;'><span id='check_{$answer_index}' class='checkmark' style='display:none;'>✅</span></div>";
-                    $html .= "</div>";
+                    $html .= "</div>"; // submission-line
 
                     $answer_index++;
-                } 
-                else if (isset($block['children']) && is_array($block['children'])) {
+                } else if (isset($block['children']) && is_array($block['children'])) {
                     $html .= render_tree_plain($block['children'], $answer_index);
                 }
             }
 
             return $html;
         }
+        ?>
+
 
 
         $answer_index = 0;
