@@ -33,8 +33,7 @@ include("../../guideline_common.php");
 <div class="main-layout">
     <!-- 좌측 패널 -->
     <div class="left-panel">
-        <!-- <img id="flowchart_image"> -->
-    </div>
+
 
     <!-- 오른쪽 패널 -->
     <div class="right-panel" style="display:none;">
@@ -100,8 +99,6 @@ include("../../guideline_common.php");
         echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
         ?>
     </div>
-
-
 
     </div>
 </div>
@@ -253,43 +250,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// 문제 맞았는지 여부 확인
-const correctAnswers = <?= json_encode($OJ_CORRECT_ANSWERS) ?>;
-const problemId = <?= json_encode($problem_id) ?>
-
-//문제가 되는 특수문자 치환
-function escapeHtml(text) {
-    return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-//답안 보여주기
-function showAnswer(index) {
-    const correctCode = correctAnswers[index]?.content?.trim();
-    const answerArea = document.getElementById(`answer_area_${index}`);
-
-    if (!correctCode) {
-        answerArea.innerHTML = "<em>정답이 등록되지 않았습니다.</em>";
-        answerArea.style.display = 'block';
-        return;
-    }
-
-    // 이미 표시 중이면 숨기기 (toggle 기능)
-    if (answerArea.style.display === 'block') {
-        answerArea.style.display = 'none';
-        return;
-    }
-
-    const escapedCode = escapeHtml(correctCode);
-    const answerHtml = `<strong>정답:</strong><br><pre class='code-line'>${escapedCode}</pre>`;
-    answerArea.innerHTML = answerHtml;
-    answerArea.style.display = 'block';
-}
-
 
 //화면 크기 재조절
 function autoResize(ta) {
@@ -297,8 +257,6 @@ function autoResize(ta) {
     ta.style.height = ta.scrollHeight + 'px';
 }
 
-let currentTextarea = null;
-let animationRunning = false;
 
 </script>
 
