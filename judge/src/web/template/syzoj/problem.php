@@ -25,6 +25,10 @@ include('../../../allowed_users.php');
     background: transparent;
 }
 
+/* font apply */
+  body, .padding, .ui, #main {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  }
 
 div[class*=ace_br] {
     border-radius: 0 !important;
