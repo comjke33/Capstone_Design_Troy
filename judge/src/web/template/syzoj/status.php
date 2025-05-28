@@ -107,7 +107,8 @@
   <!-- 검색 필터 폼 끝 -->
 
 <!-- 채점 결과 테이블 -->
-<table class="ui celled striped compact center aligned table" id="result-tab">
+<table class="ui celled striped compact center aligned table" id="result-tab" style="font-family: 'Pretendard', sans-serif;">
+
   <thead>
     <tr>
       <th><?php echo $MSG_RUNID ?></th>
@@ -169,19 +170,6 @@
   var fancy_mp3 = "<?php echo isset($_SESSION[$OJ_NAME.'_user_id']) && $OJ_FANCY_RESULT ? $OJ_FANCY_MP3 : ''; ?>";
 </script>
 
-<!-- <script>
-function checkSimilarProblem(submit_id, cell) {
-  fetch(`/api/similar.php?sid=${submit_id}`)
-    .then(response => response.json())
-    .then(data => {
-      if (data && data.similar === true) {
-        cell.innerHTML = `<a class="ui blue button" href="similar.php?sid=${submit_id}">유사문제 추천</a>`;
-      } else {
-        setTimeout(() => checkSimilarProblem(submit_id, cell), 3000); // 3초 후 재시도
-      }
-    });
-}
-</script> -->
 
 <!-- 자동 새로고침 JS 로딩 -->
 <script src="template/<?php echo $OJ_TEMPLATE ?>/auto_refresh.js?v=0.522"></script>
