@@ -1,5 +1,7 @@
 <?php $show_title="$MSG_STATUS - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php"); ?>
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+
 <script src="template/<?php echo $OJ_TEMPLATE?>/js/textFit.min.js"></script>
 
 <div class="ui fluid container" style="padding-top: 2em; padding-bottom: 2em; max-width: 1400px;">
