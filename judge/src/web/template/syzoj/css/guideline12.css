@@ -1,5 +1,5 @@
 .top-toolbar {
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+  /* font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; */
   width: 100%; 
   padding: 15px 30px;
   display: flex;
@@ -63,7 +63,7 @@
 
 /* 전체 레이아웃 */
 .main-layout {
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+    /* font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; */
   display: flex;
   width: 100%;
   box-sizing: border-box;
@@ -173,7 +173,7 @@
   padding: 20px 24px;                  /* 충분한 안쪽 여백 */
   margin-bottom: 12px;
   font-size: 17px;                    /* 약간 키운 글자 크기 */
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+    /* font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; */
   color: #2f3e4d;                     /* 진한 차콜 계열 색상 */
   word-break: break-word;
   box-sizing: border-box;
@@ -192,7 +192,7 @@
   border: 1.5px solid #a0aec0;
   border-radius: 10px;
   padding: 10px 14px;
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+    /* font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; */
   font-size: 16.5px;
   line-height: 1.5;
   width: 100%;
@@ -230,7 +230,7 @@
 
 /* 제출 버튼 및 보기 버튼 */
 .submit-button, .answer-button, .feedback-button {
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+    /* font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; */
   margin-top: 0;
   color: white !important;
   border: none !important;
@@ -244,7 +244,7 @@
 
 /* 피드백 창 style */
 .feedback-block {
-      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+      /* font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; */
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 12px;
@@ -269,7 +269,7 @@
 /* 정답 표시 영역 */
 .answer-area {
   font-size: 16px;
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+    /* font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; */
   color: #333;
   /* background-color: #f1f1f1; */
   padding: 10px;
@@ -298,7 +298,7 @@
     color: #333;
     font-style: italic;
     resize: none;
-      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+      /* font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; */
     outline: none;
     padding: 8px;
     opacity: 0.95;
