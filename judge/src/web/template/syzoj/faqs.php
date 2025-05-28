@@ -1,6 +1,8 @@
+
 <?php
 require_once("./include/db_info.inc.php");
 require_once('./include/setlang.php');
+
 
 // 문제 ID가 GET으로 전달된 경우 필터링 조건 생성
 $filter = "";
@@ -52,7 +54,8 @@ $list = pdo_query($sql, ...$params);  // pdo_query는 유틸 함수
             <p>표시할 문제 해결 전략이 없습니다.</p>
         </div>
     <?php else: ?>
-        <table class="ui celled striped selectable table" style="font-size: 0.95em;">
+        <table class="ui celled striped selectable table" style="font-family: 'Pretendard', sans-serif; font-size: 0.95em;">
+
             <thead>
                 <tr class="center aligned">
                     <th style="width: 20%;">전략 제목</th>
