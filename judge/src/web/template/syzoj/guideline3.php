@@ -36,9 +36,8 @@ include("../../guideline_common.php");
         <!-- <img id="flowchart_image"> -->
     </div>
 
-
-    <!-- 가운데 패널 -->
-    <div class="center-panel">
+    <!-- 오른쪽 패널 -->
+    <div class="right-panel" style="display:none;">
         <h1>심화 풀기</h1>
 
         <span>문제 번호: <?= htmlspecialchars($problem_id) ?></span>
@@ -102,8 +101,7 @@ include("../../guideline_common.php");
         ?>
     </div>
 
-    <!-- 오른쪽 패널 -->
-    <div class="right-panel" style="display:none;">
+
 
     </div>
 </div>
