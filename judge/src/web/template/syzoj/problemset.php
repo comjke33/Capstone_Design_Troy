@@ -64,7 +64,7 @@ if (isset($_GET['id']) && ctype_digit($_GET['id'])) {
   </div>
 
   <!-- 문제 리스트 테이블 -->
-  <table class="ui very basic center aligned table">
+  <table class="ui very basic center aligned table" style="font-family: 'Pretendard', sans-serif; font-size: 0.95em;">
     <thead>
       <tr>
         <?php if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){?>
