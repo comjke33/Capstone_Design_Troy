@@ -60,66 +60,86 @@
 .ui.button.again:hover {
   background-color: #001366;
 }
- 
-/*================================================ */
 
-/* 기본 레이아웃 스타일 */
+
+
 body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-    margin: 0;
-    padding: 0;
+  background-color: #f9fafb;
+  font-family: 'Noto Sans KR', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-/* 페이지 가운데 정렬 및 폭 제한 */
-.container {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+
+
+.center-panel {
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border-radius: 12px;
+  padding: 32px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-/* 제목 스타일 */
-h1 {
-    font-size: 28px;
-    font-weight: 700;
-    color: #222;
-    margin-bottom: 30px;
+.submission-line {
+  background-color: #f1f5f9;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-/* 각 섹션 박스 */
-.section {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    background-color: #fafafa;
+.code-line {
+  font-family: 'Source Code Pro', monospace;
+  background: #e2e8f0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  font-size: 15px;
 }
 
-/* 강조 텍스트 */
-.important {
-    color: #1e88e5;
-    font-weight: bold;
+.styled-textarea {
+  width: 100%;
+  min-height: 100px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 10px;
+  resize: vertical;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 14px;
+  background-color: #fff;
+  transition: border-color 0.2s ease;
 }
 
-/* 아이콘 + 텍스트 줄 */
-.item {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 10px;
+.styled-textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
 
-.item-icon {
-    margin-right: 10px;
-    font-size: 18px;
-    color: #1e88e5;
+.answer-button {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-/* 항목 내용 텍스트 */
-.item-text {
-    font-size: 16px;
-    line-height: 1.6;
+.answer-button:hover {
+  background-color: #2563eb;
+}
+
+.answer-area {
+  background-color: #fef9c3;
+  border-left: 4px solid #facc15;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
+  white-space: pre-wrap;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 14px;
 }
