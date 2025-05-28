@@ -172,7 +172,7 @@ include('allowed_users.php');
     <!-- 사이트 이름 표시, 메뉴 항목 링크제공 -->
     <div id="page-header" class="ui" style="position: relative; height: 49px; z-index:99999">
         <div id="menu" class="menu-container">
-            <a class="header item"  href="/"><span style="font-family: 'Exo 2'; font-size: 1.5em; font-weight: 600; "><?php echo $domain==$DOMAIN?$OJ_NAME:ucwords($OJ_NAME)."'s OJ"?></span></a>
+            <a class="header item"  href="/"><span><?php echo $domain==$DOMAIN?$OJ_NAME:ucwords($OJ_NAME)."'s OJ"?></span></a>
             
           <?php
             if(isset($OJ_AI_HTML)&&$OJ_AI_HTML && !isset($OJ_ON_SITE_CONTEST_ID) ) echo $OJ_AI_HTML;
