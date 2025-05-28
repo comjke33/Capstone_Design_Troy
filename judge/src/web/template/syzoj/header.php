@@ -166,11 +166,11 @@ include('allowed_users.php');
         if(!isset($_GET['spa'])){
 ?>
    <!-- 워터마크 제거 후 배경화면 추가가  -->
-   <body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay; background: url('../../image/bg.jpg') no-repeat center center fixed; background-size: cover !important;">
+   <body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay; background: url('../../image/bg.jpg') no-repeat center center fixed; background-size: cover !important; font-family: 'Pretendard', sans-serif;">
     
 
     <!-- 사이트 이름 표시, 메뉴 항목 링크제공 -->
-    <div id="page-header" class="ui" style="position: relative; height: 49px; z-index:99999">
+    <div id="page-header" class="ui" style="position: relative; height: 49px; z-index:99999 font-family: 'Pretendard', sans-serif;">
         <div id="menu" class="menu-container">
             <a class="header item"  href="/"><span><?php echo $domain==$DOMAIN?$OJ_NAME:ucwords($OJ_NAME)."'s OJ"?></span></a>
             
