@@ -1,6 +1,5 @@
 .top-toolbar {
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
-  Roboto, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
   width: 100%; 
   padding: 15px 30px;
   display: flex;
