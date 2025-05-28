@@ -9,6 +9,7 @@ if (!isset($_COOKIE['troy_help_read']) && !isset($_SESSION['user_id'])) {
 
 <!-- 외부 CSS 링크 (중복 head 제거) -->
 <link rel="stylesheet" href="<?php echo "template/$OJ_TEMPLATE"; ?>/css/slide.css">
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
 
 <div class="padding" style="padding: 0; background-color: transparent; background-image: url('../../image/bg.jpg');">
   <!-- 내용 -->
