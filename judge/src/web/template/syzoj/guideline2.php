@@ -566,7 +566,7 @@ function showFeedback(index) {
             <header class="feedback-header">📋 피드백 창</header>
             <div class="feedback-content">
                 <div class="feedback-block">
-                    <strong>${index + 1}번 줄에 대한 피드백:</strong>
+                    <strong>${index + 1}번 문단에 대한 피드백:</strong>
                 </div>
                 ${feedbackText
                 .split("<br><br>")
