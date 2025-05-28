@@ -1,5 +1,7 @@
 <?php $show_title="Contest".$view_cid." - ".$view_title." - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+
 <style>
 .ui.label.pointing.below.left::before {
     left: 12%;
