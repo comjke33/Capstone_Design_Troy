@@ -100,8 +100,8 @@
     <title><?php echo $show_title ?></title>
 
     <!-- css.php를 추가시키는 부분 -->
-<style>
-    
+    <!-- <?php include(dirname(__FILE__)."/css.php");?> -->
+        <style>
 @media (max-width: 991px) {
         .mobile-only {
                 display:block !important;
