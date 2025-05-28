@@ -1,5 +1,6 @@
 <?php $show_title = "$MSG_RANKLIST - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php"); ?>
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
 
 <div class="ui container" style="padding-top: 2em; padding-bottom: 2em; max-width: 1200px;">
 
