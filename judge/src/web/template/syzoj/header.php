@@ -100,7 +100,10 @@
     <title><?php echo $show_title ?></title>
 
     
-        <style>
+<?php include(dirname(__FILE__)."/css.php");?> 
+
+<style>
+    
 @media (max-width: 991px) {
         .mobile-only {
                 display:block !important;
