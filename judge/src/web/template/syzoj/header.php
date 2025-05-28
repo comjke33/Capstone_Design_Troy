@@ -155,17 +155,16 @@ html, body {
 </script>
 </head>
 
-<!-- ================================================= -->
 <?php
 // allowed_users.php 파일을 포함하여 배열을 불러옴
 include('allowed_users.php');
 ?>
-<!-- ================================================== -->
+
 
 <?php
         if(!isset($_GET['spa'])){
 ?>
-   <!-- 워터마크 제거 후 배경화면 추가가  -->
+   <!-- 워터마크 제거 후 배경화면 추가  -->
    <body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay; background: url('../../image/bg.jpg') no-repeat center center fixed; background-size: cover !important; font-family: 'Pretendard', sans-serif;">
     
 
