@@ -71,7 +71,7 @@ if (isset($_GET['id']) && ctype_digit($_GET['id'])) {
         <?php } ?>
         <th class="one wide"><?php echo $MSG_PROBLEM_ID?></th>
         <th class="left aligned"><?php echo $MSG_TITLE?></th>
-        <!-- <th class="one wide"><?php echo $MSG_SOVLED."/".$MSG_SUBMIT?></th> -->
+        <th class="one wide"><?php echo $MSG_SOVLED."/".$MSG_SUBMIT?></th>
         <th class="one wide"><?php echo $MSG_PASS_RATE?></th>
       </tr>
     </thead>
@@ -108,7 +108,7 @@ if (isset($_GET['id']) && ctype_digit($_GET['id'])) {
         echo "<div class=\"show_tag_controled\" style=\"float: right;\">".$view_problemset[$i][3]."</div>";
         echo "</td>";
 
-        echo "<td><a href=\"status.php?problem_id={$row['problem_id']}&jresult=4\">{$row['accepted']}/{$row['submit']}</a></td>";
+        // echo "<td><a href=\"status.php?problem_id={$row['problem_id']}&jresult=4\">{$row['accepted']}/{$row['submit']}</a></td>";
 
         if ($row['submit'] == 0) {
           echo '<td><div class="progress" style="margin-bottom:-20px;"><div class="progress-bar progress-bar-danger" style="width:0%;">0.000%</div></div></td>';
