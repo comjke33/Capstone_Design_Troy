@@ -92,9 +92,6 @@ include("../../guideline_common.php");
 
             return $html;
         }
-        ?>
-
-
 
         $answer_index = 0;
         echo render_tree_plain($OJ_BLOCK_TREE, $answer_index);
