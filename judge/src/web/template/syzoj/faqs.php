@@ -35,7 +35,7 @@ $list = pdo_query($sql, ...$params);  // pdo_query는 유틸 함수
         </div>
     </div>
 
-    <!-- 문제 ID 필터 -->
+    
     <form method="get" class="ui form" style="margin-bottom: 1.5em;">
         <div class="inline fields">
             <label for="problem_id" style="line-height: 2.1;">문제 ID 검색:</label>
