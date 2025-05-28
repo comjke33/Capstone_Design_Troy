@@ -4,7 +4,7 @@ include("../../guideline_common.php");
 ?>
 
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'></div>
-<link rel="stylesheet" href="/template/syzoj/css/guideline3.css">
+<link rel="stylesheet" href="/template/syzoj/css/guideline.css">
 
 
 <!-- 상단 툴바 -->
