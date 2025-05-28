@@ -1,5 +1,6 @@
 <?php $show_title="$MSG_PROBLEMS - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
 
 <!-- ID 검색 처리 -->
 <?php
@@ -71,7 +72,7 @@ if (isset($_GET['id']) && ctype_digit($_GET['id'])) {
         <?php } ?>
         <th class="one wide"><?php echo $MSG_PROBLEM_ID?></th>
         <th class="left aligned"><?php echo $MSG_TITLE?></th>
-        <!-- <th class="one wide"><?php echo $MSG_SOVLED."/".$MSG_SUBMIT?></th> -->
+        <!--  -->
         <th class="one wide"><?php echo $MSG_PASS_RATE?></th>
       </tr>
     </thead>

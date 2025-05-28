@@ -1,5 +1,3 @@
-
-
 <?php
 include("template/$OJ_TEMPLATE/header.php");
 include("../../guideline_common.php");
