@@ -163,7 +163,6 @@ include('allowed_users.php');
 <?php
         if(!isset($_GET['spa'])){
 ?>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    <!-- 워터마크 제거 후 배경화면 추가가  -->
    <body id="MainBg-C" style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay; background: url('../../image/bg.jpg') no-repeat center center fixed; background-size: cover !important;">
     
