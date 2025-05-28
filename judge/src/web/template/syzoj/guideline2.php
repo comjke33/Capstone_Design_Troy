@@ -7,7 +7,7 @@ include("../../guideline_common.php");
 
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'></div>
 <link rel="stylesheet" href="/template/syzoj/css/guideline12.css">
-<link href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/pretendard.css" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
 
 
 <!-- 상단 툴바 -->
