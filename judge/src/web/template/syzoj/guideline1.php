@@ -5,7 +5,7 @@ include("../../guideline_common.php");
 
 <div class='problem-id' style='font-weight:bold; font-size:20px; margin-bottom: 24px;'></div>
 <link rel="stylesheet" href="/template/syzoj/css/guideline12.css">
-<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/pretendard.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/pretendard.css" rel="stylesheet">
 
 <!-- 상단 툴바 -->
 <div class="top-toolbar">
