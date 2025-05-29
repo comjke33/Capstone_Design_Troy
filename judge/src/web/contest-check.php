@@ -39,7 +39,7 @@
 	}
 
         if ($rows_cnt==0 || ($row['defunct']=='Y' && !isset($_SESSION[$OJ_NAME.'_administrator']) )) {
-                $view_title = "比赛已经关闭!";
+                $view_title = "대회가 이미 닫혔습니다!";
 		 $contest_ok=false;
         }
         else{
